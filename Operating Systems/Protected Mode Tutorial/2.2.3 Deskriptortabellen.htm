@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all5.htm -->
+<HTML><HEAD><TITLE>Deskriptortabellen</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Deskriptortabellen-Dateien/stone.jpg>
+<H2><FONT color=#800000>Deskriptortabellen</FONT></H2>
+<P>Alle Deskriptoren eines Programmes (beispielsweise Deskriptoren für Code- 
+oder Datensegmente) werden in Tabellen verwaltet. Das hat zur Folge, daß die 
+oben genannten Deskriptoren nicht an jeder beliebigen Position im Speicher 
+stehen dürfen, sondern nur innerhalb einer Deskriptortabelle (Vgl. Abb. 2.7)</P>
+<CENTER>
+<P><IMG alt=Deskriptortabelle src="Deskriptortabellen-Dateien/p_2_7.gif" 
+border=3> <BR><I><B>Abb. 2.7:</B> Deskriptortabelle</I> </P></CENTER>
+<P>Da der Platz für die Auswahl eines Deskriptors innerhalb eines Selektors auf 
+13 Bit beschränkt ist (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all6.htm">Vgl. auch 
+nächster Punkt: Selektor</A>), kann eine Deskriptortabelle nur insgesamt 8192 
+Deskriptoren (2<SUP>13</SUP>=8192) aufnehmen. Ein weiterer Grund besteht darin, 
+daß die maximale Größe einer Deskriptortabelle auf 64 KB eingeschränkt ist (aus 
+8 Byte pro Deskriptor und einer 64 KB großen Deskriptortabelle folgt: 64 KB 
+(65536) / 8 = 8192 mögliche, 8 Byte lange Einträge).</P>
+<P>Weiterhin unterscheidet der Prozessor zwischen mindestens zwei verschiedenen 
+Deskriptortabellen. Zum einen existiert die sogenannte "Global Deskriptor Table" 
+(kurz: GDT). Sie steht allen Prozessen (oder Programmen) gleichermaßen zur 
+Verfügung (daher auch der Name: "Global").</P>
+<P>Auch die andere Deskriptortabelle, die "Interrupt Deskriptor Table" (kurz: 
+IDT) ist für alle laufenden Programme verfügbar. Sie enthält spezielle 
+Deskriptoren (sogenannte "Gates"), deren Aufgabe es ist, Adressen für 
+Interrupt-Routinen im Speicher festzuhalten (dazu zählen z.B. Hard- und 
+Softwareinterrupts). Ein Betriebssystem wird durch die IDT in die Lage versetzt, 
+für alle auftretenden Exceptions eine entsprechende Routine bereitzustellen. Die 
+IDT ist mit der Interrupt-Vektor Tabelle im Realmode vergleichbar.</P>
+<P>Neben den beiden oben genannten Deskriptortabellen besteht weiterhin die 
+Möglichkeit, jedem laufenden Task seine eigene Deskriptortabelle zur Verfügung 
+zu stellen. Diese Tabelle wird als "Local Descriptor Table" (kurz: LDT) 
+bezeichnet und dient der zusätzlichen Kapselung der einzelnen Tasks.</P>
+<P>Um die Startadresse der einzelnen Tabellen im Arbeitsspeicher festzulegen, 
+existieren ab der 80286 CPU drei neue, 40 Bit breite Register. Abb. 2.8 zeigt 
+diese Register im 80386 Format, wo sie von 40 auf 48 Bit erweitert wurden.</P>
+<CENTER>
+<P><IMG alt=Deskriptortabellen-Register 
+src="Deskriptortabellen-Dateien/p_2_8.gif" border=3> <BR><I><B>Abb. 2.8:</B> 
+Deskriptortabellen-Register</I> </P></CENTER>
+<P>Die in Abb. 2.8 beschriebenen Register können über die folgenden neuen 
+Maschinenbefehle direkt angesprochen werden (mem steht für eine Adresse):</P>
+<UL>
+  <LI>
+  <H2><FONT color=#000080>Globale Deskriptortabelle</FONT></H2>
+  <UL><B>LGDT mem</B> erwartet einen Zeiger (mem) auf die folgende Struktur: <PRE><I>GDTSTRUC    STRUC
+            Limit    dw ?
+            BaseAdr  dd ?
+GDTSTRUC    ENDS</I></PRE>
+    <P>und lädt die Basisadresse und das Limit der Globalen Deskriptortabelle 
+    mit den angegebenen Werten neu.</P>
+    <P><B>SGDT mem</B> speichert die akt. Werte des Registers GDTR unter der 
+    angegebenen Adresse im GDTSTRUC-Format.</P></UL>
+  <LI>
+  <H2><FONT color=#000080>Interrupt-Deskriptortabelle</FONT></H2>
+  <UL>
+    <P><B>LIDT mem</B> erwartet einen Zeiger (mem) auf eine GDTSTRUC und lädt 
+    die Basisadresse und das Limit der Interrupt-Deskriptortabelle mit den 
+    angegebenen Werten neu.</P>
+    <P><B>SIDT mem</B> speichert die akt. Werte des Registers IDTR unter der 
+    angegebenen Adresse im GDTSTRUC-Format.</P></UL>
+  <LI>
+  <H2><FONT color=#000080>Lokale Deskriptortabellen</FONT></H2>
+  <UL>
+    <P><B>LLDT mem/reg</B> lädt das LDTR Register mit dem angegeben Selektor 
+    neu.</P>
+    <P><B>SLDT mem/reg</B> speichert den akt. Inhalt des IDTR-Registers im 
+    angegebenen Register oder unter der angegebenen Adresse.</P></UL></LI></UL>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Deskriptortabellen-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Bei der folgenden Speicherstruktur soll es sich um 3 Deskriptoren einer 
+      Globalen Deskriptortabelle handeln. Die Adresse, sowie das Limit der 
+      Tabelle soll im Register für die Globale Deskriptortabelle (GDTR) 
+      gespeichert werden.</P><PRE><I>deskriptor_0	db 8 dup (?)
+deskriptor_1    db 8 dup (?)
+deskriptor_2    db 8 dup (?)</I>
+</PRE>
+      <P>Die Adresse und die Größe dieser Deskriptortabelle soll gesetzt werden, 
+      daher wird die folgende Struktur benötigt:</P><PRE><I>GDTSTRUC    STRUC
+            Limit   dw ?
+            BaseAdr dd ?
+GDTSTRUC    ENDS
+
+gdt_adr GDTSTRUC ?
+
+; Setzen der Größe (Limit) der Globalen Deskriptortabelle;
+; da wir drei Deskriptoren vereinbart haben, muß eine GDT-Größe von 3*8
+; Byte oder größer gesetzt werden
+		mov [gdt_adr.Limit],3 * 8
+
+; Setzen der Basisadresse:
+; Die folgende Routine geht davon aus, das wir uns noch im Realmode
+; befinden und 32-Bit Register zur Verfügung stehen (80386)!
+; Sie wandelt eine Segment:Offsetadresse in eine 32 Bit lineare Adresse
+; im Register eax um.
+		xor eax,eax
+		mov ax,seg deskriptor_0
+		shl eax,4
+		add ax,offset deskriptor_0
+		mov [gdt_adr.BaseAdr],eax
+
+; GDT Register neu setzten
+		lgdt gdt_adr</I>
+</PRE></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all4.htm"><IMG alt=Zurück 
+src="Deskriptortabellen-Dateien/arrowl.gif" align=left border=0 name=left></A> 
+<A onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all6.htm"><IMG alt=Weiter 
+src="Deskriptortabellen-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Deskriptortabellen-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

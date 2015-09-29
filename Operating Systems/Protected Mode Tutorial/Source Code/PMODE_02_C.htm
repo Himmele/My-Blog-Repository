@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_02.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** PMODE.C
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+**
+** Erste Version:     26.08.97
+** Letze Änderungen:  23.09.97 - Funktion set_drx um DRx Register zu setzen
+*/
+
+#include "pmode.h"
+
+// Da keine Bilbliotheksfunktionen genutzt werden können (WIN32),
+// müssen benutzte Funktionen bereitgestellt werden.
+// strlen zur Ermittlung der Länge eines NULL-terminierten Strings
+int strlen (char *s)
+    {
+    int i= 0;
+
+    while (s[i] != '\0') i++;
+
+    return i;
+    }
+
+// print - Stringausgabe in Videosegment
+//
+// In:  x - Ausgabeposition X  
+//      y - Ausgabeposition Y
+//      s - String
+//      a - Attributsbyte (-1 für keine Änderung)
+// Out: nil
+void print (int x, int y, char *s, int a)
+    {
+    char *video;
+    int i;
+
+    video= (char*) lin2rel (0xB8000+ y*160+ x*2);
+
+    if (a == -1)
+        {
+        // keine Änderung der Attributwerte
+        for (i=0; i&lt;strlen(s); i++)
+            {
+            *(video+ 0)= s[i];
+            video+= 2;
+            }
+        }
+    else
+        {
+        // Mit Änderung der Attributwerte
+        for (i=0; i&lt;strlen(s); i++)
+            {
+            *(video++)= s[i];
+            *(video++)= (char) a;
+            }
+        }
+    }
+
+// set_drx - Debug-Register drx auf Adresse dst setzen
+//
+// In:  x   - Auswahl des Debug-Registers (0..3)
+//      rw  - Welche Zugriffsart löst Interrupt aus (vgl. Konstante in
+//            pmode.h)
+//      len - Welcher Zugriff soll Debug-Interrupt auslösen ?
+//            (byte, word, dword, siehe pmode.h)
+//      dst - Zeiger auf Breakpoint-Adresse
+// Out: nil
+void set_drx (int x, int rw, int len, void *dst)
+    {
+    // Ahh !!! volatile ist notwendig damit BCC32 die (von C aus)
+    // nicht benutzte Variable 'address' *NICHT* "wegoptimiert" !
+    volatile unsigned int   adress= cslin2rel((unsigned int)(dst));
+    int                     dr;
+
+    if ((rw&amp;3) == 2)
+        {
+        // Fehler, falscher Zugriffswert; Funktionsende
+        return;
+        }
+
+    if ((len&amp;3) == 2)
+        {
+        // Fehler, reservierte Speichergröße; Funktionsende
+        return;
+        }
+
+    dr= (len &lt;&lt; 2) | rw;
+
+    switch (x)
+        {
+        case    0:  dr= dr &lt;&lt; 16;
+                    dr|= 2+512;                 // Global Enable
+                    asm mov eax,dr7
+                    asm and eax,00000000000000001111110000000000b
+                    asm or eax,dr
+                    asm mov dr7,eax
+
+                    asm mov eax,adress
+                    asm mov dr0,eax
+                    break;
+
+        case    1:  dr= dr &lt;&lt; 20;
+                    dr|= 8+512;                 // Global Enable
+                    asm mov eax,dr7
+                    asm and eax,00000000000000001111110000000000b
+                    asm or eax,dr
+                    asm mov dr7,eax
+
+                    asm mov eax,adress
+                    asm mov dr1,eax
+                    break;
+
+        case    2:  dr= dr &lt;&lt; 24;
+                    dr|= 32+512;                // Global Enable
+                    asm mov eax,dr7
+                    asm and eax,00000000000000001111110000000000b
+                    asm or eax,dr
+                    asm mov dr7,eax
+
+                    asm mov eax,adress
+                    asm mov dr2,eax
+                    break;
+
+        case    3:  dr= dr &lt;&lt; 28;
+                    dr|= 128+512;               // Global Enable
+                    asm mov eax,dr7
+                    asm and eax,00000000000000001111110000000000b
+                    asm or eax,dr
+                    asm mov dr7,eax
+
+                    asm mov eax,adress
+                    asm mov dr3,eax
+                    break;
+        }
+    }
+
+</PRE></BODY></HTML>

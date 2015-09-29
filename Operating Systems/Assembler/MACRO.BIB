@@ -1,0 +1,358 @@
+.XLIST
+; Konstanten-Tabelle (Equates)
+CR	EQU	0DH
+LF	EQU	0AH
+BELL	EQU	07H
+BLANK	EQU	20H
+ESCAPE	EQU	1BH
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ                                                                       บ
+;บ		    M A C R O - B I B L I O T H E K			 บ
+;บ							MACRO.BIB	 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion :  Def. Rueckkehr nach MS-DOS                               บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+MSDOS		MACRO
+                MOV     AH,4CH
+                INT     21H
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion :  Anzeige von DL auf Bildschirm                            บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ANZEIGE_DL      MACRO
+                PUSH    AX
+                MOV     AH,02H
+                INT     21H
+                POP     AX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion :	Anzeige eines Prozessor-Registers auf dem Bildschirm	 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ANZEIGE 	MACRO	Reg8
+		PUSH DX
+		MOV DL,Reg8
+		PUSH AX
+		MOV AH,02H
+		INT 21H
+		POP AX
+		POP DX
+		ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Tastatureingabe, Zeichen in AL                            บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+TAST_EING_AL    MACRO
+                PUSH    BX
+                MOV     BH,AH
+                MOV     AH,08H
+                INT     21H
+                MOV     AH,BH
+                POP     BX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Tastatureingabe, Zeichen in Reg8 (8-Bit Register)	 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+TAST_EING	MACRO	Reg8
+		IF Reg8 EQ AL OR Reg8 EQ AH
+		 PUSH	DX
+		 PUSH	AX
+		 MOV	AH,08H
+		 INT	21H
+		 MOV	DL,AL
+		 POP	AX
+		 MOV	Reg8,DL
+		 POP	DX
+		ELSE
+		 PUSH	AX
+		 MOV	AH,08H
+		 INT	21H
+		 MOV	Reg8,AL
+		 POP	AX
+		 ENDIF
+		ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion :	Tastatureingabe mit direkter Ausgabe auf BS		 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+TAST_ECHO_AL    MACRO
+                PUSH    BX
+                MOV     BH,AH
+                MOV     AH,01H
+                INT     21H
+                MOV     AH,BH
+                POP     BX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Warteschleife mit Parameteruebergabe ( Parameter 	 บ
+;บ             ist Zeitmultiplikator, z.B. 10 ms * 1000 = 10 s )         บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+WARTE		MACRO	ZEIT
+                LOCAL   M0,M1
+                PUSH    BX
+                PUSH    CX
+		MOV	BL,ZEIT    ;;	ussere Schleife
+M1:		MOV	CX,0FFFFH
+M0:		DEC	CX	   ;;	Innere Schleife
+		JNZ	M0
+		DEC	BL	   ;;	Gesamtdauer abhngig
+		JNZ	M1	   ;;	vom Parameter Zeit
+                POP     CX
+                POP     BX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion :	BCD-Binr Wandlung einer ber Tastatur eingegebenen	 บ
+;บ		Dezimalzahl - max. 65535 ;     Ergebnis in CX		 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+BCD_BIN_CX	MACRO
+		LOCAL M1,M2
+		PUSH AX
+		PUSH BX
+		PUSH DX
+		MOV  BX,10
+		MOV  CX,0
+M1:		MOV  AH,0
+		TAST_EING_AL
+		CMP  AL,0DH	; Ende der Zahl ?
+		JE   M2
+		SUB  AL,30H	; ASCII-Ziffer in Binrziffer wandeln
+		PUSH AX 	; letzte Eingabe sichern
+		MOV  AX,CX
+		MUL  BX 	; bisherige Summe mit 10 multiplizieren
+		POP  CX 	; letzte Eingabe zurckholen nach CX
+		ADD  CX,AX	; und aufaddieren
+		JMP  M1
+M2:		POP  DX
+		POP  BX
+		POP  AX
+		ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Binr-BCD Wandlung einer in AX bergebenen Binr-Zahl	 บ
+;บ	       und Ausgabe als Dezimalzahl auf dem Bildschirm		 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+BIN_BCD_AX     MACRO
+	       LOCAL M1, M2
+	       PUSH AX
+	       PUSH BX
+	       PUSH CX
+	       PUSH DX
+	       MOV  CX,0
+	       MOV  BX,10
+M1:	       MOV  DX,0
+	       DIV  BX		; Division durch 10
+	       PUSH DX		; Rest (= geltende Ziffer) auf den Stack
+	       INC  CX		; Stellen des Ergebnisses zhlen
+	       CMP  AX,0	; Divisionsergebnis = 0,
+	       JNZ  M1		; dann Ende der Umwandlung
+M2:	       POP  DX		; Dezimal-Ziffern vom Stack holen
+	       OR   DL,30H	; - ASCII wandeln
+	       ANZEIGE_DL	; und anzeigen
+	       LOOP M2
+	       POP  DX
+	       POP  CX
+	       POP  BX
+	       POP  AX
+	       ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : BCD-Binr Wandlung einer ber Tastatur eingegebenen	 บ
+;บ	       Dezimalzahl - max. 65535 ; Ergebnis in 16-Bit Variable	 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+BCD_BIN        MACRO   Zahl_16
+	       LOCAL M, ENDE
+	       PUSH AX
+	       PUSH BX
+	       PUSH CX
+	       PUSH DX
+	       MOV  BX,10
+	       MOV  CX,0
+M:	       TAST_EING_AL
+	       CMP  AL,0DH   ; Ende der Zahl ?
+	       JE   ENDE
+	       AND  AX,000FH ; (AH) und ASCII-'3' in AL wegmaskieren
+	       PUSH AX	     ; letzte Eingabe sichern
+	       MOV  AX,CX
+	       MUL  BX	     ; bisherige Summe mit 10 multiplizieren
+	       POP  CX	     ; letzte Eingabe zurckholen und
+	       ADD  CX,AX    ; aufaddieren
+	       JMP  M
+ENDE:	       MOV  Zahl_16,CX
+	       POP  DX
+	       POP  CX
+	       POP  BX
+	       POP  AX
+	       ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Binr-BCD Wandlung einer als Variable bergebenen 16-Bit  บ
+;บ	       Binrzahl und Ausgabe als Dezimalzahl auf dem Bildschirm  บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+BIN_BCD MACRO Zahl_16
+	LOCAL M1, M2
+	PUSH AX
+	PUSH BX
+	PUSH CX
+	PUSH DX
+	MOV  AX,Zahl_16
+	MOV  CX,0
+	MOV  BX,10
+M1:	MOV  DX,0
+	DIV  BX 	; Division durch 10
+	PUSH DX 	; Rest (= geltende Ziffer) auf den Stack
+	INC  CX 	; Stellen des Ergebnisses zhlen
+	CMP  AX,0	; Divisionsergebnis = 0,
+	JNZ  M1 	; dann Ende der Umwandlung
+M2:	POP  DX 	; Dezimal-Ziffern vom Stack holen
+	OR   DL,30H	; - ASCII wandeln
+	ANZEIGE_DL	; und anzeigen
+	LOOP M2
+	POP  DX
+	POP  CX
+	POP  BX
+	POP  AX
+	ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Wagenruecklauf + Zeilenvorschub  =  neue Zeile            บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+NEUE_ZEILE      MACRO
+                PUSH    DX
+                PUSH    AX
+                MOV     AH,02H
+                MOV     DL,0AH      ; 0A = LINE FEED
+                INT     21H
+                MOV     DL,0DH      ; 0D = CARRIAGE RETURN
+                INT     21H
+                POP     AX
+                POP     DX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Loeschen des Bildschirms ueber ESC-Sequenz "[2J"          บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+CLS             MACRO
+                PUSH    AX
+                PUSH    DX
+                MOV     AH,02H
+                MOV     DL,1BH      ; "ESC"
+                INT     21H
+                MOV     DL,5BH      ; "["
+                INT     21H
+                MOV     DL,32H      ; "2"
+                INT     21H
+                MOV     DL,4AH      ; "J"
+                INT     21H
+                POP     DX
+                POP     AX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Entpacken von BCD-Zahlen                                  บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+ENTPACKE_DL	MACRO
+                PUSH    CX
+                MOV     DH,00H
+		SHL	DX,4
+		SHR	DL,4
+                ADD     DX,3030H
+                POP     CX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Packen von BCD-Zahlen                                     บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+PACKE_DX	MACRO
+                PUSH    CX
+		SHL	DL,4
+		SHR	DX,4
+                POP     CX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Initialisierung des Daten- und Extrasegments              บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+INIT_DS_ES	MACRO	SEGNAME
+                PUSH    AX
+		MOV	AX,SEGNAME
+                MOV     DS,AX
+                MOV     ES,AX
+                POP     AX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Anzeige eines Textes mit MS-DOS Funktion 		 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+TEXT_ANZEIGE    MACRO   TEXT
+                PUSH    AX
+                PUSH    DX
+                MOV     DX,OFFSET TEXT
+                MOV     AH,09H
+                INT     21H
+                POP     DX
+                POP     AX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Speicher-Auszug mit Uebergabeparameter fr den OFFSET     บ
+;บ             und die Groesse des Datensatzes                           บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+SPEICHER_DUMP	MACRO	ANFANG_LABEL,LAENGE
+		LOCAL	M
+                PUSH    AX
+                PUSH    CX
+		PUSH	DX
+		PUSH	SI
+		MOV	SI,OFFSET ANFANG_LABEL
+                MOV     CX,LAENGE
+                MOV     AH,02H
+M:		LODSB
+                MOV     DL,AL
+                INT     21H
+		LOOP	M
+		POP	SI
+		POP	DX
+                POP     CX
+                POP     AX
+                ENDM
+
+;ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;บ  Funktion : Eingabe von Text  (DOS-Fkt 0AH)				 บ
+;ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+TEXT_EINGABE	MACRO	LAENGE,PUFFER_NAME
+		PUSH	DX
+		MOV	PUFFER_NAME,LAENGE
+		MOV	DX,OFFSET PUFFER_NAME
+		MOV	AH,0AH
+		INT	21H
+		POP	DX
+		ENDM
+
+.LIST

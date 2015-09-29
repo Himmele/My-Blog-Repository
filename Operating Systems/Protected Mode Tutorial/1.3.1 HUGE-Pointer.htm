@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys4.htm -->
+<HTML><HEAD><TITLE>HUGE-Pointer</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver background=HUGE-Pointer-Dateien/stone.jpg>
+<H2><FONT color=#800000>1.3.2 HUGE-Pointer</FONT></H2>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Das unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys3.htm#r_far">1.3.1 
+Benutzen von FAR-Zeigern</A> beschriebene Prinzip kann zu Problemen bei 
+Zeigermanipulationen führen, wenn es unvorsichtig genutzt wird. Wie bereits im 
+Abschnitt "Funktionsweise der Segmentierung bei 80x86 Prozessoren" erläutert 
+wurde, kann eine physische Adresse durch unterschiedliche Segment:Offset 
+Kombinationen gebildet werden. Probleme ergeben sich, wenn unterschiedliche 
+Segment:Offset Kombinationen (die aber alle auf die gleiche physische Adresse 
+zeigen) miteinander verglichen werden sollen. Das Ergebnis wird immer ungleich 
+sein, da sich die Adressen in ihren Segment- und Offsetanteilen 
+unterscheiden.</P>
+<P>Weitere Probleme ergeben sich bei der Verwendung eines C-Compilers. Die 
+meisten C-Compiler erhöhen nur den Offsetanteil, wenn ein Wert zu einem 
+FAR-Pointer addiert wird. Beispielsweise ergibt sich aus dem FAR-Pointer 
+203F:FFFF bei der Addition von 1 nicht der korrekte FAR-Pointer 303F:0000, 
+sondern 203F:0000.</P>
+<P>Die beiden obengenannten Probleme lassen sich durch den Einsatz von 
+HUGE-Pointern vermeiden. HUGE-Pointer sind nichts anderes als FAR-Pointer, die 
+"normalisiert" werden. Durch diese Normalisierung enthält jeder HUGE-Pointer in 
+seinem Segmentanteil soviel von seiner physischen Adresse wie möglich. Da ein 
+Segment nur alle 16 Byte beginnen kann, wird die Offsetadresse dabei auf Werte 
+zwischen 0 und 15 beschränkt. Durch die Begrenzung der Offsetadresse kann jetzt 
+über die Segmentadresse paragraphengenau und über den Offset bytegenau auf eine 
+Adresse zugegriffen werden.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="HUGE-Pointer-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>HUGE-Pointer könnten zum Beispiel so aussehen (alle Angaben 
+      hexadezimal):</P><PRE>    <I><B>Segment:Offset                                                                               </B>
+       0001:0004
+       0005:0001
+       1234:0000</I></PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<H2><FONT color=#000080>Normalisierung</FONT></H2>
+<P></P>
+<P>Der folgende HUGE-Pointer ist ungültig, weil seine Offsetadresse größer als 
+15d (=0Fh) ist:</P><PRE><I><B>Segment:Offset</B>
+    0004:0012</I>
+</PRE>
+<P>Er muß normalisiert werden, indem der Offsetanteil auf einen Bereich von 0 
+bis 15 korrigiert und die Segmentadresse entsprechend geändert wird. Diese 
+Normalisierung kann durchgeführt werden, indem die Segment:Offset Adresse zuerst 
+in ihre physische 20 Bit Adresse umgewandelt wird:</P><PRE><I>    0004:0012 = 0004<B>0</B> + (0)0012 = <B>00052</B></I>
+</PRE>
+<P>und anschließend die 4 unteren Bit als neue, normierte Offset- und die 
+restlichen 16 Bit als neue, normierte Segmentadresse verwendet werden:</P><PRE><I>    0005:0002</I>
+</PRE>
+<P>Da diese Normalisierung nicht von der Hardware (also der CPU) unterstützt 
+wird, muß bei der Verwendung von HUGE-Pointern eine Softwarelösung eingesetzt 
+werden. Ein C-Compiler generiert zum Beispiel nach jeder Manipulation eines 
+HUGE-Pointers einen Aufruf zu einer Routine, die diese Normalisierung 
+vornimmt.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="HUGE-Pointer-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Vergleichen Sie auch mit dem folgendem Beispiel: Aus dem C Programm 
+      ...</P><PRE><I>   char huge big_array [100000];
+
+   void main (void)
+       {
+       int i;
+
+       for (i=0; i&lt;100000; i++)
+           {
+           big_array [i]= 'A';
+           }
+       }</I></PRE>
+      <P>generiert ein C-Compiler (hier: Borland C 3.1, bei anderen Compilern 
+      können Abweichungen auftreten) den folgenden Assemblercode, der auf den 
+      eigentlichen Feldzugriff gekürzt wurde:</P><PRE><I>   ; long i;
+   ; for (i=0; i&lt;100000; i++)
+
+   ; "i" auf 0 initialisieren
+	mov    word ptr [bp-2],0
+	mov    word ptr [bp-4],0
+	jmp    short @1@114
+
+   @1@58:
+   ; big_array [i]= 'A';
+
+   ; Zeiger dx:ax wird von der Funktion N_PADD normalisiert
+   ; (der Unterstrich vor dem Bezeichner "big_array" wurde vom
+   ; C-Compiler automatisch generiert)
+	mov    dx,seg _big_array
+	mov    ax,offset _big_array
+
+   ; "Offset" von dx:ax aus, entspricht hier "i",
+   ; wird in cx:bx festgehalten
+	mov    cx,word ptr [bp-2]
+	mov    bx,word ptr [bp-4]
+
+   ; "Offset" auf Zeiger addieren und
+   ; anschließend normieren ... durch Fkt. N_PADD@ durchgeführt
+	call   near ptr N_PADD@
+
+   ; normierten Zeiger in dx:ax nach es:bx und ...
+	mov    bx,ax
+	mov    es,dx
+
+   ; Byte schreiben
+	mov    byte ptr es:[bx],65
+
+   ; Zeiger "i" um eine Position weiter
+	add    word ptr [bp-4],1
+	adc    word ptr [bp-2],0
+
+   @1@114:
+
+   ; Zeiger "i" schon 100000 ?
+	cmp    word ptr [bp-2],1
+	jl     short @1@58
+	jne    short @1@198
+	cmp    word ptr [bp-4],-31072
+	jb     short @1@58
+
+   @1@198:
+   ;       }</I></PRE>
+      <P>Der 100000 Byte große Bereich (big_array [100000]) wird mit den 
+      folgenden Datensegmenten reserviert:</P><PRE><I>   HUGETST5_DATA   segment para public 'FAR_DATA'
+   _big_array      label byte
+                   db 32768 dup (?)
+                   db 32768 dup (?)
+   HUGETST5_DATA   ends
+
+   HUGETST6_DATA   segment para public 'FAR_DATA'
+                   db 34464 dup (?)
+   HUGETST6_DATA   ends</I></PRE></TD></TR></TBODY></TABLE></CENTER>
+<P><B>Anmerkungen:</B> Die Funktion N_PADD@ dient der Addition eines 32-Bit 
+Wertes auf einen HUGE-Pointer. Der Funktion wird dazu im Registerpaar CX:BX der 
+zu addierende 32-Bit Wert und im Registerpaar DX:AX der zu normalisierende 
+Zeiger übergeben. Die Funktion addiert nun den 32-Bit Wert zum übergebenen 
+HUGE-Pointer und normalisiert ihn anschließend nach dem oben genannten 
+Prinzip.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="HUGE-Pointer-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das in Assembler geschriebene Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/huge.asm">huge.asm</A> 
+      benutzt HUGE-Pointer, um einen 100000 Byte großen Speicherbereich mit 
+      einem konstanten Wert zu füllen. Dabei wird die Routine: <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/showasci.asm">showasci</A> 
+      aus dem Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/rm_01.asm">rm_01.asm</A> 
+      verwendet, um den Speicherinhalt vor und nach dem Füllen auf dem 
+      Bildschirm anzuzeigen.</P></TD></TR></TBODY></TABLE></CENTER>
+<P>Das Beispielprogramm verwendet zwei Routinen, um die Aufgabe zu lösen. Die 
+eigentliche Normalisierung wird in der Routine <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/norm.asm">NORM</A> 
+durchgeführt. Die Routine <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/add.asm">ADD</A> 
+addiert einen 32 Bit Offsetwert zu einem FAR-Pointer und liefert das Ergebnis 
+dieser Addition. Der Routine wird dabei der FAR-Zeiger im Registerpaar DX:AX und 
+der 32 Bit Offsetwert (von DX:AX aus) im Registerpaar CX:BX übergeben.</P>
+<P>"ADD" addiert nun den 32 Bit Offsetwert (CX:BX) zum übergebenen Zeiger 
+(DX:AX) und liefert das Ergebnis im Registerpaar DX:AX. Dazu muß zunächst der 
+höherwertige Anteil der 32 Bit großen Offsetadresse in Vielfache von 4096 
+umgewandelt werden, damit er problemlos auf die Segmentadresse der Basisadresse 
+addiert werden kann.</P>
+<H2><FONT size=+2>Anmerkung: Wieso Vielfache von 4096?</FONT></H2>
+<P>Die Werte im Registerpaar CX:BX werden als 32 Bit Offsetadresse betrachtet, 
+nicht als Segment:Offset Kombination!</P>
+<P>Werden beispielsweise die Werte 0001 in CX und 86A0h in BX als Segment:Offset 
+interpretiert, so würde sich die 20-Bit Adresse: 0001<B>0</B> + (0)86A0 = 86B0h 
+ergeben. Werden beide Werte zusammen als 32-Bit Offsetadresse betrachtet, ergibt 
+sich jedoch die 32-Bit Offsetadresse 000186A0h!</P>
+<P>Soll nun der höherwertige Anteil der 32-Bit Offsetadresse (im Beispiel: 0001) 
+zu einer Segmentadresse addiert werden, so müssen beide dieselbe Speichereinheit 
+beschreiben! <U>Zur Erinnerung:</U> Die kleinste Einheit, die von 
+Segmentadressen adressiert werden kann, ist ein Paragraph (16 Byte). Die 
+kleinste Einheit des höherwertigen Anteils der 32-Bit Offsetadresse ist 65536 
+Byte!</P>
+<P>Da die Segmentadresse bei der Umwandlung in eine physische 20-Bit Adresse mit 
+16 multipliziert wird, muß der höherwertige Anteil der 32-Bit breiten Adresse 
+vor der Addition nicht mit 65536, sondern mit (65536 / 16), also 4096 
+multipliziert werden.</P><PRE><I>; die Umwandlung kann durch Multiplikation von 4096 erfolgen, das
+; kann durch eine Verschiebung um 12 Binärpositionen nach links
+; erreicht werden (2<SUP>12</SUP>=4096)
+	shl cx,12</I>
+</PRE>
+<P>Jetzt können beide Adressen addiert werden. Dabei werden zuerst die 
+niederwertigen Anteile und anschließend die höherwertigen Anteile unter 
+Berücksichtigung eines eventuell gesetzten Carry-Flags addiert. Das Ergebnis 
+dieser Addition befindet sich im Registerpaar DX:AX.</P><PRE><I>        add ax,bx
+	adc dx,cx</I>
+</PRE>
+<P>Der Zeiger in den Registern DX und AX ist jetzt noch nicht normiert, der 
+Offsetanteil der Adresse liegt zwischen 0 und 65535. </P>
+<P>Die eigentliche Normalisierung wird in der Routine NORM durchgeführt. Der 
+Routine wird dabei der zu normalisierende Zeiger im Registerpaar DX:AX 
+übergeben. Die Routine liefert anschließend den normalisierten HUGE-Pointer im 
+Registerpaar ES:DI zurück.</P>
+<P>Die genaue Funktionsweise der Routine NORM soll im folgenden betrachtet 
+werden. </P>
+<P>Die Normalisierung wird in 2 Schritten durchgeführt.</P>
+<P><B>1. DX:AX in physische 20 Bit Adresse umwandeln:</B></P><PRE><I>; Segmentadresse des Zeigers wird mit 16 multipliziert
+; (Offsetadresse vorher in cx sichern)
+	mov cx,ax
+	mov ax,dx
+	mov dx,16
+	mul dx
+
+; Ergebnis in DX:AX
+; Offsetadresse dazuaddieren
+	add ax,cx
+	adc dx,0
+
+; im Registerpaar DX:AX befindet sich jetzt die phys. 20 Bit Adresse</I>
+</PRE>
+<P><B>2. DX:AX in normalisiertes Segment:Offset Paar umwandeln:</B></P><PRE><I>; neue Offsetadresse ergibt sich aus unteren 4 Bit
+; sie liegt damit immer (!) zwischen 0 und 15
+	mov di,ax
+	and di,0Fh
+
+; neue Segmentadresse aus den restlichen 16 Bit bilden
+	shr ax,4
+	shl dx,12
+	add ax,dx
+	mov es,ax</I>
+</PRE>
+<P>Neben der "Normalisierung" von HUGE-Pointern unterstützt der BC 3.1 Compiler 
+auch sogenannte "FAST-HUGE-Pointer" (Compileroption: -h). Dabei werden die 
+Aufrufe zur Normalisierungsroutine durch das direkte Manipulieren eines 
+FAR-Pointers ersetzt, ohne daß dabei eine "Normalisierung" durchgeführt 
+wird.</P>
+<P>Das dabei angewandte Verfahren ist mit dem unter 1.3.1 genannten Verfahren 
+(Adressierung mit FAR-Pointern) vergleichbar. Die Offsetadresse läuft über den 
+gesamten Bereich (0 bis 65535) und die Segmentadresse wird nur bei einem 
+Offsetüberlauf korrigiert (Addition von 4096). "FAST-HUGE-Pointer" erlauben den 
+Zugriff auf Speicherbereiche größer als 64 KB. Dabei übernimmt der vom 
+C-Compiler generierte Quellcode die Manipulation des FAR-Pointers. Die 
+Verwendung von "FAST-HUGE-Pointern" bringt zwei Vorteile mit sich, zum einen muß 
+sich das Anwenderprogramm nicht mehr selbst um die Details der 
+Speicherverwaltung größerer Bereiche kümmern und zum anderen kann auf diese 
+Speicherbereiche ohne Performanceverluste zugegriffen werden. Der damit 
+erreichte Geschwindigkeitszuwachs bringt jedoch wieder die obengenannten 
+Probleme mit sich (z.B. keine korrekten Zeigervergleiche möglich).</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys3.htm"><IMG 
+alt=Zurück src="HUGE-Pointer-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm"><IMG 
+alt=Weiter src="HUGE-Pointer-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="HUGE-Pointer-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

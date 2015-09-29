@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm -->
+<HTML><HEAD><TITLE>Die Debug-Register</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Die Debug-Register-Dateien/stone.jpg">
+<H1><FONT color=#800000>Die Debug-Register</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Intel Prozessoren ab dem 80386 verfügen über 8 Spezialregister, die es 
+ermöglichen, bis zu vier unabhängige, lineare Adressen festzulegen. Die Werte in 
+diesen Registern vergleicht der Prozessor automatisch mit angesprochenen 
+Adressen und generiert bei Übereinstimmung einen Interrupt 1. Welche Ereignisse 
+einen solchen Interrupt auslösen (z.B. Schreib- oder Lesezugriffe) kann dabei 
+vom Programmierer festgelegt werden. Im folgenden soll ein kurzer Überblick über 
+die Debug-Register gegeben werden.</P>
+<P>Abb. 1 stellt die verschiedenen Funktionen der Debug-Register DR0..DR7 
+dar.</P>
+<CENTER>
+<P><IMG alt=Debug-Register src="Die Debug-Register-Dateien/d_1.gif" border=2> 
+<BR><I><B>Abb. 1:</B> Debug-Register</I> </P></CENTER>
+<P>Alle Debug-Register können ausschließlich über MOV-Befehle angesprochen 
+werden und sind unabhängig von eventuellen Task-Wechseln, d.h. sie werden bei 
+einem Task-Wechsel nicht automatisch gesichert bzw. wiederhergestellt.</P>
+<P>Die Register DR0...DR3 können benutzt werden, um Adressen festzulegen. Dabei 
+vergleicht der Prozessor alle Adresszugriffe mit den in diesen Registern 
+festgelegten Werten und führt die Aktion aus, die im DR7 Register eingestellt 
+wurde. Werte in den Registern DR0...DR3 enthalten lineare Adressen, geben also 
+den vom entsprechenden Programm verwendeten Offsetanteil wieder. Dadurch finden 
+Vergleiche oberhalb des Paging-Mechanismus statt und stimmen daher mit der 
+logischen Abarbeitung der Programme überein.</P>
+<P>Die Register DR4 und DR5 werden nicht benutzt.</P>
+<H2><FONT color=#000080>Status-Register DR6</FONT></H2>
+<P>Wurde aus irgendeinem Grund ein Interrupt 1 ausgelöst, kann durch die 
+Auswertung der Bits im Register DR6 bestimmt werden, welches Ereignis den 
+Interrupt ausgelöst hat. Der Aufbau des Registers wird in Abb. 2 
+dargestellt.</P>
+<CENTER>
+<P><IMG alt=Status-Register src="Die Debug-Register-Dateien/d_2.gif" border=2> 
+<BR><I><B>Abb. 2:</B> Der Aufbau des Status-Registers</I> </P></CENTER>
+<P>Die Bedeutung der einzelnen Bits wird in Tabelle 1 wiedergegeben.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Bit</TH>
+    <TH width="80%">Grund für Interrupt 1</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>BT</TD>
+    <TD>Ein Task-Wechsel wurde ausgelöst und das T (Trap)-Bit des neuen Tasks 
+      wurde gesetzt, vergleiche auch mit Kapitel 2.3 Multitasking.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>BS</TD>
+    <TD>Einzelschritt-Interrupt, d.h. das TF-Bit im EFLAGS-Register ist 
+      gesetzt. Dadurch wird bei jedem Befehl ein Interrupt ausgelöst.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>BD</TD>
+    <TD>Ist dieses Bit gesetzt, ist der Intel In-Circuit-Emulator (ICE) aktiv 
+      und die Debug-Register können nicht benutzt werden. In diesem Fall können 
+      die Debug-Register zwar gelesen werden, jeder Schreibzugriff löst hingegen 
+      einen Interrupt 1 aus. Beim Intel-ICE handelt es sich um ein Gerät, das in 
+      den Prozessorsockel eingesetzt wird und sich wie ein "normaler" Prozessor 
+      verhält, jedoch von einem anderen Computer gesteuert wird.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>B3</TD>
+    <TD>Es wurde auf die über DR3 definierte Adresse zugegriffen.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>B2</TD>
+    <TD>Es wurde auf die über DR2 definierte Adresse zugegriffen.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>B1</TD>
+    <TD>Es wurde auf die über DR1 definierte Adresse zugegriffen.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>B0</TD>
+    <TD>Es wurde auf die über DR0 definierte Adresse 
+zugegriffen.</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 1:</B> Bedeutung der Bits im Status-Register</I> 
+</CAPTION></CENTER>
+<P><B>Anmerkung: </B>Bits im Register DR6 werden vom Prozessor gesetzt, müssen 
+jedoch z.B. von einem Debugger explizit zurückgesetzt werden.</P>
+<H2><FONT color=#000080>Status-Register DR7</FONT></H2>
+<P>Wurde auf eine in den Registern DR0..DR3 festgelegte Adresse zugegriffen, 
+legt der Inhalt des Registers DR7 fest, ob bzw. wie der Prozessor darauf 
+reagiert. Abb. 3 stellt den Aufbau des DR7 Registers dar.</P>
+<CENTER>
+<P><IMG alt="Debug-Register 7" src="Die Debug-Register-Dateien/d_3.gif" 
+border=2> <BR><I><B>Abb. 3:</B> Der Aufbau des Debug-Registers 7</I> 
+</P></CENTER>
+<P>Über die jeweils 2 Bit breiten Felder LENx kann für jede der Adressen 
+(DR0...DR3) festgelegt werden, welche Speichergröße adressiert wird (vgl. mit 
+Tabelle 2).</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Bitwert</TH>
+    <TH width="80%">Bedeutung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>00</TD>
+    <TD>Byte: Interrupt 1 wird nur ausgeführt, wenn ein Programm exakt auf das 
+      (einzelne) Byte zugreift, das durch die Adresse festgelegt wird.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>01</TD>
+    <TD>Word: Interrupt 1 wird ausgeführt, wenn auf das Byte mit der Adresse x 
+      bzw. auf das Byte mit der Adresse x+1 zugegriffen wird. Die im 
+      entsprechenden Debug-Register festgehaltene Adresse muß geradzahlig 
+    sein.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10</TD>
+    <TD>reserviert</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>11</TD>
+    <TD>Dword: Interrupt 1 wird ausgeführt, wenn auf den Adressbereich x bis 
+      x+3 zugegriffen wird. Die im entsprechenden Debug-Register festgehaltene 
+      Adresse muß ganzahlig durch vier teilbar sein.</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 2:</B> Codierung der Felder 
+LENx</I> </CAPTION></CENTER>
+<P>Über die Felder R/Wx kann weiterhin für jede Haltepunkt-Adresse festgelegt 
+werden, welche Zugriffsart einen Interrupt auslöst. Mögliche Werte sind dabei in 
+Tabelle 3 dargestellt.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Bitwert</TH>
+    <TH width="80%">Bedeutung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>00</TD>
+    <TD>Lesezugriff: Ein Haltepunkt beim Lesen von <U>Befehlen</U> setzt 
+      voraus, daß das Feld LENx ebenfalls den Wert 00 enthält und das die in DRx 
+      festgelegte Adresse auf das erste Byte des Befehls-Opcodes bzw. auf das 
+      erste Präfix zeigt.</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>01</TD>
+    <TD>Schreibzugriff</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10</TD>
+    <TD>reserviert (ab PENTIUM: I/O Schreib- oder Lesezugriff)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>11</TD>
+    <TD>Schreib- oder Lesezugriff</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 3:</B> Festlegung der auslösenden Zugriffsart im 
+Register DR7</I> </CAPTION></CENTER>
+<P>Die Bits Lx bzw. Gx geben letztendlich an, ob bzw. wie der Prozessor auf 
+positive Adressvergleiche reagieren soll. Dabei können die in den Registern DRx 
+definierten Haltepunkte entweder lokal (d.h. Lx gesetzt) bzw. global (Gx 
+gesetzt) aktiviert werden. Sind beide Bit zurückgesetzt, reagiert der Prozessor 
+auf positiv ausfallende Adressvergleiche zwar durch das Setzen entsprechender 
+Bits im Register DR6, löst aber keinen Interrupt aus.</P>
+<P>Die Unterscheidung zwischen globalen und lokalen Haltepunkten ist nur bei der 
+Verwendung von Multitasking notwendig. Während auf globale Haltepunkte (Gx 
+gesetzt) unabhängig von eventuellen Task-Wechseln reagiert wird, werden gesetzte 
+Lx-Bits bei jedem Task-Wechsel zurückgesetzt. Auf diese Weise können Haltepunkte 
+auf bestimmte Prozesse begrenzt werden. Das setzt jedoch auch voraus, daß ein 
+entsprechender Debugger auf Task-Wechsel reagieren muß, um entsprechende Lx-Bits 
+wieder zu setzen.</P>
+<P>Die Bits LE (Local Exact) bzw. GE (Global Exact) sind für alle vier 
+Haltepunkte zuständig und lösen ein Problem, das durch die interne Parallelität 
+bei der Befehlsdekodierung durch den Prozessor entsteht: Wird an der Adresse x 
+ein Haltepunkt erkannt und dadurch ein Debug-Interrupt ausgelöst, enthält das 
+Register CS:EIP bereits die Adresse (die dem Interrupt-Handler übergeben wird) 
+des nächsten oder übernächsten Befehls. Ist eines der beiden Bits gesetzt, wird 
+die Dekodierung soweit verzögert, daß sich die (richtige) Adresse noch sicher 
+rekonstruieren läßt. Während das GE-Bit global für alle Tasks gilt, wird das 
+LE-Bit bei einem Task-Wechsel zurückgesetzt.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Die Debug-Register-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Die Beispielprogramme <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_01.asm">debug_01.asm</A> 
+      bis <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_04.asm">debug_04.asm</A> 
+      sollen die Anwendung der Debug-Register verdeutlichen. Neben den 
+      Assemblerbeispielen stehen auch die gleichwertigen C-Programme <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_01.c">debug_01.c</A> 
+      bis <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_04.c">debug_04.c</A> 
+      zur Verfügung (Mehr über die Verwendung von C, im Zusammenhang mit dem 
+      Protected Mode, erfahren Sie unter <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm">Protected 
+      Mode und C</A>).</P></TD></TR></TBODY></TABLE></CENTER>
+<H2><FONT color=#000080>Beispiel 1</FONT></H2>
+<P>Der Prozessor reagiert auf positiv ausfallende Adressvergleiche, wenn die 
+entsprechenden Bits im Register DR7 gesetzt sind, mit dem Auslösen einer 
+Exception 1 (Debugger-Interrupt).</P>
+<P>Soll ein Programm, in der Regel also ein Debugger bzw. hier das 
+Beispielprogramm <B>debug_01</B>, darauf reagieren, so muß ein entsprechender 
+Exception-Handler zur Verfügung gestellt werden. Neben einem solchen 
+Exception-Handler für den Debugger-Interrupt 1 stellt <B>debug_01</B> auch für 
+alle weiteren Exceptions einen Handler bereit.</P>
+<P>Wird eine Exception ausgelöst, führt jeder Handler die folgenden Aktionen 
+durch:</P>
+<UL>
+  <LI>Speichern der Exception-Nummer auf dem Stack (z.B. Exception 13: <I>push 
+  13</I>). 
+  <LI>Verzweigen zu einem allgemeinen Exception-Handler. </LI></UL>
+<P>Der allgemeine Exception-Handler bringt dann alle weiteren Registerinhalte 
+auf den Stack, um sie später in hexadezimale Werte umzuwandeln und in einen 
+Speicherbereich im Datensegment einzutragen. Danach löst der Exception-Handler 
+einen Sprung in den Realmode aus und gibt vor der Rückkehr ins DOS den im 
+Protected Mode vorbereiteten Exception-Text auf dem Bildschirm aus.</P>
+<P>Der einzige Unterschied eines "normalen" Exception-Handlers zum 
+Exception-Handler des Debug-Interrupts 1 besteht im Beispielprogramm darin, daß 
+dieser zusätzlich die Debug-Register DR0 bis DR3, DR6 und DR7 ausliest und auf 
+dem Bildschirm ausgibt.</P>
+<P>Auf diese Weise kann dann festgestellt werden, welcher Breakpoint erreicht 
+wurde bzw. welches Ereignis den Interrupt ausgelöst hat.</P>
+<P>Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_01.asm">debug_01.asm</A> 
+ruft den Debug-Interrupt 1 über den Assemblerbefehl <I>INT 1</I> auf, um so den 
+Exception-Handler zu testen. Im C-Programm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_01.c">debug_01.c</A> 
+wird das Makro <I>BREAKPOINT</I> verwendet, das in der Datei <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_01.h">pmode.h</A> 
+bereitgestellt wird und ebenfalls <I>INT 1</I> assembliert.</P>
+<H2><FONT color=#000080>Beispiel 2</FONT></H2>
+<P>Während <B>debug_01</B> nur den Exception-Handler testete, soll 
+Beispielprogramm 2 (<B>debug_02</B>) einen echten Breakpoint setzen. Dazu wird 
+das Debug-Register DR0 auf eine Funktion gesetzt und das Register DR7 auf 
+"Breakpoint bei Codezugriff" initialisiert. Während das Assemblerbeispiel <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_02.asm">debug_02.asm</A> 
+diese Änderungen direkt vornimmt, steht dem C-Programm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_02.c">debug_02.c</A> 
+die Funktion <I>set_drx</I> (aus <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_02.c">pmode.c</A>) 
+zur Verfügung. Diese Funktion soll im weiteren näher besprochen werden.</P>
+<P>Die Funktion <I>set_drx</I> erwartet vier Parameter:</P>
+<UL>
+  <LI><I>int x</I>: Auswahl des Debug-Registers (0..3). 
+  <LI><I>int rw</I>: Zugriffsart, die Interrupt 1 auslöst. Dazu stehen die 
+  folgenden, in <A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_02.h">pmode.h</A> 
+  definierten Konstanten zur Verfügung: <I>ACCESS_READ, ACCESS_WRITE, 
+  ACCESS_READWRITE</I>. Die Konstanten entsprechen dabei den Werten aus Tabelle 
+  3. 
+  <LI><I>int len</I>: Zugriffslänge, die Interrupt 1 auslöst. Konstanten aus <A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_02.h">pmode.h</A> 
+  sind hier: <I>ACCESS_READ, ACCESS_WRITE, ACCESS_READWRITE</I>. Diese 
+  Konstanten entsprechen den Werten aus Tabelle 2. 
+  <LI><I>void *dst</I>: Zeiger auf eine Funktion im Codesegment. </LI></UL>
+<P>Nachdem die Funktion aufgerufen wurde, wandelt sie den Funktionszeiger (void 
+*dst), der einem Offset ins Codesegment entspricht, in eine lineare 
+32Bit-Adresse um. Die Funktion verwendet dazu das Makro cslin2rel aus <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_02.h">pmode.h</A>, 
+das die übergebene Adresse umwandelt, indem zu ihr die Start-Offsetadresse des 
+Codesegmentes addiert wird. Der so ermittelte Wert wird später dem durch <I>int 
+x</I> ausgewählten Debug-Register zugewiesen. Als nächstes überprüft die 
+Funktion, ob die übergebenen Variablen <I>int rw</I> und <I>int len</I> gültige 
+Werte besitzen. Stellt die Funktion fest, daß es sich bei einem der übergebenen 
+Werte um einen ungültigen handelt, kehrt die Funktion ohne Änderung mit 'return' 
+zurück.</P>
+<P>Anschließend werden die Werte <I>int len</I> und <I>int rw</I> in ein für das 
+Register DR7 benötigtes Format umgerechnet (<I>rw</I> in den unteren 2 Bit und 
+<I>len</I> in den oberen 2 Bit). In Abhängigkeit des Wertes <I>int x</I> wird 
+dann der soeben berechnete 4 Bit breite Wert entsprechend rotiert, die 
+entsprechenden Global-Enable-Bits gesetzt und der Wert in das DR7 Register 
+geschrieben.</P>
+<P>Versucht das Hauptprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_02.c">debug_02.c</A> 
+dann die entsprechende Funktion aufzurufen, erkennt das der Prozessor und 
+reagiert mit dem Aufruf des Debugger-Interrupts 1. Gegenüber dem 
+Exception-Handler aus <B>debug_01</B> wertet der zum Beispielprogramm 
+<B>debug_02</B> gehörende Exception-Handler die Bits im Register DR6 aus und 
+gibt zusätzlich noch den Grund für die Auslösung des Interrupts in Form eines 
+Textstrings aus (z.B. "Zugriff auf Breakpoint 0").</P>
+<H2><FONT color=#000080>Beispiel 3</FONT></H2>
+<P>Im Gegensatz zu Beispielprogramm <B>debug_02</B> initialisiert das Programm 
+<B>debug_03</B> die Debug-Register so, daß ein Interrupt 1 bei einem 
+Schreibzugriff auf eine globale Variable (<I>int global_test</I>) ausgelöst 
+wird. Die Funktion <I>set_drx</I> wurde dafür so geändert, daß sie jetzt lineare 
+32Bit-Breakpoint-Adressen erwartet. Eventuelle Umrechnungen müssen deshalb vor 
+(!) der Übergabe an <I>set_drx</I> durchgeführt werden. Dazu stellt <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pmode_03.h">pmode.h</A> 
+neben dem bekannten Makro <I>cslin2rel</I> das Makros <I>dslin2rel</I> bereit. 
+<I>dslin2rel</I> rechnet Offsetadressen in das Datensegment in lineare 
+32Bit-Adressen um, indem die lineare Startadresse des Datensegments zur 
+übergebenen Adresse addiert wird.</P>
+<P>Auch Beispielprogramm 3 liegt in einer C- (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_03.c">debug_03.c</A>) 
+sowie in einer Assembler-Version (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_03.asm">debug_03.asm</A>) 
+vor.</P>
+<H2><FONT color=#000080>Beispiel 4</FONT></H2>
+<P>Das vierte Beispielprogramm <B>debug_04</B> zeigt eine Möglichkeit, den 
+Inhalt einer Variablen bzw. im Allgemeinen einer Speicheradresse zu überwachen. 
+<B>debug_04</B> setzt dazu, ähnlich <B>debug_03</B>, einen 
+"Schreibzugriffs-Breakpoint" auf eine globale Variable im Datensegment (<I>int 
+global_test</I>). Damit lösen Schreibzugriffe auf diese Variable den 
+Debugger-Interrupt 1 aus. Der entsprechende Exception-Handler kehrt nun nicht in 
+den Realmode und zu DOS zurück, sondern gibt den Inhalt der entsprechenden 
+Speicherzelle aus und beendet den Exception-Handler mit <I>IRET</I>. Dadurch 
+wird das entsprechende Programm fortgesetzt.</P>
+<P>Die Programme <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_04.c">debug_04.c</A> 
+bzw. <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_04.asm">debug_04.asm</A> 
+greifen nun in einer Zählschleife auf die Variable <I>global_test</I> zu und 
+lösen damit Exceptions aus. Der jeweilige Variableninhalt wird dabei vom 
+Exception-Handler auf dem Bildschirm dargestellt.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm"><IMG alt=Zurück 
+src="Die Debug-Register-Dateien/arrowl.gif" align=left border=0 name=left></A> 
+<A onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm"><IMG alt=Weiter 
+src="Die Debug-Register-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="Die Debug-Register-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

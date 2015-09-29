@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0071)http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » Life of an instruction in LLVM</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./Life of an instruction in LLVM_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » Life of an instruction in LLVM Comments Feed" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./Life of an instruction in LLVM_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./Life of an instruction in LLVM_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Life of an instruction in LLVM_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Some notes on POSIX regular expressions" href="http://eli.thegreenplace.net/2012/11/14/some-notes-on-posix-regular-expressions/">
+<link rel="next" title="Dumping a C++ object’s memory layout with Clang" href="http://eli.thegreenplace.net/2012/12/17/dumping-a-c-objects-memory-layout-with-clang/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./Life of an instruction in LLVM_files/Life of an instruction in LLVM.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=3010">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./Life of an instruction in LLVM_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./Life of an instruction in LLVM_files/api" type="text/javascript"></script><script src="./Life of an instruction in LLVM_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./Life of an instruction in LLVM_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./Life of an instruction in LLVM_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./Life of an instruction in LLVM_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-3010">
+			<h2><a href="./Life of an instruction in LLVM_files/Life of an instruction in LLVM.html" rel="bookmark" title="Permanent Link: Life of an instruction in LLVM">Life of an instruction in LLVM</a></h2>
+			<small>November 24th, 2012 at 3:37 pm <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>LLVM is a complex piece of software. There are several paths one may take on the quest of understanding how it works, none of which is simple. I recently had to dig in some areas of LLVM I was not previously familiar with, and this article is one of the outcomes of this quest.</p>
+<p>What I aim to do here is follow the various incarnations an "instruction" takes when it goes through LLVM’s multiple compilation stages, starting from a syntactic construct in the source language and until being encoded as binary machine code in an output object file.</p>
+<p>This article in itself will not teach one how LLVM works. It assumes some existing familiarity with LLVM’s design and code base, and leaves a lot of "obvious" details out. Note that unless otherwise stated, the information here is relevant to LLVM 3.2. LLVM and Clang are fast-moving projects, and future changes may render parts of this article incorrect. If you notice any discrepancies, please let me know and I’ll do my best to fix them.</p>
+<div class="section" id="input-code">
+<h3>Input code</h3>
+<p>I want to start this exploration process at the beginning – C source. Here’s the simple function we’re going to work with:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">foo</span>(<span style="color: #00007f; font-weight: bold">int</span> aa, <span style="color: #00007f; font-weight: bold">int</span> bb, <span style="color: #00007f; font-weight: bold">int</span> cc) {
+  <span style="color: #00007f; font-weight: bold">int</span> sum = aa + bb;
+  <span style="color: #00007f; font-weight: bold">return</span> sum / cc;
+}
+</pre>
+</div>
+<p>The focus of this article is going to be on the division operation.</p>
+</div>
+<div class="section" id="clang">
+<h3>Clang</h3>
+<p>Clang serves as the front-end for LLVM, responsible for converting C, C++ and ObjC  source into LLVM IR. Clang’s main complexity comes from the ability to correctly parse and semantically analyze C++; the flow for a simple C-level operation is actually quite straightforward.</p>
+<p>Clang’s parser builds an Abstract Syntax Tree (AST) out of the input. The AST is the main "currency" in which various parts of Clang deal. For our division operation, a <tt class="docutils literal">BinaryOperator</tt> node is created in the AST, carrying the <tt class="docutils literal">BO_div</tt> "operator kind" <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id9" id="id1">[1]</a>. Clang’s code generator then goes on to emit a <tt class="docutils literal">sdiv</tt> LLVM IR instruction from the node, since this is a division of signed integral types.</p>
+</div>
+<div class="section" id="llvm-ir">
+<h3>LLVM IR</h3>
+<p>Here is the LLVM IR created for the function <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id10" id="id2">[2]</a>:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">define i32 @foo(i32 %aa, i32 %bb, i32 %cc) nounwind {
+entry:
+  %add = add nsw i32 %aa, %bb
+  %div = sdiv i32 %add, %cc
+  ret i32 %div
+}
+</pre>
+</div>
+<p>In LLVM IR, <tt class="docutils literal">sdiv</tt> is a <tt class="docutils literal">BinaryOperator</tt>, which is a subclass of <tt class="docutils literal">Instruction</tt> with the opcode <tt class="docutils literal">SDiv</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id11" id="id3">[3]</a>. Like any other instruction, it can be processed by the LLVM analysis and transformation passes. For a specific example targeted at <tt class="docutils literal">SDiv</tt>, take a look at <tt class="docutils literal">SimplifySDivInst</tt>. Since all through the LLVM "middle-end" layer the instruction remains in its IR form, I won’t spend much time talking about it. To witness its next incarnation, we’ll have to look at the LLVM code generator.</p>
+<p>The code generator is one of the most complex parts of LLVM. Its task is to "lower" the relatively high-level, target-independent LLVM IR into low-level, target-dependent "machine instructions" (<tt class="docutils literal">MachineInstr</tt>). On its way to a <tt class="docutils literal">MachineInstr</tt>, an LLVM IR instruction passes through a "selection DAG node" incarnation, which is what I’m going to discuss next.</p>
+</div>
+<div class="section" id="selectiondag-node">
+<h3>SelectionDAG node</h3>
+<p>Selection DAG <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id12" id="id4">[4]</a> nodes are created by the <tt class="docutils literal">SelectionDAGBuilder</tt> class acting "at the service of" <tt class="docutils literal">SelectionDAGISel</tt>, which is the main base class for instruction selection. <tt class="docutils literal">SelectionDAGIsel</tt> goes over all the IR instructions and calls the <tt class="docutils literal"><span class="pre">SelectionDAGBuilder::visit</span></tt> dispatcher on them. The method handling a <tt class="docutils literal">SDiv</tt> instruction is <tt class="docutils literal"><span class="pre">SelectionDAGBuilder::visitSDiv</span></tt>. It requests a new <tt class="docutils literal">SDNode</tt> from the DAG with the opcode <tt class="docutils literal"><span class="pre">ISD::SDIV</span></tt>, which becomes a node in the DAG.</p>
+<p>The initial DAG constructed this way is still only partially target dependent. In LLVM nomenclature it’s called "illegal" – the types it contains may not be directly supported by the target; the same is true for the operations it contains.</p>
+<p>There are a couple of ways to visualize the DAG. One is to pass the <tt class="docutils literal"><span class="pre">-debug</span></tt> flag to <tt class="docutils literal">llc</tt>, which will cause it to create a textual dump of the DAG during all the selection phases. Another is to pass one of the <tt class="docutils literal"><span class="pre">-view</span></tt> options which causes it to dump and display an actual image of the graph (more details in the <a class="reference external" href="http://llvm.org/docs/CodeGenerator.html">code generator docs</a>). Here’s the relevant portion of the DAG showing our <tt class="docutils literal">SDiv</tt> node, right after DAG creation (the <tt class="docutils literal">sdiv</tt> node is in the bottom):</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/2012/11/sdiv_initial_dag.png" class="align-center" src="./Life of an instruction in LLVM_files/sdiv_initial_dag.png"></p>
+<p>Before the <tt class="docutils literal">SelectionDAG</tt> machinery actually emits machine instructions from DAG nodes, these undergo a few other transformations. The most important are the type and operation legalization steps, which use target-specific hooks to convert all operations and types into ones that the target actually supports.</p>
+</div>
+<div class="section" id="legalizing-sdiv-into-sdivrem-on-x86">
+<h3>"Legalizing" sdiv into sdivrem on x86</h3>
+<p>The division instruction (<tt class="docutils literal">idiv</tt> for signed operands) of x86 computes both the quotient and the remainder of the operation, and stores them in two separate registers. Since LLVM’s instruction selection distinguishes between such operations (called <tt class="docutils literal"><span class="pre">ISD::SDIVREM</span></tt>) and division that only computes the quotient (<tt class="docutils literal"><span class="pre">ISD::SDIV</span></tt>), our DAG node will be "legalized" during the DAG legalization phase when the target is x86. Here’s how it happens.</p>
+<p>An important interface used by the code generator to convey target-specific information to the generally target-independent algorithms is <tt class="docutils literal">TargetLowering</tt>. Targets implement this interface to describe how LLVM IR instructions should be lowered to legal <tt class="docutils literal">SelectionDAG</tt> operations. The x86 implementation of this interface is <tt class="docutils literal">X86TargetLowering</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id13" id="id5">[5]</a>. In its constructor it marks which operations need to be "expanded" by operation legalization, and <tt class="docutils literal"><span class="pre">ISD::SDIV</span></tt> is one of them. Here’s an interesting comment from the code:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #007f00">// Scalar integer divide and remainder are lowered to use operations that</span>
+<span style="color: #007f00">// produce two results, to match the available instructions. This exposes</span>
+<span style="color: #007f00">// the two-result form to trivial CSE, which is able to combine x/y and x%y</span>
+<span style="color: #007f00">// into a single instruction.</span>
+</pre>
+</div>
+<p>When <tt class="docutils literal"><span class="pre">SelectionDAGLegalize::LegalizeOp</span></tt> sees the <tt class="docutils literal">Expand</tt> flag on a SDIV node <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id14" id="id6">[6]</a> it replaces it by <tt class="docutils literal"><span class="pre">ISD::SDIVREM</span></tt>. This is an interesting example to demonstrate the transformation an operation can undergo while in the selection DAG form.</p>
+</div>
+<div class="section" id="instruction-selection-from-sdnode-to-machinesdnode">
+<h3>Instruction selection – from SDNode to MachineSDNode</h3>
+<p>The next step in the code generation process <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id15" id="id7">[7]</a> is <em>instruction selection</em>. LLVM provides a generic table-based instruction selection mechanism that is auto-generated with the help of TableGen. Many target backends, however, choose to write custom code in their <tt class="docutils literal"><span class="pre">SelectionDAGISel::Select</span></tt> implementations to handle some instructions manually. Other instructions are then sent to the auto-generated selector by calling <tt class="docutils literal">SelectCode</tt>.</p>
+<p>The X86 backend handles <tt class="docutils literal"><span class="pre">ISD::SDIVREM</span></tt> manually in order to take care of some special cases and optimizations. The DAG node created at this step is a <tt class="docutils literal">MachineSDNode</tt>, a subclass of <tt class="docutils literal">SDNode</tt> which holds the information required to construct an actual machine instruction, but still in DAG node form. At this point the actual X86 instruction opcode is selected – <tt class="docutils literal"><span class="pre">X86::IDIV32r</span></tt> in our case.</p>
+</div>
+<div class="section" id="scheduling-and-emitting-a-machineinstr">
+<h3>Scheduling and emitting a MachineInstr</h3>
+<p>The code we have at this point is still represented as a DAG. But CPUs don’t execute DAGs, they execute a linear sequence of instructions. The goal of the scheduling step is to linearize the DAG by assigning an order to its operations (nodes). The simplest approach would be to just sort the DAG topologically, but LLVM’s code generator employs clever heuristics (such as register pressure reduction) to try and produce a schedule that would result in faster code.</p>
+<p>Each target has some hooks it can implement to affect the way scheduling is done. I won’t dwell on this topic here, however.</p>
+<p>Finally, the scheduler emits a list of instructions into a <tt class="docutils literal">MachineBasicBlock</tt>, using <tt class="docutils literal"><span class="pre">InstrEmitter::EmitMachineNode</span></tt> to translate from <tt class="docutils literal">SDNode</tt>. The instructions here take the <tt class="docutils literal">MachineInstr</tt> form ("MI form" from now on), and the DAG can be destroyed.</p>
+<p>We can examine the machine instructions emitted in this step by calling <tt class="docutils literal">llc</tt> with the <tt class="docutils literal"><span class="pre">-print-machineinstrs</span></tt> flag and looking at the first output that says "After instruction selection":</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"># After Instruction Selection:
+# Machine code for function foo: SSA
+Function Live Ins: %EDI in %vreg0, %ESI in %vreg1, %EDX in %vreg2
+Function Live Outs: %EAX
+
+BB#0: derived from LLVM BB %entry
+    Live Ins: %EDI %ESI %EDX
+        %vreg2&lt;def&gt; = COPY %EDX; GR32:%vreg2
+        %vreg1&lt;def&gt; = COPY %ESI; GR32:%vreg1
+        %vreg0&lt;def&gt; = COPY %EDI; GR32:%vreg0
+        %vreg3&lt;def,tied1&gt; = ADD32rr %vreg0&lt;tied0&gt;, %vreg1, %EFLAGS&lt;imp-def,dead&gt;; GR32:%vreg3,%vreg0,%vreg1
+        %EAX&lt;def&gt; = COPY %vreg3; GR32:%vreg3
+        CDQ %EAX&lt;imp-def&gt;, %EDX&lt;imp-def&gt;, %EAX&lt;imp-use&gt;
+        IDIV32r %vreg2, %EAX&lt;imp-def&gt;, %EDX&lt;imp-def,dead&gt;, %EFLAGS&lt;imp-def,dead&gt;, %EAX&lt;imp-use&gt;, %EDX&lt;imp-use&gt;; GR32:%vreg2
+        %vreg4&lt;def&gt; = COPY %EAX; GR32:%vreg4
+        %EAX&lt;def&gt; = COPY %vreg4; GR32:%vreg4
+        RET
+
+# End machine code for function foo.
+</pre>
+</div>
+<p>Note that the output mentions that the code is in SSA form, and we can see that some registers being used are "virtual" registers (e.g. <tt class="docutils literal">%vreg1</tt>).</p>
+</div>
+<div class="section" id="register-allocation-from-ssa-to-non-ssa-machine-instructions">
+<h3>Register allocation – from SSA to non-SSA machine instructions</h3>
+<p>Apart from some well-defined exceptions, the code generated from the instruction selector is in SSA form. In particular, it assumes it has an infinite set of "virtual" registers to act on. This, of course, isn’t true. Therefore, the next step of the code generator is to invoke a "register allocator", whose task is to replace virtual by physical registers, from the target’s register bank.</p>
+<p>The exceptions mentioned above are also important and interesting, so let’s talk about them a bit more.</p>
+<p>Some instructions in some architectures require fixed registers. A good example is our division instruction in x86, which requires its inputs to be in the EDX and EAX registers. The instruction selector knows about these restrictions, so as we can see in the code above, the inputs to <tt class="docutils literal">IDIV32r</tt> are physical, not virtual registers. This assignment is done by <tt class="docutils literal"><span class="pre">X86DAGToDAGISel::Select</span></tt>.</p>
+<p>The register allocator takes care of all the non-fixed registers. There are a few more optimization (and pseudo-instruction expansion) steps that happen on machine instructions in SSA form, but I’m going to skip these. Similarly, I’m not going to discuss the steps performed after register allocation, since these don’t change the basic form operations appear in (<tt class="docutils literal">MachineInstr</tt>, at this point). If you’re interested, take a look at <tt class="docutils literal"><span class="pre">TargetPassConfig::addMachinePasses</span></tt>.</p>
+</div>
+<div class="section" id="emitting-code">
+<h3>Emitting code</h3>
+<p>So we now have our original C function translated to MI form – a <tt class="docutils literal">MachineFunction</tt> filled with instruction objects (<tt class="docutils literal">MachineInstr</tt>). This is the point at which the code generator has finished its job and we can emit the code. In current LLVM, there are two ways to do that. One is the (legacy) JIT which emits executable, ready-to-run code directly into memory. The other is MC, which is an ambitious object-file-and-assembly framework that’s been part of LLVM for a couple of years, replacing the previous assembly generator. MC is currently being used for assembly and object file emission for all (or at least the important) LLVM targets. MC also enables "MCJIT", which is a JIT-ting framework based on the MC layer. This is why I’m referring to LLVM’s JIT module as legacy.</p>
+<p>I will first say a few words about the legacy JIT and then turn to MC, which is more universally interesting.</p>
+<p>The sequence of passes to JIT-emit code is defined by <tt class="docutils literal"><span class="pre">LLVMTargetMachine::addPassesToEmitMachineCode</span></tt>. It calls <tt class="docutils literal">addPassesToGenerateCode</tt>, which defines all the passes required to do what most of this article has been talking about until now – turning IR into MI form. Next, it calls <tt class="docutils literal">addCodeEmitter</tt>, which is a target-specific pass for converting MIs into actual machine code. Since MIs are already very low-level, it’s fairly straightforward to translate them to runnable machine code <a class="footnote-reference" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id16" id="id8">[8]</a>. The x86 code for that lives in <tt class="docutils literal">lib/Target/X86/X86CodeEmitter.cpp</tt>. For our division instruction there’s no special handling here, because the <tt class="docutils literal">MachineInstr</tt> it’s packaged in already contains its opcode and operands. It is handled generically with other instructions in <tt class="docutils literal">emitInstruction</tt>.</p>
+</div>
+<div class="section" id="mcinst">
+<h3>MCInst</h3>
+<p>When LLVM is used as a static compiler (as part of <tt class="docutils literal">clang</tt>, for instance), MIs are passed down to the MC layer which handles the object-file emission (it can also emit textual assembly files). Much can be said about MC, but that would require an article of its own. A good reference is <a class="reference external" href="http://blog.llvm.org/2010/04/intro-to-llvm-mc-project.html">this post from the LLVM blog</a>. I will keep focusing on the path a single instruction takes.</p>
+<p><tt class="docutils literal"><span class="pre">LLVMTargetMachine::addPassesToEmitFile</span></tt> is responsible for defining the sequence of actions required to emit an object file. The actual MI-to-<tt class="docutils literal">MCInst</tt> translation is done in the <tt class="docutils literal">EmitInstruction</tt> of the <tt class="docutils literal">AsmPrinter</tt> interface. For x86, this method is implemented by <tt class="docutils literal"><span class="pre">X86AsmPrinter::EmitInstruction</span></tt>, which delegates the work to the <tt class="docutils literal">X86MCInstLower</tt> class. Similarly to the JIT path, there is no special handling for our division instruction at this point, and it’s treated generically with other instructions.</p>
+<p>By passing <tt class="docutils literal"><span class="pre">-show-mc-inst</span></tt> to <tt class="docutils literal">llc</tt>, we can see the MC-level instructions it creates, alongside the actual assembly code:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">foo:                                    # @foo
+# BB#0:                                 # %entry
+        movl    %edx, %ecx              # &lt;MCInst #1483 MOV32rr
+                                        #  &lt;MCOperand Reg:46&gt;
+                                        #  &lt;MCOperand Reg:48&gt;&gt;
+        leal    (%rdi,%rsi), %eax       # &lt;MCInst #1096 LEA64_32r
+                                        #  &lt;MCOperand Reg:43&gt;
+                                        #  &lt;MCOperand Reg:110&gt;
+                                        #  &lt;MCOperand Imm:1&gt;
+                                        #  &lt;MCOperand Reg:114&gt;
+                                        #  &lt;MCOperand Imm:0&gt;
+                                        #  &lt;MCOperand Reg:0&gt;&gt;
+        cltd                            # &lt;MCInst #352 CDQ&gt;
+        idivl   %ecx                    # &lt;MCInst #841 IDIV32r
+                                        #  &lt;MCOperand Reg:46&gt;&gt;
+        ret                             # &lt;MCInst #2227 RET&gt;
+.Ltmp0:
+        .size   foo, .Ltmp0-foo
+</pre>
+</div>
+<p>The object file (or assembly code) emission is done by implementing the <tt class="docutils literal">MCStreamer</tt> interface. Object files are emitted by <tt class="docutils literal">MCObjectStreamer</tt>, which is further subclassed according to the actual object file format. For example, ELF emission is implemented in <tt class="docutils literal">MCELFStreamer</tt>. The rough path a <tt class="docutils literal">MCInst</tt> travels through the streamers is <tt class="docutils literal"><span class="pre">MCObjectStreamer::EmitInstruction</span></tt> followed by a format-specific <tt class="docutils literal">EmitInstToData</tt>. The final emission of the instruction in binary form is, of course, target-specific. It’s handled by the <tt class="docutils literal">MCCodeEmitter</tt> interface (for example <tt class="docutils literal">X86MCCodeEmitter</tt>). While in the rest of LLVM code is often tricky because it has to make a separation between target-independent and target-specific capabilities, MC is even more challenging because it adds another dimension – different object file formats. So some code is completely generic, some code is format-dependent, and some code is target-dependent.</p>
+</div>
+<div class="section" id="assemblers-and-disassemblers">
+<h3>Assemblers and disassemblers</h3>
+<p>A <tt class="docutils literal">MCInst</tt> is deliberately a very simple representation. It tries to shed as much semantic information as possible, keeping only the instruction opcode and list of operands (and a source location for assembler diagnostics). Like LLVM IR, it’s an internal representation with multiple possible encodings. The two most obvious are assembly (as shown above) and binary object files.</p>
+<p><tt class="docutils literal"><span class="pre">llvm-mc</span></tt> is a tool that uses the MC framework to implement assemblers and disassemblers. Internally, <tt class="docutils literal">MCInst</tt> is the representation used to translate between the binary and textual forms. At this point the tool doesn’t care which compiler produced the assembly / object file.</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./Life of an instruction in LLVM_files/hline.jpg" style="width: 320px; height: 5px;"></p>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id1">[1]</a></td>
+<td>To examine the AST created by Clang, compile a source file with the <tt class="docutils literal"><span class="pre">-cc1</span> <span class="pre">-ast-dump</span></tt> options.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id2">[2]</a></td>
+<td>I ran this IR via <tt class="docutils literal">opt <span class="pre">-mem2reg</span> | <span class="pre">llvm-dis</span></tt> in order to clean-up the spills.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id3">[3]</a></td>
+<td>These things are a bit hard to grep for because of some C preprocessor hackery employed by LLVM to minimize code duplication. Take a look at the <tt class="docutils literal">include/llvm/Instruction.def</tt> file and its usage in various places in LLVM’s source for more insight.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id4">[4]</a></td>
+<td>A DAG here means Directed Acyclic Graph, which is a data structure LLVM code generator uses to represent the various operations with the values they produce and consume.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id5">[5]</a></td>
+<td>Which is arguably the single scariest piece of code in LLVM.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id6">[6]</a></td>
+<td>This is an example of how target-specific information is abstracted to guide the target-independent code generation algorithm.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id7">[7]</a></td>
+<td>The code generator performs DAG optimizations between its major steps, such as between legalization and selection. These optimizations are important and interesting to know about, but since they act on and return selection DAG nodes, they’re out of the focus of this article.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#id8">[8]</a></td>
+<td>When I’m saying "machine code" at this point, I mean actual bytes in a buffer, representing encoded instructions the CPU can run. The JIT directs the CPU to execute code from this buffer once emission is over.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2008/02/23/sicp-section-52/" rel="bookmark" title="SICP section 5.2">SICP section 5.2</a></li>
+<li><a href="http://eli.thegreenplace.net/2005/02/20/life-by-yudkowsky-transhumanism-singularity/" rel="bookmark" title="life by Yudkowsky: transhumanism, singularity">life by Yudkowsky: transhumanism, singularity</a></li>
+<li><a href="http://eli.thegreenplace.net/2005/03/20/book-review-life-of-pi-by-yann-martel/" rel="bookmark" title="Book review: “Life of Pi” by Yann Martel">Book review: “Life of Pi” by Yann Martel</a></li>
+<li><a href="http://eli.thegreenplace.net/2003/07/26/book-review-artificial-life-by-steven-levy/" rel="bookmark" title="Book review: “Artificial Life” by Steven Levy">Book review: “Artificial Life” by Steven Levy</a></li>
+<li><a href="http://eli.thegreenplace.net/2003/10/16/book-review-man-and-woman-intimate-life-by-s-shnabl/" rel="bookmark" title="Book review: “Man and woman – intimate life” by S. Shnabl">Book review: “Man and woman – intimate life” by S. Shnabl</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Saturday, November 24th, 2012 at 15:37						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/compilation/" title="View all posts in Compilation" rel="category tag">Compilation</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">12 Responses to “Life of an instruction in LLVM”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-1019765">
+			<cite><a href="http://www.arxan.com/" rel="external nofollow">Joe Abbey</a><a href="http://www.arxan.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/9f92c79b3f3482cffd9571e0a5726eba" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1019765" title="">November 24th, 2012 at 16:17</a> </small>
+
+			<p>This is awesome.  You should ask Chris to re-post it on blog.llvm.org.  Especially since that hasn’t updated in almost a year.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1019774">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1019774" title="">November 24th, 2012 at 16:40</a> </small>
+
+			<p><b>Joe</b>,</p>
+<p>Thanks for the feedback, I’m glad you liked it. Good luck with bitcode code ownership <img src="./Life of an instruction in LLVM_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1019827">
+			<cite>Nico<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/ac2dbd10b926229854198fbbedfe8c8b" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1019827" title="">November 24th, 2012 at 19:31</a> </small>
+
+			<p>Saying that llvm bitcode is target-independent is somewhat misleading:<br>
+<a href="http://lists.cs.uiuc.edu/pipermail/llvmdev/2008-September/017353.html" rel="nofollow">http://lists.cs.uiuc.edu/pipermail/llvmdev/2008-September/017353.html</a><br>
+<a href="http://llvm.org/docs/FAQ.html#can-i-compile-c-or-c-code-to-platform-independent-llvm-bitcode" rel="nofollow">http://llvm.org/docs/FAQ.html#can-i-compile-c-or-c-code-to-platform-independent-llvm-bitcode</a></p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1019921">
+			<cite>plash<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/72b4da1ccb14f3f34c64991b6f434d12" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1019921" title="">November 25th, 2012 at 00:38</a> </small>
+
+			<p>“Passes” is misspelled (as “pases”) in the paragraph preceding the <em>SelectionDAG node</em> section.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1020088">
+			<cite>Eitan<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/76a48f348109c77a429491cddc428459" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1020088" title="">November 25th, 2012 at 06:43</a> </small>
+
+			<p>This is perhaps the most useful information for someone getting started I’ve seen.<br>
+Thanks for writing it.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1020105">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1020105" title="">November 25th, 2012 at 07:21</a> </small>
+
+			<p><b>Nico</b>,</p>
+<p>IR itself can be target-independent. However, when the input language is target-dependent (C, C++), clang generates target-dependent IR from it. Here’s a nice quote from the <a href="http://llvm.org/docs/tutorial/OCamlLangImpl8.html#targetindep" rel="nofollow">LLVM tutorial</a>:</p>
+<blockquote><p>
+The fact that LLVM provides a compact, target-independent, representation for code gets a lot of people excited. Unfortunately, these people are usually thinking about C or a language from the C family when they are asking questions about language portability. I say “unfortunately”, because there is really no way to make (fully general) C code portable, other than shipping the source code around (and of course, C source code is not actually portable in general either – ever port a really old application from 32- to 64-bits?).
+</p></blockquote>
+<p>This is an interesting topic to discuss, but I avoided mixing it in here since I really wanted to stay on track. Perhaps it deserves an article of its own <img src="./Life of an instruction in LLVM_files/icon_wink.gif" alt=";-)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1020119">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1020119" title="">November 25th, 2012 at 07:36</a> </small>
+
+			<p><b>plash</b>,</p>
+<p>Fixed, thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1020190">
+			<cite>Jack<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/7a4e60cfd5c16348a1467dc29fb263cb" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1020190" title="">November 25th, 2012 at 10:30</a> </small>
+
+			<p>I found this site a nice way to browse the LLVM code:</p>
+<p><a href="http://code.woboq.org/userspace/llvm/lib/CodeGen/MachineBasicBlock.cpp.html" rel="nofollow">http://code.woboq.org/userspace/llvm/lib/CodeGen/MachineBasicBlock.cpp.html</a></p>
+<p>Just hover over the symbols.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1020303">
+			<cite>Kumud<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/b15ed39c97f3ddd7b1203f482d364ab3" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1020303" title="">November 25th, 2012 at 14:03</a> </small>
+
+			<p>very helpful for people like me who have just started working on LLVM</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1027926">
+			<cite><a href="http://open-juve.blogspot.com/" rel="external nofollow">Uwe Jugel</a><a href="http://open-juve.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/0e07b9b4580d8ebac70c43f74f9f9b61" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1027926" title="">December 3rd, 2012 at 00:32</a> </small>
+
+			<p>There is a typo in “it’s an internal representation will multiple possible encodings”. I guess you meant “with”.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-1030227">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1030227" title="">December 3rd, 2012 at 20:42</a> </small>
+
+			<p><b>Uwe</b>,</p>
+<p>Thanks, fixed.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-1047016">
+			<cite>wanglun<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Life of an instruction in LLVM_files/394e219e023585907ea88dadcea2fd29" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2012/11/24/life-of-an-instruction-in-llvm/#comment-1047016" title="">December 24th, 2012 at 23:52</a> </small>
+
+			<p>very helpful, thanks</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="3010">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="152833ee99"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; top: -1px; left: 0px; position: absolute; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

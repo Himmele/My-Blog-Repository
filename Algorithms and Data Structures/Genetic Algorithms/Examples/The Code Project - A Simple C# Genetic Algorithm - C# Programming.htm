@@ -1,0 +1,2595 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0047)http://www.thecodeproject.com/csharp/btl_ga.asp -->
+<HTML><HEAD><TITLE>The Code Project - A Simple C# Genetic Algorithm - C# Programming</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=Reply-to content=mailto:webmaster@codeproject.com>
+<META content="Free source code and tutorials for Windows developers." 
+name=Description>
+<META 
+content="Free source code, C# Programming, Visual C++, MFC, Windows, Genetic Algorithm, GA, evolution, c#" 
+name=keywords>
+<META 
+content="Article content copyright Barry Lapthorn, 2002, everthing else Copyright © CodeProject, 1999-2004, All Rights Reserved." 
+name=Copyright><LINK href="/favicon.ico" type=image/ico rel=icon><LINK 
+href="/favicon.ico" rel="SHORTCUT ICON"><LINK 
+href="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/global.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY text=black vLink=purple aLink=red link=blue bgColor=white leftMargin=3 
+topMargin=3>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD vAlign=top><A href="http://www.codeproject.com/"><IMG height=72 
+            alt="The Code Project" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/logo225x72.gif" 
+            width=225 border=0></A></TD>
+          <TD align=right><SPAN id=AdBanner4><A 
+            href="http://www.thecodeproject.com/script/admentor/ads.asp"><IMG 
+            height=60 alt="View our advertisers" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/sponsors.gif" 
+            width=20 border=1></A><A 
+            href="http://www.thecodeproject.com/script/admentor/admentorredir.asp?id=203&amp;way=ban" 
+            target=_blank><IMG height=60 
+            alt="Memory Validator - Faster leak detection, better analysis (Special Launch Offer! $299, Save $100)" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/SoftwareValidator.gif" 
+            width=468 border=0></A><A 
+            href="http://www.thecodeproject.com/info/mediakit"><IMG height=60 
+            alt="Advertise on the CodeProject" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/advertise.gif" 
+            width=20 border=1></A></SPAN></TD></TR>
+        <TR>
+          <TD bgColor=#fbedbb colSpan=2>
+            <TABLE cellPadding=3 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD width="100%"><FONT style="FONT-SIZE: 8pt"><A 
+                  href="http://www.thecodeproject.com/?cat=1">All Topics</A>, <A 
+                  href="http://www.thecodeproject.com/?cat=3">C#</A>, <A 
+                  href="http://www.thecodeproject.com/?cat=5">.NET</A> &gt;&gt; 
+                  <A href="http://www.thecodeproject.com/csharp/">C# 
+                  Programming</A> &gt;&gt; <A 
+                  href="http://www.thecodeproject.com/csharp/#Algorithms">Algorithms</A></FONT><BR><BR><B><FONT 
+                  style="FONT-SIZE: 16pt" size=4>A Simple C# Genetic 
+                  Algorithm</FONT></B><BR><B>By <A 
+                  href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701">Barry 
+                  Lapthorn</A> </B><BR><BR><FONT style="FONT-SIZE: 9pt">In this 
+                  article we shall produce a simple genetic algorithm in 
+                  C#&nbsp;</FONT> </TD>
+                <TD vAlign=top align=right>
+                  <TABLE cellSpacing=0 cellPadding=1 width=140 border=0>
+                    <TBODY>
+                    <TR vAlign=top>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText>C#, .NET</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText noWrap>Posted 10 Nov 2002</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText>Updated 22 Aug 2003</TD></TR>
+                    <TR vAlign=top>
+                      <TD><IMG height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/hlp.gif" 
+                        width=16></TD>
+                      <TD class=SmallText noWrap><A 
+                        href="http://www.thecodeproject.com/script/Articles/list_articles.asp?userid=16701">Articles 
+                        by this author</A></TD></TR>
+                    <TR vAlign=top>
+                      <TD></TD>
+                      <TD class=SmallText noWrap><B>88,897</B> 
+                    views</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD colSpan=2>
+            <TABLE id=tblSiteToolbar cellSpacing=0 cellPadding=1 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <FORM name=Search action=/info/search.asp method=post>
+                <TD vAlign=top align=left width="100%">
+                  <TABLE cellSpacing=0 cellPadding=1 border=0>
+                    <TBODY>
+                    <TR vAlign=center>
+                      <TD class=smallText><B><FONT 
+                        color=white>Search:</FONT></B></TD>
+                      <TD class=navbar noWrap><INPUT class=smallText 
+                        maxLength=255 size=18 name=target></TD>
+                      <TD vAlign=top><SELECT class=smallText name=st> 
+                          <OPTION value=kw selected>Articles</OPTION> <OPTION 
+                          value=au>Authors</OPTION></SELECT></TD>
+                      <TD><INPUT class=formButton type=submit value=Go></TD></TR></TBODY></TABLE></TD></FORM>
+                <TD>
+                  <DIV id=MenuPos 
+                  style="WIDTH: 380px; POSITION: relative; HEIGHT: 20px"><IMG 
+                  height=20 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif" 
+                  width=375></DIV></TD></TR></TBODY></TABLE>
+            <SCRIPT type=text/javascript>function Go(){return}</SCRIPT>
+
+            <SCRIPT 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/cpmenu_var.js" 
+            type=text/javascript></SCRIPT>
+
+            <SCRIPT 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/menu10_com.js" 
+            type=text/javascript></SCRIPT>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=1 border=0>
+  <TBODY>
+  <TR vAlign=top>
+    <TD vAlign=top bgColor=#fbedbb rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <SCRIPT language=javascript>
+function ErrorHandle() {}
+window.onerror = ErrorHandle;
+
+function OnNLSubmit(option)
+{
+	if (option=="up")
+		document.subForm.action = "/script/profile/modify.asp?ct=%2Fcsharp%2Fbtl%5Fga%2Easp";
+	else if (option=="in")
+		document.subForm.action = "/script/profile/process_logon.asp?ct=%2Fcsharp%2Fbtl%5Fga%2Easp";
+	document.subForm.submit();
+	return true;
+}
+</SCRIPT>
+
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=3 cellPadding=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD class=InfoBarHeader>Toolbox</TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/link.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.thecodeproject.com/script/common/mailform.asp?option=Article&amp;Title=A+Simple+C%23+Genetic+Algorithm&amp;URL=http%3A%2F%2Fwww%2Ecodeproject%2Ecom%2Fcsharp%2Fbtl%5Fga%2Easp">Broken 
+                  links?</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.thecodeproject.com/store/"><B>VS.NET 2003 for 
+                  $899</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.thecodeproject.com/store/"><B>MSDN Univ. from 
+                  $1950</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/print.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?print=true" 
+                  target=_print>Print version</A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/mail.gif" 
+                  width=16></TD>
+                <TD class=SmallText><A 
+                  href="http://www.thecodeproject.com/script/recommend/form.asp?guid=btl%5FGA%2Fcsharp11%2F10%2F2002">Send 
+                  to a friend</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD class=InfoBarHeader colSpan=2><BR>Sign in / Sign 
+              up</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText>
+            <FORM id=subForm name=subForm 
+            action=/script/profile/process_logon.asp method=post>
+            <TABLE cellSpacing=0 cellPadding=0 width=125 bgColor=#ffcc99 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Email</TD>
+                <TD class=smallText><INPUT class=smallText id=Email 
+                  style="WIDTH: 60px" name=Email> </TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Password</TD>
+                <TD><INPUT class=smallText id=Password style="WIDTH: 60px" 
+                  type=password name=Password></TD></TR>
+              <TR>
+                <TD class=smallText vAlign=center colSpan=2><INPUT 
+                  type=checkbox CHECKED name=cookie>Remember me</TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD align=middle><A 
+                  href="http://www.thecodeproject.com/script/profile/modify.asp"><IMG 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/signup.gif" 
+                  border=0></A></TD>
+                <TD align=middle><INPUT type=image 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/signin.gif" 
+                  border=0></TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif"></TD></TR></FORM></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText><A class=smallText 
+            href="http://www.thecodeproject.com/script/profile/forgot.asp" 
+            name=HLLink>Lost your Password?</A></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <CENTER><A 
+            href="http://www.thecodeproject.com/script/admentor/admentorredir.asp?id=666&amp;way=ban" 
+            target=_blank><IMG height=600 alt="" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/120x600_devbanner-1.gif" 
+            width=120 border=0></A><BR></CENTER><BR></TD></TR></TBODY></TABLE></TD>
+    <TD width=5 rowSpan=2><IMG height=1 
+      src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif" 
+      width=5> </TD>
+    <TD align=right width="100%" bgColor=white>
+      <TABLE width="100%">
+        <TBODY>
+        <TR>
+          <TD class=smallText vAlign=top noWrap></TD>
+          <TD noWrap align=right><A name=__top></A>
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD class=smallText align=right>35 members have rated this 
+                  article. Result:</TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=2>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/red.gif" 
+                        width=14 border=0><IMG height=5 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/white.gif" 
+                        width=6 border=0></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=smallText align=right colSpan=2><A 
+                  title="Calculated as rating x Log10(# votes)" 
+                  href="http://www.thecodeproject.com/script/articles/top_articles.asp?st=2">Popularity: 
+                  7.26</A>. Rating: <B>4.7</B> out of 
+        5.</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top width="100%">
+      <DIV id=contentdiv><!-- Article Starts -->
+      <UL class=download>
+        <LI><A 
+        href="http://www.thecodeproject.com/csharp/btl_GA/btl_GA.zip">Download 
+        source files - 11 Kb</A> </LI></UL>
+      <H2>Abstract</H2>
+      <P>In this article we shall produce a simple genetic algorithm in C#. It 
+      will not be multi-threaded, nor will it contain exotic operators or 
+      convergence criteria (<EM>i.e. </EM>a condition where many of the 
+      solutions found are very similar). It will simply demonstrate a genetic 
+      algorithm in managed code, taking advantage of some of the features of the 
+      .NET runtime.</P>
+      <H2>Introduction</H2>
+      <P>A genetic algorithm is an optimization technique that relies on 
+      parallels with nature. It can tackle a variety of optimization techniques 
+      provided that they can be parameterized in such a way that a solution to 
+      the problem provides measure of how accurate the solution found by the 
+      algorithm is. This measure we define as fitness. </P>
+      <P>Genetic algorithms were first conceived in early 1970's (Holland, 
+      1975). The initial idea came from observing how the evolution of 
+      biological creatures derives from their constituent DNA and chromosomes. 
+      In this sense a simple analogy can be made with a mathematical problem 
+      made up of many parameters. Each parameter can take the place of a 
+      chromosome in the mathematical analogy of a real chemical sequence. </P>
+      <P>In nature, evolution is carried out by a process of selection typified 
+      by the expression survival of the fittest. In order to select an 
+      individual, we need a population of such individuals to choose from to 
+      produce a new generation of individuals. </P>
+      <P>For any problem that we wish to solve, we need some measure of the 
+      goodness of the solution, i.e. fitness, often a <FONT 
+      face="Times New Roman">&#967;</FONT><SUP>2</SUP> (chi-squared) measure, i.e. 
+      the better the solution, the higher the fitness returned from out 
+      function. The less fit the solutions are, the less likely that they are to 
+      survive to a successive population. By employing such a technique, the 
+      algorithm can reduce the number of possible solutions that it 
+examines.</P>
+      <P>Many problems are internally represented in binary by various genetic 
+      algorithms. Here we will only consider a decimal representation. The 
+      internal representation of a genetic algorithm does not actually matter 
+      provided the implementation is thorough (Field, 1995).</P>
+      <H2>The Problem</H2>
+      <P>In our example code, we supply a test function that uses sin and cos to 
+      produce the plot below:</P>
+      <P><IMG height=311 
+      src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/btl_function.gif" 
+      width=396> </P>
+      <P>The optimal solution for this problem is (0.5,0.5), i.e. the highest 
+      peak. We choose this example to demonstrate how a genetic algorithm is not 
+      fooled by the surrounding local maxima (i.e. the high peaks).</P>
+      <H2>Test Harness</H2>
+      <P>We start by declaring a new genetic algorithm:</P><PRE lang=cs>GA ga = <SPAN class=cs-keyword>new</SPAN> GA(<SPAN class=cs-literal>0.8</SPAN>,<SPAN class=cs-literal>0.05</SPAN>,<SPAN class=cs-literal>100</SPAN>,<SPAN class=cs-literal>2000</SPAN>,<SPAN class=cs-literal>2</SPAN>);
+
+ga.FitnessFunction = <SPAN class=cs-keyword>new</SPAN> GAFunction(theActualFunction);
+</PRE>
+      <P>where we the arguments are the crossover rate, mutation rate, 
+      population size, number of generations, and number of parameters that we 
+      are solving for. We declare the <CODE>FitnessFunction </CODE>property 
+      as:</P><PRE lang=cs><SPAN class=cs-keyword>public</SPAN> <SPAN class=cs-keyword>delegate</SPAN> <SPAN class=cs-keyword>double</SPAN> GAFunction(<SPAN class=cs-keyword>double</SPAN>[] values);
+
+<SPAN class=cs-keyword>public</SPAN> <SPAN class=cs-keyword>class</SPAN> GA
+{
+  <SPAN class=cs-keyword>static</SPAN> <SPAN class=cs-keyword>private</SPAN> GAFunction getFitness;
+  <SPAN class=cs-keyword>public</SPAN> GAFunction FitnessFunction {  
+    <SPAN class=cs-comment>// etc.</SPAN>
+  };
+  <SPAN class=cs-comment>//  etc.</SPAN>
+}               
+</PRE>
+      <P>This then enables us to declare our fitness function the same as the 
+      delegate function:</P><PRE lang=cs><SPAN class=cs-keyword>public</SPAN> <SPAN class=cs-keyword>static</SPAN> <SPAN class=cs-keyword>double</SPAN> theActualFunction(<SPAN class=cs-keyword>double</SPAN>[] values) 
+{
+  <SPAN class=cs-keyword>if</SPAN> (values.GetLength(<SPAN class=cs-literal>0</SPAN>) != <SPAN class=cs-literal>2</SPAN>)
+  <SPAN class=cs-keyword>throw</SPAN> <SPAN class=cs-keyword>new</SPAN> ArgumentOutOfRangeException(<SPAN class=cpp-string>"should only have 2 args"</SPAN>);
+   <SPAN class=cs-keyword>double</SPAN> x = values[<SPAN class=cs-literal>0</SPAN>];
+   <SPAN class=cs-keyword>double</SPAN> y = values[<SPAN class=cs-literal>1</SPAN>];
+   <SPAN class=cs-keyword>double</SPAN> n = <SPAN class=cs-literal>9</SPAN>; 
+   <SPAN class=cs-keyword>double</SPAN> f1 = Math.Pow(<SPAN class=cs-literal>15</SPAN>*x*y*(<SPAN class=cs-literal>1</SPAN>-x)*(<SPAN class=cs-literal>1</SPAN>-y)*Math.Sin(n*Math.PI*x)
+      *Math.Sin(n*Math.PI*y),<SPAN class=cs-literal>2</SPAN>);
+   <SPAN class=cs-keyword>return</SPAN> f1;
+}</PRE>
+      <P>which is therefore accepted by the algorithm. The genetic algorithm is 
+      then set to run using:</P><PRE lang=cs>ga.Go();</PRE>
+      <P>The genetic algorithm will now run for the supplied number of 
+      generations.</P>
+      <H2>The Algorithm</H2>
+      <P>The algorithm code contains 2 simple classes, GA and Genome, plus a 
+      helper class <CODE>GenomeComparer</CODE>. </P>
+      <P>The Genome class can be thought of as a simple container. The 
+      underlying structure is an array of doubles within the range of 0 to 1. 
+      The user is expected to take these values and scale them to whatever 
+      values they require. Since mutation occurs on the genome, the Mutate 
+      method is found in this class. The Crossover operator requires access to 
+      the private data of the Genome, so it is also a member function which 
+      takes a second Genome, and outputs two child Genome objects. The fitness 
+      of a particular genome is also stored within the Genome object. There are 
+      some additional helper functions that maybe found in the code itself.</P>
+      <P>The GA class does all the work. The genetic algorithm consists of the 
+      following basic steps:</P>
+      <OL>
+        <LI>Create a new population 
+        <LI>Select two individuals from the population weighting towards the 
+        individual that represents the best solution so far. 
+        <LI>'Breed' them to produce children. 
+        <LI>If we don't have enough children for a new population return to step 
+        2. 
+        <LI>Replace old population with new. 
+        <LI>If we have not produced enough generations return to step 2. 
+        <LI>We have finished. </LI></OL>
+      <P>When selecting individuals to breed, we use what is called the Roulette 
+      wheel method. This is where fitter individuals have a larger proportion of 
+      the 'wheel' and are more likely to be chosen. We chose to store the 
+      finesses cumulatively in <CODE>System.Collections.ArrayList</CODE> as it 
+      had some nice features like sorting. Unfortunately, its binary search 
+      method was only for exact values, so we had to implement the following 
+      work around:</P><PRE lang=cs>mid = (last - first)/<SPAN class=cs-literal>2</SPAN>;
+
+<SPAN class=cs-comment>// ArrayList's BinarySearch is for exact values only</SPAN>
+<SPAN class=cs-comment>// so do this by hand.</SPAN>
+<SPAN class=cs-keyword>while</SPAN> (idx == -<SPAN class=cs-literal>1</SPAN> &amp;&amp; first &lt;= last)
+{
+  <SPAN class=cs-keyword>if</SPAN> (randomFitness &lt; (<SPAN class=cs-keyword>double</SPAN>)m_fitnessTable[mid])
+  {
+    last = mid;
+  }
+  <SPAN class=cs-keyword>else</SPAN> <SPAN class=cs-keyword>if</SPAN> (randomFitness &gt; (<SPAN class=cs-keyword>double</SPAN>)m_fitnessTable[mid])
+  {
+    first = mid;
+  }
+  mid = (first + last)/<SPAN class=cs-literal>2</SPAN>;
+  <SPAN class=cs-comment>// lies between i and i+1</SPAN>
+  <SPAN class=cs-keyword>if</SPAN> ((last - first) == <SPAN class=cs-literal>1</SPAN>)
+     idx = last;
+}</PRE>
+      <P>The <CODE>GenomeComparer</CODE> class inherits from the 
+      <CODE>IComparer</CODE> interface. Each generation is stored in a 
+      <CODE>System.Collections.ArrayList</CODE>, and we wish to sort each 
+      generation in order of fitness. We therefore need to implement this 
+      interface as follows:</P><PRE lang=cs><SPAN class=cs-keyword>public</SPAN> <SPAN class=cs-keyword>sealed</SPAN> <SPAN class=cs-keyword>class</SPAN> GenomeComparer : IComparer
+{
+    <SPAN class=cs-keyword>public</SPAN> GenomeComparer()
+    {
+    }
+    <SPAN class=cs-keyword>public</SPAN> <SPAN class=cs-keyword>int</SPAN> Compare( <SPAN class=cs-keyword>object</SPAN> x, <SPAN class=cs-keyword>object</SPAN> y)
+    {
+        <SPAN class=cs-keyword>if</SPAN> ( !(x <SPAN class=cs-keyword>is</SPAN> Genome) || !(y <SPAN class=cs-keyword>is</SPAN> Genome))
+            <SPAN class=cs-keyword>throw</SPAN> <SPAN class=cs-keyword>new</SPAN> ArgumentException(<SPAN class=cpp-string>"Not of type Genome"</SPAN>);
+        <SPAN class=cs-keyword>if</SPAN> (((Genome) x).Fitness &gt; ((Genome) y).Fitness)
+            <SPAN class=cs-keyword>return</SPAN> <SPAN class=cs-literal>1</SPAN>;
+        <SPAN class=cs-keyword>else</SPAN> <SPAN class=cs-keyword>if</SPAN> (((Genome) x).Fitness == ((Genome) y).Fitness)
+            <SPAN class=cs-keyword>return</SPAN> <SPAN class=cs-literal>0</SPAN>;
+        <SPAN class=cs-keyword>else</SPAN>
+            <SPAN class=cs-keyword>return</SPAN> -<SPAN class=cs-literal>1</SPAN>;
+    }
+}
+</PRE>
+      <P>Note that we need to explicitly cast the <CODE>ArrayList</CODE> 
+      elements back to a Genome type. We also make the class sealed as there is 
+      no point inheriting from it.</P>
+      <H2>A Quick Note On Operators</H2>
+      <P>We mentioned briefly, two operators, crossover and mutation, and we 
+      shall explain these in a little more detail here.</P>
+      <P>Crossover simply takes two genomes, splits them at some point and 
+      produces two new genomes by swapping the end parts, <EM>e.g.</EM></P>
+      <TABLE border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV align=left>10 20 30 40 50 60 70</DIV></TD>
+          <TD>
+            <DIV align=left>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD>80 90 00</TD></TR></TBODY></TABLE></DIV></TD>
+          <TD>&nbsp;</TD>
+          <TD>
+            <DIV align=center>10 20 30 40 50 60 70</DIV></TD>
+          <TD>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD>30 20 10</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>
+            <DIV align=center>===&gt;</DIV></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>00 90 80 70 60 50 40</TD>
+          <TD>
+            <DIV align=left>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD>30 20 10</TD></TR></TBODY></TABLE></DIV></TD>
+          <TD>&nbsp;</TD>
+          <TD>
+            <DIV align=center>00 90 80 70 60 50 40</DIV></TD>
+          <TD>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD>80 90 00</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P>The split occurs at a randomly chosen point along the length of the 
+      genome, and the split only occurs if a probability test is passed. This is 
+      typically set quite high which reflects what happens in Nature.</P>
+      <P>Mutation, in comparison, happens rarely so the probability that it 
+      occurs is set quite low, typically less than 5%. Each gene within the 
+      genome is tested in turn to see it is allowed to mutate, and if so it is 
+      replaced with a random number, <EM>e.g.</EM></P>
+      <TABLE border=0>
+        <TBODY>
+        <TR>
+          <TD>10</TD>
+          <TD>20</TD>
+          <TD>30</TD>
+          <TD>40</TD>
+          <TD>50</TD>
+          <TD>60</TD>
+          <TD>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD><EM><STRONG>70</STRONG></EM></TD></TR></TBODY></TABLE></TD>
+          <TD>80</TD>
+          <TD>90</TD>
+          <TD>
+            <DIV 
+            align=center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;===&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</DIV></TD>
+          <TD>10</TD>
+          <TD>20</TD>
+          <TD>30</TD>
+          <TD>40</TD>
+          <TD>50</TD>
+          <TD>60</TD>
+          <TD>
+            <TABLE borderColor=#000000 border=1>
+              <TBODY>
+              <TR>
+                <TD><EM><STRONG>22</STRONG></EM></TD></TR></TBODY></TABLE></TD>
+          <TD>80</TD>
+          <TD>90</TD></TR></TBODY></TABLE>
+      <H2>Results</H2>
+      <P>With our simple example we know that the optimal solution is at (0.5, 
+      0.5), and we find after 250 generations we find a solution extremely close 
+      to this (within 4 significant figures). The progress of the GA can be seen 
+      below:</P>
+      <P><IMG height=296 
+      src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/btl_fitness.gif" 
+      width=437></P>
+      <P>&nbsp;</P>
+      <H2>Conclusion and Notes.</H2>
+      <P>A genetic algorithm does not provide a magic bullet solution to all 
+      minimization/maximization problems.&nbsp; In many cases other algorithms 
+      are faster and more practical.&nbsp; However for problems with a large 
+      parameter space and where the problem itself can be easily specified, it 
+      can be an appropriate solution.&nbsp; </P>
+      <P>Whilst writing this I learnt several features of C# that I'd like to 
+      summarize here (coming from a C++ background):</P>
+      <UL>
+        <LI>The <CODE>System.Collections.ArrayList</CODE> container only does 
+        shallow copies. 
+        <LI>The <CODE>System.Collections.ArrayList</CODE> container's binary 
+        search only works for exact values. 
+        <LI>An obvious thing, but simply defining a variable, doesn't 
+        necessarily assign it a value. 
+        <LI>Implementing the <CODE>IComparer</CODE> interface is fairly trivial 
+        (see <CODE>GenomeComparer</CODE> class). </LI></UL>
+      <P>Further improvements to the algorithm can be made by implementing all 
+      sorts of weird and wonderful operators. I'm sure someone will be able to 
+      tell me an easier way to supply the number of parameters the problem has 
+      automatically rather than using the GA constructor and the delegate 
+      function.</P>
+      <H2>References</H2>
+      <P>Field, P., "A Multary Theory for Genetic Algorithms: Unifying Binary 
+      and Non-binary Problem Representations", Ph.D. Thesis, 1995, Queen Mary 
+      and Westfield College.</P>
+      <P>Holland, J.H., "Adaption in Natural and Artificial Systems", MIT Press, 
+      1975, (1992 Edition).</P>
+      <P>Lippman, S.B., "C# Primer, A Practical Approach", Addison-Wesley, 2002, 
+      (1st Edition).</P>
+      <H2>Links</H2>
+      <P>The following may be of interest:</P>
+      <UL>
+        <LI>Wall, M., "<A href="http://lancet.mit.edu/ga/GAlib.html">GALib</A> - 
+        a C++ implementation of a genetic algorithm," MIT, 1999. 
+        <LI>A Russian version of this article may be found <A 
+        href="http://ai-online.narod.ru/documents/doc-imp-005.html">here</A>&nbsp;translated 
+        by Vladimir Lioubitelev.</LI></UL>
+      <H2>History</H2>
+      <UL>
+        <LI>22nd August, 2003 - Update to code. 
+        <LI>3rd May, 2003 - Update to conclusion. 
+        <LI>15th Mar, 2003 - Update to article text. 
+        <LI>16th Nov, 2002 - Update to article text. 
+        <LI>6th Nov, 2002 - Initial revision. 
+</LI></UL><!-- Article Ends --></DIV>
+      <H2>About Barry Lapthorn</H2>
+      <TABLE width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD class=smallText noWrap><IMG 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/{7FE5ABD1-8C4A-47AE-81C5-4C15ACCDFDEF}.jpg"><BR></TD>
+          <TD class=smallText width="100%">Barry is an ex-physicist, 
+            ex-astrophysicist, and ex-helioseismologist. He is now working in 
+            finance for a large investment bank, developing in Unix + 
+            occasionally Windows.<BR>
+            <P class=smallText>Click <A 
+            href="http://www.thecodeproject.com/script/profile/whos_who.asp?vt=arts&amp;id=16701">here</A> 
+            to view Barry Lapthorn's online profile.</P></TD></TR></TBODY></TABLE><BR>
+      <H2>Other popular C# Programming articles:</H2>
+      <UL>
+        <LI><A href="http://www.thecodeproject.com/useritems/pgf.asp">Production 
+        Grammar Framework for .NET with Applications to Testing</A><BR><SPAN 
+        class=smalltext>Production grammar can be used to produce a wide range 
+        of results, including automatic test cases</SPAN>
+        <LI><A href="http://www.thecodeproject.com/csharp/cspplcds.asp">I/O 
+        Ports Uncensored Part 2 - Controlling LCDs (Liquid Crystal Displays) and 
+        VFDs (Vacuum Fluorescent Displays) with Parallel Port</A><BR><SPAN 
+        class=smalltext>Controlling LCDs (Liquid Crystal Displays) and VFDs 
+        (Vacuum Fluorescent Displays) with Parallel Port</SPAN>
+        <LI><A 
+        href="http://www.thecodeproject.com/csharp/dotnetbandobjects.asp">Extending 
+        Explorer with Band Objects using .NET and Windows Forms</A><BR><SPAN 
+        class=smalltext>Walks you through the implementation of an Explorer bar 
+        with the help of BandObject base class. Describes implementation details 
+        of the BandObject class.</SPAN>
+        <LI><A href="http://www.thecodeproject.com/csharp/Reversi.asp">Reversi 
+        in C#</A><BR><SPAN class=smalltext>The game of Reversi in 
+      C#.</SPAN></LI></UL>
+      <FORM action=/script/rating/code/app/insert_vote.asp method=post><INPUT 
+      type=hidden value=btl_GA/csharp11/10/2002 name=vote_name> <INPUT 
+      type=hidden value=/csharp/btl_ga.asp name=goal> 
+      <TABLE cellSpacing=0 cellPadding=1 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD width="100%">
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" bgColor=#fbedbb 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD class=smalltext vAlign=center>[<A 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp#__top">Top</A>]</TD>
+                <TD vAlign=center noWrap align=right><A 
+                  href="http://www.thecodeproject.com/script/profile/logon.asp?ct=%2Fcsharp%2Fbtl%5Fga%2Easp"><B>Sign 
+                  in</B></A> to vote for this article:&nbsp;&nbsp;&nbsp;&nbsp; 
+                  <I>Poor</I><INPUT style="disabled: true" type=radio value=1 
+                  name=rate><INPUT style="disabled: true" type=radio value=2 
+                  name=rate><INPUT style="disabled: true" type=radio value=3 
+                  name=rate><INPUT style="disabled: true" type=radio value=4 
+                  name=rate><INPUT style="disabled: true" type=radio value=5 
+                  name=rate><I>Excellent</I>&nbsp;&nbsp;<INPUT class=FormButton style="disabled: true" type=submit value=Vote> 
+                </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top>
+            <CENTER><A 
+            href="http://ad.doubleclick.net/jump/N3263.codeproject.com/B1269410.5;sz=120x60;ord=11039735?"><IMG 
+            height=60 alt="Click here" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/mrs03119_wash_120x60_2.gif" 
+            width=120 border=0></A><BR><FONT size=1><A 
+            href="http://www.thecodeproject.com/info/MediaKit/">Premium 
+            Sponsor</A></FONT></CENTER><BR></TD>
+          <TD vAlign=top noWrap align=middle><SPAN id=AdBanner5><A 
+            href="http://www.thecodeproject.com/script/admentor/admentorredir.asp?id=411&amp;way=ban" 
+            target=_blank><IMG height=60 
+            alt="The power of a complete PDF toolkit combined in one handy component" 
+            src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/banner-468x60-pdfkit.gif" 
+            width=486 
+border=0></A></SPAN></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><A 
+name=__comments></A>
+<SCRIPT language=JavaScript>
+var Selected = "";
+var AdTime = new Date();
+
+document.writeln("<iframe name=AdFrame width=0 height=0 frameborder=0></IFRAME>");
+
+
+function SwitchMessage(elm)
+{
+
+	var now = new Date();
+	if (Number(now.getTime() - AdTime.getTime()) > Number(5000000))
+	{
+		AdTime = now;
+		var loc = window.frames["AdFrame"];
+		if (loc) loc = loc.document;
+		if (loc) loc = loc.location;
+		if (loc) loc.replace('/script/comments/fetchAd.asp?cat=');
+	}
+	
+	var elmref;
+	if (Selected != "")
+	{
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) elmref.style.display = 'none';
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) elmref.bgColor = '#FEF9E7';
+	}
+	if (Selected != elm.name) 
+	{
+		Selected = elm.name;
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) 
+		{
+			if (elmref.style.display=='none') elmref.style.display='';
+			else elmref.style.display = 'none';
+		}
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) 
+			elmref.bgColor = '#99CCFF';
+	}
+	else
+		Selected="";
+		
+	window.location = "#xx" + Selected + "xx";
+
+	return false;
+}
+
+</SCRIPT>
+
+<SCRIPT language=javascript event=onclick for=DynMessLink>
+return SwitchMessage(this);
+</SCRIPT>
+
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE id=ForumTable cellSpacing=1 cellPadding=0 width="100%" 
+      bgColor=#ff9900 border=0>
+        <FORM 
+        action=/script/comments/app/do_filtermessages.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477 
+        method=post>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=3 width="100%" bgColor=white 
+            border=0>
+              <TBODY>
+              <TR bgColor=#fbedbb>
+                <TD class=smalltext noWrap><A 
+                  href="http://www.thecodeproject.com/script/comments/faq.asp"><IMG 
+                  height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/info.gif" 
+                  width=16 align=absMiddle border=0> <B>FAQ</B></A>&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>Noise level 
+                  <SELECT class=smalltext size=1 name=noise><OPTION 
+                    value=1>Very High</OPTION> <OPTION value=2>High</OPTION> 
+                    <OPTION value=3 selected>Medium</OPTION> <OPTION 
+                    value=4>Low</OPTION> <OPTION value=5>Very 
+                  low</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=center noWrap align=right 
+                  colSpan=2><A 
+                  href="http://www.thecodeproject.com/script/comments/search_comments.asp?forumid=13477"><IMG 
+                  height=15 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/search.gif" 
+                  width=16 border=0> Search comments</A> &nbsp;</TD>
+                <TD vAlign=top align=right><INPUT class=FormButton type=submit value="Set Options" name=submit></TD></TR>
+              <TR bgColor=#ff9900>
+                <TD width="100%">&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>View <SELECT 
+                  class=smalltext size=1 name=expand><OPTION value=0>Normal 
+                    (slow)</OPTION> <OPTION value=2>Preview (slow)</OPTION> 
+                    <OPTION value=5 selected>Message View</OPTION> <OPTION 
+                    value=6>Topic View</OPTION> <OPTION value=1>Thread 
+                    View</OPTION> <OPTION value=3>Expanded (Supporters 
+                    only)</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap>Per page <SELECT 
+                  class=smalltext size=1 name=perpage><OPTION 
+                    value=10>10</OPTION> <OPTION value=25 selected>25</OPTION> 
+                    <OPTION value=50>50 (must logon)</OPTION></SELECT></TD>
+                <TD colSpan=2>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></FORM>
+        <TR bgColor=#fbedbb>
+          <TD><A name=xx0xx></A>
+            <TABLE cellPadding=2 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR>
+                <TD class=messagetitle><A class=HoverLink 
+                  title="Add a new message to the discussions" 
+                  href="http://www.thecodeproject.com/script/comments/user_new.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477" 
+                  target=_top name=HoverNL><B><IMG height=16 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                  width=16 align=top border=0> New thread</B></A></TD>
+                <TD class=messagetitle>Msgs 1 to 25 of 54 (Total: 54) (<A 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477">Refresh</A>)</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <A class=HoverLink 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;fr=26" 
+                  name=HoverNL>Next</A> <A class=HoverLink 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;fr=51" 
+                  name=HoverNL>Last</A> </FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=white>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=2 bgColor=#fbedbb border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=messagetitle width="100%">Subject&nbsp;</TD>
+                      <TD class=messagetitle noWrap width=140>Author&nbsp;</TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT 
+                    class=messagetitle>Date&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=796927_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx796927xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=796927#xx796927xx" 
+                        name=796927><B>GA Bug</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=314636"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>bliggy</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>5:47 20 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=796927_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hi all, 
+                                I found that in the CreateNextGeneration() 
+                                function there was a small problem with the 
+                                elitism functionality. In the statement seen 
+                                below it only makes a shallow copy (as Barry 
+                                mentioned in the article) of the genome._genes 
+                                member array:<BR><BR><CODE>if (_elitism)<BR>g = 
+                                (Genome)_thisGeneration[_populationSize - 
+                                1];</CODE><BR><BR>then as the function 
+                                progresses and applies mutations to random 
+                                genomes of the current generation, it actually 
+                                can end up mutating the best genome from the 
+                                current generation and you therefore lose your 
+                                best solution when the mutated g is put into the 
+                                next generation. I noticed that my solutions 
+                                were approaching a limit of about 3% error when 
+                                this was the case - essentially it could be 
+                                described as partial elitism I guess. Anyhow, 
+                                when I fixed this, the error in my solutions was 
+                                reduced by at least 3 orders of 
+                                magnitude.<BR><BR>Cheers,<BR>Dave 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=796927">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=796927">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=796927&amp;forumid=13477&amp;select=796927#xx796927xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=796927#xx796927xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=796927"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=796927"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=797513_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx797513xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=797513#xx797513xx" 
+                        name=797513>Re: GA Bug</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>15:04 20 Apr 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=797513_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>Dave,<BR><BR>Thanks for 
+                                that - I'm not actively maintaining the code, 
+                                but I'll incorporate your fix when I get a 
+                                chance. It was my first C# program, so you'll 
+                                have to excuse any errors that I might have 
+                                made!!! Doubtless there are a few 
+                                more.<BR><BR>Glad to see that you've looked 
+                                through the code though! <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_smile.gif" 
+                                align=absMiddle><BR><BR><BR><BR>Regards,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=797513">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=797513">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=796927&amp;forumid=13477&amp;select=797513#xx797513xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=797513#xx797513xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=797513"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=797513"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=799606_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx799606xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=799606#xx799606xx" 
+                        name=799606>Re: GA Bug</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=314636"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>bliggy&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>9:34 22 Apr 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=799606_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I am 
+                                just glad that someone out there wrote a C# GA 
+                                program so that I didn't have to <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_biggrin.gif" 
+                                align=absMiddle> and I am sure that it will be 
+                                helpful to many others like 
+                                me!<BR><BR>Cheers,<BR>Dave 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=799606">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=799606">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=796927&amp;forumid=13477&amp;select=799606#xx799606xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=799606#xx799606xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=799606"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=799606"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=785798_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx785798xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=785798#xx785798xx" 
+                        name=785798><B>Finding the minimum</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Anonymous</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>8:15 7 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=785798_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>How 
+                                would you go about finding the minimum. For 
+                                example how would you alter the Roulette 
+                                selection to select for minimum. 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785798">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=785798&amp;forumid=13477&amp;select=785798#xx785798xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=785798#xx785798xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785798"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785798"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=785804_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx785804xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=785804#xx785804xx" 
+                        name=785804>Re: Finding the minimum</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>8:19 7 Apr 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=785804_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>The 
+                                minimum is just the reciprocal of the maximum, 
+                                and vice versa, i.e. if your minimum function 
+                                f(x1, x2, x3....xN), use a function that is 
+                                g(x1, x2, x3...xN) = 1 / f(x1, x2, x3...xN) 
+                                etc.<BR><BR>You don't need to change the 
+                                Roulette Wheel selection. 
+                                <BR><BR>Regards,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785804">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785804">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=785798&amp;forumid=13477&amp;select=785804#xx785804xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=785804#xx785804xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785804"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=785804"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=761483_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx761483xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=761483#xx761483xx" 
+                        name=761483><B>Gear Ratio Problem</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Anonymous</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>8:52 11 Mar 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=761483_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i have 
+                                a simple gear ratio problem to solve. Just been 
+                                looking at your GA program which is really good. 
+                                Would it be possible thou to change it so it 
+                                could solve an equation with 4 variables instead 
+                                of two? <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=761483">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=761483&amp;forumid=13477&amp;select=761483#xx761483xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=761483#xx761483xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=761483"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=761483"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=762186_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx762186xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=762186#xx762186xx" 
+                        name=762186>Re: Gear Ratio Problem</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>8:36 12 Mar 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=762186_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i have 
+                                now done this but also have another problem i 
+                                need to constrain the 4 variables to a range of 
+                                12 to 60 any ideas on this?<IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_squeamish.gif" 
+                                align=absMiddle><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=762186">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=761483&amp;forumid=13477&amp;select=762186#xx762186xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=762186#xx762186xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=762186"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=762186"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=765588_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx765588xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=765588#xx765588xx" 
+                        name=765588>Re: Gear Ratio Problem</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>15:01 16 Mar 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=765588_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>It 
+                                should just be a simple scaling problem, 
+                                i.e.<BR><BR><PRE>public static double theActualFunction(double[] values)<BR>{<BR> if (values.GetLength(0) != 2)<BR>  throw new ArgumentOutOfRangeException("should only have 2 args");<BR><BR>  double x = (values[0] * 48.) + 12.;<BR>  double y = (values[1] * 48.) + 12.;<BR>  // or use a loop for multiple values, and consider<BR>  // putting the scaling function in its own function<BR>  // to avoid repetition.<BR>  // then use x &amp; y etc.<BR>}<BR></PRE><BR><BR>The 
+                                'values' are always between 0 and 1, so you just 
+                                need some simple transform to get them to the 
+                                values you want. 
+                                <BR><BR>Regards,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=765588">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=765588">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=761483&amp;forumid=13477&amp;select=765588#xx765588xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=765588#xx765588xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=765588"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=765588"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=767309_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx767309xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=767309#xx767309xx" 
+                        name=767309>Re: Gear Ratio Problem</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>8:47 18 Mar 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=767309_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>yeah i 
+                                was think about doing it that way.<BR>Many 
+                                Thanks <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_smile.gif" 
+                                align=absMiddle>JIM <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=767309">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=761483&amp;forumid=13477&amp;select=767309#xx767309xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=767309#xx767309xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=767309"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=767309"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=657935_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx657935xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=657935#xx657935xx" 
+                        name=657935><B>Three coloring problem</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=374429"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Bambino</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>9:41 5 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=657935_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>Hi!<BR>I'm curious if 
+                                anyone has experience in the three coloring 
+                                problem. <BR>I have implemented the same problem 
+                                with two CSP algorithms in C and<BR>I think 
+                                about using a genetic algorithm for the same 
+                                problem.<BR><BR><BR>B@mbino<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=657935">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=657935">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=657935&amp;forumid=13477&amp;select=657935#xx657935xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=657935#xx657935xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=657935"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=657935"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=658334_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx658334xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=658334#xx658334xx" 
+                        name=658334>Re: Three coloring problem</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>16:44 5 Nov 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=658334_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I've 
+                                heard of it but never tried it. If it can be 
+                                expressed as a minimization or maximization 
+                                problem then a GA is an appropriate method. 
+                                <BR><BR>Cheers,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=658334">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=658334">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=657935&amp;forumid=13477&amp;select=658334#xx658334xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=658334#xx658334xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=658334"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=658334"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=616455_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx616455xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=616455#xx616455xx" 
+                        name=616455><B>thank your code</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=596812"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle><B>dean 
+                        chang</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>0:05 22 Sep 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=616455_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i just 
+                                a new progammer for any code<BR>thanks a lot 
+                                <BR><IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_biggrin.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=616455">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=616455">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=616455&amp;forumid=13477&amp;select=616455#xx616455xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=616455#xx616455xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=616455"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=616455"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=516594_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx516594xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=516594#xx516594xx" 
+                        name=516594><B>Just curious</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=44133"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Anthony_Yio</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>21:08 5 Jun 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=516594_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hello, 
+                                <BR><BR>Do you know of any actual applications 
+                                of Generic Algorithm to our daily life? 
+                                <BR><BR>Thank you 
+                                <BR><BR>http://www.founder.com.my<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=516594">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=516594">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=516594&amp;forumid=13477&amp;select=516594#xx516594xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=516594#xx516594xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=516594"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=516594"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=517499_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx517499xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=517499#xx517499xx" 
+                        name=517499>Re: Just curious</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>13:58 6 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=517499_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent><SMALL><B>Anthony_Yio 
+                                wrote:</B></SMALL><BR><I>Do you know of any 
+                                actual applications of Generic Algorithm to our 
+                                daily life? </I><BR><BR>Nothing I can point a 
+                                link to - but I understand that one of the car 
+                                companies used a GA to improve the aerodynamics 
+                                of one of the car chassis. <A 
+                                href="http://slashdot.org/">Slashdot</A>[<A 
+                                title="New Window" href="http://slashdot.org/" 
+                                target=_blank>^</A>] usual have the odd story 
+                                about that kind of thing though <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_wink.gif" 
+                                align=absMiddle> 
+                                <BR><BR>Cheers,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=517499">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=517499">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=516594&amp;forumid=13477&amp;select=517499#xx517499xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=517499#xx517499xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=517499"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=517499"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=387689_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx387689xx></A><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=387689#xx387689xx" 
+                        name=387689><B>ga - endless posibilities</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>shaig</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>18:30 13 Jan 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=387689_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>tests 
+                                ara being made on using evolution-like softwares 
+                                to design cars, to optimize softwares and chips 
+                                and much more...<BR><BR><IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_cool.gif" 
+                                align=absMiddle>c# Rules! 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=387689">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=387689#xx387689xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=387689#xx387689xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=387689"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=387689"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=388494_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx388494xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=388494#xx388494xx" 
+                        name=388494>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>16:24 14 Jan 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=388494_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>There 
+                                have been some uses to reduce the drag factor of 
+                                cars. I believe that simulated annealing has 
+                                been used for chips before now as well <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_smile.gif" 
+                                align=absMiddle><BR><BR><BR>Cheers,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=388494">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=388494">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=388494#xx388494xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=388494#xx388494xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=388494"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=388494"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=488433_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx488433xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=488433#xx488433xx" 
+                        name=488433>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=214919"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>moist&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>20:58 3 May 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=488433_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I've 
+                                used GA's for clustering, compression schemes, 
+                                to find oscillating patterns in John Conway's 
+                                game of life etc <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_smile.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488433">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488433">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=488433#xx488433xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=488433#xx488433xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488433"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488433"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=488542_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx488542xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=488542#xx488542xx" 
+                        name=488542>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>6:01 4 May 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=488542_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I used 
+                                mine for inversion problems in helioseismology. 
+                                <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_wink.gif" 
+                                align=absMiddle> 
+                                <BR><BR>Cheers,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488542">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488542">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=488542#xx488542xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=488542#xx488542xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488542"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=488542"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=489051_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx489051xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=72><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=489051#xx489051xx" 
+                        name=489051>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=174756"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Fuat 
+                        Uler&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>6:54 5 May 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=489051_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=72><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>GA was 
+                                the topic of my dissertation where I used it in 
+                                optimizing the design (shape) of several 
+                                electromagnetic 
+                                devices.<BR><BR>Regards,<BR><BR>Fuat Uler 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=489051">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=489051">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=489051#xx489051xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=489051#xx489051xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=489051"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=489051"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=495247_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx495247xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=90><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=495247#xx495247xx" 
+                        name=495247>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701"><IMG 
+                        title="CodeProject Editor" height=16 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/admin_modify.gif" 
+                        width=15 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Barry 
+                        Lapthorn&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>16:13 12 May 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=495247_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=90><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent><SMALL><B>Fuat Uler 
+                                wrote:</B></SMALL><BR><I>I used it in optimizing 
+                                the design (shape) of several electromagnetic 
+                                devices.</I><BR><BR>Nice <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_biggrin.gif" 
+                                align=absMiddle> <BR><BR>I read somewhere 
+                                recently that either a GA or a neural net was 
+                                used for a similar thing, and the optimal 
+                                solution was a RF circuit! <IMG 
+                                src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/smiley_cool.gif" 
+                                align=absMiddle> 
+                                <BR><BR>Cheers,<BR><BR>Barry<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=495247">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.thecodeproject.com/script/comments/user_mail.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=495247">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=495247#xx495247xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=495247#xx495247xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=495247"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=495247"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=534803_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx534803xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=100><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=534803#xx534803xx" 
+                        name=534803>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:27 26 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=534803_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=100><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>\zx\zx\zx\zx\zx\zx\zx\zx\zx\zx\zx 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534803">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=534803#xx534803xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=534803#xx534803xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534803"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534803"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=534805_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx534805xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=110><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=534805#xx534805xx" 
+                        name=534805>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:28 26 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=534805_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=110><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>ertertertertertertertert 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534805">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=534805#xx534805xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=534805#xx534805xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534805"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534805"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=534806_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx534806xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=120><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=534806#xx534806xx" 
+                        name=534806>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:28 26 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=534806_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=120><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>ertertertertertertert 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534806">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=534806#xx534806xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=534806#xx534806xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534806"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534806"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=534808_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx534808xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=130><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=534808#xx534808xx" 
+                        name=534808>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:29 26 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=534808_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=130><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>ertertertertertetert 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534808">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=534808#xx534808xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=534808#xx534808xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534808"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534808"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=534809_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx534809xx></A><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=140><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;select=534809#xx534809xx" 
+                        name=534809>Re: ga - endless posibilities</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:29 26 Jun 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=534809_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/ind.gif" 
+                        width=140><IMG 
+                        src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>ertertertertertert 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.thecodeproject.com/script/comments/user_reply.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534809">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;tid=387689&amp;forumid=13477&amp;select=534809#xx534809xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/csharp/btl_ga.asp?msg=534809#xx534809xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_modify_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534809"><I>Modify</I></A>|<A 
+                                href="http://www.thecodeproject.com/script/comments/owner_delete_pw.asp?main=/csharp/btl_ga.asp&amp;df=100&amp;forumid=13477&amp;select=534809"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/t.gif" 
+                  width=1 border=0></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=#fbedbb>
+          <TD>
+            <TABLE cellPadding=2 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=messagetitle>Last Visit: 9:52 Friday 11th June, 
+                2004</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <A class=HoverLink 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;fr=26" 
+                  name=HoverNL>Next</A> <A class=HoverLink 
+                  href="http://www.thecodeproject.com/csharp/btl_ga.asp?df=100&amp;forumid=13477&amp;fr=51" 
+                  name=HoverNL>Last</A> 
+      </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+<TABLE cellSpacing=5 width="100%">
+  <TBODY>
+  <TR vAlign=top>
+    <TD><FONT style="FONT-SIZE: 7pt" size=1><A 
+      href="http://www.thecodeproject.com/?cat=1">All Topics</A>, <A 
+      href="http://www.thecodeproject.com/?cat=3">C#</A>, <A 
+      href="http://www.thecodeproject.com/?cat=5">.NET</A> &gt;&gt; <A 
+      href="http://www.thecodeproject.com/csharp/">C# Programming</A> &gt;&gt; 
+      <A href="http://www.thecodeproject.com/csharp/#Algorithms">Algorithms</A> 
+      <BR>Updated: 22 Aug 2003<BR>Editor: <A 
+      href="http://www.thecodeproject.com/script/profile/whos_who.asp?id=16701">Barry 
+      Lapthorn</A> </FONT></TD>
+    <TD align=right><FONT style="FONT-SIZE: 7pt" size=1>Article content 
+      copyright Barry Lapthorn, 2002<BR>everything else Copyright © <A 
+      href="mailto:webmaster@codeproject.com">CodeProject</A>, 1999-2004</A>. 
+      <BR><A href="http://www.thecodeproject.com/info/MediaKit">Advertise on The 
+      Code Project</A> | <A 
+      href="http://www.thecodeproject.com/info/privacy.asp">Privacy</A> 
+    </FONT></TD></TR></TBODY></TABLE><BR>
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#ff9900 height=1><IMG height=1 
+      src="The Code Project - A Simple C# Genetic Algorithm - C# Programming-Dateien/space.gif"></TD></TR>
+  <TR>
+    <TD align=middle><FONT size=1><A 
+      href="http://www.thecodeproject.com/redir.asp?id=235">MSDN Communities</A> 
+      | <A href="http://aspalliance.com/">ASPAlliance</A> • <A 
+      href="http://www.developerfusion.com/">Developer Fusion</A> • <A 
+      href="http://www.developersdex.com/">DevelopersDex</A> • <A 
+      href="http://www.devguru.com/">DevGuru</A> • <A 
+      href="http://www.programmersheaven.com/">Programmers Heaven</A> • <A 
+      href="http://www.planet-source-code.com/">Planet Source Code</A> • <A 
+      href="http://www.resourceindex.com/">Resource Index</A> • <A 
+      href="http://www.tek-tips.com/">Tek-Tips Forums</A> • <A 
+      href="http://www.topxml.com/">TopXML</A> • <A 
+      href="http://www.visualbuilder.com/">VisualBuilder</A> • <A 
+      href="http://www.zvon.org/">ZVON</A> • <A 
+      href="http://www.thecodeproject.com/redir.asp?id=169">Search Us!</A> 
+      </FONT></TD></TR></TBODY></TABLE></CENTER></BODY></HTML>

@@ -1,0 +1,3890 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0035)http://www.timeless.org.zw/asm.html -->
+<HTML><HEAD><TITLE>Assembler Programming Topics</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<H1>Assembler Programming Topics </H1><PRE><A name="8086 architecture"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Intel 8086 Family Architecture </FONT></H3></CENTER><PRE></PRE><FONT color=blue>General Purpose Registers Segment Registers </FONT><PRE>AH/AL  AX  (EAX)  Accumulator		 CS	Code Segment
+BH/BL  BX  (EBX)  Base			 DS	Data Segment
+CH/CL  CX  (ECX)  Counter		 SS	Stack Segment
+DH/DL  DX  (EDX)  Data			 ES	Extra Segment
+					(FS)	386 and newer
+(Exx) indicates 386+ 32 bit register 	(GS)	386 and newer
+
+
+</PRE><FONT color=blue>Pointer Registers Stack Registers </FONT><PRE>SI (ESI)  Source Index			SP (ESP)  Stack Pointer
+DI (EDI)  Destination Index		BP (EBP)  Base Pointer
+IP	  Instruction Pointer
+
+</PRE><FONT color=blue>Status Registers </FONT><PRE>FLAGS Status Flags   (see <FONT color=green>FLAGS</FONT>)
+
+</PRE><FONT color=blue>Special Registers (386+ only) </FONT><PRE>CR0	Control Register 0	  DR0	 Debug Register 0
+CR2	Control Register 2	  DR1	 Debug Register 1
+CR3	Control Register 3	  DR2	 Debug Register 2
+				  DR3	 Debug Register 3
+TR4	Test Register 4		  DR6	 Debug Register 6
+TR5	Test Register 5		  DR7	 Debug Register 7
+TR6	Test Register 6
+TR7	Test Register 7
+
+</PRE><FONT color=blue>Register Default Segment Valid Overrides </FONT><PRE>BP			SS		DS, ES, CS
+SI or DI		DS		ES, SS, CS
+DI strings		ES		None
+SI strings		DS		ES, SS, CS
+
+
+- see  <FONT color=green>CPU</FONT>   <FONT color=green>DETECTING</FONT>  <FONT color=green>Instruction Timing</FONT>
+
+<A name="Instruction Timing"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Instruction Clock Cycle Calculation </FONT></H3></CENTER><PRE>
+Some instructions require additional clock cycles due to a "Next
+Instruction Component" identified by a "+m" in the instruction
+clock cycle listings.  This is due to the prefetch queue being
+purge on a control transfers.	Below is the general rule for
+calculating "m":
+
+
+88/86 not applicable
+286  "m" is the number of bytes in the next instruction
+386  "m" is the number of components in the next instruction
+	(the instruction coding (each byte), plus the data and
+	the displacement are all considered components)
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>8088/8086 Effective Address (EA) Calculation 
+</FONT></H3></CENTER><PRE></PRE><FONT color=blue>Description Clock Cycles </FONT><PRE>Displacement						6
+Base or Index (BX,BP,SI,DI)				5
+Displacement+(Base or Index)				9
+Base+Index (BP+DI,BX+SI)				7
+Base+Index (BP+SI,BX+DI)				8
+Base+Index+Displacement (BP+DI,BX+SI)		       11
+Base+Index+Displacement (BP+SI+disp,BX+DI+disp)	       12
+
+
+- add 4 cycles for word operands at odd addresses
+- add 2 cycles for segment override
+- 80188/80186 timings differ from those of the 8088/8086/80286
+
+
+</PRE><FONT color=blue>Task State Calculation </FONT><PRE>"TS" is defined as switching from VM/486 or 80286 TSS to one of
+the following:
+
+			ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		³	        New Task		³
+		ÃÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄ´
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´486 TSS³486 TSS³386 TSS³386 TSS³286 TSS³
+³   Old Task	³ (VM=0)³ (VM=1)³ (VM=0)³ (VM=1)³	³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ´
+386 TSS (VM=0)	³	³	³  309  ³  226  ³  282  ³
+		ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ´
+386 TSS (VM=1)	³	³	³  314  ³  231  ³  287  ³
+		ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ´
+386 CPU/286 TSS	³	³	³  307  ³  224  ³  280  ³
+		ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄ´
+486 CPU/286 TSS	³  199	³  177	³	³	³  180	³
+		ÀÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÙ
+
+	       	     
+</PRE><FONT color=blue>Miscellaneous </FONT><PRE>- all timings are for best case and do not take into account wait
+  states, instruction alignment, the state of the prefetch queue,
+  DMA refresh cycles, cache hits/misses or exception processing.
+- to convert clocks to nanoseconds divide one microsecond by the
+  processor speed in MegaHertz:
+  
+</PRE>
+<CENTER>
+<H3><FONT color=red>(1000MHz/(n MHz)) = X nanoseconds </FONT></H3></CENTER><PRE>
+- see	<FONT color=green>8086 Architecture</FONT>
+
+<A name=directives><A name="asm directives"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Macro Assembler Directives </FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>Processor Code Generation Directives </FONT></H3></CENTER><PRE>.186	enables assembly of 80186 instructions
+.286	enables assembly of non privileged 80286 instructions
+.286C	same as .286
+.286P	enables assembly of all 80286 instructions
+.287	enabled assembly of 80287 instructions
+.386	enabled assembly of non privileged 80386 instructions
+	If used before .MODEL segments are defined as 32bits.
+	Causes all segments to default to DWORD alignment.
+.386P	enabled assembly of all 80386 instructions (see .386)
+.387	enabled assembly of 80387 instructions
+.8086	default, enables assembly of 8088/8086 instruction
+.8087	default, enables assembly of 8087 instructions
+
+
+These directives must precede the segment they are to effect.
+they cannot occur within a segment.
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Memory Model Directives </FONT></H3></CENTER><PRE>.CODE  [name]	starts code segment; must follow .MODEL directive
+.CONST		starts a constant data segment with name CONST;
+		must follow .MODEL directive; placed in DGROUP
+.DATA		starts a near data segment for initialized data
+		with name _DATA; must follow .MODEL directive;
+		placed in DGROUP
+.DATA?		starts a near data segment for uninitialized
+		data with name _BSS; must follow .MODEL
+		directive; placed in DGROUP
+.FARDATA [name]	not placed in any group
+.FARDATA? [name] not placed in any group
+.MODEL model	defines memory model to be one of the following:
+		SMALL, COMPACT, MEDIUM, LARGE or HUGE;	must be
+		used prior to any other segment directive
+.STACK [size]	indicates start of stack segment named 'STACK'
+		with size indicating number of bytes to reserve,
+		default is 1k; placed in DGROUP
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Segment Definition, Segment Ordering and Linkage Directives 
+</FONT></H3></CENTER><PRE>.ALPHA		orders segments alphabetically
+.SEQ		orders segments sequentially (default)
+ASSUME sreg:name [,sreg:name...]   selects default segment
+		register to be used by the assembler, not the CPU,
+		for addressing all symbols in the segment or group.
+		Name must be associated with a SEGMENT or GROUP
+		or set to "NOTHING" to indicate no segment register
+		is to be associated.
+COMM def [,def...]  defines variables that are both public and
+		external (communal).  Can be used in and include
+		file to identify it to each source file without
+		declaring it in each model as extern.  Actually
+		defines data once.  Communal variables cannot be
+		initialized, and are not guaranteed to be allocated
+		contiguously since these are allocated by the linker.
+DOSSEG		orders segments the same as DOS.  This is Microsoft
+		languages default order; causes paragph alignment
+END [name]	marks end of source module and sets program
+		start address (CS:IP) if 'name' is present
+  name ENDP		ends procedure 'name'
+  name ENDS		ends a segment or structure
+EXTRN name:type [,name:type...]  defines one or more external symbols
+  name GROUP seg[,seg]
+  name LABEL [NEAR|FAR|PROC]  defines an entry point;	If PROC is specified,
+		it's value depends on the current MODEL
+NAME pgmName	ignored since MASM 5.0; used to set module name
+  name PROC [NEAR|FAR]	defines procedure; NEAR/FAR has .MODEL default
+PUBLIC name[,name...]  makes symbol 'name' available to other modules
+  name SEGMENT [align][combine][use]['class']
+	align	= BYTE	align on byte address (no alignment)
+		= WORD	align on even address
+		= DWORD	align on DWORD address
+		= PARA	align on next 16 byte paragraph
+		= PAGE	align on next 256 byte boundary
+	combine = PUBLIC  similar named segments are concatenated (CS)
+		= STACK   similar named segments are concatenated (SS)
+		= COMMON  similar named segment are overlapped
+		= MEMORY  similar names segments are concatenated
+		= AT addr segment relative to absolute address
+		= nothing segment is private and loaded independent
+	use	= USE16   segments will be 16 bits (if .386)
+		= USE32   segments will be 32 bits (if .386)
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Data Allocation Directives </FONT></H3></CENTER><PRE>ALIGN n		aligns next variable or instruction on a boundary
+		that is a multiple of "n".  This can speed memory
+		fetches on 16 and 32 bit CPU'S if aligned.  New to
+		<FONT color=green>MASM</FONT> 5.0, previous versions used EVEN.  Can result
+		in NOP's added to code.
+[name]	DB init[,init...]  define byte
+[name]	DD init[,init...]  define double word (DWORD, 4 bytes)
+[name]	DF init[,init...]  define far word (FWORD, 386, 6 bytes)
+[name]	DQ init[,init...]  define quad word (QWORD, 8 bytes)
+[name]	DT init[,init...]  define temp word (TBYTE, 10 bytes)
+[name]	DW init[,init...]  define word (WORD, 2 bytes)
+ count	DUP (init[,init...]) duplicate 'init' 'count' times; DUP can be
+		nested to 17 levels; DUP'ed initial values
+		of (?) don't result in data in the object file
+		but instead increment the next data addr
+  name	ENDS		end of structure or segment
+EVEN		same as align 2;  Aligns data on even boundary
+ORG expr	sets location counter to 'expr';  If 'expr'
+		is '$' the code is ORG'ed at the current loc.
+  name	RECORD fld[,fld...]  defines a byte or word variable
+		consisting of bit fields;  fields have the format:
+		fieldname:width[=expr];  the sum of all widths
+		must be &lt;= 0
+[name]	STRUC &lt;[init[,init]]&gt;  defines beginning of a structure; Values
+			between &lt;&gt; are initializers;  The '&lt;&gt;' symbols
+		are required.
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Logical and Bit Oriented Directives </FONT></H3></CENTER><PRE> expr1	AND  expr2	returns nonzero if any set bit matches
+ expr1	EQ   expr2	returns (-1) for true or (0) for false
+ expr1	GE   expr2	returns (-1) for true or (0) for false
+ expr1	LE   expr2	returns (-1) for true or (0) for false
+ expr1	LT   expr2	returns (-1) for true or (0) for false
+MASK {fldname|record}  returns bit mask for bits in record
+ expr1	OR   expr2	returns bitwise OR on expr1 and expr2
+NOT  expr	returns 'expr' with all bits reversed
+  expr	SHL  count	returns expr shifted left count times
+  expr	SHR  count	returns expr shifted right count times
+WIDTH {fldname|record}	returns width of field in bit record
+ expr1 XOR expr2	returns bitwise XOR on expr1 and expr2
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Other Operators and Directives </FONT></H3></CENTER><PRE>[]		index operator, same as addition
+.MSFLOAT	encode floats in Microsoft Real Format
+.TYPE	expr	returns byte defining mode and scope of expr
+  name	EQU 	expr	assigns expression to name. surround text with &lt;&gt;
+HIGH	expr	returns high byte of 'expr'
+INCLUDE filespec  inserts code from 'filespec' into file
+INCLUDELIB filespec  stores link library info in .OBJ file
+LENGTH	var	returns number of data objects in DUPed 'var'
+LOW	expr	returns low byte of 'expr'
+ expr1	MOD	expr2	return remainder of expr1/expr2
+OFFSET	expr	returns offset of expr;   When .MODEL is used
+		the offset of a group relative segment refers
+		to the end of the segment
+  type	PTR	expr	forces 'expr' to 'type'
+SEG	expr	returns segment of expression
+SHORT		sets type of label to short, less than 128
+		bytes from start of next instruction
+SIZE	var	returns # of bytes allocated by DUP directive
+THIS	type	returns an operand of specified type whose
+		offset and segment values are equal to the
+		current location
+TYPE	expr	returns type of expression
+
+
+</PRE><FONT color=blue>Program Listing and Documentation Directives </FONT><PRE>.CREF		restores listing of cross reference symbols
+.LALL		include macro expansion in listings
+.LFCOND		include false conditional blocks in listings
+.LIST		starts listing of statements
+.SALL		suppress listing of all macro expansions
+.SFCOND		suppress false conditional blocks in listings
+.XALL		start listing of macro expansion
+.XCREF [name[,name...]]  suppress symbols in cross reference
+.XLIST		suppress program listing
+COMMENT delimiter [text]
+PAGE   [[len],wid]	sets page length&amp;width or ejects if no parms
+SUBTTL	text	defines program listing subtitle
+TITLE	text	defines program listing title
+
+
+</PRE><FONT color=blue>Condition Assembly Directives </FONT><PRE>ELSE		else clause for conditional assembly block
+ENDIF		terminates a conditional assembly block
+IFDEF	name	conditional assembly if name is defined
+
+
+</PRE><FONT color=blue>Macro Definition Directives </FONT><PRE>ENDM		terminates a macro block
+EXITM		exit macro expansion immediately
+IRP  parm,&lt;arg[,arg...]&gt; parm in the statements enclosed by the
+		IRP and ENDM will be repeated and replaced with the
+		values of "arg" for each "arg" in the &lt;&gt;.
+IRPC parm,&lt;string&gt;  parm in the statements enclosed by the IRPC
+		and ENDM will be repeated and replaced with the values
+		of each char in the "string" for each character
+		position in the string.  "string" should be enclosed
+		in &lt;&gt; if it contains spaces or other separators.
+LOCAL name[,name...]  defines scope symbol as local to a macro
+  name	MACRO [parm[,parm...]]	defines a macro and it's parameters
+PURGE name[,name]  purges macros from memory
+REPT	expr	repeats all statements through ENDM statement for
+		'expr' times
+
+
+</PRE><FONT color=blue>User Message Directives </FONT><PRE>.ERR		generates and error
+.ERR1		generates an error on PASS 1
+.ERR2		generates an error on PASS 2
+.ERRB	&lt;arg&gt;	generates an error if 'arg' is blank
+.ERRDEF name	generates an error if 'name' is previously defined
+.ERRDIF[I] &lt;arg1&gt;,&lt;arg2&gt;
+.ERRE	expr	generates and error is 'expr' is false
+%OUT	text	displays 'text' to console
+
+
+</PRE><FONT color=blue>Predefined Equates (available only if simplified segments 
+are used) </FONT><PRE>@curseg		contains the current segment
+@filename	current file name without extension
+@code		contains the current code segment
+@codesize	0 for small &amp; compact, 1 for large, medium &amp; huge
+@datasize	0 for small &amp; medium, 1 for compact &amp; large, 2=huge
+@const		contains segment of define by .CONST
+@data		contains segment of define by .DATA
+@data?		contains segment of define by .DATA?
+@fardata	contains segment of define by .FARDATA
+@fardata?	contains segment of define by .FARDATA?
+@stack		contains segment of define by .STACK
+
+Most of these are only available if the simplified segment system
+is used.  @curseg and @filename are available regardless.
+
+
+</PRE><FONT color=blue>Radix Specifiers </FONT><PRE>.RADIX expr	sets radix [2..16] for numbers (dec. default)
+B		binary data specifier
+Q		octal data specifier
+O		octal data specifier
+D		decimal data specifier
+H		hexadecimal data specifier
+
+
+<A name="masm options"><A name="assembler options"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Microsoft Assembler Command Line Options 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>MASM [options] 
+srcfile[,[objfile][,[lstfile][,[xreffile]]]][;] </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Options Definition </FONT><PRE>/A		generate segments in alphabetical order
+/B[size]    	sets I/O buffer size in K bytes (1..63, default 32)
+/C		generate cross reference file with .CRF extension
+/D		generate PASS 1 listing
+/Dsym[=val]	define symbol for use during assembly
+/E		emulate floating point instructions (for use with HLL)
+/H		list options and command syntax
+/Ipath		include-file search path
+/L		generate listing file with .LST extension
+/ML		case sensitive for all symbols
+/MU		upper case all symbols (default)
+/MX		case sensitive in external and public symbols
+/N		suppress symbol tables in listings
+/P		check for impure code in 286 and 386 protected
+		mode (invalid CS overrides)
+/S		generate segments in the order they are found (default)
+/T		terse message display; display errors only
+/V		verbose message display; includes # lines and symbols
+/W{0|1|2}	assembly warning level
+		    0 = no warnings
+		    1 = severe warnings only
+		    2 = all warnings enabled
+/X		display complete conditional assembly blocks in
+		listing including false conditionals
+/Z		display errors including line numbers to screen
+/ZD		generate line numbers in .OBJ files
+/ZI		generate both symbolic and line number information in
+		.OBJ files
+
+</PRE><FONT color=blue>Environment Variables </FONT><PRE>INCLUDE		search path for include files
+MASM		default command line options
+<A name="flags register"><A name="8086 flags"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>FLAGS - Intel 8086 Family Flags Register 
+</FONT></H3></CENTER><PRE>     ³11³10³F³E³D³C³B³A³9³8³7³6³5³4³3³2³1³0³
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  CF Carry Flag
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  1
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  PF Parity Flag
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  0
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  AF Auxiliary Flag
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  0
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  ZF Zero Flag
+³  ³ ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  SF Sign Flag
+³  ³ ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  TF Trap Flag  (Single Step)
+³  ³ ³ ³ ³ ³ ³ ³ ÀÄÄÄ  IF Interrupt Flag
+³  ³ ³ ³ ³ ³ ³ ÀÄÄÄ  DF Direction Flag
+³  ³ ³ ³ ³ ³ ÀÄÄÄ  OF Overflow flag
+³  ³ ³ ³ ÀÄÁÄÄÄ  IOPL I/O Privilege Level  (286+ only)
+³  ³ ³ ÀÄÄÄÄÄ  NT Nested Task Flag  (286+ only)
+³  ³ ÀÄÄÄÄÄ  0
+³  ÀÄÄÄÄÄ  RF Resume Flag (386+ only)
+ÀÄÄÄÄÄÄ  VM  Virtual Mode Flag (386+ only)
+
+- see	<FONT color=green>PUSHF</FONT>  <FONT color=green>POPF</FONT>  <FONT color=green>STI</FONT>  <FONT color=green>CLI</FONT>  <FONT color=green>STD</FONT>  <FONT color=green>CLD</FONT>
+<A name=models><A name="segment names"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Memory Model Programming &amp; Segment Information 
+</FONT></H3></CENTER><PRE></PRE><FONT color=blue>Model </FONT><PRE>TINY	Data and code fit in one 64K segment.  All code and
+	data are accessed via near pointers.
+SMALL	64k data segment max and 64k code segment max.	All
+	code and data are accessed via near pointers.
+COMPACT	1Mb data segment max and 64K code segment max.	Code
+	is accessed via near pointers, data is accessed via
+	far pointers.  No array can be greater than 64K
+MEDIUM	64K data segment max and 1Mb code segment max.	Code is
+	accessed via far pointers, data is accessed via	near pointers.
+LARGE	1Mb data segment max and 1Mb code segment max.	All
+	code and data are accessed via far pointers.  No
+	single element can be greater than 64K.
+HUGE	1Mb data segment max and 1Mb code segment max.	All
+	code and data are accessed via far pointers.  This is
+	the only model where arrays can be larger than 64K.
+	In this mode is C will normalize all data pointers
+	to avoid segment wrapping.
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Small Memory Model </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Directive Segment Alignment Combine Class </FONT><PRE>.CODE	    _TEXT	WORD	    PUBLIC	'CODE'
+.DATA	    _DATA	WORD	    PUBLIC	'DATA'
+.CONST	    CONST	WORD	    PUBLIC	'CONST'
+.DATA?	    _BSS	WORD	    PUBLIC	'BSS'
+.STACK	    STACK	PARA	    STACK	'STACK'
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Compact Memory Model </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Directive Segment Alignment Combine Class </FONT><PRE>.CODE	    _TEXT	WORD	    PUBLIC	'CODE'
+.FARDATA    FAR_DATA	PARA	    private	'FAR_DATA'
+.FARDATA?   FAR_BSS	PARA	    private	'FAR_BSS'
+.DATA	    _DATA	WORD	    PUBLIC	'DATA'
+.CONST	    CONST	WORD	    PUBLIC	'CONST'
+.DATA?	    _BSS	WORD	    PUBLIC	'BSS'
+.STACK	    STACK	PARA	    STACK	'STACK'
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Medium Memory Model </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Directive Segment Alignment Combine Class </FONT><PRE>.CODE	  name_TEXT	WORD	    PUBLIC	'CODE'
+.DATA	    _DATA	WORD	    PUBLIC	'DATA'
+.CONST	    CONST	WORD	    PUBLIC	'CONST'
+.DATA?	    _BSS	WORD	    PUBLIC	'BSS'
+.STACK	    STACK	PARA	    STACK	'STACK'
+
+
+</PRE>
+<CENTER>
+<H3><FONT color=red>Large or Huge Memory Models </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Directive Segment Alignment Combine Class </FONT><PRE>.CODE	    name_TEXT	WORD	    PUBLIC	'CODE'
+.FARDATA    FAR_DATA	PARA	    private	'FAR_DATA'
+.FARDATA?   FAR_BSS	PARA	    private	'FAR_BSS'
+.DATA	     _DATA	WORD	    PUBLIC	'DATA'
+.CONST	     CONST	WORD	    PUBLIC	'CONST'
+.DATA?	     _BSS	WORD	    PUBLIC	'BSS'
+.STACK	     STACK	PARA	    STACK	'STACK'
+
+
+- all segments fall into DGROUP except for ???_TEXT, FAR_DATA
+  and FAR_BSS
+- see <FONT color=green>MASM DIRECTIVES</FONT>
+<A name=msw><A name="machine status word"></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MSW - Machine Status Word (286+ only) </FONT></H3></CENTER><PRE>
+     ³31³30-5³4³3³2³1³0³  Machine Status Word
+³   ³  ³ ³ ³ ³ ÀÄÄÄÄ Protection Enable (PE)
+³   ³  ³ ³ ³ ÀÄÄÄÄÄ Math Present (MP)
+³   ³  ³ ³ ÀÄÄÄÄÄÄ Emulation (EM)
+³   ³  ³ ÀÄÄÄÄÄÄÄ Task Switched (TS)
+³   ³  ÀÄÄÄÄÄÄÄÄ Extension Type (ET)
+³   ÀÄÄÄÄÄÄÄÄÄÄ Reserved
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄ Paging (PG)
+
+
+Bit 0	PE	Protection Enable, switches processor between
+		protected and real mode
+Bit 1	MP	Math Present, controls function of the <FONT color=green>WAIT</FONT>
+		instruction
+Bit 2	EM	Emulation, indicates whether coprocessor functions
+		are to be emulated
+Bit 3	TS	Task Switched, set and interrogated by coprocessor
+		on task switches and when interpretting coprocessor
+		instructions
+Bit 4	ET	Extension Type, indicates type of coprocessor in
+		system
+Bits 5-30	Reserved
+bit 31	PG	Paging, indicates whether the processor uses page
+		tables to translate linear addresses to physical
+		addresses
+
+- see	<FONT color=green>SMSW</FONT>  <FONT color=green>LMSW</FONT>
+<A name=aaa></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>AAA - Ascii Adjust for Addition </FONT></H3></CENTER><PRE>
+Usage:	AAA
+Modifies flags: AF CF (OF,PF,SF,ZF undefined)
+
+
+Changes contents of AL to valid unpacked decimal.  The high order
+nibble is zeroed.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  8	3     4	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=aad></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>AAD - Ascii Adjust for Division </FONT></H3></CENTER><PRE>
+Usage:	AAD
+Modifies flags: SF ZF PF (AF,CF,OF undefined)
+
+
+Used before dividing unpacked decimal numbers.	 Multiplies AH by
+10 and the adds result into AL.  Sets AH to zero.  This instruction
+is also known to have an undocumented behavior.
+
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  60	14    19    14		  2
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=aam></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>AAM - Ascii Adjust for Multiplication </FONT></H3></CENTER><PRE>
+Usage:	AAM
+Modifies flags: PF SF ZF (AF,CF,OF undefined)
+
+
+Used after multiplication of two unpacked decimal numbers, this
+instruction adjusts an unpacked decimal number.  The high order
+nibble of each byte must be zeroed before using this instruction.
+This instruction is also known to have an undocumented behavior.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  83	16    17    15		  2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=aas></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>AAS - Ascii Adjust for Subtraction </FONT></H3></CENTER><PRE>
+Usage:	AAS
+Modifies flags: AF CF (OF,PF,SF,ZF undefined)
+
+
+Corrects result of a previous unpacked decimal subtraction in AL.
+High order nibble is zeroed.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  8	3     4	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=adc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ADC - Add With Carry </FONT></H3></CENTER><PRE>Usage:	ADC	dest,src
+Modifies flags: AF CF OF SF PF ZF
+
+
+Sums two binary operands placing the result in the destination.
+If CF is set, a 1 is added to the destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     7	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     6	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=23+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=add></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ADD - Arithmetic Addition </FONT></H3></CENTER><PRE>Usage:	ADD	dest,src
+Modifies flags: AF CF OF PF SF ZF
+
+
+Adds "src" to "dest" and replacing the original contents of "dest".
+Both operands are binary.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     7	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     6	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=23+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=and></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>AND - Logical And </FONT></H3></CENTER><PRE>Usage:	AND	dest,src
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Performs a logical AND of the two operands replacing the destination
+with the result.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     7	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     6	    1		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=23+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=arpl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ARPL - Adjusted Requested Privilege Level of Selector 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(286+ protected mode) </FONT></H3></CENTER><PRE>
+Usage:	ARPL	dest,src
+Modifies flags: ZF
+
+
+Compares the RPL bits of "dest" against "src".	If the RPL bits
+of "dest" are less than "src", the destination RPL bits are set
+equal to the source RPL bits and the Zero Flag is set.	Otherwise
+the Zero Flag is cleared.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  -	10    20    9		  2
+mem,reg 	  -	11    21    9		  4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bound></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BOUND - Array Index Bound Check (80188+) 
+</FONT></H3></CENTER><PRE>
+Usage:	BOUND	src,limit
+Modifies flags: None
+
+
+Array index in source register is checked against upper and lower
+bounds in memory source.  The first word located at "limit" is
+the lower boundary and the word at "limit+2" is the upper array bound.
+Interrupt 5 occurs if the source value is less than or higher than
+the source.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,mem32	  -   nj=13 nj=10   7		  2
+reg32,mem64	  -   nj=13 nj=10   7		  2
+
+- nj = no jump taken
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bsf></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BSF - Bit Scan Forward (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	BSF	dest,src
+Modifies flags: ZF
+
+
+Scans source operand for first bit set.  Sets ZF if a bit is found
+set and loads the destination with an index to first set bit.  Clears
+ZF is no bits are found set.  BSF scans forward across bit pattern
+(0-n) while BSR scans in reverse (n-0).
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  -	-   10+3n  6-42		  3
+reg,mem 	  -	-   10+3n  7-43		 3-7
+reg32,reg32	  -	-   10+3n  6-42		 3-7
+reg32,mem32	  -	-   10+3n  7-43		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bsr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BSR - Bit Scan Reverse (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	BSR	dest,src
+Modifies flags: ZF
+
+
+Scans source operand for first bit set.  Sets ZF if a bit is found
+set and loads the destination with an index to first set bit.  Clears
+ZF is no bits are found set.  BSF scans forward across bit pattern
+(0-n) while BSR scans in reverse (n-0).
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  -	-   10+3n  6-103	  3
+reg,mem 	  -	-   10+3n  7-104	 3-7
+reg32,reg32	  -	-   10+3n  6-103	 3-7
+reg32,mem32	  -	-   10+3n  7-104	 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bswap></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BSWAP - Byte Swap (486+ only) </FONT></H3></CENTER><PRE>
+Usage:	BSWAP	reg32
+Modifies flags: none
+
+
+Changes the byte order of a 32 bit register from big endian to
+little endian or vice versa.   Result left in destination register
+is undefined if the operand is a 16 bit register.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg32	 	  -	-     -     1	  	  2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BT - Bit Test (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	BT	dest,src
+Modifies flags: CF
+
+
+The destination bit indexed by the source value is copied into the
+Carry Flag.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,immed8	  -	-     3	    3		 4-8
+mem16,immed8	  -	-     6	    6		 4-8
+reg16,reg16	  -	-     3	    3		 3-7
+mem16,reg16	  -	-     12    12		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=btc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BTC - Bit Test with Compliment (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	BTC	dest,src
+Modifies flags: CF
+
+
+The destination bit indexed by the source value is copied into the
+Carry Flag after being complimented (inverted).
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,immed8	  -	-     6	    6		 4-8
+mem16,immed8	  -	-     8	    8		 4-8
+reg16,reg16	  -	-     6	    6		 3-7
+mem16,reg16	  -	-     13    13		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=btr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BTR - Bit Test with Reset (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	BTR	dest,src
+Modifies flags: CF
+
+
+The destination bit indexed by the source value is copied into the
+Carry Flag and then cleared in the destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,immed8	  -	-     6	    6		 4-8
+mem16,immed8	  -	-     8	    8		 4-8
+reg16,reg16	  -	-     6	    6		 3-7
+mem16,reg16	  -	-     13    13		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=bts></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>BTS - Bit Test and Set (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	BTS	dest,src
+Modifies flags: CF
+
+
+The destination bit indexed by the source value is copied into the
+Carry Flag and then set in the destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,immed8	  -	-     6	    6		 4-8
+mem16,immed8	  -	-     8	    8		 4-8
+reg16,reg16	  -	-     6	    6		 3-7
+mem16,reg16	  -	-     13    13		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=call></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CALL - Procedure Call </FONT></H3></CENTER><PRE>Usage:	CALL	destination
+Modifies flags: None
+
+Pushes Instruction Pointer (and Code Segment for far calls) onto
+stack and loads Instruction Pointer with the address of proc-name.
+Code continues with execution at CS:IP.
+
+</PRE><FONT color=blue>Clocks </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 </FONT><PRE>rel16 (near, IP relative)		 19     7      7+m      3
+rel32 (near, IP relative)		 -	-      7+m      3
+
+reg16 (near, register indirect)		 16     7      7+m      5
+reg32 (near, register indirect)		 -	-      7+m      5
+
+mem16 (near, memory indirect)		 -     21+EA    11    10+m      5
+mem32 (near, memory indirect)		 -   	-     10+m      5
+
+ptr16:16 (far, full ptr supplied)	 28     13    17+m      18
+ptr16:32 (far, full ptr supplied)	 -	-     17+m      18
+ptr16:16 (far, ptr supplied, prot. mode) -	26    34+m      20
+ptr16:32 (far, ptr supplied, prot. mode) -	-     34+m      20
+m16:16 (far, indirect)		       37+EA    16    22+m      17
+m16:32 (far, indirect)			 -	-     22+m      17
+m16:16 (far, indirect, prot. mode)	 -      29    38+m      20
+m16:32 (far, indirect, prot. mode)	 -	-     38+m      20
+
+ptr16:16 (task, via TSS or task gate)	 -     177     TS     37+TS
+m16:16 (task, via TSS or task gate)	 -   180/185  5+TS    37+TS
+m16:32 (task)				 -	-      TS     37+TS
+m16:32 (task)				 -	-     5+TS    37+TS
+
+ptr16:16 (gate, same privilege)		 -      41    52+m      35
+ptr16:32 (gate, same privilege)		 -	-     52+m      35
+m16:16 (gate, same privilege)	       	 -	44    56+m      35
+m16:32 (gate, same privilege)		 -	-     56+m      35
+
+ptr16:16 (gate, more priv, no parm)	 -   	82    86+m      69
+ptr16:32 (gate, more priv, no parm)	 -	-     86+m      69
+m16:16 (gate, more priv, no parm)	 -   	83    90+m      69
+m16:32 (gate, more priv, no parm)	 -	-     90+m      69
+
+ptr16:16 (gate, more priv, x parms)	 -    86+4x  94+4x+m  77+4x
+ptr16:32 (gate, more priv, x parms)	 -	-    94+4x+m  77+4x
+m16:16 (gate, more priv, x parms)	 -    90+4x  98+4x+m  77+4x
+m16:32 (gate, more priv, x parms)	 -	-    98+4x+m  77+4x
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cbw></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CBW - Convert Byte to Word </FONT></H3></CENTER><PRE>
+Usage:	CBW
+Modifies flags: None
+
+
+Converts byte in AL to word Value in AX by extending sign of AL
+throughout register AH.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     3	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cdq></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CDQ - Convert Double to Quad (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	CDQ
+Modifies flags: None
+
+
+Converts signed DWORD in EAX to a signed quad word in EDX:EAX by
+extending the high order bit of EAX throughout EDX
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	-     2	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=clc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CLC - Clear Carry </FONT></H3></CENTER><PRE>
+Usage:	CLC
+Modifies flags: CF
+
+
+Clears the Carry Flag.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cld></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CLD - Clear Direction Flag </FONT></H3></CENTER><PRE>
+Usage:	CLD
+Modifies flags: DF
+
+
+Clears the Direction Flag causing string instructions to increment
+the SI and DI index registers.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cli></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CLI - Clear Interrupt Flag (disable) </FONT></H3></CENTER><PRE>
+Usage:	CLI
+Modifies flags: IF
+
+
+Disables the maskable hardware interrupts by clearing the Interrupt
+flag.  NMI's and software interrupts are not inhibited.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     3	    5		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=clts></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CLTS - Clear Task Switched Flag (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	CLTS
+Modifies flags: None
+
+
+Clears the Task Switched Flag in the Machine Status Register.  This
+is a privileged operation and is generally used only by operating
+system code.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	2     5	    7		  2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cmc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CMC - Complement Carry Flag </FONT></H3></CENTER><PRE>
+Usage:	CMC
+Modifies flags: CF
+
+
+Toggles (inverts) the Carry Flag
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cmp></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CMP - Compare </FONT></H3></CENTER><PRE>Usage:	CMP	dest,src
+Modifies flags: AF CF OF PF SF ZF
+
+
+Subtracts source from destination and updates the flags but does
+not save result.  Flags can subsequently be checked for conditions.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	 9+EA	7     5	    2		 2-4  (W88=13+EA)
+reg,mem 	 9+EA	6     6	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	10+EA	6     5	    2		 3-6  (W88=14+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cmps><A name=cmpsb><A name=cmpsw><A name=cmpsd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CMPS - Compare String (Byte, Word or Doubleword) 
+</FONT></H3></CENTER><PRE>Usage:	CMPS	dest,src
+	CMPSB
+	CMPSW
+	CMPSD	(386+ only)
+Modifies flags: AF CF OF PF SF ZF
+
+Subtracts destination value from source without saving results.
+Updates flags based on the subtraction and  the index registers
+(E)SI and (E)DI are incremented or decremented depending on the
+state of the Direction Flag.  CMPSB inc/decrements the index
+registers by 1, CMPSW inc/decrements by 2, while CMPSD increments
+or decrements by 4.  The REP prefixes can be used to process
+entire data items.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>dest,src	  22	8     10    8		  1  (W88=30)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cmpxchg></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CMPXCHG - Compare and Exchange </FONT></H3></CENTER><PRE>Usage:	CMPXCHG	dest,src  (486+)
+Modifies flags: AF CF OF PF SF ZF
+
+
+Compares the accumulator (8-32 bits) with "dest".  If equal the
+"dest" is loaded with "src", otherwise the accumulator is loaded
+with "dest".
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg		  -	-     -     6		  2
+mem,reg		  -     -     -     7		  2
+
+
+- add 3 clocks if the "mem,reg" comparison fails
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cwd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CWD - Convert Word to Doubleword </FONT></H3></CENTER><PRE>
+Usage:	CWD
+Modifies flags: None
+
+
+Extends sign of word in register AX throughout register DX forming
+a doubleword quantity in DX:AX.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  5	2     2	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=cwde></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>CWDE - Convert Word to Extended Doubleword (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	CWDE
+Modifies flags: None
+
+
+Converts a signed word in AX to a signed doubleword in EAX by
+extending the sign bit of AX throughout EAX.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	-     3	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=daa></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>DAA - Decimal Adjust for Addition </FONT></H3></CENTER><PRE>
+Usage:	DAA
+Modifies flags: AF CF PF SF ZF (OF undefined)
+
+
+Corrects result (in AL) of a previous BCD addition operation.
+Contents of AL are changed to a pair of packed decimal digits.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  4	3     4	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=das></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>DAS - Decimal Adjust for Subtraction </FONT></H3></CENTER><PRE>
+Usage:	DAS
+Modifies flags: AF CF PF SF ZF (OF undefined)
+
+
+Corrects result (in AL) of a previous BCD subtraction operation.
+Contents of AL are changed to a pair of packed decimal digits.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  4	3     4	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=dec></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>DEC - Decrement </FONT></H3></CENTER><PRE>
+Usage:	DEC	dest
+Modifies flags: AF OF PF SF ZF
+
+
+Unsigned binary subtraction of one from the destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  3	2     2	    1		  2
+mem		15+EA	7     6	    3		 2-4
+reg16/32	  3	2     2	    1		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=div></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>DIV - Divide </FONT></H3></CENTER><PRE>Usage:	DIV	src
+Modifies flags: (AF,CF,OF,PF,SF,ZF undefined)
+
+Unsigned binary division of accumulator by source.  If the source
+divisor is a byte value then AX is divided by "src" and the quotient
+is placed in AL and the remainder in AH.  If source operand is a word
+value, then DX:AX is divided by "src" and the quotient is stored in AX
+and the remainder in DX.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		 80-90	14    14    16		  2
+reg16		144-162 22    22    24		  2
+reg32		   -	-     38    40		  2
+mem8	    (86-96)+EA	17    17    16		 2-4
+mem16	  (150-168)+EA	25    25    24		 2-4  (W88=158-176+EA)
+mem32		   -	-     41    40		 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=enter></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ENTER - Make Stack Frame (80188+) </FONT></H3></CENTER><PRE>
+Usage:	ENTER	locals,level
+Modifies flags: None
+
+
+Modifies stack for entry to procedure for high level language.
+Operand "locals" specifies the amount of storage to be allocated
+on the stack.	"Level" specifies the nesting level of the routine.
+Paired with the <FONT color=green>LEAVE</FONT> instruction, this is an efficient method of
+entry and exit to procedures.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>immed16,0	  -	  11	   10	      14  	  4
+immed16,1	  -	  15	   12	      17  	  4
+immed16,immed8	  -   12+4(n-1) 15+4(n-1)    17+3n	  4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=esc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ESC - Escape </FONT></H3></CENTER><PRE>
+Usage:	ESC	immed,src
+Modifies flags: None
+
+
+Provides access to the data bus for other resident processors.
+The CPU treats it as a <FONT color=green>NOP</FONT> but places memory operand on bus.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>immed,reg	  2   9-20    ?			  2
+immed,mem	  2   9-20    ?			 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=hlt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>HLT - Halt CPU </FONT></H3></CENTER><PRE>
+Usage:	 HLT
+Modifies flags: None
+
+
+Halts CPU until RESET line is activated, NMI or maskable interrupt
+received.  The CPU becomes dormant but retains the current CS:IP
+for later restart.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     5	    4		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=idiv></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>IDIV - Signed Integer Division </FONT></H3></CENTER><PRE>Usage:	 IDIV	src
+Modifies flags: (AF,CF,OF,PF,SF,ZF undefined)
+
+Signed binary division of accumulator by source.  If source is a
+byte value, AX is divided by "src" and the quotient is stored in
+AL and the remainder in AH.  If source is a word value, DX:AX is
+divided by "src", and the quotient is stored in AL and the
+remainder in DX.
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8	      101-112	17    19    19		  2
+reg16	      165-184	25    27    27		  2
+reg32		 -	-     43    43		  2
+mem8	 (107-118)+EA	20    22    20		 2-4
+mem16	 (171-190)+EA	38    30    28		 2-4  (W88=175-194)
+mem32		 -	-     46    44		 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=imul></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>IMUL - Signed Multiply </FONT></H3></CENTER><PRE>Usage:	IMUL	src
+	IMUL	src,immed  (286+ only)
+	IMUL	dest,src,immed8  (286+ only)
+	IMUL	dest,src  (386+ only)
+Modifies flags: CF OF (AF,PF,SF,ZF undefined)
+
+
+Signed multiplication of accumulator by "src" with result placed
+in the accumulator.  If the source operand is a byte value, it
+is multiplied by AL and the result stored in AX.  If the source
+operand is a word value it is multiplied by AX and the result is
+stored in DX:AX.  Other variations of this instruction allow
+specification of source and destination registers as well as a
+third immediate factor.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		 80-98	 13   9-14  13-18	  2
+reg16		128-154	 21   9-22  13-26	  2
+reg32		   -	 -    9-38  12-42	  2
+mem8		 86-104	 16  12-17  13-18	 2-4
+mem16		134-160	 24  12-25  13-26	 2-4
+mem32		   -	 -   12-41  13-42	 2-4
+reg16,reg16	   -	 -    9-22  13-26	 3-5
+reg32,reg32	   -	 -    9-38  13-42	 3-5
+reg16,mem16	   -	 -   12-25  13-26	 3-5
+reg32,mem32	   -	 -   12-41  13-42	 3-5
+reg16,immed	   -	 21   9-22  13-26	  3
+reg32,immed	   -	 21   9-38  13-42	 3-6
+reg16,reg16,immed  -	 2    9-22  13-26 	 3-6
+reg32,reg32,immed  -	 21   9-38  13-42	 3-6
+reg16,mem16,immed  -	 24  12-25  13-26	 3-6
+reg32,mem32,immed  -	 24  12-41  13-42	 3-6
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=in></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>IN - Input Byte or Word From Port </FONT></H3></CENTER><PRE>
+Usage:	IN	accum,port
+Modifies flags: None
+
+
+A byte, word or dword is read from "port" and placed in AL, AX or
+EAX respectively.  If the port number is in the range of 0-255
+it can be specified as an immediate, otherwise the port number
+must be specified in DX.  Valid port ranges on the PC are 0-1024,
+though values through 65535 may be specified and recognized by
+third party vendors and PS/2's.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>accum,immed8	10/14	5     12     14		  2
+accum,immed8 (PM)	     6/26  8/28/27  	  2
+accum,DX	 8/12	5     13     14		  1
+accum,DX (PM)		     7/27  8/28/27  	  1
+
+
+- 386+ protected mode timings depend on privilege levels.
+
+  first number is the timing if:    CPL ó IOPL
+  second number is the timing if:   CPL &gt; IOPL or in VM 86 mode (386)
+  			     	    CPL ò IOPL  (486)
+  third number is the timing when:    virtual mode on 486 processor
+- 486 virtual mode always requires 27 cycles
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=inc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INC - Increment </FONT></H3></CENTER><PRE>
+Usage:	INC	dest
+Modifies flags: AF OF PF SF ZF
+
+
+Adds one to destination unsigned binary operand.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  3	2     2	    1		  2
+reg16		  3	2     2	    1		  1
+reg32		  3	2     2	    1		  1
+mem		15+EA	7     6	    3		 2-4  (W88=23+EA)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=ins><A name=insb><A name=insw><A name=insd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INS - Input String from Port (80188+) </FONT></H3></CENTER><PRE>
+Usage:	INS	dest,port
+	INSB
+	INSW
+	INSD  (386+ only)
+Modifies flags: None
+
+Loads data from port to the destination ES:(E)DI  (even if a
+destination operand is supplied).  (E)DI is adjusted by the size
+of the operand and increased if the Direction Flag is cleared and
+decreased if the Direction Flag is set.  For INSB, INSW, INSD no
+operands are allowed and the size is determined by the mnemonic.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>dest,port	  -	5     15     17		  1
+dest,port (PM)	  -	5    9/29 10/32/30	  1
+none		  -	5     15     17		  1
+none (PM)	  -	5    9/29 10/32/30	  1
+
+
+- 386+ protected mode timings depend on privilege levels.
+
+  first number is the timing if:    CPL ó IOPL
+  second number is the timing if:   CPL &gt; IOPL
+  third number is the timing if:    virtual mode on 486 processor
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=int></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INT - Interrupt </FONT></H3></CENTER><PRE>
+Usage:	INT	num
+Modifies flags: TF IF
+
+Initiates a software interrupt by pushing the flags, clearing the
+Trap and Interrupt Flags, pushing CS followed by IP and loading
+CS:IP with the value found in the interrupt vector table.  Execution
+then begins at the location addressed by the new CS:IP
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>3 (constant)	       		       52/72  23+m   33    26	  2
+3 (prot. mode, same priv.)		 -    40+m   59	   44	  2	  
+3 (prot. mode, more priv.)		 -    78+m   99	   71	  2
+3 (from VM86 to PL 0)			 -     -    119	   82	  2
+3 (prot. mode via task gate)		 -   167+m   TS	 37+TS	  2
+immed8				       51/71  23+m   37    30 	  1
+immed8 (prot. mode, same priv.)	 -    40+m   59	   44	  1
+immed8 (prot. mode, more priv.)	 -    78+m   99	   71	  1
+immed8 (from VM86 to PL 0)		 -     -    119	   86	  1
+immed8 (prot. mode, via task gate)	 -   167+m   TS	 37+TS	  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=into></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INTO - Interrupt on Overflow </FONT></H3></CENTER><PRE>
+Usage:	INTO
+Modifies flags: IF TF
+
+
+If the Overflow Flag is set this instruction generates an INT 4
+which causes the code addressed by 0000:0010 to be executed.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none: jump	       53/73   24+m    35    28	     1
+      no jump		 4	 3     3     3
+(prot. mode, same priv.) -	 -     59    46	     1
+(prot. mode, more priv.) -	 -     99    73	     1
+(from VM86 to PL 0)	 -	 -    119    84	     1
+(prot. mode, via task gate)	 -     TS  39+TS     1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=invd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INVD - Invalidate Cache (486+ only) </FONT></H3></CENTER><PRE>
+Usage:	INVD
+Modifies flags: none
+
+
+Flushes CPU internal cache.  Issues special function bus cycle
+which indicates to flush external caches.   Data in write-back
+external caches is lost.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	 -     -     4		  2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=invlpg></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>INVLPG - Invalidate Translation Look-Aside Buffer Entry 
+(486+ only) </FONT></H3></CENTER><PRE>
+Usage:	INVLPG
+Modifies flags: none
+
+
+Invalidates a single page table entry in the Translation
+Look-Aside Buffer.  Intel warns that this instruction may be
+implemented differently on future processors.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	 -     -     12		  2
+
+
+- timing is for TLB entry hit only.
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=iret><A name=iretd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>IRET/IRETD - Interrupt Return </FONT></H3></CENTER><PRE>Usage:	IRET
+	IRETD  (386+ only)
+Modifies flags: AF CF DF IF PF SF TF ZF
+
+Returns control to point of interruption by popping IP, CS
+and then the Flags from the stack and continues execution at
+this location.	CPU exception interrupts will return to the
+instruction that cause the exception because the CS:IP placed
+on the stack during the interrupt is the address of the offending
+instruction.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>   iret		       32/44  17+m    22    15		  1
+   iret  (prot. mode)	         -    31+m    38    15		  1
+   iret  (to less privilege)	 -    55+m    82    36		  1
+   iret  (different task, NT=1) -   169+m    TS  TS+32		  1
+   iretd			 -	-   22/38   15		  1
+   iretd (to less privilege)	 -	-     82    36		  1
+   iretd (to VM86 mode)	 -	-     60    15		  1
+   iretd (different task, NT=1) -	-     TS  TS+32		  1
+
+
+   - 386 timings are listed as real-mode/protected-mode
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=j...></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>Jump Instructions Table </FONT></H3></CENTER><PRE></PRE><FONT color=blue>Mnemonic Meaning Jump Condition </FONT><PRE>  <FONT color=green>JA</FONT>	   Jump if Above			 CF=0 and ZF=0
+  <FONT color=green>JAE</FONT>	   Jump if Above or Equal		 CF=0
+  <FONT color=green>JB</FONT>	   Jump if Below			 CF=1
+  <FONT color=green>JBE</FONT>	   Jump if Below or Equal		 CF=1 or ZF=1
+  <FONT color=green>JC</FONT>	   Jump if Carry			 CF=1
+  <FONT color=green>JCXZ</FONT>   Jump if CX Zero			 CX=0
+  <FONT color=green>JE</FONT>	   Jump if Equal			 ZF=1
+  <FONT color=green>JG</FONT>	   Jump if Greater (signed)		 ZF=0 and SF=OF
+  <FONT color=green>JGE</FONT>	   Jump if Greater or Equal (signed)	 SF=OF
+  <FONT color=green>JL</FONT>	   Jump if Less (signed)		 SF != OF
+  <FONT color=green>JLE</FONT>	   Jump if Less or Equal (signed)	 ZF=1 or SF != OF
+  <FONT color=green>JMP</FONT>	   Unconditional Jump			 unconditional
+  <FONT color=green>JNA</FONT>	   Jump if Not Above			 CF=1 or ZF=1
+  <FONT color=green>JNAE</FONT>   Jump if Not Above or Equal		 CF=1
+  <FONT color=green>JNB</FONT>	   Jump if Not Below			 CF=0
+  <FONT color=green>JNBE</FONT>   Jump if Not Below or Equal		 CF=0 and ZF=0
+  <FONT color=green>JNC</FONT>	   Jump if Not Carry			 CF=0
+  <FONT color=green>JNE</FONT>	   Jump if Not Equal			 ZF=0
+  <FONT color=green>JNG</FONT>	   Jump if Not Greater (signed) 	 ZF=1 or SF != OF
+  <FONT color=green>JNGE</FONT>   Jump if Not Greater or Equal (signed) SF != OF
+  <FONT color=green>JNL</FONT>	   Jump if Not Less (signed)		 SF=OF
+  <FONT color=green>JNLE</FONT>   Jump if Not Less or Equal (signed)	 ZF=0 and SF=OF
+  <FONT color=green>JNO</FONT>	   Jump if Not Overflow (signed)	 OF=0
+  <FONT color=green>JNP</FONT>	   Jump if No Parity			 PF=0
+  <FONT color=green>JNS</FONT>	   Jump if Not Signed (signed)		 SF=0
+  <FONT color=green>JNZ</FONT>	   Jump if Not Zero			 ZF=0
+  <FONT color=green>JO</FONT>	   Jump if Overflow (signed)		 OF=1
+  <FONT color=green>JP</FONT>	   Jump if Parity			 PF=1
+  <FONT color=green>JPE</FONT>	   Jump if Parity Even			 PF=1
+  <FONT color=green>JPO</FONT>	   Jump if Parity Odd			 PF=0
+  <FONT color=green>JS</FONT>	   Jump if Signed (signed)		 SF=1
+  <FONT color=green>JZ</FONT>	   Jump if Zero 			 ZF=1
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>Jx: jump	  16   7+m   7+m    3		  2
+    no jump	   4	3     3	    1
+Jx  near-label	   -	-    7+m    3		  4
+    no jump	   -	-     3	    1
+
+
+- It's a good programming practice to organize code so the
+  expected case is executed without a jump since the actual
+  jump takes longer to execute than falling through the test.
+- see	<FONT color=green>JCXZ</FONT>  and  <FONT color=green>JMP</FONT>  for their respective timings
+- see   <FONT color=green>Instruction Timing</FONT>   <FONT color=green>FLAGS</FONT>
+
+<A name=ja><A name=jnbe></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JA/JNBE - Jump Above / Jump Not Below or Equal 
+</FONT></H3></CENTER><PRE>
+Usage:	JA	label
+	JNBE	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag and Zero Flag
+are both clear.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jae><A name=jnb></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JAE/JNB - Jump Above or Equal / Jump on Not Below 
+</FONT></H3></CENTER><PRE>
+Usage:	JAE	label
+	JNB	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag is clear.
+Functionally similar to <FONT color=green>JNC</FONT>.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jb><A name=jnae></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JB/JNAE - Jump Below / Jump Not Above or Equal 
+</FONT></H3></CENTER><PRE>
+Usage:	JB	label
+	JNAE	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag is set.
+Functionally similar to <FONT color=green>JC</FONT>.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jbe><A name=jna></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JBE/JNA - Jump Below or Equal / Jump Not Above 
+</FONT></H3></CENTER><PRE>
+Usage:	JBE	label
+	JNA	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag or
+the Zero Flag is set.	Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JC - Jump on Carry </FONT></H3></CENTER><PRE>
+Usage:	JC	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag is set.
+Functionally similar to <FONT color=green>JB</FONT> and <FONT color=green>JNAE</FONT>.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jcxz><A name=jecxz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JCXZ/JECXZ - Jump if Register (E)CX is Zero 
+</FONT></H3></CENTER><PRE>
+Usage:	JCXZ	label
+	JECXZ	label  (386+ only)
+Modifies flags: None
+
+
+Causes execution to branch to "label" if register CX is zero.  Uses
+unsigned comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  18   8+m   9+m    8		  2
+	no jump	   6	4     5	    5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=je><A name=jz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JE/JZ - Jump Equal / Jump Zero </FONT></H3></CENTER><PRE>
+Usage:	JE	label
+	JZ	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Zero Flag is set.	Uses
+unsigned comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jg><A name=jnle></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JG/JNLE - Jump Greater / Jump Not Less or Equal 
+</FONT></H3></CENTER><PRE>
+Usage:	JG	label
+	JNLE	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Zero Flag is clear or
+the Sign Flag equals the Overflow Flag.  Signed comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jge><A name=jnl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JGE/JNL - Jump Greater or Equal / Jump Not Less 
+</FONT></H3></CENTER><PRE>
+Usage:	JGE	label
+	JNL	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Sign Flag equals
+the Overflow Flag.  Signed comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jl><A name=jnge></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JL/JNGE - Jump Less / Jump Not Greater or Equal 
+</FONT></H3></CENTER><PRE>
+Usage:	JL	label
+	JNGE	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Sign Flag is not equal
+to Overflow Flag.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jle><A name=jng></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JLE/JNG - Jump Less or Equal / Jump Not Greater 
+</FONT></H3></CENTER><PRE>
+Usage:	JLE	label
+	JNG	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Zero Flag is set or the
+Sign Flag is not equal to the Overflow Flag.  Signed comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jmp></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JMP - Unconditional Jump </FONT></H3></CENTER><PRE>Usage:	JMP	target
+Modifies flags: None
+
+Unconditionally transfers control to "label".  Jumps by default
+are within -32768 to 32767 bytes from the instruction following
+the jump.  NEAR and SHORT jumps cause the IP to be updated while FAR
+jumps cause CS and IP to be updated.
+
+</PRE><FONT color=blue>Clocks </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 </FONT><PRE>rel8  (relative)		 	15    7+m    7+m    3
+rel16 (relative)		 	15    7+m    7+m    3
+rel32 (relative)		 	 -     -     7+m    3
+reg16 (near, register indirect)		11    7+m    7+m    5
+reg32 (near, register indirect)		 -     -     7+m    5
+mem16 (near, mem indirect)	       18+EA  11+m  10+m    5
+mem32 (near, mem indirect)	       24+EA  15+m  10+m    5
+ptr16:16 (far, dword immed)		 -     -    12+m    17
+ptr16:16 (far, PM dword immed)		 -     -    27+m    19
+ptr16:16 (call gate, same priv.)	 -    38+m  45+m    32
+ptr16:16 (via TSS)		       	 -   175+m   TS	  42+TS
+ptr16:16 (via task gate)		 -   180+m   TS	  43+TS
+mem16:16 (far, indirect)		 -     -    43+m    13
+mem16:16 (far, PM indirect)		 -     -    31+m    18
+mem16:16 (call gate, same priv.)	 -    41+m  49+m    31
+mem16:16 (via TSS)		   	 -   178+m  5+TS  41+TS
+mem16:16 (via task gate)	   	 -   183+m  5+TS  42+TS
+ptr16:32 (far, 6 byte immed)		 -     -    12+m    13
+ptr16:32 (far, PM 6 byte immed)		 -     -    27+m    18
+ptr16:32 (call gate, same priv.)	 -     -    45+m    31
+ptr16:32 (via TSS)			 -     -     TS	  42+TS
+ptr16:32 (via task state) 		 -     -     TS	  43+TS
+m16:32 (far, address at dword)		 -     -    43+m    13
+m16:32 (far, address at dword)		 -     -    31+m    18
+m16:32 (call gate, same priv.)		 -     -    49+m    31
+m16:32 (via TSS)			 -     -    5+TS  41+TS
+m16:32 (via task state)			 -     -    5+TS  42+TS
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jnc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JNC - Jump Not Carry </FONT></H3></CENTER><PRE>
+Usage:	JNC	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Carry Flag is clear.
+Functionally similar to <FONT color=green>JAE</FONT> or <FONT color=green>JNB</FONT>.  Unsigned comparision.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jne><A name=jnz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JNE/JNZ - Jump Not Equal / Jump Not Zero 
+</FONT></H3></CENTER><PRE>
+Usage:	JNE	label
+	JNZ	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Zero Flag is clear.
+Unsigned comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jno></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JNO - Jump Not Overflow </FONT></H3></CENTER><PRE>
+Usage:	JNO	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Overflow Flag is clear.
+Signed comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jns></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JNS - Jump Not Signed </FONT></H3></CENTER><PRE>
+Usage:	JNS	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Sign Flag is clear.
+Signed comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jnp><A name=jpo></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JNP/JPO - Jump Not Parity / Jump Parity Odd 
+</FONT></H3></CENTER><PRE>
+Usage:	JNP	label
+	JPO	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Parity Flag is clear.
+Unsigned comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jo></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JO - Jump on Overflow </FONT></H3></CENTER><PRE>
+Usage:	JO  label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Overflow Flag is set.
+Signed comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=jp><A name=jpe></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JP/JPE - Jump on Parity / Jump on Parity Even 
+</FONT></H3></CENTER><PRE>
+Usage:	JP	label
+	JPE	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Parity Flag is set.
+Unsigned comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=js></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>JS - Jump Signed </FONT></H3></CENTER><PRE>
+Usage:	JS	label
+Modifies flags: None
+
+
+Causes execution to branch to "label" if the Sign Flag is set.
+Signed comparision.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  16   7+m   7+m    3		 2-4
+	no jump	  4	3     3	    1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lahf></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LAHF - Load Register AH From Flags </FONT></H3></CENTER><PRE>
+Usage:	LAHF
+Modifies flags: None
+
+Copies bits 0-7 of the flags register into AH.	This includes flags
+AF, CF, PF, SF and ZF other bits are undefined.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  4	2     2	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lar></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LAR - Load Access Rights (286+ protected) 
+</FONT></H3></CENTER><PRE>
+Usage:	LAR	dest,src
+Modifies flags: ZF
+
+
+The high byte of the of the destination register is overwritten by
+the value of the access rights byte and the low order byte is zeroed
+depending on the selection in the source operand.  The Zero Flag is
+set if the load operation is successful.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,reg16	  -	14    15    11		  3
+reg32,reg32	  -	-     15    11		  3
+reg16,mem16	  -	16    16    11		 3-7
+reg32,mem32	  -	-     16    11		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lds></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LDS - Load Pointer Using DS </FONT></H3></CENTER><PRE>Usage:	LDS	dest,src
+Modifies flags: None
+
+
+Loads 32-bit pointer from memory source to destination register
+and DS.  The offset is placed in the destination register and the
+segment is placed in DS.  To use this instruction the word at the
+lower memory address must contain the offset and the word at the
+higher address must contain the segment.  This simplifies the loading
+of far pointers from the stack and the interrupt vector table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,mem32	16+EA	7     7	    6		 2-4
+reg,mem (PM)	  -	-     22    12		 5-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lea></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LEA - Load Effective Address </FONT></H3></CENTER><PRE>
+Usage:	LEA	dest,src
+Modifies flags: None
+
+
+Transfers offset address of "src" to the destination register.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,mem 	 2+EA	3     2	    1		 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=leave></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LEAVE - Restore Stack for Procedure Exit (80188+) 
+</FONT></H3></CENTER><PRE>
+Usage:	LEAVE
+Modifies flags: None
+
+
+Releases the local variables created by the previous <FONT color=green>ENTER</FONT>
+instruction by restoring SP and BP to their condition before
+the procedure stack frame was initialized.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	5     4	    5		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=les></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LES - Load Pointer Using ES </FONT></H3></CENTER><PRE>Usage:	LES	dest,src
+Modifies flags: None
+
+
+Loads 32-bit pointer from memory source to destination register
+and ES.  The offset is placed in the destination register and the
+segment is placed in ES.  To use this instruction the word at the
+lower memory address must contain the offset and the word at the
+higher address must contain the segment.  This simplifies the loading
+of far pointers from the stack and the interrupt vector table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,mem 	16+EA	7     7	    6		 2-4  (W88=24+EA)
+reg,mem (PM)	  -	-     22    12		 5-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lfs></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LFS - Load Pointer Using FS (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	LFS	dest,src
+Modifies flags: None
+
+
+Loads 32-bit pointer from memory source to destination register
+and FS.  The offset is placed in the destination register and the
+segment is placed in FS.  To use this instruction the word at the
+lower memory address must contain the offset and the word at the
+higher address must contain the segment.  This simplifies the loading
+of far pointers from the stack and the interrupt vector table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,mem 	  -	-     7	    6		 5-7
+reg,mem (PM)	  -	-     22    12		 5-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lgdt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LGDT - Load Global Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	LGDT	src
+Modifies flags: None
+
+
+Loads a value from an operand into the Global Descriptor Table
+(<FONT color=green>GDT</FONT>) register.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>mem64		  -	11    11    11		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lidt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LIDT - Load Interrupt Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	LIDT	src
+Modifies flags: None
+
+
+Loads a value from an operand into the Interrupt Descriptor Table
+(IDT) register.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>mem64		  -	12    11    11		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lgs></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LGS - Load Pointer Using GS (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	LGS	dest,src
+Modifies flags: None
+
+
+Loads 32-bit pointer from memory source to destination register
+and GS.  The offset is placed in the destination register and the
+segment is placed in GS.  To use this instruction the word at the
+lower memory address must contain the offset and the word at the
+higher address must contain the segment.  This simplifies the loading
+of far pointers from the stack and the interrupt vector table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,mem 	  -	-     7	    6		 5-7
+reg,mem (PM)	  -	-     22    12		 5-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lldt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LLDT - Load Local Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	LLDT	src
+Modifies flags: None
+
+
+Loads a value from an operand into the Local Descriptor Table 
+Register (LDTR).
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	17    20    11		  3
+mem16		  -	19    24    11		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lmsw></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LMSW - Load Machine Status Word (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	LMSW	src
+Modifies flags: None
+
+
+Loads the Machine Status Word (<FONT color=green>MSW</FONT>) from data found at "src"
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	3     10    13		  3
+mem16		  -	6     13    13		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lock></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LOCK - Lock Bus </FONT></H3></CENTER><PRE>
+Usage:	LOCK
+	LOCK: (386+ prefix)
+Modifies flags: None
+
+
+This instruction is a prefix that causes the CPU assert bus lock
+signal during the execution of the next instruction.  Used to
+avoid two processors from updating the same data location.  The
+286 always asserts lock during an XCHG with memory operands.  This
+should only be used to lock the bus prior to <FONT color=green>XCHG</FONT>, <FONT color=green>MOV</FONT>, <FONT color=green>IN</FONT> and
+<FONT color=green>OUT</FONT> instructions.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	0     0	    1		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lods><A name=lodsb><A name=lodsw><A name=lodsd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LODS - Load String (Byte, Word or Double) 
+</FONT></H3></CENTER><PRE>
+Usage:	LODS	src
+	LODSB
+	LODSW
+	LODSD  (386+ only)
+Modifies flags: None
+
+Transfers string element addressed by DS:SI (even if an operand is
+supplied) to the accumulator.	SI is incremented based on the size
+of the operand or based on the instruction used.  If the Direction
+Flag is set SI is decremented, if the Direction Flag is clear SI
+is incremented.  Use with REP prefixes.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>src		12/16	5     5	    5		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=loop></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LOOP - Decrement CX and Loop if CX Not Zero 
+</FONT></H3></CENTER><PRE>
+Usage:	LOOP	label
+Modifies flags: None
+
+
+Decrements CX by 1 and transfers control to "label" if CX is not
+Zero.  The "label" operand must be within -128 or 127 bytes of the
+instruction following the loop instruction
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  18   8+m  11+m    6		  2
+	no jump	   5	4     ?	    2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=loope><A name=loopz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LOOPE/LOOPZ - Loop While Equal / Loop While Zero 
+</FONT></H3></CENTER><PRE>
+Usage:	LOOPE	label
+	LOOPZ	label
+Modifies flags: None
+
+Decrements CX by 1 (without modifying the flags) and transfers
+control to "label" if CX != 0 and the Zero Flag is set.  The
+"label" operand must be within -128 or 127 bytes of the instruction
+following the loop instruction.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  18   8+m  11+m    9		  2
+	no jump	   5	4     ?	    6
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=loopnz><A name=loopne></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LOOPNZ/LOOPNE - Loop While Not Zero / Loop While Not Equal 
+</FONT></H3></CENTER><PRE>
+Usage:	LOOPNZ	label
+	LOOPNE	label
+Modifies flags: None
+
+Decrements CX by 1 (without modifying the flags) and transfers
+control to "label" if CX != 0 and the Zero Flag is clear.  The
+"label" operand must be within -128 or 127 bytes of the instruction
+following the loop instruction.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>label:	jump	  19   8+m  11+m    9		  2
+	no jump	   5	4     ?	    6
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=lsl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LSL - Load Segment Limit (286+ protected) 
+</FONT></H3></CENTER><PRE>
+Usage:	LSL	dest,src
+Modifies flags: ZF
+
+Loads the segment limit of a selector into the destination register
+if the selector is valid and visible at the current privilege level.
+If loading is successful the Zero Flag is set, otherwise it is
+cleared.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,reg16	  -	14  20/25   10		  3
+reg32,reg32	  -	-   20/25   10		  3
+reg16,mem16	  -	16  21/26   10		  5
+reg32,mem32	  -	-   21/26   10		  5
+
+
+- 386 times are listed "byte granular" / "page granular"
+- see <FONT color=green>Instruction Timing</FONT>
+<A name=lss></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LSS - Load Pointer Using SS (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	LSS	dest,src
+Modifies flags: None
+
+
+Loads 32-bit pointer from memory source to destination register
+and SS.  The offset is placed in the destination register and the
+segment is placed in SS.  To use this instruction the word at the
+lower memory address must contain the offset and the word at the
+higher address must contain the segment.  This simplifies the loading
+of far pointers from the stack and the interrupt vector table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,mem 	  -	-     7	    6		 5-7
+reg,mem (PM)	  -	-     22    12		 5-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=ltr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>LTR - Load Task Register (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	LTR	src
+Modifies flags: None
+
+
+Loads the current task register with the value specified in "src".
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	17    23    20		  3
+mem16		  -	19    27    20		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=mov></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MOV - Move Byte or Word </FONT></H3></CENTER><PRE>Usage:	MOV	dest,src
+Modifies flags: None
+
+Copies byte or word from the source operand to the destination
+operand.  If the destination is SS interrupts are disabled except
+on early buggy 808x CPUs.  Some CPUs disable interrupts if the
+destination is any of the segment registers
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  2	2     2	    1		  2
+mem,reg 	 9+EA	3     2	    1		 2-4  (W88=13+EA)
+reg,mem 	 8+EA	5     4	    1		 2-4  (W88=12+EA)
+mem,immed	10+EA	3     2	    1		 3-6  (W88=14+EA)
+reg,immed	  4	2     2	    1		 2-3
+mem,accum	  10	3     2	    1		  3   (W88=14)
+accum,mem	  10	5     4	    1		  3   (W88=14)
+segreg,reg16	  2	2     2	    3		  2
+segreg,mem16	 8+EA	5     5	    9		 2-4  (W88=12+EA)
+reg16,segreg	  2	2     2	    3		  2
+mem16,segreg	 9+EA	3     2	    3		 2-4  (W88=13+EA)
+reg32,CR0/CR2/CR3 -	-     6	    4
+CR0,reg32	  -	-     10    16
+CR2,reg32	  -	-     4     4 		  3
+CR3,reg32	  -	-     5     4 		  3
+reg32,DR0/DR1/DR2/DR3	-     22   10		  3
+reg32,DR6/DR7	  -     -     22   10		  3
+DR0/DR1/DR2/DR3,reg32   -     22   11		  3
+DR6/DR7,reg32	  -	-     16   11		  3
+reg32,TR6/TR7 	  -	-     12    4		  3
+TR6/TR7,reg32 	  -	-     12    4		  3
+reg32,TR3			    3
+TR3,reg32			    6
+
+- when the 386 special registers are used all operands are 32 bits
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=movs><A name=movsb><A name=movsw><A name=movsd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MOVS - Move String (Byte or Word) </FONT></H3></CENTER><PRE>Usage:	MOVS	dest,src
+	MOVSB
+	MOVSW
+	MOVSD  (386+ only)
+Modifies flags: None
+
+
+Copies data from addressed by DS:SI (even if operands are given) to
+the location ES:DI destination and updates SI and DI based on the
+size of the operand or instruction used.  SI and DI are incremented
+when the Direction Flag is cleared and decremented when the Direction
+Flag is Set.  Use with <FONT color=green>REP</FONT> prefixes.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>dest,src	  18	5     7	    7		  1   (W88=26)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=movsx></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MOVSX - Move with Sign Extend (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	MOVSX	dest,src
+Modifies flags: None
+
+
+Copies the value of the source operand to the destination register
+with the sign extended.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  -	-     3	    3		  3
+reg,mem 	  -	-     6	    3		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=movzx></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MOVZX - Move with Zero Extend (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	MOVZX	dest,src
+Modifies flags: None
+
+
+Copies the value of the source operand to the destination register
+with the zeroes extended.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  -	-     3	    3		  3
+reg,mem 	  -	-     6	    3		 3-7
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=mul></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>MUL - Unsigned Multiply </FONT></H3></CENTER><PRE>Usage:	MUL	src
+Modifies flags: CF OF (AF,PF,SF,ZF undefined)
+
+Unsigned multiply of the accumulator by the source.  If "src" is
+a byte value, then AL is used as the other multiplicand and the
+result is placed in AX.  If "src" is a word value, then AX is
+multiplied by "src" and DX:AX receives the result.  If "src" is
+a double word value, then EAX is multiplied by "src" and EDX:EAX
+receives the result.  The 386+ uses an early out algorithm which
+makes multiplying any size value in EAX as fast as in the 8 or 16
+bit registers.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		70-77	13   9-14  13-18	  2
+reg16	       118-113	21   9-22  13-26	  2
+reg32		  -	-    9-38  13-42	 2-4
+mem8	    (76-83)+EA	16  12-17  13-18	 2-4
+mem16	  (124-139)+EA	24  12-25  13-26	 2-4
+mem32		  -	-   12-21  13-42	 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>   <FONT color=green>IMUL</FONT>
+
+<A name=neg></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>NEG - Two's Complement Negation </FONT></H3></CENTER><PRE>
+Usage:	NEG	dest
+Modifies flags: AF CF OF PF SF ZF
+
+
+Subtracts the destination from 0 and saves the 2s complement of
+"dest" back into "dest".
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg		  3	2     2	    1		  2
+mem		16+EA	7     6	    3		 2-4  (W88=24+EA)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=nop></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>NOP - No Operation (90h) </FONT></H3></CENTER><PRE>
+Usage:	NOP
+Modifies flags: None
+
+
+This is a do nothing instruction.  It results in occupation of both
+space and time and is most useful for patching code segments.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  3	3     3	    1		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=not></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>NOT - One's Compliment Negation (Logical NOT) 
+</FONT></H3></CENTER><PRE>
+Usage:	NOT	dest
+Modifies flags: None
+
+Inverts the bits of the "dest" operand forming the 1s complement.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg		  3	2     2	    1		  2
+mem		16+EA	7     6	    3		 2-4  (W88=24+EA)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=or></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>OR - Inclusive Logical OR </FONT></H3></CENTER><PRE>Usage:	OR	dest,src
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+Logical inclusive OR of the two operands returning the result in
+the destination.  Any bit set in either operand will be set in the
+destination.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     7	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     6	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem8,immed8	17+EA	7     7	    3		 3-6
+mem16,immed16	25+EA	7     7	    3		 3-6
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=out></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>OUT - Output Data to Port </FONT></H3></CENTER><PRE>
+Usage:	OUT	port,accum
+Modifies flags: None
+
+Transfers byte in AL,word in AX or dword in EAX to the specified
+hardware port address.  If the port number is in the range of 0-255
+it can be specified as an immediate.  If greater than 255 then the
+port number must be specified in DX.  Since the PC only decodes 10
+bits of the port address, values over 1023 can only be decoded by
+third party vendor equipment and also map to the port range 0-1023.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>immed8,accum	10/14	3     10     16		  2
+immed8,accum (PM) -    	-    4/24 11/31/29	  2
+DX,accum	 8/12	3     11     16		  1
+DX,accum (PM)	  -    	-    5/25 10/30/29	  1
+
+
+- 386+ protected mode timings depend on privilege levels.
+
+  first number is the timing when:    CPL ó IOPL
+  second number is the timing when:   CPL &gt; IOPL
+  third number is the timing when:    virtual mode on 486 processor
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=outs><A name=outsb><A name=outsw><A name=outsd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>OUTS - Output String to Port (80188+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	OUTS	port,src
+	OUTSB
+	OUTSW
+	OUTSD  (386+ only)
+Modifies flags: None
+
+
+Transfers a byte, word or doubleword from "src" to the hardware
+port specified in DX.  For instructions with no operands the "src"
+is located at DS:SI and SI is incremented or decremented by the
+size of the operand or the size dictated by the instruction format.
+When the Direction Flag is set SI is decremented, when clear, SI is
+incremented.  If the port number is in the range of 0-255 it can
+be specified as an immediate.  If greater than 255 then the port
+number must be specified in DX.  Since the PC only decodes 10 bits
+of the port address, values over 1023 can only be decoded by third
+party vendor equipment and also map to the port range 0-1023.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>port,src	  -	5     14     17		  1
+port,src (PM)	  -	-    8/28 10/32/30	  1
+
+
+- 386+ protected mode timings depend on privilege levels.
+
+  first number is the timing when:    CPL ó IOPL
+  second number is the timing when:   CPL &gt; IOPL
+  third number is the timing when:    virtual mode on 486 processor
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=pop></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>POP - Pop Word off Stack </FONT></H3></CENTER><PRE>
+Usage:	POP	dest
+Modifies flags: None
+
+
+Transfers word at the current stack top (SS:SP) to the destination
+then increments SP by two to point to the new stack top.  CS is not
+a valid destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  8	5     4     4		  1
+reg32		  4	-     -	    4		  1
+segreg		  8	5     7	    3		  1
+mem16		17+EA	5     5     6		 2-4
+mem32		  5	-     -	    6		 2-4
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=popa><A name=popad></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>POPA/POPAD - Pop All Registers onto Stack (80188+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	POPA
+	POPAD  (386+ only)
+Modifies flags: None
+
+
+Pops the top 8 words off the stack into the 8 general purpose 16/32
+bit registers.	 Registers are popped in the following order: (E)DI,
+(E)SI, (E)BP, (E)SP, (E)DX, (E)CX and (E)AX.  The (E)SP value popped
+from the stack is actually discarded.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	19    24    9		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=popf><A name=popfd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>POPF/POPFD - Pop Flags off Stack </FONT></H3></CENTER><PRE>
+Usage:	POPF
+	POPFD  (386+ only)
+Modifies flags: all flags
+
+
+Pops word/doubleword from stack into the Flags Register and then
+increments SP by 2 (for POPF) or 4 (for POPFD).
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		 8/12	5     5	    9		  1  (W88=12)
+none  (PM)	  -	-     5     6		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=push></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>PUSH - Push Word onto Stack </FONT></H3></CENTER><PRE>Usage:	PUSH	src
+	PUSH	immed	(80188+ only)
+Modifies flags: None
+
+
+Decrements SP by the size of the operand (two or four, byte values
+are sign extended) and transfers one word from source to the stack
+top (SS:SP).
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16	 	11/15	3     2     1		  1
+reg32	 	  -	-     2     1		  1
+mem16		16+EA	5     5     4	 	 2-4  (W88=24+EA)
+mem32	   	  -	-     5     4		 2-4
+segreg		10/14	3     2     3		  1
+immed		  -	3     2     1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=pusha><A name=pushad></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>PUSHA/PUSHAD - Push All Registers onto Stack (80188+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	PUSHA
+	PUSHAD	(386+ only)
+Modifies flags: None
+
+
+Pushes all general purpose registers onto the stack in the following
+order: (E)AX, (E)CX, (E)DX, (E)BX, (E)SP, (E)BP, (E)SI, (E)DI.	The
+value of SP is the value before the actual push of SP.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	19    24    11		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=pushf><A name=pushfd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>PUSHF/PUSHFD - Push Flags onto Stack </FONT></H3></CENTER><PRE>
+Usage:	PUSHF
+	PUSHFD	(386+ only)
+Modifies flags: None
+
+
+Transfers the Flags Register onto the stack.  PUSHF saves a 16 bit
+value while PUSHFD saves a 32 bit value.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		10/14	3     4	    4		  1
+none  (PM)	  -	-     4	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=rcl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>RCL - Rotate Through Carry Left </FONT></H3></CENTER><PRE>Usage:	RCL	dest,count
+Modifies flags: CF OF
+
+
+Rotates the bits in the destination to the left "count" times with
+all data pushed out the left side re-entering on the right.  The
+Carry Flag holds the last bit rotated out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     9	    3		 2
+mem,1		15+EA	7     10    4		2-4  (W88=23+EA)
+reg,CL		 8+4n  5+n    9	   8-30		 2
+mem,CL	      20+EA+4n 8+n    10   9-31		2-4  (W88=28+EA+4n)
+reg,immed8	  -    5+n     9   8-30		 3
+mem,immed8	  -    8+n    10   9-31		3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=rcr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>RCR - Rotate Through Carry Right </FONT></H3></CENTER><PRE>Usage:	RCR	dest,count
+Modifies flags: CF OF
+
+
+Rotates the bits in the destination to the right "count" times with
+all data pushed out the right side re-entering on the left.  The
+Carry Flag holds the last bit rotated out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     9	    3		 2
+mem,1		15+EA	7     10    4		2-4   (W88=23+EA)
+reg,CL		 8+4n  5+n    9	   8-30		 2
+mem,CL	      20+EA+4n 8+n    10   9-31		2-4   (W88=28+EA+4n)
+reg,immed8	  -    5+n    9	   8-30		 3
+mem,immed8	  -    8+n    10   9-31		3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=rep></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>REP - Repeat String Operation </FONT></H3></CENTER><PRE>Usage:	REP
+Modifies flags: None
+
+Repeats execution of string instructions while CX != 0.  After
+each string operation, CX is decremented and the Zero Flag is
+tested.  The combination of a repeat prefix and a segment override
+on CPU's before the 386 may result in errors if an interrupt occurs
+before CX=0.  The following code shows code that is susceptible to
+this and how to avoid it:
+
+ again:  rep movs  byte ptr ES:[DI],ES:[SI]   ; vulnerable instr.
+	     jcxz  next 	     ; continue if REP successful
+	     loop  again	     ; interrupt goofed count
+ next:
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2			  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>   <FONT color=green>REPE</FONT>   <FONT color=green>REPNE</FONT>
+<A name=repe><A name=repz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>REPE/REPZ - Repeat Equal / Repeat Zero </FONT></H3></CENTER><PRE>
+Usage:	REPE
+	REPZ
+Modifies flags: None
+
+
+Repeats execution of string instructions while CX != 0 and the Zero
+Flag is set.  CX is decremented and the Zero Flag tested after
+each string operation.	 The combination of a repeat prefix and a
+segment override on processors other than the 386 may result in
+errors if an interrupt occurs before CX=0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2			  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=repne><A name=repnz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>REPNE/REPNZ - Repeat Not Equal / Repeat Not Zero 
+</FONT></H3></CENTER><PRE>
+Usage:	REPNE
+	REPNZ
+Modifies flags: None
+
+
+Repeats execution of string instructions while CX != 0 and the Zero
+Flag is clear.	 CX is decremented and the Zero Flag tested after
+each string operation.	 The combination of a repeat prefix and a
+segment override on processors other than the 386 may result in
+errors if an interrupt occurs before CX=0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2			  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=ret><A name=retf><A name=retn></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>RET/RETF - Return From Procedure </FONT></H3></CENTER><PRE>Usage:	RET	nBytes
+	RETF	nBytes
+	RETN	nBytes
+Modifies flags: None
+
+Transfers control from a procedure back to the instruction address
+saved on the stack.  "n bytes" is an optional number of bytes to
+release.  Far returns pop the IP followed by the CS, while near
+returns pop only the IP register.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>retn		16/20  11+m  10+m    5		  1
+retn immed	20/24  11+m  10+m    5		  3
+retf		26/34  15+m  18+m    13		  1
+retf (PM, same priv.)	-    32+m    18		  1
+retf (PM, lesser priv.)	-      68    33		  1
+     	retf immed	25/33  15+m  18+m    14		  3
+retf immed (PM, same priv.)  32+m    17		  1
+retf immed (PM, lesser priv.)  68    33		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=rol></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ROL - Rotate Left </FONT></H3></CENTER><PRE>Usage:	ROL	dest,count
+Modifies flags: CF OF
+
+
+Rotates the bits in the destination to the left "count" times with
+all data pushed out the left side re-entering on the right.  The
+Carry Flag will contain the value of the last bit rotated out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     3	    3		  2
+mem,1		15+EA	7     7	    4		 2-4  (W88=23+EA)
+reg,CL		 8+4n  5+n    3	    3		  2
+mem,CL	      20+EA+4n 8+n    7	    4		 2-4  (W88=28+EA+4n)
+reg,immed8	  -    5+n    3	    2		  3
+mem,immed8	  -    8+n    7	    4		 3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=ror></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>ROR - Rotate Right </FONT></H3></CENTER><PRE>Usage:	ROR	dest,count
+Modifies flags: CF OF
+
+
+Rotates the bits in the destination to the right "count" times with
+all data pushed out the right side re-entering on the left.  The
+Carry Flag will contain the value of the last bit rotated out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     3	    3		  2
+mem,1		15+EA	7     7	    4		 2-4  (W88=23+EA)
+reg,CL		 8+4n  5+n    3	    3		  2
+mem,CL	      20+EA+4n 8+n    7	    4		 2-4  (W88=28+EA+4n)
+reg,immed8	  -    5+n    3	    2		  3
+mem,immed8	  -    8+n    7	    4		 3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sahf></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SAHF - Store AH Register into FLAGS </FONT></H3></CENTER><PRE>
+Usage:	SAHF
+Modifies flags: AF CF PF SF ZF
+
+
+Transfers bits 0-7 of AH into the Flags Register.  This includes
+AF, CF, PF, SF and ZF.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  4	2     3	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sal><A name=shl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SAL/SHL - Shift Arithmetic Left / Shift Logical Left 
+</FONT></H3></CENTER><PRE>Usage:	SAL	dest,count
+	SHL	dest,count
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Shifts the destination left by "count" bits with zeroes shifted
+in on right.  The Carry Flag contains the last bit shifted out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     3	    3		 2
+mem,1		15+EA	7     7	    4		2-4  (W88=23+EA)
+reg,CL		 8+4n  5+n    3	    3		 2
+mem,CL	      20+EA+4n 8+n    7	    4		2-4  (W88=28+EA+4n)
+reg,immed8	  -    5+n    3	    2		 3
+mem,immed8	  -    8+n    7	    4		3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sar></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SAR - Shift Arithmetic Right </FONT></H3></CENTER><PRE>Usage:	SAR	dest,count
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Shifts the destination right by "count" bits with the current sign
+bit replicated in the leftmost bit.  The Carry Flag contains the
+last bit shifted out.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     3	    3		  2
+mem,1		15+EA	7     7	    4		 2-4  (W88=23+EA)
+reg,CL		 8+4n  5+n    3	    3		  2
+mem,CL	      20+EA+4n 8+n    7	    4		 2-4  (W88=28+EA+4n)
+reg,immed8	  -    5+n    3	    2		  3
+mem,immed8	  -    8+n    7	    4		 3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sbb></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SBB - Subtract with Borrow </FONT></H3></CENTER><PRE>Usage:	SBB	dest,src
+Modifies flags: AF CF OF PF SF ZF
+
+
+Subtracts the source from the destination, and subtracts 1 extra if
+the Carry Flag is set.	 Results are returned in "dest".
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     6	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     7	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=25+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=scas><A name=scasb><A name=scasw><A name=scasd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SCAS - Scan String (Byte, Word or Doubleword) 
+</FONT></H3></CENTER><PRE>
+Usage:	SCAS	string
+	SCASB
+	SCASW
+	SCASD	(386+ only)
+Modifies flags: AF CF OF PF SF ZF
+
+
+Compares value at ES:DI (even if operand is specified) from the
+accumulator and sets the flags similar to a subtraction.  DI is
+incremented/decremented based on the instruction format (or
+operand size) and the state of the Direction Flag.  Use with REP
+prefixes.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>string		  15	7     7	    6		  1  (W88=19)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setae><A name=setnb></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETAE/SETNB - Set if Above or Equal / Set if Not Below 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(unsigned, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETAE	dest
+	SETNB	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Carry Flag is clear
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setb><A name=setnae></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETB/SETNAE - Set if Below / Set if Not Above or Equal 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(unsigned, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETB	dest
+	SETNAE	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Carry Flag is set
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setbe><A name=setna></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETBE/SETNA - Set if Below or Equal / Set if Not Above 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(unsigned, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETBE	dest
+	SETNA	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Carry Flag or the Zero
+Flag is set, otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sete><A name=setz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETE/SETZ - Set if Equal / Set if Zero (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	SETE	dest
+	SETZ	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Zero Flag is set,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setne><A name=setnz></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETNE/SETNZ - Set if Not Equal / Set if Not Zero (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	SETNE	dest
+	SETNZ	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Zero Flag is clear,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setl><A name=setnge></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETL/SETNGE - Set if Less / Set if Not Greater or Equal 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(signed, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETL	dest
+	SETNGE	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Sign Flag is not equal
+to the Overflow Flag, otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setge><A name=setnl></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETGE/SETNL - Set if Greater or Equal / Set if Not Less 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(signed, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETGE	dest
+	SETNL	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Sign Flag equals the
+Overflow Flag, otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setle><A name=setng></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETLE/SETNG - Set if Less or Equal / Set if Not greater or 
+Equal </FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(signed, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETLE	dest
+	SETNG	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Zero Flag is set or the
+Sign Flag is not equal to the Overflow Flag,  otherwise sets the
+operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setg><A name=setnle></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETG/SETNLE - Set if Greater / Set if Not Less or Equal 
+</FONT></H3></CENTER><PRE></PRE>
+<CENTER>
+<H3><FONT color=red>(signed, 386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETG	dest
+	SETNLE	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Zero Flag is clear or the
+Sign Flag equals to the Overflow Flag,	otherwise sets the operand
+to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sets></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETS - Set if Signed (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETS	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Sign Flag is set, otherwise
+sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setns></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETNS - Set if Not Signed (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETNS	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Sign Flag is clear,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETC - Set if Carry (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETC	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Carry Flag is set,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setnc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETNC - Set if Not Carry (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETNC	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Carry Flag is clear,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=seto></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETO - Set if Overflow (386+ only) </FONT></H3></CENTER><PRE>
+Usage:	SETO	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Overflow Flag is set,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setno></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETNO - Set if Not Overflow (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	SETNO	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Overflow Flag is clear,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setp><A name=setpe></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETP/SETPE - Set if Parity / Set if Parity Even (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	SETP	dest
+	SETPE	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Parity Flag is set,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=setnp><A name=setpo></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SETNP/SETPO - Set if No Parity / Set if Parity Odd (386+ 
+only) </FONT></H3></CENTER><PRE>
+Usage:	SETNP	dest
+	SETPO	dest
+Modifies flags: none
+
+
+Sets the byte in the operand to 1 if the Parity Flag is clear,
+otherwise sets the operand to 0.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg8		  -	-     4	    3		  3
+mem8		  -	-     5	    4		  3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sgdt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SGDT - Store Global Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	SGDT	dest
+Modifies flags: none
+
+
+Stores the Global Descriptor Table (<FONT color=green>GDT</FONT>) Register into the
+specified operand.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>mem64		  -	11    9	    10		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sidt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SIDT - Store Interrupt Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	SIDT	dest
+Modifies flags: none
+
+
+Stores the Interrupt Descriptor Table (IDT) Register into the
+specified operand.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>mem64		  -	12    9	    10		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=shr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SHR - Shift Logical Right </FONT></H3></CENTER><PRE>Usage:	SHR	dest,count
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Shifts the destination right by "count" bits with zeroes shifted
+in on the left.  The Carry Flag contains the last bit shifted out.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,1		  2	2     3			  2
+mem,1		15+EA	7     7			 2-4   (W88=23+EA)
+reg,CL		 8+4n  5+n    3			  2
+mem,CL	      20+EA+4n 8+n    7			 2-4   (W88=28+EA+4n)
+reg,immed8	  -    5+n    3			  3
+mem,immed8	  -    8+n    7			 3-5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=shld><A name=shrd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SHLD/SHRD - Double Precision Shift (386+ only) 
+</FONT></H3></CENTER><PRE>
+Usage:	SHLD	dest,src,count
+	SHRD	dest,src,count
+Modifies flags: CF PF SF ZF (OF,AF undefined)
+
+
+SHLD shifts "dest" to the left "count" times and the bit positions
+opened are filled with the most significant bits of "src".  SHRD
+shifts "dest" to the right "count" times and the bit positions
+opened are filled with the least significant bits of the second
+operand.  Only the 5 lower bits of "count" are used.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16,reg16,immed8	 -     -     3	   2		  4
+reg32,reg32,immed8	 -     -     3	   2		  4
+mem16,reg16,immed8	 -     -     7	   3		  6
+mem32,reg32,immed8	 -     -     7	   3		  6
+reg16,reg16,CL		 -     -     3	   3		  3
+reg32,reg32,CL		 -     -     3	   3		  3
+mem16,reg16,CL		 -     -     7	   4		  5
+mem32,reg32,CL		 -     -     7	   4		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sldt></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SLDT - Store Local Descriptor Table (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	SLDT	dest
+Modifies flags: none
+
+
+Stores the Local Descriptor Table (LDT) Register into the
+specified operand.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	2     2	    2		  3
+mem16		  -	2     2	    3		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=smsw></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SMSW - Store Machine Status Word (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	SMSW	dest
+Modifies flags: none
+
+
+Store Machine Status Word (<FONT color=green>MSW</FONT>) into "dest".
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	2     10    2		  3
+mem16		  -	3     3	    3		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=stc></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>STC - Set Carry </FONT></H3></CENTER><PRE>
+Usage:	STC
+Modifies flags: CF
+
+
+Sets the Carry Flag to 1.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=std></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>STD - Set Direction Flag </FONT></H3></CENTER><PRE>
+Usage:	STD
+Modifies flags: DF
+
+
+Sets the Direction Flag to 1 causing string instructions to
+auto-decrement SI and DI instead of auto-increment.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    2		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sti></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>STI - Set Interrupt Flag (Enable Interrupts) 
+</FONT></H3></CENTER><PRE>
+Usage:	STI
+Modifies flags: IF
+
+
+Sets the Interrupt Flag to 1, enabling recognition of all CPU
+hardware interrupts.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  2	2     2	    5		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=stos><A name=stosb><A name=stosw><A name=stosd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>STOS - Store String (Byte, Word or Doubleword) 
+</FONT></H3></CENTER><PRE>
+Usage:	STOS	dest
+	STOSB
+	STOSW
+	STOSD
+Modifies flags: None
+
+
+Stores value in accumulator to location at ES:(E)DI (even if operand
+is given).  (E)DI is incremented/decremented based on the size of
+the operand (or instruction format) and the state of the Direction
+Flag.	Use with <FONT color=green>REP</FONT> prefixes.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>dest		  11	3     4	    5		  1  (W88=15)
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=str></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>STR - Store Task Register (286+ privileged) 
+</FONT></H3></CENTER><PRE>
+Usage:	STR	dest
+Modifies flags: None
+
+
+Stores the current Task Register to the specified operand.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	2     2	    2		  3
+mem16		  -	3     2	    3		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=sub></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>SUB - Subtract </FONT></H3></CENTER><PRE>Usage:	SUB	dest,src
+Modifies flags: AF CF OF PF SF ZF
+
+
+The source is subtracted from the destination and the result is
+stored in the destination.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     6	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     7	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=25+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=test></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>TEST - Test For Bit Pattern </FONT></H3></CENTER><PRE>Usage:	TEST	dest,src
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Performs a logical <FONT color=green>AND</FONT> of the two operands updating the flags
+register without saving the result.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     1	    1		  2
+reg,mem 	 9+EA	6     5	    1		 2-4  (W88=13+EA)
+mem,reg 	 9+EA	6     5	    2		 2-4  (W88=13+EA)
+reg,immed	  5	3     2	    1		 3-4
+mem,immed	11+EA	6     5	    2		 3-6
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=verr></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>VERR - Verify Read (286+ protected) </FONT></H3></CENTER><PRE>
+Usage:	VERR	src
+Modifies flags: ZF
+
+
+Verifies the specified segment selector is valid and is readable
+at the current privilege level.  If the segment is readable,
+the Zero Flag is set, otherwise it is cleared.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	14    10    11		  3
+mem16		  -	16    11    11		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=verw></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>VERW - Verify Write (286+ protected) </FONT></H3></CENTER><PRE>
+Usage:	VERW	src
+Modifies flags: ZF
+
+
+Verifies the specified segment selector is valid and is ratable
+at the current privilege level.  If the segment is writable,
+the Zero Flag is set, otherwise it is cleared.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg16		  -	14    15    11		  3
+mem16		  -	16    16    11		  5
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=wait><A name=fwait></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>WAIT/FWAIT - Event Wait </FONT></H3></CENTER><PRE>
+Usage:	WAIT
+	FWAIT
+Modifies flags: None
+
+
+CPU enters wait state until the coprocessor signals it has finished
+it's operation.  This instruction is used to prevent the CPU from
+accessing memory that may be temporarily in use by the coprocessor.
+WAIT and FWAIT are identical.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  4	3     6+   1-3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=wbinvd></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>WBINVD - Write-Back and Invalidate Cache 
+</FONT></H3></CENTER><PRE>
+Usage:	WBINVD
+Modifies flags: None
+
+
+Flushes internal cache, then signals the external cache to write
+back current data followed by a signal to flush the external cache.
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>none		  -	-     -     5		  2
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=xchg></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>XCHG - Exchange </FONT></H3></CENTER><PRE>
+Usage:	XCHG	dest,src
+Modifies flags: None
+
+
+Exchanges contents of source and destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg		  4	3     3	    3		  2
+mem,reg 	17+EA	5     5	    5		 2-4  (W88=25+EA)
+reg,mem 	17+EA	5     5	    3		 2-4  (W88=25+EA)
+accum,reg	  3	3     3	    3		  1
+reg,accum	  3	3     3	    3		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=xlat><A name=xlatb></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>XLAT/XLATB - Translate </FONT></H3></CENTER><PRE>
+Usage:	XLAT	translation-table
+	XLATB	(masm 5.x)
+Modifies flags: None
+
+
+Replaces the byte in AL with byte from a user table addressed by
+BX.  The original value of AL is the index into the translate table.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>table		  11	5     5	    4		  1
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+
+<A name=xor></PRE>
+<HR>
+
+<CENTER>
+<H3><FONT color=red>XOR - Exclusive OR </FONT></H3></CENTER><PRE>Usage:	XOR	dest,src
+Modifies flags: CF OF PF SF ZF (AF undefined)
+
+
+Performs a bitwise exclusive OR of the operands and returns
+the result in the destination.
+
+
+</PRE><FONT color=blue>Clocks Size </FONT><PRE></PRE><FONT color=blue>Operands 808x 286 386 486 Bytes </FONT><PRE>reg,reg 	  3	2     2	    1		  2
+mem,reg 	16+EA	7     6	    3		 2-4  (W88=24+EA)
+reg,mem 	 9+EA	7     7	    2		 2-4  (W88=13+EA)
+reg,immed	  4	3     2	    1		 3-4
+mem,immed	17+EA	7     7	    3		 3-6  (W88=25+EA)
+accum,immed	  4	3     2	    1		 2-3
+
+
+- see <FONT color=green>Instruction Timing</FONT>
+</PRE><BR>
+<HR>
+<BR><FONT size=-1><A href="http://www.timeless.org.zw/">Go Home</A> <A 
+href="http://www.timeless.org.zw/">Table of Contents</A> <A 
+href="http://www.timeless.org.zw/asm_idx.html">Category Index</A></FONT> 
+</BODY></HTML>

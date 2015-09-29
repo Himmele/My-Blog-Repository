@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all3.htm -->
+<HTML><HEAD><TITLE>Deskriptoren</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Deskriptoren-Dateien/stone.jpg>
+<H2><FONT color=#800000>Deskriptoren</FONT></H2>
+<P>Deskriptoren sind Strukturen, die bei dem 80386-Prozessor eine Länge von 8 
+Byte besitzen und sich "irgendwo" im Arbeitsspeicher befinden müssen. Sie 
+beschreiben (daher auch der Name: Deskriptor; <I>to describe, englisch, 
+beschreiben</I>) ein Segment im Speicher.</P>
+<P>Ein Deskriptor hält dabei die folgenden Eigenschaften eines Segmentes 
+fest:</P>
+<UL>
+  <LI>die physische Startadresse innerhalb des Speichers (32 Bit), 
+  <LI>die Länge des Segmentes (20 Bit) und 
+  <LI>Zusatzinformationen, wie Zugriffsrechte oder den Segmentyp (Daten- oder 
+  Codesegment). </LI></UL>
+<P>Leider sieht ein 80386-Deskriptor nicht so "aufgeräumt" aus. Denn um die 
+Kompatibilität zu 80286-Deskriptoren zu gewährleisten, mußten einige der oben 
+genannten Eigenschaften auf mehrere, nicht zusammenhängende Byte verteilt 
+werden.</P>
+<P>Abb.2.3 zeigt einen 80386-Deskriptor in allgemeiner Darstellung 
+(Zahlenangaben sind in Bit). </P>
+<CENTER>
+<P><IMG alt=Deskriptor src="Deskriptoren-Dateien/p_2_3.gif" border=3> 
+<BR><I><B>Abb. 2.3:</B> 80386-Deskriptor</I> </P></CENTER>
+<P><B>Anmerkung:</B> Das niederwertige (Low-)Byte eines Wortes befindet sich 
+nach der Intel-Konvention an der NIEDRIGEREN Adresse!</P>
+<P>Neben dem hier dargestellten Deskriptor, der Speichersegmente beschreibt, 
+existieren zwei weitere Deskriptorarten. Dazu zählen Deskriptoren für 
+System-Segmente und sogenannte Gates. Beide Deskriptorarten werden später 
+betrachtet (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm">siehe 2.4 
+Gates, Interrupts und Exceptions</A>).</P>
+<P><B>Wie sehen die Zusatzinformationen (Zugriffsrechte, Typ) eines 
+Speichersegment-Deskriptors genau aus?</B></P>
+<P>Diese Informationen werden in den Bytes 6 und 7 eines Deskriptors 
+festgehalten. Diese beiden Bytes entsprechen dem High-Byte von Wort 3 (Byte 6) 
+und dem Low-Byte von Wort 4 (Byte 7). Abbildung 2.4 zeigt den genauen Aufbau von 
+Byte 6.</P>
+<CENTER>
+<P><IMG alt=Zurgiffsinfomrationen src="Deskriptoren-Dateien/p_2_4.gif" border=3> 
+<BR><I><B>Abb. 2.4:</B> Verschlüsselung der Zugriffsinformationen im 
+Deskriptor-Byte 6</I> </P></CENTER>
+<P>Das Type-Feld innerhalb des Deskriptors legt den Segmentyp und damit die mit 
+dem Segment erlaubten Operationen fest. Die Operationen sind dabei in 3 Bit 
+codiert (Vgl. Abb. 2.5).</P>
+<CENTER>
+<P><IMG alt=Segmentyp src="Deskriptoren-Dateien/p_2_5.gif" border=3> 
+<BR><I><B>Abb. 2.5:</B> Festlegung des Segmenttyps im Type-Feld des 
+Deskriptors</I> </P></CENTER>
+<P>Tabelle 2.1 gibt einen Überblick über die möglichen Segmentypen.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="10%"><B>Nr.</B></TH>
+    <TH vAlign=center align=middle width="10%"><B>binär</B></TH>
+    <TH vAlign=center align=middle width="40%"><B>Typ</B></TH>
+    <TH vAlign=center align=middle width="40%"><B>Eigenschaften</B></TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0</TD>
+    <TD>000b</TD>
+    <TD>Datensegment (schreibgeschützt)</TD>
+    <TD>nur Lesen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>1</TD>
+    <TD>001b</TD>
+    <TD>Datensegment</TD>
+    <TD>Lesen und Schreiben erlaubt</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>2</TD>
+    <TD>010b</TD>
+    <TD>reserviert</TD>
+    <TD>für zukünftige Erweiterungen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>3</TD>
+    <TD>011b</TD>
+    <TD>nach unter erweiterbares "expand down" Datensegment</TD>
+    <TD>für Stacksegmente verwendbar</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>4</TD>
+    <TD>100b</TD>
+    <TD>Codesegment</TD>
+    <TD>nur ausführbar, nicht lesbar</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>5</TD>
+    <TD>101b</TD>
+    <TD>Codesegment</TD>
+    <TD>ausführbar und lesbar</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>6</TD>
+    <TD>110b</TD>
+    <TD>"Conforming"-Codesegment</TD>
+    <TD>nur ausführbar</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>7</TD>
+    <TD>111b</TD>
+    <TD>"Conforming"-Codesegment</TD>
+    <TD>ausführbar und lesbar</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 2.1:</B> Segmenttypen</I> </CAPTION></CENTER>
+<P>Weitere Informationen über das Segment befinden sich in den höherwertigen 4 
+Bit des Deskriptor-Bytes 7 (Vgl. Abb. 2.6)</P>
+<CENTER>
+<P><IMG alt="Weitere Segmentinformationen" src="Deskriptoren-Dateien/p_2_6.gif" 
+border=3> <BR><I><B>Abb. 2.6:</B> Weitere Segmentinformationen</I> </P></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all2.htm"><IMG alt=Zurück 
+src="Deskriptoren-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all4.htm"><IMG alt=Weiter 
+src="Deskriptoren-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Deskriptoren-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 29.06.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

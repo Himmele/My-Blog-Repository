@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all9.htm -->
+<HTML><HEAD><TITLE>Interrupts und Exceptions</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Interrupts und Exceptions-Dateien/stone.jpg">
+<H2><FONT color=#800000>Interrupts und Exceptions</FONT></H2>
+<P>Intel Prozessoren kennen drei Gruppen von Ereignissen, die einen Interrupt 
+auslösen können:</P>
+<OL>
+  <LI>Hardware-Interrupts, die durch externe Ereignisse (z.B. Peripheriegeräte) 
+  verursacht werden. 
+  <LI>Software-Interrupts, die über den INT Befehl ausgelöst werden. 
+  <LI>Exceptions (<I>exception, englisch, Ausnahme</I>), die der Prozessor 
+  selbst auslöst, wenn er bei der Ausführung eines Befehles einen Fehler 
+  feststellt. </LI></OL>
+<P>Alle drei Interrupts basieren auf dem gleichen Mechanismus:</P>
+<P>Wenn ein Interrupt auftritt, legt der Prozessor die Register CS:EIP und das 
+aktuelle Flagregister auf den Stack. Anschließend führt er einen Sprung zu einer 
+Interrupt-Behandlungsroutine aus. Die Adresse dieser Interruptroutine wird dabei 
+einem Gate der Interrupt Deskriptor Tabelle (IDT) entnommen. Da der Prozessor 
+maximal 256 Interrupt-Nummern kennt, kann die IDT maximal 256 Deskriptoren 
+enthalten. Die Interrupt-Nummern 0 bis 31 hat Intel für den Prozessor selbst 
+reserviert, die Nummern 32 bis 255 stehen dem Betriebssystem zur Verfügung. Abb. 
+2.12 stellt den Zusammenhang zwischen Interrupt-Nummern, der IDT und der GDT 
+(bzw. der momentan aktiven LDT) dar.</P>
+<CENTER>
+<P><IMG alt=Interrupt-Gate src="Interrupts und Exceptions-Dateien/p_2_12.gif" 
+border=3> <BR><I><B>Abb. 2.12:</B> Bildung der Einsprungsadresse in eine 
+Interrupt-Behandlungsroutine (Interrupt-Gate)</I> </P></CENTER>
+<H2><FONT color=#000080>Besonderheiten:</FONT></H2>
+<OL>
+  <LI>
+  <P>Hardware-Interrupts (durch externe Ereignisse ausgelöst) lassen sich in 
+  zwei Gruppen einteilen, in maskierbare und nicht maskierbare Interrupts, 
+  sogenannte NMI's ("non maskable interrupt"). <BR><BR>Auf NMI's reagiert der 
+  Prozessor immer mit einer Routine, die mit dem Interrupt-Deskriptor 2 
+  verbunden ist.<BR>Im Gegensatz zu maskierbaren Interrupts sind NMI's nicht vom 
+  Status des IF-Flags abhängig.<BR><BR>Tritt ein maskierbarer Interrupt auf und 
+  ist das IF-Flag gesetzt, erwartet der Prozessor als nächstes die 
+  Interrupt-Nummer auf dem Datenbus und interpretiert sie als Selektor in der 
+  IDT. Die im Gate-Deskriptor festgelegte Privilegstufe wird bei 
+  Hardware-Interrupts nicht beachtet.</P>
+  <LI>
+  <P>Software Interrupts werden durch den INT-Befehl ausgelöst, wobei die 
+  Interrupt-Nummer direkt im Befehl enthalten ist. Software Interrupts lassen 
+  sich nicht maskieren und sind nicht vom Status des IF-Flags abhängig. Im 
+  Gegensatz zu Hardware-Interrupts wird bei INT-Befehlen eine Prüfung der 
+  Privilegstufe vorgenommen. Um einen bestimmten Software-Interrupt ausführen zu 
+  können, muß die aktuelle Privilegstufe (CPL) mindestens gleich privilegiert 
+  sein, wie die im Interrupt-Gate festgehaltene Privilegstufe (DPL). Diese 
+  Überprüfung hat zur Folge, daß nicht alle Anwendungen alle verfügbaren 
+  Interrupts benutzen können.</P>
+  <LI>
+  <P>Exceptions sind in drei Gruppen aufgeteilt (Vgl. Tabelle 2.4).</P></LI></OL>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="10%">Name</TH>
+    <TH vAlign=center align=middle width="30%">Grund für Auslösung</TH>
+    <TH vAlign=center align=middle width="60%">Beschreibung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>Trap</TD>
+    <TD>Fehler tritt während der Befehlsausführung auf</TD>
+    <TD>CS:EIP (auf dem Stack) zeigen auf den Befehl, der dem problematischen 
+      Befehl unmittelbar folgt</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>Fault</TD>
+    <TD>Prozessor erkennt einen Fehler bereits vor der Ausführung des 
+      fehlerhaften Befehls</TD>
+    <TD>CS:EIP (auf dem Stack) zeigen auf den Befehl, der die Exception 
+      ausgelöst hat (damit besteht die Möglichkeit, nach der Fehlerbeseitigung 
+      den Befehl zu wiederholen)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>Abort</TD>
+    <TD>schwerer Fehler, keine Aufnahme des entsprechenden Prozeßes mehr 
+      möglich 
+    <TD>der auslösende Befehl kann nicht identifiziert werden, 
+  Prozeßabbruch</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 2.4:</B> mögliche Exceptions</I> 
+</CAPTION></CENTER>
+<P>Zusätzlich zur Fehleradresse (CS:EIP) legt der Prozessor bei bestimmten 
+Exceptions einen Fehlercode auf dem Stack ab. Dieser Fehlercode gestattet es dem 
+jeweiligen Exception-Handler, eine genauere Fehleranalyse durchzuführen. Bei 
+diesem Fehlercode handelt es sich um einen Selektor auf einen Deskriptor, der 
+das Segment beschreibt, in dem der Fehler aufgetreten ist. Abb. 2.13 stellt den 
+Aufbau des Exception-Fehlercodes dar.</P>
+<CENTER>
+<P><IMG alt=Fehlercode src="Interrupts und Exceptions-Dateien/p_2_13.gif" 
+border=3> <BR><I><B>Abb. 2.13:</B> Exception-Fehlercode</I> </P></CENTER>
+<P>Soll der Prozessor nach Ausführung einer Exception, bei der ein Fehlercode 
+auf dem Stack abgelegt wurde, das unterbrochene Programm fortsetzen, so muß 
+dieser Fehlercode vor (!) dem Rücksprung (mittels IRET) vom Stack entfernt 
+werden. <A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/exc.htm">Tabelle 
+2.5</A> gibt einen Überblick über alle möglichen Exceptions der 80386 und 80486 
+Prozessoren.</P>
+<P>Einige der in Tabelle 2.5 genannten Exceptions sollen im folgenden näher 
+betrachtet werden.</P>
+<H2><FONT color=#000080>Interrupt 3: Haltepunkt (Trap)</FONT></H2>
+<P>Interrupt 3 wird von Debuggern verwendet, um Software-Haltepunkte 
+festzulegen. Das besondere am Interrupt 3 ist die Codierung des INT 3 Befehls, 
+der im Gegensatz zu allen anderen Interrupt-Befehlen der Form: INT n in nur 
+einem Byte codiert wird (0CCh). Damit wird ein Debugger in die Lage versetzt, an 
+jeder beliebigen Stelle des zu untersuchenden Programms einen Breakpoint zu 
+setzen und die entsprechenden Ausgaben und Tests im entsprechenden Interrupt 3 
+Exception Handler durchzuführen.</P>
+<H2><FONT color=#000080>Interrupt 8: Doppelfehler (Abort, Errorcode)</FONT></H2>
+<P>Normalerweise behandelt der Prozessor Exceptions, die während (!) einer 
+Exception-Behandlung auftreten, vorrangig. Ist das aufgrund der Schwere der 
+Exception nicht möglich, wird Interrupt 8 ausgelöst. Tabelle 2.6 listet alle 
+Exception-Kombinationen auf, die zu einem Doppelfehler führen.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Erster Interrupt</TH>
+    <TH align=left width="80%">Doppelfehler, wenn gefolgt von</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>0</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>9</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>10</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>11</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>12</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>13</TD>
+    <TD>0, 9, 10, 11, 12, 13</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD>14</TD>
+    <TD>0, 9, 10, 11, 12, 13, 14</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 2.6:</B> Doppelfehlerursachen</I> 
+</CAPTION></CENTER>
+<H2><FONT color=#000080>Interrupt 13 - Allgemeine Schutzverletzung</FONT></H2>
+<P>Interrupt 13 wird bei Zugriffsverletzungen ausgelöst, die durch keine anderen 
+Exceptions abgedeckt werden. Dazu gehören beispielsweise Speicherzugriffe auf 
+schreibgeschützte Code- oder Datensegmente, Speicherzugiffe auf Segmente höherer 
+Privilegstufe oder die Überschreitung der Segmentgrenzen.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Interrupts und Exceptions-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das in Assembler geschriebene Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_02.asm">pm_02.asm</A> 
+      stellt die Weiterentwicklung des Beispiels aus Abschnitt <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all7.htm">2.3 
+      Einschalten des Protected Mode</A> dar. Die Ausgabe des Programmes ist 
+      dieselbe wie im vorangegangenen Beispiel. Das Programm definiert jetzt 
+      jedoch eine IDT und stellt für alle möglichen Exceptions (0..17) eine 
+      eigene Routine zur Verfügung. Tritt eine Exception auf, wird die 
+      Exception-Nummer sowie ihr Name zusammen mit den letzten Werten der 
+      allgemeinen Register auf dem Bildschirm ausgegeben, der Prozessor in den 
+      Realmode zurückgeschaltet und das Programm beendet.</P>
+      <P>Damit ist das Beispiel für Experimente geeignet. So könnte 
+      beispielsweise versucht werden, einen nicht definierten Deskriptor 
+      anzusprechen oder auf ein Segment zuzugreifen, das schreibgeschützt ist, 
+      um so eine Exception auszulösen. Welche Exception wird dabei 
+    ausgelöst?</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm"><IMG alt=Zurück 
+src="Interrupts und Exceptions-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all10.htm"><IMG 
+alt=Weiter src="Interrupts und Exceptions-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Interrupts und Exceptions-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

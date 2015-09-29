@@ -1,0 +1,449 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm -->
+<HTML><HEAD><TITLE>Protected Mode Programmierung in C</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Protected Mode Programmierung in C-Dateien/stone.jpg">
+<H1><FONT color=#800000>Protected Mode Programmierung in C</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Alle bisherigen Beispielprogramme, in denen der Protected Mode direkt 
+programmiert wurde, nutzten ausschließlich Assembler als Programmiersprache. 
+Wenn man bedenkt, daß die dazu benötigten Befehle, z.B. LGDT oder Zugriffe auf 
+die Spezialregister: CR0, CR3 usw., in der Regel nur von einem Assembler und 
+nicht von einem Hochsprachen-Compiler unterstützt werden, ist die Nutzung eines 
+Assemblers die logischere Alternative.</P>
+<P>Da der Aufbau eines Assemblerprogramms in der Regel komplizierter zu 
+verstehen ist, als die Struktur eines gleichwertigen Hochsprachen-Programmes, 
+könnte es von Vorteil sein, entsprechende Programme auch in einer 
+Hochsprachen-Version analysieren zu können. Letzteres trifft besonders auf 
+Protected Mode Programme zu, denn eine Umschaltung in den Protected Mode setzt 
+eine erhebliche Anzahl von Vorbereitungen voraus (z.B. müssen Deskriptortabellen 
+und die entsprechenden Register initialisiert oder Page-Table Strukturen 
+angelegt werden).</P>
+<P>Wird versucht, Protected Mode mit einer Hochsprache zu verbinden, muß als 
+erstes zwischen zwei verschiedenen Methoden unterschieden werden. Zum einen kann 
+eine Hochsprache, in den Beispielen wird das C sein, genutzt werden, um den 
+Programmcode zu erzeugen, der letztendlich im Protected Mode ausgeführt wird. 
+Dabei "kümmert" sich ein Assemblerprogramm um die eigentliche Initialisierung 
+des Protected Mode und führt dann den vom Compiler generierten Programmcode aus. 
+Diese Möglichkeit wird mit dem Beispielprogramm 2 demonstriert.</P>
+<P>Die andere Möglichkeit besteht darin, daß das Hochsprachenprogramm selbst den 
+Protected Mode initialisiert und dabei, soweit wie möglich, auf den Einsatz von 
+Assemblerbefehlen verzichtet. Wie so etwas aussehen könnte, soll im folgenden 
+Beispiel demonstriert werden.</P>
+<H2><FONT color=#000080>Protected Mode Initialisierung unter C</FONT></H2>
+<P>Ein minimales Programm, das den Prozessor vom Realmode in den Protected Mode 
+schaltet, muß mindestens die folgenden Schritte ausführen:</P>
+<UL>
+  <LI>Einrichten einer GDT mit Deskriptoren auf die verwendeten Segmente. 
+  <LI>Setzen der Startadresse der GDT mit dem Befehl LGDT. 
+  <LI>Aktivieren des Protected Mode, dazu gehört: 
+  <UL>
+    <LI>Interrupts ausschalten, 
+    <LI>Bit 1 im Register CR0 setzen und 
+    <LI>FAR-JMP zu einem Protected Mode Codesegmentselektor ausführen. 
+  </LI></UL></LI></UL>
+<P>Abgesehen von den dazu benötigten speziellen Assemblerbefehlen, läßt sich das 
+auch in einer Hochsprache realisieren. Anhand der GDT-Initialisierung soll das 
+im folgenden gezeigt werden.</P>
+<H3><I>Die GDT</I></H3>
+<P>Bei der Globalen Deskriptor Tabelle (kurz: GDT) handelt es sich um eine 
+Struktur, die die sogenannten Segment-Deskriptoren aufnimmt. Dadurch gehört die 
+GDT zu den wichtigsten Strukturen des Protected Mode, da sie alle nutzbaren 
+Segmente definiert.</P>
+<P>Das Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/cpm_01.c">cpm_01.c</A> 
+deklariert für die Verwaltung von Segment-Deskriptoren die C-Struktur 
+<I>SEG_DESKRIPTOR</I>.</P><PRE>typedef struct
+    {
+    WORD    segsize_0_15;            /* Segment-Size Bit  0..15 */
+    WORD    segbase_0_15;            /* Segment-Base Bit  0..15 */
+    BYTE    segbase_16_23;           /* Segment-Base Bit 16..23 */
+    BYTE    segtype;                 /* Segment-Typ             */
+    BYTE    segsize_16_19;           /* Segment-Size Bit 16..19 */
+                                     /* Special Info. G-Bit etc.*/
+    BYTE    segbase_24_31;           /* Segment-Base Bit 24..31 */
+    } SEG_DESKRIPTOR;
+</PRE>
+<P>Die GDT wird dann später als statisches Array dieser 
+<I>SEG_DESKRIPTOR</I>-Strukturen definiert, wobei die Funktion 
+<I>deskr_setattrib</I> die Initialisierung dieser Strukturen 
+(Segment-Deskriptoren) übernimmt.</P>
+<P>Die Funktion <I>deskr_setattrib</I> erwartet die folgenden 
+Aufrufparameter.</P><PRE>    des        Zeiger auf eine Deskriptor-Struktur im Speicher (in die GDT)
+    size       Größe des Segmentes in Byte (0..1MB)
+    segment    (Realmode) Segmentadresse des Segment-Speichers
+    offset     (Realmode) Offsetadresse des Segment-Speichers
+    type       Segment-Typ Byte
+    gran       Zusätzliches Info. Byte (Granularity, 80386 Segment ...)
+               (High-Nibble des Byte 7)
+</PRE>
+<P><I>deskr_setattrib</I> organisiert die übergebenen Werte so, daß sie dem 
+Format von <I>SEG_DESKRIPTOR</I> entsprechen. Der über <I>des</I> adressierte 
+Deskriptor wird auf diese Weise initialisiert.</P>
+<P>Für die Parameter <I>type</I> und <I>gran</I> stehen zusätzlich die folgenden 
+Konstanten zur Verfügung.</P><PRE>/* Konstante für <I>type</I> */
+    ACCESSED            0x01
+    DATASEG_NOTREADABLE 0x00
+    DATASEG             0x02
+    DATASEG_RESERVED    0x04
+    DATASEG_EXPANDABLE  0x06                /* "expand-down" Datensegment */
+    CODESEG_NOTREADABLE 0x08
+    CODESEG             0x0A
+    CODESEG_CONFORM_NR  0x0C
+    CODESEG_CONFORM     0x0E
+    SEGMENT             0x10
+    SYSTEM              0x00
+    DPL0                0x00
+    DPL1                0x20
+    DPL2                0x40
+    DPL3                0x60
+    PRESENT             0x80
+
+/* Konstante für <I>gran</I> */
+    GRAN                0x40
+    _80386              0x30
+    AVL                 0x10
+</PRE>
+<P>Die Konstanten wurden dabei dem Deskriptor-Format angepaßt. Dadurch ist es 
+möglich, durch Ausdrücke wie:</P><PRE>   type= DATASEG | PRESENT | DPL0 | SEGMENT</PRE>
+<P>den passenden Wert für das Segmenttyp-Byte des Deskriptors zu ermitteln. Auf 
+die gleiche Weise ist das auch für das als <I>gran</I> bezeichnete Feld des 
+Deskriptors möglich.</P>
+<P>Das folgende Beispiel demonstriert den Aufruf der Funktion 
+<I>deskr_setattrib</I>. Der Deskriptor 1 einer als statisches Array definierten 
+Globalen Deskriptor Tabelle <I>gdt</I> wird dabei auf einen Speicherbereich 
+initialisiert, der an der physischen Adresse 0 beginnt und den gesamten 
+Adressbereich von 4 GB umfasst.</P><PRE>           deskr_setattrib (&amp;gdt[1],        /* Zeiger auf Deskriptor der GDT */
+                            0xFFFFF,        /* Segmentgröße                  */
+                                  0,        /* Segmentadresse                */
+                                  0,        /* Offsetadresse                 */
+ DATASEG | SEGMENT | DPL0 | PRESENT,        /* Segmenttyp                    */
+                      GRAN | _80386);       /* 80386 und 4KB Segmenteinheit  */</PRE>
+<P>Das Beispielprogramm <B>cpm_01.c</B> stellt auf diese Weise gültige 
+Deskriptoren für die verwendeten Segmente bereit. Dabei werden die Protected 
+Mode Deskriptoren so initialisiert, daß sie den verwendeten Realmode-Segmenten 
+entsprechen. Auf diese Weise kann Programmcode dort ausgeführt werden, wo er im 
+Speicher steht. Auch bei Datenzugriffen wird so eine eventuell notwendige, 
+zusätzliche Relokation verhindert. Zusätzlich zu diesen Alias-Segmenten legt das 
+Beispielprogramm auch einen Deskriptor für den direkten Zugriff auf den 
+Bildschirmspeicher an. Dieser wird später benutzt, um eine kurze Meldung 
+auszugeben.</P>
+<P>Der letzte Schritt eine GDT einzurichten ist es, dem Prozessor die 
+Startadresse der GDT im Speicher mitzuteilen. Dazu steht der Assemblerbefehl 
+LGDT zur Verfügung. LGDT erwartet als Parameter die Adresse einer speziellen 
+Struktur, die die Position und die Größe der GDT festhält. Das Beispielprogramm 
+<B>cpm_01.c</B> deklariert dazu die Struktur <I>GDTSTRUC</I>: <PRE>    typedef struct
+        {
+        WORD    limit;              /* GDT-Länge in Byte                          */
+        DWORD   base;               /* Startadresse der GDT (32 Bit phys. Adresse */
+        } GDTSTRUC;
+</PRE>sowie die Funktion <I>lgdt</I>.
+<P></P>
+<P>Die Funktion <I>lgdt</I> legt eine Variable der oben deklarierten Struktur 
+<I>GDTSTRUC</I> an (<I>gdt_adr</I>) und übernimmt auch die notwendige 
+Initialisierung dieser Variablen sowie das Setzen der GDT-Startadresse. Dazu muß 
+zunächst das Feld <I>gdt_adr.limit</I> auf die GDT-Größe gesetzt werden. Der 
+Wert für <I>gdt_adr.limit</I> wird dabei mit der folgenden einfachen Formel 
+berechnet. <PRE>    limit= [Anzahl_benutzter_Deskriptoren] * 8;
+</PRE>Die Multiplikation mit 8 ergibt sich aus der Tatsache, daß Deskriptoren 
+immer 8 Byte lang sind.
+<P></P>
+<P>Als nächstes muß die Funktion <I>lgdt</I> das Feld <I>gdt_adr.base</I> 
+initialisieren. <I>gdt_adr.base</I> ist die 32 Bit breite, physische (bzw. 
+lineare) Adresse der GDT im Speicher. Die Funktion muß deshalb die Adresse der 
+GDT im Format Segment:Offset ermitteln und sie dann in eine 32 Bit physische 
+Adresse umwandeln. Der folgende Programmausschnitt nimmt genau diese Umwandlung 
+vor. <PRE>    segment= FP_SEG (&amp;gdt[0]);
+    offset = FP_OFF (&amp;gdt[0]);
+
+    gdt_adr.base= (segment &lt;&lt; 4) + offset;
+</PRE><I>segment</I> und <I>offset</I> wurden dabei als 32 Bit-Variablen 
+deklariert, damit die Umrechnung korrekt durchgeführt wird. (Warum das so sein 
+muß und was noch bei der hier dargestellten Programmierung beachtet werden muß, 
+wird weiter unten auf dieser Seite geklärt, siehe <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm#Probleme">Probleme</A>.)
+<P></P>
+<P>Als letztes muß die Funktion <I>lgdt</I> nur noch den Befehl <B>lgdt</B> 
+assemblieren. Da das wohl nicht im C-Syntax vorgesehen wurde :), wird auf den 
+Inline-Assembler von Borland C zurückgegriffen:</P><PRE>    asm {
+        lgdt gdt_adr
+        }
+</PRE>
+<P>An dieser Stelle ist die GDT eingerichtet und der Protected Mode kann 
+initialisiert werden. Dem C-Programm <B>cpm_01.c</B> steht dazu die Funktion 
+<I>enable_pmode</I> zur Verfügung. Diese Funktion soll als nächstes betrachtet 
+werden.</P>
+<H3><I>Protected Mode aktivieren</I></H3>
+<P>Bevor die Funktion <I>enable_pmode</I> den Protected Mode aktiviert, werden 
+die aktuellen Realmode-Segmentadressen in globalen Variablen gerettet. Das ist 
+deshalb notwendig, weil das Programm später in den Realmode zurückkehrt und 
+dabei die Inhalte der Segmentregister wiederherstellt. Der folgende Programmcode 
+nimmt diese Sicherung vor und verwendet dabei die vom BC 3.1 Compiler 
+bereitgestellten Makros _CS, _DS usw.</P><PRE>    /* aktuelle Realmode Segmentadressen sichern                    */
+    /* rmode_cs, rmode_ds usw. sind als globale Variable deklariert */
+    rmode_cs= _CS;
+    rmode_ds= _DS;
+    rmode_es= _ES;
+    rmode_ss= _SS;
+</PRE>
+<P>Da bei der Umschaltung keine Interrupts auftreten dürfen, wird als nächstes 
+die Funktion <I>disable</I> verwendet, um das Interrupt-Enable-Flag im 
+Flagregister zu löschen.</P>
+<P>Erst jetzt darf das Bit 1 des Registers CR0 gesetzt werden, um so in den 
+Protected Mode zu schalten. Da auch für den Zugriff auf das CR0-Register kein 
+C-Befehl zur Verfügung steht, muß auch hier auf den Inline-Assembler 
+zurückgegriffen werden.</P><PRE>    /* pmode init: CR0, Bit 1 setzen */
+    asm {
+        mov eax,cr0
+        or eax,1
+        mov cr0,eax
+        }
+</PRE>
+<P>Obwohl sich der Prozessor jetzt bereits im Protected Mode befindet, ist die 
+Initialisierung noch nicht beendet! Denn zu diesem Zeitpunkt befinden sich noch 
+Realmode-Befehle in der Warteschlange und die Segmentregister enthalten alle 
+noch Werte aus dem Realmode. Die Funktion <I>enable_pmode</I> muß jetzt also 
+noch die Warteschlange löschen und dafür sorgen, daß die benutzten 
+Segmentregister gültige Werte besitzen.</P>
+<P>Die Warteschlange wird mit der Ausführung eines Sprunges gelöscht. Obwohl 
+dafür ein NEAR-Sprung ausreichen würde, verwendet <I>enable_pmode</I> einen 
+FAR-Sprung, um gleichzeitig den Codesegment-Selektor mit einem gültigen Wert zu 
+initialisieren:</P><PRE>    asm {
+        db 0x0ea                               /* assembliert FAR-JMP */
+        dw offset pmode                        /* zur Adresse:        */
+        dw sCODE                               /*        sCODE:Offset */
+
+    pmode:
+        }
+</PRE>
+<P>Als letzten Schritt benutzt die Funktion <I>enable_pmode</I> die vom BC 3.1 
+Compiler bereitgestellten Makros _DS, _ES usw., um die Segmentregister mit 
+gültigen Selektorwerten für den Protected Mode zu initialisieren.</P><PRE>     _DS= sDATA;
+     _ES= sDATA;
+     _SS= sSTACK;
+</PRE>
+<H3><I>Textausgabe im Protected Mode</I></H3>
+<P>Nach der Ausführung von <I>enable_pmode</I> befindet sich der Prozessor im 
+Protected Mode. Das hat u.a. die Folge, daß weder BIOS- noch DOS-Funktionen zur 
+Verfügung stehen. Denn die meisten DOS-Funktionen sind vom Inhalt der 
+Segmentregister abhängig, die jedoch im Protected Mode anders interpretiert 
+werden. Aus diesem Grund kann zum Beispiel auch die C-Funktion <I>printf</I> 
+nicht genutzt werden.</P>
+<P>Eine Textausgabe kann deshalb nur direkt in den Bildschirmspeicher erfolgen. 
+Das Beispielprogramm <B>cpm_01.c</B> legt dazu einen Segmentdeskriptor an, der 
+das Videosegment im Textmodus beschreibt. Dieses Segment beginnt an der 
+physischen Adresse 0B8000h und ist 4000 Byte lang. Die Funktion <I>print</I> 
+gibt einen Text auf dem Bildschirm aus. Dazu wird über das aus dem Realmode 
+bekannten Makro <I>MK_FP</I> ein FAR-Pointer auf das Videosegment erzeugt. Der 
+Text wird anschließend byteweise, unter Nutzung dieses FAR-Pointers, auf den 
+Bildschirm kopiert.</P>
+<H3><I>Verwaltung der IDT</I></H3>
+<P>Das Beispielprogramm <B>cpm_01.c</B> verzichtete aus Gründen der Einfacheit 
+auf das Anlegen einer IDT und verhindert die Ausführung von Interrupts durch das 
+Löschen des Interrupt-Freigabe-Flags (Befehl CLI). An dieser Stelle soll jedoch 
+auch die Nutzung einer IDT demonstriert werden.</P>
+<P>Das Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/cpm_02.c">cpm_02.c</A> 
+stellt dafür, ähnlich <B>cpm_01.c</B>, Funktionen und Datentypen zur 
+IDT-Verwaltung zur Verfügung. Eine wichtige Datenstruktur für die IDT ist ein 
+besonderer Deskriptor, der sogenannte Gate-Deskriptor. Dieser wird in 
+<B>cpm_02.c</B> durch die Struktur GATE_DESKRIPTOR repräsentiert.</P><PRE>typedef struct
+    {
+    WORD    offset_0_15;
+    WORD    selektor;
+    BYTE    reserved;
+    BYTE    type;
+    WORD    offset_16_31;
+    } GATE_DESKRIPTOR;
+</PRE>
+<P>Da die einzelnen Komponeten der Struktur selbsterklärend sind bzw. bereits im 
+Kapitel <A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm">2.4 
+Gates, Interrupts und Exceptions (IDT)</A> näher betrachtet wurden, soll hier 
+auf eine genauere Erklärung verzichtet werden.</P>
+<P>Genau wie Deskriptoren der GDT werden Gate-Deskriptoren in einer Tabelle 
+(d.h. einem Array) verwaltet. Diese Tabelle wird als IDT (<I>Interrupt 
+Deskriptor Table</I>) bezeichnet. Für die Initialisierung der einzelnen 
+Gate-Deskriptoren stellt das Beispielprogramm die Funktion <I>gate_setattr</I> 
+zur Verfügung. Diese Funktion erwartet die folgenden Parameter.</P><PRE>    des       Zeiger auf eine GATE_DESKRIPTOR-Struktur in der IDT
+    selektor  Selektor des entsprechenden Interrupt-Handlers
+    off       Funktionszeiger auf den Interrupt-Handler
+    type      Gate-Deskriptortyp
+</PRE>
+<P>Für den Parameter <I>type</I> stehen die folgenden Konstanten zur 
+Verfügung.</P><PRE>    TSS_80286             0x01
+    LDT                   0x02
+    TSS_80286_ACTIVE      0x03
+    CALLGATE_80286        0x04
+    TASKGATE              0x05
+    INTGATE_80286         0x06
+    TRAPGATE_80286        0x07
+    TSS_80386             0x09
+    TSS_80386_ACTIVE      0x0B
+    CALLGATE_80386        0x0C
+    INTGATE_80386         0x0E
+    TRAPGATE_80386        0x0F
+</PRE>
+<P>Durch die Nutzung der Funktion <I>gate_setattr</I> wird eine globale IDT mit 
+gültigen Deskriptoren initialisiert. Auf diese Weise werden Exception-Handler 
+für alle Exceptions eingerichtet. Jeder dieser Handler gibt nach seiner 
+Aktivierung eine kurze Nachricht auf dem Bildschirm aus und kehrt anschließend 
+zum DOS zurück.</P>
+<P>Da das Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/cpm_02.c">cpm_02.c</A> 
+die Interrupts nicht unterbindet, wird der Handler aktiv, der mit dem Interrupt 
+8 (Exception 8) verbunden ist. Der Grund dafür ist der PIT (Programmable 
+Interval Timer), der standardmäßig 18,2 mal in der Sekunde aktiviert wird und 
+dann den Interrupt 8 auslöst. Das ist auch der Grund, weshalb alle bisherigen 
+Programme die Auslösung von Interrupts verhinderten oder den Interruptcontroller 
+so umprogrammierten, daß der Interrupt 8 auf einen Handler zeigte, der nur per 
+IRET zurückkehrt.</P><A name=Probleme>
+<H3><I>Probleme</I></H3></A>
+<P>Damit die hier dargestellte Programmierung fehlerfrei, d.h. in der Regel 
+absturzfrei funktioniert, müssen folgende Regeln eingehalten werden:</P>
+<UL>
+  <LI>Die Variablen <I>segment</I> und <I>offset</I> in der Funktion <I>lgdt</I> 
+  müssen als 32 Bit breite (<I>long int</I> bzw. DWORD) Variablen deklariert 
+  werden, obwohl <I>FP_SEG</I> bzw. <I>FP_OFF</I> nur Werte der Bitbreite 
+  <I>int</I> bzw. WORD (also 16 Bit) liefern. Geschieht das nicht, rechnet der 
+  C-Compiler nur mit den 16 Bit Werten und ermittelt eine falsche 32 Bit 
+  Adresse. 
+  <LI>Das Programm muß im Small Memory Modell compiliert werden und darf keine 
+  FAR-Funktionen benutzen, da bei einem solchen Aufruf die Codesegmentadresse 
+  auf einen Realmodewert gesetzt werden würde. Und da zu einer solchen 
+  Segmentadresse wahrscheinlich kein Deskriptor in der GDT existiert, wird eine 
+  Exception ausgelöst, die im Beispielprogramm <B>cpm_01.c</B> zu einem Absturz 
+  führen würde. 
+  <LI>Es ist keine Nutzung von DOS-Funktionen im Protected Mode möglich. 
+</LI></UL>
+<H2><FONT color=#000080>C generierten Programmcode im Protected Mode 
+ausführen</FONT></H2>
+<P>Die zweite und normalerweise praktikablere Möglichkeit, Protected Mode mit 
+der Sprache C zu verbinden, ist es, das eigentliche Programm von der 
+Initialisierung des Protected Mode und den damit zusammenhängenden 
+Verwaltungsaufgaben zu trennen. Damit kann ein Programm in C geschrieben werden, 
+das direkt im Protected Mode ausgeführt wird und sich nicht um den Protected 
+Mode kümmern braucht.</P>
+<H3><I>Realisierung</I></H3>
+<P>Wie kann eine solche Trennung praktisch realisiert werden?</P>
+<P>Die Programmausführung von C-Programmen startet immer mit der Funktion 
+<B>main</B>. Doch der eigentliche Programmcode, der nach dem Programmstart 
+aufgerufen wird, ist nicht die Funktion <B>main</B>, sondern der sogenannte 
+"Startup-Code". In den meisten Fällen liegt dieser Startup-Code bereits 
+compiliert bzw. assembliert in Form einer OBJ-Datei vor und wird zum 
+eigentlichen C-Programmprojekt dazugelinkt. Beispielsweise stellen 
+Realmode-C-Compiler auf diese Weise unterschiedliche Konfigurationen für 
+verschiedene Speichermodelle zur Verfügung.</P>
+<P>Wird dieser Startup-Code nun für die Initialisierung des Protected Mode 
+verwendet, kann das C-Programm direkt im Protected Mode aufgerufen werden, indem 
+der Startup-Code die <B>main</B>-Funktion, wie jede andere Funktion, aufruft. 
+Der Startup-Code für das dritte Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/c0pmode.asm">c0pmode.asm</A> 
+nimmt genau diese Initialisierung vor und ruft die Funktion <B>main</B> auf. 
+Nachdem die Funktion <B>main</B> zurückgekehrt ist, das C-Programm also beendet 
+wurde, schaltet der Startup-Code in den Realmode und kehrt zu DOS zurück.</P>
+<P>Die eigentliche Initialisierung des Protected Mode in <B>c0pmode.asm</B> 
+unterscheidet sich nur unwesentlich von der Vorgehensweise anderer, bereits in 
+vorherigen Kapiteln vorgestellten Programmen. Der größte Unterschied, der 
+beachtet werden muß, ist die unterschiedliche Behandlung von konstanten bzw. 
+uninitialisierten Daten durch die meisten C-Compiler. Diese Variablen werden in 
+unterschiedlichen Segmenten abgelegt, deshalb muß auch der Startup-Code 
+unterschiedliche Segmente für den Protected Mode vorbereiten, die außerdem auch 
+im Segmentnamen übereinstimmen müssen.</P>
+<P>Weiterhin muß auch der verwendete C-Compiler beachtet werden, denn nicht 
+jeder Compiler ist gleichermaßen für das hier dargestellte Verfahren und 
+besonders für den oben dargestellten Startup-Code geeignet. Der Startup-Code <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/c0pmode.asm">c0pmode.asm</A> 
+wurde für 32-Bit Compiler entwickelt. Er setzt voraus, daß die vom C-Compiler 
+verwendeten Segmentnamen und Segmenttypen den in <B>c0pmode.asm</B> verwendeten 
+entsprechen (z.B. trägt das Codesegment den Namen _TEXT und den USE32 
+Parameter). Der Startup-Code sowie das eigentliche C-Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/cpm_03.c">cpm_03.c</A> 
+wurden mit dem Borland-C-Compiler der Version 4.0 (BC 4.0) erfolgreich 
+getestet.</P>
+<P>Daß das C-Programm jetzt keine direkte Manipulation des Protected Mode mehr 
+durchführen muß, darf jedoch nicht darüber hinwegtäuschen, daß die 
+grundsätzlichen Probleme der Protected Mode Nutzung weiterhin gelten. Dazu zählt 
+in erster Linie die direkte bzw. indirekte Benutzung von DOS-Funktionen durch 
+die Funktionen der C-Standardbibliothek! Deshalb benutzt das Beispielprogramm 
+<B>cpm_03.c</B> auch die bereits in den beiden anderen Beispielprogrammen 
+benutzte Funktion <I>print</I> zur direkten Textausgabe.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm"><IMG 
+alt=Zurück src="Protected Mode Programmierung in C-Dateien/arrowl.gif" 
+align=left border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm"><IMG alt=Weiter 
+src="Protected Mode Programmierung in C-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="Protected Mode Programmierung in C-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

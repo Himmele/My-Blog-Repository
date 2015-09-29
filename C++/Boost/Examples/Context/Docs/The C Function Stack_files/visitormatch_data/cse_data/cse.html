@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"></head><body style="margin: 0pt; padding: 0pt;">
+<script>
+var lsoRefresh=true;
+var fSupp=true;
+var UID='e97b365611ca5e1d-064a29600900b023-2175fb3d524fbaf5';
+var cdn_root='t.cxt.ms/';
+var swf_root='t.cxt.ms/';
+var cse_root='connexity.net/c/cse';
+var ssl=true;var aq='';//Copyright (c) 2011 Connexity LLC.  All rights reserved. 
+// lso2 v1.0.0 
+function init(){if(UID!='0'&&UID!='-1'&&validUID(UID)){RefreshHTML(UID);}
+else{var uid=getHTMLUID();}}
+function RefreshHTML(uid){try{localStorage.setItem('uid',uid);sessionStorage.setItem('uid',uid);}
+catch(e){}}
+function getHTMLUID(){try{var luid=localStorage.getItem('uid');if(luid!=null&&validUID(luid)){return luid;}
+luid=sessionStorage.getItem('uid');if(luid!=null&&validUID(luid)){return luid;}
+return'0';}
+catch(e){return'0';}}
+function gotHTML5(){try{return'localStorage'in window&&window['localStorage']!==null;}
+catch(e){return false;}}
+function validUID(u){var p=/[0-9a-f]{16}-[0-9a-f]{16}-[0-9a-f]{16}/g;return p.test(u)&&u.length==50;}
+window.onload=function(){if(gotHTML5()){init();}
+else{return false;}}</script>
+
+</body></html>

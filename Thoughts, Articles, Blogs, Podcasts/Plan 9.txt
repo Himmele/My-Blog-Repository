@@ -1,0 +1,3 @@
+Plan 9 failed simply because it fell short of being a compelling enough improvement on Unix to displace its ancestor. 
+Compared to Plan 9, Unix creaks and clanks and has obvious rust spots, but it gets the job done well enough to hold its position. 
+There is a lesson here for ambitious system architects: the most dangerous enemy of a better solution is an existing codebase that is just good enough.

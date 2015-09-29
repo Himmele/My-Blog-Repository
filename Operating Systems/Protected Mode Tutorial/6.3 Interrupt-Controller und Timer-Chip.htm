@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex3.htm -->
+<HTML><HEAD><TITLE>6.3 Interrupt-Controller und Timer-Chip</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Interrupt-Controller und Timer-Chip-Dateien/stone.jpg">
+<H1><FONT color=#800000>6.3 Interrupt-Controller und Timer-Chip</FONT></H1>
+<H2><FONT color=#000080>Interrupt-Controller</FONT></H2>
+<P>Bereits Tabelle 4.1 (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos2.htm#table_4_1">Abschnitt 
+4.2. VCPI</A>) stellte die Standard Interruptvektortabelle dar. Dabei ist aus 
+Tabelle 4.1 ersichtlich, daß die Hardware-Interrupts 0..7 die Interrupts 8..15 
+auslösen. Diese Interrupts sind jedoch bereits von Intel als Protected Mode 
+Exceptions reserviert worden. Würde man ohne eine Änderung an dieser 
+Einstellung, Interrupts erlauben, so würden beispielsweise 18,2 mal in der 
+Sekunde Double-Fault Exceptions ausgelöst werden (Hardware-Interrupt 0 löst 
+standardmäßig Interrupt 8 aus). Ebenfalls unter Punkt 4.2 wurde erläutert, wie 
+eine Umprogrammierung der Interrupts erfolgen kann. Die Interrupts 00..1Fh sind 
+von Intel reserviert. Damit stehen die Interrupts 20h..2Fh zur Verfügung und 
+werden im Beispielprogramm für die Hardware-Interrupts 00..0Fh verwendet. Vgl. 
+mit folgendem Programmcode-Ausschnitt:</P><PRE><I>; Neuinit der Interrupt-Controller, sowie neu Setzen des
+; Interrupt Mappings
+	mov al,00010001b    ; kaskadierte Interrupt-Controller
+	out 020h,al         ; und Flankentriggerung an beider Controller
+	out 0a0h,al
+
+; neuer IRQ-Vektor für den ersten Controller einstellen
+	mov al,20h          ; neuer Wert =&gt; IRQ0..7 -&gt; INT20h..27h
+	out 021h,al
+
+; neuer IRQ-Vektor für den zweiten Controller einstellen
+	mov al,28h          ; neuer Wert =&gt; IRQ8..15 -&gt; INT28h..2Fh
+	out 0a1h,al
+
+; Kaskadierung beider Controller einstellen
+	mov al,00000100b    ; Kaskadierung über IRQ2
+	out 021h,al
+	mov al,00000010b    ; Kaskadierung über IRQ2
+	out 0a1h,al
+
+; PIC auf Intel-Umgebung und manuelle Int.- Beendigung einstellen
+	mov al,00000001b
+	out 021h,al
+	out 0a1h,al</I>
+</PRE>
+<P>Damit wird erreicht, daß Hardware-Interrupt 0 nicht mehr Interrupt 8, sondern 
+Interrupt 20h aufruft. </P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Interrupt-Controller und Timer-Chip-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_07_01.asm">pm_07_01.asm</A> 
+      demonstriert die notwendigen Schritte, um einen Task-Handler für den 
+      Hardware-Interrupt 0 zu installieren. Der neue Handler wird dabei als Task 
+      ausgeführt (eigenes CODE- und TS-Segment), wird 18.2 mal in der Sekunde 
+      aktiviert und führt die folgenden Funktionen aus:</P>
+      <UL>
+        <LI>Änderung des Zeichens in der linken oberen Ecke des Bildschirmes 
+        <LI>Senden des EOI-Kommandos 
+        <LI>Rückehr zum unterbrochenen Task 
+</LI></UL></TD></TR></TBODY></TABLE></CENTER>
+<H2><FONT color=#000080>Timer-Chip</FONT></H2>
+<P>Die Frequenz, mit der der Hardware-Interrupt 0 aufgerufen wird, läßt sich 
+über den PIT (Programmable Interval Timer) genau einstellen. Zähler 0 des PIT 
+steuert dabei den Timer-Interrupt des PC und aktiviert ihn 18.2 mal in der 
+Sekunde. Um den Eindruck einer wirklich parallelen Verarbeitung der Tasks zu 
+erreichen, ist diese Zeitspanne zu groß. Der PIT kann aber leicht so 
+umprogrammiert werden, daß die Aktivierung des Timer Interrupts öfter 
+geschieht.</P>
+<P>Dazu steht an Port 43h ein Control-Register zur Verfügung, dem entsprechende 
+PIC-Kommandos übergeben werden können, so z.B. den Arbeitsmodus und das 
+Zählformat. Tabelle 6.1 zeigt die Bedeutung der einzelnen Bits.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Bit</TH>
+    <TH width="80%">Bedeutung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle><B>7-6</B></TD>
+    <TD><B>Auswahl des Zählers:</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>00 - Zähler 0 (Timer-Interrupt)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>01 - Zähler 1 (DRAM-Refresh)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>10 - Zähler 2 (Frequenz für Lautsprecher)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>11 - Rücklese - Modus</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle><B>5-4</B></TD>
+    <TD><B>Art des Kommandos</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>00 - Latch Register lesen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>01 - Lesen / Schreiben des Zähler Low Bytes</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>10 - Lesen / Schreiben des Zähler High Bytes</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>11 - Lesen / Schreiben von zuerst Low- und dann High- Byte des 
+    Zählers</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle><B>3-1</B></TD>
+    <TD><B>Arbeitsmodus</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>000 - Modus 0, Interrupterzeugung</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>001 - Modus 1, Programmierbarer Monoflop</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>010 - Modus 2, Taktgenerator</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>011 - Modus 3, Rechteckswelle-Signalgenerator</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>100 - Modus 4, Triggerung des Ausgangs durch Software</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>101 - Modus 5, Triggerung des Ausgangs durch Hardware</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle><B>0</B></TD>
+    <TD><B>Wahl des Zähler-Formats</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>0 - 16-Bit binär (Standard)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>&nbsp;</TD>
+    <TD>1 - BCD-Format</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 6.1:</B> Bedeutung der einzelnen Bits im 
+Control-Register 43h des PIC</I> </CAPTION></CENTER>
+<P>Zähler 1 ist für den DRAM-Refresh zuständig und sollte nicht verändert 
+werden. Zähler 2 steuert die Frequenz des internen Lautsprechers. Zähler 0 
+generiert den Timer-Interrupt. Als Kommando ist "Lesen/Schreiben von zuerst 
+Low-, dann High-Byte" zu benutzen (Kommandocode: 11b), um den Zähler von einem 
+definierten Anfangswert aus zu starten. Da der Task-Handler regelmäßig aktiviert 
+werden soll, wird Modus 3 (Rechteckswellen-Signalgenerator) ausgewählt. Als 
+Zählerformat wird der Standard (16-Bit Zähler -- binär) verwendet. Aus diesen 
+Gründen ergibt sich der Wert 00110110b (36h), der an Portadresse 43h gesendet 
+werden muß.</P>
+<P>Als nächstes erwartet der PIC den neuen Wert für den Zähler an der 
+Portadresse 40h in der Reihenfolge Low-Byte und danach High-Byte. Die Frequenz, 
+d.h. die Angabe, wie oft ein Interrupt pro Sekunde generiert wird, muß dabei 
+über die folgende Formel umgerechnet werden:</P>
+<CENTER>
+<P>Zähler := 1193180 / Frequenz</P></CENTER>
+<P>Dabei wird zunächst das Low-Byte des ermittelten Zählerwertes an den PIC 
+übertragen und anschließend das High-Byte. Die Zahl 1193180 entspricht der 
+Frequenz, mit der der PIC aktiviert wird (1193180 Schwingungen pro Sekunde). Bei 
+der Wahl der Aktivierungsfrequenz muß beachtet werden, daß sie nicht zu hoch 
+gewählt wird, da das Umschalten der Tasks auch Zeit beansprucht.</P>
+<P>Die Initialisierung des PIC auf die Frequenz 100 HZ (Zähler:= 1193180 / 100 = 
+11932d = 2E9Bh) kann z.B. über den folgenden Programmausschnitt realisiert 
+werden:</P><PRE><I>; PIC für Zähler 0 auf 100 HZ initialisieren
+		cli
+		mov al,36h
+		out 43h,al
+		mov al,9Bh
+		out 40h,al
+		mov al,2Eh
+		out 40h,al
+		sti</I>
+</PRE>
+<P>Um den Ursprungszustand des PIC wieder herzustellen (z.B. bei der Rückehr ins 
+DOS), kann der folgende Programmausschnitt verwendet werden:</P><PRE><I>; PIC, Zähler 0 wieder in Standardeinstellung
+		cli
+		mov al,36h
+		out 43h,al
+		mov al,0
+		out 40h,al
+		out 40h,al
+		sti</I>
+</PRE>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Interrupt-Controller und Timer-Chip-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_07_02.asm">pm_07_02.asm</A> 
+      erweitert die Möglichkeiten von Programm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_07_01.asm">pm_07_01.asm</A> 
+      um die Umprogrammierung des PIC. Außerdem wird die oben beschriebene 
+      Task-Umschaltung anhand von zwei Beispieltasks durchgeführt, die nichts 
+      weiter machen, als jeweils ein Zeichen auf dem Bildschirm zu 
+    verändern.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex2.htm"><IMG 
+alt=Zurück src="Interrupt-Controller und Timer-Chip-Dateien/arrowl.gif" 
+align=left border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex4.htm"><IMG 
+alt=Weiter src="Interrupt-Controller und Timer-Chip-Dateien/arrowr.gif" 
+align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_k"><IMG 
+alt="Zum Index" src="Interrupt-Controller und Timer-Chip-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 27.07.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

@@ -1,0 +1,276 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>CS 540 Lecture Notes: Genetic Algorithms</title>
+</head><body bgcolor="#ffffff" link="#ff3300" vlink="#0060f0">
+<table width="100%">
+<tbody><tr><td align="left">University of Wisconsin - Madison</td><td align="center">CS 540 Lecture Notes</td><td align="right">C. R. Dyer</td></tr>
+</tbody></table><p></p><p>
+</p><center><font size="6">Genetic Algorithms</font>   (Chapter 4.3)</center>
+<p>
+</p><hr>
+<p>
+
+</p><h3>Evolution</h3>
+<p>
+
+Many human inventions were inspired by nature.  Artificial
+neural networks is one example. Another example is <i>Genetic
+Algorithms</i> (GA).  GAs search by simulating evolution, starting
+from an initial set of solutions or hypotheses, and generating
+successive "generations" of solutions.  
+This particular branch of 
+AI was inspired by the way living things evolved into more
+successful organisms in nature.  The main idea is <i>survival
+of the fittest</i>, a.k.a. <i>natural selection</i>. </p><p>
+
+A chromosome is a long, complicated thread of DNA (deoxyribonucleic
+acid).  Hereditary factors that determine particular traits of an
+individual are strung along the length of these chromosomes, like
+beads on a necklace.  Each trait is coded by some combination of
+DNA (there are four bases, A (Adenine), C (Cytosine), T (Thymine)
+and G (Guanine).  Like an alphabet in a language, meaningful combinations 
+of the bases produce specific instructions to the cell. </p><p>
+
+Changes occur during reproduction.  The chromosomes from the
+parents exchange randomly by a process called <b>crossover</b>.
+Therefore, the offspring exhibit some traits of the father and
+some traits of the mother.  </p><p>
+
+A rarer process called <b>mutation</b> also changes some traits.
+Sometimes an error may occur during copying of chromosomes 
+(mitosis).  The parent cell may have -A-C-G-C-T- but an accident
+may occur and changes the new cell to -A-C-T-C-T-.  Much like a
+typist copying a book, sometimes a few mistakes are made.  Usually
+this results in a nonsensical word and the cell does not survive.
+But over millions of years, sometimes the accidental mistake 
+produces a more beautiful phrase for the book, thus producing a
+better species.</p><p>
+
+</p><h3>Natural Selection</h3>
+<p>
+
+In nature, the individual that has better survival traits will
+survive for a longer period of time.  This in turn provides it a
+better chance to produce offspring with its genetic material.
+Therefore, after a long period of time, the entire population
+will consist of lots of genes from the superior individuals and
+less from the inferior individuals.  In a sense, the fittest survived
+and the unfit died out.  This force of nature is called <b>natural
+selection</b>.  </p><p>
+
+The existence of competition among individuals of a species
+was recognized certainly before Darwin.  The mistake made by
+the older theorists (like Lamarck) was that the 
+environment had an effect on an individual.  That is, the environment
+will force an individual to adapt to it.  The molecular explanation
+of evolution proves that this is biologically impossible.  The 
+species does not adapt to the environment, rather, only the fittest
+survive. </p><p>
+
+</p><h3>Simulated Evolution</h3>
+<p>
+
+To simulate the process of natural selection in a computer, we
+need to define the following:
+
+</p><ul>
+<li> A <b>representation of an individual</b><br>
+     At each point during the search process we maintain a "generation"
+     of "individuals."  Each individual is a data structure representing
+     the "genetic structure" of a possible solution or hypothesis.
+     Like a chromosome, the genetic structure of an individual is
+     described using a fixed, finite alphabet.  In GAs, the
+     alphabet {0, 1} is usually used.  This string is
+     interpreted as a solution to the problem we are trying to solve.<p>
+
+     For example, say we want to find the optimal quantity of the
+     three major ingredients in a recipe (say, sugar, wine, and
+     sesame oil).  We can use the alphabet {1, 2, 3 ..., 9}
+     denoting the number of ounces of each ingredient.  Some possible solutions
+     are 1-1-1, 2-1-4, and 3-3-1. </p><p>
+
+     As another example, the traveling salesperson problem is the problem of 
+     finding the optimal path to traverse, say, 10 cities.  The
+     salesperson may start in any city.  A solution
+     is a permutation of the 10 cities: 1-4-2-3-6-7-9-8-5-10. </p><p>
+
+     As another example, say we want to represent a rule-based system.
+     Given a rule such as "If color=red and size=small and shape=round
+     then object=apple" we can describe it as a bit string by first
+     assuming each of the attributes can take on a fixed set of possible
+     values.  Say color={red, green, blue}, size={small, big},
+     shape={square, round}, and fruit={orange, apple, banana, pear}.
+     Then we could represent the value for each attribute as a substring
+     of length equal to the number of possible values of that attribute.
+     For example, color=red could be represented by 100, color=green by
+     010, and color=blue by 001.  Note also that we can represent
+     color=red or blue by 101, and any color (i.e., a "don't care")
+     by 111.  Doing this for
+     each attribute, the above rule might then look like:
+     100 10 01 0100.  A set of rules is then represented by concatenating
+     together each rule's 11-bit string.</p><p>
+
+     For another example see page 620 in the textbook
+     for a bit-string representation of a 
+     logical conjunction. </p><p>
+
+</p></li><li> <b>Fitness function</b><br>
+     Given an individual, we must assess how
+     good a solution it is so that we can rank individuals.  This
+     is usually a real number.  For example, say we have individuals that
+     are represented as a length-30 binary number.  We can then use this
+     individual as an integer, <i>i</i>, in the range 0 to 2<sup>30</sup> - 1.
+     A possible fitness function is
+     <i>Fitness(i) = (i/2<sup>30</sup> - 1)<sup>10</sup></i>.  This function
+     has a value between 0 and 1 and is monotonically increasing.  Note
+     that fitness functions need not be monotonic and frequently have
+     multiple local maxima.<p>
+
+     For example, one can give a subjective judgement from 1 to 5 
+     for the dish prepared with the recipe 2-1-4. </p><p>
+
+     Similarly, the length of the route in the traveling salesperson
+     problem is a good measure, because the shorter the route, the
+     better the solution. </p><p>
+
+     For classification problems, the fitness function could be the
+     percent correct classification on a given training set.  For example,
+     <i>Fitness(i) = (correct(i))<sup>2</sup></i>.</p><p>
+
+</p></li><li> <b>Reproduction methods</b><br>
+     There are two basic methods of 
+     reproduction, called mutation and crossover: <p>
+
+     </p><ol type="i">
+     <li> <b>Mutation</b><br>
+     Randomly change one or more digits in the string representing an
+     individual.  For example, the individual 1-2-3 may be changed to 
+     1-3-3 or 3-2-3, giving two new offspring.  How often to do mutation,
+     how many digits to change, and how big a change to make are adjustable 
+     parameters. <p>
+
+     </p></li><li> <b>Crossover</b><br>
+     Randomly pick one or more <b>pairs of individuals</b> 
+     as parents and randomly swap segments of the parents.  For example,
+     the individuals 1-3-3 and 3-2-3 may be chosen as parents.  Suppose we
+     select a crossover point after the first digit, then the above will
+     generate two offspring: 3-3-3 and 1-2-3.  As another example,
+     given two parents 1011010 and 1100010, if the crossover point is
+     between the third and fourth digits, then the two offspring are
+     1010010 and 1101010.  This method is called <i>1-point crossover</i>.
+     Similarly, we could define <i>2-point crossover</i>, which would select
+     two points in each individual defining three intervals;  the middle intervals
+     are swapped to produce the two offspring.  The rate of crossover,
+     the number of parent pairs, the number of crossover points, and the
+     positions of the crossover points are adjustable
+     parameters. <p>
+     </p></li></ol>
+
+</li><li> <b>Selection criteria</b><br>
+     From a population of individuals, we wish 
+     to give the fitter individuals a better chance to survive to the
+     next generation.  We do <i>not</i> want to use the simple criterion
+     "keep the best <i>n</i> individuals."  It turns out nature does not
+     kill all the unfit genes.  They usually become recessive for a
+     long period of time.  But then they may mutate to something
+     useful.  Therefore,
+     there is a tradeoff for better individuals and diversity. <p>
+
+     A simple selection method is each individual, <i>i</i>, has the probability
+     <i>Fitness(i) / sum_over_all_individuals_j Fitness(j)</i>,
+     where <i>Fitness(i)</i> is the fitness function value for individual 
+     <i>i</i>.  This method is sometimes called <b>fitness proportionate selection</b>.
+     Other selection methods have also been used, e.g., <b>rank selection</b>,
+     which sorts all the individuals by fitness and the probability that an
+     individual will be selected is proportional to its rank in this sorted
+     list.</p><p>
+
+     One potential problem that can be associated with the selection method
+     is called <b>crowding</b>.  Crowding occurs when the individuals that
+     are most fit quickly reproduce so that a large percentage of the entire
+     population looks very similar.  This reduces diversity in the population
+     and may hinder the long-run progress of the algorithm.</p><p>
+
+</p></li></ul>
+
+With the above defined, one way to define a Genetic Algorithm is as follows: <p>
+
+</p><pre><b>proc</b> GA(Fitness, theta, n, r, m)
+    ; Fitness is the fitness function for ranking individuals
+    ; theta is the fitness threshold, which is used to determine
+    ;   when to halt
+    ; n is the population size in each generation (e.g., 100)
+    ; r is the fraction of the population generated by crossover (e.g., 0.6)
+    ; m is the mutation rate (e.g., 0.001)
+
+    P := generate n individuals at random
+    ; initial generation is generated randomly
+
+    <b>while</b> max Fitness(h<sub>i</sub>) &lt; theta <b>do</b>
+	   i
+      ; define the next generation S (also of size n)
+
+      <i>Reproduction step</i>: Probabilistically select
+      (1-r)n individuals of P and add them to S intact, where
+      the probability of selecting individual h<sub>i</sub> is
+      Prob(h<sub>i</sub>) = Fitness(h<sub>i</sub>) / SUM Fitness(h<sub>j</sub>)
+			        j
+
+      <i>Crossover step</i>: Probabilistically select rn/2 pairs
+      of individuals from P according to Prob(h<sub>i</sub>)
+
+      <b>foreach</b> pair (<i>h<sub>1</sub>, h<sub>2</sub></i>), produce two offspring by applying
+	 the crossover operator and add these offspring to S
+      
+      <i>Mutate step</i>: Choose m% of S and randomly invert one
+	 bit in each
+
+      P := S
+
+    <b>end_while</b>
+
+    Find <i>b</i> such that Fitness(b) = max Fitness(h<sub>i</sub>)
+				   i
+    <b>return</b>(b)
+
+<b>end_proc</b>
+
+</pre>
+<p>
+
+</p><h3>Conclusion</h3>
+<p>
+
+Genetic Algorithms are easy to apply to a wide range of problems,
+from optimization problems like the traveling salesperson problem,
+to inductive concept learning, scheduling, and layout problems.
+The results can be very good on some problems, and rather poor
+on others.  </p><p>
+
+If only mutation is used, the algorithm is very slow.  Crossover
+makes the algorithm significantly faster. </p><p>
+
+GA is a kind of <b>hill-climbing</b> search; more specifically it
+is very similar to a <b>randomized beam search</b>.
+As with all hill-climbing algorithms, there is a problem of local
+maxima. Local maxima in
+a genetic problem are those individuals that get stuck with a pretty
+good, but not optimal, fitness measure. Any small mutation
+gives worse fitness. Fortunately, crossover can help them get out of a
+local maximum. Also, mutation is a random process, so
+it is possible that we may have a sudden large mutation to get these
+individuals out of this situation. (In fact, these individuals never
+get out. It's their offspring that get out of local maxima.) One
+significant
+difference between GAs and hill-climbing is that, it is generally a
+good idea in GAs to fill the local maxima up with individuals. Overall,
+GAs have less problems with local maxima than back-propagation neural
+networks.</p><p>  
+
+</p><p>
+</p><hr>
+<p>
+Copyright © 1996-2003 by Charles R. Dyer.  All rights reserved.
+
+</p></body></html>

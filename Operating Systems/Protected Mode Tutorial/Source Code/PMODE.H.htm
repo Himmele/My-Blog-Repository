@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.fh-zwickau.de/doc/prmo/pmcode/pmode/debug.001/c/pmode.h -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** PMODE.H - Funktionen die im Protected Mode ausgefhrt werden k”nnen
+**
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+**
+** Erste Version:     26.08.97
+** Letze Žnderungen:  22.09.97
+*/
+
+// Konvertierung von linearen (Base 0) Adressen in relative (Makro lin2rel)
+// Beispiel Videosegment: char *video= (char*) lin2rel (0xB8000);
+extern  int DS_START;
+#define lin2rel(src) (src-DS_START)
+
+// Debugger Interrupt ausl”sen
+#define BREAKPOINT asm int 1
+
+// Funktionen
+int     strlen (char *s);
+void    print (int x, int y, char *s, int a);
+</PRE></BODY></HTML>

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_1.htm -->
+<HTML><HEAD><TITLE>Microsoft Windows und Protected Mode</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Microsoft Windows und Protected Mode-Dateien/stone.jpg">
+<H1><FONT color=#800000>5 Microsoft Windows und Protected Mode</FONT></H1>
+<P>Inhalt dieses Kapitels soll es sein, Einblicke in die Speicherverwaltung der 
+Microsoft Benutzeroberflächen (Betriebssysteme) Windows 3.x und Windows 95 zu 
+geben. Dabei soll vor allem die Frage behandelt werden, wie die bereitgestellten 
+Möglichkeiten des Protected Mode unter Windows genutzt werden. Das Kapitel soll 
+nicht (!) als Einleitung in die Windows-Anwendungs-Programmierung oder als 
+Darstellung aller verfügbaren WIN-API-Funktionen verstanden werden.</P>
+<H1><FONT color=#800000>5.1 Windows 3.x und Protected Mode ?</FONT></H1>
+<H2><FONT color=#000080>Verschiedene Betriebsmodi</FONT></H2>
+<P>Windows 3.x kennt 3 verschiedene Betriebsmodi. Dabei kommen in zwei der drei 
+Modi ein Teil der Möglichkeiten des Protected Mode zum Einsatz. Die drei 
+Betriebsmodi sind dabei:</P>
+<UL>
+  <LI>Auf einem System mit 8086-Prozessor (XT) läuft Windows im Realmode, dabei 
+  werden maximal 1 MB des Speichers genutzt. Windows verhält sich in diesem Fall 
+  wie ein "gewöhnliches" Anwendungsprogramm und wird in den konventionellen 
+  Speicher geladen. Unter diesem Modus kann Windows EMS-Speicher in Form einer 
+  Erweiterungskarte verwenden.<BR>Interessant an diesem Modus ist das Verfahren, 
+  mit dem die Windows Entwickler ein Paging-ähnliches, auf (Realmode-) 
+  Speichersegmenten basierendes Speicherverwaltungssystem implementiert haben. 
+  Speichersegmente können unter Windows auf die Festplatte ausgelagert und im 
+  Speicher umhergeschoben werden, selbst wenn das Programm mit festen 
+  FAR-Pointern arbeitet (mit einigen Ausnahmen!). Grundlage dafür ist eine 
+  komplizierte Heap-Verwaltung, die sogar Attribute einzelner (Realmode-) 
+  Segmente beachtet. Da die Hardware (Prozessor) auf eine solche Verwaltung 
+  nicht ausgelegt ist, müssen alle Manipulationen von einer Software 
+  (Windows-Speicherverwaltung) übernommen werden. 
+  <LI>Im <B>"Standardmodus"</B> verwendet Windows die <I><B>80286er-Variante des 
+  Protected Mode</B></I>. Adressen werden in diesem Windows-Modus nicht mehr wie 
+  im Realmodus gebildet (Segment:Offset), sondern werden immer über den 
+  zusätzlichen Schritt der Deskriptorauswertung durchgeführt. Im Gegensatz zum 
+  Protected Mode des 80386 sind 80286-Segmente jedoch auf eine maximale Größe 
+  von 64KB beschränkt. Der Vorteil besteht darin, daß einerseits der gesamte 
+  physisch vorhandene Speicher (80286, maximal 16 MB) direkt ansprechbar ist und 
+  andererseits ein Umherschieben von Segmenten im Speicher (wie es im 
+  Realmode-Windows-Modus verwendet wird) durch "einfaches" Ändern von 
+  Deskriptoren durchgeführt wird. 
+  <LI>Im <B>"386-Modus</B>", der Verwendung auf 80386 Prozessoren findet, wird 
+  zusätzlich die virtuelle Speicherverwaltung (Paging) sowie der V86-Modus 
+  aktiviert. Letzterer dient jedoch nur dazu, mehrere DOS-Programme in 
+  unterschiedlichen DOS-Fenstern "quasi"-parallel auszuführen. Die Verwendung 
+  des Paging-Mechanismus bringt eine erhebliche Erleichterung für die 
+  Speicherverwaltung mit sich, da die entsprechenden Prüfungen (Seiten 
+  ausgelagert oder physisch vorhanden) vom Prozessor übernommen werden. </LI></UL>
+<H2><FONT color=#000080>80386 - Protected Mode</FONT></H2>
+<P>Außer dem Paging und dem V86-Modus findet unter Windows 3.x keine der 
+erweiterten Möglichkeiten der 80386-Prozessoren Verwendung. So können 32-Bit 
+breite Register (EAX, EBX, usw.) genauso wenig genutzt werden wie Segmente, die 
+größer als 64 KB sind.</P>
+<H2><FONT color=#000080>Multitasking</FONT></H2>
+<P>Statt des hardwaremäßigen Multitasking wird ein auf Nachrichten basierendes 
+"kooperatives"-Multitasking eingesetzt. Das heißt, eine Windows-Anwendung muß 
+"von sich aus" die ihr zugewiesene "Prozessorzeit" abgeben. Eine unsauber 
+programmierte oder fehlerhafte Windows-Anwendung kann so zur Blockierung des 
+gesamten Systems führen.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos3.htm"><IMG alt=Zurück 
+src="Microsoft Windows und Protected Mode-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_2.htm"><IMG alt=Weiter 
+src="Microsoft Windows und Protected Mode-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_w"><IMG 
+alt="Zum Index" src="Microsoft Windows und Protected Mode-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

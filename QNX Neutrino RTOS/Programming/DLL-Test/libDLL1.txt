@@ -1,0 +1,333 @@
+
+libDLL1.so:     file format elf32-i386
+libDLL1.so
+architecture: i386, flags 0x00000150:
+HAS_SYMS, DYNAMIC, D_PAGED
+start address 0x00000e10
+
+Program Header:
+    LOAD off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**12
+         filesz 0x00004228 memsz 0x00004228 flags r-x
+    LOAD off    0x00004228 vaddr 0x00005228 paddr 0x00005228 align 2**12
+         filesz 0x00000868 memsz 0x00000888 flags rw-
+ DYNAMIC off    0x0000495c vaddr 0x0000595c paddr 0x0000595c align 2**2
+         filesz 0x000000c0 memsz 0x000000c0 flags rw-
+    NOTE off    0x00004228 vaddr 0x00004228 paddr 0x00004228 align 2**0
+         filesz 0x00000000 memsz 0x00000000 flags r--
+
+Dynamic Section:
+  NEEDED      libstdc++.so.5
+  NEEDED      libm.so.2
+  NEEDED      libc.so.2
+  SONAME      libDLL1.so
+  INIT        0xcb8
+  FINI        0x3e2c
+  HASH        0xb4
+  STRTAB      0x858
+  SYMTAB      0x318
+  STRSZ       0x397
+  SYMENT      0x10
+  PLTGOT      0x5a2c
+  PLTRELSZ    0xa0
+  PLTREL      0x11
+  JMPREL      0xc18
+  REL         0xbf0
+  RELSZ       0x28
+  RELENT      0x8
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .hash         00000264  000000b4  000000b4  000000b4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .dynsym       00000540  00000318  00000318  00000318  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .dynstr       00000397  00000858  00000858  00000858  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .rel.data     00000018  00000bf0  00000bf0  00000bf0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .rel.got      00000010  00000c08  00000c08  00000c08  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .rel.plt      000000a0  00000c18  00000c18  00000c18  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  6 .init         00000008  00000cb8  00000cb8  00000cb8  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  7 .plt          00000150  00000cc0  00000cc0  00000cc0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  8 .text         0000301c  00000e10  00000e10  00000e10  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  9 .fini         00000008  00003e2c  00003e2c  00003e2c  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 10 .rodata       000003f4  00003e34  00003e34  00003e34  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 11 .note.1       00000000  00004228  00004228  00004228  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 12 .data         00000020  00005228  00005228  00004228  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 13 .eh_frame     00000714  00005248  00005248  00004248  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 14 .dynamic      000000c0  0000595c  0000595c  0000495c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 15 .ctors        00000008  00005a1c  00005a1c  00004a1c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 16 .dtors        00000008  00005a24  00005a24  00004a24  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 17 .got          00000064  00005a2c  00005a2c  00004a2c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 18 .sbss         00000000  00005a90  00005a90  00004a90  2**0
+                  CONTENTS
+ 19 .bss          00000020  00005a90  00005a90  00004a90  2**2
+                  ALLOC
+ 20 .comment      000000b2  00000000  00000000  00004a90  2**0
+                  CONTENTS, READONLY
+ 21 .debug_aranges 00000080  00000000  00000000  00004b42  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 22 .debug_pubnames 0000031d  00000000  00000000  00004bc2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 23 .debug_info   0000ac7b  00000000  00000000  00004edf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 24 .debug_abbrev 00000b99  00000000  00000000  0000fb5a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 25 .debug_line   000034bd  00000000  00000000  000106f3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 26 .debug_frame  00000860  00000000  00000000  00013bb0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 27 .debug_str    00005613  00000000  00000000  00014410  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 28 .note         00000028  00000000  00000000  00019a23  2**0
+                  CONTENTS, READONLY
+ 29 .debug_ranges 00000278  00000000  00000000  00019a4b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+000000b4 l    d  .hash	00000000 
+00000318 l    d  .dynsym	00000000 
+00000858 l    d  .dynstr	00000000 
+00000bf0 l    d  .rel.data	00000000 
+00000c08 l    d  .rel.got	00000000 
+00000c18 l    d  .rel.plt	00000000 
+00000cb8 l    d  .init	00000000 
+00000cc0 l    d  .plt	00000000 
+00000e10 l    d  .text	00000000 
+00003e2c l    d  .fini	00000000 
+00003e34 l    d  .rodata	00000000 
+00004228 l    d  .note.1	00000000 
+00005228 l    d  .data	00000000 
+00005248 l    d  .eh_frame	00000000 
+0000595c l    d  .dynamic	00000000 
+00005a1c l    d  .ctors	00000000 
+00005a24 l    d  .dtors	00000000 
+00005a2c l    d  .got	00000000 
+00005a90 l    d  .sbss	00000000 
+00005a90 l    d  .bss	00000000 
+00000000 l    d  .comment	00000000 
+00000000 l    d  .debug_aranges	00000000 
+00000000 l    d  .debug_pubnames	00000000 
+00000000 l    d  .debug_info	00000000 
+00000000 l    d  .debug_abbrev	00000000 
+00000000 l    d  .debug_line	00000000 
+00000000 l    d  .debug_frame	00000000 
+00000000 l    d  .debug_str	00000000 
+00000000 l    d  .note	00000000 
+00000000 l    d  .debug_ranges	00000000 
+00000000 l    d  *ABS*	00000000 
+00000000 l    d  *ABS*	00000000 
+00000000 l    d  *ABS*	00000000 
+00000001 l       *ABS*	00000000 __pic__
+00000001 l       *ABS*	00000000 __PIC__
+00000000 l    df *ABS*	00000000 crtend.c
+00000001 l       *ABS*	00000000 __pic__
+00000001 l       *ABS*	00000000 __PIC__
+00003dd0 l       .text	00000000 gcc2_compiled.
+00005244 l     O .data	00000000 p.3
+00005a20 l     O .ctors	00000000 __CTOR_END__
+00003dd0 l     F .text	00000000 __do_global_ctors_aux
+00003e14 l     F .text	00000000 init_dummy
+00005248 l     O .data	00000000 force_to_data
+00005a28 l     O .dtors	00000000 __DTOR_END__
+00000001 l       *ABS*	00000000 __pic__
+00000001 l       *ABS*	00000000 __PIC__
+00000000 l    df *ABS*	00000000 crtbegin.c
+00000001 l       *ABS*	00000000 __pic__
+00000001 l       *ABS*	00000000 __PIC__
+00000e10 l       .text	00000000 gcc2_compiled.
+0000522c l     O .data	00000000 p.3
+00005a24 l     O .dtors	00000000 __DTOR_LIST__
+00000e10 l     F .text	00000000 __do_global_dtors_aux
+00000e68 l     F .text	00000000 fini_dummy
+00005230 l     O .data	00000000 force_to_data
+00005a1c l     O .ctors	00000000 __CTOR_LIST__
+00000000 l    df *ABS*	00000000 DLL1.cpp
+00000000 l    df *ABS*	00000000 libgcc2.c
+00000000 l    df *ABS*	00000000 libgcc2.c
+00000000 l    df *ABS*	00000000 unwind-dw2.c
+00001228 l     F .text	00000056 size_of_encoded_value
+00001280 l     F .text	00000077 base_of_encoded_value
+000012f8 l     F .text	00000033 read_uleb128
+0000132c l     F .text	00000058 read_sleb128
+00001384 l     F .text	000000ca read_encoded_value_with_base
+000014c4 l     F .text	00000148 extract_cie_info
+0000160c l     F .text	0000049d execute_stack_op
+00001aac l     F .text	000004f8 execute_cfa_program
+00001fa4 l     F .text	0000015d uw_frame_state_for
+000021b8 l     F .text	00000155 uw_update_context_1
+00002310 l     F .text	0000002e uw_update_context
+00002340 l     F .text	00000085 uw_init_context_1
+00005230 l     O .data	0000000c once_regsizes.0
+000023c8 l     F .text	000000f8 uw_install_context_1
+00002b08 l     F .text	0000007a init_dwarf_reg_size_table
+00005a90 l     O .bss	00000012 dwarf_reg_size_table
+000024c0 l     F .text	000000ad _Unwind_RaiseException_Phase2
+000026cc l     F .text	000000ea _Unwind_ForcedUnwind_Phase2
+0000142c l       .text	00000000 .L49
+000013c7 l       .text	00000000 .L43
+0000140b l       .text	00000000 .L45
+00001434 l       .text	00000000 .L50
+00001449 l       .text	00000000 .L51
+00001413 l       .text	00000000 .L44
+00001427 l       .text	00000000 .L48
+000016d0 l       .text	00000000 .L145
+00001aa4 l       .text	00000000 .L322
+000019e6 l       .text	00000000 .L239
+000016b7 l       .text	00000000 .L135
+000016bd l       .text	00000000 .L137
+000016c2 l       .text	00000000 .L139
+000016ca l       .text	00000000 .L141
+000016d7 l       .text	00000000 .L149
+000016de l       .text	00000000 .L151
+000016f8 l       .text	00000000 .L152
+00001718 l       .text	00000000 .L223
+00001738 l       .text	00000000 .L225
+0000174c l       .text	00000000 .L230
+0000176b l       .text	00000000 .L228
+00001798 l       .text	00000000 .L232
+00001810 l       .text	00000000 .L278
+000017dc l       .text	00000000 .L302
+00001940 l       .text	00000000 .L300
+00001660 l       .text	00000000 .L132
+00001952 l       .text	00000000 .L184
+00001963 l       .text	00000000 .L219
+0000198f l       .text	00000000 .L186
+000019b2 l       .text	00000000 .L221
+00001691 l       .text	00000000 .L97
+00001856 l       .text	00000000 .L281
+0000186d l       .text	00000000 .L282
+00001883 l       .text	00000000 .L283
+0000188b l       .text	00000000 .L284
+00001896 l       .text	00000000 .L285
+0000189f l       .text	00000000 .L286
+000018a7 l       .text	00000000 .L287
+000018b4 l       .text	00000000 .L288
+000018c2 l       .text	00000000 .L289
+000018d9 l       .text	00000000 .L290
+000018ea l       .text	00000000 .L291
+000018f5 l       .text	00000000 .L294
+00001906 l       .text	00000000 .L293
+00001911 l       .text	00000000 .L296
+0000191c l       .text	00000000 .L292
+00001927 l       .text	00000000 .L295
+00001932 l       .text	00000000 .L297
+00001b70 l       .text	00000000 .L327
+00001b40 l       .text	00000000 .L338
+00001b98 l       .text	00000000 .L340
+00001bb7 l       .text	00000000 .L342
+00001bd8 l       .text	00000000 .L344
+00001bf5 l       .text	00000000 .L346
+00001c40 l       .text	00000000 .L347
+00001c62 l       .text	00000000 .L349
+00001c76 l       .text	00000000 .L351
+00001cb2 l       .text	00000000 .L352
+00001cea l       .text	00000000 .L355
+00001d18 l       .text	00000000 .L356
+00001d5b l       .text	00000000 .L357
+00001d84 l       .text	00000000 .L358
+00001da7 l       .text	00000000 .L359
+00001dd8 l       .text	00000000 .L360
+00001e18 l       .text	00000000 .L361
+00001e60 l       .text	00000000 .L362
+00001e8f l       .text	00000000 .L363
+00001f9f l       .text	00000000 .L372
+00001ea8 l       .text	00000000 .L364
+00001eda l       .text	00000000 .L370
+00001ee8 l       .text	00000000 .L371
+00000000 l    df *ABS*	00000000 unwind-dw2-fde.c
+00002b84 l     F .text	00000056 size_of_encoded_value
+00002bdc l     F .text	00000033 read_uleb128
+00002c10 l     F .text	00000058 read_sleb128
+00002c68 l     F .text	000000ca read_encoded_value_with_base
+0000523c l     O .data	00000008 object_mutex
+00005aa8 l     O .bss	00000004 unseen_objects
+00005aac l     O .bss	00000004 seen_objects
+00003008 l     F .text	00000059 base_from_object
+00003064 l     F .text	000000ad get_cie_encoding
+00003114 l     F .text	0000001c fde_unencoded_compare
+00003130 l     F .text	00000078 fde_single_encoding_compare
+000031a8 l     F .text	0000008c fde_mixed_encoding_compare
+00005aa4 l     O .bss	00000004 marker.0
+00003234 l     F .text	00000178 frame_heapsort
+000033ac l     F .text	0000011c classify_object_over_fdes
+000034c8 l     F .text	000000f4 add_fdes
+000035bc l     F .text	00000111 linear_search_fdes
+000036d0 l     F .text	0000025d search_object
+00003a7c l     F .text	0000027e init_object
+00003cfc l     F .text	000000d3 fde_split
+00002d10 l       .text	00000000 .L34
+00002cab l       .text	00000000 .L28
+00002cef l       .text	00000000 .L30
+00002d18 l       .text	00000000 .L35
+00002d2d l       .text	00000000 .L36
+00002cf7 l       .text	00000000 .L29
+00002d0b l       .text	00000000 .L33
+00000e80 g     F .text	0000002a _ZN4DLL1C2Ev
+00003930 g     F .text	0000014b _Unwind_Find_FDE
+00002aec g     F .text	0000000b _Unwind_GetIP
+00000000       F *UND*	0000004f printf
+00002dd8 g     F .text	00000039 __register_frame
+00002930 g     F .text	000000cf _Unwind_Resume_or_Rethrow
+0000595c g     O *ABS*	00000000 _DYNAMIC
+00001468 g     F .text	0000000b _Unwind_GetRegionStart
+00003e34 g     O *ABS*	00000000 _etext
+00002a24 g     F .text	000000a3 _Unwind_Backtrace
+00001450 g     F .text	0000000b _Unwind_GetCFA
+00000000       F *UND*	0000002e memcpy
+00000000  w    F *UND*	000000a0 __cxa_finalize
+00000000       F *UND*	00000023 malloc
+00005228 g     O .data	00000000 __dso_handle
+00000eaa g     F .text	0000002a _ZN4DLL1C1Ev
+00002104 g     F .text	000000b1 __frame_state_for
+00000f28 g     F .text	0000002a _ZN4DLL15printEv
+00001074 g     F .text	000001b1 __umoddi3
+00000f54 g     F .text	00000120 __udivdi3
+00000000       F *UND*	000000d1 abort
+00000cb8 g     F .init	00000000 _init
+00002eac g     F .text	0000002a __register_frame_table
+00002d34 g     F .text	00000079 __register_frame_info_bases
+00000000       F *UND*	00000031 pthread_once
+00002fb0 g     F .text	00000020 __deregister_frame_info
+00002868 g     F .text	000000c8 _Unwind_Resume
+00002a00 g     F .text	00000021 _Unwind_DeleteException
+00002ed8 g     F .text	000000d7 __deregister_frame_info_bases
+00000ed4 g     F .text	0000002a _ZN4DLL1D2Ev
+00000e10 g     O .text	00000000 _btext
+00002570 g     F .text	00000159 _Unwind_RaiseException
+00002af8 g     F .text	0000000e _Unwind_SetIP
+00005a90 g     O *ABS*	00000000 __bss_start
+00002e14 g     F .text	0000006f __register_frame_info_table_bases
+00000000       F *UND*	00000062 pthread_mutex_unlock
+00002fd0 g     F .text	00000036 __deregister_frame
+00003e2c g     F .fini	00000000 _fini
+000014b8 g     F .text	0000000b _Unwind_GetTextRelBase
+00001474 g     F .text	00000035 _Unwind_FindEnclosingFunction
+0000145c g     F .text	0000000b _Unwind_GetLanguageSpecificData
+000027b8 g     F .text	000000b0 _Unwind_ForcedUnwind
+00005a90 g     O *ABS*	00000000 _edata
+00005a2c g     O *ABS*	00000000 _GLOBAL_OFFSET_TABLE_
+00005ab0 g     O *ABS*	00000000 _end
+00000000       F *UND*	0000008c pthread_mutex_lock
+00002ad8 g     F .text	00000013 _Unwind_SetGR
+00000efe g     F .text	0000002a _ZN4DLL1D1Ev
+00002ac8 g     F .text	00000010 _Unwind_GetGR
+000014ac g     F .text	0000000b _Unwind_GetDataRelBase
+00002e84 g     F .text	00000025 __register_frame_info_table
+00002db0 g     F .text	00000025 __register_frame_info
+00000000       F *UND*	00000023 free
+
+

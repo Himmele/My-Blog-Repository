@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GAHelloWorld", "GAHelloWorld.vcproj", "{B008166B-A6AE-4D9F-BF53-16EF47C40CEF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{B008166B-A6AE-4D9F-BF53-16EF47C40CEF}.Debug.ActiveCfg = Debug|Win32
+		{B008166B-A6AE-4D9F-BF53-16EF47C40CEF}.Debug.Build.0 = Debug|Win32
+		{B008166B-A6AE-4D9F-BF53-16EF47C40CEF}.Release.ActiveCfg = Release|Win32
+		{B008166B-A6AE-4D9F-BF53-16EF47C40CEF}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

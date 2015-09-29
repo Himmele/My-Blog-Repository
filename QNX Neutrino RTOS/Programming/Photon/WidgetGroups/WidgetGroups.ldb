@@ -1,0 +1,6 @@
+PhABLang200
+base,18015,Window Title,0,0,TextFont09,0,My Application
+PtBigButton,3011,Button  Text,0,0,TextFont09,0,Button
+PtToggleButton1,3011,Toggle Text,0,0,TextFont09,0,Toggle
+PtToggleButton2,3011,Toggle Text,0,0,TextFont09,0,Toggle
+PtToggleButton3,3011,Toggle Text,0,0,TextFont09,0,Toggle

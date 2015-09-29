@@ -1,0 +1,37 @@
+#
+# Protected Mode und C (Beispielprogramm 3)
+#
+# makefile fÅr "pm_03.c", getestet mit BC 4.0, TASM32 3.1, TLINK32 ?.?
+#
+# Achtung: - Die Win32 Version von bcc wird verwendet, um den C-Quellcode zu
+#            compilieren. Es sollten daher keine Bibliotheksfunktionen
+#            benutzt werden (stdlib.h use).
+#          - TASM32 wird benîtigt, um den verwendeten Startupcode (c0pmode.asm)
+#            zu assemblieren
+#
+
+COMPILE32=
+!include "..\..\..\pfade.mak"
+
+#
+
+CCFLAGS = -I$(ROOT)\INCLUDE -L$(ROOT)\LIB -S -3
+ASMFLAGS= /ml /m2 /q /t
+LNKFLAGS= /3 /m /x
+
+#
+
+pm_03.exe: pm_03.obj c0pmode.obj
+    $(LNK) $(LNKFLAGS) pm_03.obj c0pmode.obj
+
+pm_03.asm: pm_03.c
+    $(CC) $(CCFLAGS) pm_03.c
+
+pm_03.obj: pm_03.asm
+    $(ASM) $(ASMFLAGS) pm_03.asm
+
+c0pmode.obj: c0pmode.asm
+    $(ASM) $(ASMFLAGS) c0pmode.asm
+
+
+

@@ -1,0 +1,504 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0036)http://home.no.net/tkos/info/hd.html -->
+<HTML><HEAD><TITLE>OS Theory - Harddisk Systems</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#c0c0c0 link=#00ff00 bgColor=#000040>
+<DIV align=center>
+<CENTER>
+<TABLE cellSpacing=1 width="80%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <DIV align=center>
+      <CENTER>
+      <TABLE cellSpacing=1 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=left width="25%"><FONT color=#ffff00><BIG><BIG>Harddisks, 
+            Partitioning and Booting</BIG></BIG></FONT></TD>
+          <TD align=right width="20%">
+            <P align=right><FONT color=#00ffff><EM>Thomas Kjoernes<BR>20th 
+            September 1999 
+  </EM></FONT></P></TD></TR></TBODY></TABLE></CENTER></DIV></TD></TR>
+  <TR>
+    <TD align=left width="100%">
+      <P align=left><SMALL><BR></SMALL><STRONG>Introduction</STRONG></P>
+      <P align=left>Finally, after a years time, I've updated this article. 
+      Still, there is no fancy contents part in this document. I want to keep 
+      this writing as one length uninterrupted piece of text.</P>
+      <P align=left>- Addressing<BR>- CHS/LBA translation, w/ASM source..<BR>- 
+      BIOS disk interface, INT13 and Extended INT13<BR>- Harddisks and the 
+      Partition Table, w/ASM source.</P>
+      <P align=left>I have done my best to keep the information as accurate and 
+      up-to-date as possible. Grammar and spelling has also been checked, but 
+      since English is not my native tongue some errors, misspellings and 
+      strange sentence assembly might occur. Well, enough talk, let's get on 
+      with the real thing. </P>
+      <P align=left><STRONG><BR>What kind of computer systems are relevant in 
+      this context? </STRONG></P>
+      <P align=left>Since this document will be part of several texts related to 
+      the OS I'm still developing, information herein applies to the IBM PC 
+      architecture. </P>
+      <P align=left><STRONG><BR>General addressing issues </STRONG></P>
+      <P align=left>In a PC computer system's processor, the smallest 
+      addressable or manipulative unit is bit. A bit can have one of two 
+      possible values 0 or 1. In computer memory the smallest addressable unit 
+      is a byte. On harddisks conforming to the ATA standard (ATA-1 and above) 
+      the smallest addressable unit is a sector. Each sector is made up of 512 
+      bytes. Floppies can use different sector sizes, but an IBM formatted PC 
+      diskette will always use a sector size of 512 bytes. When it comes to SCSI 
+      I'm not sure what the specs says, but I assume that 512 byte is true for 
+      SCSI harddisks. </P>
+      <P align=left>I will assume that when talking about harddisks and 
+      "harddisk-like" mediums, sectors are 512 bytes. Several examples can prove 
+      this to be a safe assumption. ATA drivers and BIOS's will "always" have a 
+      hardcoded x86 REP INSW instruction to read 512 bytes. The sectors are 
+      spread around on the medium, and the electronics on the "drive" will take 
+      care of finding them. </P>
+      <P align=left><STRONG><BR>Physical addressing issues </STRONG></P>
+      <P align=left>The physical organization of sectors on the medium is not of 
+      concern to the high level of the operating system. The OS will see the 
+      disk as a linear stream of sectors. Each sector will be addressed using a 
+      number starting from zero. This is in harddisk terminology known as a 
+      LBA-addressing - Logical Block Addressing. There is a different scheme 
+      called CHS-addressing, which has its origin from the physical layout 
+      inside harddisk. </P>
+      <P align=left>Briefly, harddisks consists of one or more rotating 
+      platters. A read-write head is positioned above the rotating surface and 
+      is able to read or write the data underneath the current head position. 
+      The position of the head determines which track is being read. The term 
+      track can be compared to the tracks on LP's. These tracks are again 
+      divided into sectors - the famous 512-byte units and the "S" is CHS. As 
+      you know a sector is shaped like a slice from a cake (silly thing to 
+      compare with), but in the harddisk world, a sector is the part of a slice 
+      that lies within a track. If you're totally unfamiliar with this stuff... 
+      this may sound pretty dull. </P>
+      <P align=left>There is another term called cylinder(s) - the C in CHS. A 
+      cylinder is almost the same as a track, except that it means all tracks 
+      lining up under each other on all the surfaces. The final letter - H - 
+      stands for Head(s). This is equivalent to side(s). It simply means one of 
+      the rotating platters or one of the sides on one of the platters. If a 
+      harddisk has three rotating platters, it usually has 5 or 6 readable 
+      sides, each with their own read-write head.</P>
+      <P align=left><IMG height=254 alt="hd.gif (14383 bytes)" 
+      src="OS Theory - Harddisk Systems-Dateien/hd.gif" width=537></P>
+      <P align=left><STRONG><BR>CHS-LBA address translation </STRONG></P>
+      <P align=left>Modern ATA harddrives are able to present the "geometry" or 
+      "addressing scheme" of the drive in two ways - CHS or LBA. CHS is what 
+      I've been trying to explain in the section above. LBA is the most 
+      attractive scheme, because it maps directly to the way a filesystem would 
+      view the medium. Since CHS existed "long" before LBA on ATA drives, there 
+      are different ways of translating a CHS address to an LBA address. As time 
+      has passed by, harddisk manufacturers and software developers have come to 
+      an agreement on this. </P>
+      <P align=left>I will try to explain why this translation is or was a 
+      problem in a short way. If you are looking for a more detailed 
+      explanation, read the documents on this subject written by Hale Landis. 
+      The ATA-1 specification is the real name for the type of drives sometimes 
+      known as IDE drives. These drives support 1024 cylinders, 16 heads and 63 
+      sectors. When the IBM PC began to support these drives, the programming 
+      interface to the harddisks, INT13, was designed to support only these 
+      parameters. The following x86 CPU registers where used to specify the 
+      address: </P>
+      <P align=left>CH equals the low 8 bits of 10-bit cylinder number (10 bits 
+      are needed for specifying 1024 values). CL[6-7] equals the high 2 bits of 
+      the 10-bit cylinder number (stored in bits 6 &amp; 7 of CL). CL[0-5] 
+      equals the 6-bit sector number (1-based 1..63). DH equals the head number 
+      (only bits 0-3 was used with IDE, because the 16 head limit in the ATA 
+      head I/O register). </P>
+      <P align=left>When harddisks became bigger (with ATA-2, Enhanced IDE), 
+      what happened was that the number of cylinders were increased to more than 
+      1024. Since the INT13 interface could not specify more than 1024 
+      cylinders, the BIOS programmers came up with different solutions 
+      (unfortunately). One of the solutions was to simulate more heads. This was 
+      done to keep the cylinder number below (or equal to) 1024. This was an OK 
+      solution because the DL register had 4 unused bits. </P>
+      <P align=left>Solution number two was to put the upper bits of the 
+      cylinder number (bits above the 10th bit) into the upper nibble of DL. 
+      This would also have been a nice solution (in fact even better than the 
+      first one, for a programmer's point of view, since the geometry would have 
+      been intact). <BR><BR>Solution number two would have given a 14-bit 
+      cylinder number (16384 cylinders). SO, what is the problem?? you would 
+      say... The problem is that the many BIOS manufacturers implemented the 
+      method they liked best and never agreed on a way for programs to detect 
+      which method they used. </P>
+      <P align=left>With ATA-2, LBA came to IDE harddisks (in fact they were now 
+      called EIDE, Enhanced IDE). The "enhancement" consisted among other things 
+      of expanded cylinder capacity (more than 1024 cylinders) and the LBA 
+      feature. Some of the bad BIOS manufacturers decided to use the LBA 
+      addressing feature and then translate the LBA address into a INT13 CHS 
+      geometry of their own. Again, nobody could agree upon which way to 
+      calculate the proper CHS values. The result was two new types of 
+      addresses. </P>
+      <P align=left>In order to properly convert the INT13 "emulated" address 
+      into a proper hardware-compatible CHS address, one needs to know the 
+      "sector" and "head" values used when calculating the INT13 CHS address. 
+      The Disk Parameter Table (DPT) and later the Enhanced Disk Parameter Table 
+      (EDPT) will give you all the necessary information, but the BIOS 
+      manufacturers did not agree upon this at first either.</P>
+      <P align=left>Nowadays (1999), we have the so called INT13 extensions 
+      which was created by Microsoft/IBM (and later enhanced by Phoenix 
+      Technologies, Ltd). With this new and now widely supported interface, disk 
+      addressing is done with a 64-bit LBA address. The LBA addresses used by 
+      these extensions, are compatible with the CHS addresses presented by the 
+      older INT13 functions when using the below translation algorithm. </P>
+      <P align=left>The final thing I have to say about CHS-LBA translation is 
+      that the "official" or "correct" way to perform it, is by following the 
+      sector to the end of a track, then advancing to the first sector on the 
+      next head on the same cylinder and finally advancing to the next cylinder 
+      after leaving the last head... confusing??? There reason for this order 
+      was originally to minimize the "sideways" head movement time, also known 
+      as the "seek-time". The algorithm here is the same as the one used inside 
+      the electronics of the IDE controller. </P>
+      <P align=left>Here it is (Example #0001): </P>
+      <P align=left>HPC = the number of heads (per cylinder, or the number of 
+      read-write heads). <BR>SPT = the number of sectors (per track/side) </P>
+      <P align=left><EM>LBA = (((Cylinder * HPC) + Head) * SPT) + Sector - 1 
+      </EM></P>
+      <P align=left>To reverse this algorithm, that is, to find out the CHS 
+      address equal to an LBA address, is a bit more complex. The most important 
+      thing is that the HPC and SPT parameters most be the exact same as above 
+      (Example #0002): </P>
+      <P align=left><EM>1. Sector = (LBA mod SPT) + 1 <BR>2. Head = (LBA / SPT) 
+      mod HPC<BR>3. Cylinder = (LBA / SPT) / HPC </EM></P>
+      <P align=left>The "mod" means modulo, which is the remainder after the 
+      equivalent division. If you keep reading you'll find examples on how these 
+      algorithms are implemented in assembly language.</P>
+      <P align=left><STRONG><BR>INT13 - Software Interrupt 13H</STRONG></P>
+      <P align=left>I've mentioned INT13 several places in this text. INT13 is 
+      the disk interface used by operating systems to access harddisks and 
+      diskette drives. Originally the IBM PCs did not have harddisks and INT13 
+      only handed diskette drives. When harddisks arrived the new code moved the 
+      diskette handler to INT 40h. The new INT13 included code to check for 
+      drive identifiers between 0 and 127, and pass control to INT40 if that was 
+      the case. This code can be found in most BIOS's even today. <BR><BR>In 
+      many cases the same source code is used today decades later for 
+      compatibility, inability and laziness reasons. I won't mention names but 
+      the company has been mentioned in this text.</P>
+      <P align=left>With INT13-harddisks the sector size is always 512 bytes, 
+      this is a <U>safe</U> assumption. Correct me if I'm wrong. I will give you 
+      a short guide to how INT13 harddisk access is done. I assume you're 
+      familiar with the x86 CPU architecture and know what registers are. 
+      Alright here we go:</P>
+      <P align=left><EM><BR><STRONG>READ SECTOR(S)</STRONG></EM></P>
+      <P align=left><EM>AH = 02h (function number).<BR>AL = number of sectors to 
+      read (1..255, I'm not sure whether 0 means 256 with INT13).<BR>CH = 
+      cylinder bits 0-7 (LSB of the 10-bit cylinder number, 0-1023).<BR>CL = 
+      cylinder bits 8-9 (in bits 6-7 of CL).<BR>CL = sector number (in bits 0-5 
+      of CL, 1-63, CHS sector numbers are one-based)<BR>DL = drive number 
+      (80h-FFh for harddisks, 128-255 decimal).<BR>DH = head number (originally 
+      0-15, with translation it can be 0-255).<BR>ES:BX = segment:offset pointer 
+      to buffer (this is real-mode).</EM></P>
+      <P align=left>Notes: </P>
+      <P align=left>Some BIOS implementations might not allow you to do a full 
+      255/256 sector read. To be on the safe side, try to avoid requests the 
+      cross a track boundary.</P>
+      <P align=left>From diskette drives you must ensure that a read request 
+      does not cross a DMA page (64K aligned address) boundary. It is highly 
+      unlikely that the BIOS will take care of this problem for you. The easiest 
+      way of taking care of this is to simply ensure that the buffer address 
+      you're using is always aligned on a boundary equal to the request size. I 
+      you're reading four 512-byte sectors, align the buffer on a 2KB 
+      boundary.</P>
+      <P align=left><EM><BR><STRONG>WRITE SECTOR(S)</STRONG></EM></P>
+      <P align=left><EM>AH = 03h (guess what, function number for 
+      write).</EM></P>
+      <P align=left><EM>The rest of the parameters are exactly the same as for 
+      READ SECTORS. I'm sure you understand that you must fill the buffer 
+      pointed to by ES:BX with the data you want to write. ;)</EM></P>
+      <P align=left><EM><BR><STRONG>GET DRIVE PARAMETERS</STRONG></EM></P>
+      <P align=left><EM>AH = 08h (function number for get drive params).<BR>DL = 
+      drive number (same as with READ/WRITE SECTORS).</EM></P>
+      <P align=left><EM>This function will return with CF=0 if the drive is 
+      valid. I've read somewhere that not all BIOS's correctly sets/clear CF. 
+      When you attempt to detect the installed harddisks, you could check the 
+      number of attached drives returned in DL, when you've checked the first 
+      disk with DL=80h.</EM></P>
+      <P align=left><EM>This function returns the "maximum" CHS parameters in 
+      the same registers as they are passed to INT13 in,&nbsp; with functions 
+      02h and 03h.</EM></P>
+      <P align=left><EM>CH[0-7] and CL[6-7] returns the maximum cylinder value, 
+      not count! (less or equal to 1023).<BR>CL[0-5] maximum sector number, 
+      since sector numbers are one-based this is also count of sectors.<BR>DH 
+      returns the maximum head number (0-255, again, this is the number of heads 
+      - 1).</EM></P>
+      <P align=left>Notes:</P>
+      <P align=left>It is common to exclude the last cylinder from the 
+      information returned by this functions. On IBM PCs this cylinder used to 
+      be reserved as a "manufacturer diagnostics cylinder". If you're writing an 
+      OS or a partitioning utility, you might want to leave it as an option to 
+      the user to include this cylinder in a partition. Make sure your utility 
+      does a read/write/verify on the cylinder before attempting to use it. </P>
+      <P align=left><BR><STRONG><EM>INT13 EXTENSIONS INSTALL 
+      CHECK</EM></STRONG></P>
+      <P align=left><EM>AH = 41h<BR>DL = drive number (same as with READ/WRITE 
+      SECTORS).<BR>BX = 55AAh</EM></P>
+      <P align=left><EM>Returns:</EM></P>
+      <P align=left><EM>BX = AA55h (byte-swapped) and CF=0 if the extensions are 
+      supported for the drive.<BR></EM><BR><EM>This calls also returns 
+      information about the supported sub-functions in CX. Please refer to Ralf 
+      Browns excellent Interrupt List for details on all these 
+      functions.</EM></P>
+      <P align=left><BR><STRONG><EM>EXTENDED READ SECTOR(S)</EM></STRONG></P>
+      <P align=left><EM>AH = 42h<BR>DL = drive number (same as with READ/WRITE 
+      SECTORS).<BR>DS:SI = pointer to disk request packet structure.</EM></P>
+      <P align=left><EM>Request packet format:</EM></P>
+      <TABLE height=135 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width="12%" height=21>BYTE</TD>
+          <TD width="88%" height=21>Packet Length (10h)</TD></TR>
+        <TR>
+          <TD width="12%" height=21>BYTE</TD>
+          <TD width="88%" height=21>Reserved (00h)</TD></TR>
+        <TR>
+          <TD width="12%" height=21>WORD</TD>
+          <TD width="88%" height=21>Sector Count</TD></TR>
+        <TR>
+          <TD width="12%" height=21>WORD</TD>
+          <TD width="88%" height=21>Buffer Offset</TD></TR>
+        <TR>
+          <TD width="12%" height=21>WORD</TD>
+          <TD width="88%" height=21>Buffer Segment</TD></TR>
+        <TR>
+          <TD width="12%" height=18>QWORD</TD>
+          <TD width="88%" height=18>64-bit Logical Block 
+      Address</TD></TR></TBODY></TABLE>
+      <P align=left><BR><STRONG><EM>EXTENDED WRITE SECTOR(S)</EM></STRONG></P>
+      <P align=left><EM>AH = 43h<BR>DL = drive number (same as with READ/WRITE 
+      SECTORS).<BR>DS:SI = pointer to disk request packet structure (same as 
+      above again).</EM></P>
+      <P align=left><BR><EM><STRONG>EXTENDED GET DRIVE 
+      PARAMETERS</STRONG></EM></P>
+      <P align=left><EM>AH = 48h<BR>DL = drive number (same as with READ/WRITE 
+      SECTORS).<BR>DS:SI = buffer for drive parameter structure.</EM></P>
+      <P align=left><EM>Structure layout:</EM></P>
+      <TABLE cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width="12%">WORD</TD>
+          <TD width="88%">Buffer Size, 1Ah, 1Eh or 42h, depending on the 
+            version of the extensions.</TD></TR>
+        <TR>
+          <TD width="12%">WORD</TD>
+          <TD width="88%">Information Flags</TD></TR>
+        <TR>
+          <TD width="12%">DWORD</TD>
+          <TD width="88%"># of Physical Cylinders</TD></TR>
+        <TR>
+          <TD width="12%">DWORD</TD>
+          <TD width="88%"># of Physical Heads</TD></TR>
+        <TR>
+          <TD width="12%">DWORD</TD>
+          <TD width="88%"># of Physical Sectors</TD></TR>
+        <TR>
+          <TD width="12%">QWORD</TD>
+          <TD width="88%">64-bit Total number of sectors on 
+        drive.</TD></TR></TBODY></TABLE>
+      <P align=left><BR>Notes:</P>
+      <P align=left>The table above describes the returned values for a version 
+      1.0 call. I have not verified if you can force only the information you 
+      want to be returned by setting the buffer size field to the proper size 
+      (such as 1Ah to return just the above), but I hope this is the case (for 
+      the sake of compatibility).</P>
+      <P align=left>Again, get Ralf Browns Interrupt List, which has a very 
+      detailed explanation of all this stuff. You can find the latest version of 
+      the list by doing a search for "Ralf Brown Files" in <A 
+      href="http://www.altavista.com/">http://www.altavista.com/</A> or any 
+      other decent search engine.</P>
+      <P align=left><BR><STRONG>INT13 example code</STRONG></P>
+      <P align=left>If the INT13 stuff was not easy to understand, here are some 
+      x86 assembly code examples on how to read sectors from the first harddisk 
+      using the standard calls. The first example is a plain example on how to 
+      read the Master Boot Record, while the second example demonstrates how to 
+      read a sector specified by an LBA address. The proper code to get the 
+      driver parameters is also included. Have fun.</P>
+      <P align=left><A 
+      href="http://home.no.net/tkos/info/readmbr.asm">READMBR.ASM</A><BR><A 
+      href="http://home.no.net/tkos/info/readlba.asm">READLBA.ASM</A></P>
+      <P align=left>I tested these two examples in my debugger and both the 8086 
+      and 386 version gave the same result. This makes me pretty darn sure that 
+      my "split division" algorithm work as it's supposed to. You'll probably 
+      want to rearrange and optimize the code, but it should be good enough to 
+      give you an idea of how it can be done.</P>
+      <P align=left>Both files assemble into DOS executables. They don't output 
+      anything, so in order to really understand what's going on - run them in a 
+      debugger and single-step through them. This way you'll see what each of 
+      the instructions do.</P>
+      <P align=left><BR><STRONG>Harddisks and Partitions</STRONG></P>
+      <P align=left>When talking about harddisks as they are used in PC systems, 
+      an important issue is partitioning. When IBM started using harddisks they 
+      had this idea that people would want to use several operating systems at 
+      the same time. Well, not at the exact same time, but one on Monday, maybe 
+      Tuesday too, but on Wednesday they would want to use another operating 
+      system.</P>
+      <P align=left>With this in mind, they decided to set aside a small area in 
+      the very first sector on disk, CHS sector 0/0/1 or LBA sector 0 if you 
+      like, for a "Partition Table".</P>
+      <P align=left>Even though CHS addressing was the only addressing method 
+      back then, they were in fact clever enough to include both CHS and LBA 
+      fields in this table. With the INT13 extensions and the 64-bit LBAs we 
+      would soon need another partition table layout. Please have look at a text 
+      I wrote -- <A href="http://home.no.net/tkos/info/embr.html">EMBR</A> -- 
+      about a new potential partition scheme.</P>
+      <P align=left>There are four entries in the table, each of them specifies 
+      the starting and ending location of a partition. One of the two LBA fields 
+      specifies the starting location, while the other specifies the number of 
+      consecutive sectors in the partitions.</P>
+      <P align=left>Before further explaining how the partition table works, 
+      I'll "draw" and example table. This example will cover a 1GB drive, and it 
+      will have the following parameters:</P>
+      <P align=left>520 Cylinders<BR>64 Heads<BR>63 Sectors</P>
+      <P align=left>With the above parameters, the physical number of cylinder 
+      (in the current drive translation mode), would probably have been 2080 
+      since the maximum head is really 16 (16 * 4 = 64). For compatibility with 
+      INT13, most ATA-2 drives, will have a default CHS translation where 
+      Sectors per Track does not exceed 63, even though all drives allow 255 to 
+      be the maximum. </P>
+      <P align=left>Back to the partition table again... I'll list the fields in 
+      the order in which they appear in the table, with some exceptions, just to 
+      make the CHS fields appear in the C, H, S order. This example has just one 
+      BIGDOS partition, but it does not use the entire disk space. I'll show you 
+      how to find out the amount of unused space. The numbers are decimal but 
+      they all have leading zeroes, just to make fit better.</P>
+      <DIV align=left><PRE>+B+ System +--- CHS Start ---+---- CHS End ---+- Start --+- Count --+
+|-|--------|-----------------|----------------|----------|----------+
+|Y| BIGDOS | 0000 | 001 | 01 | 0259 | 063 |63 | 00000063 | 01048257 |
+|n| unused | 0000 | 000 | 00 | 0000 | 000 |00 | 00000000 | 00000000 |
+|n| unused | 0000 | 000 | 00 | 0000 | 000 |00 | 00000000 | 00000000 |
+|n| unused | 0000 | 000 | 00 | 0000 | 000 |00 | 00000000 | 00000000 |
++-+--------+------+-----+----+------+-----+---+----------+----------+</PRE></DIV>
+      <P align=left>What does this information mean? This information tells you 
+      that the disk has one partition, the partition is bootable, it is a BIGDOS 
+      partition (BIGDOS partitions will be explained later). You also get to 
+      know where the partition starts and where it ends.</P>
+      <P align=left>"B" is the "bootable" or "active" field. This field 
+      corresponds to BYTE 0 in the partition table entry. A value of 00H 
+      indicates a non-active partition and a value of 80H indicates the active 
+      partition. Only one partition at a time can be bootable. If you set more 
+      than one entry to "active" the small master boot program will complain. 
+      The master boot program will also use this field as the drive number 
+      during boot.</P>
+      <P align=left>"System" is used to indicate what type of&nbsp; FS the 
+      partition contains or which OS the partition belongs to. A value of 00H 
+      will indicate that the entry is unused. Normally unused entries will have 
+      all the fields set to zero, but the "system" field is the only field 
+      strictly necessary to check. The "system" field corresponds to BYTE 4 in 
+      the partition table entry.</P>
+      <P align=left>"CHS Start" is the CHS address of the first sector in the 
+      partition. It is made up of three numbers. Cylinder is a 10-bit number 
+      (four digits, BYTE 2 and 3), Head is 8-bit (three digits, BYTE 1) and 
+      Sector is 6-bit (2 digits, BYTE 2). 10 + 8 + 6 = 24 bits.</P>
+      <P align=left>"CHS End"&nbsp; is the CHS address of the last sector in the 
+      partition. It is also made up of the three above numbers. Cylinder (BYTE 6 
+      and 7), Head (BYTE 5) and Sector (BYTE 6).</P>
+      <P align=left>"Start" is a 32-bit starting LBA sector number. It is 
+      calculated in the standard way:</P>
+      <P align=left><EM>Start = ((StartC * HeadsPerCylinder) + StartH) * 
+      SectorsPerTrack) + StartS - 1</EM></P>
+      <P align=left>"Count" is also a 32-bit field, which tells you how many 
+      sectors the partition uses. This field can be calculated using two major 
+      algorithms:</P>
+      <P align=left><EM>Count = (((EndC - StartC) * HeadsPerCylinder) + (EndH - 
+      StartH)) * SectorsPerTrack + (EndS - StartS).</EM></P>
+      <P align=left>On the above calculation, you don't subtract 1 at the end, 
+      because we want the "count of sectors", and not the zero-based LBA address 
+      of the last sector, see? There is another method too, the idea is the 
+      same, but it calculates the mentioned "last LBA sector" and subtracts the 
+      "start" field afterwards:</P>
+      <P align=left><EM>Count = (((EndC * HeadsPerCylinder) + EndH) * 
+      SectorsPerTrack + EndS - 1) - Start</EM></P>
+      <P align=left><BR><STRONG>Master Boot Record</STRONG></P>
+      <P align=left>When I talked about the Partition Table in the previous 
+      section, I said that IBM sat aside space for it in the first sector on the 
+      harddisk - CHS sector 0/0/1 or LBA 0. This sector does not only contain 
+      the Partition Table, but also executable code. The entire sector is known 
+      as the MBR - Master Boot Record. This sector is loaded and executed by the 
+      BIOS when booting from the harddisk. This small master boot program will 
+      check the embedded Partition Table for an entry marked as "active". This 
+      program will then load the first sector (the Boot Sector) of the partition 
+      marked "active" into memory and execute it.</P>
+      <P align=left>This booting process is pretty complex, but I'll try to 
+      explain what the master boot program does in step-by-step manner. When the 
+      "boot sector" is given control, it will finish the boot process. The boot 
+      sector is equivalent the the first sector on diskettes (which have no 
+      MBR).</P>
+      <P align=left>&nbsp;</P></TD></TR>
+  <TR>
+    <TD align=left width="100%">
+      <DIV align=center>
+      <CENTER>
+      <TABLE cellSpacing=1 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width="2%">1.</TD>
+          <TD vAlign=top align=left width="50%">BIOS reads CHS sector 0/0/1 of 
+            the first available boot device, in this case the first 
+        harddisk.</TD></TR>
+        <TR>
+          <TD width="2%">2.</TD>
+          <TD vAlign=top align=left width="50%">The sector is read into a 
+            fixed memory location - 0000:7C00, and control is transferred 
+          there.</TD></TR>
+        <TR>
+          <TD width="2%">3.</TD>
+          <TD vAlign=top align=left width="50%">The master boot program will 
+            relocate itself into low memory, in order to allow the boot sector 
+            of the active partition to be loaded at 0000:7C00 too.</TD></TR>
+        <TR>
+          <TD width="2%">4.</TD>
+          <TD vAlign=top align=left width="50%">The master boot program jumps 
+            to the next instruction in the new location - typically 0000:06nn or 
+            0060:nnnn.</TD></TR>
+        <TR>
+          <TD width="2%">5.</TD>
+          <TD vAlign=top align=left width="50%">The master boot program will 
+            the check all four "Partition Table" entries for a partition marked 
+            as "active", by checking for value 80h.</TD></TR>
+        <TR>
+          <TD width="2%">6.</TD>
+          <TD vAlign=top align=left width="50%">If none are marked active, the 
+            master boot program (depending on who wrote it of course) inform the 
+            user that none of the partitions are "active" or execute ROM BASIC - 
+            perform an INT18, which in these modern days usually results in 
+            booting from another device.</TD></TR>
+        <TR>
+          <TD width="2%">7.</TD>
+          <TD vAlign=top align=left width="50%">The master boot record 
+            installed by DOS' FDISK will require the "active" field to be 00h or 
+            80h, any other value will cause an "Invalid partition table" 
+            message. Most BIOS implementations pass the drive number to the MBR 
+            in DL.</TD></TR>
+        <TR>
+          <TD width="2%">8.</TD>
+          <TD vAlign=top align=left width="50%">The first CHS sector of the 
+            "active" partition (as specified in "Start CHS") will be loaded at 
+            0000:7C00, just like the MBR.&nbsp; Control is then transferred 
+            there with a JMP to 
+  0000:7C00.</TD></TR></TBODY></TABLE></CENTER></DIV></TD></TR>
+  <TR>
+    <TD align=left width="100%"><BR>If you would like to see a generic master 
+      boot program, you can get <A 
+      href="http://home.no.net/tkos/info/mbr.asm">MBR.ASM</A>. This small 
+      example program will assemble and link into an EXE file.&nbsp; When the 
+      executable is run, it will replace the current master boot program with 
+      itself, but preserve the partition table. This master boot program will 
+      allow booting from harddisks other than the first one. Instead of 
+      requiring an "active" value of 80h it will accept any values between 80h 
+      and FFh - that's the way it should have been all along...
+      <P>This example boot program does not print any messages, but it works. I 
+      tested it successfully on my system last year, and it used to be the 
+      master boot program I used back then. The code is not optimized for size, 
+      but yet it's only 64 bytes long. Take care and have fun!</P>
+      <P><BR><STRONG>Introduction to Boot Sectors and OS marketing</STRONG></P>
+      <P>As a part of the OS I'm constantly developing, I've written a new suite 
+      of Boot Sectors for the FAT file system. These boot sectors support 
+      loading plain binaries and "MZ" executables of virtually any size (in good 
+      old 16-bit DOS terminology). Please download my latest OS tree -- <A 
+      href="http://home.no.net/tkos/os.zip">OS.ZIP</A> -- to get hold of the 
+      boot sector source code.</P>
+      <P>&nbsp;</P>
+      <P align=right><EM>Thomas Kjoernes -- "The Bass 
+  Demon"</EM></P></TD></TR></TBODY></TABLE></CENTER></DIV>
+<P>&nbsp;</P></BODY></HTML>

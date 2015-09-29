@@ -1,0 +1,1011 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.codeguru.com/Cpp/misc/misc/article.php/c3795/ -->
+<HTML><HEAD><TITLE>CodeGuru: Genetic Algorithm and Traveling Salesman Problem</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="A programmer's view and example on Genetic Algorithms. By Konstantin Boukreev." 
+name=description>
+<META content="Konstantin Boukreev" name=Author>
+<META content="" name=keywords>
+<META content=20010927 name=date><LINK 
+href="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/text.css" 
+type=text/css rel=stylesheet>
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v3.0
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function HM_doPreload() { // dmr
+   MM_preloadImages('/img/visualc-but-on.gif',
+                    '/img/net-but-on.gif',
+                    '/img/vb-but-on.gif',
+                    '/img/forums-but-on.gif',
+                    '/img/reviews-but-on.gif',
+                    '/img/directory-but-on.gif',
+                    '/img/submit-but-on.gif',
+                    '/img/announcements-but-on.gif',
+                    '/img/guru-but-on.gif',
+                    '/img/guest-but-on.gif',
+                    '/img/about-but-on.gif',
+                    '/img/faq-but-on.gif')
+}
+window.onload=HM_doPreload;
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY bgColor=#666666 leftMargin=0 topMargin=4 MARGINHEIGHT="4" MARGINWIDTH="0">
+<SCRIPT language=JavaScript1.2 
+src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/HM_Loader.js" 
+type=text/javascript></SCRIPT>
+<MAP name=tabs_Map><AREA shape=RECT alt=Earthwebnews coords=709,0,765,17 
+  href="http://www.earthwebnews.com/"><AREA shape=RECT 
+  alt="Software Development" coords=559,0,707,17 
+  href="http://softwaredev.earthweb.com/"><AREA shape=RECT 
+  alt="Hardware and Systems" coords=423,0,558,17 
+  href="http://hardware.earthweb.com/"><AREA shape=RECT alt="Web Developer" 
+  coords=303,0,422,17 href="http://webdeveloper.earthweb.com/"><AREA shape=RECT 
+  alt="Networking and Communications" coords=106,0,301,17 
+  href="http://networking.earthweb.com/"><AREA shape=RECT alt="IT Management" 
+  coords=0,0,104,17 href="http://itmanagement.earthweb.com/"></MAP>
+<TABLE cellSpacing=0 cellPadding=4 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle><IMG height=100 alt="" hspace=0 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+      width=1 align=left border=0>
+      <SCRIPT language=JavaScript type=text/javascript>
+<!--
+         google_ad_client = 'internet_728x90';
+         google_ad_width = 728;
+         google_ad_height = 90;
+         google_ad_format = '728x90_sln';
+         google_safe = 'high';
+// -->
+</SCRIPT>
+
+      <SCRIPT language=JavaScript 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/show_ads.js" 
+      type=text/javascript></SCRIPT>
+       <NOSCRIPT><IMG height=1 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/imp.gif" 
+      width=1 border=0> </NOSCRIPT><IMG height=1 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/64343930383437303430653432633730.gif" 
+      width=1></TD></TR></TBODY></TABLE><!--Top Navigation-->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+        <TBODY>
+        <TR>
+          <TD><IMG height=17 alt="Earthweb Tabs" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/tabs.gif" 
+            width=780 useMap=#tabs_Map 
+  border=0></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/top-bg.gif">
+      <TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+        <TBODY>
+        <TR>
+          <TD width=272><A href="http://www.codeguru.com/"><IMG height=82 
+            alt=CodeGuru hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/logo.gif" 
+            width=272 border=0></A></TD>
+          <TD 
+          background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/top-bg-2.gif">
+            <TABLE cellSpacing=0 cellPadding=0 width=508 
+            background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/c3795.htm" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD width=508 colSpan=2><IMG height=1 alt="" hspace=0 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+                  width=508 border=0></TD></TR>
+              <TR>
+                <FORM name=myform 
+                action=http://search.internet.com/www.codeguru.com method=post>
+                <TD width=1><IMG height=54 alt="" hspace=0 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+                  width=1 border=0></TD>
+                <TD><A href="http://www.earthweb.com/"><IMG height=20 
+                  alt=Earthweb 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/eweb.gif" 
+                  width=135 align=right border=0></A> <INPUT type=hidden 
+                  name=starget> <INPUT type=hidden name=IC_QueryDatabase> <IMG 
+                  height=23 alt=Search 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/search.gif" 
+                  width=50 align=absMiddle border=0> <SELECT 
+                  style="FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: verdana, arial, sans-serif; BACKGROUND-COLOR: #ffffff" 
+                  name=searchsite> <OPTION value=CodeGuru 
+                    selected>CodeGuru.com</OPTION> <OPTION 
+                    value=CodeGuru-Articles>---Articles</OPTION> <OPTION 
+                    value=CodeGuru-Comments>---Comments</OPTION> <OPTION 
+                    value=CodeGuru-Forums>---Forums</OPTION> <OPTION 
+                    value=Earthweb>Earthweb</OPTION></SELECT> <INPUT size=10 
+                  name=IC_QueryText> <INPUT type=image height=23 alt=Go width=40 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/go.gif" 
+                  align=absMiddle value=Go! border=0 name=submit> </TD></TR></FORM>
+              <TR>
+                <TD width=1><IMG height=27 alt="" hspace=0 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+                  width=1 border=0></TD>
+                <TD align=middle><IMG height=14 hspace=0 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/eweb-nav.gif" 
+                  width=330 useMap=#eweb_nav_Map border=0> <MAP 
+                  name=eweb_nav_Map><AREA shape=RECT alt=Forums 
+                    coords=253,0,330,14 
+                    href="http://www.codeguru.com/forum"><AREA shape=RECT 
+                    alt=Wireless coords=185,0,244,14 
+                    href="http://www.developer.com/ws/"><AREA shape=RECT 
+                    alt=Jars coords=145,0,176,14 
+                    href="http://www.jars.com/"><AREA shape=RECT alt=Gamelan 
+                    coords=77,0,136,14 
+                    href="http://www.developer.com/java/"><AREA shape=RECT 
+                    alt=Developer.com coords=0,0,69,14 
+                    href="http://www.developer.com/"></MAP></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><!--End Top-->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width="1%" 
+    background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/leftnav-bg.gif"><!--Left Navigation-->
+      <TABLE cellSpacing=0 cellPadding=0 width=146 bgColor=#999999 border=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.codeguru.com/"><IMG height=30 
+            alt="CodeGuru Navigation" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/leftnav-top.gif" 
+            width=146 border=0></A></TD></TR>
+        <TR>
+          <TD><A onmouseover="HM_f_PopUp('HM_Menu1',event)" 
+            onmouseout="HM_f_PopDown('HM_Menu1')" 
+            href="http://www.codeguru.com/Cpp"><IMG height=25 
+            alt="Visual C++ / C++" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/visualc-but-off.gif" 
+            width=146 border=0 name=visualc></A></TD></TR>
+        <TR>
+          <TD><A onmouseover="HM_f_PopUp('HM_Menu2',event)" 
+            onmouseout="HM_f_PopDown('HM_Menu2')" 
+            href="http://www.codeguru.com/Csharp"><IMG height=25 alt=".Net / C#" 
+            hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/net-but-off.gif" 
+            width=146 border=0 name=net></A></TD></TR>
+        <TR>
+          <TD><A onmouseover="HM_f_PopUp('HM_Menu3',event)" 
+            onmouseout="HM_f_PopDown('HM_Menu3')" 
+            href="http://www.codeguru.com/vb"><IMG height=25 alt="Visual Basic" 
+            hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/vb-but-off.gif" 
+            width=146 border=0 name=vb></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('submit','','/img/submit-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/edit-article.php"><IMG height=25 
+            alt="Submit an Article" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/submit-but-off.gif" 
+            width=146 border=0 name=submit></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('forums','','/img/forums-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/forum"><IMG height=25 
+            alt="Discussion Forums" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/forums-but-off.gif" 
+            width=146 border=0 name=forums></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('directory','','/img/directory-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/resources"><IMG height=25 
+            alt="Resource Directory" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/directory-but-off.gif" 
+            width=146 border=0 name=directory></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('announcements','','/img/announcements-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/announcements"><IMG height=25 
+            alt=Announcements hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/announcements-but-off.gif" 
+            width=146 border=0 name=announcements></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('booklist','','/img/booklist-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://extra.codeguru.com/bookList/booklist.asp"><IMG 
+            height=25 alt="Book List" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/booklist-but-off.gif" 
+            width=146 border=0 name=booklist></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('reviews','','/img/reviews-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://extra.codeguru.com/default.asp"><IMG height=25 
+            alt="Book Reviews" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/reviews-but-off.gif" 
+            width=146 border=0 name=reviews></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('guru','','/img/guru-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/gurus.php"><IMG height=25 
+            alt="Guru Lists" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/guru-but-off.gif" 
+            width=146 border=0 name=guru></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('guest','','/img/guest-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.theguestbook.com/read.php/608196"><IMG height=25 
+            alt="Guest Book" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/guest-but-off.gif" 
+            width=146 border=0 name=guest></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('about','','/img/about-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/about.php"><IMG height=25 
+            alt="About Us" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/about-but-off.gif" 
+            width=146 border=0 name=about></A></TD></TR>
+        <TR>
+          <TD><A onmouseover="MM_swapImage('faq','','/img/faq-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/faq.php"><IMG height=25 alt=FAQs 
+            hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/faq-but-off.gif" 
+            width=146 border=0 name=faq></A></TD></TR>
+        <TR>
+          <TD><A 
+            onmouseover="MM_swapImage('sitemap','','/img/map-but-on.gif',1)" 
+            onmouseout=MM_swapImgRestore() 
+            href="http://www.codeguru.com/sitemap.php"><IMG height=25 
+            alt="Site Map" hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/map-but-off.gif" 
+            width=146 border=0 name=sitemap></A></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=3 width=146 bgColor=#053061 border=0>
+        <TBODY>
+        <TR>
+          <FORM action=/login.php method=post><INPUT type=hidden value=login 
+          name=action> <INPUT type=hidden 
+          value=/Cpp/misc/misc/article.php/c3795/ name=url> 
+          <TD align=middle colSpan=2><IMG height=13 alt="Member Sign In" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/member-top.gif" 
+            width=113 vspace=5 border=0> </TD></TR>
+        <TR>
+          <TD align=right><SPAN class=bodycopy><FONT color=#ffffff>User 
+            ID:</FONT></SPAN></TD>
+          <TD><INPUT style="WIDTH: 60px" size=7 name=username></TD></TR>
+        <TR>
+          <TD align=right><SPAN class=bodycopy><FONT 
+            color=#ffffff>Password:</FONT></SPAN></TD>
+          <TD><INPUT style="WIDTH: 60px" type=password size=7 
+        name=password></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><SPAN class=bodycopy><FONT 
+            color=#ffffff>Remember Me:</FONT></SPAN> <INPUT type=checkbox 
+            value=1 name=perm></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><INPUT type=image height=23 width=73 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/signin-blue.gif" 
+            align=absMiddle border=0 name=member></TD></TR></FORM>
+        <TR>
+          <TD align=middle colSpan=2><A class=moreinfo 
+            href="http://www.codeguru.com/forgotpw.php">Forgot 
+        Password?</A></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><A class=moreinfo 
+            href="http://www.codeguru.com/register.php?url=/Cpp/misc/misc/article.php/c3795/">Not 
+            a member?<BR>Click here for more information and to 
+        register.</A></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=146 bgColor=#999999 border=0>
+        <TBODY>
+        <TR>
+          <TD bgColor=#000000><IMG height=1 alt="" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+            width=1 border=0></TD></TR>
+        <TR>
+          <TD bgColor=#999999><IMG height=1 alt="" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+            width=1 border=0></TD></TR></TBODY></TABLE><IMG height=10 alt="" 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+      width=151 border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=146 border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE 
+            style="BORDER-RIGHT: black 1pt solid; BORDER-TOP: black 1pt solid; FONT-SIZE: 8pt; BORDER-LEFT: black 1pt solid; BORDER-BOTTOM: black 1pt solid; FONT-FAMILY: Verdana, Arial, Helvetica" 
+            height=125 cellSpacing=0 cellPadding=1 width=125 border=0>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#cc0000><FONT color=white><B>Travel 
+                  Ideas:</B></FONT> </TD></TR>
+              <TR>
+                <TD vAlign=top align=middle bgColor=white>&nbsp;<A 
+                  href="http://wd-world.orlandofloridareservations.com/">Disney 
+                  Vacations</A><BR>&nbsp;<A 
+                  href="http://www.hawaiihotelsreservations.com/">Hawaii 
+                  Hotels</A><BR>&nbsp;<A 
+                  href="http://www.neworleanshotelreservations.com/">New Orleans 
+                  Hotels</A><BR>&nbsp;<A 
+                  href="http://www.orlandofloridareservations.com/">Orlando 
+                  Hotels</A><BR>&nbsp;<A 
+                  href="http://www.coloradoreservationservice.com/">Colorado 
+                  Vacations</A><BR>&nbsp;<A 
+                  href="http://www.destinfloridareservations.com/">Destin 
+                  Florida</A><BR>&nbsp;<A 
+                  href="http://www.navigatia.com/">Discount 
+                  Travel</A><BR>&nbsp;<A 
+                  href="http://www.panamacitybeachreservations.com/">Panama City 
+                  Beach</A><BR></TD></TR></TBODY></TABLE><IMG height=1 
+            src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(1).gif" 
+            width=1> 
+            <P><A href="http://www.jobs.internet.com/"><IMG height=35 
+            alt=jobs.internet.com 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/jobs.gif" 
+            width=120 border=0></A> 
+            <P>
+            <TABLE cellSpacing=0 cellPadding=3 width="100%" 
+            background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/c3795.htm" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD class=bodycopy align=middle bgColor=#000000><FONT 
+                  color=#ffffff><B>internet.commerce</B></FONT></TD></TR>
+              <TR>
+                <TD class=bodycopy align=left bgColor=#cccccc><A 
+                  href="http://www.internet.com/partners/">Partners &amp; 
+                  Affiliates</A><BR><A 
+                  href="http://www.valueweb.com/dedicated/dedicated-hosting.htm">Dedicated 
+                  Servers</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(2).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.registersite.com/?source=jupmedia&amp;cpgn_id=text">Register 
+                  Domain Names</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(3).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.franchiseadvantage.com/">Franchise 
+                  Directory</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(4).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.epromos.com/">Promotional Gifts</A> <IMG 
+                  height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(5).gif" 
+                  width=1 border=0><BR><A href="http://www.mydomain.com/">Domain 
+                  Registration</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(6).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.reservetravel.com/">Discount Hotel Rooms</A> 
+                  <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(7).gif" 
+                  width=1 border=0> <BR><A 
+                  href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1577485486/cp7/HostSave_CP_5d/CheapWebHosting.html/64343930383437303430653432633730">Cheap 
+                  Web Hosting</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(8).gif" 
+                  width=1 border=0> <BR><A 
+                  href="http://www.getafreelancer.com/">Custom Web Design</A> 
+                  <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(9).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/20399924/cp9/Enhance_Interactive_4d/WebSearch.html/64343930383437303430653432633730">Web 
+                  Search</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(10).gif" 
+                  width=1 border=0><BR><A 
+                  href="http://www.9gdeal.com/jupiter_media.aspx?pjt=18aee215-c6e4-4606-9ce7-d723e0cf48b3">Wireless 
+                  Products</A> <IMG height=1 
+                  src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(11).gif" 
+                  width=1 
+      border=0><BR></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE><BR><BR>
+      <TABLE cellPadding=4 width=146 bgColor=#053061>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccc66><B>RSS Feeds</FONT></B>
+            <P><A 
+            href="http://www.codeguru.com/icom_includes/feeds/codeguru/rss-all.xml"><IMG 
+            height=14 hspace=5 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/xml.gif" 
+            width=36 align=absMiddle border=0><FONT color=#ffffff>All</FONT></A> 
+            <BR><IMG height=2 alt="" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+            width=1 border=0><BR><A 
+            href="http://www.codeguru.com/icom_includes/feeds/codeguru/rss-cpp.xml"><IMG 
+            height=14 hspace=5 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/xml.gif" 
+            width=36 align=absMiddle border=0><FONT 
+            color=#ffffff>VC++/C++</FONT></A> <BR><IMG height=2 alt="" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+            width=1 border=0><BR><A 
+            href="http://www.codeguru.com/icom_includes/feeds/codeguru/rss-csharp.xml"><IMG 
+            height=14 hspace=5 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/xml.gif" 
+            width=36 align=absMiddle border=0><FONT 
+            color=#ffffff>.NET/C#</FONT></A> <BR><IMG height=2 alt="" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+            width=1 border=0><BR><A 
+            href="http://www.codeguru.com/icom_includes/feeds/codeguru/rss-vb.xml"><IMG 
+            height=14 hspace=5 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/xml.gif" 
+            width=36 align=absMiddle border=0><FONT color=#ffffff>VB</FONT></A> 
+            </P></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top width="99%" 
+    background="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/c3795.htm" 
+    bgColor=#ffffff><IMG height=1 alt="" 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+      width=629 border=0> 
+      <TABLE cellSpacing=0 cellPadding=4 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><SPAN class=bodycopy><B><A 
+            href="http://www.codeguru.com/">Home</A></B> &gt;&gt; <B><A 
+            href="http://www.codeguru.com/Cpp/">Visual C++ / C++</A></B> 
+            &gt;&gt; <B><A 
+            href="http://www.codeguru.com/Cpp/misc/">Miscellaneous</A></B> 
+            &gt;&gt; <B><A 
+            href="http://www.codeguru.com/Cpp/misc/misc/">Miscellaneous</A></B><BR><BR><!--content_start-->
+            <TABLE cellSpacing=0 cellPadding=1 bgColor=#000000 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=1 bgColor=#cccccc border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><FONT face="Verdana, Arial, Helvetica, sans-serif" 
+                        size=-2><A 
+                        href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1594794399/ciu/Microsoft_Webcast_2h/CodeGuruV1.html/64343930383437303430653432633730">Attend 
+                        a Microsoft ® Developer Network (MSDN) Webcast to get 
+                        tips from industry experts. Pick from hundreds of 
+                        webcasts. Live or on-demand. All at no cost. Register! 
+                        http://www.microsoft.com/webcasts 
+                    </A></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><IMG 
+            height=1 
+            src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(12).gif" 
+            width=1><BR><FONT class=sectionhead>Genetic Algorithm and Traveling 
+            Salesman Problem </FONT><BR><B>Rating:</B> <FONT 
+            color=#990000>none</FONT><BR><BR>
+            <TABLE cellSpacing=0 cellPadding=5 border=0>
+              <TBODY>
+              <TR>
+                <TD align=right></TD>
+                <TD class=bodycopy><B>Konstantin Boukreev</B> (<A 
+                  href="http://www.codeguru.com/member.php/131/">view 
+                  profile</A>)<BR>September 27, 2001 </TD></TR></TBODY></TABLE>
+            <P><SPAN class=bodycopy><BR>(continued)
+            <P>
+            <CENTER><A 
+            href="http://ad.uk.doubleclick.net/jump/N1120.REALMEDIA/B1391744.9;sz=336x280;ord=1756738816?"><IMG 
+            height=280 alt="Click Here!" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/1-DEU_IBM-PP-336x280-Anim.gif" 
+            width=336 border=0></A> <IMG height=1 
+            src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(13).gif" 
+            width=1></CENTER>
+            <P><IMG height=534 alt="Sample Image" 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/TSPApp.jpg" 
+            width=565></P>
+            <P><U>Environment:</U> VC++ 6.0. SP5, Win2k SP2, MS Platform SDK 
+            April 2001</P>
+            <H3>Table of contents</H3>
+            <OL>
+              <LI>Genetic Algorithm 
+              <UL>
+                <LI>Theory 
+                <LI>GA and TSP </LI></UL>
+              <LI>Base implementation, Template class GA&lt;&gt; and GA 
+              Selection classes 
+              <LI>Genome of Travel 
+              <LI>TSP Application 
+              <UL>
+                <LI>GA thread 
+                <LI>UI interface </LI></UL>
+              <LI>Environment 
+              <LI>Reference </LI></OL>
+            <H3>Disclaimer</H3>
+            <P>I am not a genetic algorighm (GA) guru and I do not have any 
+            degree in GA so this article can't be used as a GA GA tutorial. 
+            There are not any mathematics, logic, or algebra about GA. It's only 
+            a programmer's view on Genetic Algorithms and only an example of GA 
+            coding. Use it carefully! Any comments and criticism are highly 
+            appreciated. </P>
+            <H3>Genetic Algorithm, Theory</H3>
+            <P>There are many books and resources on the WEB about Genetics 
+            Algorithm. Best that I can do, I can quote some nice description 
+            from my preferred sites. </P>
+            <P>Definition from <A href="http://cs.felk.cvut.cz/~xobitko/ga/" 
+            target=new>Marek Obitko's Site</A></P>
+            <BLOCKQUOTE>"Genetic algorithms are a part of evolutionary 
+              computing, which is a rapidly growing area of artificial 
+              intelligence. As you can guess, genetic algorithms are inspired by 
+              Darwin's theory about evolution. Simply said, solution to a 
+              problem solved by genetic algorithms is evolved." </BLOCKQUOTE>
+            <P>Explanation from <A href="http://www.generation5.org/ga.shtml" 
+            target=new>Generation5.org Site</A> 
+            <BLOCKQUOTE>"Genetic algorithms are not too hard to program or 
+              understand, since they are biological based. Thinking in terms of 
+              real-life evolution may help you understand. Here is the general 
+              algorithm for a GA: 
+              <H4>Create a Random Initial State</H4>
+              <P>An initial population is created from a random selection of 
+              solutions (which are analagous to chromosomes). This is unlike the 
+              situation for Symbolic AI systems, where the initial state in a 
+              problem is already given instead. </P>
+              <H4>Evaluate Fitness</H4>
+              <P>A value for fitness is assigned to each solution (chromosome) 
+              depending on how close it actually is to solving the problem (thus 
+              arriving to the answer of the desired problem). (These "solutions" 
+              are not to be confused with "answers" to the problem, think of 
+              them as possible characteristics that the system would employ in 
+              order to reach the answer.) </P>
+              <H4>Reproduce (&amp; Children Mutate)</H4>
+              <P>Those chromosomes with a higher fitness value are more likely 
+              to reproduce offspring (which can mutate after reproduction). The 
+              offspring is a product of the father and mother, whose composition 
+              consists of a combination of genes from them (this process is 
+              known as "crossing over". </P>
+              <H4>Next Generation</H4>
+              <P>If the new generation contains a solution that produces an 
+              output that is close enough or equal to the desired answer then 
+              the problem has been solved. If this is not the case, then the new 
+              generation will go through the same process as their parents did. 
+              This will continue until a solution is reached." </P></BLOCKQUOTE>
+            <P>My opinion, the GA is easy to understanding and easy to 
+            implementation on C++. The main advantage and disadvantage of GA at 
+            the same time is robustness. Even if you implement some features 
+            incorrect, the GA will continue run and sooner or later will solve 
+            the problem (or find any local optimum). Definitely such feature can 
+            produce some troubles during debugging and tuning program. Another 
+            interesting problem, to choose best algorithms from existing plenty 
+            of algorithms of crossover, mutation, gene presentation, etc. </P>
+            <P>See references topic for some useful links about GA theory. </P>
+            <H3>Genetic Algorithm and Traveling Salesman Problem</H3>
+            <H4>About Traveling Salesman Problem</H4>
+            <P>Again quotation from <A href="http://www.math.princeton.edu/tsp/" 
+            target=new>http://www.math.princeton.edu/tsp/</A> </P>
+            <BLOCKQUOTE>"The traveling salesman problem, or TSP for short, is 
+              this: given a finite number of 'cities' along with the cost of 
+              travel between each pair of them, find the cheapest way of 
+              visiting all the cities and returning to your starting point." 
+            </BLOCKQUOTE>
+            <H4>Genome and Algorithm</H4>
+            <P>We can't use a traditional presentation and algorithms for TSP 
+            problem, because every city must be unique in gene, and can't be 
+            duplicated. </P>
+            <P>For gene presentation, I used sequential representation where the 
+            cities are listed in the order in which they are visited. It's 
+            common way for TSP Genome. <PRE>Example: [9 3 4 0 1 2 5 7 6 8]
+</PRE>
+            <P></P>
+            <P>For crossover operation after several tests and researching I 
+            selected Greedy Crossover by J. Grefenstette. </P>
+            <P>The citation from <A 
+            href="http://gaslab.cs.unr.edu/docs/techreports/gong/node3.html" 
+            target=new>Sushil J. Louis</A> </P>
+            <BLOCKQUOTE>"Greedy crossover selects the first city of one 
+              parent, compares the cities leaving that city in both parents, and 
+              chooses the closer one to extend the tour. If one city has already 
+              appeared in the tour, we choose the other city. If both cities 
+              have already appeared, we randomly select a non-selected city." 
+            </BLOCKQUOTE>
+            <P>From my experience it's a very effective method. </P>
+            <H4>Mutation</H4>
+            <P>We can't change gene's bits as usual traditional mutation does. 
+            Instead of it we must swap order of cities in a path. </P><PRE>Example:
+  Before mutation   [0 1 2 3 4 5 6]
+  After mutation    [0 1 3 2 4 5 6]
+</PRE>
+            <P>There are a lot of manners for doing such swapping operation. 
+            Easiest way in using random swap. Unfortunately, such strategy 
+            unable to achieve optimum a quickly but can prevent convergence into 
+            a local optimum. Additionally I used a greedy-swap mutation. </P>
+            <P>Once more citation from <A 
+            href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/node3.html" 
+            target=new>Sushil J. Louis</A> </P>
+            <BLOCKQUOTE>"The basic idea of greedy-swap is to randomly select 
+              two cities from one chromosome and swap them if the new (swapped) 
+              tour length is shorter than the old one" </BLOCKQUOTE>
+            <P>In during browsing WEB I discover a excellent researching into GA 
+            <A href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm" 
+            target=new>"A fast TSP solver using a genetic algorithm"</A> by 
+            Hiroaki Sengoku and Ikuo Yoshihara. It's fastest algorithm I ever 
+            saw. Unfortunately, It's Java implementation and without any 
+            sources. I could find only one PDF document with a description about 
+            this algorithm: <A 
+            href="http://www.gcd.org/sengoku/docs/arob98.pdf">arob98.pdf</A> 
+            After reading and studying I used "Mutation by 2opt" idea in my 
+            code. This method has the same idea as greedy-swap mutation but more 
+            expansive and more effective. After adding into code I can improve 
+            speed of my program greatly on small and middle sets (till 200 
+            cities). However for big sets (1000 and more) this heuristics is 
+            very slow method. </P>
+            <H4>Selection</H4>
+            <P>I implemented three selection methods : routlette rank, roulette 
+            cost and tournamnet. Of course I used elitism too. </P>
+            <P><SPAN><U>Roulette Wheel Selection</U></P></SPAN>Definition from 
+            <A href="http://cs.felk.cvut.cz/~xobitko/ga/" target=new>Marek 
+            Obitko's Site</A> 
+            <P></P>
+            <BLOCKQUOTE>"Cost Selection : Parents are selected according to 
+              their fitness. The better the chromosomes are, the more chances to 
+              be selected they have. Imagine a roulette wheel where are placed 
+              all chromosomes in the population, every has its place big 
+              accordingly to its fitness function <BR>Rank Selection : The 
+              previous selection will have problems when the fitnesses differ 
+              very much. For example, if the best chromosome fitness is 90% of 
+              all the roulette wheel then the other chromosomes will have very 
+              few chances to be selected. Rank selection first ranks the 
+              population and then every chromosome receives fitness from this 
+              ranking. The worst will have fitness 1, second worst 2 etc. and 
+              the best will have fitness N (number of chromosomes in 
+              population)." </BLOCKQUOTE>
+            <P><SPAN><U>Tournamnet Selection and 
+            Elitism</U></P></SPAN>Definition from <A 
+            href="http://www.cs.bham.ac.uk/~wbl/thesis.html#toc" target=new>W. 
+            B. Langdon, University College, London</A> 
+            <P>
+            <BLOCKQUOTE>"A mechanism for choosing individuals from a 
+              population. A group (typically between 2 and 7 individuals) are 
+              selected at random from the population and the best (normally only 
+              one, but possibly more) is chosen An elitist genetic algorithm is 
+              one that always retains in the population the best individual 
+              found so far, Tournamnet Selection is naturally elitist." 
+            </BLOCKQUOTE>
+            <P>In my opinion and after testing the roulette rank and tournament 
+            selections are slightly faster for TSP case. For another problems, 
+            others selection algorithms can be best. </P>
+            <H4>Co-evolutions. Migrations</H4>
+            <P>I didn't find many documents about these methods in WEB. The base 
+            idea: allow evolving of several populations at the same time. The 
+            description found in <A 
+            href="http://www.generation5.org/coevolution.shtml" 
+            target=new>Generation5.org Site</A> 
+            <BLOCKQUOTE>"Genetic algorithms are neat, but they do come with 
+              their own set of problems. One big problem is that genetic 
+              algorithms have a tendency to get stuck at local optima. In other 
+              words, they will find a reasonable solution, but not the best 
+              solution. There are several methods that have been devised to 
+              counter this problem, and the one we will look at is coevolution" 
+            </BLOCKQUOTE>Simultaneously, co-evolution idea allows utilizing the 
+            SMP ability of WinNT\2k machines with multi CPUs. We can easily run 
+            several GA in separate threads without any penalty. For exchange 
+            data between different GA we can migrate the best genes in 
+            population. 
+            <P></P>
+            <H3>Base implementation<BR>Template class GA&lt;&gt; and GA 
+            Selection classes </H3>
+            <P>The <CODE>GA&lt;&gt;</CODE> class implements a base logic of 
+            Genetic Algorithms: recombination, mutation. User can manage the 
+            gene population via methods of <CODE>GA&lt;&gt;</CODE> class. It 
+            holds a gene population and gene context, selection methods, and 
+            method of randomization. User can specify behavior of this class via 
+            template parameters. </P><PRE><SPAN class=codeKeyword>template</SPAN> &lt;<SPAN class=codeKeyword>typename</SPAN> Traits, <SPAN class=codeKeyword>typename</SPAN> Selection&gt; <SPAN class=codeKeyword>class</SPAN> GA {}
+</PRE>
+            <P>Template parameter <CODE>Traits</CODE> must define typedefs for 
+            <CODE>Gene</CODE> class, <CODE>Random</CODE> class, 
+            <CODE>Population</CODE> container class and Thread Synchronize 
+            class. </P>
+            <P>Template parameter <CODE>Selection</CODE> must provide the GA 
+            selection algorithm. Now there are three such classes: 
+            <CODE>selection_tournament&lt;&gt;</CODE>, 
+            <CODE>selection_roulette_cost&lt;&gt;</CODE>, 
+            <CODE>selection_roulette_rank&lt;&gt;</CODE>. </P>
+            <H4><CODE>GA&lt;&gt;</CODE> interface</H4>
+            <UL>
+              <LI><CODE>init</CODE> - initializes population 
+              <LI><CODE>update</CODE> - computes fitness's values and return 
+              optimal gene or end() 
+              <LI><CODE>find_best</CODE> - finds the gene with best fitness 
+              <LI><CODE>epoch</CODE> - makes next population (selection, 
+              crossover, mutation, etc) 
+              <LI><CODE>recombine</CODE> - makes selection, produce new genes, 
+              removes non elite parents and removes twins gene 
+              <LI><CODE>mutate</CODE> - attempts to mutate genes 
+              <LI><CODE>migration</CODE> - exchanges the best genes between 
+              populations 
+              <LI><CODE>sort</CODE> - orders the genes in population depending 
+              on fitness value (moves the best into a beginning of population) 
+              <LI><CODE>begin</CODE> - returns iterator at the first (best) gene 
+              of the population 
+              <LI><CODE>end</CODE> - returns a iterator that points just beyond 
+              the end of the population 
+              <LI><CODE>size</CODE> - returns the size of populations </LI></UL>
+            <P>The example of using <CODE>GA&lt;&gt;</CODE> class </P><PRE><SPAN class=codeKeyword>typedef</SPAN> ga_traits&lt;RandomCRT&gt; traits;
+<SPAN class=codeKeyword>typedef</SPAN> GA&lt;traits, selection_tournament&lt;traits&gt; &gt; tGA;
+traits::Gene::Context context;
+tGA ga(50, &amp;context);
+tGA::iterator it = ga.update();
+<SPAN class=codeKeyword>while</SPAN>(it == ga.end())
+{
+  ga.epoch(); 
+  it = ga.update(); 
+}
+traits::Gene* gnp = (*it); 
+</PRE>
+            <H3>Genome of Travel</H3>
+            <H4>class <CODE>TSPData</CODE></H4>
+            <P>Context of travel holds a travel data, auxiliary data and methods 
+            for crossover operation. </P>
+            <H4>struct <CODE>TSPBase</CODE></H4>
+            <P>Base gene class has thread specific memory pool for memory 
+            optimization In process of computing GA creates and destroys a lot 
+            of dynamic gene objects. It's very ineffective to use default memory 
+            allocation routine. Instead of it I used a special memory pool 
+            class, which pre-allocated a large block of memory from process heap 
+            and then caches a freeing blocks. </P>
+            <H4>class <CODE>TSPGene&lt;&gt; : TSPBase</CODE></H4>
+            <P>Gene's implementation<BR>Every gene holds a path (travel) of 
+            salesman and fitness value of this travel. Of course the lower the 
+            cost of travel the better fitness of gene. It has some constructors 
+            and methods for mutation and heuristics computing. The default 
+            constructor creates gene with random travel and for crossover 
+            operation uses another constructor: <PRE>TSPGene* gnp = <SPAN class=codeKeyword>new</SPAN> TSPGene(parent1, parent2).</PRE>It 
+            creates offspring from genetic materials of parents' genes. 
+            <P></P>
+            <H3>TSP Application, GA thread</H3>
+            <P>For every co-evolution <CODE>_Main</CODE> class creates a 
+            separate thread with exemplar of <CODE>GA&lt;&gt;</CODE> class. 
+            Depending on user's setting it creates GA with one of three 
+            selection methods and sets a population size, elite size, 
+            migration's size, heuristics value, mutation and crossover 
+            probability. </P>
+            <P>Then every turn (or AI term "epoch") it calls recombination, 
+            mutation, and heuristics methods and update the Application's board 
+            with result of best gene. Also it tries to prevent convergence to a 
+            local optimum and kills 50% population if fitness stays unchanged 
+            some time. </P>
+            <H3>TSP Application, UI interface</H3>
+            <P>User can change a setting of GA for tuning it depending on size 
+            and shape of set of points. </P>
+            <UL>
+              <LI>Co-evolution field: a number of co-evolutions (separate 
+              threads) from 1 till 16. Default value is number of CPU * 2. 
+              <LI>Population field: a size of population per co-evolution, from 
+              10 till 1000 
+              <LI>Elite field: an elite size in the population, from 0 till size 
+              of population. 
+              <LI>Migration field: a size of migrated genes, from 0 till size of 
+              population. 
+              <LI>Heuristics filed: a size of best genes improved via heuristics 
+              method in every epoch. Attention, in large population it can 
+              extremely slow the computing. 
+              <LI>Crossover field: probability of crossover, from 0 till 100 
+              <LI>Mutation filed: probability of mutation. From 0 till 100 
+              <LI>Selection combo: selection method (roulette rank, roulette 
+              cost and tournament) 
+              <LI>Remove Twins checkbox: set using a natural selection 
+              algorithm. It eliminates similar gene to for avoiding the immature 
+              convergence. </LI></UL>
+            <H3>Environment</H3>
+            <P>I used VC++ 6.0. SP5, Win2k SP2, MS Platform SDK April 2001. </P>
+            <P>And tested on Win2k SP2 IE 6.0,Win2k SP1 IE 5.0, Win ME IE 5.5, 
+            Win 98 SE IE 5.0. </P>
+            <H3>References</H3>
+            <P>1. S.Hsiung and J.Matthews, <A 
+            href="http://www.generation5.org/essays.shtml#ga" 
+            target=new>Generation 5 - Genetic Algorithms and Genetic 
+            Programming</A> </P>
+            <P>2. <A href="http://cs.felk.cvut.cz/~xobitko/" target=new>Marek 
+            Obitko</A>, <A href="http://cs.felk.cvut.cz/~xobitko/ga/" 
+            target=new>Introduction to Genetic Algorithms</A> </P>
+            <P></P>3. <A 
+            href="http://hp.vector.co.jp/authors/VA000770/theme.en.html" 
+            target=new>Hiroaki Sengoku</A> and Ikuo Yoshihara, <A 
+            href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm" 
+            target=new>A fast TSP solver using a genetic algorithm</A> 
+            <P></P>
+            <P>4. Sushil J. Louis</A> and Rilun Tang,<BR><A 
+            href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/gecco.html" 
+            target=new>Interactive Genetic Algorithms for the Traveling Salesman 
+            Problem</A>,<BR><A 
+            href="http://gaslab.cs.unr.edu/docs/techreports/gong/journal.html" 
+            target=new>Genetic Algorithms with Memory for Traveling Salesman 
+            Problems</A>,<BR><A 
+            href="http://www.cs.unr.edu/~sushil/papers/conference/papers/fea/97/fea/fea.html" 
+            target=new>Augmenting Genetic Algorithms with Memory to Solve 
+            Traveling Salesman Problems</A> </P>
+            <P>5. <A href="http://www.chat.ru/~saisa" target=new>Sergey 
+            Isaev</A>, <A href="http://saisa.chat.ru/ga.html" target=new>Genetic 
+            Algorithm</A> </P>
+            <P>6. <A href="http://www.cs.bham.ac.uk/~wbl/index.html" 
+            target=new>W. B. Langdon</A>, <A 
+            href="http://www.cs.bham.ac.uk/~wbl/thesis.html#toc" 
+            target=new>Genetic Programming and Data Structures</A> </P>
+            <P>7. <A href="http://www.math.princeton.edu/tsp/index.html" 
+            target=new>Solving Traveling Salesman Problem</A> </P>
+            <H3>Downloads</H3><A 
+            href="http://www.codeguru.com/code/legacy/misc/TSPApp_exe.zip">Download 
+            TSPApp executable - 159 Kb </A><BR><A 
+            href="http://www.codeguru.com/code/legacy/misc/TSPApp_src.zip">Download 
+            TSPApp source - 119 Kb</A>
+            <P></SPAN><!--content_stop-->
+            <TABLE cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=left><BR><A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/email.php/c3795/"><IMG 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/emailicon.gif" 
+                  border=0></A> <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/print.php/c3795/"><IMG 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/printicon.gif" 
+                  border=0></A> </TD></TR></TBODY></TABLE></P></SPAN></TD></TR>
+        <TR>
+          <TD><A name=rating></A>
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" bgColor=#cccccc 
+            border=1>
+              <TBODY>
+              <TR><INPUT type=hidden value=/Cpp/misc/misc/article.php/c3795/ 
+                name=url> 
+                <TD class=bodycopy><FONT color=#cc0000><B>RATE THIS 
+                  ARTICLE:</B></FONT>&nbsp;&nbsp; <INPUT type=radio value=5 
+                  name=vote>Excellent&nbsp;&nbsp;<INPUT type=radio value=4 
+                  name=vote>Very Good&nbsp;&nbsp;<INPUT type=radio value=3 
+                  name=vote>Average&nbsp;&nbsp;<INPUT type=radio value=2 
+                  name=vote>Below Average&nbsp;&nbsp;<INPUT type=radio value=1 
+                  name=vote>Poor&nbsp;&nbsp;<INPUT type=image height=23 width=73 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/rate.gif" 
+                  align=absMiddle border=0> <BR><BR><B>(You must be signed in to 
+                  rank an article. Not a member? <A 
+                  href="http://www.codeguru.com/register.php?url=/Cpp/misc/misc/article.php/c3795/">Click 
+                  here</A> to register)</B> </TD></TR></FORM></TBODY></TABLE><BR><!--COMMENTS-->
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" bgColor=#cccccc 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD class=bodycopy colSpan=2><FONT class=title>Latest 
+                  Comments: </FONT></TD></TR>
+              <TR>
+                <TD class=bodycopy>• <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/?thread=47256">GA:Pascal 
+                  Code</A> - Legacy CodeGuru (12/12/2003)<BR>• <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/?thread=47258">please 
+                  tell me how to compute the distence of EUC_2D</A> - Legacy 
+                  CodeGuru (04/02/2003)<BR>• <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/?thread=47260">Error 
+                  on compilation</A> - Legacy CodeGuru (03/28/2003)<BR>• <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/?thread=47262">GA 
+                  in Pascal</A> - Legacy CodeGuru (02/19/2003)<BR>• <A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/?thread=47264">Minimum 
+                  Spanning Tree is 2 orders of magnitude faster</A> - Legacy 
+                  CodeGuru (12/27/2001)<BR><BR><A 
+                  href="http://www.codeguru.com/Cpp/misc/misc/comments.php/c3795/"><B>View 
+                  All Comments</B></A> 
+                  <HR>
+                </TD></TR>
+              <TR>
+                <TD class=bodycopy colSpan=2><FONT class=title>Add a Comment: 
+                  </FONT></TD></TR>
+              <TR>
+                <TD class=bodycopy><INPUT type=hidden value=add name=action> 
+                  <CENTER>
+                  <TABLE class=bodycopy>
+                    <TBODY>
+                    <TR vAlign=top>
+                      <TD class=bodycopy align=right><STRONG>Title: 
+                      </STRONG></TD>
+                      <TD><INPUT maxLength=256 size=60 name=title></TD></TR>
+                    <TR vAlign=top>
+                      <TD class=bodycopy align=right><STRONG>Comment: 
+                      </STRONG></TD>
+                      <TD><TEXTAREA name=subject rows=5 wrap=physical cols=60></TEXTAREA></TD></TR>
+                    <TR vAlign=top>
+                      <TD class=bodycopy align=right><STRONG>Pre-Formatted: 
+                        </STRONG></TD>
+                      <TD><INPUT type=checkbox value=on 
+                        name=preformatted>Check this if you want the text to 
+                        display with the formatting as typed (good for source 
+                        code)</TD></TR></TBODY></TABLE><BR><INPUT type=image height=23 
+                  width=73 
+                  src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/submit.gif" 
+                  value="Add Comment" border=0 name=AddComment> 
+                  </CENTER><BR><BR><B>(You must be signed in to comment on an 
+                  article. Not a member? <A 
+                  href="http://www.codeguru.com/register.php?url=/Cpp/misc/misc/article.php/c3795/">Click 
+                  here</A> to register)</B> 
+        </TD></FORM></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD bgColor=#666666 colSpan=2><IMG height=2 alt="" 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/sp.gif" 
+      width=1 border=0></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=10 width="100%" bgColor=#ffffff border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle><A 
+      href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/147962720/468x60-2/House_OnlineUsability_1b/webinar-7-20-04-750.gif/64343930383437303430653432633730" 
+      target=_top><IMG alt="" 
+      src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/webinar-7-20-04-750.gif" 
+      border=0></A><IMG height=1 
+      src="C:\Dokumente und Einstellungen\Windows 98\Eigene Dateien\FH-Aalen\CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien\64343930383437303430653432633730(14).gif" 
+      width=1 border=0></TD></TR>
+  <TR>
+    <TD class=bodycopy align=middle>
+      <CENTER><BR clear=all>
+      <CENTER>
+      <TABLE cellSpacing=0 cellPadding=5 bgColor=#ffffff border=0>
+        <TBODY>
+        <TR>
+          <FORM action=http://search.internet.com/www.jupiterweb.com 
+method=post>
+          <TD align=middle><FONT face="verdana, arial, helvetica" 
+            size=-2><B>JupiterWeb networks:</B></FONT> 
+            <P><A class=foot href="http://www.internet.com/"><IMG height=15 
+            alt=internet.com hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/icom_foot.gif" 
+            width=97 align=absMiddle border=0></A><IMG height=25 alt="" 
+            hspace=10 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/ruledivide_foot.gif" 
+            width=1 align=absMiddle border=0><A 
+            href="http://www.earthweb.com/"><IMG height=12 alt=earthweb.com 
+            hspace=5 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/earthweb_foot2.gif" 
+            width=93 align=absMiddle border=0></A><IMG height=25 alt="" 
+            hspace=10 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/ruledivide_foot.gif" 
+            width=1 align=absMiddle border=0><A href="http://www.devx.com/"><IMG 
+            height=30 alt=Devx.com hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/devx_foot2.gif" 
+            width=35 align=absMiddle border=0></A><IMG height=25 alt="" 
+            hspace=10 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/ruledivide_foot.gif" 
+            width=1 align=absMiddle border=0><A 
+            href="http://www.clickz.com/"><IMG height=24 alt=ClickZ hspace=0 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/clickz_foot2.gif" 
+            width=55 align=absMiddle border=0></A> 
+            <P><FONT face="verdana, arial, helvetica" size=-2><B>Search 
+            JupiterWeb:</B> <INPUT type=hidden value=1 name=IC_Summary> <INPUT 
+            type=hidden value=0 name=IC_StartNumber> <INPUT type=hidden value=10 
+            name=IC_BatchSize> <INPUT type=hidden value=50 
+            name=IC_RelevanceThreshold> <INPUT type=hidden value=all 
+            name=IC_QueryDatabase> <INPUT size=50 name=IC_QueryText> <INPUT 
+            type=image height=20 width=41 
+            src="CodeGuru - Genetic Algorithm and Traveling Salesman Problem-Dateien/but_find.gif" 
+            align=absMiddle value=Find border=0 name=SUBMIT> </FONT>
+            <P><FONT face="verdana, arial, helvetica" size=-2><A class=foot 
+            href="http://www.jupitermedia.com/">Jupitermedia Corporation</A> has 
+            four divisions: <BR><A class=foot 
+            href="http://www.jupiterweb.com/">JupiterWeb</A>, <A class=foot 
+            href="http://www.jupiterresearch.com/">JupiterResearch</A>, <A 
+            class=foot href="http://www.jupiterevents.com/">JupiterEvents</A> 
+            and <A class=foot 
+            href="http://www.jupiterimages.com/">JupiterImages</A> 
+            <P><SPAN class=foot>Copyright <!--YEAR-->2004 Jupitermedia 
+            Corporation All Rights Reserved.<BR><A class=foot 
+            href="http://www.jupitermedia.com/corporate/legal.html">Legal 
+            Notices</A>, <A class=foot 
+            href="http://www.jupitermedia.com/corporate/reprints.html#Licensing1">Licensing</A>, 
+            <A class=foot 
+            href="http://www.jupitermedia.com/corporate/reprints.html#Reprints1">Reprints</A>, 
+            &amp; <A class=foot 
+            href="http://www.jupitermedia.com/corporate/reprints.html#Permissions">Permissions</A>, 
+            <A class=foot 
+            href="http://www.jupitermedia.com/corporate/privacy/privacypolicy.html">Privacy 
+            Policy</A>. </FONT>
+            <P><FONT face="verdana, arial, helvetica" size=-2><A class=foot 
+            href="http://www.jupitermedia.com/corporate/">Jupitermedia Corporate 
+            Info</A> | <A class=foot 
+            href="http://e-newsletters.internet.com/">Newsletters</A> | <A 
+            class=foot href="http://jobs.internet.com/">Tech Jobs</A> | <A 
+            class=foot 
+            href="http://e-newsletters.internet.com/mailinglists.html">E-mail 
+            Offers</A></SPAN></FONT> 
+      </P></TD></FORM></TR></TBODY></TABLE></CENTER></CENTER></TD></TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,539 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Comet works, and it’s easier than you think</title>
+<link rel="alternate" type="application/atom+xml" title="Atom" href="http://feeds.simonwillison.net/swn-everything">
+<link rel="stylesheet" type="text/css" href="/static/css/all.css?r291">
+<script type="text/javascript" src="/static/js/all.js?r291"></script>
+
+
+<link rev="canonical" href="http://swtiny.eu/EZV">
+
+</head>
+<body class="smallhead">
+
+<p class="smallhead-toolbar">
+    <a id="atomfeedlink" href="http://feeds.simonwillison.net/swn-everything" title="My Atom feed"><img class="feedicon" src="/static/css/img/feed-icon-14x14.png" width="14" height="14" alt="Feed"></a>
+    
+    <a href="/openid/" class="signin">Sign in with <img src="/static/css/img/openid-14x14.png" alt="OpenID" width="14" height="14"> OpenID</a>
+    
+</p>
+
+
+
+<div id="smallhead">
+  <h1><a href="/">Simon Willison’s Weblog</a></h1>
+</div><!-- #smallhead -->
+
+<div id="wrapper">
+<div id="primary">
+
+<div class="entry entryPage">
+
+
+<h2>Comet works, and it’s easier than you think</h2>
+<p>I gave <a href="http://www.slideshare.net/simon/time-for-comet/" title="Time for Comet? - slides on SlideShare">a talk</a> this morning at the Yahoo! Web Developer Summit on <a href="http://cometdaily.com/">Comet</a>, <a href="http://cometd.com/">cometd</a> and <a href="http://svn.xantus.org/shortbus/trunk/bayeux/bayeux.html">Bayeux</a>. I’ve been trying to keep up with Comet ever since Alex <a href="http://alex.dojotoolkit.org/?p=545">coined the term</a> last year, but it’s only in the past few weeks that I’ve actually found some time to play with it myself. I was very impressed with what I found: the open source infrastructure for building and deploying Comet applications is surprisingly mature, and with just a few more improvements I can see Comet achieving much more widespread use.</p>
+
+<p>Comet is an umbrella term for any technique that allows a web server to “push” events down to a browser. You can think of it as an alternative to Ajax polling, with the benefit that events are relayed in almost real-time and “wasted” requests (when nothing has changed) are massively reduced. The name doesn’t stand for anything; it’s named after an American kitchen cleaner (a joke on Ajax).</p>
+
+<p>When you consider the hacks involved in getting Comet to work across the four major browsers it’s miraculous that it works at all. In the talk I tried to illustrate the insanity with examples of browser hacks, mainly to show how totally absurd it all was. But while the solutions are mostly pretty terrifying, the fact that we’re dealing with JavaScript (rather than CSS) means that we can abstract all of the nastiness away, ready to be replaced later on when browsers start introducing native support. Abstracting away the nastiness until the browsers catch up is something of an unofficial mission statement for the Dojo project, so you won’t be surprised to hear that <a href="http://dojotoolkit.org/">Dojo</a> offers excellent support for Comet.</p>
+
+<h3>The Bayeux protocol</h3>
+
+<p>For me the most exciting Comet development is the invention of <a href="http://svn.xantus.org/shortbus/trunk/bayeux/bayeux.html">the Bayeux protocol</a>. Bayeux defines a standard protocol for Comet clients (both browsers and others) to communicate with a dedicated Comet server, using a simple but powerful publisher/subscriber architecture based around the concept of named channels. Clients can connect to a Bayeux server, subscribe to one or more channels, and then publish messages targeted at a channel. The server’s job is to relay those messages to all clients subscribed to that channel.</p>
+
+<p>There are a number of things to like about this setup. Firstly, it means that all of the difficult parts of Comet (relaying real-time messages, coping with huge numbers of simultaneous connections) are kept separate from your regular architecture. You can keep developing and deploying applications in your preferred framework (Django, Rails, PHP on Apache or whatever) while the Bayeux server sits there as essentially a black box—clients can subscribe to it and you can use it to publish messages all without needing to customise the Comet server at all. If the Bayeux server implementation you chose doesn’t work out for some reason you can swap it straight out for something else that supports the same protocol.</p>
+
+<p>The one thing missing from Bayeux at the moment is authentication. Out of the box, a Bayeux server will relay messages to a specific channel from any client to any other set of clients. This is an obvious flaw: if you’re running a site where events such as “a new comment has been added” are broadcast out via Comet, you don’t want just anyone to be able to imitate such messages and have them sent to all of your subscribed clients. Right now, Bayeux leaves it up to the individual servers to figure out how they will deal with this. I’d like to see the specification address this directly as without it a Bayeux server isn’t much use in a real-world environment.</p>
+
+<h3>Getting started with Comet</h3>
+
+<p>If I’ve piqued your interest, the good news is that getting started with Comet is really, really easy. All you need is a running server that supports the Bayeux protocol. I tried out a number of options, but the first one that worked straight out of the box was Jetty 6.1, a Java web server that uses continuations to achieve high concurrent performance. Here’s how to get Jetty up and running in a few easy steps:</p>
+
+<ol>
+    <li>Download Jetty 6.1 (the first version to include a cometd implementation) from <a href="http://www.mortbay.org/">www.mortbay.org</a>.</li>
+    <li>Install <a href="http://maven.apache.org/">Maven</a>, a free build tool for Java (the <a href="http://maven.apache.org/download.html">download page</a> has installation instructions).</li>
+    <li>Unzip Jetty (you can put it anywhere).</li>
+    <li><samp>cd jetty-6.1.6/contrib/cometd/demo</samp></li>
+    <li><samp>mvn jetty:run</samp>—the first time you run this it will download a bunch of dependencies and then start up a Jetty server on port 8080.</li>
+    <li>Navigate to <samp>http://localhost:8080/</samp> and you should see an index page linking to a number of Comet demo applications.</li>
+</ol>
+
+<p>Once you’ve played with the demos, building your own application is almost as easy. The code for the bundled examples lives in <samp>jetty-6.1.6/contrib/cometd/demo/src/main/webapp/examples</samp>—I simply created a copy of the entire <samp>chat</samp> directory and started building my own experiments from there.</p>
+
+<h3>Using dojox.cometd</h3>
+
+<p>If you look through the source of the chat application, it quickly becomes apparent that most of Comet boils down to just three methods:</p>
+
+<ul>
+    <li><strong><samp>dojox.cometd.init(comet_server_url)</samp></strong> initialises a connection to the given Comet server. The Bayeux handshake protocol is used to establish the most appropriate Comet method for the connecting browser; you don’t have to worry about the details of the Comet connection at all.</li>
+    <li><strong><samp>dojox.cometd.subscribe(’/channel’, callback)</samp></strong> subscribes a callback function to a named channel. Any time a message is sent to that channel the function will be called.</li>
+    <li><strong><samp>dojox.cometd.publish(’/channel’, json_object)</samp></strong> sends (publishes) a new message to a named channel. The message can be any valid JSON data structure.</li>
+</ul>
+
+<p>There are a few other methods relating to batching requests and disconnecting from the server, but the above three make up the bulk of any Comet application.</p>
+
+<h3>A Comet slideshow</h3>
+
+<p>In preparation for my talk I decided that I’d try to present my slides using a small Comet application. I ended up building a very simple slideshow tool—I exported my Keynote presentation as a sequence of images, then wrote a Comet client that listened for “show this slide” messages and another client (a master, which acted as my presenter view) that could publish those messages. You can see <a href="http://www.flickr.com/photos/simon/2089105360/">a screenshot of the master client</a> on Flickr; in addition to “next” and “previous” buttons it also shows a small preview of the upcoming slide.</p>
+
+<p>The code for the client application (which I had running on the main projector screen, and also encouraged the audience to load on their laptops) boiled down to just a few lines of code. Here’s the slideshow client in its entirety:</p>
+
+<pre><code class="javascript">dojo.require("dojox.cometd");
+jQuery(function($) {
+    dojox.cometd.init("http://example.com/cometd");
+    dojox.cometd.subscribe("/slideshow/change", function(comet) {
+        $('#currentSlide').attr('src', comet.data.src);
+    });
+});
+</code></pre>
+
+<p>The master client was only a little more complicated, due to the need to keep track of the full list of slide URLs (non-sequential, to discourage the audience from skipping ahead) as well as display the preview. That said, the core Comet functionality was wrapped up in a single function:</p>
+
+<pre><code class="javascript">function publishSlide(src) {
+    dojox.cometd.publish("/slideshow/change", {
+        'src': src
+    });
+}
+</code></pre>
+
+<p>The entire application took less than an hour to put together, which I think is a testament to the quality of the Bayeux implementation present in both Jetty and Dojo.</p>
+
+<h3>The future</h3>
+
+<p>Before taking a detailed look at Comet, my assumption was that the amount of complexity involved meant it was out of bounds to all but the most dedicated JavaScript hackers. I’m pleased to admit that I was wrong: Comet is probably about 90% of the way to being usable for mainstream projects, and the few remaining barriers (Bayeux authentication chief amongst them) are likely to be solved before too long. I expect to see many more sites start deploying Comet powered features over the next twelve months.</p>
+
+<div class="entryFooter">Posted <a href="/2007/Dec/5/">5th December 2007</a> at 4:22 pm</div>
+
+
+</div>
+
+</div> <!-- #primary -->
+
+<div id="secondary">
+
+<div class="metabox">
+<p>This is <strong>Comet works, and it’s easier than you think</strong> by Simon Willison, posted on <a href="/2007/Dec/5/">5th December 2007</a>.</p>
+
+<p>Tagged <a href="/tags/bayeux/" rel="tag">bayeux</a>, <a href="/tags/comet/" rel="tag">comet</a>, <a href="/tags/cometd/" rel="tag">cometd</a>, <a href="/tags/java/" rel="tag">java</a>, <a href="/tags/javascript/" rel="tag">javascript</a>, <a href="/tags/jetty/" rel="tag">jetty</a>, <a href="/tags/speaking/" rel="tag">speaking</a></p>
+
+<p><script src="http://embed.technorati.com/linkcount" type="text/javascript"></script>
+<a href="http://technorati.com/search/http://simonwillison.net/2007/Dec/5/comet/" rel="linkcount">View blog reactions</a></p>
+
+<p><strong>Next:</strong> <a href="/2008/Jan/7/projection/">Yahoo!, Flickr, OpenID and Identity Projection</a></p>
+
+
+<p><strong>Previous:</strong> <a href="/2007/Nov/2/opensocial/">Figuring out OpenSocial</a></p>
+
+
+
+
+
+
+
+<div id="sidead">
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2620176238477590";
+google_ad_width = 250;
+google_ad_height = 250;
+google_ad_format = "250x250_as";
+google_ad_type = "text";
+google_ad_channel = "";
+google_color_border = "733a96";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_text = "000000";
+google_color_url = "008000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</div>
+
+
+
+</div>
+
+</div> <!-- #secondary -->
+</div> <!-- #wrapper -->
+
+
+<h2 class="band">23 comments</h2>
+
+<div id="comment-wrapper">
+
+<div id="comments">
+
+
+
+
+
+<ol>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37767">
+        
+    <p>I'm a fan of the idea. It sounds like the backend connection load / scaling thing is not an issue, provided you have the right kind of set-up - and past that, it's down to client-side implementation quirks. I experimented with "long-loading iframes" some time ago and had something working, but it was a giant hack. I think Flash might be a viable option as well for the client (using ExternalInterface to talk to JS-land.)</p>
+    <p class="commentFooter">
+      
+        <a href="http://schillmania.com/" rel="nofollow">Scott Schiller</a>
+       - 5th December 2007 16:34 - <a href="/2007/Dec/5/comet/#c37767" title="Permalink for comment 1">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37768">
+        
+    <p>Three principle techniques should be Three principal techniques.</p>
+
+<p>And Let's us detect should be Lets us detect.</p>
+
+<p>Great stuff. The slide site supports audio, btw. It would be great to hear the talk.</p>
+
+<p />
+    <p class="commentFooter">
+      
+        Mark
+       - 5th December 2007 16:54 - <a href="/2007/Dec/5/comet/#c37768" title="Permalink for comment 2">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37770">
+        
+    <p>If you build your webapp in Erlang/ErlyWeb comet is even easier to integrate -- you don't need any special servers -- and it's horizontally scalable by the nature of Erlang. I implemented Comet features in Vimagi (<a href="http://vimagi.com" rel="nofollow">http://vimagi.com</a>), and it was quite easy to do, at least for basic stuff.</p>
+    <p class="commentFooter">
+      
+        <a href="http://yarivsblog.com" rel="nofollow">Yariv</a>
+       - 5th December 2007 19:20 - <a href="/2007/Dec/5/comet/#c37770" title="Permalink for comment 3">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37772">
+        
+    <p>It's nice to hear about Bayeux; the technique has been around for a long time, but having to code your webapp in a server that supports this is the part that always sucked.  Adding one little live update feature doesn't warrant switching languages or environments (Twisted has done this for a long time in Python, but then you have to code to Twisted).</p>
+    <p class="commentFooter">
+      
+        <a href="http://blog.ianbicking.org" rel="nofollow">Ian Bicking</a>
+       - 5th December 2007 21:39 - <a href="/2007/Dec/5/comet/#c37772" title="Permalink for comment 4">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37774">
+        
+    <p>Excellent writeup.  I've been following comet since it was first announced.  There's been a lack of good information on the subject.  Thank you so much.</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://mtrier.myopenid.com/" rel="nofollow">Empty</a></strong>
+       - 6th December 2007 01:42 - <a href="/2007/Dec/5/comet/#c37774" title="Permalink for comment 5">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37776">
+        
+    <p>Interesting! It'd be nice to know if what other options you tried for the Bayeux servers, and what problems you had with them; I don't particularly like too have fat Java server processes around.</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://manuzhai.nl/weblog/" rel="nofollow">Manuzhai</a></strong>
+       - 6th December 2007 08:29 - <a href="/2007/Dec/5/comet/#c37776" title="Permalink for comment 6">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37777">
+        
+    <p>I'd love to see that slideshow app packaged up as an open-source app, to help people get started with Comet.</p>
+    <p class="commentFooter">
+      
+        <a href="http://kevwil.com" rel="nofollow">Kevin Williams</a>
+       - 6th December 2007 13:56 - <a href="/2007/Dec/5/comet/#c37777" title="Permalink for comment 7">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37789">
+        
+    <p>Cometd is not clear to me. Will it be a library that developers will use to write bayeux-compatible services? Will it be an app server plugin?</p>
+    <p class="commentFooter">
+      
+        langer
+       - 7th December 2007 12:19 - <a href="/2007/Dec/5/comet/#c37789" title="Permalink for comment 8">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37790">
+        
+    <p>If it's about authenticated streams and message exchange maybe you want to have a look at XMPP and BOSH (<a href="http://www.xmpp.org/extensions/xep-0124.html" rel="nofollow">http://www.xmpp.org/extensions/xep-0124.html</a>)</p>
+
+<p>There are free implementations available for the server side (ejabberd, openfire and JabberHTTPBind to name a few) and for the client side (JSJaC).</p>
+    <p class="commentFooter">
+      
+        <a href="http://zeank.in-berlin.de" rel="nofollow">Stefan Strigler</a>
+       - 7th December 2007 12:30 - <a href="/2007/Dec/5/comet/#c37790" title="Permalink for comment 9">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37791">
+        
+    <p>Just wondering. Isn't your example itself a case of when you don't want auth to be a part of the Bayeux spec? Enforcing auth is not something that this protocol should handle, IMHO. But maybe you are thinking something else?</p>
+
+<p>Thanks for giving the motivation to try this out.</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://piecesofrakesh.blogspot.com/" rel="nofollow">Rakesh Pai</a></strong>
+       - 7th December 2007 14:05 - <a href="/2007/Dec/5/comet/#c37791" title="Permalink for comment 10">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37796">
+        
+    <p>open id works and its easier than you think</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://spauld81.myopenid.com/" rel="nofollow">Spauld</a></strong>
+       - 7th December 2007 21:44 - <a href="/2007/Dec/5/comet/#c37796" title="Permalink for comment 11">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37804">
+        
+    <p>Comet will be usable for mainstream projects</p>
+    <p class="commentFooter">
+      
+        <a href="http://www.themssforum.com/" rel="nofollow">easier ?</a>
+       - 9th December 2007 13:40 - <a href="/2007/Dec/5/comet/#c37804" title="Permalink for comment 12">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37823">
+        
+    <p>you are worried about the wrong side of things if your concern is the client side.</p>
+
+<p>not to say the libraries for interacting with comet servers arent dead simple.  writing server apps could hardly be simpler, its just message passing!  write what you need to a channel, it gets broadcast, and process incoming channle messages.</p>
+
+<p>but looking at the cometd-java cometd-perl and cometd-java, i am not entirely convinced theres anything resembling a solution capable of The C10K Problem.  i'd also like a solution where i can have a webserver frontend the connection, simply for the array of rewriting and logging and configuration options the webserver provides, but i'm fairly confident putting a proxy in front of any of these servers would consume egregious amounts of resources: web servers are not meant to deal with huge numbers of idle concurrent connections. and then there's a known lack of ACL &amp; auth subsystems in the comet spec &amp; daemons.</p>
+
+<p>if Jan ever gets around to writing mod_mailbox i'll be a happier camper.  performance &amp; scalability testing on the daemons will also make me a happier camper.</p>
+
+<p>BOSH is just semantics such that polling with HTTP can talk XMPP.  The raison d'etre for comet is to avoid crappy slow stuff exactly like this.  BOSH is another quality XMPP standard transport, but the technological underpinnings for that transport are what drove web developers screaming running away from conventional http in the first place: you have to make a whole HTTP request for each message.  What is it about XMPP people that compels them to hawk their own wares in comet forums without actually bothering to figure out what comet is about?  If you want to be topical, talk about sending XMPP messages over Bayeux, which would A) not suck and B) be perposterously easy.  It would be a replacement for BOSH, a new transport for talking XMPP over comet.  The only wrinkle would be that you'd probably want to semantically tie XMPP channels to comet channels, which which is something implementations would have to be aware of and verify.</p>
+    <p class="commentFooter">
+      
+        rektide
+       - 12th December 2007 01:44 - <a href="/2007/Dec/5/comet/#c37823" title="Permalink for comment 13">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37834">
+        
+    <p>This is just a test of your OpenID implementation.</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://kirkh.myopenid.com/" rel="nofollow">OpenID User Guy</a></strong>
+       - 12th December 2007 22:32 - <a href="/2007/Dec/5/comet/#c37834" title="Permalink for comment 14">#</a></p>
+    </div></li>
+  
+    <li
+    
+    class="openid"
+    
+    ><div class="comment" id="c37837">
+        
+    <p>I agree with the other comment that you need to make clear that those lines go in the header.</p>
+
+<p>Works after making that change.  Nice effort.</p>
+    <p class="commentFooter">
+      
+      <strong><img alt="" src="/static/css/img/openid-14x14.png" style="vertical-align: top; padding-top: 3px"> <a href="http://unbeknownst.net/" rel="nofollow">Kirk House</a></strong>
+       - 13th December 2007 03:09 - <a href="/2007/Dec/5/comet/#c37837" title="Permalink for comment 15">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c37854">
+        
+    <p>The techniques behind BOSH (min 2 HTTP channels, always keep a server connection and reverse roles) and Comet's long polling seem the same to me. I only have experience with BOSH and it works really nice. It basically is dynamic polling. If no communication happens (no message from server, no message from client) it basically polls with the time-out intervall as period, if you have intense communications (always messages available for delivery), it will just exchange stuff depending on the time window where you allow the queue buffers to fill up with messages.</p>
+
+<p>Regarding recktide's trollings:<br />Because of this queing you can by the way send more than one message per exchange.</p>
+    <p class="commentFooter">
+      
+        Bär
+       - 14th December 2007 14:11 - <a href="/2007/Dec/5/comet/#c37854" title="Permalink for comment 16">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c40706">
+        
+    <p>I just wanted to say that I wrote a simple collaborative whiteboard inspired by this post: <a href="http://whiteboard.appjet.net/" rel="nofollow">http://whiteboard.appjet.net/</a>.</p>
+    <p class="commentFooter">
+      
+        <a href="http://dealmeida.net/" rel="nofollow">Roberto De Almeida</a>
+       - 10th September 2008 16:21 - <a href="/2007/Dec/5/comet/#c40706" title="Permalink for comment 17">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c41350">
+        
+    <p>Hi, in your slides you said that adding and removing the hidden iFrame will remove the loading icon and cursor in Firefox, but I can't make it work.</p>
+
+<p>Could you provide which version of Firefox where you using at that time?</p>
+
+<p>Thanks in advance.</p>
+    <p class="commentFooter">
+      
+        Lautaro Fernández
+       - 7th October 2008 15:53 - <a href="/2007/Dec/5/comet/#c41350" title="Permalink for comment 18">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c41351">
+        
+    <p>Or maybe, the complete code to test it now.</p>
+
+<p>Thanks again.</p>
+    <p class="commentFooter">
+      
+        Lautaro Fernández (again)
+       - 7th October 2008 15:54 - <a href="/2007/Dec/5/comet/#c41351" title="Permalink for comment 19">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c42344">
+        
+    <p>Anybody Did an Example showing a database grid?</p>
+    <p class="commentFooter">
+      
+        natalia
+       - 14th November 2008 16:41 - <a href="/2007/Dec/5/comet/#c42344" title="Permalink for comment 20">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c46381">
+        
+    <p>If anyone still checks this... does anyone know how to get around the browser throbber spinning away while it's waiting for a response?</p>
+    <p class="commentFooter">
+      
+        Joe
+       - 17th June 2009 03:51 - <a href="/2007/Dec/5/comet/#c46381" title="Permalink for comment 21">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c48151">
+        
+    <p>Comet is much easier than it used to be.  There is lots of software like Streamhub <a href="http://www.stream-hub.com/" rel="nofollow">http://www.stream-hub.com/</a> which takes care of all the cross-browser stuff for you.  I'm using it and it has no throbber/spinning wheel problems in Firefox or IE.</p>
+    <p class="commentFooter">
+      
+        Nick Georgis
+       - 21st July 2009 18:06 - <a href="/2007/Dec/5/comet/#c48151" title="Permalink for comment 22">#</a></p>
+    </div></li>
+  
+    <li
+    
+    
+    ><div class="comment" id="c55038">
+        
+    <p>WebSync is a great comet server too, made for .NET/IIS, and it handles all the cross browser stuff 100%, including for iPhones and Android. No throbbers or anything, not even in browsers like Opera and Safari which are notoriously difficult. Check it out at <a href="http://www.frozenmountain.com/websync" rel="nofollow">http://www.frozenmountain.com/websync</a>.</p>
+    <p class="commentFooter">
+      
+        <a href="http://www.frozenmountain.com" rel="nofollow">Jerod Venema</a>
+       - 12th November 2009 19:44 - <a href="/2007/Dec/5/comet/#c55038" title="Permalink for comment 23">#</a></p>
+    </div></li>
+  
+</ol>
+
+</div> <!-- #comments -->
+
+
+<div id="addcomment">
+
+<em>Comments are closed.</em>
+
+</div><!-- #addcomment -->
+
+</div><!-- #comment-wrapper -->
+
+
+
+
+
+
+
+<div id="ft">
+    <ul>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/talks/">Speaking</a></li>
+      <li>&copy;</li>
+      <li><a href="/2002/">2002</a></li>
+      <li><a href="/2003/">2003</a></li>
+      <li><a href="/2004/">2004</a></li>
+      <li><a href="/2005/">2005</a></li>
+      <li><a href="/2006/">2006</a></li>
+      <li><a href="/2007/">2007</a></li>
+      <li><a href="/2008/">2008</a></li>
+      <li><a href="/2009/">2009</a></li>
+      <li><a href="/2010/">2010</a></li>
+      <li><a href="/2011/">2011</a></li>
+      <li><a href="/feeds/">Feeds</a></li>
+    </ul>
+    <a id="djangosite" href="http://www.djangoproject.com/"><img src="/static/css/img/djangosite80x15.gif" alt="A django site" width="80" height="15"></a>
+    
+</div>
+
+
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1090368-1";
+urchinTracker();
+</script>
+
+<script type="text/javascript" src="http://liquidfold.net/js/simonwillison"></script>
+</body>
+</html>

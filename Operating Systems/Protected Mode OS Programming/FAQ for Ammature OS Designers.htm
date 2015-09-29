@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0041)http://www.overwhelmed.org/shawn/faq.html -->
+<HTML><HEAD><TITLE>My 'FAQ' for ammature OS Designers</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1>OS Design for Ametures (my FAQ)</H1>
+<HR align=center>
+<B><I>First of all, this isn't an official FAQ or anything, just a little guide 
+by which I hope to help others who want to create their own operating systems 
+for fun or educational purposes. Don't take anything here for absolute truth, as 
+its incomplete, and possibly even incorrect. I'll do my best, but theirs no 
+guarentee that this information is 100% correct or usefull.</I></B> 
+<BR><B><I>This will be mostly answers to questions I've seen posted on 
+newsgroups in domains that I have had some experience in while developing SHAWN 
+OS or questions I had while developing SHAWN OS. I hope its of some use to 
+sombody out there. BTW This is aimed towards the Intel/ PC Platform, so if your 
+developing for another platform, this may not help you.</I></B>&nbsp; 
+<HR align=center>
+
+<H2>Q1: Are there any books on this topic?</H2><B>Yes! One that I have used 
+is</B> <BR><UNDERLINE><B>Developing your own 32 bit Operating 
+System</UNDERLINE></B> by Richard A. Burgess and published by Sams Publishing. 
+1995. See my home page for a review of this book. 
+<H2>Q2: What tools and skills do I need to write an OS ?</H2>Primarily, you will 
+need: 
+<UL>
+  <LI>Knowledge of Operating System Concepts. A Good College level OS 
+  Text&nbsp;book may help. 
+  <LI>Knowledge of Assembly Language and an Assembler that supports 386 
+  protected mode instructions. (Such as TASM 3.0) knowledge of protected mode 
+  programming is a bonus, if you don't have this skill you will need to read up. 
+
+  <LI>I found a copy of Exe2Bin to be usefull 
+  <LI>Reference Materials on the Internals of the 386. The book listed in <B>Q1 
+  </B>has some information, but check my list of OS resources off of my OS home 
+  page for more information 
+  <LI>A 386 or better computer for development and testing 
+  <LI>Some sort of editor to type your code into. Anything will do, I use 
+  MS-DOS's EDIT 
+  <LI>Alot of patience and alot of time to waste debugging </LI></UL>
+<H2>Q3: How long will this take?</H2>That of course depends on how much time you 
+are going to put into it a week, how complete and how much functionality you 
+want to build into the OS, and luck. I found a good portion of my development 
+time went into tracking down obscure bugs. Once found, they are often easily 
+fixed, but how long before you figure out whats going on is often a matter of 
+luck. Of couse, your experience level will also factor into it. I have written a 
+very bare-bones OS completly functional except for Disk Access (I use an 
+underlying copy of DOS for that) in about 4 months. I have heard reports from 
+others who have written fully functional operating systems intending that they 
+actually be usefull for every day purposes quote time spans of 3-5 years for the 
+development. And of course, you never actually <I>finish</I> since theres always 
+something more you could add. You will simply get to a state where its usable as 
+is. 
+<H2>Q4: Ok, I want to write an OS, where do I start?</H2>Of course the first 
+step is to know what it is you want to write and how you plan to have your OS 
+work and the components fit together. Knowing before you start, for example, the 
+type of scheduling you will use and the way memory allocation will be handled 
+will save frustration later if you try to make it up as you go along. <BR>As far 
+as actual inplementation is concerned, I can tell you how I started: <BR>First I 
+worked on writing a DOS assembly program capable of allocating a block of XMS 
+memory, loading a binary file from disk, changing into a bare bones protected 
+mode (interrupts off, no IDT, flat Code and flat Data descriptors in GDT) moving 
+the loaded file to the XMS block and jumping to it. <BR>I wrote a simple 
+Protected Mode program which just beeped and locked up and used this as the file 
+loaded by the first program. Of course, this eventually became the kernel. <BR>I 
+then modified the first program to perform more start up chores, such as 
+<UL>
+  <LI>Adding the required descriptors to the GDT 
+  <LI>Reprogramming the interrupt controller (PIC) </LI></UL>Next I added code to 
+the first program to shutdown by releasing all resources and return control to 
+DOS. This routine had its own selector in the GDT so I could call it from my 
+'kernel'. In early development it is very important to be able to test your 
+kernel and then return to DOS, otherwise you'll spend all of your time 
+rebooting. 
+<P>Next I began work on adding startup code to the kernel. Note that even though 
+the kernel is currently being run in an XMS block under DOS, it can be used 
+without DOS by only writing a new loader. This I accomplished by having the 
+loader pass data to the kernel via a descriptor telling the kernel the linear 
+start of its memory in physical memory and the size of its memory block. The 
+kernel accesses memory via a pair of FLAT selectors (code and data) so to the 
+kernel, memory starts at KERNEL:00000000 regardless of where it REALLY starts. 
+In the few instances where I could not use a relative address (aka descriptor 
+bases) I added the true start of the kernels memory (stored in a variable called 
+LinearStart) to the relitive address. 
+<P>The first thing I did was set up a stack in the kernels data segment for use 
+by the startup code (don't forget to do this, I did at first and it caused some 
+WEIRD behaviour) 
+<P>Then I created a pair of functions that turned out to be VITAL for all 
+debugging uses. I wrote one which took the address of a string and wrote it, and 
+another which displayed the value of a number pushed onto the stack. 
+<P>Then I wrote simple handlers (using the above two functions) for all 
+exceptions and placed interrupt gated for them in the IDT. They simply reported 
+the # of the exception, a register dump, and the address the interrupt occured 
+at (which is on the stack when the itnerrupt is called). Thety then call the 
+shutdown procedure I had implemented earlier 
+<P>I also wrote simple handlers for keyboard and timer and any other interrupts 
+I thought might occur. 
+<P>Once I got to this point, I started working on support code, such as allocate 
+memory, deallocate memory, allocate GDT descriptor, deallocate GDT descriptor, 
+etc. 
+<P>Next I worked on the procedures to set up a process (create an LDT and a TSS) 
+
+<P>Next I wrote a simple scheduler. 
+<P>At this point I had the startup code of the kernel insert a thread into the 
+schedular cue (the thread was actually code compiled into the kernel itself but 
+would eventually be replaced by application code). Then the kernel startup would 
+turn on interrupts, and go into an infinite loop, waiting for the schedular to 
+be called and to start schedualing threads for execution. Once the schedular is 
+called, control never returned here. <BR>&nbsp; 
+<P>Once you have the basic bare-bone structure for your OS (or even earlier) 
+plan out every detail of how it will work, thread subsystems, process 
+subsystems, memory subsystems, etc. because if you change your design later it 
+will requite more effort to change your code than it would have to write it the 
+way you wanted it in the first place. 
+<P>Next I wrote a simple program compiled into the kernel, and started my basic 
+API work, using call gates (write, allocateMEM. forkThread etc) 
+<P>From there, ofcourse, I went on and completed the rest of the OS and lived 
+happily ever after :). I don't *think* I left out anything TOO important. :) 
+Hopefully I will expand and clarify this section later. 
+<H2>Q5: What stupid bugs should I look out for early on?</H2>One of the most 
+frustrating things is when something just doesnt do what its supposed to and the 
+code looks fine. Often the only thing I could do was spend hours going though it 
+over and over again until I said !Duh!! So *thats* what it was doing. 
+<UL>
+  <LI>The number One thing to look out for is: **Always know WHERE your stack 
+  is, WHAT Its doing and HOW big it is** When the code seemed to have gone 
+  insane, it was usually my stack getting overwritten or overwriting code or 
+  data. This happened to me several times, and it may work fine until a certain 
+  sequence of code or data causes things to interfere with each other. Be 
+  especially carefull once you have threads implemented where each thread has 
+  its own stack(s) 
+  <LI>Remember that you need a TSS to swap out of as well as Into, so you should 
+  set aside room for a TSS to swap your startup code out to when the schedular 
+  first hits, otherwise it will just get swapped out to any-old-where. Took me a 
+  while to catch this one. 
+  <LI>Always test your linked list code to make sure it works if both in the 
+  general case and in all special cases (aka manipulating the head pointer) This 
+  goes with ALL code. Test each function as you write it. When you write your 
+  Memory allocation code, try allocating and deallocating several differeent 
+  size blocks and see where they go. TRY to break your code, because if it 
+  breaks on you later, you'll have a tough time figureing out WHAT it was that 
+  broke </LI></UL>
+<H2>Q6: Alright, its not working, how do I debug this thing?</H2>This is never 
+as easy as it should be. You can't just run it through a debugger because the OS 
+code must run at ring 0. Here are a few things I did 
+<UL>
+  <LI>Litter your code with writes, writing stupid messages like "Here" and 
+  printing out the values of important variables, this will help you to find out 
+  what is executing and what exactly its doing 
+  <LI>Try out your code often, after every new thing you add, this way if it 
+  doesnt work, its *usually* the thing you just wrote thats broken, though every 
+  now and then you find an obscure bug in your earlier code or an 
+  incompatability between your new and old code. These are never fun. 
+  <LI>One of the most usefull things i did once I got exceptions working was 
+  this. I compiled all my code into a single binary with the command TASM /m2 
+  and TLINK/3 followed by exe2bin. So when I had troubles I used the list file 
+  generated by TASM/m2/l. Know what your flat code selector is so if you see it 
+  as the source of an exception, you know your kernel is to blame, you can then 
+  look up the offset in your list file to see exactly what instruction is 
+  causing the problem. This can save alot of time. </LI></UL>
+<H2>Q7: Where can I find code examples on how to....</H2>
+<UL>
+  <LI>In the before mentioned book&nbsp;<UNDERLINE><B>Developing Your Own 32-bit 
+  Operating System</UNDERLINE></B> 
+  <LI>In the WROX book mentioned on the My Resources page off my home page 
+  <LI>In the Linux source code. Its all there. 
+  <LI>in My SHAWN OS Source code when I finally get around to releasing it 
+  <LI>Pmode setup stuff can be found in the LOADLIN source, a DOS based loader 
+  for Linux 
+  <LI>DOS Extender source can be found around the internet for PMODE setup stuff 
+  </LI></UL>
+<H2>Q8: Whats the best language to use?</H2>For starting out, Its hard to beat 
+Assembly for low level control of the processor. However, once you get to 
+writing the more high-level portions of the OS code, you'll probably want a more 
+high level language. Its not any fun writing linked list code and scheduling 
+logic in assembler. The best solution is probably some sort of C compiler that 
+allows in-line assembly, but as far as I know, you'll have to port a C compiler 
+to create code in a format suitable for writing kernels. A C compiler that 
+creates ASM source rather than OBJs is much easier to port. I used the CM32 C 
+Compiler as my starting point. <BR><B>Q9: How do I boot my kernel?</B> <BR>Many 
+people seem to have trouble with booting. One solution is to use a third-party 
+bootloader such as GRUB. Personally I consider this cheating a little and I 
+chose to write my own two stage bootloader. The source code is including in the 
+SHAWN OS 0.1.0 package. 
+<P>Of course, you don't HAVE to use C, any high level language will do, but C is 
+the language I prefer. 
+<P><I>I hope this information is useful and helps people avoid some of this 
+pitfalls I found when working on my OS. However this is not my most active 
+project and this is not intented to be a massive compendum of information. There 
+exist elsewhere on the internet more complete sources of information on these 
+topics. Make sure to check out the links on my main page for other faqs which 
+are better maintained and researched than mine.</I> <BR><B><I>Still,if you have 
+a question you think I may be able to answer, please e-mail it to me and I'll do 
+my best. If you have any information or resources I should include here, please, 
+once again, e-mail me.&nbsp; 
+<HR align=center>
+</I></B>This page, and all contents, are Copyright (C) 1996-9 by Brian Klock. <A 
+href="mailto:bdk0012@megahertz.njit.edu">E-mail me!</A> </BODY></HTML>

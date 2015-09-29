@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_01.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** DEBUG_01.C - Auslösen der Breakpoint-Exception 1 durch Aufruf des in
+**              pmode.h definierten Makros BREAKPOINT (Assembliert int 1)
+**
+** Erste Version:     26.08.97
+** Letze Änderungen:  17.09.97
+**
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+*/
+
+#include "pmode.h"
+
+void main (void)
+	{
+    BREAKPOINT
+    print (10, 10, "Hallo Welt vom Protected Mode aus BC 4.0 !!!", 0x0a);
+	}
+</PRE></BODY></HTML>

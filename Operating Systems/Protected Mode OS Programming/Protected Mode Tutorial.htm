@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0039)http://www.execpc.com/~geezer/os/pm.htm -->
+<HTML><HEAD><TITLE>Protected Mode tutorial</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><B>What is protected mode?</B><BR>The 8088 CPU used in the original IBM PC 
+was not very scalable. In particular, there was no easy way to access more than 
+1 megabyte of physical memory. To get around this while allowing backward 
+compatability, Intel designed the 80286 CPU with two modes of operation: <I>real 
+mode</I>, in which the '286 acts like a fast 8088, and <I>protected mode</I> 
+(now called 16-bit protected mode). Protected mode allows programs to access 
+more than 1 megabyte of physical memory, and protects against misuse of memory 
+(i.e. programs can't execute a data segment, or write into a code segment). An 
+improved version, 32-bit protected mode, first appeared on the '386 CPU. 
+<HR>
+<B>How do real mode and protected mode differ?</B> 
+<P><B>Table 1: differences between real- and protected modes.</B>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>
+    <TD>Real Mode
+    <TD>16-bit Protected Mode
+    <TD>32-bit Protected Mode</TD>
+  <TR>
+    <TD>Segment base address
+    <TD>20-bit (1M byte range) = 16 * segment register 
+    <TD>24-bit (16M byte range), from <I>descriptor</I>
+    <TD>32-bit (4G byte range), from <I>descriptor</I></TD>
+  <TR>
+    <TD>Segment size (limit)
+    <TD>16-bit, 64K bytes (fixed)
+    <TD>16-bit, 1-64K bytes 
+    <TD>20-bit, 1-1M bytes or 4K-4G bytes</TD>
+  <TR>
+    <TD>Segment protection
+    <TD>no
+    <TD>yes
+    <TD>yes</TD>
+  <TR>
+    <TD>Segment register
+    <TD>segment base adr / 16
+    <TD><I>selector</I>
+    <TD><I>selector</I></TD></TR></TBODY></TABLE>
+<HR>
+<B>I thought protected mode didn't use segmented memory...</B><BR>The segments 
+are still there, but in 32-bit protected mode, you can set the segment limit to 
+4G bytes. This is the maximum amount of physical memory addressable by a CPU 
+with a 32-bit address bus. Limit-wise, the segment then "disappears" (though 
+other protection mechanisms remain in effect). This reason alone makes 32-bit 
+protected mode popular. 
+<HR>
+<B>What's a descriptor?</B><BR>In real mode, there is little to know about the 
+segments. Each is 64K bytes in size, and you can do with the segment what you 
+wish: store data in it, put your stack there, or execute code stored in the 
+segment. The base address of the segment is simply 16 times the value in one of 
+the segment registers. 
+<P>In protected mode, besides the segment base address, we also need the segment 
+size (limit) and some flags indicating what the segment is used for. This 
+information goes into an 8-byte data structure called a <I>descriptor</I>: 
+<P><B>Table 2: code/data segment descriptor.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Lowest byte
+    <TD>Byte 1
+    <TD>Byte 2
+    <TD>Byte 3
+    <TD>Byte 4
+    <TD>Byte 5
+    <TD>Byte 6
+    <TD>Highest byte</TD>
+  <TR>
+    <TD>Limit 7:0
+    <TD>Limit 15:8
+    <TD>Base 7:0
+    <TD>Base 15:8
+    <TD>Base 23:16
+    <TD>Access
+    <TD>Flags, Limit 19:16
+    <TD>Base 31:24</TD></TR></TBODY></TABLE><BR>This is a 32-bit ('386) descriptor. 
+16-bit ('286) descriptors have to top two bytes (Limit 19:16, Flags, and Base 
+31:24) set to zero. The Access byte indicates segment usage (data segment, stack 
+segment, code segment, etc.): 
+<P><B>Table 3: access byte of code/data segment descriptor.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Highest bit
+    <TD>Bits 6, 5
+    <TD>Bit 4
+    <TD>Bits 3
+    <TD>Bit 2
+    <TD>Bit 1 
+    <TD>Lowest bit</TD>
+  <TR>
+    <TD>Present
+    <TD>Privilege
+    <TD><B>1</B>
+    <TD>Executable
+    <TD>Expansion direction/ conforming
+    <TD>Writable/ readable
+    <TD>Accessed</TD></TR></TBODY></TABLE>
+<UL>
+  <LI>Present bit. Must be set to one to permit segment access. 
+  <LI>Privilege. Zero is the highest level of privilege (<I>Ring 0</I>), three 
+  is the lowest (<I>Ring 3</I>). 
+  <LI>Executable bit. If one, this is a code segment, otherwise it's a 
+  stack/data segment. 
+  <LI>Expansion direction (stack/data segment). If one, segment grows downward, 
+  and offsets within the segment must be <B>greater than</B> the limit. 
+  <LI>Conforming (code segment). Privilege-related. 
+  <LI>Writable (stack/data segment). If one, segment can be written to. 
+  <LI>Readable (code segment). If one, segment can be read from. (Code segments 
+  are not writable.) 
+  <LI>Accessed. This bit is set whenever the segment is read from or written 
+  to.</LI></UL>The 4-bit Flags value is non-zero only for 32-bit segments: 
+<P><B>Table 4: flags nybble.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Highest bit
+    <TD>Bit 6
+    <TD>Bit 5
+    <TD>Bit 4</TD>
+  <TR>
+    <TD>Granularity
+    <TD>Default Size
+    <TD><B>0</B>
+    <TD><B>0</B></TD></TR></TBODY></TABLE><BR>The Granularity bit indicates if the 
+segment limit is in units of 4K byte pages (G=1) or if the limit is in units of 
+bytes (G=0). 
+<P>For stack segments, the Default Size bit is also known as the B (Big) bit, 
+and controls whether 16- or 32-bit values are pushed and popped. For code 
+segments, the D bit indicates whether instructions will operate on 16-bit (D=0) 
+or 32-bit (D=1) quantities by default. To expand upon this: when the D bit is 
+set, the segment is <I>USE32</I>, named after the assembler directive of the 
+same name. The following sequence of hex bytes:<PRE>B8 90 90 90 90</PRE>will be treated by the CPU as a 32-bit instruction, and 
+will disassemble as<PRE>mov eax, 90909090h</PRE>In a 16-bit (<I>USE16</I>) code segment, the same 
+sequence of bytes would be equivalent to<PRE>mov ax,9090h
+nop
+nop</PRE>Two special opcode bytes called the <I>Operand Size Prefix</I> and the 
+<I>Address Length Prefix</I> reverse the sense of the D bit for the instruction 
+destination and source, respectively. These prefixes affect only the instruction 
+that immediately follows them. 
+<P>Bit 4 of the Access byte is set to one for code or data/stack segments. If 
+this bit is zero, you have a <I>system segment</I>. These come in several 
+varieties:
+<UL>
+  <LI><I>Task State Segment (TSS)</I>. These are used to simplify multitasking. 
+  The '386 or higher CPU has four sub-types of TSS. 
+  <LI><I>Local Descriptor Table (LDT)</I>. Tasks can store their own private 
+  descriptors here, instead of the GDT. 
+  <LI><I>Gates</I>. These control CPU transitions from one level of privilege to 
+  another. Gate descriptors have a different format than other 
+descriptors:</LI></UL><B>Table 5: gate descriptor.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Lowest byte
+    <TD>Byte 1
+    <TD>Byte 2
+    <TD>Byte 3
+    <TD>Byte 4
+    <TD>Byte 5
+    <TD>Byte 6
+    <TD>Highest byte</TD>
+  <TR>
+    <TD>Offset 7:0
+    <TD>Offset 15:8
+    <TD>Selector 7:0
+    <TD>Selector 15:8
+    <TD>Word Count 4:0
+    <TD>Access
+    <TD>Offset 23:16
+    <TD>Offset 31:24</TD></TR></TBODY></TABLE><BR>Note the Selector field. Gates 
+work through indirection, and require a separate code or TSS descriptor to 
+function. 
+<P><B>Table 6: access byte of system segment descriptor.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Highest bit
+    <TD>Bits 6, 5
+    <TD>Bit 4
+    <TD>Bits 3, 2, 1, 0</TD>
+  <TR>
+    <TD>Present
+    <TD>Privilege
+    <TD><B>0</B>
+    <TD>Type</TD></TR></TBODY></TABLE><BR><B>Table 7: System segment types.</B> 
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD>Type
+    <TD>Segment function
+    <TD>
+    <TD>Type
+    <TD>Segment function</TD>
+  <TR>
+    <TD>0
+    <TD>(invalid)
+    <TD>
+    <TD>8
+    <TD>(invalid)</TD>
+  <TR>
+    <TD>1
+    <TD>Available '286 TSS
+    <TD>
+    <TD>9
+    <TD>Available '386 TSS</TD>
+  <TR>
+    <TD>2
+    <TD>LDT
+    <TD>
+    <TD>10
+    <TD>(undefined, reserved)</TD>
+  <TR>
+    <TD>3
+    <TD>Busy '286 TSS
+    <TD>
+    <TD>11
+    <TD>Busy '386 TSS</TD>
+  <TR>
+    <TD>4
+    <TD>'286 Call Gate
+    <TD>
+    <TD>12
+    <TD>'386 Call Gate</TD></TR>
+  <TR>
+    <TD>5
+    <TD>Task Gate
+    <TD>
+    <TD>13
+    <TD>(undefined, reserved)</TD>
+  <TR>
+    <TD>6
+    <TD>'286 Interrupt Gate
+    <TD>
+    <TD>14
+    <TD>'386 Interrupt Gate</TD></TR>
+  <TR>
+    <TD>7
+    <TD>'286 Trap Gate
+    <TD>
+    <TD>15
+    <TD>'386 Trap Gate</TD></TR></TBODY></TABLE><BR>Whew! For now, just remember 
+that TSSes, LDTs, and gates are the three main types of system segment. 
+<HR>
+<B>Where are the descriptors?</B><BR>They are stored in a table in memory: the 
+<I>Global Descriptor Table (GDT)</I>, <I>Interrupt Descriptor Table (IDT)</I>, 
+or one of the Local Descriptor Tables. The CPU contains three registers: GDTR, 
+which must point to the GDT, IDTR, which must point to the IDT (if interrupts 
+are used), and LDTR, which must point to the LDT (if the LDT is used). Each of 
+these tables can hold up to 8192 descriptors. 
+<HR>
+<B>What's a selector?</B><BR>In protected mode, the segment registers contain 
+<I>selectors</I>, which index into one of the descriptor tables. Only the top 13 
+bits of the selector are used for this index. The next lower bit choses between 
+the GDT and LDT. The lowest two bits of the selector set a privilege value. 
+<HR>
+<B>How do I enter protected mode?</B><BR>Entering protected mode is actually 
+rather simple, and is is described in many other tutorials. You must:
+<UL>
+  <LI>create a valid Global Descriptor Table (GDT), 
+  <LI>(optional) create a valid Interrupt Descriptor Table (IDT), 
+  <LI>disable interrupts, 
+  <LI>point GDTR to your GDT, 
+  <LI>(optional) point IDTR to your IDT, 
+  <LI>set the PE bit in the MSW register, 
+  <LI>do a far jump (load both CS and IP/EIP) to enter protected mode (load CS 
+  with the code segment selector), 
+  <LI>load the DS and SS registers with the data/stack segment selector, 
+  <LI>set up a pmode stack, 
+  <LI>(optional) enable interrupts.</LI></UL>
+<HR>
+<B>How do I get back to Real Mode?</B><BR>On the '386:
+<UL>
+  <LI>disable interrupts, 
+  <LI>do a far jump to a 16-bit code segment (i.e. switch briefly to 16-bit 
+  pmode), 
+  <LI>load SS with a selector to a 16-bit data/stack segment, 
+  <LI>clear the PE bit, 
+  <LI>do a far jump to a real-mode address, 
+  <LI>load the DS, ES, FS, GS, and SS registers with real-mode values, 
+  <LI>(optional)set IDTR to real-mode values (base 0, limit 0xFFFF), 
+  <LI>re-enable interrupts.</LI></UL>Before returning to real mode, CS and SS must 
+contain selectors pointing to descriptors that are "appropriate to real mode". 
+These have a limit of 64K bytes, are byte-granular (Flags nybble=0), expand-up, 
+writable (data/stack segment only), and present (Access byte=1xx1001x). 
+<P>On the '286, you can't simply clear the PE bit to leave protected mode. The 
+only way out is to reset the CPU. This can be done by telling the keyboard 
+controller to pulse the reset line of the CPU, or it can be done by 
+<I>triple-faulting</I> the CPU (see Robert Collins' web site: www.x86.org). 
+<HR>
+<B>What pitfalls have you encountered?</B>
+<UL>
+  <LI>You must pay extreme attention to detail here. One wrong bit will make 
+  things fail. Protected mode errors often triple-fault the CPU, making it reset 
+  itself. Be prepared to see this happen again and again. 
+  <LI>Most library routines probably won't work. <TT>printf()</TT>, for example, 
+  won't work because it evenutally calls either a DOS or BIOS service to put 
+  text on the screen. Unless you have a <I>DOS extender</I>, these services are 
+  unavailable in protected mode. I had good luck using <TT>sprintf()</TT> to put 
+  formatted text in a buffer, which I then wrote to the screen with my own 
+  protected-mode routine. 
+  <LI>Before clearing the PE bit, the segment registers <B>must</B> point to 
+  descriptors that are appropriate to real mode. This means a limit of exactly 
+  0xFFFF (see other restrictions above). One of my demo programs had ES pointing 
+  to a text-video segment. With a limit of 0xFFFF, things worked swimmingly. 
+  With a limit of 3999 (80 * 25 * 2 - 1), the system froze up after returning to 
+  real mode and trying to use the ES register. 
+  <BLOCKQUOTE>Actually, for DS, ES, FS and GS, the segment limit must be 
+    0xFFFF <I>or greater</I>. If you give the segment a limit of 0xFFFFF and 
+    make it page-granular, you can access up to 4G of memory from real mode. 
+    This has been dubbed <I>unreal mode</I>. However, limits other than 0xFFFF 
+    (or page-granularity) for CS or SS cause big problems in real mode. 
+  </BLOCKQUOTE>
+  <LI>You can <B>not</B> use the '286 LMSW instruction to clear the PE bit. Use 
+  MOV CR0, nnn. 
+  <LI>Load <B>all</B> segment registers with valid selectors after entering 
+  protected mode. I forgot to do this with ES. A protected-mode routine pushed 
+  ES, loaded it with a valid selector, and used it. When it tried to pop the 
+  old, invalid (real-mode) selector back into ES, it crashed. 
+  <LI>The IDTR <B>must</B> also be reset to a value that is appropriate to 
+  real-mode before re-enabling interrupts (see above). 
+  <LI>Not all instructions are legal in real mode. If you attempt to use task 
+  state segments for multitasking, note that executing the LTR instruction in 
+  real-mode will cause an illegal instruction interrupt. 
+  <LI>Descriptor tables in ROM? Section 10.4.3 of 386INTEL.TXT states 
+  <BLOCKQUOTE>The GDT (as well as LDTs) should reside in RAM, because the 
+    processor modifies the accessed bit of descriptors. </BLOCKQUOTE>However, one 
+  of my sources (thanks Vinay) states that later CPUs will not attempt to set 
+  the Accessed bit in a descriptor if that bit is already set. Check the docs 
+  for the CPU you are using. 
+  <LI>The naive code described here will crash if the PC is in Virtual 8086 
+  (V86) mode. This is a fourth mode of operation found on the 386 CPU, with 
+  addressing similar to real mode but some of the protection mechanisms of 
+  protected mode. You may know that a Windows (or OS/2, or Linux) DOS box runs 
+  in V86 mode, but you may not realize that memory managers such as EMM386 also 
+  put the CPU in V86 mode.</LI></UL>If you want to start simple, try these tips:
+<UL>
+  <LI>Don't worry about returning to real mode. Use the reset button :) 
+  <LI>Leave interrupts disabled. 
+  <LI>Don't use an LDT. 
+  <LI>Put only four descriptors in the GDT: null, code, stack/data, and text 
+  video. 
+  <LI>Set the segment bases to real-mode values i.e. 16 * real-mode segment 
+  register value. This lets you address variables in the same way in both real 
+  and protected modes. 
+  <LI>Set all segment limits to their maximum (0xFFFF for 16-bit protected 
+  mode). 
+  <LI>Leave all privilege values set to 0 (Ring 0, highest privilege). 
+  <LI>Install some crude exception handlers that simply scribble a message into 
+  video memory then halt:<PRE>void unhand(void)
+{	static const char Msg[]="U n h a n d l e d   I n t e r r u p t ";
+
+	disable();
+	movedata(SYS_DATA_SEL, (unsigned)Msg,
+		LINEAR_SEL, 0xB8000,
+		sizeof(Msg));
+        while(1); }</PRE>The alternating spaces in the message are treated as 
+  attribute bytes by the PC video hardware, making the text an eye-catching 
+  black on green. Put an interrupt gate in the appropriate (all?) descriptor of 
+  the IDT, with a selector to your code segment in the trap gate's selector 
+  field, and the address of this routine in its offset 
+field.</LI></UL></BODY></HTML>

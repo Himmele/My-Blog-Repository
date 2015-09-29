@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys3.htm -->
+<HTML><HEAD><TITLE>Segmentbegrenzung im Realmode umgehen</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver 
+background="Segmentbegrenzung im Realmode umgehen-Dateien/stone.jpg">
+<H1><FONT color=#800000>1.3 Segmentbegrenzung im Realmode umgehen</FONT></H1>
+<P>Folgende Möglichkeiten bestehen im Realmode, Datenblöcke größer als 64 KB 
+anzusprechen:</P>
+<UL>
+  <LI>Verwenden von FAR-Zeigern (bzw. Speichermodell LARGE) und Benutzen 
+  mehrerer Segmente. 
+  <LI>Speichermodell HUGE -- Arbeit mit normalisierten Zeigern. 
+  <LI>XMS bzw. EMS. </LI></UL><A name=r_far>
+<H2><FONT color=#800000>1.3.1 Benutzen von FAR-Zeigern / Speichermodell 
+LARGE</FONT></H2></A>
+<P>Im Gegensatz zu NEAR-Zeigern wird bei FAR-Zeigern die Segmentadresse 
+mitgeführt. Dadurch wird es möglich, durch zusätzliches Verändern der 
+Segmentadresse den maximal adressierbaren Speicherbereich auf mehr als 64 KB zu 
+vergrößern. Beachten Sie jedoch, daß Sie es weiterhin mit nur 64 KB großen 
+Segmenten zu tun haben, daran ändert sich nichts!</P>
+<P>Mehrere Segmente werden jetzt als ein Datenblock betrachtet und über einen 
+FAR-Zeiger wird auf den Datenblock zugegriffen. Zum Anlegen bzw. Reservieren von 
+größeren Speicherbereichen gibt es zwei Möglichkeiten. Erstens können sie 
+statisch, d.h. direkt im Quelltext vereinbart werden oder der Speicher wird erst 
+zur Laufzeit dynamisch allokiert.</P>
+<P>Beide Möglichkeiten werden im folgenden kurz vorgestellt.</P>
+<P><FONT size=+2><B>Statische Vereinbarung</B></FONT></P>
+<P>Mehrere Segmente werden nacheinander im Speicher angeordnet. Das entspricht 
+der Zerlegung eines einzelnen großen Speicherbereiches in mehrere kleinere 64 KB 
+Blöcke.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Segmentbegrenzung im Realmode umgehen-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Anlegen eines 100 KB Datenblocks unter der Voraussetzung, daß das 
+      aktuelle Speichermodell mehrere Datensegmente unterstützt. Das ist nur bei 
+      den Speichermodellen COMPACT, LARGE und HUGE möglich.</P><PRE>    <I>DATEN1  segment PARA PUBLIC 'DATA'
+            big_array1   db 65535 dup (?)
+    DATEN1  ends
+    DATEN2  segment PARA PUBLIC 'DATA'
+            big_array2   db 34465 dup (?)
+    DATEN2  ends</I></PRE>
+      <P><B>Anmerkung:</B></P>
+      <P>Diese Reservierung ist im Prinzip auch in C möglich:</P><PRE>        unsigned char far big_array1 [65535];
+        unsigned char far big_array2 [34465];</PRE>
+      <P>Nur kann dann nicht garantiert werden, daß der C-Compiler beide 
+      Segmente wirklich nacheinander im Speicher anordnet. Viele C-Compiler 
+      unterstützen deshalb die sogenannten HUGE-Pointer, die auf dem hier 
+      besprochenen Prinzip aufbauen, jedoch direkt unterstützt werden.</P>
+      <P>Beispiel für statische Reservierung mit HUGE-Pointer:</P><PRE>        unsigned char huge big_array [100000];</PRE>
+      <P>Mehr über HUGE-Pointer (Prinzip und Realisierung) finden Sie unter <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys4.htm">1.3.2 
+      HUGE-Pointer</A>.</P></TD></TR></TBODY></TABLE></CENTER>
+<P><FONT size=+2><B>Dynamische Reservierung</B></FONT></P>
+<P>Die zweite Möglichkeit, große Speicherbereiche zu reservieren, ist die 
+Nutzung des DOS-Heap. DOS stellt über die Funktionen 48h und 49h des Int 21h 
+eine Möglichkeit bereit, Bereiche innerhalb des DOS-Speicherbereiches zu 
+reservieren. Vergleichen Sie auch mit der entsprechenden Systemliteratur, z.B. 
+Tischer: "PC-Intern" oder Monadjemi: "PC-Programmierung in 
+Maschinensprache".</P><PRE><B>Funktion 48h:   Speicherplatz reservieren</B>
+   Aufruf mit   AH= 48h
+                BX= Anzahl der zu reservierenden Paragraphen
+
+                Da ein Paragraph 16 Byte groß ist und der übergebene
+                Wert als Anzahl von Paragraphen interpretiert wird, ist der
+                maximal zu reservierende Bereich 16*65536=1048576 (1 MB) groß!
+                Dieser Bereich kann jedoch in der Regel nicht erreicht werden, da
+                zum einen DOS selbst und auch das gerade ausgeführte Programm
+                Speicherplatz belegen und zum anderen der verfügbare Raum durch
+                UMB's, Treiber und die Routinen des ROM-Bios weiter eingeschränkt
+                wird.
+
+   Rückgabe     CF=0: Operation erfolgreich
+                        AX= erstes Segment des reservierten Speicherbereichs
+                CF=1: Fehler
+                        AX= Fehlercode
+                        BX= Größe des größten freien Speicherbereiches
+
+<B>Funktion 49h:   Speicherplatz freigeben</B>
+   Aufruf mit   AH= 49h
+                ES= Segmentadresse des freizugebenden Bereiches
+
+                Die Größe des Speicherbereichs wird dabei von DOS
+                selbst aus den Speicherkontrollblocks ermittelt.
+
+   Rückgabe     CF=0: Operation erfolgreich
+                CF=1: Fehler
+                        AX= Fehlercode</PRE>
+<P><FONT size=+2><B>Zugriff auf den Speicher</B></FONT></P>
+<P>Wurde über eine der obengenannten Möglichkeiten (statisch oder dynamisch) ein 
+Speicherbereich reserviert, kann über einen FAR-Pointer darauf zugegriffen 
+werden. Dabei wird zunächst die "normale" Offsetadresse benutzt, um Werte 
+innerhalb des ersten reservierten Segmentes zu adressieren. Sollte es jedoch zu 
+einem "Überlauf" der Offsetadresse kommen (Offset &gt; 65535), so muß auch die 
+Segmentadresse geändert werden. Die Segmentadresse wird in diesem Fall um 4096 
+(1000h) erhöht. Damit wird eine Erhöhung der physischen Adresse um 65536 Bytes 
+erreicht. Die Offsetadresse wird dabei auf 0 zurückgesetzt bzw. entsprechend des 
+Überlaufs korrigiert.</P>
+<P>Konkret könnte der Zugriff auf größere Bereiche zum Beispiel so aussehen:</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Segmentbegrenzung im Realmode umgehen-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%"><PRE>  <I>; far pointer (ES:BX) auf erstes Segment innerhalb
+  ; des Datenblocks initialisieren
+    <B>    mov ax,seg big_array1
+        mov es,ax
+        mov bx,offset big_array1
+    </B>
+  ; mit dem Inhalt von al wird der Speicherbereich gefüllt
+        mov al,12h
+
+  ; füllen des Speicherbereichs (100000 Byte) mit al
+  ; ersten Block bearbeiten
+        mov cx,0
+
+  inLoop1:
+        mov es:[bx],al      ; Byte schreiben
+        inc bx              ; Offsetadresse erhöhen
+        dec cx
+        jnz inLoop1         ; bis gesamter 64KB Block bearbeitet wurde
+
+  ; Segmentregister auf neuen Block aktualisieren
+        mov dx,es
+        add dx,01000h       ; (4096d)
+        mov es,dx
+
+  ; zweiten Block bearbeiten
+        mov cx,34465
+
+  inLoop2:
+        mov es:[bx],al
+        inc bx
+        dec cx
+        jnz inLoop2</I>
+    </PRE>
+      <P>Der <B>fett</B> gedruckte Bereich, die Initialisierung des 
+      FAR-Pointers, würde sich bei dynamischer Reservierung wie folgt 
+ändern:</P><PRE>    <I>    mov ax,adresse_des_Bereiches
+        mov es,ax
+        mov bx,0            ; der reservierte Bereich beginnt immer bei
+                            ; der Offsetadresse 0</I>
+    </PRE></TD></TR></TBODY></TABLE></CENTER><BR><BR>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Segmentbegrenzung im Realmode umgehen-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das Assemblerbeispiel <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/rm_01.asm">rm_01.asm</A> 
+      soll als Zusammenfassung dienen. Es reserviert einen 100000 Byte großen 
+      Bereich auf dem DOS-Heap. Anschließend gibt es den aktuellen Inhalt dieses 
+      Bereiches unter Nutzung der Funktion <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/showasci.asm">showasci</A> 
+      auf dem Bildschirm aus, füllt den Bereich mit einem konstanten Wert und 
+      zeigt den neuen Inhalt wieder am Bildschirm 
+an.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys2.htm"><IMG 
+alt=Zurück src="Segmentbegrenzung im Realmode umgehen-Dateien/arrowl.gif" 
+align=left border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys4.htm"><IMG 
+alt=Weiter src="Segmentbegrenzung im Realmode umgehen-Dateien/arrowr.gif" 
+align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Segmentbegrenzung im Realmode umgehen-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

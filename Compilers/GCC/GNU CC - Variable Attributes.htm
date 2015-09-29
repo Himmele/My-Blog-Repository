@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0085)http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Variable_Attributes.html -->
+<HTML><HEAD><TITLE>Using and Porting GNU CC</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><LINK 
+href="GNU CC - Variable Attributes-Dateien/gnuinfo.css" type=text/css 
+rel=StyleSheet>
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR></HEAD>
+<BODY>
+<H1>Using and Porting GNU CC - Variable Attributes</H1>Node: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Variable_Attributes.html">Variable 
+Attributes</A> Next: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Type_Attributes.html">Type 
+Attributes</A> Prev: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Character_Escapes.html">Character 
+Escapes</A> Up: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/C_Extensions.html">C 
+Extensions</A> 
+<HR>
+
+<H3>Specifying Attributes of Variables</H3>
+<P>The keyword <CODE>__attribute__</CODE> allows you to specify special 
+attributes of variables or structure fields. This keyword is followed by an 
+attribute specification inside double parentheses. Eight attributes are 
+currently defined for variables: <CODE>aligned</CODE> , <CODE>mode</CODE> , 
+<CODE>nocommon</CODE> , <CODE>packed</CODE> , <CODE>section</CODE> , 
+<CODE>transparent_union</CODE> , <CODE>unused</CODE> , and <CODE>weak</CODE> . 
+Other attributes are available for functions (see <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Function_Attributes.html">Function 
+Attributes</A>) and for types (see <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Type_Attributes.html">Type 
+Attributes</A>). 
+<P>You may also specify attributes with `<SAMP>__</SAMP>' preceding and 
+following each keyword. This allows you to use them in header files without 
+being concerned about a possible macro of the same name. For example, you may 
+use <CODE>__aligned__</CODE> instead of <CODE>aligned</CODE> . 
+<P>
+<DL>
+  <DT><CODE>aligned (<I>alignment</I>)</CODE> 
+  <DD>This attribute specifies a minimum alignment for the variable or structure 
+  field, measured in bytes. For example, the declaration: 
+  <P><PRE>	int x __attribute__ ((aligned (16))) = 0;
+</PRE>
+  <P>causes the compiler to allocate the global variable <CODE>x</CODE> on a 
+  16-byte boundary. On a 68040, this could be used in conjunction with an 
+  <CODE>asm</CODE> expression to access the <CODE>move16</CODE> instruction 
+  which requires 16-byte aligned operands. 
+  <P>You can also specify the alignment of structure fields. For example, to 
+  create a double-word aligned <CODE>int</CODE> pair, you could write: 
+  <P><PRE>	struct foo { int x[2] __attribute__ ((aligned (8))); };
+</PRE>
+  <P>This is an alternative to creating a union with a <CODE>double</CODE> 
+  member that forces the union to be double-word aligned. 
+  <P>It is not possible to specify the alignment of functions; the alignment of 
+  functions is determined by the machine's requirements and cannot be changed. 
+  You cannot specify alignment for a typedef name because such a name is just an 
+  alias, not a distinct type. 
+  <P>As in the preceding examples, you can explicitly specify the alignment (in 
+  bytes) that you wish the compiler to use for a given variable or structure 
+  field. Alternatively, you can leave out the alignment factor and just ask the 
+  compiler to align a variable or field to the maximum useful alignment for the 
+  target machine you are compiling for. For example, you could write: 
+  <P><PRE>	short array[3] __attribute__ ((aligned));
+</PRE>
+  <P>Whenever you leave out the alignment factor in an <CODE>aligned</CODE> 
+  attribute specification, the compiler automatically sets the alignment for the 
+  declared variable or field to the largest alignment which is ever used for any 
+  data type on the target machine you are compiling for. Doing this can often 
+  make copy operations more efficient, because the compiler can use whatever 
+  instructions copy the biggest chunks of memory when performing copies to or 
+  from the variables or fields that you have aligned this way. 
+  <P>The <CODE>aligned</CODE> attribute can only increase the alignment; but you 
+  can decrease it by specifying <CODE>packed</CODE> as well. See below. 
+  <P>Note that the effectiveness of <CODE>aligned</CODE> attributes may be 
+  limited by inherent limitations in your linker. On many systems, the linker is 
+  only able to arrange for variables to be aligned up to a certain maximum 
+  alignment. (For some linkers, the maximum supported alignment may be very very 
+  small.) If your linker is only able to align variables up to a maximum of 8 
+  byte alignment, then specifying <CODE>aligned(16)</CODE> in an 
+  <CODE>__attribute__</CODE> will still only provide you with 8 byte alignment. 
+  See your linker documentation for further information. 
+  <P></P>
+  <DT><CODE>mode (<I>mode</I>)</CODE> 
+  <DD>This attribute specifies the data type for the declaration---whichever 
+  type corresponds to the mode <I>mode</I>. This in effect lets you request an 
+  integer or floating point type according to its width. 
+  <P>You may also specify a mode of `<SAMP>byte</SAMP>' or 
+  `<SAMP>__byte__</SAMP>' to indicate the mode corresponding to a one-byte 
+  integer, `<SAMP>word</SAMP>' or `<SAMP>__word__</SAMP>' for the mode of a 
+  one-word integer, and `<SAMP>pointer</SAMP>' or `<SAMP>__pointer__</SAMP>' for 
+  the mode used to represent pointers. 
+  <P></P>
+  <DT><CODE>nocommon</CODE> 
+  <DD>This attribute specifies requests GNU CC not to place a variable 
+  ``common'' but instead to allocate space for it directly. If you specify the 
+  `<SAMP>-fno-common</SAMP>' flag, GNU CC will do this for all variables. 
+  <P>Specifying the <CODE>nocommon</CODE> attribute for a variable provides an 
+  initialization of zeros. A variable may only be initialized in one source 
+  file. 
+  <P></P>
+  <DT><CODE>packed</CODE> 
+  <DD>The <CODE>packed</CODE> attribute specifies that a variable or structure 
+  field should have the smallest possible alignment---one byte for a variable, 
+  and one bit for a field, unless you specify a larger value with the 
+  <CODE>aligned</CODE> attribute. 
+  <P>Here is a structure in which the field <CODE>x</CODE> is packed, so that it 
+  immediately follows <CODE>a</CODE> : 
+  <P><PRE>	struct foo
+	{
+	  char a;
+	  int x[2] __attribute__ ((packed));
+	};
+</PRE>
+  <P></P>
+  <DT><CODE>section ("section-name")</CODE> 
+  <DD>Normally, the compiler places the objects it generates in sections like 
+  <CODE>data</CODE> and <CODE>bss</CODE> . Sometimes, however, you need 
+  additional sections, or you need certain particular variables to appear in 
+  special sections, for example to map to special hardware. The 
+  <CODE>section</CODE> attribute specifies that a variable (or function) lives 
+  in a particular section. For example, this small program uses several specific 
+  section names: 
+  <P><PRE>	struct duart a __attribute__ ((section ("DUART_A"))) = { 0 };
+	struct duart b __attribute__ ((section ("DUART_B"))) = { 0 };
+	char stack[10000] __attribute__ ((section ("STACK"))) = { 0 };
+	int init_data_copy __attribute__ ((section ("INITDATACOPY"))) = 0;
+	
+	main()
+	{
+	  /* Initialize stack pointer */
+	  init_sp (stack + sizeof (stack));
+	
+	  /* Initialize initialized data */
+	  memcpy (&amp;init_data_copy, &amp;data, &amp;edata - &amp;data);
+	
+	  /* Turn on the serial ports */
+	  init_duart (&amp;a);
+	  init_duart (&amp;b);
+	}
+</PRE>
+  <P>Use the <CODE>section</CODE> attribute with an <EM>initialized</EM> 
+  definition of a <EM>global</EM> variable, as shown in the example. GNU CC 
+  issues a warning and otherwise ignores the <CODE>section</CODE> attribute in 
+  uninitialized variable declarations. 
+  <P>You may only use the <CODE>section</CODE> attribute with a fully 
+  initialized global definition because of the way linkers work. The linker 
+  requires each object be defined once, with the exception that uninitialized 
+  variables tentatively go in the <CODE>common</CODE> (or <CODE>bss</CODE> ) 
+  section and can be multiply "defined". You can force a variable to be 
+  initialized with the `<SAMP>-fno-common</SAMP>' flag or the 
+  <CODE>nocommon</CODE> attribute. 
+  <P>Some file formats do not support arbitrary sections so the 
+  <CODE>section</CODE> attribute is not available on all platforms. If you need 
+  to map the entire contents of a module to a particular section, consider using 
+  the facilities of the linker instead. 
+  <P></P>
+  <DT><CODE>transparent_union</CODE> 
+  <DD>This attribute, attached to a function argument variable which is a union, 
+  means to pass the argument in the same way that the first union member would 
+  be passed. You can also use this attribute on a <CODE>typedef</CODE> for a 
+  union data type; then it applies to all function arguments with that type. 
+  <P></P>
+  <DT><CODE>unused</CODE> 
+  <DD>This attribute, attached to a variable, means that the variable is meant 
+  to be possibly unused. GNU CC will not produce a warning for this variable. 
+  <P></P>
+  <DT><CODE>weak</CODE> 
+  <DD>The <CODE>weak</CODE> attribute is described in See <A 
+  href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Function_Attributes.html">Function 
+  Attributes</A>. </DD></DL>
+<P>To specify multiple attributes, separate them by commas within the double 
+parentheses: for example, `<SAMP>__attribute__ ((aligned (16), packed))</SAMP>'. 
+
+<P>
+<HR>
+Next: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/Type_Attributes.html">Type 
+Attributes</A> Up: <A 
+href="http://wwwwbs.cs.tu-berlin.de/user-taipan/kraxel/gnuinfo/gcc/C_Extensions.html">C 
+Extensions</A> </BODY></HTML>

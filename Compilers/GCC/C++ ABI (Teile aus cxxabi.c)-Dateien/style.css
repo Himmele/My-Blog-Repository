@@ -1,0 +1,60 @@
+H1 {
+	TEXT-ALIGN: center
+}
+A.qindex {
+	
+}
+A.qindexRef {
+	
+}
+A.el {
+	FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+A.elRef {
+	FONT-WEIGHT: bold
+}
+A.code {
+	FONT-WEIGHT: normal; COLOR: #4444ee; TEXT-DECORATION: none
+}
+A.codeRef {
+	FONT-WEIGHT: normal; COLOR: #4444ee
+}
+DL.el {
+	MARGIN-LEFT: -1cm
+}
+DIV.fragment {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BORDER-LEFT: medium none; WIDTH: 100%; BORDER-BOTTOM: medium none; BACKGROUND-COLOR: #eeeeee
+}
+DIV.ah {
+	MARGIN-TOP: 3px; MARGIN-BOTTOM: 3px; BACKGROUND-COLOR: black
+}
+TD.md {
+	BACKGROUND-COLOR: #f2f2ff
+}
+DIV.groupHeader {
+	MARGIN-TOP: 12px; FONT-WEIGHT: bold; MARGIN-BOTTOM: 6px; MARGIN-LEFT: 16px
+}
+DIV.groupText {
+	FONT-SIZE: smaller; MARGIN-LEFT: 16px; FONT-STYLE: italic
+}
+FONT.keyword {
+	COLOR: #008000
+}
+FONT.keywordtype {
+	COLOR: #604020
+}
+FONT.keywordflow {
+	COLOR: #e08000
+}
+FONT.comment {
+	COLOR: #800000
+}
+FONT.preprocessor {
+	COLOR: #806020
+}
+FONT.stringliteral {
+	COLOR: #002080
+}
+FONT.charliteral {
+	COLOR: #008080
+}

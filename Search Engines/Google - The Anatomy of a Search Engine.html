@@ -1,0 +1,1420 @@
+
+<!-- saved from url=(0048)http://infolab.stanford.edu/~backrub/google.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+   <meta name="WWW7-SIN" content="321">
+   <meta name="GENERATOR" content="Mozilla/4.04 [en] (WinNT; I) [Netscape]">
+   <title>The Anatomy of a Search Engine</title>
+</head>
+<body>
+
+<center>
+<h1>
+The Anatomy of a Large-Scale Hypertextual Web Search Engine</h1></center>
+
+<center><b>Sergey Brin and Lawrence Page</b></center>
+
+<center>{sergey, page}@cs.stanford.edu</center>
+
+<center>Computer Science Department, Stanford University, Stanford, CA
+94305</center>
+
+<center>
+<h3>
+Abstract</h3></center>
+
+<blockquote>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this paper, we present
+Google, a prototype of a large-scale search engine which makes heavy use
+of the structure present in hypertext. Google is designed to crawl and
+index the Web efficiently and produce much more satisfying search results
+than existing systems. The prototype with a full text and hyperlink database
+of at least 24 million pages is available at <a href="http://google.stanford.edu/">http://google.stanford.edu/</a>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To engineer a search engine is
+a challenging task. Search engines index tens to hundreds of millions of
+web pages involving a comparable number of distinct terms. They answer
+tens of millions of queries every day. Despite the importance of large-scale
+search engines on the web, very little academic research has been done
+on them. Furthermore, due to rapid advance in technology and web proliferation,
+creating a web search engine today is very different from three years ago.
+This paper provides an in-depth description of our large-scale web search
+engine -- the first such detailed public description we know of to date.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Apart from the problems of scaling
+traditional search techniques to data of this magnitude, there are new
+technical challenges involved with using the additional information present
+in hypertext to produce better search results. This paper addresses this
+question of how to build a practical large-scale system which can exploit
+the additional information present in hypertext. Also we look at the problem
+of how to effectively deal with uncontrolled hypertext collections where
+anyone can publish anything they want.
+<center><b>&nbsp;Keywords</b>: World Wide Web, Search Engines, Information
+Retrieval, PageRank, Google</center>
+</blockquote>
+
+<h2>
+1. Introduction</h2>
+<i>(Note: There are two versions of this paper -- a longer full version
+and a shorter printed version. The full version is available on the
+web and the conference CD-ROM.)</i>
+<br>The web creates new challenges for information retrieval. The amount
+of information on the web is growing rapidly, as well as the number of
+new users inexperienced in the art of web research. People are likely to
+surf the web using its link graph, often starting with high quality human
+maintained indices such as <a href="http://www.yahoo.com/">Yahoo!</a> or
+with search engines. Human maintained lists cover popular topics effectively
+but are subjective, expensive to build and maintain, slow to improve, and
+cannot cover all esoteric topics. Automated search engines that rely on
+keyword matching usually return too many low quality matches. To make matters
+worse, some advertisers attempt to gain people's attention by taking measures
+meant to mislead automated search engines. We have built a large-scale
+search engine which addresses many of the problems of existing systems.
+It makes especially heavy use of the additional structure present in hypertext
+to provide much higher quality search results. We chose our system name,
+Google, because it is a common spelling of googol, or 10<sup>100</sup>
+and fits well with our goal of building very large-scale search engines.
+<h3>
+1.1 Web Search Engines -- Scaling Up: 1994 - 2000</h3>
+Search engine technology has had to scale dramatically to keep up with
+the growth of the web. In 1994, one of the first web search engines, the
+World Wide Web Worm (WWWW) <a href="http://www.cs.colorado.edu/home/mcbryan/mypapers/www94.ps">[McBryan
+94] </a>had an index of 110,000 web pages and web accessible documents.
+As of November, 1997, the top search engines claim to index from 2 million
+(WebCrawler) to 100 million web documents (from <a href="http://www.searchenginewatch.com/">Search
+Engine Watch)</a>. It is foreseeable that by the year 2000, a comprehensive
+index of the Web will contain over a billion documents. At the same time,
+the number of queries search engines handle has grown incredibly too. In
+March and April 1994, the World Wide Web Worm received an average of about
+1500 queries per day. In November 1997, Altavista claimed it handled roughly
+20 million queries per day. With the increasing number of users on the
+web, and automated systems which query search engines, it is likely that
+top search engines will handle hundreds of millions of queries per day
+by the year 2000. The goal of our system is to address many of the problems,
+both in quality and scalability, introduced by scaling search engine technology
+to such extraordinary numbers.
+<h3>
+1.2. Google: Scaling with the Web</h3>
+Creating a search engine which scales even to today's web presents many
+challenges. Fast crawling technology is needed to gather the web documents
+and keep them up to date. Storage space must be used efficiently to store
+indices and, optionally, the documents themselves. The indexing system
+must process hundreds of gigabytes of data efficiently. Queries must be
+handled quickly, at a rate of hundreds to thousands per second.
+
+<p>These tasks are becoming increasingly difficult as the Web grows. However,
+hardware performance and cost have improved dramatically to partially offset
+the difficulty. There are, however, several notable exceptions to this
+progress such as disk seek time and operating system robustness. In designing
+Google, we have considered both the rate of growth of the Web and technological
+changes. Google is designed to scale well to extremely large data sets.
+It makes efficient use of storage space to store the index. Its data structures
+are optimized for fast and efficient access (see section <a href="http://infolab.stanford.edu/~backrub/google.html#data">4.2</a>).
+Further, we expect that the cost to index and store text or HTML will eventually
+decline relative to the amount that will be available (see <a href="http://infolab.stanford.edu/~backrub/google.html#b">Appendix
+B</a>). This will result in favorable scaling properties for centralized
+systems like Google.
+</p><h3>
+1.3 Design Goals</h3>
+
+<h4>
+1.3.1 Improved Search Quality</h4>
+Our main goal is to improve the quality of web search engines. In 1994,
+some people believed that a complete search index would make it possible
+to find anything easily. According to <a href="http://botw.org/1994/awards/navigators.html">Best
+of the Web 1994 -- Navigators,</a>&nbsp; "The best navigation service should
+make it easy to find almost anything on the Web (once all the data is entered)."&nbsp;
+However, the Web of 1997 is quite different. Anyone who has used a search
+engine recently, can readily testify that the completeness of the index
+is not the only factor in the quality of search results. "Junk results"
+often wash out any results that a user is interested in. In fact, as of
+November 1997, only one of the top four commercial search engines finds
+itself (returns its own search page in response to its name in the top
+ten results). One of the main causes of this problem is that the number
+of documents in the indices has been increasing by many orders of magnitude,
+but the user's ability to look at documents has not. People are still only
+willing to look at the first few tens of results. Because of this, as the
+collection size grows, we need tools that have very high precision (number
+of relevant documents returned, say in the top tens of results). Indeed,
+we want our notion of "relevant" to only include the very best documents
+since there may be tens of thousands of slightly relevant documents. This
+very high precision is important even at the expense of recall (the total
+number of relevant documents the system is able to return). There is quite
+a bit of recent optimism that the use of more hypertextual information
+can help improve search and other applications [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Marchiori
+97</a>] [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Spertus 97</a>] [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Weiss 96</a>] [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Kleinberg
+98</a>]. In particular, link structure
+[<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Page 98</a>] and link text provide a lot of information
+for making relevance judgments and quality filtering. Google makes use
+of both link structure and anchor text (see Sections <a href="http://infolab.stanford.edu/~backrub/google.html#pr">2.1</a>
+and <a href="http://infolab.stanford.edu/~backrub/google.html#anchor">2.2</a>).
+<h4>
+1.3.2 Academic Search Engine Research</h4>
+Aside from tremendous growth, the Web has also become increasingly commercial
+over time. In 1993, 1.5% of web servers were on .com domains. This number
+grew to over 60% in 1997. At the same time, search engines have migrated
+from the academic domain to the commercial. Up until now most search engine
+development has gone on at companies with little publication of technical
+details. This causes search engine technology to remain largely a black
+art and to be advertising oriented (see <a href="http://infolab.stanford.edu/~backrub/google.html#a">Appendix A</a>). With
+Google, we have a strong goal to push more development and understanding
+into the academic realm.
+
+<p>Another important design goal was to build systems that reasonable numbers
+of people can actually use. Usage was important to us because we think
+some of the most interesting research will involve leveraging the vast
+amount of usage data that is available from modern web systems. For example,
+there are many tens of millions of searches performed every day. However,
+it is very difficult to get this data, mainly because it is considered
+commercially valuable.
+
+</p><p>Our final design goal was to build an architecture that can support
+novel research activities on large-scale web data. To support novel research
+uses, Google stores all of the actual documents it crawls in compressed
+form. One of our main goals in designing Google was to set up an environment
+where other researchers can come in quickly, process large chunks of the
+web, and produce interesting results that would have been very difficult
+to produce otherwise. In the short time the system has been up, there have
+already been several papers using databases generated by Google, and many
+others are underway. Another goal we have is to set up a Spacelab-like
+environment where researchers or even students can propose and do interesting
+experiments on our large-scale web data.
+</p><h2>
+2. System Features</h2>
+The Google search engine has two important features that help it produce
+high precision results. First, it makes use of the link structure of the
+Web to calculate a quality ranking for each web page. This ranking is called
+PageRank and is described in detail in [Page 98]. Second, Google utilizes
+link to improve search results.
+<h3>
+<a name="pr"></a>2.1 PageRank: Bringing Order to the Web</h3>
+The citation (link) graph of the web is an important resource that has
+largely gone unused in existing web search engines. We have created maps
+containing as many as 518 million of these hyperlinks, a significant sample
+of the total. These maps allow rapid calculation of a web page's "PageRank",
+an objective measure of its citation importance that corresponds well with
+people's subjective idea of importance. Because of this correspondence,
+PageRank is an excellent way to prioritize the results of web keyword searches.
+For most popular subjects, a simple text matching search that is restricted
+to web page titles performs admirably when PageRank prioritizes the results
+(demo available at <a href="http://google.stanford.edu/">google.stanford.edu</a>).
+For the type of full text searches in the main Google system, PageRank
+also helps a great deal.
+<h4>
+2.1.1 Description of PageRank Calculation</h4>
+Academic citation literature has been applied to the web, largely by counting
+citations or backlinks to a given page. This gives some approximation of
+a page's importance or quality. PageRank extends this idea by not counting
+links from all pages equally, and by normalizing by the number of links
+on a page. PageRank is defined as follows:
+<blockquote><i>We assume page A has pages T1...Tn which point to it (i.e.,
+are citations). The parameter d is a damping factor which can be set between
+0 and 1. We usually set d to 0.85. There are more details about d in the
+next section. Also C(A) is defined as the number of links going out of
+page A. The PageRank of a page A is given as follows:</i>
+
+<p><i>PR(A) = (1-d) + d (PR(T1)/C(T1) + ... + PR(Tn)/C(Tn))</i>
+
+</p><p><i>Note that the PageRanks form a probability distribution over web
+pages, so the sum of all web pages' PageRanks will be one.</i></p></blockquote>
+PageRank or <i>PR(A) </i>can be calculated using a simple iterative algorithm,
+and corresponds to the principal eigenvector of the normalized link matrix
+of the web. Also, a PageRank for 26 million web pages can be computed in
+a few hours on a medium size workstation. There are many other details
+which are beyond the scope of this paper.
+<h4>
+2.1.2 Intuitive Justification</h4>
+PageRank can be thought of as a model of user behavior. We assume there
+is a "random surfer" who is given a web page at random and keeps clicking
+on links, never hitting "back" but eventually gets bored and starts on
+another random page. The probability that the random surfer visits a page
+is its PageRank. And, the <i>d</i> damping factor is the probability at
+each page the "random surfer" will get bored and request another random
+page. One important variation is to only add the damping factor <i>d</i>
+to a single page, or a group of pages. This allows for personalization
+and can make it nearly impossible to deliberately mislead the system in
+order to get a higher ranking. We have several other extensions to
+PageRank, again see [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Page 98</a>].
+
+<p>Another intuitive justification is that a page can have a high PageRank
+if there are many pages that point to it, or if there are some pages that
+point to it and have a high PageRank. Intuitively, pages that are well
+cited from many places around the web are worth looking at. Also, pages
+that have perhaps only one citation from something like the <a href="http://www.yahoo.com/">Yahoo!</a>
+homepage are also generally worth looking at. If a page was not high quality,
+or was a broken link, it is quite likely that Yahoo's homepage would not
+link to it. PageRank handles both these cases and everything in between
+by recursively propagating weights through the link structure of the web.
+</p><h3>
+<a name="anchor"></a>2.2 Anchor Text</h3>
+The text of links is treated in a special way in our search engine. Most
+search engines associate the text of a link with the page that the link
+is on. In addition, we associate it with the page the link points to. This
+has several advantages. First, anchors often provide more accurate descriptions
+of web pages than the pages themselves. Second, anchors may exist for documents
+which cannot be indexed by a text-based search engine, such as images,
+programs, and databases. This makes it possible to return web pages which
+have not actually been crawled. Note that pages that have not been crawled
+can cause problems, since they are never checked for validity before being
+returned to the user. In this case, the search engine can even return a
+page that never actually existed, but had hyperlinks pointing to it. However,
+it is possible to sort the results, so that this particular problem rarely
+happens.
+
+<p>This idea of propagating anchor text to the page it refers to was implemented
+in the World Wide Web Worm [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">McBryan 94</a>] especially because
+it helps search non-text information, and expands the search coverage with
+fewer downloaded documents. We use anchor propagation mostly because
+anchor text can help provide better quality results. Using anchor text
+efficiently is technically difficult because of the large amounts of data
+which must be processed. In our current crawl of 24 million pages,
+we had over 259 million anchors which we indexed.
+</p><h3>
+2.3 Other Features</h3>
+Aside from PageRank and the use of anchor text, Google has several other
+features. First, it has location information for all hits and so it makes
+extensive use of proximity in search. Second, Google keeps track of some
+visual presentation details such as font size of words. Words in a larger
+or bolder font are weighted higher than other words. Third, full raw HTML
+of pages is available in a repository.
+<h2>
+3 Related Work</h2>
+Search research on the web has a short and concise history. The World Wide
+Web Worm (WWWW) <a href="http://www.cs.colorado.edu/home/mcbryan/mypapers/www94.ps">[McBryan
+94] </a>was one of the first web search engines. It was subsequently followed
+by several other academic search engines, many of which are now public
+companies. Compared to the growth of the Web and the importance of
+search engines there are precious few documents about recent search engines
+[<a href="http://info.webcrawler.com/bp/WWW94.html">Pinkerton 94</a>].
+According to Michael Mauldin (chief scientist, Lycos Inc) <a href="http://www.computer.org/pubs/expert/1997/trends/x1008/mauldin.htm">[Mauldin]</a>,
+"the various services (including Lycos) closely guard the details of these
+databases". However, there has been a fair amount of work on specific features
+of search engines. Especially well represented is work which can get results
+by post-processing the results of existing commercial search engines, or
+produce small scale "individualized" search engines. Finally, there has
+been a lot of research on information retrieval systems, especially on
+well controlled collections. In the next two sections, we discuss some
+areas where this research needs to be extended to work better on the web.
+<h3>
+3.1 Information Retrieval</h3>
+Work in information retrieval systems goes back many years and is well
+developed [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Witten 94</a>]. However, most of the research
+on information retrieval systems is on small well controlled homogeneous
+collections such as collections of scientific papers or news stories on
+a related topic. Indeed, the primary benchmark for information retrieval,
+the Text Retrieval Conference [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">TREC 96</a>], uses a fairly
+small, well controlled collection for their benchmarks. The "Very Large
+Corpus" benchmark is only 20GB compared to the 147GB from our crawl of
+24 million web pages. Things that work well on TREC often do not produce
+good results on the web. For example, the standard vector space model tries
+to return the document that most closely approximates the query, given
+that both query and document are vectors defined by their word occurrence.
+On the web, this strategy often returns very short documents that are the
+query plus a few words. For example, we have seen a major search engine
+return a page containing only "Bill Clinton Sucks" and picture from a "Bill
+Clinton" query. Some argue that on the web, users should specify more accurately
+what they want and add more words to their query. We disagree vehemently
+with this position. If a user issues a query like "Bill Clinton" they should
+get reasonable results since there is a enormous amount of high quality
+information available on this topic. Given examples like these, we believe
+that the standard information retrieval work needs to be extended to deal
+effectively with the web.
+<h3>
+3.2 Differences Between the Web and Well Controlled Collections</h3>
+The web is a vast collection of completely uncontrolled heterogeneous documents.
+Documents on the web have extreme variation internal to the documents,
+and also in the external meta information that might be available. For
+example, documents differ internally in their language (both human and
+programming), vocabulary (email addresses, links, zip codes, phone numbers,
+product numbers), type or format (text, HTML, PDF, images, sounds), and
+may even be machine generated (log files or output from a database). On
+the other hand, we define external meta information as information that
+can be inferred about a document, but is not contained within it. Examples
+of external meta information include things like reputation of the source,
+update frequency, quality, popularity or usage, and citations. Not only
+are the possible sources of external meta information varied, but the things
+that are being measured vary many orders of magnitude as well. For example,
+compare the usage information from a major homepage, like Yahoo's which
+currently receives millions of page views every day with an obscure historical
+article which might receive one view every ten years. Clearly, these two
+items must be treated very differently by a search engine.
+
+<p>Another big difference between the web and traditional well controlled
+collections is that there is virtually no control over what people can
+put on the web. Couple this flexibility to publish anything with the enormous
+influence of search engines to route traffic and companies which deliberately
+manipulating search engines for profit become a serious problem.
+This problem that has not been addressed in traditional closed information
+retrieval systems. Also, it is interesting to note that metadata efforts
+have largely failed with web search engines, because any text on the page
+which is not directly represented to the user is abused to manipulate search
+engines. There are even numerous companies which specialize in manipulating
+search engines for profit.
+</p><h2>
+4 System Anatomy</h2>
+First, we will provide a high level discussion of the architecture. Then,
+there is some in-depth descriptions of important data structures. Finally,
+the major applications: crawling, indexing, and searching will be examined
+in depth.
+<div align="right"><table align="RIGHT" cols="1" width="27%">
+<tbody><tr>
+<td>
+<center><img src="./Google - The Anatomy of a Search Engine_files/over.gif" height="333" width="299" align="ABSBOTTOM"></center>
+
+<dl>
+<center>
+<dt>
+Figure 1. High Level Google Architecture</dt></center>
+</dl>
+</td>
+</tr>
+</tbody></table></div>
+&nbsp;&nbsp;
+<h3>
+4.1 Google Architecture Overview</h3>
+In this section, we will give a high level overview of how the whole system
+works as pictured in Figure 1. Further sections will discuss the applications
+and data structures not mentioned in this section. Most of Google is implemented
+in C or C++ for efficiency and can run in either Solaris or Linux.
+
+<p>In Google, the web crawling (downloading of web pages) is done by several
+distributed crawlers. There is a URLserver that sends lists of URLs to
+be fetched to the crawlers. The web pages that are fetched are then sent
+to the storeserver. The storeserver then compresses and stores the web
+pages into a repository. Every web page has an associated ID number called
+a docID which is assigned whenever a new URL is parsed out of a web page.
+The indexing function is performed by the indexer and the sorter. The indexer
+performs a number of functions. It reads the repository, uncompresses the
+documents, and parses them. Each document is converted into a set of word
+occurrences called hits. The hits record the word, position in document,
+an approximation of font size, and capitalization. The indexer distributes
+these hits into a set of "barrels", creating a partially sorted forward
+index. The indexer performs another important function. It parses
+out all the links in every web page and stores important information about
+them in an anchors file. This file contains enough information to determine
+where each link points from and to, and the text of the link.
+
+</p><p>The URLresolver reads the anchors file and converts relative URLs into
+absolute URLs and in turn into docIDs. It puts the anchor text into the
+forward index, associated with the docID that the anchor points to. It
+also generates a database of links which are pairs of docIDs. The links
+database is used to compute PageRanks for all the documents.
+
+</p><p>The sorter takes the barrels, which are sorted by docID (this is a simplification,
+see <a href="http://infolab.stanford.edu/~backrub/google.html#hits">Section 4.2.5</a>), and resorts them by wordID to generate
+the inverted index. This is done in place so that little temporary space
+is needed for this operation. The sorter also produces a list of wordIDs
+and offsets into the inverted index. A program called DumpLexicon takes
+this list together with the lexicon produced by the indexer and generates
+a new lexicon to be used by the searcher. The searcher is run by a web
+server and uses the lexicon built by DumpLexicon together with the inverted
+index and the PageRanks to answer queries.
+</p><h3>
+<a name="data"></a>4.2 Major Data Structures</h3>
+Google's data structures are optimized so that a large document collection
+can be crawled, indexed, and searched with little cost. Although, CPUs
+and bulk input output rates have improved dramatically over the years,
+a disk seek still requires about 10 ms to complete. Google is designed
+to avoid disk seeks whenever possible, and this has had a considerable
+influence on the design of the data structures.
+<h4>
+4.2.1 BigFiles</h4>
+BigFiles are virtual files spanning multiple file systems and are addressable
+by 64 bit integers. The allocation among multiple file systems is
+handled automatically. The BigFiles package also handles allocation and
+deallocation of file descriptors, since the operating systems do not provide
+enough for our needs. BigFiles also support rudimentary compression options.
+<h4>
+4.2.2 Repository</h4>
+&nbsp;&nbsp;
+<div align="right"><table align="RIGHT" cols="1" width="27%">
+<tbody><tr>
+<td>
+<center><img src="./Google - The Anatomy of a Search Engine_files/repos.gif" height="103" width="283"></center>
+
+<dl>
+<center>
+<dt>
+Figure 2. Repository Data Structure</dt></center>
+</dl>
+</td>
+</tr>
+</tbody></table></div>
+The repository contains the full HTML of every web page. Each page is
+compressed using zlib (see <a href="ftp://ftp.uu.net/graphics/png/documents/zlib/zdoc-index.html">RFC1950</a>).
+The choice of compression technique is a tradeoff between speed and compression
+ratio. We chose zlib's speed over a significant improvement in compression
+offered by <a href="http://www.muraroa.demon.co.uk/">bzip</a>. The compression
+rate of bzip was approximately 4 to 1 on the repository as compared to
+zlib's 3 to 1 compression. In the repository, the documents are stored
+one after the other and are prefixed by docID, length, and URL as can be
+seen in Figure 2. The repository requires no other data structures to be
+used in order to access it. This helps with data consistency and makes
+development much easier; we can rebuild all the other data structures from
+only the repository and a file which lists crawler errors.
+<h4>
+4.2.3 Document Index</h4>
+The document index keeps information about each document. It is a
+fixed width ISAM (Index sequential access mode) index, ordered by docID.
+The information stored in each entry includes the current document status,
+a pointer into the repository, a document checksum, and various statistics.
+If the document has been crawled, it also contains a pointer into a variable
+width file called docinfo which contains its URL and title. Otherwise
+the pointer points into the URLlist which contains just the URL. This design
+decision was driven by the desire to have a reasonably compact data structure,
+and the ability to fetch a record in one disk seek during a search
+
+<p>Additionally, there is a file which is used to convert URLs into docIDs. 
+It is a list of URL checksums with their corresponding docIDs and is sorted
+by checksum. In order to find the docID of a particular URL, the
+URL's checksum is computed and a binary search is performed on the checksums
+file to find its docID. URLs may be converted into docIDs in batch
+by doing a merge with this file. This is the technique the URLresolver
+uses to turn URLs into docIDs. This batch mode of update is crucial because
+otherwise we must perform one seek for every link which assuming one disk
+would take more than a month for our 322 million link dataset.
+</p><h4>
+4.2.4 Lexicon</h4>
+The lexicon has several different forms. One important change from
+earlier systems is that the lexicon can fit in memory for a reasonable
+price. In the current implementation we can keep the lexicon in memory
+on a machine with 256 MB of main memory. The current lexicon contains
+14 million words (though some rare words were not added to the lexicon).
+It is implemented in two parts -- a list of the words (concatenated together
+but separated by nulls) and a hash table of pointers. For various
+functions, the list of words has some auxiliary information which is beyond
+the scope of this paper to explain fully.
+<h4>
+<a name="hits"></a>4.2.5 Hit Lists</h4>
+A hit list corresponds to a list of occurrences of a particular word in
+a particular document including position, font, and capitalization information.
+Hit lists account for most of the space used in both the forward and the
+inverted indices. Because of this, it is important to represent them as
+efficiently as possible. We considered several alternatives for encoding
+position, font, and capitalization -- simple encoding (a triple of integers),
+a compact encoding (a hand optimized allocation of bits), and Huffman coding.
+In the end we chose a hand optimized compact encoding since it required
+far less space than the simple encoding and far less bit manipulation than
+Huffman coding. The details of the hits are shown in Figure 3.
+
+<p>Our compact encoding uses two bytes for every hit. There are two types
+of hits: fancy hits and plain hits. Fancy hits include hits occurring in
+a URL, title, anchor text, or meta tag. Plain hits include everything else.
+A plain hit consists of a capitalization bit, font size, and 12 bits of
+word position in a document (all positions higher than 4095 are labeled
+4096). Font size is represented relative to the rest of the document
+using three bits (only 7 values are actually used because 111 is the flag
+that signals a fancy hit). A fancy hit consists of a capitalization bit,
+the font size set to 7 to indicate it is a fancy hit, 4 bits to encode
+the type of fancy hit, and 8 bits of position. For anchor hits, the 8 bits
+of position are split into 4 bits for position in anchor and 4 bits for
+a hash of the docID the anchor occurs in. This gives us some limited phrase
+searching as long as there are not that many anchors for a particular word.
+We expect to update the way that anchor hits are stored to allow for greater
+resolution in the position and docIDhash fields. We use font size relative
+to the rest of the document because when searching, you do not want to
+rank otherwise identical documents differently just because one of the
+documents is in a larger font.
+</p><div align="right"><table align="RIGHT" cols="1" width="27%">
+<tbody><tr>
+<td>
+<center><img src="./Google - The Anatomy of a Search Engine_files/barrels.gif" height="293" width="294"></center>
+
+<dl>
+<center>
+<dt>
+Figure 3. Forward and Reverse Indexes and the Lexicon</dt></center>
+</dl>
+</td>
+</tr>
+</tbody></table></div>
+&nbsp;
+
+<p>The length of a hit list is stored before the hits themselves. To save
+space, the length of the hit list is combined with the wordID in the forward
+index and the docID in the inverted index. This limits it to 8 and 5 bits
+respectively (there are some tricks which allow 8 bits to be borrowed from
+the wordID). If the length is longer than would fit in that many bits,
+an escape code is used in those bits, and the next two bytes contain the
+actual length.
+</p><h4>
+4.2.6 Forward Index</h4>
+The forward index is actually already partially sorted. It is stored in
+a number of barrels (we used 64). Each barrel holds a range of wordID's.
+If a document contains words that fall into a particular barrel, the docID
+is recorded into the barrel, followed by a list of wordID's with hitlists
+which correspond to those words. This scheme requires slightly more storage
+because of duplicated docIDs but the difference is very small for a reasonable
+number of buckets and saves considerable time and coding complexity in
+the final indexing phase done by the sorter. Furthermore, instead of storing
+actual wordID's, we store each wordID as a relative difference from the
+minimum wordID that falls into the barrel the wordID is in. This way, we
+can use just 24 bits for the wordID's in the unsorted barrels, leaving
+8 bits for the hit list length.
+<h4>
+4.2.7 Inverted Index</h4>
+The inverted index consists of the same barrels as the forward index, except
+that they have been processed by the sorter. For every valid wordID, the
+lexicon contains a pointer into the barrel that wordID falls into. It points
+to a doclist of docID's together with their corresponding hit lists. This
+doclist represents all the occurrences of that word in all documents.
+
+<p>An important issue is in what order the docID's should appear in the
+doclist. One simple solution is to store them sorted by docID. This allows
+for quick merging of different doclists for multiple word queries. Another
+option is to store them sorted by a ranking of the occurrence of the word
+in each document. This makes answering one word queries trivial and makes
+it likely that the answers to multiple word queries are near the start.
+However, merging is much more difficult. Also, this makes development much
+more difficult in that a change to the ranking function requires a rebuild
+of the index. We chose a compromise between these options, keeping
+two sets of inverted barrels -- one set for hit lists which include title
+or anchor hits and another set for all hit lists. This way, we check the
+first set of barrels first and if there are not enough matches within those
+barrels we check the larger ones.
+</p><h3>
+4.3 Crawling the Web</h3>
+Running a web crawler is a challenging task. There are tricky performance
+and reliability issues and even more importantly, there are social issues.
+Crawling is the most fragile application since it involves interacting
+with hundreds of thousands of web servers and various name servers which
+are all beyond the control of the system.
+
+<p>In order to scale to hundreds of millions of web pages, Google has a
+fast distributed crawling system. A single URLserver serves lists of URLs
+to a number of crawlers (we typically ran about 3). Both the URLserver
+and the crawlers are implemented in Python. Each crawler keeps roughly
+300 connections open at once. This is necessary to retrieve web pages at
+a fast enough pace. At peak speeds, the system can crawl over 100 web pages
+per second using four crawlers. This amounts to roughly 600K per second
+of data. A major performance stress is DNS lookup. Each crawler maintains
+a its own DNS cache so it does not need to do a DNS lookup before crawling
+each document. Each of the hundreds of connections can be in a number
+of different states: looking up DNS, connecting to host, sending request,
+and receiving response. These factors make the crawler a complex
+component of the system. It uses asynchronous IO to manage events, and
+a number of queues to move page fetches from state to state.
+
+</p><p>It turns out that running a crawler which connects to more than half
+a million servers, and generates tens of millions of log entries generates
+a fair amount of email and phone calls. Because of the vast number of people
+coming on line, there are always those who do not know what a crawler is,
+because this is the first one they have seen. Almost daily, we receive
+an email something like, "Wow, you looked at a lot of pages from my web
+site. How did you like it?" There are also some people who do not know
+about the <a href="http://info.webcrawler.com/mak/projects/robots/norobots.html">robots
+exclusion protocol</a>, and think their page should be protected from indexing
+by a statement like, "This page is copyrighted and should not be indexed",
+which needless to say is difficult for web crawlers to understand. Also,
+because of the huge amount of data involved, unexpected things will happen.
+For example, our system tried to crawl an online game. This resulted in
+lots of garbage messages in the middle of their game! It turns out this
+was an easy problem to fix. But this problem had not come up until we had
+downloaded tens of millions of pages. Because of the immense variation
+in web pages and servers, it is virtually impossible to test a crawler
+without running it on large part of the Internet. Invariably, there are
+hundreds of obscure problems which may only occur on one page out of the
+whole web and cause the crawler to crash, or worse, cause unpredictable
+or incorrect behavior. Systems which access large parts of the Internet
+need to be designed to be very robust and carefully tested. Since large
+complex systems such as crawlers will invariably cause problems, there
+needs to be significant resources devoted to reading the email and solving
+these problems as they come up.
+</p><h3>
+4.4 Indexing the Web</h3>
+
+<ul>
+<li>
+<b>Parsing -- </b>Any parser which is designed to run on the entire Web
+must handle a huge array of possible errors. These range from typos in
+HTML tags to kilobytes of zeros in the middle of a tag, non-ASCII characters,
+HTML tags nested hundreds deep, and a great variety of other errors that
+challenge anyone's imagination to come up with equally creative ones.
+For maximum speed, instead of using YACC to generate a CFG parser, we use
+flex to generate a lexical analyzer which we outfit with its own stack.
+Developing this parser which runs at a reasonable speed and is very robust
+involved a fair amount of work.</li>
+
+<li>
+<b>Indexing</b> <b>Documents into Barrels -- </b>After each document is
+parsed, it is encoded into a number of barrels. Every word is converted
+into a wordID by using an in-memory hash table -- the lexicon. New additions
+to the lexicon hash table are logged to a file. Once the words are converted
+into wordID's, their occurrences in the current document are translated
+into hit lists and are written into the forward barrels. The main
+difficulty with parallelization of the indexing phase is that the lexicon
+needs to be shared. Instead of sharing the lexicon, we took the approach
+of writing a log of all the extra words that were not in a base lexicon,
+which we fixed at 14 million words. That way multiple indexers can run
+in parallel and then the small log file of extra words can be processed
+by one final indexer.</li>
+
+<li>
+<b>Sorting</b> -- In order to generate the inverted index, the sorter takes
+each of the forward barrels and sorts it by wordID to produce an inverted
+barrel for title and anchor hits and a full text inverted barrel. This
+process happens one barrel at a time, thus requiring little temporary storage.
+Also, we parallelize the sorting phase to use as many machines as we have
+simply by running multiple sorters, which can process different buckets
+at the same time. Since the barrels don't fit into main memory, the sorter
+further subdivides them into baskets which do fit into memory based on
+wordID and docID. Then the sorter, loads each basket into memory, sorts
+it and writes its contents into the short inverted barrel and the full
+inverted barrel.</li>
+</ul>
+
+<h3>
+4.5 Searching</h3>
+The goal of searching is to provide quality search results efficiently.
+Many of the large commercial search engines seemed to have made great progress
+in terms of efficiency. Therefore, we have focused more on quality of search
+in our research, although we believe our solutions are scalable to commercial
+volumes with a bit more effort. The google query evaluation process
+is show in Figure 4.
+<div align="right"><table align="RIGHT" border="2" cols="1" width="41%">
+<tbody><tr>
+<td>
+<ol>
+<li>
+Parse the query.</li>
+
+<li>
+Convert words into wordIDs.</li>
+
+<li>
+Seek to the start of the doclist in the short barrel for every word.</li>
+
+<li>
+Scan through the doclists until there is a document that matches all the
+search terms.</li>
+
+<li>
+Compute the rank of that document for the query.</li>
+
+<li>
+If we are in the short barrels and at the end of any doclist, seek to the
+start of the doclist in the full barrel for every word and go to step 4.</li>
+
+<li>
+If we are not at the end of any doclist go to step 4.</li>
+
+<br>Sort the documents that have matched by rank and return the top k.</ol>
+
+<dl>
+<center>
+<dt>
+Figure 4. Google Query Evaluation</dt></center>
+</dl>
+</td>
+</tr>
+</tbody></table></div>
+&nbsp;
+
+<p>To put a limit on response time, once a certain number (currently 40,000)
+of matching documents are found, the searcher automatically goes to step
+8 in Figure 4. This means that it is possible that sub-optimal results
+would be returned. We are currently investigating other ways to solve this
+problem. In the past, we sorted the hits according to PageRank, which seemed
+to improve the situation.
+</p><h4>
+4.5.1 The Ranking System</h4>
+Google maintains much more information about web documents than typical
+search engines. Every hitlist includes position, font, and capitalization
+information. Additionally, we factor in hits from anchor text and the PageRank
+of the document. Combining all of this information into a rank is difficult.
+We designed our ranking function so that no particular factor can have
+too much influence. First, consider the simplest case -- a single
+word query. In order to rank a document with a single word query, Google
+looks at that document's hit list for that word. Google considers each
+hit to be one of several different types (title, anchor, URL, plain text
+large font, plain text small font, ...), each of which has its own type-weight.
+The type-weights make up a vector indexed by type. Google counts the number
+of hits of each type in the hit list. Then every count is converted into
+a count-weight. Count-weights increase linearly with counts at first but
+quickly taper off so that more than a certain count will not help. We take
+the dot product of the vector of count-weights with the vector of type-weights
+to compute an IR score for the document. Finally, the IR score is combined
+with PageRank to give a final rank to the document.
+
+<p>For a multi-word search, the situation is more complicated. Now multiple
+hit lists must be scanned through at once so that hits occurring close
+together in a document are weighted higher than hits occurring far apart.
+The hits from the multiple hit lists are matched up so that nearby hits
+are matched together. For every matched set of hits, a proximity is computed.
+The proximity is based on how far apart the hits are in the document (or
+anchor) but is classified into 10 different value "bins" ranging from a
+phrase match to "not even close". Counts are computed not only for
+every type of hit but for every type and proximity. Every type and proximity
+pair has a type-prox-weight. The counts are converted into count-weights
+and we take the dot product of the count-weights and the type-prox-weights
+to compute an IR score. All of these numbers and matrices can all
+be displayed with the search results using a special debug mode. These
+displays have been very helpful in developing the ranking system.
+</p><h4>
+4.5.2 Feedback</h4>
+The ranking function has many parameters like the type-weights and the
+type-prox-weights. Figuring out the right values for these parameters is
+something of a black art. In order to do this, we have a user feedback
+mechanism in the search engine. A trusted user may optionally evaluate
+all of the results that are returned. This feedback is saved. Then when
+we modify the ranking function, we can see the impact of this change on
+all previous searches which were ranked. Although far from perfect, this
+gives us some idea of how a change in the ranking function affects the
+search results.
+<h2>
+5 Results and Performance</h2>
+&nbsp;&nbsp;
+<div align="right"><table align="RIGHT" border="2" cols="1" width="420">
+<tbody><tr>
+<td><b>Query: bill clinton</b>
+<br><font size="-1"><a href="http://www.whitehouse.gov/">http://www.whitehouse.gov/</a>&nbsp;</font>&nbsp;
+<br><font size="-1">100.00%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">
+(no date) (0K)&nbsp;</font>&nbsp;
+<br><font size="-1">http://www.whitehouse.gov/&nbsp;</font>&nbsp;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="-1"><a href="http://www.whitehouse.gov/WH/EOP/OP/html/OP_Home.html">Office
+of the President</a>&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 99.67%<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">
+(Dec 23 1996) (2K)&nbsp;&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.whitehouse.gov/WH/EOP/OP/html/OP_Home.html</font>&nbsp;
+<br><font size="-1">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp; <font size="-1"><a href="http://www.whitehouse.gov/WH/Welcome.html">Welcome
+To The White House</a>&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 99.98%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">
+(Nov 09 1997) (5K)</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.whitehouse.gov/WH/Welcome.html&nbsp;&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp; <font size="-1"><a href="http://www.whitehouse.gov/WH/Mail/html/Mail_President.html">Send
+Electronic Mail to the President</a>&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 99.86%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">
+(Jul 14 1997) (5K)&nbsp;&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.whitehouse.gov/WH/Mail/html/Mail_President.html&nbsp;</font>&nbsp;
+<br><font size="-1"><a href="mailto:president@whitehouse.gov">mailto:president@whitehouse.gov</a>&nbsp;</font>&nbsp;
+<br><font size="-1">99.98%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp; <font size="-1"><a href="mailto:President@whitehouse.gov">mailto:President@whitehouse.gov</a>&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 99.27%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="49"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="1">&nbsp;</font>&nbsp;
+<br><font size="-1"><a href="http://zpub.com/un/un-bc.html">The "Unofficial"
+Bill Clinton&nbsp;</a>&nbsp;</font>&nbsp;
+<br><font size="-1">94.06%<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="47"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="3">
+(Nov 11 1997) (14K)&nbsp;</font>&nbsp;
+<br><font size="-1">http://zpub.com/un/un-bc.html&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="-1"><a href="http://zpub.com/un/un-bc9.html">Bill
+Clinton Meets The Shrinks&nbsp;</a>&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 86.27%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="43"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="7">
+(Jun 29 1997) (63K)&nbsp;&nbsp;</font>&nbsp;
+<br><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://zpub.com/un/un-bc9.html&nbsp;</font>&nbsp;
+<br><font size="-1"><a href="http://www.realchange.org/clinton.htm">President
+Bill Clinton - The Dark Side</a>&nbsp;</font>&nbsp;
+<br><font size="-1">97.27%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="48"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="2">
+(Nov 10 1997) (15K)&nbsp;</font>&nbsp;
+<br><font size="-1">http://www.realchange.org/clinton.htm&nbsp;</font>&nbsp;
+<br><font size="-1"><a href="http://www.gatewy.net/~tjohnson/clinton1.html">$3
+Bill Clinton</a>&nbsp;</font>&nbsp;
+<br><font size="-1">94.73%&nbsp;<img src="./Google - The Anatomy of a Search Engine_files/red.gif" height="5" width="47"><img src="./Google - The Anatomy of a Search Engine_files/white.gif" height="5" width="3">
+(no date) (4K) http://www.gatewy.net/~tjohnson/clinton1.html&nbsp;</font>&nbsp;
+<dl>
+<center>
+<dt>
+Figure 4. Sample Results from Google</dt></center>
+</dl>
+</td>
+</tr>
+</tbody></table></div>
+The most important measure of a search engine is the quality of its search results. While
+a complete user evaluation is beyond the scope of this paper, our own experience
+with Google has shown it to produce better results than the major commercial
+search engines for most searches. As an example which illustrates the use
+of PageRank, anchor text, and proximity, Figure 4 shows Google's results
+for a search on "bill clinton". These results demonstrates some of
+Google's features. The results are clustered by server. This helps
+considerably when sifting through result sets. A number of results are
+from the whitehouse.gov domain which is what one may reasonably expect
+from such a search. Currently, most major commercial search engines do
+not return any results from whitehouse.gov, much less the right ones. Notice
+that there is no title for the first result. This is because it was not
+crawled. Instead, Google relied on anchor text to determine this was a
+good answer to the query. Similarly, the fifth result is an email address
+which, of course, is not crawlable. It is also a result of anchor text.
+
+<p>All of the results are reasonably high quality pages and, at last check,
+none were broken links. This is largely because they all have high PageRank.
+The PageRanks are the percentages in red along with bar graphs. Finally,
+there are no results about a Bill other than Clinton or about a Clinton
+other than Bill. This is because we place heavy importance on the proximity
+of word occurrences. Of course a true test of the quality of a search engine
+would involve an extensive user study or results analysis which we do not
+have room for here. Instead, we invite the reader to try Google for themselves
+at <a href="http://google.stanford.edu/">http://google.stanford.edu</a>.
+</p><h3>
+5.1 Storage Requirements</h3>
+Aside from search quality, Google is designed to scale cost effectively
+to the size of the Web as it grows. One aspect of this is to use storage
+efficiently. Table 1 has a breakdown of some statistics and storage requirements
+of Google. Due to compression the total size of the repository is
+about 53 GB, just over one third of the total data it stores. At current
+disk prices this makes the repository a relatively cheap source of useful
+data. More importantly, the total of all the data used by the search engine
+requires a comparable amount of storage, about 55 GB. Furthermore, most
+queries can be answered using just the short inverted index. With better
+encoding and compression of the Document Index, a high quality web search
+engine may fit onto a 7GB drive of a new PC.
+<br>&nbsp;&nbsp;
+<div align="right"><table align="RIGHT" cols="1" width="290">
+<tbody><tr align="RIGHT">
+<td align="RIGHT" width="100%">
+<table align="RIGHT" border="2">
+<tbody><tr>
+<th colspan="2">
+<center>Storage Statistics</center>
+</th>
+</tr>
+
+<tr>
+<td>Total Size of Fetched Pages</td>
+
+<td>147.8 GB</td>
+</tr>
+
+<tr>
+<td>Compressed Repository</td>
+
+<td>53.5 GB</td>
+</tr>
+
+<tr>
+<td>Short Inverted Index</td>
+
+<td>4.1 GB</td>
+</tr>
+
+<tr>
+<td>Full Inverted Index</td>
+
+<td>37.2 GB</td>
+</tr>
+
+<tr>
+<td>Lexicon</td>
+
+<td>293 MB</td>
+</tr>
+
+<tr>
+<td>Temporary Anchor Data&nbsp;
+<br>(not in total)</td>
+
+<td>6.6 GB</td>
+</tr>
+
+<tr>
+<td>Document Index Incl.&nbsp;
+<br>Variable Width Data</td>
+
+<td>9.7 GB</td>
+</tr>
+
+<tr>
+<td>Links Database</td>
+
+<td>3.9 GB</td>
+</tr>
+
+<tr>
+<th>Total Without Repository</th>
+
+<th>55.2 GB</th>
+</tr>
+
+<tr>
+<th>Total With Repository</th>
+
+<th>108.7 GB</th>
+</tr>
+</tbody></table>
+
+<center>&nbsp;</center>
+</td>
+</tr>
+
+<tr>
+<td align="RIGHT">
+<table align="LEFT" border="2">
+<tbody><tr>
+<th colspan="2">Web Page Statistics</th>
+</tr>
+
+<tr>
+<td>Number of Web Pages Fetched</td>
+
+<td>24 million</td>
+</tr>
+
+<tr>
+<td>Number of Urls Seen</td>
+
+<td>76.5 million</td>
+</tr>
+
+<tr>
+<td>Number of Email Addresses</td>
+
+<td>1.7 million</td>
+</tr>
+
+<tr>
+<td>Number of 404's</td>
+
+<td>1.6 million</td>
+</tr>
+</tbody></table>
+&nbsp;</td>
+</tr>
+
+<tr>
+<td>
+<center>Table 1. Statistics</center>
+</td>
+</tr>
+</tbody></table></div>
+&nbsp;&nbsp;
+<h3>
+&nbsp;5.2 System Performance</h3>
+It is important for a search engine to crawl and index efficiently. This
+way information can be kept up to date and major changes to the system
+can be tested relatively quickly. For Google, the major operations are
+Crawling, Indexing, and Sorting. It is difficult to measure how long
+crawling took overall because disks filled up, name servers crashed, or
+any number of other problems which stopped the system. In total it took
+roughly 9 days to download the 26 million pages (including errors). However,
+once the system was running smoothly, it ran much faster, downloading the
+last 11 million pages in just 63 hours, averaging just over 4 million pages
+per day or 48.5 pages per second. We ran the indexer and the crawler
+simultaneously. The indexer ran just faster than the crawlers. This is
+largely because we spent just enough time optimizing the indexer so that
+it would not be a bottleneck. These optimizations included bulk updates
+to the document index and placement of critical data structures on the
+local disk. The indexer runs at roughly 54 pages per second. The
+sorters can be run completely in parallel; using four machines, the whole
+process of sorting takes about 24 hours.
+<h3>
+5.3 Search Performance</h3>
+Improving the performance of search was not the major focus of our research
+up to this point. The current version of Google answers most queries in
+between 1 and 10 seconds. This time is mostly dominated by disk IO over
+NFS (since disks are spread over a number of machines). Furthermore, Google
+does not have any optimizations such as query caching, subindices on common
+terms, and other common optimizations. We intend to speed up Google considerably
+through distribution and hardware, software, and algorithmic improvements.
+Our target is to be able to handle several hundred queries per second.
+Table 2 has some sample query times from the current version of Google.
+They are repeated to show the speedups resulting from cached IO.
+<div align="right"><table align="RIGHT" width="350">
+<tbody><tr>
+<td>
+<center><table align="RIGHT" border="2" width="54%">
+<tbody><tr>
+<td>&nbsp;</td>
+
+<td colspan="2"><b>Initial Query</b></td>
+
+<td colspan="2"><b>Same Query Repeated (IO mostly cached)&nbsp;</b></td>
+</tr>
+
+<tr>
+<th><b>Query</b></th>
+
+<th><b>CPU Time(s)</b></th>
+
+<th><b>Total Time(s)</b></th>
+
+<td><b>CPU Time(s)</b></td>
+
+<td><b>Total Time(s)</b></td>
+</tr>
+
+<tr>
+<td>al gore</td>
+
+<td>0.09</td>
+
+<td>2.13</td>
+
+<td>0.06</td>
+
+<td>0.06</td>
+</tr>
+
+<tr>
+<td>vice president</td>
+
+<td>1.77</td>
+
+<td>3.84</td>
+
+<td>1.66</td>
+
+<td>1.80</td>
+</tr>
+
+<tr>
+<td>hard disks</td>
+
+<td>0.25</td>
+
+<td>4.86</td>
+
+<td>0.20</td>
+
+<td>0.24</td>
+</tr>
+
+<tr>
+<td>search engines</td>
+
+<td>1.31</td>
+
+<td>9.63</td>
+
+<td>1.16</td>
+
+<td>1.16</td>
+</tr>
+</tbody></table></center>
+&nbsp;</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<center>Table 2. Search Times</center>
+</td>
+</tr>
+</tbody></table></div>
+&nbsp;&nbsp;
+<h2>
+6 Conclusions</h2>
+Google is designed to be a scalable search engine. The primary goal is
+to provide high quality search results over a rapidly growing World Wide
+Web. Google employs a number of techniques to improve search quality including
+page rank, anchor text, and proximity information. Furthermore, Google
+is a complete architecture for gathering web pages, indexing them, and
+performing search queries over them.
+<h3>
+6.1 Future Work</h3>
+A large-scale web search engine is a complex system and much remains to
+be done. Our immediate goals are to improve search efficiency and to scale
+to approximately 100 million web pages. Some simple improvements to efficiency
+include query caching, smart disk allocation, and subindices. Another
+area which requires much research is updates. We must have smart algorithms
+to decide what old web pages should be recrawled and what new ones should
+be crawled. Work toward this goal has been done in [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Cho
+98</a>]. One promising area of research is using proxy caches to build
+search databases, since they are demand driven. We are planning to add
+simple features supported by commercial search engines like boolean operators,
+negation, and stemming. However, other features are just starting
+to be explored such as relevance feedback and clustering (Google currently
+supports a simple hostname based clustering). We also plan to support
+user context (like the user's location), and result summarization.
+We are also working to extend the use of link structure and link text.
+Simple experiments indicate PageRank can be personalized by increasing
+the weight of a user's home page or bookmarks. As for link text, we are
+experimenting with using text surrounding links in addition to the link
+text itself. A Web search engine is a very rich environment for research
+ideas. We have far too many to list here so we do not expect this Future
+Work section to become much shorter in the near future.
+<h3>
+6.2 High Quality Search</h3>
+The biggest problem facing users of web search engines today is the quality
+of the results they get back. While the results are often amusing and expand
+users' horizons, they are often frustrating and consume precious time.
+For example, the top result for a search for "Bill Clinton" on one of the
+most popular commercial search engines was the <a href="http://www.io.com/~cjburke/clinton/970414.html">Bill
+Clinton Joke of the Day: April 14, 1997</a>. Google is designed to
+provide higher quality search so as the Web continues to grow rapidly,
+information can be found easily. In order to accomplish this Google makes
+heavy use of hypertextual information consisting of link structure and
+link (anchor) text. Google also uses proximity and font information. While
+evaluation of a search engine is difficult, we have subjectively found
+that Google returns higher quality search results than current commercial
+search engines. The analysis of link structure via PageRank allows
+Google to evaluate the quality of web pages. The use of link text as a
+description of what the link points to helps the search engine return relevant
+(and to some degree high quality) results. Finally, the use of proximity
+information helps increase relevance a great deal for many queries.
+<h3>
+6.3 Scalable Architecture</h3>
+Aside from the quality of search, Google is designed to scale. It must
+be efficient in both space and time, and constant factors are very important
+when dealing with the entire Web. In implementing Google, we have seen
+bottlenecks in CPU, memory access, memory capacity, disk seeks, disk throughput,
+disk capacity, and network IO. Google has evolved to overcome a number
+of these bottlenecks during various operations. Google's major data structures
+make efficient use of available storage space. Furthermore, the crawling,
+indexing, and sorting operations are efficient enough to be able to build
+an index of a substantial portion of the web -- 24 million pages, in less
+than one week. We expect to be able to build an index of 100 million pages
+in less than a month.
+<h3>
+6.4 A Research Tool</h3>
+In addition to being a high quality search engine, Google is a research
+tool. The data Google has collected has already resulted in many other
+papers submitted to conferences and many more on the way. Recent research
+such as [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Abiteboul 97</a>] has shown a number of limitations
+to queries about the Web that may be answered without having the Web available
+locally. This means that Google (or a similar system) is not only a valuable
+research tool but a necessary one for a wide range of applications. We
+hope Google will be a resource for searchers and researchers all around
+the world and will spark the next generation of search engine technology.
+<h2>
+7 Acknowledgments</h2>
+Scott Hassan and Alan Steremberg have been critical to the development
+of Google. Their talented contributions are irreplaceable, and the authors
+owe them much gratitude. We would also like to thank Hector Garcia-Molina,
+Rajeev Motwani, Jeff Ullman, and Terry Winograd and the whole WebBase group
+for their support and insightful discussions. Finally we would like
+to recognize the generous support of our equipment donors
+IBM, Intel, and Sun and our funders.  
+The research described here was conducted as part of the Stanford
+Integrated Digital Library Project, supported by the National Science
+Foundation under Cooperative Agreement IRI-9411306. Funding for this
+cooperative agreement is also provided by DARPA and NASA, and by Interval Research, and the industrial partners of the Stanford Digital Libraries Project.
+<h2>
+References</h2>
+
+<ul>
+<li>
+Best of the Web 1994 -- Navigators <a href="http://botw.org/1994/awards/navigators.html">http://botw.org/1994/awards/navigators.html</a></li>
+
+<li>
+Bill Clinton Joke of the Day: April 14, 1997. <a href="http://www.io.com/~cjburke/clinton/970414.html">http://www.io.com/~cjburke/clinton/970414.html.</a></li>
+
+<li>
+Bzip2 Homepage <a href="http://www.muraroa.demon.co.uk/">http://www.muraroa.demon.co.uk/</a></li>
+
+<li>
+Google Search Engine <a href="http://google.stanford.edu/">http://google.stanford.edu/</a></li>
+
+<li>
+Harvest <a href="http://harvest.transarc.com/">http://harvest.transarc.com/</a></li>
+
+<li>
+Mauldin, Michael L. Lycos Design Choices in an Internet Search Service,
+IEEE Expert Interview <a href="http://www.computer.org/pubs/expert/1997/trends/x1008/mauldin.htm">http://www.computer.org/pubs/expert/1997/trends/x1008/mauldin.htm</a></li>
+
+<li>
+The Effect of Cellular Phone Use Upon Driver Attention <a href="http://www.webfirst.com/aaa/text/cell/cell0toc.htm">http://www.webfirst.com/aaa/text/cell/cell0toc.htm</a></li>
+
+<li>
+Search Engine Watch <a href="http://www.searchenginewatch.com/">http://www.searchenginewatch.com/</a></li>
+
+<li>
+RFC 1950 (zlib) <a href="ftp://ftp.uu.net/graphics/png/documents/zlib/zdoc-index.html">ftp://ftp.uu.net/graphics/png/documents/zlib/zdoc-index.html</a></li>
+
+<li>
+Robots Exclusion Protocol: <a href="http://info.webcrawler.com/mak/projects/robots/exclusion.html">http://info.webcrawler.com/mak/projects/robots/exclusion.htm</a></li>
+
+<li>
+Web Growth Summary: <a href="http://www.mit.edu/people/mkgray/net/web-growth-summary.html">http://www.mit.edu/people/mkgray/net/web-growth-summary.html</a></li>
+
+<li>
+Yahoo! <a href="http://www.yahoo.com/">http://www.yahoo.com/</a><a name="ref"></a></li>
+</ul>
+
+<ul>
+<li>
+[Abiteboul 97] Serge Abiteboul and Victor Vianu, <i>Queries and Computation
+on the Web</i>. Proceedings of the International Conference on Database
+Theory. Delphi, Greece 1997.</li>
+
+<li>
+[Bagdikian 97] Ben H. Bagdikian. <i>The Media Monopoly</i>. 5th Edition.
+Publisher: Beacon, ISBN: 0807061557</li>
+
+<li>
+[Chakrabarti 98] S.Chakrabarti, B.Dom, D.Gibson, J.Kleinberg, P. Raghavan and S. Rajagopalan.  
+<i>Automatic Resource Compilation by Analyzing Hyperlink Structure and Associated Text.</i>  Seventh International Web Conference
+(WWW 98). Brisbane, Australia, April 14-18, 1998.</li>
+
+<li>
+[Cho 98] Junghoo Cho, Hector Garcia-Molina, Lawrence Page. <i>Efficient
+Crawling Through URL Ordering.</i> Seventh International Web Conference
+(WWW 98). Brisbane, Australia, April 14-18, 1998.</li>
+
+<li>
+[Gravano 94] Luis Gravano, Hector Garcia-Molina, and A. Tomasic. <i>The
+Effectiveness of GlOSS for the Text-Database Discovery Problem.</i> Proc.
+of the 1994 ACM SIGMOD International Conference On Management Of Data,
+1994.</li>
+
+<li>
+[Kleinberg 98] Jon Kleinberg, <i>Authoritative Sources in a Hyperlinked
+Environment</i>, Proc. ACM-SIAM Symposium on Discrete Algorithms, 1998.</li>
+
+<li>
+[Marchiori 97] Massimo Marchiori. <i>The Quest for Correct Information
+on the Web: Hyper Search Engines.</i> The Sixth International WWW Conference
+(WWW 97). Santa Clara, USA, April 7-11, 1997.</li>
+
+<li>
+[McBryan 94] Oliver A. McBryan. GENVL and <i>WWWW: Tools for Taming the
+Web. First International Conference on the World Wide Web. </i>CERN, Geneva
+(Switzerland), May 25-26-27 1994. <a href="http://www.cs.colorado.edu/home/mcbryan/mypapers/www94.ps">http://www.cs.colorado.edu/home/mcbryan/mypapers/www94.ps</a></li>
+
+<li>
+[Page 98] Lawrence Page, Sergey Brin, Rajeev Motwani, Terry Winograd. <i>The
+PageRank Citation Ranking: Bringing Order to the Web. </i>Manuscript in
+progress. <a href="http://google.stanford.edu/~backrub/pageranksub.ps">http://google.stanford.edu/~backrub/pageranksub.ps</a></li>
+
+<li>
+[Pinkerton 94] Brian Pinkerton, <i>Finding What People Want: Experiences
+with the WebCrawler. </i>The Second International WWW Conference Chicago,
+USA, October 17-20, 1994. <a href="http://info.webcrawler.com/bp/WWW94.html">http://info.webcrawler.com/bp/WWW94.html</a></li>
+
+
+<li>
+[Spertus 97] Ellen Spertus. <i>ParaSite: Mining Structural Information
+on the Web. </i>The Sixth International WWW Conference (WWW 97). Santa
+Clara, USA, April 7-11, 1997.</li>
+
+<li>
+[TREC 96] <i>Proceedings of the fifth Text REtrieval Conference (TREC-5).
+</i>Gaithersburg, Maryland, November 20-22, 1996. Publisher: Department
+of Commerce, National Institute of Standards and Technology. Editors: D.
+K. Harman and E. M. Voorhees. Full text at: <a href="http://trec.nist.gov/">http://trec.nist.gov/</a></li>
+
+<li>
+[Witten 94] Ian H Witten, Alistair Moffat, and Timothy C. Bell. <i>Managing
+Gigabytes: Compressing and Indexing Documents and Images. </i>New York:
+Van Nostrand Reinhold, 1994.</li>
+
+<li>
+[Weiss 96] Ron Weiss, Bienvenido Velez, Mark A. Sheldon, Chanathip Manprempre,
+Peter Szilagyi, Andrzej Duda, and David K. Gifford. <i>HyPursuit: A Hierarchical
+Network Search Engine that Exploits Content-Link Hypertext Clustering.
+</i>Proceedings of the 7th ACM Conference on Hypertext. New York, 1996.</li>
+</ul>
+
+<h2>
+Vitae</h2>
+<img src="./Google - The Anatomy of a Search Engine_files/sergey.jpg" height="218" width="151" align="LEFT"><img src="./Google - The Anatomy of a Search Engine_files/larry.jpg" height="218" width="163" align="LEFT">
+<br><b>Sergey Brin</b> received his B.S. degree in mathematics and computer
+science from the University of Maryland at College Park in 1993. Currently,
+he is a Ph.D. candidate in computer science at Stanford University where
+he received his M.S. in 1995. He is a recipient of a National Science
+Foundation Graduate Fellowship. His research interests include search
+engines, information extraction from unstructured sources, and data mining
+of large text collections and scientific data.
+
+<p><b>Lawrence Page</b> was born in East Lansing, Michigan, and received
+a B.S.E. in Computer Engineering at the University of Michigan Ann Arbor
+in 1995. He is currently a Ph.D. candidate in Computer Science at
+Stanford University. Some of his research interests include the link
+structure of the web, human computer interaction, search engines, scalability
+of information access interfaces, and personal data mining.
+</p><h2>
+<a name="a"></a>8 Appendix A: Advertising and Mixed Motives</h2>
+Currently, the predominant business model for commercial search engines
+is advertising. The goals of the advertising business model do not always
+correspond to providing quality search to users. For example, in our prototype
+search engine one of the top results for cellular phone is "<a href="http://www.webfirst.com/aaa/text/cell/cell0toc.htm">The
+Effect of Cellular Phone Use Upon Driver Attention</a>", a study which
+explains in great detail the distractions and risk associated with conversing
+on a cell phone while driving. This search result came up first because
+of its high importance as judged by the PageRank algorithm, an approximation
+of citation importance on the web [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Page, 98</a>]. It is
+clear that a search engine which was taking money for showing cellular
+phone ads would have difficulty justifying the page that our system returned
+to its paying advertisers. For this type of reason and historical experience
+with other media [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Bagdikian 83</a>], we expect that advertising
+funded search engines will be inherently biased towards the advertisers
+and away from the needs of the consumers.
+
+<p>Since it is very difficult even for experts to evaluate search engines,
+search engine bias is particularly insidious. A good example was OpenText,
+which was reported to be selling companies the right to be listed at the
+top of the search results for particular queries [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Marchiori
+97</a>]. This type of bias is much more insidious than advertising, because
+it is not clear who "deserves" to be there, and who is willing to pay money
+to be listed. This business model resulted in an uproar, and OpenText has
+ceased to be a viable search engine. But less blatant bias are likely to
+be tolerated by the market. For example, a search engine could add a small
+factor to search results from "friendly" companies, and subtract a factor
+from results from competitors. This type of bias is very difficult to detect
+but could still have a significant effect on the market. Furthermore, advertising
+income often provides an incentive to provide poor quality search results.
+For example, we noticed a major search engine would not return a large
+airline's homepage when the airline's name was given as a query. It so
+happened that the airline had placed an expensive ad, linked to the query
+that was its name. A better search engine would not have required this
+ad, and possibly resulted in the loss of the revenue from the airline to
+the search engine. In general, it could be argued from the consumer point
+of view that the better the search engine is, the fewer advertisements
+will be needed for the consumer to find what they want. This of course
+erodes the advertising supported business model of the existing search
+engines. However, there will always be money from advertisers who want
+a customer to switch products, or have something that is genuinely new.
+But we believe the issue of advertising causes enough mixed incentives
+that it is crucial to have a competitive search engine that is transparent
+and in the academic realm.
+</p><h2>
+<a name="b"></a>9 Appendix B: Scalability</h2>
+
+<h3>
+9. 1 Scalability of Google</h3>
+We have designed Google to be scalable in the near term to a goal of 100
+million web pages. We have just received disk and machines to handle roughly
+that amount. All of the time consuming parts of the system are parallelize
+and roughly linear time. These include things like the crawlers, indexers,
+and sorters. We also think that most of the data structures will deal gracefully
+with the expansion. However, at 100 million web pages we will be very close
+up against all sorts of operating system limits in the common operating
+systems (currently we run on both Solaris and Linux). These include things
+like addressable memory, number of open file descriptors, network sockets
+and bandwidth, and many others. We believe expanding to a lot more than
+100 million pages would greatly increase the complexity of our system.
+<h3>
+9.2 Scalability of Centralized Indexing Architectures</h3>
+As the capabilities of computers increase, it becomes possible to index
+a very large amount of text for a reasonable cost. Of course, other more
+bandwidth intensive media such as video is likely to become more pervasive.
+But, because the cost of production of text is low compared to media like
+video, text is likely to remain very pervasive. Also, it is likely that
+soon we will have speech recognition that does a reasonable job converting
+speech into text, expanding the amount of text available. All of this provides
+amazing possibilities for centralized indexing. Here is an illustrative
+example. We assume we want to index everything everyone in the US has written
+for a year. We assume that there are 250 million people in the US and they
+write an average of 10k per day. That works out to be about 850 terabytes.
+Also assume that indexing a terabyte can be done now for a reasonable cost.
+We also assume that the indexing methods used over the text are linear,
+or nearly linear in their complexity. Given all these assumptions we can
+compute how long it would take before we could index our 850 terabytes
+for a reasonable cost assuming certain growth factors. Moore's Law was
+defined in 1965 as a doubling every 18 months in processor power. It has
+held remarkably true, not just for processors, but for other important
+system parameters such as disk as well. If we assume that Moore's law holds
+for the future, we need only 10 more doublings, or 15 years to reach our
+goal of indexing everything everyone in the US has written for a year for
+a price that a small company could afford. Of course, hardware experts
+are somewhat concerned Moore's Law may not continue to hold for the next
+15 years, but there are certainly a lot of interesting centralized applications
+even if we only get part of the way to our hypothetical example.
+
+<p>Of course a distributed systems like G<i>l</i>oss [<a href="http://infolab.stanford.edu/~backrub/google.html#ref">Gravano
+94</a>] or <a href="http://harvest.transarc.com/">Harvest</a> will often
+be the most efficient and elegant technical solution for indexing, but
+it seems difficult to convince the world to use these systems because of
+the high administration costs of setting up large numbers of installations.
+Of course, it is quite likely that reducing the administration cost drastically
+is possible. If that happens, and everyone starts running a distributed
+indexing system, searching would certainly improve drastically.
+
+</p><p>Because humans can only type or speak a finite amount, and as computers
+continue improving, text indexing will scale even better than it does now.
+Of course there could be an infinite amount of machine generated content,
+but just indexing huge amounts of human generated content seems tremendously
+useful. So we are optimistic that our centralized web search engine
+architecture will improve in its ability to cover the pertinent text information
+over time and that there is a bright future for search.
+<!-- Stanford Tags Project -->
+<script src="./Google - The Anatomy of a Search Engine_files/tags.js" type="text/javascript"></script><script src="./Google - The Anatomy of a Search Engine_files/tags.py" type="text/javascript"></script>
+<!-- Stanford Tags Project -->
+
+
+
+
+
+</p></body><style type="text/css">/*This block of style rules is inserted by AdBlock*/#RadAd_Skyscraper,#bbccom_leaderboard,#center_banner,#footer_adcode,#hbBHeaderSpon,#hiddenHeaderSpon,#navbar_adcode,#rightAds,#rightcolumn_adcode,#top-advertising,#topMPU,#tracker_advertorial,.ad-now,.dfpad,.prWrap,[id^="ad_block"],[id^="adbrite"],[id^="dclkAds"],[id^="ew"][id$="_bannerDiv"],[id^="konaLayer"],a.kLink span[id^="preLoadWrap"].preLoadWrap,a[href^="http://ad."][href*=".doubleclick.net/"],a[href^="http://adserver.adpredictive.com"],div#adxLeaderboard,div#dir_ads_site,div#FFN_Banner_Holder,div#FFN_imBox_Container,div#p360-format-box,div#rhs div#rhs_block table#mbEnd,div#rm_container,div#tads table[align="center"][width="100%"],div#tooltipbox[class^="itxt"],div[class^="dms_ad_IDS"],div[id^="adKontekst_"],div[id^="google_ads_div"],div[id^="kona_"][id$="_wrapper"],div[id^="sponsorads"],div[id^="y5_direct"],iframe.chitikaAdBlock,iframe[id^="dapIfM"],iframe[id^="etarget"][id$="banner"],iframe[name^="AdBrite"],iframe[name^="google_ads_"],img[src^="http://cdn.adnxs.com"],ispan#ab_pointer,object#flashad,object#ve_threesixty_swf[name="ve_threesixty_swf"],table[cellpadding="0"][width="100%"] > * > * > * > div[id^="tpa"],#A9AdsMiddleBoxTop,#A9AdsOutOfStockWidgetTop,#A9AdsServicesWidgetTop,#ADSLOT_1,#ADSLOT_2,#ADSLOT_3,#ADSLOT_4,#AD_CONTROL_22,#ADsmallWrapper,#Ad160x600,#Ad2,#Ad300x250,#Ad3Left,#Ad3Right,#Ad3TextAd,#AdA,#AdArea,#AdBanner_F1,#AdBar,#AdBar1,#AdC,#AdContainer,#AdContainerTop,#AdContentModule_F,#AdDetails_GoogleLinksBottom,#AdDetails_InsureWith,#AdE,#AdF,#AdFrame4,#AdG,#AdH,#AdI,#AdJ,#AdLeaderboardBottom,#AdLeaderboardTop,#AdMiddle,#AdMobileLink,#AdRectangle,#AdSenseDiv,#AdServer,#AdShowcase_F1,#AdSky23,#AdSkyscraper,#AdSponsor_SF,#AdSubsectionShowcase_F1,#AdTargetControl1_iframe,#AdText,#AdTop,#AdTopLeader,#Ad_BelowContent,#Ad_Block,#Ad_Center1,#Ad_Right1,#Ad_RightBottom,#Ad_RightTop,#Ad_Top,#Adrectangle,#Ads,#AdsContent,#AdsRight,#AdsWrap,#Ads_BA_CAD,#Ads_BA_CAD2,#Ads_BA_CAD_box,#Ads_BA_SKY,#Ads_CAD,#Ads_OV_BS,#Ads_Special,#AdvertMPU23b,#AdvertPanel,#Advertorial,#Advertorials,#BannerAd,#BannerAdvert,#BigBoxAd,#BodyAd,#BotAd,#Bottom468x60AD,#ButtonAd,#CompanyDetailsNarrowGoogleAdsPresentationControl,#CompanyDetailsWideGoogleAdsPresentationControl,#ContentAd,#ContentAd1,#ContentAd2,#ContentAdPlaceHolder1,#ContentAdPlaceHolder2,#ContentAdXXL,#ContentPolepositionAds_Result,#DartAd300x250,#DivAdEggHeadCafeTopBanner,#FIN_videoplayer_300x250ad,#FooterAd,#FooterAdContainer,#GoogleAd1,#GoogleAd2,#GoogleAd3,#GoogleAdsPresentationControl,#GoogleAdsense,#Google_Adsense_Main,#HEADERAD,#HOME_TOP_RIGHT_BOXAD,#HeaderAD,#HeaderAdsBlock,#HeaderAdsBlockFront,#HeaderBannerAdSpacer,#HeaderTextAd,#HeroAd,#HomeAd1,#HouseAd,#ID_Ad_Sky,#JobsearchResultsAds,#Journal_Ad_125,#Journal_Ad_300,#KH-contentAd,#LargeRectangleAd,#LeftAd,#LeftAdF1,#LeftAdF2,#LftAd,#LoungeAdsDiv,#LowerContentAd,#MainSponsoredLinks,#Nightly_adContainer,#NormalAdModule,#OverrideAdArea,#PREFOOTER_LEFT_BOXAD,#PREFOOTER_RIGHT_BOXAD,#PageLeaderAd,#RelevantAds,#RgtAd1,#RightAd,#RightBottom300x250AD,#RightNavTopAdSpot,#RightSponsoredAd,#SectionAd300-250,#SectionSponsorAd,#SideAdMpu,#SidebarAdContainer,#SkyAd,#SpecialAds,#SponsoredAd,#SponsoredLinks,#TOP_ADROW,#TOP_RIGHT_BOXAD,#Tadspacefoot,#Tadspacemrec,#Top468x60AD,#TopAdBox,#TopAdContainer,#TopAdDiv,#TopAdPos,#VM-MPU-adspace,#VM-footer-adspace,#VM-header-adspace,#VM-header-adwrap,#XEadLeaderboard,#XEadSkyscraper,#YahooAdParentContainer,#_ads,#about_adsbottom,#abovepostads,#ad-120x600-sidebar,#ad-120x60Div,#ad-160x600,#ad-160x600-sidebar,#ad-250,#ad-250x300,#ad-300,#ad-300x250,#ad-300x250-sidebar,#ad-300x250Div,#ad-300x60-1,#ad-376x280,#ad-728,#ad-728x90-leaderboard-top,#ad-728x90-top0,#ad-ads,#ad-article,#ad-banner,#ad-banner-1,#ad-billboard-bottom,#ad-block-125,#ad-bottom,#ad-bottom-wrapper,#ad-box-first,#ad-box-second,#ad-boxes,#ad-bs,#ad-buttons,#ad-colB-1,#ad-column,#ad-content,#ad-contentad,#ad-flex-first,#ad-footer,#ad-footprint-160x600,#ad-frame,#ad-front-footer,#ad-front-sponsoredlinks,#ad-halfpage,#ad-header-728x90,#ad-horizontal-header,#ad-img,#ad-inner,#ad-label,#ad-leaderboard,#ad-leaderboard-bottom,#ad-leaderboard-container,#ad-leaderboard-spot,#ad-leaderboard-top,#ad-left,#ad-links-content,#ad-list-row,#ad-lrec,#ad-medium,#ad-medium-rectangle,#ad-medrec,#ad-middlethree,#ad-middletwo,#ad-module,#ad-mpu,#ad-mpu1-spot,#ad-mpu2,#ad-mpu2-spot,#ad-north,#ad-one,#ad-placard,#ad-placeholder,#ad-rectangle,#ad-right,#ad-righttop,#ad-row,#ad-side-text,#ad-sidebar,#ad-sky,#ad-skyscraper,#ad-slug-wrapper,#ad-small-banner,#ad-space,#ad-special,#ad-splash,#ad-sponsors,#ad-spot,#ad-squares,#ad-target,#ad-target-Leaderbord,#ad-teaser,#ad-text,#ad-top-banner,#ad-top-text-low,#ad-top-wrap,#ad-tower,#ad-trailerboard-spot,#ad-two,#ad-typ1,#ad-unit,#ad-west,#ad-wrap,#ad-wrap-right,#ad-wrapper1,#ad-yahoo-simple,#ad-zone-1,#ad-zone-2,#ad-zone-inline,#ad01,#ad02,#ad1006,#ad11,#ad125BL,#ad125BR,#ad125TL,#ad125TR,#ad125x125,#ad160x600,#ad160x600right,#ad1Sp,#ad2,#ad2Sp,#ad300,#ad300-250,#ad300X250,#ad300_x_250,#ad300x100Middle,#ad300x150,#ad300x250,#ad300x250Module,#ad300x60,#ad300x600,#ad300x600_callout,#ad336,#ad336x280,#ad375x85,#ad4,#ad468,#ad468x60,#ad468x60_top,#ad526x250,#ad600,#ad7,#ad728,#ad728Mid,#ad728Top,#ad728Wrapper,#ad728top,#ad728x90_1,#ad90,#adBadges,#adBanner120x600,#adBanner160x600,#adBanner336x280,#adBanner728,#adBannerTable,#adBannerTop,#adBar,#adBelt,#adBlock125,#adBlockTop,#adBlocks,#adBox,#adBox350,#adBox390,#adCirc300X200,#adCirc_620_100,#adColumn,#adContainer_1,#adContainer_2,#adContainer_3,#adDiv300,#adDiv728,#adFiller,#adFps,#adFtofrs,#adGallery,#adGoogleText,#adGroup1,#adHeaderTop,#adIsland,#adL,#adLB,#adLabel,#adLayer,#adLeader,#adLeaderTop,#adLeaderboard,#adMPU,#adMediumRectangle,#adMiddle0Frontpage,#adMiniPremiere,#adP,#adPlaceHolderRight,#adPlacer,#adRight,#adSPLITCOLUMNTOPRIGHT,#adSenseModule,#adSenseWrapper,#adServer_marginal,#adSidebar,#adSidebarSq,#adSky,#adSkyscraper,#adSlider,#adSpace,#adSpace3,#adSpace300_ifrMain,#adSpace4,#adSpace5,#adSpace6,#adSpace7,#adSpace_footer,#adSpace_right,#adSpace_top,#adSpacer,#adSpecial,#adSplotlightEm,#adSpot-Leader,#adSpot-banner,#adSpot-island,#adSpot-mrec1,#adSpot-sponsoredlinks,#adSpot-textbox1,#adSpot-widestrip,#adSpotAdvertorial,#adSpotIsland,#adSpotSponsoredLinks,#adSquare,#adStaticA,#adStrip,#adSuperAd,#adSuperPremiere,#adSuperSkyscraper,#adSuperbanner,#adTableCell,#adTag1,#adTag2,#adText,#adTextLink,#adText_container,#adTile,#adTopContent,#adTopboxright,#adTower,#adUnit,#adZoneTop,#ad_1,#ad_130x250_inhouse,#ad_160x160,#ad_160x600,#ad_190x90,#ad_2,#ad_3,#ad_300,#ad_300_250,#ad_300_250_1,#ad_300a,#ad_300b,#ad_300c,#ad_300x250,#ad_300x250_content_column,#ad_300x90,#ad_4,#ad_468_60,#ad_5,#ad_728_foot,#ad_728x90,#ad_728x90_container,#ad_940,#ad_984,#ad_A,#ad_B,#ad_Banner,#ad_C,#ad_C2,#ad_D,#ad_E,#ad_F,#ad_G,#ad_H,#ad_I,#ad_J,#ad_K,#ad_L,#ad_M,#ad_N,#ad_O,#ad_P,#ad_YieldManager-300x250,#ad_YieldManager-728x90,#ad_anchor,#ad_banner,#ad_banner_top,#ad_bar,#ad_bellow_post,#ad_bigsize_wrapper,#ad_block_1,#ad_block_2,#ad_bottom,#ad_box,#ad_box_colspan,#ad_box_top,#ad_branding,#ad_bs_area,#ad_buttons,#ad_center_monster,#ad_cna2,#ad_cont,#ad_container_marginal,#ad_container_side,#ad_container_sidebar,#ad_container_top,#ad_content_top,#ad_content_wrap,#ad_feature,#ad_firstpost,#ad_footer,#ad_front_three,#ad_fullbanner,#ad_global_header,#ad_haha_1,#ad_haha_4,#ad_halfpage,#ad_head,#ad_header,#ad_holder,#ad_horizontal,#ad_horseshoe_left,#ad_horseshoe_right,#ad_horseshoe_spacer,#ad_horseshoe_top,#ad_hotpots,#ad_in_arti,#ad_island,#ad_label,#ad_large_rectangular,#ad_lastpost,#ad_layer2,#ad_leaderBoard,#ad_leaderboard,#ad_leaderboard728x90,#ad_leaderboard_top,#ad_left,#ad_lrec,#ad_lwr_square,#ad_main,#ad_medium_rectangle,#ad_medium_rectangular,#ad_mediumrectangle,#ad_menu_header,#ad_message,#ad_middle,#ad_most_pop_234x60_req_wrapper,#ad_mpu,#ad_mpu300x250,#ad_mpuav,#ad_mrcontent,#ad_overlay,#ad_play_300,#ad_rect,#ad_rect_body,#ad_rect_bottom,#ad_rectangle,#ad_rectangle_medium,#ad_related_links_div,#ad_related_links_div_program,#ad_replace_div_0,#ad_replace_div_1,#ad_report_leaderboard,#ad_report_rectangle,#ad_results,#ad_right,#ad_right_main,#ad_ros_tower,#ad_rr_1,#ad_sec,#ad_sec_div,#ad_sgd,#ad_sidebar,#ad_sidebar1,#ad_sidebar2,#ad_sidebar3,#ad_skyscraper,#ad_skyscraper160x600,#ad_skyscraper_text,#ad_slot_leaderboard,#ad_slot_livesky,#ad_slot_sky_top,#ad_ss,#ad_term_bottom_place,#ad_text:not(textarea),#ad_thread_first_post_content,#ad_top,#ad_top_holder,#ad_tp_banner_1,#ad_tp_banner_2,#ad_unit,#ad_vertical,#ad_wide,#ad_wide_box,#ad_widget,#ad_window,#ad_wrap,#adbForum,#adbanner,#adbig,#adbnr,#adboard,#adbottom,#adbox1,#adbox2,#adbutton,#adclear,#adcode,#adcode1,#adcode2,#adcode3,#adcode4,#adcolumnwrapper,#adcontainer,#adcontainer1,#adcontainerRight,#adcontainsm,#adcontent1,#adcontrolPushSite,#add_ciao2,#addbottomleft,#addiv-bottom,#addiv-top,#adfooter,#adfooter_728x90,#adframe:not(frameset),#adhead,#adhead_g,#adheader,#adhome,#adiframe1_iframe,#adiframe2_iframe,#adiframe3_iframe,#adimg,#adition_content_ad,#adlabel,#adlabelFooter,#adlayerad,#adleaderboard,#adleaderboard_flex,#adleaderboardb,#adleaderboardb_flex,#adleft,#adlinks,#adlinkws,#adlrec,#admid,#admiddle3center,#admiddle3left,#adposition,#adposition-C,#adposition-FPMM,#adposition1,#adposition2,#adposition4,#adrectangle,#adrectanglea,#adrectanglea_flex,#adrectangleb,#adrectangleb_flex,#adrig,#adright,#adright2,#adrighthome,#ads-468,#ads-area,#ads-block,#ads-bot,#ads-bottom,#ads-col,#ads-dell,#ads-horizontal,#ads-indextext,#ads-leaderboard1,#ads-lrec,#ads-menu,#ads-middle,#ads-prices,#ads-rhs,#ads-right,#ads-sponsored-boxes,#ads-top,#ads-vers7,#ads-wrapper,#ads120,#ads160left,#ads2,#ads300,#ads300-250,#ads300Bottom,#ads300Top,#ads336x280,#ads7,#ads728bottom,#ads728top,#ads790,#adsDisplay,#adsID,#ads_160,#ads_300,#ads_728,#ads_banner,#ads_belowforumlist,#ads_belownav,#ads_bottom_inner,#ads_bottom_outer,#ads_box,#ads_button,#ads_catDiv,#ads_footer,#ads_fullsize,#ads_html1,#ads_html2,#ads_medrect,#ads_notice,#ads_right,#ads_right_sidebar,#ads_sidebar_roadblock,#ads_space,#ads_top,#ads_watch_top_square,#ads_zone27,#adsbottom,#adsbox,#adscolumn,#adsd_contentad_r1,#adsd_contentad_r2,#adsd_contentad_r3,#adsd_topbanner,#adsd_txt_sky,#adsdiv,#adsense-2,#adsense-header,#adsense-tag,#adsense-text,#adsense1,#adsenseLeft,#adsenseOne,#adsenseWrap,#adsense_article_left,#adsense_box,#adsense_box_video,#adsense_leaderboard,#adsense_overlay,#adsense_placeholder_2,#adsenseheader,#adsensetopplay,#adsensewidget-3,#adserv,#adsimage,#adsky,#adskyscraper,#adslot,#adsonar,#adspace-300x250,#adspace300x250,#adspaceBox,#adspaceBox300,#adspace_header,#adspot,#adspot-1,#adspot-149x170,#adspot-1x4,#adspot-2,#adspot-295x60,#adspot-2a,#adspot-2b,#adspot-300x250-pos-1,#adspot-300x250-pos-2,#adspot-468x60-pos-2,#adspot-a,#adspot300x250,#adspot_220x90,#adspot_300x250,#adspot_468x60,#adspot_728x90,#adsquare,#adsright,#adst,#adstop,#adt,#adtab,#adtag_right_side,#adtaily-widget-light,#adtech_googleslot_03c,#adtech_takeover,#adtop,#adtophp,#adtxt,#adv-masthead,#adv_google_300,#adv_google_728,#adv_top_banner_wrapper,#adver1,#adver2,#adver3,#adver4,#adver5,#adver6,#adver7,#advert-1,#advert-120,#advert-boomer,#advert-display,#advert-header,#advert-leaderboard,#advert-links-bottom,#advert-skyscraper,#advert-top,#advert1,#advertBanner,#advertContainer,#advertDB,#advertRight,#advert_125x125,#advert_250x250,#advert_box,#advert_home01,#advert_leaderboard,#advert_lrec_format,#advert_mid,#advert_mpu,#advert_mpu_1,#advert_right_skyscraper,#advert_sky,#advertbox,#advertbox2,#advertbox3,#advertbox4,#adverthome,#advertise-here-sidebar,#advertise-now,#advertise1,#advertiseHere,#advertisement160x600,#advertisement728x90,#advertisementLigatus,#advertisementPrio2,#advertisementsarticle,#advertiser-container,#advertiserLinks,#advertisers,#advertising-banner,#advertising-caption,#advertising-container,#advertising-control,#advertising-skyscraper,#advertising2,#advertisingModule160x600,#advertisingModule728x90,#advertisingTopWrapper,#advertising_btm,#advertising_horiz_cont,#advertisment,#advertismentElementInUniversalbox,#advertorial,#adverts-top-container,#adverts-top-left,#adverts-top-middle,#adverts-top-right,#advertsingle,#advt,#adwhitepaperwidget,#adwin_rec,#adwith,#adwords-4-container,#adxBigAd,#adxMiddle5,#adxSponLink,#adxSponLinkA,#adxtop,#adz,#adzbanner,#adzerk,#adzerk1,#adzoneBANNER,#affinityBannerAd,#agi-ad300x250,#agi-ad300x250overlay,#agi-sponsored,#alert_ads,#anchorAd,#annoying_ad,#ap_adframe,#apiBackgroundAd,#apiTopAdWrap,#apmNADiv,#araHealthSponsorAd,#area-adcenter,#area1ads,#article-ad-container,#article-box-ad,#articleAdReplacement,#articleLeftAdColumn,#articleSideAd,#article_ad,#article_ad_container,#article_box_ad,#asinglead,#atlasAdDivGame,#awds-nt1-ad,#babAdTop,#banner-300x250,#banner-ad,#banner-ad-container,#banner-ads,#banner250x250,#banner468x60,#banner728x90,#bannerAd,#bannerAdTop,#bannerAdWrapper,#bannerAd_ctr,#banner_ad,#banner_ad_footer,#banner_ad_module,#banner_admicro,#banner_ads,#banner_content_ad,#banner_topad,#bannerad2,#baseAdvertising,#basket-adContainer,#bbccom_mpu,#bbo_ad1,#bg-footer-ads,#bg-footer-ads2,#bg_YieldManager-160x600,#bg_YieldManager-300x250,#bg_YieldManager-728x90,#bigAd,#bigBoxAd,#bigad300outer,#bigadbox,#bigadframe,#bigadspot,#billboard_ad,#block-ad_cube-1,#block-openads-0,#block-openads-1,#block-openads-2,#block-openads-3,#block-openads-4,#block-openads-5,#block-thewrap_ads_250x300-0,#blog-ad,#blog_ad_content,#blog_ad_opa,#blox-big-ad,#blox-big-ad-bottom,#blox-big-ad-top,#blox-halfpage-ad,#blox-tile-ad,#blox-tower-ad,#body_728_ad,#book-ad,#botad,#bott_ad2,#bott_ad2_300,#bottom-ad,#bottom-ad-container,#bottom-ad-wrapper,#bottom-ads,#bottomAd,#bottomAdCCBucket,#bottomAdContainer,#bottomAdSense,#bottomAdSenseDiv,#bottomAds,#bottomRightAd,#bottomRightAdSpace,#bottom_ad,#bottom_ad_area,#bottom_ad_unit,#bottom_ads,#bottom_banner_ad,#bottom_overture,#bottom_sponsor_ads,#bottom_sponsored_links,#bottom_text_ad,#bottomad,#bottomads,#bottomadsense,#bottomadwrapper,#bottomleaderboardad,#box-content-ad,#box-googleadsense-1,#box-googleadsense-r,#box1ad { visibility:hidden !important; display:none !important; } #boxAd300,#boxAdContainer,#box_ad,#box_advertisment,#box_mod_googleadsense,#boxad1,#boxad2,#boxad3,#boxad4,#boxad5,#bpAd,#bps-header-ad-container,#btr_horiz_ad,#burn_header_ad,#button-ads-horizontal,#button-ads-vertical,#buttonAdWrapper1,#buttonAdWrapper2,#buttonAds,#buttonAdsContainer,#button_ad_container,#button_ad_wrap,#buttonad,#buy-sell-ads,#c4ad-Middle1,#c_ad_sb,#c_ad_sky,#caAdLarger,#catad,#category-ad,#cellAd,#channel_ad,#channel_ads,#ciHomeRHSAdslot,#circ_ad,#closeable-ad,#cnnRR336ad,#cnnTopAd,#cnnVPAd,#col3_advertising,#colAd,#colRightAd,#collapseobj_adsection,#column4-google-ads,#comments-ad-container,#commercial_ads,#common_right_ad_wrapper,#common_right_lower_ad_wrapper,#common_right_lower_adspace,#common_right_lower_player_ad_wrapper,#common_right_lower_player_adspace,#common_right_player_ad_wrapper,#common_right_player_adspace,#common_right_right_adspace,#common_top_adspace,#companion-ad,#companionAdDiv,#companionad,#containerLocalAds,#containerLocalAdsInner,#containerMrecAd,#containerSqAd,#content-ad-header,#content-header-ad,#content-left-ad,#content-right-ad,#contentBoxad,#contentTopAds2,#content_ad_square,#content_ad_top,#content_ads_content,#content_box_300body_sponsoredoffers,#content_box_adright300_google,#content_mpu,#contentad,#contentad_imtext,#contentad_right,#contentads,#contentinlineAd,#contextad,#contextual-ads,#contextual-ads-block,#contextualad,#coverads,#ctl00_Adspace_Top_Height,#ctl00_BottomAd,#ctl00_ContentMain_BanManAd468_BanManAd,#ctl00_ContentPlaceHolder1_blockAdd_divAdvert,#ctl00_ContentRightColumn_RightColumn_Ad1_BanManAd,#ctl00_ContentRightColumn_RightColumn_Ad2_BanManAd,#ctl00_ContentRightColumn_RightColumn_PremiumAd1_ucBanMan_BanManAd,#ctl00_LHTowerAd,#ctl00_LeftHandAd,#ctl00_MasterHolder_IBanner_adHolder,#ctl00_TopAd,#ctl00_TowerAd,#ctl00_VBanner_adHolder,#ctl00__Content__RepeaterReplies_ctl03__AdReply,#ctl00_abot_bb,#ctl00_adFooter,#ctl00_advert_LargeMPU_div_AdPlaceHolder,#ctl00_atop_bt,#ctl00_cphMain_hlAd1,#ctl00_cphMain_hlAd2,#ctl00_cphMain_hlAd3,#ctl00_ctl00_MainPlaceHolder_itvAdSkyscraper,#ctl00_ctl00_ctl00_Main_Main_PlaceHolderGoogleTopBanner_MPTopBannerAd,#ctl00_ctl00_ctl00_Main_Main_SideBar_MPSideAd,#ctl00_dlTilesAds,#ctl00_m_skinTracker_m_adLBL,#ctl00_phCrackerMain_ucAffiliateAdvertDisplayMiddle_pnlAffiliateAdvert,#ctl00_phCrackerMain_ucAffiliateAdvertDisplayRight_pnlAffiliateAdvert,#ctrlsponsored,#cubeAd,#cube_ads,#cube_ads_inner,#cubead,#cubead-2,#dItemBox_ads,#dart_160x600,#dc-display-right-ad-1,#dcol-sponsored,#defer-adright,#detail_page_vid_topads,#div-gpt-ad-1,#div-gpt-ad-2,#div-gpt-ad-3,#div-gpt-ad-4,#divAdBox,#divAdWrapper,#divBottomad1,#divBottomad2,#divDoubleAd,#divLeftAd12,#divLeftRecAd,#divMenuAds,#divWNAdHeader,#divWrapper_Ad,#div_ad_leaderboard,#div_video_ads,#dlads,#dni-header-ad,#dnn_adLeaderBoard2008,#dnn_ad_banner,#download_ads,#dp_ads1,#ds-mpu,#editorsmpu,#embedded-ad,#evotopTen_advert,#ex-ligatus,#exads,#featured-advertisements,#featuredAdContainer2,#featuredAds,#feed_links_ad_container,#first-300-ad,#first-adlayer,#first_ad_unit,#firstad,#fl_hdrAd,#flash_ads_1,#flexiad,#foot-ad-1,#footad,#footer-ad,#footer-advert,#footer-adverts,#footer-sponsored,#footerAd,#footerAdDiv,#footerAds,#footerAdvertisement,#footerAdverts,#footer_ad_01,#footer_ad_block,#footer_ad_container,#footer_ad_modules,#footer_adspace,#footer_text_ad,#footerad,#footerads,#footeradsbox,#forum_top_ad,#four_ads,#fpad1,#fpad2,#fpv_companionad,#fr_ad_center,#frame_admain,#frnAdSky,#frnBannerAd,#frnContentAd,#front_advert,#front_mpu,#ft-ad,#ft-ad-1,#ft-ad-container,#ft_mpu,#fullsizebanner_468x60,#fusionad,#fw-advertisement,#g_ad,#g_adsense,#ga_300x250,#gad,#gad2,#gad3,#gad5,#galleries-tower-ad,#gallery-ad-m0,#gallery_ads,#game-info-ad,#gamead,#gasense,#gglads,#global_header_ad_area,#gmi-ResourcePageAd,#gmi-ResourcePageLowerAd,#goad1,#gooadtop,#google-ad,#google-ad-art,#google-ad-table-right,#google-ad-tower,#google-ads,#google-ads-bottom,#google-ads-header,#google-ads-left-side,#google-adsense-mpusize,#googleAd,#googleAdArea,#googleAds,#googleAdsSml,#googleAdsense,#googleAdsenseBanner,#googleAdsenseBannerBlog,#googleAdwordsModule,#googleAfcContainer,#googleSearchAds,#googleShoppingAdsRight,#googleShoppingAdsTop,#googleSubAds,#google_ad,#google_ad_container,#google_ad_inline,#google_ad_test,#google_ads,#google_ads_aCol,#google_ads_frame1,#google_ads_frame1_anchor,#google_ads_frame2,#google_ads_frame2_anchor,#google_ads_frame3,#google_ads_frame3_anchor,#google_ads_test,#google_ads_top,#google_adsense_home_468x60_1,#googlead2,#googleadbox,#googleads,#googleadsense,#googlesponsor,#gpt-ad-halfpage,#gpt-ad-rectangle1,#gpt-ad-rectangle2,#gpt-ad-skyscraper,#gpt-ad-story_rectangle3,#grid_ad,#gsyadrectangleload,#gsyadrightload,#gsyadtop,#gsyadtopload,#gtopadvts,#half-page-ad,#halfPageAd,#halfe-page-ad-box,#hd-ads,#hd-banner-ad,#hdtv_ad_ss,#head-ad-1,#headAd,#head_advert,#headad,#header-ad,#header-ad-rectangle-container,#header-ads,#header-adspace,#header-advert,#header-advertisement,#header-advertising,#header-adverts,#headerAd,#headerAdBackground,#headerAdContainer,#headerAdWrap,#headerAds,#headerAdsWrapper,#headerTopAd,#header_ad_728_90,#header_ad_container,#header_adcode,#header_ads,#header_advertisement_top,#header_leaderboard_ad_container,#header_publicidad,#headerad,#headeradbox,#headerads,#headeradsbox,#headeradwrap,#headline_ad,#headlinesAdBlock,#hiddenadAC,#hideads,#hl-sponsored-results,#hly_ad_side_bar_tower_left,#home-advert-module,#home-rectangle-ad,#homeMPU,#homeTopRightAd,#home_ad,#home_bottom_ad,#home_contentad,#home_feature_ad,#home_mpu,#home_spensoredlinks,#homepage-ad,#homepageAdsTop,#homepageFooterAd,#homepage_right_ad,#homepage_right_ad_container,#homepage_top_ads,#hometop_234x60ad,#hor_ad,#horizontal-banner-ad,#horizontal_ad,#horizontal_ad_top,#horizontalads,#houseAd,#hp-header-ad,#hp-right-ad,#hp-store-ad,#hpV2_300x250Ad,#hpV2_googAds,#hp_ad300x250,#icePage_SearchLinks_AdRightDiv,#icePage_SearchLinks_DownloadToolbarAdRightDiv,#icePage_SearchResults_ads0_SponsoredLink,#icePage_SearchResults_ads1_SponsoredLink,#icePage_SearchResults_ads2_SponsoredLink,#icePage_SearchResults_ads3_SponsoredLink,#icePage_SearchResults_ads4_SponsoredLink,#imu_ad_module,#in_serp_ad,#inadspace,#indexad,#inline-story-ad,#inlineAd,#inlinead,#inlinegoogleads,#inlist-ad-block,#inner-advert-row,#innerpage-ad,#inside-page-ad,#insider_ad_wrapper,#instoryad,#instoryadtext,#instoryadwrap,#int-ad,#interstitial_ad_wrapper,#islandAd,#j_ad,#ji_medShowAdBox,#jmp-ad-buttons,#joead,#joead2,#ka_adRightSkyscraperWide,#kaufDA-widget,#kdz_ad1,#kdz_ad2,#landing-adserver,#lapho-top-ad-1,#largead,#lateAd,#layerAds_layerDiv,#layerTLDADSERV,#leader-board-ad,#leaderAd,#leaderAdContainer,#leader_board_ad,#leaderad,#leaderad_section,#leaderboard-ad,#leaderboard-bottom-ad,#leaderboard_ad,#left-ad-skin,#left-lower-adverts,#left-lower-adverts-container,#leftAdContainer,#leftAd_rdr,#leftAdvert,#leftSectionAd300-100,#left_ad,#left_adspace,#leftad,#leftads,#leftcolAd,#lg-banner-ad,#ligatus,#linkAds,#linkads,#live-ad,#logoAd,#longAdSpace,#lowerAdvertisementImg,#lowerads,#lowerthirdad,#lowertop-adverts,#lowertop-adverts-container,#lpAdPanel,#lrecad,#lsadvert-left_menu_1,#lsadvert-left_menu_2,#lsadvert-top,#mBannerAd,#main-ad,#main-ad160x600,#main-ad160x600-img,#main-ad728x90,#main-bottom-ad,#mainAdUnit,#mainAdvert,#main_ad,#main_rec_ad,#main_top_ad_container,#marketing-promo,#mastAd,#mastAdvert,#mastad,#mastercardAd,#masthead_ad,#masthead_topad,#medRecAd,#media_ad,#mediaplayer_adburner,#mediumAdvertisement,#medrectad,#menuAds,#mi_story_assets_ad,#mid-ad300x250,#mid-table-ad,#midRightTextAds,#mid_ad_div,#mid_ad_title,#mid_mpu,#midadd,#midadspace,#middle-ad,#middle_body_advertising,#middlead,#midrect_ad,#midstrip_ad,#mini-ad,#mochila-column-right-ad-300x250,#mochila-column-right-ad-300x250-1,#module-google_ads,#module_ad,#module_box_ad,#module_sky_scraper,#monsterAd,#moogleAd,#most_popular_ad,#motionAd,#mpu,#mpu-advert,#mpu-cont,#mpu300250,#mpuAd,#mpuDiv,#mpuSlot,#mpuWrapper,#mpuWrapperAd,#mpu_banner,#mpu_holder,#mpu_text_ad,#mpuad,#mpubox,#mr_banner_topad,#mrecAdContainer,#msAds,#ms_ad,#msad,#multiLinkAdContainer,#multi_ad,#myads_HeaderButton,#n_sponsor_ads,#namecom_ad_hosting_main,#narrow_ad_unit,#natadad300x250,#national_microlink_ads,#nationalad,#navi_banner_ad_780,#nba160PromoAd,#nba300Ad,#nbaGI300ad,#nbaHouseAnd600Ad,#nbaLeft600Ad,#nbaMidAds,#nbaVid300Ad,#nbcAd300x250,#new_topad,#newads,#ng_rtcol_ad,#noresults_ad_container,#noresultsads,#northad,#ns_ad1,#ns_ad2,#ns_ad3,#oanda_ads,#onespot-ads,#online_ad,#p-googleadsense,#page-header-ad,#page-top-ad,#pageAds,#pageAdsDiv,#pageBannerAd,#page_ad,#page_content_top_ad,#pagelet_adbox,#pagelet_netego_ads,#pagelet_search_ads2,#panelAd,#pb_report_ad,#pcworldAdBottom,#pcworldAdTop,#pinball_ad,#player-below-advert,#player_ad,#player_ads,#pod-ad-video-page,#populate_ad_bottom,#populate_ad_left,#portlet-advertisement-left,#portlet-advertisement-right,#post-promo-ad,#post5_adbox,#post_ad,#premium_ad,#priceGrabberAd,#prime-ad-space,#print_ads,#product-adsense,#promoAds,#ps-vertical-ads,#pub468x60,#publicidad,#pushdown_ad,#qm-ad-big-box,#qm-ad-sky,#qm-dvdad,#r1SoftAd,#rail_ad1,#rail_ad2,#realEstateAds,#rectAd,#rect_ad,#rectangle-ad,#rectangle_ad,#refine-300-ad,#region-node-advert,#region-top-ad,#rh-ad-container,#rh_tower_ad,#rhapsodyAd,#rhs_ads,#rhsadvert,#right-ad,#right-ad-skin,#right-ad-title,#right-ad1,#right-ads-3,#right-box-ad,#right-featured-ad,#right-mpu-1-ad-container,#right-uppder-adverts,#right-uppder-adverts-container,#rightAd,#rightAd300x250,#rightAdBar,#rightAdColumn,#rightAd_rdr,#rightAdsDiv,#rightColAd,#rightColumnMpuAd,#rightColumnSkyAd,#right_ad_wrapper,#right_ads,#right_advertisement,#right_advertising,#right_column_ad_container,#right_column_ads,#right_column_internal_ad_container,#right_column_top_ad_unit,#rightad,#rightadContainer,#rightads,#rightadvertbar-doubleclickads,#rightbar-ad,#rightcolumn_300x250ad,#rightgoogleads,#rightside-ads,#rightside_ad,#righttop-adverts,#righttop-adverts-container,#rm_ad_text,#ros_ad,#rotatingads,#row2AdContainer,#rr_MSads,#rt-ad,#rt-ad-top,#rt-ad468,#rtMod_ad,#rtmod_ad,#sAdsBox,#sb-ad-sq,#sb_ad_links,#sb_advert,#search-google-ads,#search-sponsored-links,#search-sponsored-links-top,#searchAdSenseBox,#searchAdSenseBoxAd,#searchAdSkyscraperBox,#search_ads,#search_result_ad,#sec_adspace,#second-adlayer,#secondBoxAdContainer,#secondrowads,#section-ad-1-728,#section-ad-300-250,#section-ad-4-160,#section-blog-ad,#section-container-ddc_ads,#section_advertorial_feature,#servfail-ads,#sew-ad1,#shoppingads,#show-ad,#showAd,#showad,#side-ad,#side-ad-container,#sideAd,#sideAdSub,#sideBarAd,#side_ad,#side_ad_wrapper,#side_ads_by_google,#side_sky_ad,#sidead,#sideads,#sideadtop-to,#sidebar-125x125-ads,#sidebar-125x125-ads-below-index,#sidebar-ad,#sidebar-ad-boxes,#sidebar-ad-space,#sidebar-ad-wrap,#sidebar-ad3,#sidebar2ads,#sidebar_ad,#sidebar_ad_widget,#sidebar_ads_180,#sidebar_sponsoredresult_body,#sidebar_txt_ad_links,#sidebarad,#sidebaradver_advertistxt,#sideline-ad,#single-mpu,#singlead,#site-leaderboard-ads,#site_top_ad,#sitead,#sky-ad,#skyAd,#skyAdContainer,#skyScrapperAd,#skyWrapperAds,#sky_ad,#sky_advert,#skyads,#skyadwrap,#skyline_ad,#skyscraper-ad,#skyscraperAd,#skyscraperAdContainer,#skyscraper_ad,#skyscraper_advert,#skyscraperad,#slide_ad,#sliderAdHolder,#slideshow_ad_300x250,#sm-banner-ad,#small_ad,#small_ad_banners_vertical,#small_ads,#smallerAd,#some-ads,#some-more-ads,#specialAd_one,#specialAd_two,#specialadvertisingreport_container,#specials_ads,#speeds_ads,#speeds_ads_fstitem,#speedtest_mrec_ad,#sphereAd,#sponlink,#sponlinks,#sponsAds,#sponsLinks,#sponseredlinks,#sponsorAd1,#sponsorAd2,#sponsorAdDiv,#sponsorLinks,#sponsorTextLink,#sponsor_banderole,#sponsor_deals,#sponsored-ads,#sponsored-features,#sponsored-links,#sponsored-resources,#sponsored1,#sponsoredBox1,#sponsoredBox2,#sponsoredLinks,#sponsoredList,#sponsoredResults,#sponsoredResultsWide,#sponsoredSiteMainline,#sponsoredSiteSidebar,#sponsored_ads_v4,#sponsored_content,#sponsored_game_row_listing,#sponsored_links,#sponsored_v12,#sponsoredads,#sponsoredlinks,#sponsoredlinks_cntr,#sponsoredlinkslabel,#sponsoredresults_top,#sponsoredwellcontainerbottom,#sponsoredwellcontainertop,#sponsorlink,#spotlightAds,#spotlightad,#sqAd,#squareAd,#squareAdSpace,#squareAds,#square_ad,#start_middle_container_advertisment,#sticky-ad,#stickyBottomAd,#story-90-728-area,#story-ad-a,#story-ad-b,#story-leaderboard-ad,#story-sponsoredlinks,#storyAd,#storyAdWrap,#storyad2,#subpage-ad-right,#subpage-ad-top,#swads,#synch-ad,#systemad_background,#tabAdvertising,#takeoverad,#tblAd,#tbl_googlead,#tcwAd,#td-GblHdrAds,#template_ad_leaderboard,#tertiary_advertising,#test_adunit_160_article,#text-ad,#text-ads,#text-link-ads,#textAd,#textAds,#text_ad,#text_ads,#text_advert,#textad,#textad3,#the-last-ad-standing,#thefooterad,#themis-ads,#tile-ad,#tmglBannerAd,#tmp2_promo_ad,#toolbarSlideUpAd,#top-ad,#top-ad-container,#top-ad-menu,#top-ads,#top-ads-tabs,#top-advertisement,#top-banner-ad,#top-search-ad-wrapper,#topAd728x90,#topAdBanner,#topAdBox,#topAdContainer,#topAdSenseDiv,#topAdcontainer,#topAds,#topAdsContainer,#topAdvert,#topBannerAdContainer,#topContentAdTeaser,#topNavLeaderboardAdHolder,#topRightBlockAdSense,#top_ad_area,#top_ad_banner,#top_ad_game,#top_ad_unit,#top_ad_wrapper,#top_ad_zone,#top_ads,#top_advertise,#top_advertising,#top_rectangle_ad,#top_right_ad,#top_wide_ad,#topad1,#topad2,#topad_left,#topad_right,#topadbar,#topadblock,#topaddwide,#topadsense,#topadspace,#topadwrap,#topadzone,#topbanner_ad,#topbar-ad,#topcustomad,#topleaderboardad,#topnav-ad-shell,#topnavad,#toprightAdvert,#toprightad,#topsponsored,#toptextad,#tour300Ad,#tourSponsoredLinksContainer,#towerad,#ts-ad_module,#ttp_ad_slot1,#ttp_ad_slot2,#twogamesAd,#txt_link_ads,#undergameAd,#upperAdvertisementImg,#upperMpu,#upperad,#urban_contentad_1,#urban_contentad_2,#urban_contentad_article,#v_ad,#vert_ad,#vert_ad_placeholder,#vertical_ad,#vertical_ads,#videoAd,#video_ads_overdiv,#video_cnv_ad,#video_overlay_ad,#videoadlogo,#viewportAds,#viewvid_ad300x250,#walltopad,#weblink_ads_container,#welcomeAdsContainer,#welcome_ad_mrec,#welcome_advertisement,#wf_ContentAd,#wf_FrontSingleAd,#wf_SingleAd,#wf_bottomContentAd,#wgtAd,#whatsnews_top_ad,#whitepaper-ad,#whoisRightAdContainer,#wide_ad_unit_top,#wideskyscraper_160x600_left,#wideskyscraper_160x600_right,#widget_advertisement,#widgetwidget_adserve2,#wrapAdRight,#wrapAdTop,#wrapperAdsTopLeft,#wrapperAdsTopRight,#xColAds,#y-ad-units,#y708-ad-expedia,#y708-ad-lrec,#y708-ad-partners,#y708-ad-ysm,#y708-advertorial-marketplace,#yahoo-ads,#yahoo-sponsors,#yahooSponsored,#yahoo_ads,#yahoo_ads_2010,#yahoo_text_ad,#yahooad-tbl,#yan-sponsored,#yatadsky,#ybf-ads,#yfi_fp_ad_mort,#yfi_fp_ad_nns,#yfi_pf_ad_mort,#ygrp-sponsored-links,#ymap_adbanner,#yn-gmy-ad-lrec,#yreSponsoredLinks,#ysm_ad_iframe,#zoneAdserverMrec,#zoneAdserverSuper,.ADBAR,.ADPod,.AD_ALBUM_ITEMLIST,.AD_MOVIE_ITEM,.AD_MOVIE_ITEMLIST,.AD_MOVIE_ITEMROW,.Ad-Header,.Ad-MPU,.Ad1,.Ad120x600,.Ad160x600,.Ad160x600left,.Ad160x600right,.Ad2,.Ad247x90,.Ad300x,.Ad300x250,.Ad300x250L,.Ad728x90,.AdBorder,.AdBox7,.AdContainerBox308,.AdHeader,.AdHere,.AdMedium,.AdPlaceHolder,.AdProduct,.AdRingtone,.AdSenseLeft,.AdSlot,.AdSpace,.AdTextSmallFont,.AdUnit,.AdUnit300,.Ad_C,.Ad_D_Wrapper,.Ad_E_Wrapper,.Ad_Right,.AdsBoxBottom,.AdsBoxSection,.AdsBoxTop,.AdsLinks1,.AdsLinks2,.AdsRec,.AdvertMidPage,.AdvertiseWithUs,.Advertisement,.AdvertisementTextTag,.Advman_Widget,.ArticleAd,.ArticleInlineAd,.BannerAd,.BigBoxAd,.BlockAd,.BlueTxtAdvert,.BottomAdContainer,.BottomAffiliate,.BoxAd,.CG_adkit_leaderboard,.CG_details_ad_dropzone,.CWReviewsProdInfoAd { visibility:hidden !important; display:none !important; } .ComAread,.CommentAd,.ContentAd,.ContentAds,.DAWRadvertisement,.DeptAd,.DisplayAd,.FT_Ad,.FlatAds,.GOOGLE_AD,.GoogleAd,.GoogleAdSenseBottomModule,.GoogleAdSenseRightModule,.HPG_Ad_B,.HPNewAdsBannerDiv,.HPRoundedAd,.HomeContentAd,.IABAdSpace,.InArticleAd,.IndexRightAd,.LazyLoadAd,.LeftAd,.LeftButtonAdSlot,.LeftTowerAd,.M2Advertisement,.MD_adZone,.MOS-ad-hack,.MPU,.MPUHolder,.MPUTitleWrapperClass,.MREC_ads,.MiddleAd,.MiddleAdContainer,.MiddleAdvert,.NewsAds,.OAS,.OpaqueAdBanner,.OpenXad,.PU_DoubleClickAdsContent,.Post5ad,.Post9ad,.RBboxAd,.RW_ad300,.RectangleAd,.RelatedAds,.Right300x250AD,.RightAd1,.RightAdvertiseArea,.RightGoogleAFC,.RightRailTop300x250Ad,.RightSponsoredAdTitle,.RightTowerAd,.STR_AdBlock,.SideAdCol,.SidebarAd,.SidebarAdvert,.SitesGoogleAdsModule,.SkyAdContainer,.SponsoredAdTitle,.SponsoredContent,.SponsoredLinkItemTD,.SponsoredLinks,.SponsoredLinksGrayBox,.SponsoredLinksModule,.SponsoredLinksPadding,.SquareAd,.StandardAdLeft,.StandardAdRight,.TRU-onsite-ads-leaderboard,.TextAd,.TheEagleGoogleAdSense300x250,.TopAd,.TopAdContainer,.TopAdL,.TopAdR,.TopBannerAd,.UIWashFrame_SidebarAds,.UnderAd,.VerticalAd,.Video-Ad,.VideoAd,.WidgetAdvertiser,.a160x600,.a728x90,.ad-120x60,.ad-120x600,.ad-160,.ad-160x600,.ad-250,.ad-300,.ad-300-block,.ad-300-blog,.ad-300x100,.ad-300x250,.ad-300x250-right0,.ad-350,.ad-355x75,.ad-600,.ad-635x40,.ad-728,.ad-728x90,.ad-728x90-1,.ad-728x90-top0,.ad-728x90_forum,.ad-90x600,.ad-above-header,.ad-adlink-bottom,.ad-adlink-side,.ad-area,.ad-background,.ad-banner,.ad-bigsize,.ad-block,.ad-blog2biz,.ad-body,.ad-bottom,.ad-break,.ad-btn,.ad-btn-heading,.ad-cell,.ad-container-300x250,.ad-container-728x90,.ad-context,.ad-disclaimer,.ad-div,.ad-enabled,.ad-feedback,.ad-filler,.ad-flex,.ad-footer,.ad-footer-leaderboard,.ad-forum,.ad-google,.ad-graphic-large,.ad-gray,.ad-hdr,.ad-head,.ad-header,.ad-heading,.ad-homeleaderboard,.ad-img,.ad-in-post,.ad-index-main,.ad-inline,.ad-island,.ad-label,.ad-leaderboard,.ad-lrec,.ad-medium,.ad-medium-two,.ad-mpu,.ad-msn,.ad-note,.ad-notice,.ad-other,.ad-permalink,.ad-placeholder,.ad-postText,.ad-poster,.ad-priority,.ad-rect,.ad-rectangle,.ad-rectangle-text,.ad-related,.ad-rh,.ad-ri,.ad-right,.ad-right-header,.ad-right-txt,.ad-row,.ad-section,.ad-show-label,.ad-side,.ad-sidebar-outer,.ad-sidebar300,.ad-sky,.ad-slot,.ad-slot-234-60,.ad-slot-300-250,.ad-slot-728-90,.ad-space,.ad-space-mpu-box,.ad-space-topbanner,.ad-spot,.ad-square,.ad-square300,.ad-squares,.ad-statement,.ad-story-inject,.ad-tabs,.ad-text-links,.ad-tile,.ad-title,.ad-top,.ad-top-left,.ad-unit,.ad-unit-300,.ad-unit-300-wrapper,.ad-unit-anchor,.ad-vert,.ad-vtu,.ad-widget-list,.ad-with-us,.ad-wrap,.ad-wrapper,.ad-zone-s-q-l,.ad.super,.ad0,.ad08,.ad08sky,.ad10,.ad120,.ad120x240backgroundGray,.ad120x600,.ad125,.ad140,.ad160,.ad160x600,.ad160x600GrayBorder,.ad18,.ad19,.ad21,.ad230,.ad250,.ad250c,.ad3,.ad300,.ad300250,.ad300_250,.ad300x100,.ad300x250,.ad300x250-hp-features,.ad300x250Top,.ad300x250_container,.ad300x250box,.ad300x50-right,.ad300x600,.ad310,.ad336x280,.ad343x290,.ad4,.ad400right,.ad450,.ad468_60,.ad468x60,.ad6,.ad600,.ad620x70,.ad626X35,.ad7,.ad728,.ad728_90,.ad728x90,.ad728x90_container,.ad8,.ad90x780,.adAgate,.adArea674x60,.adBanner,.adBanner300x250,.adBanner728x90,.adBannerTyp1,.adBannerTypSortableList,.adBannerTypW300,.adBar,.adBgBottom,.adBgMId,.adBgTop,.adBlock,.adBottomLink,.adBottomboxright,.adBox230X96,.adBox728X90,.adBoxBody,.adBoxBorder,.adBoxContainer,.adBoxContent,.adBoxInBignews,.adBoxSidebar,.adBoxSingle,.adBwrap,.adCMRight,.adCell,.adColumn,.adCont,.adContTop,.adContour,.adCreative,.adCube,.adFender3,.adFrame,.adFtr,.adFullWidthMiddle,.adGoogle,.adHeader,.adHeadline,.adHome300x250,.adHorisontal,.adInNews,.adLabel,.adLeader,.adLeaderForum,.adLeaderboard,.adLeft,.adLoaded,.adLocal,.adMPU,.adMarker,.adMastheadLeft,.adMastheadRight,.adMegaBoard,.adMkt2Colw,.adModuleAd,.adMpu,.adNewsChannel,.adNoOutline,.adNotice,.adNoticeOut,.adObj,.adPageBorderL,.adPageBorderR,.adPanel,.adPod,.adRect,.adRight,.adSKY,.adSelfServiceAdvertiseLink,.adServer,.adSky,.adSky600,.adSkyscraperHolder,.adSlot,.adSpBelow,.adSpacer,.adSplash,.adSponsor,.adSpot,.adSpot-searchAd,.adSpot-textBox,.adSpot-twin,.adSpotIsland,.adSquare,.adSubColPod,.adSuperboard,.adSupertower,.adTD,.adTab,.adTag,.adTileWrap,.adTiler,.adTopLink,.adTopboxright,.adTout,.adTxt,.adUnit,.adUnitHorz,.adUnitVert,.adUnitVert_noImage,.adWebBoard,.adWidget,.adWithTab,.adWrap,.adWrapper,.ad_0,.ad_1,.ad_120x90,.ad_125,.ad_130x90,.ad_160,.ad_160x600,.ad_2,.ad_200,.ad_200x200,.ad_250x250,.ad_250x250_w,.ad_3,.ad_300,.ad_300_250,.ad_300x250,.ad_300x250_box_right,.ad_336,.ad_336x280,.ad_350x100,.ad_350x250,.ad_400x200,.ad_468,.ad_468x60,.ad_600,.ad_728,.ad_728_90b,.ad_728x90,.ad_Left,.ad_amazon,.ad_banner,.ad_banner_border,.ad_bar,.ad_bg,.ad_bigbox,.ad_biz,.ad_block,.ad_block_338,.ad_body,.ad_border,.ad_botbanner,.ad_bottom,.ad_bottom_leaderboard,.ad_bottom_left,.ad_box,.ad_box2,.ad_box_ad,.ad_box_div,.ad_callout,.ad_caption,.ad_column,.ad_column_box,.ad_column_hl,.ad_contain,.ad_container,.ad_content,.ad_content_wide,.ad_contents,.ad_descriptor,.ad_disclaimer,.ad_eyebrow,.ad_footer,.ad_frame,.ad_framed,.ad_front_promo,.ad_head,.ad_heading,.ad_headline,.ad_hpm,.ad_info_block,.ad_inline,.ad_island,.ad_label,.ad_launchpad,.ad_leader,.ad_leaderboard,.ad_left,.ad_line,.ad_link,.ad_linkunit,.ad_loc,.ad_lrec,.ad_main,.ad_medrec,.ad_medrect,.ad_middle,.ad_mod,.ad_mpu,.ad_mr,.ad_mrec,.ad_mrec_title_article,.ad_mrect,.ad_news,.ad_note,.ad_notice,.ad_one,.ad_p360,.ad_partner,.ad_partners,.ad_plus,.ad_post,.ad_power,.ad_promo,.ad_rectangle,.ad_right_col,.ad_row,.ad_sidebar,.ad_skyscraper,.ad_slug,.ad_slug_table,.ad_space_300_250,.ad_spacer,.ad_sponsor,.ad_sponsoredsection,.ad_spot_b,.ad_spot_c,.ad_square_r,.ad_square_top,.ad_sub,.ad_tag_middle,.ad_text_w,.ad_title,.ad_top,.ad_top_leaderboard,.ad_top_left,.ad_topright,.ad_tower,.ad_unit,.ad_unit_rail,.ad_url,.ad_warning,.ad_wid300,.ad_wide,.ad_wrap,.ad_wrapper,.ad_wrapper_fixed,.ad_wrapper_top,.ad_zone,.adarea,.adarea-long,.adbannerbox,.adbannerright,.adboard,.adborder,.adbot,.adbottom,.adbottomright,.adbox-outer,.adbox-wrapper,.adbox_300x600,.adbox_366x280,.adbox_468X60,.adbox_bottom,.adboxclass,.adbreak,.adbug,.adbuttons,.adcode,.adcolumn,.adcolumn_wrapper,.adcopy,.add_300x250,.adenquire,.adfieldbg,.adfoot,.adfootbox,.adhead,.adhead_h,.adhead_h_wide,.adheader,.adheader100,.adhere,.adhered,.adhi,.adhint,.adhoriz,.adi,.adiframe,.adinside,.adintro,.adjlink,.adkicker,.adkit,.adkit-advert,.adkit-lb-footer,.adlabel-horz,.adlabel-vert,.adleader,.adleaderboard,.adleft1,.adline,.adlinks,.adlnklst,.admarker,.admedrec,.admessage,.admodule,.admpu,.admpu-small,.adnation-banner,.adnotice,.adops,.adp-AdPrefix,.adpadding,.adpane,.adprice,.adproxy,.adrec,.adroot,.adrotate_widget,.adrow,.adrow-post,.adrule,.ads-125,.ads-300,.ads-728x90-wrap,.ads-banner,.ads-below-content,.ads-categories-bsa,.ads-favicon,.ads-links-general,.ads-mpu,.ads-outer,.ads-profile,.ads-right,.ads-sidebar,.ads-sky,.ads-stripe,.ads-text,.ads-top,.ads-widget,.ads-widget-partner-gallery,.ads160,.ads1_250,.ads2,.ads3,.ads300,.ads460,.ads460_home,.ads468,.ads728,.ads728x90,.adsArea,.adsBelowHeadingNormal,.adsBox,.adsCell,.adsCont,.adsDiv,.adsFull,.adsImages,.adsMPU,.adsRight,.adsTextHouse,.adsTop,.adsTower2,.adsTowerWrap,.adsWithUs,.ads_125_square,.ads_180,.ads_300,.ads_300x250,.ads_320,.ads_337x280,.ads_728x90,.ads_big,.ads_big-half,.ads_box,.ads_brace,.ads_catDiv,.ads_container,.ads_disc_anchor,.ads_disc_leader,.ads_disc_lwr_square,.ads_disc_skyscraper,.ads_disc_square,.ads_div,.ads_footer,.ads_header,.ads_leaderboard,.ads_medrect,.ads_mpu,.ads_outer,.ads_rectangle,.ads_right,.ads_sc_bl_i,.ads_sc_tb,.ads_sc_tl_i,.ads_show_if,.ads_side,.ads_sidebar,.ads_singlepost,.ads_spacer,.ads_takeover,.ads_title,.ads_top,.ads_top_promo,.ads_tr,.ads_verticalSpace,.ads_vtlLink,.ads_widesky,.ads_wrapperads_top,.adsbg300,.adsblockvert,.adsborder,.adsbottom,.adsbox,.adsboxitem,.adsbyyahoo,.adsc,.adscaleAdvert,.adsclick,.adscontainer,.adscreen,.adsd_shift100,.adsection_a2,.adsection_c2,.adsense-ad,.adsense-category,.adsense-category-bottom,.adsense-googleAds,.adsense-heading,.adsense-overlay,.adsense-post,.adsense-right,.adsense-title,.adsense3,.adsense300,.adsenseAds,.adsenseBlock,.adsenseContainer,.adsenseGreenBox,.adsenseList,.adsense_bdc_v2,.adsense_mpu,.adsensebig,.adsenseblock,.adsenseblock_bottom,.adsenseblock_top,.adsenselr,.adsensem_widget,.adsensesq,.adsenvelope,.adset,.adsforums,.adsghori,.adsgvert,.adside,.adsidebox,.adsider,.adsingle,.adsleft,.adsleftblock,.adslink,.adslogan,.adsmalltext,.adsmessage,.adsnippet_widget,.adspace-MR,.adspace-widget,.adspace180,.adspace_bottom,.adspace_buysell,.adspace_rotate,.adspace_skyscraper,.adspacer,.adspot,.adspot728x90,.adstextpad,.adstitle,.adstop,.adstory,.adstrip,.adtag,.adtech,.adtext_gray,.adtext_horizontal,.adtext_onwhite,.adtext_vertical,.adtile,.adtips,.adtips1,.adtop,.adtravel,.adtxt,.adtxtlinks,.adunit,.adv-mpu,.adver,.adverTag,.adver_cont_below,.advert-300-side,.advert-300x100-side,.advert-728x90,.advert-article-bottom,.advert-bannerad,.advert-bg-250,.advert-box,.advert-head,.advert-iab-300-250,.advert-iab-468-60,.advert-mpu,.advert-skyscraper,.advert-text,.advert-txt,.advert300,.advert300x250,.advert300x440,.advert4,.advert5,.advert8,.advertCont,.advertContainer,.advertHeadline,.advertRight,.advertSuperBanner,.advertText,.advertTitleSky,.advert_336,.advert_468x60,.advert_box,.advert_cont,.advert_djad,.advert_home_300,.advert_label,.advert_leaderboard,.advert_note,.advert_surr,.advert_top,.advertheader-red,.advertise-here,.advertise-homestrip,.advertise-horz,.advertise-inquiry,.advertise-leaderboard,.advertise-top,.advertise-vert,.advertiseContainer,.advertiseText,.advertise_ads,.advertise_here,.advertise_link,.advertise_link_sidebar,.advertisement-728x90,.advertisement-block,.advertisement-sidebar,.advertisement-space,.advertisement-sponsor,.advertisement-text,.advertisement-top,.advertisement468,.advertisementBox,.advertisementColumnGroup,.advertisementContainer,.advertisementHeader,.advertisementLabel,.advertisementPanel,.advertisement_300x250,.advertisement_btm,.advertisement_caption,.advertisement_g,.advertisement_header,.advertisement_horizontal,.advertisement_top,.advertiser-links,.advertisespace_div,.advertising-banner,.advertising-header,.advertising-local-links,.advertising2,.advertisingTable,.advertising_images,.advertisment_two,.advertize,.advertorial,.advertorial-2,.advertorial-promo-box,.advertorialtitle,.adverts-125,.advt,.advt-banner-3,.advt-block,.advt-sec,.advt300,.advt720,.adwordListings,.adwords,.adwordsHeader,.adwrap,.adwrapper-lrec,.adwrapper948,.adzone-footer,.adzone-sidebar,.affiliate-link,.affiliate-sidebar,.affiliateAdvertText,.affinityAdHeader,.afsAdvertising,.after_ad,.agi-adsaleslinks,.alb-content-ad,.alignads,.alt_ad,.anchorAd,.another_text_ad,.answer_ad_content,.aolSponsoredLinks,.aopsadvert,.apiAdMarkerAbove,.apiAds,.app_advertising_skyscraper,.archive-ads,.art_ads,.article-ads,.articleAd,.articleAds,.articleAdsL,.articleEmbeddedAdBox,.article_adbox,.article_mpu_box,.article_page_ads_bottom,.articleads,.aseadn,.aux-ad-widget-1,.aux-ad-widget-2,.b-astro-sponsored-links_horizontal,.b-astro-sponsored-links_vertical,.banner-468x60,.banner-ad,.banner-ads,.banner-adverts,.banner300x100,.banner300x250,.banner468,.banner728x90,.bannerAd,.bannerAdWrapper300x250,.bannerAdWrapper730x86,.bannerRightAd,.banner_300x250,.banner_ad,.banner_ad_footer,.banner_ad_leaderboard,.bannerad,.barkerAd,.base-ad-mpu,.base_ad,.base_printer_widgets_AdBreak,.bg-ad-link,.bgnavad,.big-ads,.bigAd,.big_ad,.big_ads,.bigad,.bigad2,.bigbox_ad,.bigboxad,.billboard_ad,.blk_advert,.block-ad,.block-ad300,.block-admanager,.block-ads-bottom,.block-ads-top,.block-adsense,.block-google_admanager,.block-openads,.block-openadstream,.block-openx,.block-thirdage-ads,.block-wtg_adtech,.blockAd,.blockAds,.block_ad_sb_text,.block_ad_sponsored_links,.block_ad_sponsored_links-wrapper,.blockad,.blocked-ads,.blog-ad-leader-inner,.blog-ads-container,.blogAd,.blogAdvertisement,.blogArtAd,.blogBigAd,.blog_ad,.blogads,.blox3featuredAd,.body_ad,.body_sponsoredresults_bottom,.body_sponsoredresults_middle,.body_sponsoredresults_top,.bodyads,.bodyads2,.bookseller-header-advt,.bottom-ad,.bottomAd,.bottomAds,.bottom_ad,.bottom_ads,.bottom_adsense,.bottomad,.bottomadvert,.bottomrightrailAd,.bottomvidad,.box-ad,.box-ad-grey,.box-ads,.box-adsense,.boxAd,.boxAds,.box_ad,.box_ad_container,.box_ad_content,.box_ad_spacer,.box_ad_wrap,.box_ads,.box_advertising,.box_advertisment_62_border,.box_content_ad,.box_content_ads,.box_textads,.boxad,.boxyads,.bps-ad-wrapper,.bps-advertisement,.bps-advertisement-inline-ads,.br-ad,.breakad_container,.brokerad,.bsa_ads,.btm_ad,.btn-ad,.bullet-sponsored-links,.bullet-sponsored-links-gray,.burstContentAdIndex,.busrep_poll_and_ad_container,.buttonAd { visibility:hidden !important; display:none !important; } .buttonAds,.button_ads,.buttonadbox,.buttonads,.bx_ad,.bx_ad_right,.cA-adStrap,.cColumn-TextAdsBox,.calloutAd,.carbonad,.care2_adspace,.catalog_ads,.category-ad,.categorySponsorAd,.category__big_game_container_body_games_advertising,.cb-ad-container,.cb_ads,.cb_navigation_ad,.cbstv_ad_label,.cbzadvert,.cbzadvert_block,.cdAdTitle,.cdmainlineSearchAdParent,.cdsidebarSearchAdParent,.centerAd,.center_ad,.centerad,.centered-ad,.chitikaAdCopy,.cinemabotad,.classifiedAdThree,.clearerad,.cm_ads,.cms-Advert,.cnbc_badge_banner_ad_area,.cnbc_banner_ad_area,.cnn160AdFooter,.cnnAd,.cnnMosaic160Container,.cnnStoreAd,.cnnStoryElementBoxAd,.cnnWCAdBox,.cnnWireAdLtgBox,.cnn_728adbin,.cnn_adcntr300x100,.cnn_adcntr728x90,.cnn_adspc336cntr,.cnn_adtitle,.cntrad,.column2-ad,.columnRightAdvert,.com-ad-server,.comment-advertisement,.comment_ad_box,.common_advertisement_title,.communityAd,.conTSponsored,.conductor_ad,.confirm_ad_left,.confirm_ad_right,.confirm_leader_ad,.consoleAd,.container-adwords,.containerSqAd,.container_serendipity_plugin_google_adsense,.content-ad,.content-ads,.content-advert,.contentAdFoot,.contentAdsWrapper,.content_ad,.content_ad_728,.content_adsense,.content_adsq,.content_tagsAdTech,.contentad300x250,.contentad_right_col,.contentadcontainer,.contentadfloatl,.contentadleft,.contentads,.contentadstartpage,.contenttextad,.contest_ad,.cp_ad,.cpmstarHeadline,.cpmstarText,.create_ad,.cs-mpu,.cscTextAd,.cse_ads,.cspAd,.ct_ad,.cube-ad,.cubeAd,.cube_ads,.currency_ad,.custom_ads,.cwAdvert,.darla_ad,.dart-ad,.dartAdImage,.dart_ad,.dart_tag,.dartadvert,.dartiframe,.dc-ad,.dcAdvertHeader,.deckAd,.deckads,.detailMpu,.detail_ad,.detail_top_advert,.displayAdSlot,.divAd,.divAdright,.divad1,.divad2,.divad3,.divads,.divider_ad,.dmco_advert_iabrighttitle,.downloadAds,.download_ad,.downloadad,.dualAds,.dynamic-ads,.dynamic_ad,.e-ad,.ec-ads,.ec-ads-remove-if-empty,.em-ad,.embed-ad,.embeddedAd,.entry-body-ad,.entry_sidebar_ads,.entryad,.ez-clientAd,.f_Ads,.feature_ad,.featuredAds,.featuredadvertising,.firstpost_advert_container,.flagads,.flash-advertisement,.flash_ad,.flash_advert,.flashad,.flexiad,.flipbook_v2_sponsor_ad,.floatad,.floated_right_ad,.floatingAds,.fm-badge-ad,.footad,.footer-ad,.footerAd,.footerAdModule,.footerAdslot,.footerTextAd,.footer_ad,.footer_ads,.footer_block_ad,.footer_bottomad,.footer_line_ad,.footer_text_ad,.footerad,.forumtopad,.frn_adbox,.frn_cont_adbox,.frontads,.ft-ad,.ftdAdBar,.ftdContentAd,.full_ad_box,.fullbannerad,.g3rtn-ad-site,.gAdRows,.gAdSky,.gAdvertising,.g_ggl_ad,.ga-ads,.ga-textads-bottom,.ga-textads-top,.gaTeaserAdsBox,.gads,.gads_cb,.gads_container,.gallery_ad,.gam_ad_slot,.gameAd,.gamesPage_ad_content,.gbl_advertisement,.gen_side_ad,.gglAds,.global_banner_ad,.googad,.googads,.google-ad,.google-ad-container,.google-ads,.google-ads-boxout,.google-ads-slim,.google-right-ad,.google-sponsored-ads,.google-sponsored-link,.google468,.google468_60,.googleAd,.googleAd-content,.googleAd-list,.googleAd300x250_wrapper,.googleAdBox,.googleAdSense,.googleAdSenseModule,.googleAd_body,.googleAds,.googleAds_article_page_above_comments,.googleAdsense,.googleContentAds,.googleProfileAd,.googleSearchAd_content,.googleSearchAd_sidebar,.google_ad,.google_ad_wide,.google_add_container,.google_ads,.google_ads_bom_title,.google_ads_content,.googlead,.googleaddiv,.googleaddiv2,.googleads,.googleads_300x250,.googleads_title,.googleadsense,.googleafc,.googley_ads,.gpAdBox,.gpAds,.gradientAd,.grey-ad-line,.group_ad,.gsAd,.gsfAd,.gt_ad,.gt_ad_300x250,.gt_ad_728x90,.gt_adlabel,.gutter-ad-left,.gutter-ad-right,.gx_ad,.h-ad-728x90-bottom,.h_Ads,.h_ad,.half-ad,.half_ad_box,.hcf-ad-rectangle,.hcf-cms-ad,.hd_advert,.hdr-ads,.header-advert,.headerAds,.headerAdvert,.headerTextAd,.header_ad,.header_ad_div,.header_ads,.header_advertisement,.header_advertisment,.headerad,.headerad-720,.hi5-ad,.highlightsAd,.hm_advertisment,.hn-ads,.home-ad-links,.homeAd,.homeAd1,.homeAd2,.homeAdBoxA,.homeAdBoxBetweenBlocks,.homeAdBoxInBignews,.homeAdSection,.homeMediumAdGroup,.home_ad_bottom,.home_advertisement,.home_mrec_ad,.homepage-ad,.homepage300ad,.homepageFlexAdOuter,.homepageMPU,.homepage_middle_right_ad,.homepageinline_adverts,.hor_ad,.horiz_adspace,.horizontalAd,.horizontal_ads,.horizontaltextadbox,.horizsponsoredlinks,.hortad,.houseAd1,.houseAdsStyle,.housead,.hp-col4-ads,.hp2-adtag,.hp_ad_cont,.hp_ad_text,.hp_t_ad,.hp_w_ad,.hpa-ad1,.html-advertisement,.ic-ads,.ico-adv,.idMultiAd,.image-advertisement,.imageAd,.imageads,.imgad,.in-page-ad,.in-story-ads,.in-story-text-ad,.inStoryAd-news2,.indEntrySquareAd,.indie-sidead,.indy_googleads,.inhousead,.inline-ad,.inline-mpu,.inline-mpu-left,.inlineSideAd,.inline_ad,.inline_ad_title,.inlinead,.inlineadsense,.inlineadtitle,.inlist-ad,.inlistAd,.inner-advt-banner-3,.innerAds,.innerad,.inpostad,.insert_advertisement,.insertad,.insideStoryAd,.inteliusAd_image,.interest-based-ad,.internalAdsContainer,.is24-adplace,.isAd,.islandAd,.islandAdvert,.islandad,.jimdoAdDisclaimer,.jp-advertisment-promotional,.js-advert,.kw_advert,.kw_advert_pair,.l_ad_sub,.l_banner.ads_show_if,.labelads,.largeRecAdNewsContainerRight,.largeRectangleAd,.largeUnitAd,.large_ad,.lastRowAd,.lcontentbox_ad,.leaderAdSlot,.leaderAdTop,.leaderAdvert,.leaderBoardAdHolder,.leaderOverallAdArea,.leader_ad,.leaderboardAd,.leaderboardAdContainerInner,.leaderboardad,.leaderboardadtop,.left-ad,.leftAd,.leftAdColumn,.leftAds,.left_ad,.left_ad_box,.left_adlink,.left_ads,.left_adsense,.leftad,.leftadtag,.leftbar_ad_160_600,.leftbarads,.leftbottomads,.leftnavad,.lgRecAd,.lg_ad,.ligatus,.linead,.link_adslider,.link_advertise,.live-search-list-ad-container,.ljad,.local-ads,.log_ads,.logoAds,.logoad,.logoutAd,.longAd,.longAdBox,.lowerAds,.m-ad-tvguide-box,.m4-adsbygoogle,.m_banner_ads,.macAd,.macad,.main-ad,.main-advert,.main-tabs-ad-block,.main_ad,.main_ad_bg_div,.main_adbox,.main_intro_ad,.map_media_banner_ad,.marginadsthin,.marketing-ad,.masthead_topad,.matador_sidebar_ad_600,.mdl-ad,.media-advert,.mediaAd,.mediaAdContainer,.mediaResult_sponsoredSearch,.medium-rectangle-ad,.mediumRectangleAdvert,.medrect_ad,.menuItemBannerAd,.menueadimg,.messageBoardAd,.mf-ad300-container,.micro_ad,.mid_ad,.midad,.middleAds,.min_navi_ad,.mini-ad,.miniad,.mmcAd_Iframe,.mod-ad-lrec,.mod-ad-n,.mod-adopenx,.mod-vertical-ad,.mod_admodule,.module-ad-small,.module-ads,.moduleAdvertContent,.module_ad,.module_box_ad,.modulegad,.moduletable-advert,.moduletable-googleads,.moduletablesquaread,.mpu-ad,.mpu-advert,.mpu-footer,.mpu-fp,.mpu-title,.mpu-top-left,.mpu-top-left-banner,.mpu-top-right,.mpu01,.mpuAd,.mpuAdSlot,.mpuAdvert,.mpuArea,.mpuBox,.mpuContainer,.mpuHolder,.mpuTextAd,.mpu_ad,.mpu_advert,.mpu_container,.mpu_gold,.mpu_holder,.mpu_platinum,.mpu_side,.mpu_text_ad,.mpuad,.mpuholderportalpage,.mrec_advert,.ms-ads-link,.msfg-shopping-mpu,.mvw_onPageAd1,.mwaads,.my-ad250x300,.nSponsoredLcContent,.nSponsoredLcTopic,.nadvt300,.narrow_ad_unit,.narrow_ads,.navAdsBanner,.navBads,.nav_ad,.navadbox,.navi_ad300,.naviad,.nba300Ad,.nbaT3Ad160,.nbaTVPodAd,.nbaTwo130Ads,.nbc_ad_carousel_wrp,.newTopAdContainer,.newad,.newsAd,.news_article_ad_google,.newsviewAdBoxInNews,.nf-adbox,.nn-mpu,.noAdForLead,.normalAds,.nrAds,.nsAdRow,.nu2ad,.oas-ad,.oas-bottom-ads,.offer_sponsoredlinks,.oio-banner-zone,.oio-link-sidebar,.oio-zone-position,.on_single_ad_box,.onethirdadholder,.openads,.openadstext_after,.openx,.openx-ad,.osan-ads,.other_adv2,.outermainadtd1,.ovAdPromo,.ovAdSky,.ovAdartikel,.ov_spns,.pageAds,.pageBottomGoogleAd,.pageGoogleAd,.pageGoogleAdFlat,.pageGoogleAdSubcontent,.pageLeaderAd,.page_content_right_ad,.pagead,.pagenavindexcontentad,.paneladvert,.partner-ads-container,.partnersTextLinks,.pencil_ad,.player_ad_box,.player_hover_ad,.player_page_ad_box,.plista_inimg_box,.pnp_ad,.pod-ad-300,.podRelatedAdLinksWidget,.podSponsoredLink,.portalCenterContentAdBottom,.portalCenterContentAdMiddle,.portalCenterContentAdTop,.portalcontentad,.postAd,.post_ad,.post_ads,.post_sponsor_unit,.postbit_adbit_register,.postbit_adcode,.postgroup-ads,.postgroup-ads-middle,.prebodyads,.premium_ad_container,.promoAd,.promoAds,.promo_ad,.ps-ligatus_placeholder,.publication-ad,.publicidad,.puff-advertorials,.qa_ad_left,.qm-ad-content,.qm-ad-content-news,.quigo-ad,.qzvAdDiv,.r_ad_1,.r_ad_box,.r_ads,.rad_container,.rect_ad_module,.rectad,.rectangle-ad,.rectangleAd,.rectanglead,.redads_cont,.regular_728_ad,.regularad,.relatedAds,.related_post_google_ad,.remads,.resourceImagetAd,.result_ad,.reviewMidAdvertAlign,.rght300x250,.rhads,.rhs-ad,.rhs-ads-panel,.right-ad,.right-ad-holder,.right-ad2,.right-ads,.right-ads2,.right-sidebar-box-ad,.rightAdBox,.rightColAd,.rightColumnRectAd,.rightRailAd,.right_ad,.right_ad_160,.right_ad_box,.right_ad_common_block,.right_ad_text,.right_ad_top,.right_ads,.right_col_ad,.right_hand_advert_column,.right_side-partyad,.rightad_1,.rightad_2,.rightadbox1,.rightads,.rightadunit,.rightcol_boxad,.rightcoladvert,.rightcoltowerad,.rnav_ad,.rngtAd,.roundedCornersAd,.roundingrayboxads,.rt_ad1_300x90,.rt_ad_300x250,.rt_ad_call,.s2k_ad,.savvyad_unit,.sb-ad-sq-bg,.sbAd,.sbAdUnitContainer,.sb_ad_holder,.sb_adsN,.sb_adsNv2,.sb_adsW,.sb_adsWv2,.scanAd,.scc_advert,.sci-ad-main,.sci-ad-sub,.search-ad,.search-results-ad,.search-sponsor,.search-sponsored,.searchAd,.searchAds,.searchSponsoredResultsBox,.searchSponsoredResultsList,.search_column_results_sponsored,.search_results_sponsored_top,.section-ad2,.section_mpu_wrapper,.section_mpu_wrapper_wrapper,.selfServeAds,.sepContentAd,.serp_sponsored,.servsponserLinks,.shoppingGoogleAdSense,.showAd_No,.showAd_Yes,.showcaseAd,.sidbaread,.side-ad,.side-ads,.side-sky-banner-160,.sideAd,.sideBoxAd,.side_ad,.side_ad2,.side_ad_1,.side_ad_2,.side_ad_3,.sidead,.sideads,.sideadsbox,.sideadvert,.sidebar-ad,.sidebar-ads,.sidebar-text-ad,.sidebarAd,.sidebarAdUnit,.sidebarAdvert,.sidebar_ad,.sidebar_ad_300_250,.sidebar_ads,.sidebar_ads_336,.sidebar_adsense,.sidebar_box_ad,.sidebarad,.sidebarad_bottom,.sidebaradbox,.sidebarads,.sidebarboxad,.sideheadnarrowad,.sideheadsponsorsad,.singleAd,.singleAdsContainer,.singlead,.singleadstopcstm2,.site_ad_120_600,.site_ad_300x250,.sitesponsor,.skinAd,.skin_ad_638,.sky-ad,.skyAd,.skyAdd,.skyAdvert,.sky_scraper_ad,.skyad,.skyjobsadtext,.skyscraper-ad,.skyscraper_ad,.skyscraper_bannerAdHome,.sleekadbubble,.slideshow-ad,.slpBigSlimAdUnit,.slpSquareAdUnit,.sm_ad,.smallSkyAd1,.smallSkyAd2,.small_ad,.small_ads,.smallad-left,.smallads,.smallsponsorad,.smart_ads_bom_title,.specialAd175x90,.speedyads,.sphereAdContainer,.spl-ads,.spl_ad,.spl_ad2,.spl_ad_plus,.splitAd,.sponlinkbox,.spons-link,.spons_links,.sponslink,.sponsor-ad,.sponsor-link,.sponsor-links,.sponsor-services,.sponsorPost,.sponsorPostWrap,.sponsorStrip,.sponsor_ad_area,.sponsor_columns,.sponsor_footer,.sponsor_line,.sponsor_links,.sponsor_logo,.sponsoradtitle,.sponsored-ads,.sponsored-chunk,.sponsored-editorial,.sponsored-features,.sponsored-links,.sponsored-links-alt-b,.sponsored-links-holder,.sponsored-links-right,.sponsored-post,.sponsored-post_ad,.sponsored-results,.sponsored-right-border,.sponsored-text,.sponsoredBox,.sponsoredInfo,.sponsoredInner,.sponsoredLabel,.sponsoredLink,.sponsoredLinks,.sponsoredLinks2,.sponsoredLinksHeader,.sponsoredProduct,.sponsoredResults,.sponsoredSideInner,.sponsored_ads,.sponsored_box,.sponsored_box_search,.sponsored_by,.sponsored_links,.sponsored_links_title_container,.sponsored_links_title_container_top,.sponsored_links_top,.sponsored_result,.sponsored_results,.sponsored_well,.sponsoredibbox,.sponsoredlink,.sponsoredlinks,.sponsoredlinkscontainer,.sponsoredresults,.sponsoredtextlink_container_ovt,.sponsoring_link,.sponsorlink,.sponsorlink2,.sponsormsg,.sport-mpu-box,.spotlightAd,.squareAd,.square_ad,.square_banner_ad,.squared_ad,.ss-ad-mpu,.standard-ad,.start__newest__big_game_container_body_games_advertising,.staticAd,.stickyAdLink,.stock-ticker-ad-tag,.stocks-ad-tag,.store-ads,.story_AD,.story_ad_div,.story_right_adv,.storyad,.subad,.subcontent-ad,.subtitle-ad-container,.sugarad,.super-ad,.supercommentad_left,.supercommentad_right,.supp-ads,.supportAdItem,.surveyad,.t10ad,.tab_ad,.tab_ad_area,.tablebordersponsor,.tadsanzeige,.tadsbanner,.tadselement,.tallad,.tblTopAds,.tbl_ad,.tbox_ad,.td-Adholder,.teaser-sponsor,.teaserAdContainer,.teaser_adtiles,.text-ad,.text-ad-links,.text-ads,.text-advertisement,.text-g-advertisement,.text-g-group-short-rec-ad,.text-g-net-grp-google-ads-article-page,.textAd,.textAdBox,.textAds,.text_ad,.text_ads,.textad,.textadContainer,.textad_headline,.textadbox,.textadheadline,.textadlink,.textadsds,.textadsfoot,.textadtext,.textlink-ads,.tf_page_ad_search,.thisIsAd,.thisIsAnAd,.ticket-ad,.tileAds,.tips_advertisement,.title-ad,.title_adbig,.tncms-region-ads,.toolad,.toolbar-ad,.top-ad-space,.top-ads,.top-banner-ad,.top-menu-ads,.topAdWrap,.topAdvertisement,.topBannerAd,.topLeaderboardAd,.top_Ad,.top_ad,.top_ad_728,.top_ad_728_90,.top_ad_disclaimer,.top_ad_div,.top_ad_post,.top_ad_wrapper,.top_advert,.top_advertising_lb,.top_container_ad,.topad-bar,.topadbox,.topadspot,.topadvertisementsegment,.topboardads,.topcontentadvertisement,.topic_inad,.topstoriesad,.toptenAdBoxA,.tourFeatureAd,.tower-ad,.towerAd,.towerAdLeft,.towerAds,.tower_ad,.tower_ad_disclaimer,.towerad,.tr-ad-adtech-placement,.tribal-ad,.ts-ad_unit_bigbox,.ts-banner_ad,.ttlAdsensel,.tto-sponsored-element,.tucadtext,.tvs-mpu,.twoColumnAd,.twoadcoll,.twoadcolr,.tx_smartadserver_pi1,.txt-ads,.txtAd,.txtAds,.txt_ads,.txtadvertise,.type_adscontainer,.type_miniad,.type_promoads,.ukAds,.undertimyads,.unit-ad,.universalboxADVBOX01,.universalboxADVBOX03,.universalboxADVBOX04a,.usenext,.v5rc_336x280ad,.vertad,.vertical-adsense,.videoAd,.videoBoxAd,.video_ad,.view-promo-mpu-right,.view_rig_ad,.virgin-mpu,.wa_adsbottom,.wantads,.wide-ad,.wide-skyscraper-ad,.wideAdTable,.wide_ad,.wide_ad_unit_top,.wide_ads,.wide_google_ads,.widget-ad,.widget-ad300x250,.widget-entry-ads-160,.widgetYahooAds,.widget_ad,.widget_ad_rotator,.widget_island_ad,.widget_sdac_bottom_ad_widget,.widget_sdac_footer_ads_widget,.widget_sdac_skyscraper_ad_widget,.wikia-ad,.wikia_ad_placeholder,.wingadblock,.withAds,.wl-ad,.wnMultiAd,.wp125_write_ads_widget,.wp125ad,.wp125ad_2,.wpn_ad_content,.wrap-ads,.wrapper-ad,.wrapper-ad-sidecol,.wsSponsoredLinksRight,.wsTopSposoredLinks,.x03-adunit,.x04-adunit,.xads-blk2 { visibility:hidden !important; display:none !important; } .xads-ojedn,.y-ads,.y-ads-wide,.y7-advertisement,.yahoo-sponsored,.yahoo-sponsored-links,.yahooAds,.yahoo_ads,.yan-sponsored,.ygrp-ad,.youradhere,.yrail_ad_wrap,.yrail_ads,.ysmsponsor,.ysponsor,.yw-ad,a[href^="http://ad.doubleclick.net/"],a[href^="http://adserving.liveuniversenetwork.com/"],a[href^="http://galleries.pinballpublishernetwork.com/"],a[href^="http://galleries.securewebsiteaccess.com/"],a[href^="http://install.securewebsiteaccess.com/"],a[href^="http://latestdownloads.net/download.php?"],a[href^="http://secure.signup-page.com/"],a[href^="http://secure.signup-way.com/"],a[href^="http://www.FriendlyDuck.com/AF_"],a[href^="http://www.adbrite.com/mb/commerce/purchase_form.php?"],a[href^="http://www.friendlyduck.com/AF_"],a[href^="http://www.google.com/aclk?"],a[href^="http://www.liutilities.com/aff"],a[href^="http://www.liutilities.com/products/campaigns/adv/"],a[href^="http://www.my-dirty-hobby.com/?sub="],a[href^="http://www.ringtonematcher.com/"],#mclip_container:last-child,#tads.c,#tadsb.c,.ch[onclick="ga(this,event)"],.ra[align="left"][width="30%"],.ra[align="right"][width="30%"],#Werbung,#WerbungObenRechts10_GesamtDIV,#WerbungObenRechts8_GesamtDIV,#WerbungObenRechts9_GesamtDIV,#WerbungUntenLinks4_GesamtDIV,#WerbungUntenLinks7_GesamtDIV,#WerbungUntenLinks8_GesamtDIV,#WerbungUntenLinks9_GesamtDIV,#__ligatus_placeholder__,#ad-bereich1-08,#ad-bereich1-superbanner,#ad-bereich2-08,#ad-bereich2-skyscrapper,#ad-rechts-block,#ad-rechts-sky,#ad_gross,#ad_lang,#ad_oben,#ad_rechts,#adkontainer,#anzeigewerbungtext,#ar_detail_werb103,#cnt_bgwerbung,#cont-werb,#forumformwerbung,#freikarte_layer,#header_werbung,#headerwerbung,#kaufDA,#kaufDA-widget-container,#kopf-werbung,#moveable_werbung,#p-links-werbung,#p-rechts-werbung,#qm_content_ad_anzeige,#reklame,#startwerbung,#t_werbung,#textwerbung,#topwerbung,#werbLayer1,#werbLayer2,#werbLayer3,#werb_ps103,#werbebalken_slot,#werbebanner,#werbeblock,#werbebox_contentad,#werbecontainer_content,#werbecontainer_sky,#werbetrenner,#werbung-left,#werbung-skyscraper,#werbung1,#werbung2,#werbung3,#werbung792_2,#werbungSuperbanner,#werbung_bigsize,#werbung_footer,#werbung_mitte,#werbungrechts,#werbungsky,#wkr_werbung,.Artikel_Ads_News,.KomischeWerbeBox,.RessortWerbungHeader,.WerbungAdpepper,.WerbungDetailRectangle,.WerbungLinksRechts,.WerbungMitte,.ad_mitte,.ads_rechts,.adzeiger,.anzeigenwerbung,.bannerAnzeige,.bdeFotoGalAd,.bdeFotoGalAdText,.big-werb,.block_rs4_werbung,.bottom-werbung-box,.box_werbung_detailseite,.boxstartwerbung,.boxwerbung,.content_body_right_werbung,.content_header_werbung,.content_right_side_werbewrapper,.ecom_werbung,.firstload,.fullbanner_werbung,.gutZuWissenAd,.lokalwerbung,.rahmen_ad,.reklame,.right-content-werbung,.seitenleiste_werbung,.sponsorinaktiv,.sponsorlinkgruen,.tab_artikelwerbung,.teaser_adliste,.text_werbung,.textad_hauptlink,.topwerbung,.werbeadd_ueber,.werbebanner,.werbeflaeche,.werbung-bigbox,.werbung-contentad,.werbung-fullbanner,.werbung-halfbanner,.werbung-label,.werbung-leiste,.werbung-rectangle,.werbung-skyscraper2,.werbung1,.werbungAnzeige,.werbung_bereich,.werbungamazon,a[href^="http://farm.plista.com/pets;"],a[href^="http://shortnews.de/gotoklick.cfm?fr_campaign_adtext_id="],a[href^="http://www.eis.de/index.phtml?refid="],a[href^="http://www.firstload.de/affiliate/"],a[href^="http://www.firstload.de/index.php?set_lang=de&log="],a[href^="http://www.top-of-software.de/"],a[href^="https://farm.plista.com/pets;"],input[onclick^="window.open('http://www.firstload.de/affiliate/"],[src*="sixsigmatraffic.com"],embed[flashvars*="AdID"],#Ad1,#AdHeader,#Adbanner,#AdvertiseFrame,#Advertisement,#Advertisements,#Tadspacehead,#TopAd,#ad-container,#ad-header,#ad-top,#ad-wrapper,#ad1,#ad3,#ad728x90,#adBanner,#adComponentWrapper,#adContainer,#adDiv,#adHeader,#adTop,#adWrapper,#ad_area,#ad_container,#ad_leader,#ad_space,#ad_square,#ad_table,#ad_wrapper,#adbar,#adbody,#adbox,#adcontent,#adposition3,#adsense,#adsense_inline,#adspace,#advert,#advertise,#advertising,#adverts,#adwrapper,#bannerad,#block_advert,#contentAd,#content_ad,#divAd,#featuread,#footer_ad,#footer_ads,#goads,#googlead,#head-ad,#header_ad,#mainAd,#middleads,#printads,#promo-ad,#right_ad,#sidebar-ads,#sidebar_ads,#sponsored,#topAd,#topBannerAd,#top_ad,#topad,#topads,.AdBox,.AdInfo,.AdSense,.AdTitle,.Ads,.Advert,.ad-box,.ad-button,.ad-container,.ad-content,.ad-display,.ad-holder,.ad-links,.ad-sidebar,.ad-text,.ad-vertical-container,.ad1,.ad2,.ad468,.adBox,.adContainer,.adDiv,.adElement,.adHolder,.adModule,.adSpace,.adSummary,.adText,.adTitle,.ad_Right,.ad_header,.ad_links,.ad_right,.ad_space,.ad_text,.adbanner,.adbar,.adbox,.adcol1,.adcol2,.adcont,.addiv,.adframe,.adholder,.adinfo,.adlink,.adlist,.adpic,.adright,.ads-section,.adsBlock,.adspace,.adtable,.adtext,.advert-horizontal,.advertColumn,.advert_list,.advertise,.advertisement,.advertiser,.advertising,.advertising_block,.advertisment,.adverts,.adwrapper,.affiliate,.article_ad,.banner_728x90,.block_ad,.bottom_ad_block,.contentAd,.contentad,.detail-ads,.header-ad,.headerAd,.header_ad_center,.homead,.horizontal_ad,.middleads,.module-ad,.mpu,.post-ad,.rightAd,.right_ads_column,.rightad,.sky_ad,.sponsored,.textads,.top-ad,.topAd,.topAds,.top_ads,.topad,.topads,.wideAd,a[href^="http://ad-emea.doubleclick.net/"],#werbeflaeche,#werbung,.werbung { visibility:hidden !important; display:none !important; }</style></html>

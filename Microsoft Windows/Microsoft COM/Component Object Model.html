@@ -1,0 +1,1137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" dir="ltr" class="client-nojs" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Component Object Model - Wikipedia, the free encyclopedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="MediaWiki 1.18wmf1" />
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/w/index.php?title=Component_Object_Model&amp;action=edit" />
+<link rel="edit" title="Edit this page" href="/w/index.php?title=Component_Object_Model&amp;action=edit" />
+<link rel="apple-touch-icon" href="//en.wikipedia.org/apple-touch-icon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Wikipedia (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd" />
+<link rel="copyright" href="//creativecommons.org/licenses/by-sa/3.0/" />
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.wikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<style type="text/css" media="all">a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: enwiki:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */</style>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Component_Object_Model", "wgTitle": "Component Object Model", "wgCurRevisionId": 469540404, "wgArticleId": 17058007, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Articles needing additional references from April 2008", "All articles needing additional references", "Component-based software engineering", "Inter-process communication", "Microsoft application programming interfaces", "Object-oriented programming", "Object models"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0], "wgFlaggedRevsParams": {"tags": {"status": {"levels": 1, "quality": 2, "pristine": 3}}}, "wgStableRevisionId": null, "wgVectorEnabledModules": {"collapsiblenav": true, "collapsibletabs": true, "editwarning": true, "expandablesearch": false, "footercleanup": false, "sectioneditlinks": false, "simplesearch": true, "experiments": true}, "wgWikiEditorEnabledModules": {"toolbar": true, "dialogs": true, "hidesig": true, "templateEditor": false, "templates": false, "preview": false, "previewDialog": false, "publish": false, "toc": false}, "wgTrackingToken": "8e40aaedfe497339f2be7fce70c7a3f2", "wikilove-recipient": "", "wikilove-edittoken": "+\\", "wikilove-anon": 0, "mahEditToken": "+\\", "mbEditToken": "+\\", "mbEmailEnabled": true, "mbUserEmail": false, "mbIsEmailConfirmationPending": false, "Geo": {"city": "", "country": ""}, "wgNoticeProject": "wikipedia"});
+}
+</script><script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script>
+<style type="text/css">/*<![CDATA[*/
+.source-cpp {line-height: normal;}
+.source-cpp li, .source-cpp pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for cpp
+ * CSS class: source-cpp, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.cpp.source-cpp .de1, .cpp.source-cpp .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.cpp.source-cpp  {font-family:monospace;}
+.cpp.source-cpp .imp {font-weight: bold; color: red;}
+.cpp.source-cpp li, .cpp.source-cpp .li1 {font-weight: normal; vertical-align:top;}
+.cpp.source-cpp .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.cpp.source-cpp .li2 {font-weight: bold; vertical-align:top;}
+.cpp.source-cpp .kw1 {color: #0000ff;}
+.cpp.source-cpp .kw2 {color: #0000ff;}
+.cpp.source-cpp .kw3 {color: #0000dd;}
+.cpp.source-cpp .kw4 {color: #0000ff;}
+.cpp.source-cpp .co1 {color: #666666;}
+.cpp.source-cpp .co2 {color: #339900;}
+.cpp.source-cpp .coMULTI {color: #ff0000; font-style: italic;}
+.cpp.source-cpp .es0 {color: #000099; font-weight: bold;}
+.cpp.source-cpp .es1 {color: #000099; font-weight: bold;}
+.cpp.source-cpp .es2 {color: #660099; font-weight: bold;}
+.cpp.source-cpp .es3 {color: #660099; font-weight: bold;}
+.cpp.source-cpp .es4 {color: #660099; font-weight: bold;}
+.cpp.source-cpp .es5 {color: #006699; font-weight: bold;}
+.cpp.source-cpp .br0 {color: #008000;}
+.cpp.source-cpp .sy0 {color: #008000;}
+.cpp.source-cpp .sy1 {color: #000080;}
+.cpp.source-cpp .sy2 {color: #000040;}
+.cpp.source-cpp .sy3 {color: #000040;}
+.cpp.source-cpp .sy4 {color: #008080;}
+.cpp.source-cpp .st0 {color: #FF0000;}
+.cpp.source-cpp .nu0 {color: #0000dd;}
+.cpp.source-cpp .nu6 {color: #208080;}
+.cpp.source-cpp .nu8 {color: #208080;}
+.cpp.source-cpp .nu12 {color: #208080;}
+.cpp.source-cpp .nu16 {color:#800080;}
+.cpp.source-cpp .nu17 {color:#800080;}
+.cpp.source-cpp .nu18 {color:#800080;}
+.cpp.source-cpp .nu19 {color:#800080;}
+.cpp.source-cpp .me1 {color: #007788;}
+.cpp.source-cpp .me2 {color: #007788;}
+.cpp.source-cpp .ln-xtra, .cpp.source-cpp li.ln-xtra, .cpp.source-cpp div.ln-xtra {background-color: #ffc;}
+.cpp.source-cpp span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.18/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Component_Object_Model action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><!-- centralNotice loads here --></div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Component Object Model</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div lang="en" dir="ltr" class="mw-content-ltr"><div class="dablink">Not to be confused with <a href="/wiki/COM_file" title="COM file">COM file</a>.</div>
+<p><b>Component Object Model</b> (<b>COM</b>) is a <a href="/wiki/Application_Binary_Interface" title="Application Binary Interface" class="mw-redirect">binary-interface</a> standard for <a href="/wiki/Software_componentry" title="Software componentry" class="mw-redirect">software componentry</a> introduced by <a href="/wiki/Microsoft" title="Microsoft">Microsoft</a> in 1993. It is used to enable <a href="/wiki/Interprocess_communication" title="Interprocess communication" class="mw-redirect">interprocess communication</a> and dynamic <a href="/wiki/Object_(computer_science)" title="Object (computer science)">object</a> creation in a large range of <a href="/wiki/Programming_languages" title="Programming languages" class="mw-redirect">programming languages</a>. The term <i>COM</i> is often used in the Microsoft software development industry as an <a href="/wiki/Umbrella_term" title="Umbrella term">umbrella term</a> that encompasses the <a href="/wiki/Object_Linking_and_Embedding" title="Object Linking and Embedding">OLE</a>, <a href="/wiki/OLE_Automation" title="OLE Automation">OLE Automation</a>, <a href="/wiki/ActiveX" title="ActiveX">ActiveX</a>, COM+ and <a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">DCOM</a> technologies.</p>
+<table id="toc" class="toc">
+<tr>
+<td>
+<div id="toctitle">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#History"><span class="tocnumber">2</span> <span class="toctext">History</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Related_technologies"><span class="tocnumber">3</span> <span class="toctext">Related technologies</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#COM.2B"><span class="tocnumber">3.1</span> <span class="toctext">COM+</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#.NET"><span class="tocnumber">3.2</span> <span class="toctext">.NET</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Internet_security"><span class="tocnumber">4</span> <span class="toctext">Internet security</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#Technical_details"><span class="tocnumber">5</span> <span class="toctext">Technical details</span></a>
+<ul>
+<li class="toclevel-2 tocsection-8"><a href="#Interfaces"><span class="tocnumber">5.1</span> <span class="toctext">Interfaces</span></a>
+<ul>
+<li class="toclevel-3 tocsection-9"><a href="#Classes"><span class="tocnumber">5.1.1</span> <span class="toctext">Classes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-10"><a href="#Interface_Definition_Language_and_type_libraries"><span class="tocnumber">5.2</span> <span class="toctext">Interface Definition Language and type libraries</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="#COM_as_an_object_framework"><span class="tocnumber">5.3</span> <span class="toctext">COM as an object framework</span></a></li>
+<li class="toclevel-2 tocsection-12"><a href="#Registry"><span class="tocnumber">5.4</span> <span class="toctext">Registry</span></a></li>
+<li class="toclevel-2 tocsection-13"><a href="#Reference_counting"><span class="tocnumber">5.5</span> <span class="toctext">Reference counting</span></a></li>
+<li class="toclevel-2 tocsection-14"><a href="#Instantiation"><span class="tocnumber">5.6</span> <span class="toctext">Instantiation</span></a></li>
+<li class="toclevel-2 tocsection-15"><a href="#Reflection"><span class="tocnumber">5.7</span> <span class="toctext">Reflection</span></a></li>
+<li class="toclevel-2 tocsection-16"><a href="#Programming"><span class="tocnumber">5.8</span> <span class="toctext">Programming</span></a></li>
+<li class="toclevel-2 tocsection-17"><a href="#Application_and_network_transparency"><span class="tocnumber">5.9</span> <span class="toctext">Application and network transparency</span></a></li>
+<li class="toclevel-2 tocsection-18"><a href="#Threading_in_COM"><span class="tocnumber">5.10</span> <span class="toctext">Threading in COM</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-19"><a href="#Criticisms"><span class="tocnumber">6</span> <span class="toctext">Criticisms</span></a>
+<ul>
+<li class="toclevel-2 tocsection-20"><a href="#Message_pumping"><span class="tocnumber">6.1</span> <span class="toctext">Message pumping</span></a></li>
+<li class="toclevel-2 tocsection-21"><a href="#Reference_counting_2"><span class="tocnumber">6.2</span> <span class="toctext">Reference counting</span></a></li>
+<li class="toclevel-2 tocsection-22"><a href="#DLL_Hell"><span class="tocnumber">6.3</span> <span class="toctext">DLL Hell</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-23"><a href="#RegFree_COM"><span class="tocnumber">7</span> <span class="toctext">RegFree COM</span></a></li>
+<li class="toclevel-1 tocsection-24"><a href="#See_also"><span class="tocnumber">8</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-25"><a href="#References"><span class="tocnumber">9</span> <span class="toctext">References</span></a></li>
+<li class="toclevel-1 tocsection-26"><a href="#External_links"><span class="tocnumber">10</span> <span class="toctext">External links</span></a></li>
+</ul>
+</td>
+</tr>
+</table>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=1" title="Edit section: Overview">edit</a>]</span> <span class="mw-headline" id="Overview">Overview</span></h2>
+<p>The essence of COM is a language-neutral way of implementing objects that can be used in environments different from the one in which they were created, even across machine boundaries. For well-authored components, COM allows reuse of objects with no knowledge of their internal implementation, as it forces component implementers to provide well-defined <a href="/wiki/Interface_(computer_science)" title="Interface (computer science)" class="mw-redirect">interfaces</a> that are separate from the implementation. The different allocation semantics of languages are accommodated by making objects responsible for their own creation and destruction through <a href="/wiki/Reference_counting" title="Reference counting">reference-counting</a>. <a href="/wiki/Type_conversion" title="Type conversion">Casting</a> between different interfaces of an object is achieved through the <code>QueryInterface()</code> function. The preferred method of inheritance within COM is the creation of sub-objects to which method calls are delegated.</p>
+<p>COM is an interface technology defined and implemented as standard only on <a href="/wiki/Microsoft_Windows" title="Microsoft Windows">Microsoft Windows</a> and Apple's Core Foundation 1.3 and later plug-in API,<sup id="cite_ref-0" class="reference"><a href="#cite_note-0"><span>[</span>1<span>]</span></a></sup> that in any case implement only a subset of the whole COM interface.<sup id="cite_ref-COM_on_MacOS_1-0" class="reference"><a href="#cite_note-COM_on_MacOS-1"><span>[</span>2<span>]</span></a></sup> For some applications, COM has been replaced at least to some extent by the <a href="/wiki/.NET_Framework" title=".NET Framework">Microsoft .NET</a> framework, and support for <a href="/wiki/Web_Services" title="Web Services" class="mw-redirect">Web Services</a> through the <a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">Windows Communication Foundation</a> (WCF). However, COM objects can be used with all .NET languages through .NET <a href="/wiki/COM_Interop" title="COM Interop">COM Interop</a>.</p>
+<p>Networked DCOM uses binary <a href="/wiki/Proprietary_format" title="Proprietary format">proprietary formats</a>, while WCF encourages the use of <a href="/wiki/XML" title="XML">XML</a>-based <a href="/wiki/SOAP_(protocol)" title="SOAP (protocol)" class="mw-redirect">SOAP</a> messaging. COM is very similar to other <a href="/wiki/Component_software" title="Component software" class="mw-redirect">component software</a> interface technologies, such as <a href="/wiki/CORBA" title="CORBA" class="mw-redirect">CORBA</a> and <a href="/wiki/Java_Beans" title="Java Beans" class="mw-redirect">Java Beans</a>, although each has its own strengths and weaknesses.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=2" title="Edit section: History">edit</a>]</span> <span class="mw-headline" id="History">History</span></h2>
+<p>One of the first methods of <a href="/wiki/Interprocess_communication" title="Interprocess communication" class="mw-redirect">interprocess communication</a> in Windows was <a href="/wiki/Dynamic_Data_Exchange" title="Dynamic Data Exchange">Dynamic Data Exchange</a> (DDE), first introduced in 1987, that allowed sending and receiving messages in so-called "conversations" between applications.</p>
+<p><a href="/w/index.php?title=Antony_Williams_(technologist)&amp;action=edit&amp;redlink=1" class="new" title="Antony Williams (technologist) (page does not exist)">Antony Williams</a>, one of the most notable thinkers involved in the creation of the COM architecture, later distributed two internal papers in Microsoft that embraced the concept of software components: <i>Object Architecture: Dealing With the Unknown – or – Type Safety in a Dynamically Extensible Class Library</i> in 1988 and <i>On Inheritance: What It Means and How To Use It</i> in 1990. These provided the foundation of many of the ideas behind COM.</p>
+<p><a href="/wiki/Object_Linking_and_Embedding" title="Object Linking and Embedding">Object Linking and Embedding</a> (OLE), Microsoft's first object-based framework, was built on top of DDE and designed specifically for <a href="/wiki/Compound_document" title="Compound document">compound documents</a>. It was introduced with Word for Windows and Excel in 1991, and was later included with Windows, starting with version 3.1 in 1992.</p>
+<p>An example of a compound document is a spreadsheet embedded in a Word for Windows document: as changes are made to the spreadsheet within Excel, they appear automatically inside the Word document.</p>
+<p>In 1991, Microsoft introduced <a href="/wiki/Visual_Basic_Extension" title="Visual Basic Extension">Visual Basic Extensions</a> (VBX) with <a href="/wiki/Visual_Basic" title="Visual Basic">Visual Basic</a> 1.0. A VBX is a packaged extension in the form of a <a href="/wiki/Dynamic-link_library" title="Dynamic-link library">dynamic-link library</a> (DLL) that allowed objects to be graphically placed in a form and manipulated by <a href="/wiki/Property_(programming)" title="Property (programming)">properties</a> and <a href="/wiki/Method_(computer_science)" title="Method (computer science)" class="mw-redirect">methods</a>. These were later adapted for use by other languages such as <a href="/wiki/Visual_C%2B%2B" title="Visual C++">Visual C++</a>.</p>
+<p>In 1992, when version <a href="/wiki/Windows_3.1x" title="Windows 3.1x">3.1</a> of Windows was released, Microsoft released OLE 2 with its underlying <a href="/wiki/Object_model" title="Object model">object model</a>. The COM <a href="/wiki/Application_binary_interface" title="Application binary interface">Application binary interface</a> (ABI) was the same as the MAPI ABI, which was released in 1992. While OLE 1 was focused on compound documents, COM and OLE 2 were designed to address software components in general. Text conversations and Windows messages had proved not to be flexible enough to allow sharing application features in a robust and extensible way, so COM was created as a new foundation, and OLE changed to OLE2.</p>
+<p>In 1994 <a href="/wiki/OLE_custom_control" title="OLE custom control" class="mw-redirect">OLE custom controls</a> (OCXs) were introduced as the successor to VBX controls. At the same time, Microsoft stated that OLE 2 would just be known as "OLE", and that OLE was no longer an acronym, but a name for all of the company's component technologies.</p>
+<p>In early 1996, Microsoft found a new use for OLE Custom Controls, expanding their Web browser's capability to present content, renamed some parts of OLE relating to the <a href="/wiki/Internet" title="Internet">Internet</a> <a href="/wiki/ActiveX" title="ActiveX">ActiveX</a>, and gradually renamed all OLE technologies to ActiveX, except the compound document technology that was used in <a href="/wiki/Microsoft_Office" title="Microsoft Office">Microsoft Office</a>. Later that year, <a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">DCOM</a> was introduced as an answer to <a href="/wiki/CORBA" title="CORBA" class="mw-redirect">CORBA</a>.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=3" title="Edit section: Related technologies">edit</a>]</span> <span class="mw-headline" id="Related_technologies">Related technologies</span></h2>
+<p>COM was the major software development platform for Windows and, as such, influenced development of a number of supporting technologies.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=4" title="Edit section: COM+">edit</a>]</span> <span class="mw-headline" id="COM.2B">COM+</span></h3>
+<p>In order for Microsoft to provide developers with support for <a href="/wiki/Distributed_transaction" title="Distributed transaction">distributed transactions</a>, resource pooling, disconnected applications, event publication and subscription, better memory and processor (thread) management, as well as to position Windows as an alternative to other enterprise-level operating systems, Microsoft introduced a technology called <a href="/wiki/Microsoft_Transaction_Server" title="Microsoft Transaction Server">Microsoft Transaction Server</a> (MTS) on Windows NT 4.</p>
+<p>With Windows 2000, that significant extension to COM was incorporated into the operating system (as opposed to the series of external tools provided by <a href="/wiki/Microsoft_Transaction_Server" title="Microsoft Transaction Server">MTS</a>) and renamed <b>COM+</b>. At the same time, Microsoft de-emphasized <a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">DCOM</a> as a separate entity. Components that made use of COM+ services were handled more directly by the added layer of COM+, in particular by operating system support for interception. In the first release of MTS, interception was tacked on - installing an MTS component would modify the <a href="/wiki/Windows_Registry" title="Windows Registry">Windows Registry</a> to call the MTS software, and not the component directly.</p>
+<p>Windows 2000 also revised the Component Services control panel application used to configure COM+ components.</p>
+<p>An advantage of COM+ was that it could be run in "component farms". Instances of a component, if coded properly, could be pooled and reused by new calls to its initializing routine without unloading it from memory. Components could also be distributed (called from another machine). COM+ and <a href="/wiki/Microsoft_Visual_Studio" title="Microsoft Visual Studio">Microsoft Visual Studio</a> provided tools to make it easy to generate client-side proxies, so although DCOM was used to actually make the remote call, it was easy to do for developers.</p>
+<p>COM+ also introduced a subscriber/publisher event mechanism called <b>COM+ Events</b>, and provided a new way of leveraging <a href="/wiki/Microsoft_Message_Queuing" title="Microsoft Message Queuing">MSMQ</a> (inter-application asynchronous messaging) with components called <b>Queued Components</b>. COM+ events extend the COM+ programming model to support late-bound events or method calls between the publisher or subscriber and the event system.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=5" title="Edit section: .NET">edit</a>]</span> <span class="mw-headline" id=".NET">.NET</span></h3>
+<div class="rellink relarticle mainarticle">Main article: <a href="/wiki/.NET_Framework" title=".NET Framework">.NET Framework</a></div>
+<p>COM development has <i>largely</i> been superseded by Microsoft .NET, and Microsoft now focuses its <a href="/wiki/Marketing" title="Marketing">marketing</a> efforts on <i>.NET</i>, with .NET providing wrappers to the most commonly used COM controls. COM is still often used to hook up complex, high performance code to front end code implemented in <a href="/wiki/Visual_Basic" title="Visual Basic">Visual Basic</a> or <a href="/wiki/Active_Server_Pages" title="Active Server Pages">ASP</a>. The .NET framework provides rapid development tools similar to Visual Basic for both <a href="/wiki/Windows_Forms" title="Windows Forms">Windows Forms</a> and <a href="/wiki/ASP.NET" title="ASP.NET">Web Forms</a> with <a href="/wiki/Just-in-time_compilation" title="Just-in-time compilation">just-in-time compilation</a>, back-end code can be implemented in any .NET Language including <a href="/wiki/C_Sharp_(programming_language)" title="C Sharp (programming language)">C#</a>, <a href="/wiki/Visual_Basic.NET" title="Visual Basic.NET" class="mw-redirect">Visual Basic</a> and <a href="/wiki/C%2B%2B/CLI" title="C++/CLI">C++/CLI</a>.</p>
+<p>Despite this, COM remains a viable technology with an important software base. As of 2009, Microsoft has no plans for discontinuing either COM or support for COM. It is also ideal for script control of applications such as Office or Internet Explorer since it provides an interface for calling COM object methods from a script rather than requiring knowing the API at compile time. The <a href="/wiki/GUID" title="GUID" class="mw-redirect">GUID</a> system used by COM has wide uses any time a unique ID is needed.</p>
+<p>Several of the services that COM+ provides have been largely replaced by recent releases of .NET. For example, the System.Transactions namespace in .NET provides the TransactionScope class, which provides transaction management without resorting to COM+. Similarly, <a href="/wiki/Queue_(data_structure)" title="Queue (data structure)" class="mw-redirect">queued components</a> can be replaced by <a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">Windows Communication Foundation</a> with an <a href="/wiki/MSMQ" title="MSMQ" class="mw-redirect">MSMQ</a> transport.</p>
+<p>There is limited support for backward compatibility. A COM object may be used in .NET by implementing a <i>runtime callable wrapper</i> (RCW).<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>3<span>]</span></a></sup>NET objects that conform to certain interface restrictions may be used in COM objects by calling a <i>COM callable wrapper</i> (CCW).<sup id="cite_ref-3" class="reference"><a href="#cite_note-3"><span>[</span>4<span>]</span></a></sup> From both the COM and .NET sides, objects using the other technology appear as native objects. See <a href="/wiki/COM_Interop" title="COM Interop">COM Interop</a>.</p>
+<p><a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">WCF</a> (Windows Communication Foundation) solves a number of COM's remote execution shortcomings, allowing objects to be transparently marshalled by value across process or machine boundaries.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=6" title="Edit section: Internet security">edit</a>]</span> <span class="mw-headline" id="Internet_security">Internet security</span></h2>
+<p>Microsoft's idea of embedding active content on web pages as COM/ActiveX components (rather than e.g. Java applets) created a combination of problems in the <a href="/wiki/Internet_Explorer" title="Internet Explorer">Internet Explorer</a> web browser that has led to an explosion of <a href="/wiki/Computer_virus" title="Computer virus">computer virus</a>, <a href="/wiki/Trojan_horse_(computing)" title="Trojan horse (computing)">trojan</a> and <a href="/wiki/Spyware" title="Spyware">spyware</a> infections. These <a href="/wiki/Malware" title="Malware">malware</a> attacks mostly depend on ActiveX for their activation and propagation to other computers. Microsoft recognized the problem with ActiveX as far back as 1996 when Charles Fitzgerald, program manager of Microsoft's Java team said "If you want security on the 'Net', unplug your computer. … We never made the claim up front that ActiveX is intrinsically secure."<sup id="cite_ref-4" class="reference"><a href="#cite_note-4"><span>[</span>5<span>]</span></a></sup></p>
+<p>As COM and ActiveX components are run as native code on the user's machine, there are fewer restrictions on what the code can do. Many of these problems have been addressed by the introduction of "Authenticode" <a href="/wiki/Code_signing" title="Code signing">code signing</a> (based on <a href="/wiki/Digital_signature" title="Digital signature">digital signatures</a>), and later by the <a href="/wiki/.NET_Framework" title=".NET Framework">.NET</a> platform. Another security measure is that, before an ActiveX control is installed, the user is prompted whether to allow the installation or not, enabling the user to disallow the installation of controls from sites that the user does not trust. It is also possible to disable ActiveX controls altogether, or to allow only a selected few.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=7" title="Edit section: Technical details">edit</a>]</span> <span class="mw-headline" id="Technical_details">Technical details</span></h2>
+<p>COM programmers build their software using COM-aware <a href="/wiki/Software_componentry" title="Software componentry" class="mw-redirect">components</a>. Different component types are identified by class IDs (CLSIDs), which are <a href="/wiki/Globally_Unique_Identifier" title="Globally Unique Identifier" class="mw-redirect">Globally Unique Identifiers</a> (GUIDs). Each COM component exposes its functionality through one or more <a href="/wiki/Interface_(computer_science)" title="Interface (computer science)" class="mw-redirect">interfaces</a>. The different interfaces supported by a component are distinguished from each other using interface IDs (IIDs), which are GUIDs too.</p>
+<p>COM interfaces have <a href="/wiki/Language_binding" title="Language binding">bindings</a> in several languages, such as <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>, <a href="/wiki/C%2B%2B" title="C++">C++</a>, <a href="/wiki/Visual_Basic" title="Visual Basic">Visual Basic</a>, <a href="/wiki/Delphi_(programming_language)" title="Delphi (programming language)" class="mw-redirect">Delphi</a>, and several of the scripting languages implemented on the Windows platform. All access to components is done through the <a href="/wiki/Method_(computer_science)" title="Method (computer science)" class="mw-redirect">methods</a> of the interfaces. This allows techniques such as inter-process, or even inter-computer programming (the latter using the support of <a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">DCOM</a>).</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=8" title="Edit section: Interfaces">edit</a>]</span> <span class="mw-headline" id="Interfaces">Interfaces</span></h3>
+<p>All COM components must (at the very least) implement the standard <code><a href="/wiki/IUnknown" title="IUnknown">IUnknown</a></code> interface, and thus all COM interfaces are <a href="/wiki/Inheritance_(computer_science)" title="Inheritance (computer science)" class="mw-redirect">derived</a> from <code>IUnknown</code>. The <code>IUnknown</code> interface consists of three methods: <code>AddRef()</code> and <code>Release()</code>, which implement <a href="/wiki/Reference_counting" title="Reference counting">reference counting</a> and controls the lifetime of interfaces; and <code>QueryInterface()</code>, which by specifying an IID allows a caller to retrieve references to the different interfaces the component implements. The effect of <code>QueryInterface()</code> is similar to <code><a href="/wiki/Dynamic_cast" title="Dynamic cast">dynamic_cast</a>&lt;&gt;</code> in <a href="/wiki/C%2B%2B" title="C++">C++</a> or <a href="/wiki/Type_conversion" title="Type conversion">casts</a> in <a href="/wiki/Java_(programming_language)" title="Java (programming language)">Java</a> and <a href="/wiki/C_Sharp_(programming_language)" title="C Sharp (programming language)">C#</a>.</p>
+<p>A COM component's interfaces are required to exhibit the <a href="/wiki/Equivalence_relation" title="Equivalence relation">reflexive, symmetric, and transitive</a> properties. The reflexive property refers to the ability for the <code>QueryInterface()</code> call on a given interface with the interface's ID to return the same instance of the interface. The symmetric property requires that when interface B is retrieved from interface A via <code>QueryInterface()</code>, interface A is retrievable from interface B as well. The transitive property requires that if interface B is obtainable from interface A and interface C is obtainable from interface B, then interface C should be retrievable from interface A.</p>
+<p>An interface consists of a pointer to a <a href="/wiki/Virtual_method_table" title="Virtual method table">virtual function table</a> that contains a list of pointers to the functions that implement the functions declared in the interface, in the same order that they are declared in the interface. This technique of passing structures of function pointers is very similar to the one used by <a href="/wiki/Object_Linking_and_Embedding" title="Object Linking and Embedding">OLE 1.0</a> to communicate with its system libraries.</p>
+<p>COM specifies many other standard interfaces used to allow inter-component communication. For example, one such interface is <code>IStream</code>, which is exposed by components that have data stream <a href="/wiki/Semantics" title="Semantics">semantics</a> (e.g. a <code>FileStream</code> component used to read or write files). It has the expected <code>Read</code> and <code>Write</code> methods to perform stream reads and writes. Another standard interface is <code>IOleObject</code>, which is exposed by components that expect to be linked or embedded into a container. <code>IOleObject</code> contains methods that allow callers to determine the size of the component's bounding rectangle, whether the component supports operations like 'Open', 'Save' and so on.</p>
+<h4><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=9" title="Edit section: Classes">edit</a>]</span> <span class="mw-headline" id="Classes">Classes</span></h4>
+<p>A class is COM's language-independent way of defining a class in the object-oriented sense.</p>
+<p>A class can be a group of similar objects or a class is simply a representation of a type of object; it should be thought of as a blueprint that describes the object.</p>
+<p>A coclass supplies <b>concrete</b> implementation(s) of one or more interfaces. In COM, such concrete implementations can be written in any programming language that supports COM component development, e.g. <a href="/wiki/CodeGear_Delphi" title="CodeGear Delphi" class="mw-redirect">Delphi</a>, C++, Visual Basic, etc.</p>
+<p>One of COM's major contributions to the world of Windows development is the awareness of the concept of <b>separation of interface from implementation</b>. An extension of this fundamental concept is the notion of <b>one interface, multiple implementations</b>. This means that at runtime, an application can choose to instantiate an interface from one of many different concrete implementations.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=10" title="Edit section: Interface Definition Language and type libraries">edit</a>]</span> <span class="mw-headline" id="Interface_Definition_Language_and_type_libraries">Interface Definition Language and type libraries</span></h3>
+<p>Type libraries contain metadata that represent COM types. However, these types must first be described using <a href="/wiki/Microsoft_Interface_Definition_Language" title="Microsoft Interface Definition Language">Microsoft Interface Definition Language</a>.</p>
+<p>This is the common practice in the development of a COM component, i.e. to start with the definition of types using <b>IDL.</b> An IDL file is what COM provides that allows developers to define object-oriented classes, interfaces, structures, enumerations and other user-defined types in a language independent manner. COM IDL is similar in appearance to C/C++ declarations with the addition of keywords such as "interface" and "library" for defining interfaces and collections of classes, respectively. IDL also requires the use of bracketed attributes before declarations to provide additional information, such as the GUIDs of interfaces and the relationships between pointer parameters and length fields.</p>
+<p>The IDL file is compiled by the MIDL compiler into a pair of forms for consumption from various languages. For C/C++, the MIDL compiler generates a compiler-independent header file containing struct definitions to match the <a href="/wiki/Virtual_method_table" title="Virtual method table">vtbls</a> of the declared interfaces and a C file containing declarations of the interface <a href="/wiki/Globally_Unique_Identifier" title="Globally Unique Identifier" class="mw-redirect">GUIDs</a>. C++ source code for a proxy module can also be generated by the MIDL compiler. This proxy contains method stubs for converting COM calls into <a href="/wiki/Remote_Procedure_Call" title="Remote Procedure Call" class="mw-redirect">Remote Procedure Calls</a>, thus enabling DCOM.</p>
+<p>An IDL file may also be compiled by the <a href="/wiki/MIDL" title="MIDL" class="mw-redirect">MIDL</a> compiler into a type library (.TLB file). The binary metadata contained within the type library is meant to be processed by language compilers and runtime environments (e.g. VB, Delphi, the .NET CLR etc.). The end result of such TLB processing is that language-specific constructs are produced that represent the COM class defined in the .TLB (and ultimately that which was defined in the originating IDL file).</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=11" title="Edit section: COM as an object framework">edit</a>]</span> <span class="mw-headline" id="COM_as_an_object_framework">COM as an object framework</span></h3>
+<p>The fundamental principles of COM have their roots in Object-Oriented philosophies. It is a platform for the realization of Object-Oriented Development and Deployment.</p>
+<p>Because COM is a runtime framework, types have to be individually identifiable and specifiable at runtime. To achieve this, <b>globally unique identifiers</b> (<b>GUIDs</b>) are used. Each COM type is designated its own GUID for identification at runtime (versus compile time).</p>
+<p>In order for information on COM types to be accessible at both compile time and runtime, COM uses type libraries. It is through the effective use of type libraries that COM achieves its capabilities as a dynamic framework for the interaction of objects.</p>
+<p>Consider the following example coclass definition in an IDL&#160;:</p>
+<pre>
+coclass CSomeObject
+{
+  [default] interface ISomeInterface;
+  [default, source] dispinterface _IMyObjectEvents;
+};
+</pre>
+<p>The above code fragment declares a COM class named CSomeObject which must implement an interface named ISomeInterface and which supports (not implements) the event interface _IMyObjectEvents.</p>
+<p>Ignoring the event interface bit, this is conceptually equivalent to defining a C++ class like this:</p>
+<pre>
+class CSomeObject : public ISomeInterface
+{
+  ...
+  ...
+  ...
+};
+</pre>
+<p>where ISomeInterface is a C++ <a href="/wiki/Pure_virtual_class" title="Pure virtual class" class="mw-redirect">pure virtual class</a>.</p>
+<p>Referring once again to the MyObject COM class: once a coclass definition for it has been formalized in an IDL, and a Type Library compiled from it, the onus is on the individual language compiler to read and appropriately interpret this Type Library and then produce whatever code (in the specific compiler's language) necessary for a developer to implement and ultimately produce the binary executable code which can be deemed by COM to be of coclass MyObject.</p>
+<p>Once an implementation of a COM coclass is built and is available in the system, next comes the question of how to instantiate it. In languages like C++, we can use the CoCreateInstance() API in which we specify the CLSID (CLSID_CSomeObject) of the coclass as well as the interface (specified by the IID IID_ISomeInterface) from that coclass that we want to use to interact with that coclass. Calling CoCreateInstance() like this:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="cpp source-cpp">
+<pre class="de1">
+ CoCreateInstance<span class="br0">(</span>CLSID_CSomeObject,
+     <span class="kw2">NULL</span>,
+     CLSCTX_INPROC_SERVER,
+     IID_ISomeInterface,
+     <span class="br0">(</span><span class="kw4">void</span><span class="sy2">**</span><span class="br0">)</span><span class="sy3">&amp;</span>pISomeInterface<span class="br0">)</span><span class="sy4">;</span>
+</pre></div>
+</div>
+<p>is conceptually equivalent to the following C++ code:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="cpp source-cpp">
+<pre class="de1">
+ ISomeInterface<span class="sy2">*</span> pISomeInterface <span class="sy1">=</span> <span class="kw3">new</span> CSomeObject<span class="br0">(</span><span class="br0">)</span><span class="sy4">;</span>
+</pre></div>
+</div>
+<p>In the first case, the COM sub-system is used to obtain a pointer to an object that implements the ISomeInterface interface and coclass CLSID_CSomeObject's particular implementation of this interface is required. In the second case, an instance of a C++ class CSomeObject that implements the interface ISomeInterface is created.</p>
+<p>A coclass, then, is an object-oriented class in the COM world. The main feature of the coclass is that it is (1) binary in nature and consequently (2) programming language-independent.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=12" title="Edit section: Registry">edit</a>]</span> <span class="mw-headline" id="Registry">Registry</span></h3>
+<div class="rellink relarticle mainarticle">Main article: <a href="/wiki/Windows_Registry" title="Windows Registry">Windows Registry</a></div>
+<p>In Windows, COM classes, interfaces and type libraries are listed by GUIDs in the <a href="/wiki/Windows_Registry" title="Windows Registry">registry</a>, under HKEY_CLASSES_ROOT\CLSID for classes and HKEY_CLASSES_ROOT\Interface for interfaces. The COM libraries use the registry to locate either the correct local libraries for each COM object or the network location for a remote service.</p>
+<p>Under the key HKCR\clsid, the following are specified:</p>
+<pre>
+-&gt; Inprocserver32 =  object is to be
+                 loaded into a process        +
+       Path to file/object and readable name
+</pre>
+<pre>
+HKCR\interface:
+ example:  ISTREAM, IRPCSTUB, IMESSAGEFILTER
+   connects to a CLSID. You can specify
+   NUMMETHODS and PROXYSTUB(if web-object)
+</pre>
+<pre>
+HKCR\typelib
+  One or more CLSID can be grouped into type library.
+  it contains parameters for linking in COM.
+</pre>
+<pre>
+ The rest of the info in the COM parts of the
+  REGISTRY, is to give an application/object
+   a CLSID.
+</pre>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=13" title="Edit section: Reference counting">edit</a>]</span> <span class="mw-headline" id="Reference_counting">Reference counting</span></h3>
+<p>The most fundamental COM interface of all, IUnknown (from which all COM interfaces must be derived), supports two main concepts: feature exploration through the <b>QueryInterface</b> method, and object lifetime management by including <b>AddRef()</b> and <b>Release()</b>. Reference counts and feature exploration apply to objects (not to each interface on an object) and thus must have a centralized implementation.</p>
+<p>The COM specifications require a technique called <a href="/wiki/Reference_counting" title="Reference counting">reference counting</a> to ensure that individual objects remain alive as long as there are clients which have acquired access to one or more of its interfaces and, conversely, that the same object is properly disposed of when all code that used the object have finished with it and no longer require it. A COM object is responsible for freeing its own memory once its reference count drops to zero.</p>
+<p>For its implementation, a COM Object usually maintains an integer value that is used for reference counting. When AddRef() is called via any of object's interfaces, this integer value is incremented. When Release() is called, this integer is decremented. AddRef() and Release() are the only means by which a client of a COM object is able to influence its lifetime. The internal integer value remains a private member of the COM object and will never be directly accessible.</p>
+<p>The purpose of AddRef() is to indicate to the COM object that an additional reference to itself has been affected and hence it is necessary to remain alive as long as this reference is still valid. Conversely, the purpose of Release() is to indicate to the COM object that a client (or a part of the client's code) has no further need for it and hence if this reference count has dropped to zero, it may be time to destroy itself.</p>
+<p>Certain languages (e.g. Visual Basic) provide automatic reference counting so that COM object developers need not explicitly maintain any internal reference counter in their source codes. Using COM in C, explicit reference counting is needed. In C++, a coder may write the reference counting code or use a <a href="/wiki/Smart_pointer" title="Smart pointer">smart pointer</a> that will manage all the reference counting.</p>
+<p>The following is a general guideline calling AddRef() and Release() to facilitate proper reference counting in COM object:</p>
+<ul>
+<li>Functions (whether object methods or global functions) that return interface references (via return value or via "out" parameter) should increment the reference count of the underlying object before returning. Hence internally within the function or method, AddRef() is called on the interface reference (to be returned). An example of this is the QueryInterface() method of the IUnknown interface. Hence it is imperative that developers be aware that the returned interface reference has already been reference count incremented and not call AddRef() on the returned interface reference yet another time.</li>
+<li>Release() must be called on an interface reference before that interface's pointer is overwritten or goes out of scope.</li>
+<li>If a copy is made on an interface reference pointer, AddRef() should be called on that pointer. After all, in this case, we are actually creating another reference on the underlying object.</li>
+<li>AddRef() and Release() must be called on the specific interface which is being referenced since an object may implement per-interface reference counts in order to allocate internal resources only for the interfaces which are being referenced.</li>
+<li>Extra calls to these functions are not sent out to remote objects over the wire; a proxy keeps only one reference on the remote object and maintains its own local reference count.</li>
+</ul>
+<p>To facilitate and promote COM development, Microsoft introduced <a href="/wiki/Active_Template_Library" title="Active Template Library">ATL (Active Template Library)</a> for C++ developers. ATL provides for a higher-level COM development paradigm. It also shields COM client application developers from the need to directly maintain reference counting, by providing <a href="/wiki/Smart_pointer" title="Smart pointer">smart pointer</a> objects.</p>
+<p>Other libraries and languages that are COM-aware include the <a href="/wiki/Microsoft_Foundation_Classes" title="Microsoft Foundation Classes" class="mw-redirect">Microsoft Foundation Classes</a>, the <a href="/wiki/Visual_C%2B%2B" title="Visual C++">VC</a> Compiler COM Support, <a href="/wiki/VBScript" title="VBScript">VBScript</a>, <a href="/wiki/Visual_Basic" title="Visual Basic">Visual Basic</a>, <a href="/wiki/ECMAScript" title="ECMAScript">ECMAScript</a> (<a href="/wiki/JavaScript" title="JavaScript">JavaScript</a>) and <a href="/wiki/Borland_Delphi" title="Borland Delphi" class="mw-redirect">Borland Delphi</a>.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=14" title="Edit section: Instantiation">edit</a>]</span> <span class="mw-headline" id="Instantiation">Instantiation</span></h3>
+<p>COM standardizes the instantiation (i.e. creation) process of COM objects by requiring the use of <b>Class Factories</b>. In order for a COM object to be created, two associated items must exist:</p>
+<ul>
+<li>A Class ID.</li>
+<li>A Class Factory.</li>
+</ul>
+<p>Each COM Class or <b>CoClass</b> must be associated with a unique Class ID (a GUID). It must also be associated with its own Class Factory (that is achieved by using a centralized registry). A Class Factory is itself a COM object. It is an object that must expose the IClassFactory or IClassFactory2 (the latter with licensing support) interface. The responsibility of such an object is to create other objects.</p>
+<p>A class factory object is usually contained within the same executable code (i.e. the <b>server code</b>) as the COM object itself. When a class factory is called upon to create a target object, this target object's class id must be provided. This is how the class factory knows which class of object to instantiate.</p>
+<p>A single class factory object may create objects of more than one class. That is, two objects of different class ids may be created by the same class factory object. However, this is transparent to the COM system.</p>
+<p>By delegating the responsibility of object creation into a separate object, a greater level of abstraction is promoted, and the developer is given greater flexibility. For example, implementation of the <b>Singleton</b> and other creation patterns is facilitated. Also, the calling application is shielded from the COM object's memory allocation semantics by the factory object.</p>
+<p>In order for client applications to be able to acquire class factory objects, COM servers must properly expose them. A class factory is exposed differently, depending on the nature of the server code. A server which is DLL-based must export a <b>DllGetClassObject()</b> global function. A server which is EXE-based registers the class factory at runtime via the <b>CoRegisterClassObject()</b> Windows API function.</p>
+<p>The following is a general outline of the sequence of object creation via its class factory:</p>
+<ol>
+<li>The object's class factory is obtained via the <b>CoGetClassObject()</b> API (a standard Windows API).<br />
+As part of the call to CoGetClassObject(), the Class ID of the object (to be created) must be supplied. The following C++ code demonstrates this:
+<pre>
+ IClassFactory* pIClassFactory = NULL;
+
+ CoGetClassObject(CLSID_SomeObject,
+     CLSCTX_ALL,
+     NULL,
+     IID_IClassFactory,
+     (LPVOID*)&amp;pIClassFactory);
+</pre>
+The above code indicates that the Class Factory object of a COM object, which is identified by the class id CLSID_SomeObject, is required. This class factory object is returned by way of its IClassFactory interface.</li>
+<li>The returned class factory object is then requested to create an instance of the originally intended COM object. The following C++ code demonstrates this:
+<pre>
+ ISomeObject* pISomeObject = NULL;
+
+ if (pIClassFactory)
+ {
+     pIClassFactory-&gt;CreateInstance (NULL,
+         IID_ISomeObject,
+         (LPVOID*)&amp;pISomeObject);
+
+     pIClassFactory-&gt;Release();
+
+     pIClassFactory = NULL;
+ }
+</pre>
+The above code indicates the use of the Class Factory object's <b>CreateInstance()</b> method to create an object which exposes an interface identified by the IID_ISomeObject GUID. A pointer to the ISomeObject interface of this object is returned. Also note that because the class factory object is itself a COM object, it needs to be released when it is no longer required (i.e. its <b>Release()</b> method must be called).</li>
+</ol>
+<p>The above demonstrates, at the most basic level, the use of a class factory to instantiate an object. Higher level constructs are also available, some of which do not even involve direct use of the Windows APIs.</p>
+<p>For example, the <b>CoCreateInstance()</b> API can be used by an application to directly create a COM object without acquiring the object's class factory. However, internally, the CoCreateInstance() API itself will invoke the CoGetClassObject() API to obtain the object's class factory and then use the class factory's CreateInstance() method to create the COM object.</p>
+<p>VBScript supplies the <b>New</b> keyword as well as the <b>CreateObject()</b> global function for object instantiation. These language constructs encapsulate the acquisition of the class factory object of the target object (via the CoGetClassObject() API) followed by the invocation of the IClassFactory::CreateInstance() method.</p>
+<p>Other languages, e.g. PowerBuilder's PowerScript may also provide their own high-level object creation constructs. However, CoGetClassObject() and the IClassFactory interface remain the most fundamental object creation technique.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=15" title="Edit section: Reflection">edit</a>]</span> <span class="mw-headline" id="Reflection">Reflection</span></h3>
+<div class="rellink boilerplate seealso">See also: <a href="/wiki/Reflection_(computer_science)" title="Reflection (computer science)" class="mw-redirect">reflection (computer science)</a></div>
+<p>At the time of the inception of COM technologies, the only way for a client to find out what features an object would offer was to actually create one instance and call into its QueryInterface method (part of the required IUnknown interface). This way of exploration became awkward for many applications, including the selection of appropriate components for a certain task, and tools to help a developer understand how to use methods provided by an object.</p>
+<p>As a result, COM Type Libraries were introduced, through which components can describe themselves. A type library contains information such as the CLSID of a component, the IIDs of the interfaces the component implements, and descriptions of each of the methods of those interfaces. Type libraries are typically used by <a href="/wiki/Rapid_application_development" title="Rapid application development">Rapid Application Development</a> (RAD) environments such as <a href="/wiki/Delphi" title="Delphi">Delphi</a>, <a href="/wiki/Visual_Basic" title="Visual Basic">Visual Basic</a> or <a href="/wiki/Visual_Studio" title="Visual Studio" class="mw-redirect">Visual Studio</a> to assist developers of client applications.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=16" title="Edit section: Programming">edit</a>]</span> <span class="mw-headline" id="Programming">Programming</span></h3>
+<p>COM is a binary standard (also said to be <b>language agnostic</b>) and may be developed in any programming language capable of understanding and implementing its binary defined data types and interfaces.</p>
+<p>Runtime libraries (in extreme situations, the programmers) are responsible for entering and leaving the COM environment, instantiating and reference counting COM objects, querying objects for version information, coding to take advantage of advanced object versions, and coding <a href="/wiki/Graceful_degradation" title="Graceful degradation" class="mw-redirect">graceful degradation</a> of function when newer versions are not available.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=17" title="Edit section: Application and network transparency">edit</a>]</span> <span class="mw-headline" id="Application_and_network_transparency">Application and network transparency</span></h3>
+<p>COM objects may be instantiated and referenced from within a process, across process boundaries within a computer, and across a network, using the DCOM technology. <a href="/w/index.php?title=Out-of-process&amp;action=edit&amp;redlink=1" class="new" title="Out-of-process (page does not exist)">Out-of-process</a> and remote objects may use <a href="/wiki/Serialization" title="Serialization">marshalling</a> to send method calls and return values back and forth. The marshalling is invisible to the object and the code using the object.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=18" title="Edit section: Threading in COM">edit</a>]</span> <span class="mw-headline" id="Threading_in_COM">Threading in COM</span></h3>
+<p>In COM, threading issues are addressed by a concept known as "<b>apartment models</b>". Here the term "<b>apartment</b>" refers to an execution context wherein a single thread or a group of threads is associated with one or more <b>COM objects</b>.</p>
+<p>Apartments stipulate the following general guidelines for participating threads and objects:</p>
+<ul>
+<li>Each COM object is associated with one and only one apartment. This is decided at the time the object is created at runtime. After this initial setup, the object remains in that apartment throughout its lifetime.</li>
+<li>A COM thread (i.e., a thread in which COM objects are created or COM method calls are made) is also associated with an apartment. Like COM objects, the apartment with which a thread is associated is also decided at initialization time. Each COM thread also remains in its designated apartment until it terminates.</li>
+<li>Threads and objects which belong to the same apartment are said to follow the same thread access rules. Method calls which are made inside the same apartment are performed directly without any assistance from COM.</li>
+<li>Threads and objects from different apartments are said to play by different thread access rules. Method calls made across apartments are achieved via marshalling. This requires the use of proxies and stubs.</li>
+</ul>
+<p>There are three types of Apartment Models in the COM world: <b><a href="/wiki/Single_threading" title="Single threading">Single-Threaded</a> Apartment (STA)</b>, <b>Multi-Threaded Apartment (MTA)</b>, and <b>Neutral Apartment</b>. Each apartment represents one mechanism whereby an object's internal state may be synchronized across multiple threads.</p>
+<p>The Single-Threaded Apartment (STA) model is a very commonly used model. Here, a COM object stands in a position similar to a desktop application's user interface. In an STA model, a single thread is dedicated to drive an object's methods, i.e. a single thread is always used to execute the methods of the object. In such an arrangement, method calls from threads outside of the apartment are <a href="/wiki/Marshalling_(computer_science)" title="Marshalling (computer science)">marshalled</a> and automatically queued by the system (via a standard Windows message queue). Thus, there is no worry about race conditions or lack of synchronicity because each method call of an object is always executed to completion before another is invoked.</p>
+<p>If the COM object's methods perform their own synchronization, multiple threads dedicated to calling methods on the COM object are permitted. This is termed the Multiple Threaded Apartment (MTA). Calls to an MTA object from a thread in an STA are also marshaled. A process can consist of multiple COM objects, some of which may use STA and others of which may use MTA. The Thread Neutral Apartment allows different threads, none of which is necessarily dedicated to calling methods on the object, to make such calls. The only provision is that all methods on the object must be serially reentrant.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=19" title="Edit section: Criticisms">edit</a>]</span> <span class="mw-headline" id="Criticisms">Criticisms</span></h2>
+<p>Since COM has a fairly complex implementation, programmers can be distracted by some of the "plumbing" issues.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=20" title="Edit section: Message pumping">edit</a>]</span> <span class="mw-headline" id="Message_pumping">Message pumping</span></h3>
+<p>When an STA is initialized it creates a hidden window that is used for inter-apartment and inter-process message routing. This window must have its message queue regularly pumped. This construct is known as a <a href="/wiki/Message_pump" title="Message pump" class="mw-redirect">message pump</a>. On earlier versions of Windows, failure to do so could cause system-wide deadlocks. This problem is complicated by some Windows APIs that initialize COM as part of their implementation, which causes a leak of implementation details.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=21" title="Edit section: Reference counting">edit</a>]</span> <span class="mw-headline" id="Reference_counting_2">Reference counting</span></h3>
+<p>Reference counting within COM may cause problems if two or more objects are <a href="/wiki/Circular_reference" title="Circular reference">circularly referenced</a>. The design of an application must take this into account so that objects are not left orphaned.</p>
+<p>Objects may also be left with active reference counts if the COM "event sink" model is used. Since the object that fires the event needs a reference to the object reacting to the event, the object's reference count will never reach zero.</p>
+<p>Reference cycles are typically broken using either out-of-band termination or split identities. In the out of band termination technique, an object exposes a method which, when called, forces it to drop its references to other objects, thereby breaking the cycle. In the split identity technique, a single implementation exposes two separate COM objects (also known as identities). This creates a <a href="/wiki/Weak_reference" title="Weak reference">weak reference</a> between the COM objects, preventing a reference cycle.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=22" title="Edit section: DLL Hell">edit</a>]</span> <span class="mw-headline" id="DLL_Hell">DLL Hell</span></h3>
+<div class="rellink relarticle mainarticle">Main article: <a href="/wiki/DLL_Hell" title="DLL Hell">DLL Hell</a></div>
+<p>Because COM components are usually implemented in DLL files and registration allows only single version of a DLL they are subject of "DLL Hell" effect. Registration-free COM capability eliminates the problem.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=23" title="Edit section: RegFree COM">edit</a>]</span> <span class="mw-headline" id="RegFree_COM">RegFree COM</span></h2>
+<p><b>RegFree COM</b> (or <b>Registration-Free COM</b>) is a technology introduced with <a href="/wiki/Windows_XP" title="Windows XP">Windows XP</a> that allows Component Object Model (COM) <a href="/wiki/Software_componentry" title="Software componentry" class="mw-redirect">components</a> to store activation <a href="/wiki/Metadata" title="Metadata">metadata</a> and CLSID (<code><a href="/wiki/Class_(computing)" title="Class (computing)" class="mw-redirect">Class</a> ID</code>) for the component without using the <a href="/wiki/Windows_Registry" title="Windows Registry">registry</a>. Instead, the metadata and CLSIDs of the classes implemented in the component are declared in an assembly manifest (described using <a href="/wiki/XML" title="XML">XML</a>), stored either as a resource in the executable or as a separate file installed with the component.<sup id="cite_ref-msdndocs_5-0" class="reference"><a href="#cite_note-msdndocs-5"><span>[</span>6<span>]</span></a></sup> This allows multiple versions of the same component to be installed in different directories, described by their own manifests, as well as <a href="/wiki/XCOPY_deployment" title="XCOPY deployment">XCOPY deployment</a>.<sup id="cite_ref-msdnmag_6-0" class="reference"><a href="#cite_note-msdnmag-6"><span>[</span>7<span>]</span></a></sup> This technique has limited support for EXE COM servers<sup id="cite_ref-7" class="reference"><a href="#cite_note-7"><span>[</span>8<span>]</span></a></sup> and cannot be used for system-wide components such as <a href="/wiki/MDAC" title="MDAC" class="mw-redirect">MDAC</a>, <a href="/wiki/MSXML" title="MSXML">MSXML</a>, <a href="/wiki/DirectX" title="DirectX">DirectX</a> or <a href="/wiki/Internet_Explorer" title="Internet Explorer">Internet Explorer</a>.</p>
+<p>During application loading, the Windows loader searches for the manifest.<sup id="cite_ref-isoconcept_8-0" class="reference"><a href="#cite_note-isoconcept-8"><span>[</span>9<span>]</span></a></sup> If it is present, the loader adds information from it to the activation context <sup id="cite_ref-msdnmag_6-1" class="reference"><a href="#cite_note-msdnmag-6"><span>[</span>7<span>]</span></a></sup> When the COM class factory tries to instantiate a class, the activation context is first checked to see if an implementation for the CLSID can be found. Only if the lookup fails is the <a href="/wiki/Windows_Registry" title="Windows Registry">registry</a> scanned.<sup id="cite_ref-msdnmag_6-2" class="reference"><a href="#cite_note-msdnmag-6"><span>[</span>7<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=24" title="Edit section: See also">edit</a>]</span> <span class="mw-headline" id="See_also">See also</span></h2>
+<ul>
+<li><a href="/wiki/Portable_object_(computing)" title="Portable object (computing)">Portable object (computing)</a> cross language cross platform Object Model definition</li>
+<li><a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">Distributed Component Object Model</a> (DCOM), extension making COM able to work in networks</li>
+<li><a href="/wiki/Common_Language_Infrastructure" title="Common Language Infrastructure">Common Language Infrastructure</a> current .Net cross language cross platform Object Model</li>
+<li><a href="/wiki/CORBA" title="CORBA" class="mw-redirect">CORBA</a> Common Object Request Broker Architecture, open cross language cross platform object model</li>
+<li><a href="/wiki/Freedesktop.org" title="Freedesktop.org">Freedesktop.org</a> <a href="/wiki/D-Bus" title="D-Bus">D-Bus</a> current open cross language cross platform Object Model</li>
+<li><a href="/wiki/GNOME" title="GNOME">GNOME</a> <a href="/wiki/Bonobo_(computing)" title="Bonobo (computing)" class="mw-redirect">Bonobo</a> deprecated GNOME cross language Object Model</li>
+<li><a href="/wiki/KDE" title="KDE">KDE</a> <a href="/wiki/DCOP" title="DCOP">DCOP</a> deprecated KDE interprocess and software componentry communication system</li>
+<li><a href="/wiki/KDE" title="KDE">KDE</a> <a href="/wiki/KPart" title="KPart" class="mw-redirect">KPart</a> KDE component framework</li>
+<li><a href="/wiki/XPCOM" title="XPCOM">XPCOM</a> Mozilla applications cross Platform Component Object Model</li>
+<li><a href="/wiki/IBM_System_Object_Model" title="IBM System Object Model">IBM System Object Model</a> SOM, a component system from IBM used in OS/2</li>
+<li><a href="/wiki/Java_Beans" title="Java Beans" class="mw-redirect">Java Beans</a></li>
+<li><a href="/wiki/Java_Remote_Method_Invocation" title="Java Remote Method Invocation" class="mw-redirect">Java Remote Method Invocation</a></li>
+<li><a href="/wiki/Internet_Communications_Engine" title="Internet Communications Engine">Internet Communications Engine</a></li>
+<li><a href="/wiki/Language_binding" title="Language binding">Language binding</a></li>
+<li><a href="/wiki/Foreign_function_interface" title="Foreign function interface">Foreign function interface</a></li>
+<li><a href="/wiki/Calling_convention" title="Calling convention">Calling convention</a></li>
+<li><a href="/wiki/Name_mangling" title="Name mangling">Name mangling</a></li>
+<li><a href="/wiki/Application_programming_interface" title="Application programming interface">Application programming interface</a> - API</li>
+<li><a href="/wiki/Application_Binary_Interface" title="Application Binary Interface" class="mw-redirect">Application Binary Interface</a> - ABI</li>
+<li><a href="/wiki/Comparison_of_application_virtual_machines" title="Comparison of application virtual machines">Comparison of application virtual machines</a></li>
+<li><a href="/wiki/SWIG" title="SWIG">SWIG</a> opensource automatic interfaces bindings generator from many languages to other languages</li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=25" title="Edit section: References">edit</a>]</span> <span class="mw-headline" id="References">References</span></h2>
+<table class="metadata plainlinks ambox ambox-content ambox-Refimprove" style="">
+<tr>
+<td class="mbox-image">
+<div style="width: 52px;"><img alt="" src="//upload.wikimedia.org/wikipedia/en/thumb/9/99/Question_book-new.svg/50px-Question_book-new.svg.png" width="50" height="39" /></div>
+</td>
+<td class="mbox-text" style="">This article <b>needs additional <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">citations</a> for <a href="/wiki/Wikipedia:Verifiability" title="Wikipedia:Verifiability">verification</a></b>. Please help <a class="external text" href="//en.wikipedia.org/w/index.php?title=Component_Object_Model&amp;action=edit">improve this article</a> by adding citations to <a href="/wiki/Wikipedia:Identifying_reliable_sources" title="Wikipedia:Identifying reliable sources">reliable sources</a>. Unsourced material may be <a href="/wiki/Template:Citation_needed" title="Template:Citation needed">challenged</a> and <a href="/wiki/Wikipedia:Verifiability#Burden_of_evidence" title="Wikipedia:Verifiability">removed</a>. <small><i>(April 2008)</i></small></td>
+</tr>
+</table>
+<ol class="references">
+<li id="cite_note-0"><b><a href="#cite_ref-0">^</a></b> <a rel="nofollow" class="external free" href="http://developer.apple.com/library/mac/#documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html%23//apple_ref/doc/uid/20001160-102910-BAJFDFFC">http://developer.apple.com/library/mac/#documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/conceptual.html%23//apple_ref/doc/uid/20001160-102910-BAJFDFFC</a></li>
+<li id="cite_note-COM_on_MacOS-1"><b><a href="#cite_ref-COM_on_MacOS_1-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://developer.apple.com/library/mac/#documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/com.html#//apple_ref/doc/uid/20001158-CJBEJBHH">"Plug-ins and Microsoft’s COM"</a>. <a href="/wiki/Apple_Inc." title="Apple Inc.">Apple Inc.</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://developer.apple.com/library/mac/#documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/com.html#//apple_ref/doc/uid/20001158-CJBEJBHH">http://developer.apple.com/library/mac/#documentation/CoreFoundation/Conceptual/CFPlugIns/Concepts/com.html#//apple_ref/doc/uid/20001158-CJBEJBHH</a></span><span class="reference-accessdate">. Retrieved 2010-10-05</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Plug-ins+and+Microsoft%E2%80%99s+COM&amp;rft.atitle=&amp;rft.pub=%5B%5BApple+Inc.%5D%5D&amp;rft_id=http%3A%2F%2Fdeveloper.apple.com%2Flibrary%2Fmac%2F%23documentation%2FCoreFoundation%2FConceptual%2FCFPlugIns%2FConcepts%2Fcom.html%23%2F%2Fapple_ref%2Fdoc%2Fuid%2F20001158-CJBEJBHH&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-2"><b><a href="#cite_ref-2">^</a></b> <a rel="nofollow" class="external text" href="http://msdn.microsoft.com/en-us/library/8bwh56xe.aspx">Runtime Callable Wrapper — MSDN Library</a></li>
+<li id="cite_note-3"><b><a href="#cite_ref-3">^</a></b> <a rel="nofollow" class="external text" href="http://msdn.microsoft.com/f07c8z1c.aspx">COM callable wrapper — MSDN Library</a></li>
+<li id="cite_note-4"><b><a href="#cite_ref-4">^</a></b> <a rel="nofollow" class="external free" href="http://replay.waybackmachine.org/20060810235058/http://www.javaworld.com/javaworld/jw-03-1997/jw-03-component.web97.html">http://replay.waybackmachine.org/20060810235058/http://www.javaworld.com/javaworld/jw-03-1997/jw-03-component.web97.html</a></li>
+<li id="cite_note-msdndocs-5"><b><a href="#cite_ref-msdndocs_5-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://msdn.microsoft.com/en-us/library/aa374219(VS.85).aspx">"Assembly Manifests"</a>. <a href="/wiki/MSDN" title="MSDN" class="mw-redirect">MSDN</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://msdn.microsoft.com/en-us/library/aa374219(VS.85).aspx">http://msdn.microsoft.com/en-us/library/aa374219(VS.85).aspx</a></span><span class="reference-accessdate">. Retrieved 2009-11-05</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Assembly+Manifests&amp;rft.atitle=&amp;rft.pub=%5B%5BMSDN%5D%5D&amp;rft_id=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Faa374219%28VS.85%29.aspx&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-msdnmag-6">^ <a href="#cite_ref-msdnmag_6-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-msdnmag_6-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-msdnmag_6-2"><sup><i><b>c</b></i></sup></a> <span class="citation web">Dave Templin. <a rel="nofollow" class="external text" href="http://msdn.microsoft.com/en-us/magazine/cc188708.aspx">"Simplify App Deployment with ClickOnce and Registration-Free COM"</a>. <a href="/wiki/MSDN" title="MSDN" class="mw-redirect">MSDN</a> Magazine<span class="printonly">. <a rel="nofollow" class="external free" href="http://msdn.microsoft.com/en-us/magazine/cc188708.aspx">http://msdn.microsoft.com/en-us/magazine/cc188708.aspx</a></span><span class="reference-accessdate">. Retrieved 2008-04-22</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Simplify+App+Deployment+with+ClickOnce+and+Registration-Free+COM&amp;rft.atitle=&amp;rft.aulast=Dave+Templin&amp;rft.au=Dave+Templin&amp;rft.pub=%5B%5BMSDN%5D%5D+Magazine&amp;rft_id=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Fmagazine%2Fcc188708.aspx&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-7"><b><a href="#cite_ref-7">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://stackoverflow.com/questions/2369181/how-to-use-an-out-of-process-com-server-without-its-tlb-file">"How to use an out-of-process COM server without its tlb file"</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://stackoverflow.com/questions/2369181/how-to-use-an-out-of-process-com-server-without-its-tlb-file">http://stackoverflow.com/questions/2369181/how-to-use-an-out-of-process-com-server-without-its-tlb-file</a></span><span class="reference-accessdate">. Retrieved 2011-04-16</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=How+to+use+an+out-of-process+COM+server+without+its+tlb+file&amp;rft.atitle=&amp;rft_id=http%3A%2F%2Fstackoverflow.com%2Fquestions%2F2369181%2Fhow-to-use-an-out-of-process-com-server-without-its-tlb-file&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-isoconcept-8"><b><a href="#cite_ref-isoconcept_8-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://msdn.microsoft.com/en-us/library/ms235531(VS.80).aspx">"Concepts of Isolated Applications and Side-by-side Assemblies"</a>. <a href="/wiki/MSDN" title="MSDN" class="mw-redirect">MSDN</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://msdn.microsoft.com/en-us/library/ms235531(VS.80).aspx">http://msdn.microsoft.com/en-us/library/ms235531(VS.80).aspx</a></span><span class="reference-accessdate">. Retrieved 2009-11-05</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Concepts+of+Isolated+Applications+and+Side-by-side+Assemblies&amp;rft.atitle=&amp;rft.pub=%5B%5BMSDN%5D%5D&amp;rft_id=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Fms235531%28VS.80%29.aspx&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+</ol>
+<ul>
+<li><span class="citation web"><a rel="nofollow" class="external text" href="http://www.cs.ucr.edu/~dberger/Documents/Presentations/com-intro.ppt">"COM: A Brief Introduction (powerpoint)"</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://www.cs.ucr.edu/~dberger/Documents/Presentations/com-intro.ppt">http://www.cs.ucr.edu/~dberger/Documents/Presentations/com-intro.ppt</a></span><span class="reference-accessdate">. Retrieved March 7, 2006</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=COM%3A+A+Brief+Introduction+%28powerpoint%29&amp;rft.atitle=&amp;rft_id=http%3A%2F%2Fwww.cs.ucr.edu%2F%7Edberger%2FDocuments%2FPresentations%2Fcom-intro.ppt&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li><span class="citation book"><a href="/wiki/Don_Box" title="Don Box">Box, Don</a> (1998). <i>Essential COM</i>. Addison-Wesley. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/0-201-63446-5" title="Special:BookSources/0-201-63446-5">0-201-63446-5</a>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Essential+COM&amp;rft.aulast=Box&amp;rft.aufirst=Don&amp;rft.au=Box%2C%26%2332%3BDon&amp;rft.date=1998&amp;rft.pub=Addison-Wesley&amp;rft.isbn=0-201-63446-5&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li><span class="citation book"><a href="/w/index.php?title=David_Chappell&amp;action=edit&amp;redlink=1" class="new" title="David Chappell (page does not exist)">Chappell, David</a> (1996). <i>Understanding ActiveX and OLE</i>. Microsoft Press. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/978-1572312166" title="Special:BookSources/978-1572312166">978-1572312166</a>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Understanding+ActiveX+and+OLE&amp;rft.aulast=Chappell&amp;rft.aufirst=David&amp;rft.au=Chappell%2C%26%2332%3BDavid&amp;rft.date=1996&amp;rft.pub=Microsoft+Press&amp;rft.isbn=978-1572312166&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+<li><span class="citation web"><a rel="nofollow" class="external text" href="http://msdn.microsoft.com/en-us/library/bb978523.aspx">"Integration and Migration of COM+ services to WCF"</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://msdn.microsoft.com/en-us/library/bb978523.aspx">http://msdn.microsoft.com/en-us/library/bb978523.aspx</a></span><span class="reference-accessdate">. Retrieved April 15, 2010</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Integration+and+Migration+of+COM%2B+services+to+WCF&amp;rft.atitle=&amp;rft_id=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Fbb978523.aspx&amp;rfr_id=info:sid/en.wikipedia.org:Component_Object_Model"><span style="display: none;">&#160;</span></span></li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=Component_Object_Model&amp;action=edit&amp;section=26" title="Edit section: External links">edit</a>]</span> <span class="mw-headline" id="External_links">External links</span></h2>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://www.microsoft.com/com/">Microsoft COM Technologies</a></li>
+<li><a rel="nofollow" class="external text" href="http://channel9.msdn.com/ShowPost.aspx?PostID=224935">Interview with Tony Williams, Co-Inventor of COM</a> (Video Webcast, August 2006)</li>
+<li><a rel="nofollow" class="external text" href="http://www.polberger.se/components/read/com.html">A concise technical overview of COM</a> from master's thesis</li>
+<li><a rel="nofollow" class="external text" href="http://support.microsoft.com/kb/159621/en-us">Info: Difference Between OLE Controls and ActiveX Controls</a> from Microsoft</li>
+<li><a rel="nofollow" class="external text" href="http://theircorp.byethost11.com/index.php?vw=TypeLib">TypeLib Data Format Specification (unofficial)</a> with open source dumper utility.</li>
+<li><a rel="nofollow" class="external text" href="http://www.innovatia.com/software/papers/com.htm">The COM / DCOM Glossary</a></li>
+</ul>
+<table class="navbox" cellspacing="0" style=";">
+<tr>
+<td style="padding:2px;">
+<table cellspacing="0" class="nowraplinks collapsible autocollapse" style="width:100%;background:transparent;color:inherit;;">
+<tr>
+<th scope="col" style=";" class="navbox-title" colspan="2">
+<div class="noprint plainlinks hlist navbar" style="">
+<ul>
+<li class="nv-view"><a href="/wiki/Template:Microsoft_APIs" title="Template:Microsoft APIs"><span style=";;background:none transparent;border:none;" title="View this template">v</span></a></li>
+<li class="nv-talk"><a href="/wiki/Template_talk:Microsoft_APIs" title="Template talk:Microsoft APIs"><span style=";;background:none transparent;border:none;" title="Discuss this template">d</span></a></li>
+<li class="nv-edit"><a class="external text" href="//en.wikipedia.org/w/index.php?title=Template:Microsoft_APIs&amp;action=edit"><span style=";;background:none transparent;border:none;" title="Edit this template">e</span></a></li>
+</ul>
+</div>
+<div class="" style="font-size:110%;"><a href="/wiki/List_of_Microsoft_Windows_application_programming_interfaces_and_frameworks" title="List of Microsoft Windows application programming interfaces and frameworks">Microsoft APIs and frameworks</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Graphics</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Desktop_Window_Manager" title="Desktop Window Manager">Desktop Window Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Direct2D" title="Direct2D">Direct2D</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Direct3D" title="Microsoft Direct3D">Direct3D</a> <a href="/wiki/D3DX" title="D3DX">(extensions)</a> &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Graphics_Device_Interface" title="Graphics Device Interface">GDI / GDI+</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Presentation_Foundation" title="Windows Presentation Foundation">WPF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Color_System" title="Windows Color System">Windows Color System</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Image_Acquisition" title="Windows Image Acquisition">Windows Image Acquisition</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Imaging_Component" title="Windows Imaging Component">Windows Imaging Component</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Audio</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/DirectMusic" title="DirectMusic">DirectMusic</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectSound" title="DirectSound">DirectSound</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectX_plugin" title="DirectX plugin">DirectX plugin</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Cross-platform_Audio_Creation_Tool" title="Cross-platform Audio Creation Tool">XACT</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Speech_API" title="Microsoft Speech API">Speech API</a> &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/XAudio2" title="XAudio2">XAudio2</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Multimedia</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/DirectX" title="DirectX">DirectX</a> (<a href="/wiki/DirectX_Media_Objects" title="DirectX Media Objects" class="mw-redirect">Media Objects</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectX_Video_Acceleration" title="DirectX Video Acceleration">Video Acceleration</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectInput" title="DirectInput">DirectInput</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectShow" title="DirectShow">DirectShow</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Image_Mastering_API" title="Image Mastering API">Image Mastering API</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Managed_DirectX" title="Managed DirectX">Managed DirectX</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Media_Foundation" title="Media Foundation">Media Foundation</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_XNA" title="Microsoft XNA">XNA</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Media" title="Windows Media">Windows Media</a> &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Video_for_Windows" title="Video for Windows">Video for Windows</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Web</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Trident_(layout_engine)" title="Trident (layout engine)">MSHTML</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_RSS_Platform" title="Windows RSS Platform">RSS Platform</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/JScript" title="JScript">JScript</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/VBScript" title="VBScript">VBScript</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Browser_Helper_Object" title="Browser Helper Object">BHO</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/XMLHttpRequest" title="XMLHttpRequest">XDR</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Gadgets" title="Microsoft Gadgets">SideBar Gadgets</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Data access</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Microsoft_Data_Access_Components" title="Microsoft Data Access Components">Data Access Components</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Extensible_Storage_Engine" title="Extensible Storage Engine">Extensible Storage Engine</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ADO.NET" title="ADO.NET">ADO.NET</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ADO.NET_Entity_Framework" title="ADO.NET Entity Framework">ADO.NET Entity Framework</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Sync_Framework" title="Microsoft Sync Framework">Sync Framework</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Jet_Database_Engine" title="Microsoft Jet Database Engine">Jet Engine</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/MSXML" title="MSXML">MSXML</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/OLE_DB" title="OLE DB">OLE DB</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Open_Packaging_Conventions" title="Open Packaging Conventions">OPC</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Networking</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Winsock" title="Winsock">Winsock</a> (<a href="/wiki/Layered_Service_Provider" title="Layered Service Provider">LSP</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Vista_networking_technologies#Winsock_Kernel" title="Windows Vista networking technologies">Winsock Kernel</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Filtering_Platform" title="Windows Filtering Platform">Filtering Platform</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Network_Driver_Interface_Specification" title="Network Driver Interface Specification">Network Driver Interface Specification</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Rally" title="Windows Rally">Windows Rally</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Background_Intelligent_Transfer_Service" title="Background Intelligent Transfer Service">BITS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Vista_networking_technologies#Peer-to-peer_communication" title="Windows Vista networking technologies">P2P API</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Message_Queuing" title="Microsoft Message Queuing">MSMQ</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Messaging_Passing_Interface" title="Microsoft Messaging Passing Interface">MS MPI</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectPlay" title="DirectPlay">DirectPlay</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Communication</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Messaging_Application_Programming_Interface" title="Messaging Application Programming Interface">Messaging API</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Telephony_Application_Programming_Interface" title="Telephony Application Programming Interface">Telephony API</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">WCF</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">
+<div style="line-height:1.1em;">Administration and<br />
+management</div>
+</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Win32_console" title="Win32 console">Win32 console</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Script_Host" title="Windows Script Host">Windows Script Host</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Management_Instrumentation" title="Windows Management Instrumentation">WMI (extensions)</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_PowerShell" title="Windows PowerShell">PowerShell</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Task_Scheduler" title="Task Scheduler" class="mw-redirect">Task Scheduler</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Vista_I/O_technologies#Offline_Files" title="Windows Vista I/O technologies">Offline Files</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Shadow_Copy" title="Shadow Copy">Shadow Copy</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Installer" title="Windows Installer">Windows Installer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Error_Reporting" title="Windows Error Reporting">Error Reporting</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Event_Viewer#Windows_Event_Log" title="Event Viewer">Event Log</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Common_Log_File_System" title="Common Log File System">Common Log File System</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/Component-based_software_engineering" title="Component-based software engineering">Component model</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><strong class="selflink">COM</strong>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Component_Object_Model#COM.2B" title="Component Object Model">COM+</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ActiveX" title="ActiveX">ActiveX</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">Distributed Component Object Model</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/.NET_Framework" title=".NET Framework">.NET Framework</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/Library_(computing)" title="Library (computing)">Libraries</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Base_Class_Library" title="Base Class Library">Base Class Library (BCL)</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Foundation_Class_Library" title="Microsoft Foundation Class Library">Microsoft Foundation Classes (MFC)</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Active_Template_Library" title="Active Template Library">Active Template Library (ATL)</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Template_Library" title="Windows Template Library">Windows Template Library (WTL)</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Device drivers</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Windows_Driver_Model" title="Windows Driver Model">Windows Driver Model</a> &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Driver_Foundation" title="Windows Driver Foundation">Windows Driver Foundation</a> (<a href="/wiki/Kernel-Mode_Driver_Framework" title="Kernel-Mode Driver Framework">KMDF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/User-Mode_Driver_Framework" title="User-Mode Driver Framework" class="mw-redirect">UMDF</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Display_Driver_Model" title="Windows Display Driver Model">WDDM</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Network_Driver_Interface_Specification" title="Network Driver Interface Specification">NDIS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Universal_Audio_Architecture" title="Universal Audio Architecture">UAA</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Broadcast_Driver_Architecture" title="Broadcast Driver Architecture">Broadcast Driver Architecture</a> &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/VxD" title="VxD">VxD</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Security</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Microsoft_CryptoAPI" title="Microsoft CryptoAPI">Crypto API</a> (<a href="/wiki/CAPICOM" title="CAPICOM">CAPICOM</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_CardSpace" title="Windows CardSpace">Windows CardSpace</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Data_Protection_API" title="Data Protection API">Data Protection API</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Security_Support_Provider_Interface" title="Security Support Provider Interface">Security Support Provider Interface</a> (SSPI)</span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/.NET_Framework" title=".NET Framework">.NET</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/ASP.NET" title="ASP.NET">ASP.NET</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ADO.NET" title="ADO.NET">ADO.NET</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Base_Class_Library" title="Base Class Library">Base Class Library (BCL)</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/.NET_Remoting" title=".NET Remoting">Remoting</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Silverlight" title="Microsoft Silverlight">Silverlight</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Parallel_Extensions#TPL" title="Parallel Extensions">TPL</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">WCF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_CardSpace" title="Windows CardSpace">WCS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Presentation_Foundation" title="Windows Presentation Foundation">WPF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Workflow_Foundation" title="Windows Workflow Foundation">WF</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/Software_Factory_(Microsoft_.NET)" title="Software Factory (Microsoft .NET)">Software factories</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/EFx_Factory" title="EFx Factory">EFx Factory</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Enterprise_Library" title="Microsoft Enterprise Library">Enterprise Library</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Composite_UI_Application_Block" title="Composite UI Application Block">Composite UI</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Customer_Care_Framework" title="Microsoft Customer Care Framework">CCF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Connected_Services_Framework" title="Microsoft Connected Services Framework">CSF</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/Inter-process_communication" title="Inter-process communication">IPC</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Microsoft_RPC" title="Microsoft RPC">MSRPC</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Dynamic_Data_Exchange" title="Dynamic Data Exchange">Dynamic Data Exchange</a> (DDE) &#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/.NET_Remoting" title=".NET Remoting">Remoting</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Communication_Foundation" title="Windows Communication Foundation">WCF</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Accessibility</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Microsoft_Active_Accessibility" title="Microsoft Active Accessibility">Active Accessibility</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_UI_Automation" title="Microsoft UI Automation">UI Automation</a></span></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">
+<div style="line-height:1.1em;">Text and multilingual<br />
+support</div>
+</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em">
+<p><span class="nowrap"><a href="/wiki/DirectWrite" title="DirectWrite">DirectWrite</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Text_Services_Framework" title="Text Services Framework">Text Services Framework</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Text_Object_Model" title="Text Object Model">Text Object Model</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Input_method" title="Input method">Input method editor</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Language_Interface_Pack" title="Language Interface Pack">Language Interface Pack</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Multilingual_User_Interface" title="Multilingual User Interface">Multilingual User Interface</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Uniscribe" title="Uniscribe">Uniscribe</a></span></p>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="navbox" cellspacing="0" style=";">
+<tr>
+<td style="padding:2px;">
+<table cellspacing="0" class="nowraplinks collapsible uncollapsed" style="width:100%;background:transparent;color:inherit;;">
+<tr>
+<th scope="col" style=";" class="navbox-title" colspan="2">
+<div class="noprint plainlinks hlist navbar" style="">
+<ul>
+<li class="nv-view"><a href="/wiki/Template:Microsoft_Windows_components" title="Template:Microsoft Windows components"><span style=";;background:none transparent;border:none;" title="View this template">v</span></a></li>
+<li class="nv-talk"><a href="/wiki/Template_talk:Microsoft_Windows_components" title="Template talk:Microsoft Windows components"><span style=";;background:none transparent;border:none;" title="Discuss this template">d</span></a></li>
+<li class="nv-edit"><a class="external text" href="//en.wikipedia.org/w/index.php?title=Template:Microsoft_Windows_components&amp;action=edit"><span style=";;background:none transparent;border:none;" title="Edit this template">e</span></a></li>
+</ul>
+</div>
+<div class="" style="font-size:110%;"><a href="/wiki/List_of_Microsoft_Windows_components" title="List of Microsoft Windows components">Microsoft Windows components</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Core</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Active_Scripting" title="Active Scripting">Active Scripting</a> (<a href="/wiki/Windows_Script_Host" title="Windows Script Host">WSH</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/VBScript" title="VBScript">VBScript</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/JScript" title="JScript">JScript</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Aero" title="Windows Aero">Aero</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/AutoPlay" title="AutoPlay">AutoPlay</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/AutoRun" title="AutoRun">AutoRun</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ClearType" title="ClearType">ClearType</a>&#160;<b>·</b></span> <span class="nowrap"><strong class="selflink">COM</strong> (<a href="/wiki/ActiveX" title="ActiveX">ActiveX</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/ActiveX_Document" title="ActiveX Document">ActiveX Document</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/COM_Structured_Storage" title="COM Structured Storage">COM Structured storage</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Distributed_Component_Object_Model" title="Distributed Component Object Model">DCOM</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Object_Linking_and_Embedding" title="Object Linking and Embedding">OLE</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/OLE_Automation" title="OLE Automation">OLE Automation</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Microsoft_Transaction_Server" title="Microsoft Transaction Server">Transaction Server</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Desktop_Window_Manager" title="Desktop Window Manager">Desktop Window Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/DirectX" title="DirectX">DirectX</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Explorer" title="Windows Explorer">Explorer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Graphics_Device_Interface" title="Graphics Device Interface">Graphics Device Interface</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Imaging_Format" title="Windows Imaging Format">Imaging Format</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/.NET_Framework" title=".NET Framework">.NET Framework</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Search" title="Windows Search">Search</a> (<a href="/wiki/IFilter" title="IFilter">IFilter</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Virtual_folder#Windows" title="Virtual folder">Saved search</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Server_Message_Block" title="Server Message Block">Server Message Block</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_shell" title="Windows shell">Shell</a> (<a href="/wiki/Windows_Explorer#Extensibility" title="Windows Explorer">Extensions</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Windows_Shell_namespace" title="Windows Shell namespace">Namespace</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Special_Folders" title="Special Folders" class="mw-redirect">Special Folders</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Start_menu" title="Start menu">Start menu</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Shadow_Copy" title="Shadow Copy">Previous Versions</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Taskbar" title="Taskbar">Taskbar</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_USER" title="Windows USER">Windows USER</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Win32_console" title="Win32 console">Win32 console</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Open_XML_Paper_Specification" title="Open XML Paper Specification">XML Paper Specification</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Management tools</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Backup_and_Restore_Center" title="Backup and Restore Center" class="mw-redirect">Backup and Restore Center</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/CHKDSK" title="CHKDSK">CHKDSK</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Command_Prompt" title="Command Prompt">cmd.exe</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Control_Panel_(Windows)" title="Control Panel (Windows)">Control Panel</a> (<a href="/wiki/List_of_Control_Panel_applets_(Windows)" title="List of Control Panel applets (Windows)" class="mw-redirect">Applets</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Device_Manager" title="Device Manager">Device Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Disk_Cleanup" title="Disk Cleanup">Disk Cleanup</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Disk_Defragmenter_(Windows)" title="Disk Defragmenter (Windows)">Disk Defragmenter</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Driver_Verifier" title="Driver Verifier">Driver Verifier</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Event_Viewer" title="Event Viewer">Event Viewer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Internet_Explorer_Administration_Kit" title="Internet Explorer Administration Kit">IEAK</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/IExpress" title="IExpress">IExpress</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Management_Console" title="Microsoft Management Console">Management Console</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Netsh" title="Netsh">Netsh</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Problem_Reports_and_Solutions" title="Problem Reports and Solutions" class="mw-redirect">Problem Reports and Solutions</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Resource_Monitor" title="Resource Monitor">Resource Monitor</a>&#160;<b>·</b></span> <span class="nowrap">‎<a href="/wiki/Sysprep" title="Sysprep">Sysprep</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/System_Policy_Editor" title="System Policy Editor">System Policy Editor</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/MSConfig" title="MSConfig">System Configuration</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_ScanDisk" title="Microsoft ScanDisk">ScanDisk</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/System_File_Checker" title="System File Checker">System File Checker</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/System_Restore" title="System Restore">System Restore</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Task_Manager" title="Windows Task Manager">Task Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Management_Instrumentation" title="Windows Management Instrumentation">WMI</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Installer" title="Windows Installer">Windows Installer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_PowerShell" title="Windows PowerShell">Windows PowerShell</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Update" title="Windows Update">Windows Update</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Automated_Installation_Kit" title="Windows Automated Installation Kit">WAIK</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_System_Assessment_Tool" title="Windows System Assessment Tool">WinSAT</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Easy_Transfer" title="Windows Easy Transfer">Windows Easy Transfer</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Applications</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Calculator_(Windows)" title="Calculator (Windows)">Calculator</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Character_Map" title="Character Map">Character Map</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Contacts" title="Windows Contacts">Contacts</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_DVD_Maker" title="Windows DVD Maker">DVD Maker</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Fax_and_Scan" title="Windows Fax and Scan">Fax and Scan</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Internet_Explorer" title="Internet Explorer">Internet Explorer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Journal" title="Windows Journal">Journal</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Magnifier_(Windows)" title="Magnifier (Windows)">Magnifier</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Media_Center" title="Windows Media Center">Media Center</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Media_Player" title="Windows Media Player">Media Player</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Mobile_Device_Center" title="Windows Mobile Device Center">Mobile Device Center</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Mobility_Center" title="Windows Mobility Center">Mobility Center</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Narrator" title="Microsoft Narrator">Narrator</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Notepad_(software)" title="Notepad (software)">Notepad</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Paint_(software)" title="Paint (software)">Paint</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Photo_Viewer" title="Windows Photo Viewer">Windows Photo Viewer</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Private_Character_Editor" title="Private Character Editor">Private Character Editor</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Remote_Assistance" title="Windows Remote Assistance">Remote Assistance</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Desktop_Gadgets" title="Windows Desktop Gadgets">Windows Desktop Gadgets</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Snipping_Tool" title="Snipping Tool">Snipping Tool</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Sound_Recorder_(Windows)" title="Sound Recorder (Windows)">Sound Recorder</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Store" title="Windows Store">Store</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Speech_Recognition" title="Windows Speech Recognition">Speech Recognition</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Tablet_PC_Input_Panel" title="Tablet PC Input Panel">Tablet PC Input Panel</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/WordPad" title="WordPad">WordPad</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_To_Go" title="Windows To Go">Portable Workspace Creator</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Games</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Full_Tilt!_Pinball#3D_Pinball_for_Windows_-_Space_Cadet" title="Full Tilt! Pinball">3D Pinball for Windows - Space Cadet</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Chess_Titans" title="Chess Titans">Chess Titans</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/FreeCell_(Windows)" title="FreeCell (Windows)">FreeCell</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Hearts_(Windows)" title="Hearts (Windows)">Hearts</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Hover!" title="Hover!">Hover!</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Hold_%27Em_(Windows_game)" title="Hold 'Em (Windows game)">Hold 'Em</a>&#160;–</span> <span class="nowrap"><a href="/wiki/Inkball" title="Inkball" class="mw-redirect">Inkball</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Mahjong_Titans" title="Mahjong Titans">Mahjong Titans</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Minesweeper_(Windows)" title="Minesweeper (Windows)">Minesweeper</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Purble_Place" title="Purble Place">Purble Place</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Reversi" title="Reversi">Reversi</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Solitaire_(Windows)" title="Solitaire (Windows)">Solitaire</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Spider_Solitaire_(Windows)" title="Spider Solitaire (Windows)">Spider Solitaire</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Tinker" title="Microsoft Tinker">Microsoft Tinker</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;"><a href="/wiki/Kernel_(computing)" title="Kernel (computing)">Kernel</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Ntoskrnl.exe" title="Ntoskrnl.exe">Ntoskrnl.exe</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Hal.dll" title="Hal.dll" class="mw-redirect">hal.dll</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/System_Idle_Process" title="System Idle Process">System Idle Process</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Registry" title="Windows Registry">Registry</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Dynamic-link_library" title="Dynamic-link library">DLL</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Portable_Executable" title="Portable Executable">EXE</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/NTLDR" title="NTLDR">NTLDR</a> / <a href="/wiki/Windows_Vista_startup_process" title="Windows Vista startup process">Boot Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Winlogon" title="Winlogon">Winlogon</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Recovery_Console" title="Recovery Console">Recovery Console</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Vista_I/O_technologies" title="Windows Vista I/O technologies">I/O</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Recovery_Environment" title="Windows Recovery Environment">WinRE</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Preinstallation_Environment" title="Windows Preinstallation Environment">WinPE</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Kernel_Patch_Protection" title="Kernel Patch Protection">Kernel Patch Protection</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;"><a href="/wiki/Windows_service" title="Windows service">Services</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Service_Control_Manager" title="Service Control Manager">SCM</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Background_Intelligent_Transfer_Service" title="Background Intelligent Transfer Service">BITS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Task_Scheduler" title="Task Scheduler" class="mw-redirect">Task Scheduler</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Wireless_Zero_Configuration" title="Wireless Zero Configuration">Wireless Zero Configuration</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Shadow_Copy" title="Shadow Copy">Shadow Copy</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Error_Reporting" title="Windows Error Reporting">Error Reporting</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Multimedia_Class_Scheduler_Service" title="Multimedia Class Scheduler Service">Multimedia Class Scheduler</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Common_Log_File_System" title="Common Log File System">CLFS</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;"><a href="/wiki/File_system" title="File system">File systems</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/NTFS" title="NTFS">NTFS</a> (<a href="/wiki/Hard_link" title="Hard link">Hard link</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/NTFS_junction_point" title="NTFS junction point">Junction point</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Volume_Mount_Point" title="Volume Mount Point">Mount Point</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/NTFS_reparse_point" title="NTFS reparse point">Reparse point</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/NTFS_symbolic_link" title="NTFS symbolic link">Symbolic link</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Transactional_NTFS" title="Transactional NTFS">TxF</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/Encrypting_File_System" title="Encrypting File System">EFS</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/WinFS" title="WinFS">WinFS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/File_Allocation_Table" title="File Allocation Table">FAT</a> (<a href="/wiki/FAT12" title="FAT12" class="mw-redirect">FAT12</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/FAT16" title="FAT16" class="mw-redirect">FAT16</a>&#160;<span style="font-weight:bold;">·</span> <a href="/wiki/FAT32" title="FAT32" class="mw-redirect">FAT32</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ExFAT" title="ExFAT">exFAT</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/ISO_9660" title="ISO 9660">CDFS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Universal_Disk_Format" title="Universal Disk Format">UDF</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Distributed_File_System_(Microsoft)" title="Distributed File System (Microsoft)">DFS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Installable_File_System" title="Installable File System">IFS</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;"><a href="/wiki/Server_(computing)" title="Server (computing)">Server</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Windows_domain" title="Windows domain">Domains</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Active_Directory" title="Active Directory">Active Directory</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_DNS" title="Microsoft DNS">DNS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Group_Policy" title="Group Policy">Group Policy</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Roaming_user_profile" title="Roaming user profile">Roaming user profiles</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Folder_redirection" title="Folder redirection">Folder redirection</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Distributed_Transaction_Coordinator" title="Distributed Transaction Coordinator">Distributed Transaction Coordinator</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Message_Queuing" title="Microsoft Message Queuing">MSMQ</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Media_Services" title="Windows Media Services">Windows Media Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Rights_Management_Services" title="Rights Management Services">Rights Management Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Internet_Information_Services" title="Internet Information Services">IIS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Remote_Desktop_Services" title="Remote Desktop Services">Terminal Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Server_Update_Services" title="Windows Server Update Services">WSUS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_SharePoint_Services" title="Windows SharePoint Services" class="mw-redirect">Windows SharePoint Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Network_Access_Protection" title="Network Access Protection">Network Access Protection</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Microsoft_Personal_Web_Server" title="Microsoft Personal Web Server">PWS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/File_Replication_Service" title="File Replication Service">DFS Replication</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Remote_Differential_Compression" title="Remote Differential Compression">Remote Differential Compression</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Print_Services_for_UNIX" title="Print Services for UNIX">Print Services for UNIX</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Remote_Installation_Services" title="Remote Installation Services">Remote Installation Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Deployment_Services" title="Windows Deployment Services">Windows Deployment Services</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_System_Resource_Manager" title="Windows System Resource Manager">System Resource Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Hyper-V" title="Hyper-V">Hyper-V</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;"><a href="/wiki/Software_architecture" title="Software architecture">Architecture</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Architecture_of_Windows_NT" title="Architecture of Windows NT">NT series architecture</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Object_Manager_(Windows)" title="Object Manager (Windows)">Object Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_NT_startup_process" title="Windows NT startup process">Startup process</a> (<a href="/wiki/Windows_Vista_startup_process" title="Windows Vista startup process">Vista/7</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/I/O_request_packet" title="I/O request packet">I/O request packet</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Kernel_Transaction_Manager" title="Kernel Transaction Manager">Kernel Transaction Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Logical_Disk_Manager" title="Logical Disk Manager">Logical Disk Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Security_Accounts_Manager" title="Security Accounts Manager">Security Accounts Manager</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_File_Protection" title="Windows File Protection">Windows File Protection</a> / <a href="/wiki/Windows_Resource_Protection" title="Windows Resource Protection">Windows Resource Protection</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_library_files" title="Windows library files" class="mw-redirect">Windows library files</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Local_Security_Authority_Subsystem_Service" title="Local Security Authority Subsystem Service">LSASS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Client/Server_Runtime_Subsystem" title="Client/Server Runtime Subsystem">CSRSS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Session_Manager_Subsystem" title="Session Manager Subsystem">SMSS</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/MinWin" title="MinWin">MinWin</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Security</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/Windows_Action_Center" title="Windows Action Center">Action Center</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/BitLocker_Drive_Encryption" title="BitLocker Drive Encryption">BitLocker</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Defender" title="Windows Defender">Defender</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Data_Execution_Prevention" title="Data Execution Prevention">Data Execution Prevention</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Mandatory_Integrity_Control" title="Mandatory Integrity Control">Mandatory Integrity Control</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Protected_Media_Path" title="Protected Media Path">Protected Media Path</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/User_Account_Control" title="User Account Control">User Account Control</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/User_Interface_Privilege_Isolation" title="User Interface Privilege Isolation">User Interface Privilege Isolation</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Firewall" title="Windows Firewall">Windows Firewall</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"></div>
+<table cellspacing="0" class="nowraplinks collapsible collapsed navbox-subgroup" style="width:100%;;;;">
+<tr>
+<th scope="col" style=";;" class="navbox-title" colspan="2"><span style="float:left;width:6em;">&#160;</span>
+<div class="" style="font-size:110%;">Compatibility</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td colspan="2" style="width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><span class="nowrap"><a href="/wiki/COMMAND.COM" title="COMMAND.COM">command.com</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Interix" title="Interix">Interix</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_Services_for_UNIX" title="Windows Services for UNIX">Unix subsystem</a> (<a href="/wiki/Microsoft_POSIX_subsystem" title="Microsoft POSIX subsystem">Microsoft POSIX</a>)&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Virtual_DOS_machine" title="Virtual DOS machine">Virtual DOS machine</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_on_Windows" title="Windows on Windows">Windows on Windows</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/Windows_XP_Mode" title="Windows XP Mode" class="mw-redirect">Windows XP Mode</a>&#160;<b>·</b></span> <span class="nowrap"><a href="/wiki/WoW64" title="WoW64">WoW64</a></span></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 10572/1000000
+Post-expand include size: 267123/2048000 bytes
+Template argument size: 137091/2048000 bytes
+Expensive parser function count: 1/500
+-->
+
+<!-- Saved in parser cache with key enwiki:pcache:idhash:17058007-0!*!0!!en!4!* and timestamp 20120104171945 generated by srv196 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://en.wikipedia.org/w/index.php?title=Component_Object_Model&amp;oldid=469540404">http://en.wikipedia.org/w/index.php?title=Component_Object_Model&amp;oldid=469540404</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Component-based_software_engineering" title="Category:Component-based software engineering">Component-based software engineering</a></li><li><a href="/wiki/Category:Inter-process_communication" title="Category:Inter-process communication">Inter-process communication</a></li><li><a href="/wiki/Category:Microsoft_application_programming_interfaces" title="Category:Microsoft application programming interfaces">Microsoft application programming interfaces</a></li><li><a href="/wiki/Category:Object-oriented_programming" title="Category:Object-oriented programming">Object-oriented programming</a></li><li><a href="/wiki/Category:Object_models" title="Category:Object models">Object models</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:Articles_needing_additional_references_from_April_2008" title="Category:Articles needing additional references from April 2008">Articles needing additional references from April 2008</a></li><li><a href="/wiki/Category:All_articles_needing_additional_references" title="Category:All articles needing additional references">All articles needing additional references</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=Component+Object+Model" title="You are encouraged to log in; however, it is not mandatory. [o]" accesskey="o">Log in / create account</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/Component_Object_Model"  title="View the content page [c]" accesskey="c">Article</a></span></li>
+					<li  id="ca-talk"><span><a href="/wiki/Talk:Component_Object_Model"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="/wiki/Component_Object_Model" >Read</a></span></li>
+					<li id="ca-edit"><span><a href="/w/index.php?title=Component_Object_Model&amp;action=edit"  title="You can edit this page. &#10;Please use the preview button before saving. [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=Component_Object_Model&amp;action=history"  title="Past versions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/w/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input type="text" name="search" value="" title="Search Wikipedia [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search Wikipedia for this text" id="searchButton"><img src="//bits.wikimedia.org/skins-1.18/vector/images/search-ltr.png?303-4" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(//upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png);" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id='p-navigation'>
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li>
+			<li id="n-contents"><a href="/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li>
+			<li id="n-featuredcontent"><a href="/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li>
+			<li id="n-currentevents"><a href="/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li>
+			<li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random article [x]" accesskey="x">Random article</a></li>
+			<li id="n-sitesupport"><a href="//wikimediafoundation.org/wiki/Special:Landingcheck?landing_page=WMFJA085&amp;language=en&amp;utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=20101204SB002" title="Support us">Donate to Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- interaction -->
+<div class="portal" id='p-interaction'>
+	<h5>Interaction</h5>
+	<div class="body">
+		<ul>
+			<li id="n-help"><a href="/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li>
+			<li id="n-aboutsite"><a href="/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li>
+			<li id="n-portal"><a href="/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+			<li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+			<li id="n-contact"><a href="/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /interaction -->
+
+<!-- TOOLBOX -->
+<div class="portal" id='p-tb'>
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Component_Object_Model" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Component_Object_Model" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-upload"><a href="/wiki/Wikipedia:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li>
+			<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li id="t-permalink"><a href="/w/index.php?title=Component_Object_Model&amp;oldid=469540404" title="Permanent link to this revision of the page">Permanent link</a></li>
+<li id="t-cite"><a href="/w/index.php?title=Special:Cite&amp;page=Component_Object_Model&amp;id=469540404" title="Information on how to cite this page">Cite this page</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- coll-print_export -->
+<div class="portal" id='p-coll-print_export'>
+	<h5>Print/export</h5>
+	<div class="body">
+		<ul id="collectionPortletList"><li id="coll-create_a_book"><a href="/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Component+Object+Model" title="Create a book or page collection" rel="nofollow">Create a book</a></li><li id="coll-download-as-rl"><a href="/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=Component+Object+Model&amp;oldid=469540404&amp;writer=rl" title="Download a PDF version of this wiki page" rel="nofollow">Download as PDF</a></li><li id="t-print"><a href="/w/index.php?title=Component_Object_Model&amp;printable=yes" title="Printable version of this page [p]" accesskey="p">Printable version</a></li></ul>	</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- LANGUAGES -->
+<div class="portal" id='p-lang'>
+	<h5>Languages</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-da"><a href="//da.wikipedia.org/wiki/COM_(software)">Dansk</a></li>
+			<li class="interwiki-de"><a href="//de.wikipedia.org/wiki/Component_Object_Model">Deutsch</a></li>
+			<li class="interwiki-es"><a href="//es.wikipedia.org/wiki/Component_Object_Model">Español</a></li>
+			<li class="interwiki-fr"><a href="//fr.wikipedia.org/wiki/Component_Object_Model">Français</a></li>
+			<li class="interwiki-ko"><a href="//ko.wikipedia.org/wiki/%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8_%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8_%EB%AA%A8%EB%8D%B8">한국어</a></li>
+			<li class="interwiki-it"><a href="//it.wikipedia.org/wiki/Component_Object_Model">Italiano</a></li>
+			<li class="interwiki-he"><a href="//he.wikipedia.org/wiki/COM">עברית</a></li>
+			<li class="interwiki-hu"><a href="//hu.wikipedia.org/wiki/Component_Object_Model">Magyar</a></li>
+			<li class="interwiki-nl"><a href="//nl.wikipedia.org/wiki/Component_Object_Model">Nederlands</a></li>
+			<li class="interwiki-ja"><a href="//ja.wikipedia.org/wiki/Component_Object_Model">日本語</a></li>
+			<li class="interwiki-pl"><a href="//pl.wikipedia.org/wiki/Component_Object_Model">Polski</a></li>
+			<li class="interwiki-pt"><a href="//pt.wikipedia.org/wiki/Component_Object_Model">Português</a></li>
+			<li class="interwiki-ru"><a href="//ru.wikipedia.org/wiki/Component_Object_Model">Русский</a></li>
+			<li class="interwiki-sk"><a href="//sk.wikipedia.org/wiki/Component_Object_Model">Slovenčina</a></li>
+			<li class="interwiki-sv"><a href="//sv.wikipedia.org/wiki/Component_Object_Model">Svenska</a></li>
+			<li class="interwiki-uk"><a href="//uk.wikipedia.org/wiki/Component_Object_Model">Українська</a></li>
+			<li class="interwiki-zh"><a href="//zh.wikipedia.org/wiki/%E7%BB%84%E4%BB%B6%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B">中文</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 4 January 2012 at 17:19.<br /></li>
+											<li id="footer-info-copyright">Text is available under the <a rel="license" href="//en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="//creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.
+See <a href="//wikimediafoundation.org/wiki/Terms_of_use">Terms of use</a> for details.<br/>
+Wikipedia&reg; is a registered trademark of the <a href="//www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.<br /></li><li class="noprint"><a class='internal' href="//en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact us</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="//wikimediafoundation.org/wiki/Privacy_policy" title="wikimedia:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href='/w/index.php?title=Component_Object_Model&amp;useformat=mobile' class='noprint'>Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-copyrightico">
+						<a href="//wikimediafoundation.org/"><img src="//bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>
+					</li>
+					<li id="footer-poweredbyico">
+						<a href="//www.mediawiki.org/"><img src="//bits.wikimedia.org/skins-1.18/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=skins.vector&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest", "ext.gadget.wmfFR2011Style", "ext.vector.collapsibleNav", "ext.vector.collapsibleTabs", "ext.vector.editWarning", "ext.vector.simpleSearch", "ext.UserBuckets", "ext.articleFeedback.startup", "ext.articleFeedbackv5.startup", "ext.markAsHelpful"]);
+}
+</script>
+<script src="/w/index.php?title=Special:BannerController&amp;cache=/cn.js&amp;303-4" type="text/javascript"></script>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":false,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":4,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"flaggedrevssimpleui":1,"flaggedrevsstable":0,"flaggedrevseditdiffs":true,"flaggedrevsviewdiffs":false,"vector-simplesearch":1,"useeditwarning":1,"vector-collapsiblenav":1,"usebetatoolbar":1,"usebetatoolbar-cgd":1,"wikilove-enabled":1,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs100":false,"searchNs101":false,"searchNs108":false,"searchNs109":false,"gadget-wmfFR2011Style":1});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: enwiki:resourceloader:filter:minify-js:4:b41a86ec4e0fe8329bc3ce917e792339 */
+}
+</script><script src="//geoiplookup.wikimedia.org/" type="text/javascript"></script><!-- Served by srv237 in 0.070 secs. -->
+	</body>
+</html>

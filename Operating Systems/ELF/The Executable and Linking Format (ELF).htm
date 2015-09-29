@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.cs.ucdavis.edu/~haungs/paper/node10.html -->
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><HTML><HEAD><TITLE>The Executable and Linking Format (ELF)</TITLE>
+<META content="The Executable and Linking Format (ELF)" name=description>
+<META content=paper name=keywords>
+<META content=document name=resource-type>
+<META content=global name=distribution>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="The Executable and Linking Format (ELF)-Dateien/paper.css" 
+rel=STYLESHEET><LINK href="node7.html" rel=previous><LINK href="node4.html" 
+rel=up><LINK href="node11.html" rel=next>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html204><IMG 
+height=24 alt=next 
+src="The Executable and Linking Format (ELF)-Dateien/next_motif.gif" 
+width=37 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node4.html" name=tex2html201><IMG 
+height=24 alt=up 
+src="The Executable and Linking Format (ELF)-Dateien/up_motif.gif" width=26 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node9.html" name=tex2html197><IMG 
+height=24 alt=previous 
+src="The Executable and Linking Format (ELF)-Dateien/previous_motif.gif" 
+width=63 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html203><IMG 
+height=24 alt=contents 
+src="The Executable and Linking Format (ELF)-Dateien/contents_motif.gif" 
+width=65 align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html205>The 
+ELF File Format</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node4.html" 
+name=tex2html202>Background</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node9.html" 
+name=tex2html198>Sim286</A> <BR><BR><!--End of Navigation Panel-->
+<H1><A name=SECTION00440000000000000000>&nbsp;</A> <A name=elf>&nbsp;</A> 
+<BR>The Executable and Linking Format (ELF) </H1>
+<P>The executable and linking format (ELF) was originally developed by Unix 
+System Laboratories and is rapidly becoming the standard in file formats[<A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node32.html#tisref98">8</A>]. The 
+ELF standard is growing in popularity because it has greater power and 
+flexibility than the a.out and COFF binary formats[<A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node32.html#luref98">3</A>]. ELF 
+now appears as the default binary format on operating systems such as Linux, 
+Solaris 2.x, and SVR4. &nbsp;Some of the capabilities of ELF are dynamic 
+linking, dynamic loading, imposing runtime control on a program, and an improved 
+method for creating shared libraries[<A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node32.html#luref98">3</A>]. The 
+ELF representation of control data in an object file is platform independent, an 
+additional improvement over previous binary formats. The ELF representation 
+permits object files to be identified, parsed, and interpreted similarly, making 
+the ELF object files compatible across multiple platforms and architectures of 
+different size. 
+<P>The three main types of ELF files are executable, relocatable, and shared 
+object files. These file types hold the code, data, and information about the 
+program that the operating system and/or link editor need to perform the 
+appropriate actions on these files. The three types of files are summarized as 
+follows: 
+<P>
+<UL>
+  <P>
+  <LI>An <EM>executable file</EM> supplies information necessary for the 
+  operating system to create a process image suitable for executing the code and 
+  accessing the data contained within the file. 
+  <P></P>
+  <LI>A <EM>relocatable file</EM> describes how it should be linked with other 
+  object files to create an executable file or shared library. 
+  <P></P>
+  <LI>A <EM>shared object file</EM> contains information needed in both static 
+  and dynamic linking. 
+  <P></P></LI></UL>
+<P>In the next section we overview the ELF file format including a detailed 
+description of each of the five section types that an ELF file might include. 
+These five types are (1) the ELF header, (2) the program header table, (3) the 
+section header table, (4) the ELF sections, and (5) the ELF segments. In Section 
+<A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node17.html#datarepsection">2.4.2</A>, 
+we describe the representation of data in an ELF file. The interested reader may 
+consult reference [<A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node32.html#tisref98">8</A>] for 
+additional information about the ELF format. <BR>
+<HR>
+<!--Table of Child-Links--><A name=CHILD_LINKS>&nbsp;</A> 
+<UL>
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" 
+  name=tex2html206>The ELF File Format</A> 
+  <UL>
+    <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" 
+    name=tex2html207>The ELF Header</A> 
+    <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" 
+    name=tex2html208>The Program Header Table</A> 
+    <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node14.html" 
+    name=tex2html209>The Section Header Table</A> 
+    <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node15.html" 
+    name=tex2html210>ELF Sections</A> 
+    <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node16.html" 
+    name=tex2html211>ELF Segments</A> </LI></UL>
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node17.html" 
+  name=tex2html212>ELF Data Representation</A> </LI></UL><!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html204><IMG 
+height=24 alt=next 
+src="The Executable and Linking Format (ELF)-Dateien/next_motif.gif" 
+width=37 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node4.html" name=tex2html201><IMG 
+height=24 alt=up 
+src="The Executable and Linking Format (ELF)-Dateien/up_motif.gif" width=26 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node9.html" name=tex2html197><IMG 
+height=24 alt=previous 
+src="The Executable and Linking Format (ELF)-Dateien/previous_motif.gif" 
+width=63 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html203><IMG 
+height=24 alt=contents 
+src="The Executable and Linking Format (ELF)-Dateien/contents_motif.gif" 
+width=65 align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html205>The 
+ELF File Format</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node4.html" 
+name=tex2html202>Background</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node9.html" 
+name=tex2html198>Sim286</A> <!--End of Navigation Panel-->
+<ADDRESS><I>Michael L. Haungs</I> <BR><I>1998-09-21</I> </ADDRESS></BODY></HTML>

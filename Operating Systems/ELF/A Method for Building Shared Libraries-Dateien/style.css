@@ -1,0 +1,60 @@
+FONT {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+TD {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+BODY {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+P {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+DIV {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+INPUT {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+TEXTAREA {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+FORM {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana,Helvetica
+}
+A:link {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; TEXT-DECORATION: underline
+}
+A:active {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; TEXT-DECORATION: underline
+}
+A:visited {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; TEXT-DECORATION: underline
+}
+A:hover {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; TEXT-DECORATION: underline
+}
+.title {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.content {
+	FONT-SIZE: 13px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica
+}
+.storytitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #363636; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.storycat {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: underline
+}
+.boxtitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #363636; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.boxcontent {
+	FONT-SIZE: 13px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica
+}
+.option {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}
+.tiny {
+	FONT-WEIGHT: normal; FONT-SIZE: 11px; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica; TEXT-DECORATION: none
+}

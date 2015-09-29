@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez4.htm -->
+<HTML><HEAD><TITLE>Virtueller 8086-Modus (V86)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Virtueller 8086-Modus (V86)-Dateien/stone.jpg">
+<H1><FONT color=#800000>3.4 Virtueller 8086-Modus (V86)</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Prozessoren ab dem 80386 können im sogenannten V86-Modus einen, aber auch 
+mehrere 8086-Prozessoren emulieren. Die Anzahl der dabei emulierten Prozessoren 
+ist fast ausschließlich von der Menge des verfügbaren Speicherplatzes abhängig. 
+Im V86-Modus verarbeitet der Prozessor Befehle wie im Realmode, d.h. Adressen 
+werden wieder über eine Segment:Offsetadresse gebildet. Damit sind 
+Segmentgrenzen wieder konstant 64 KB und unterschiedlich privilegierte Routinen 
+existieren auch nicht mehr. Das ist zumindest aus der Sicht des ausgeführten 
+Programmes so, denn im Hintergrund bleibt die Speicherverwaltung und (wenn es 
+genutzt wird) das Paging des Protected Mode weiterhin aktiv.</P>
+<P>Da für jeden Task festgelegt werden kann, ob er im V86-Modus oder im 
+"normalen" Protected Mode ausgeführt wird, ist es möglich, mehrere V86-Tasks 
+quasi-parallel, unter Kontrolle eines im Protected Mode laufenden 
+Überwachungsprogramms ablaufen zu lassen. Wird dabei das Paging des Prozessors 
+genutzt, können sogar mehrere Realmode Betriebssysteme (z.B. DOS) ausgeführt 
+werden. Dabei "sieht" jeder 8086 Prozeß nur seinen 1MB großen 
+Realmode-Adressraum, der sich aber aufgrund der Anwendung des Paging-Mechanismus 
+überall im adressierbaren Speicherbereich (4 GByte) befinden kann.</P>
+<H2><FONT color=#000080>Umschaltung in den V86-Modus</FONT></H2>
+<P>Der Zustand des Bit 17 (VM-Bit "Virtueller 8086-Modus") im (E)FLAG-Register 
+entscheidet darüber, ob ein Prozeß im virtuellen 8086-Modus oder im 
+Protected-Mode ausgeführt wird. Da Anwendungen den Zustand des VM-Bits nicht 
+verändern können und Befehle, die das Flagregister verändern (PUSHF, POPF), das 
+VM-Bit nicht beeinflussen, kann nur ein Task-Wechsel oder ein Interrupt-Return 
+den Zustand des VM-Bits neu festlegen. Aus diesem Grund ist der virtuelle 
+8086-Modus an die Ausführung von Tasks gebunden.</P>
+<P>Ist das VM-Bit im FLAG-Register des momentan laufenden Prozesses gesetzt (1), 
+dann interpretiert der Prozessor Befehle so, als ob er sich im Realmode befinden 
+würde. V86-Tasks werden immer in der niedrigsten Privilegstufe (3) ausgeführt 
+und unterliegen damit allen Kontrollmechanismen, die dem Prozessor zur Verfügung 
+stehen. So lösen Zugriffsversuche auf spezielle Protected Mode Register (CR0, 
+GDTR, usw.) Exceptions aus, die die Initialisierung des Protected Mode 
+unterbinden (Was auch nicht möglich sein darf, da der Protected Mode in der Form 
+des V86-Modus im Hintergrund bereits aktiv ist).</P>
+<H1><FONT color=#000080>Protected Mode Utilities</FONT></H1>
+<P>Der V86-Modus eignet sich besonders zur Implementation von 
+Protected-Mode-Utilities. Dazu gehören beispielsweise EMS-Emulatoren oder 
+Multitasker für DOS. Dabei wird DOS selbst als eine V86-Anwendung betrachtet und 
+von einem im Protected Mode laufendem Überwachungsprogramm kontrolliert. Für DOS 
+"sieht" es so aus, als befindet es sich auf einem "normalen" Rechner mit 8086 
+Prozessor bzw. im Realmodus.</P>
+<H2><FONT color=#000080>EMS-Emulatoren (EMM386.EXE)</FONT></H2>
+<P>Auf Rechnern mit 8086 bzw. 80286 Prozessoren wurde Expanded Memory in Form 
+einer Speichererweiterungskarte bereitgestellt. Dabei sorgte ein Gerätetreiber 
+für die problemlose Kommunikation zwischen Anwendungsprogrammen und dem 
+Erweiterungsspeicher. Bei diesem Verfahren konnten 16 KByte große Speicherseiten 
+in den 1MB großen Realmode-Adressbereich eingeblendet werden.</P>
+<P>Ab dem 80386 kann DOS im V86-Modus ausgeführt werden, wobei es einem im 
+Hintergrund laufendem Virtual-Control-Programm (z.B. EMM386.EXE) möglich ist, 
+über den Paging-Mechanismus Speicherseiten aus dem Extended Memory (oberhalb der 
+1MB Grenze) in den Realmode-Bereich einzublenden. Dabei wird der Speicher vom 
+Realmodeprogramm auf die gleiche Weise angesprochen, wie es bei der Nutzung 
+einer Erweiterungsspeicherkarte möglich ist. Programme, die EMS nach dem 
+LIM-Standard anfordern <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm">(Vgl. 1.3.3 
+EMS / XMS)</A>, können so auf relativ einfache Weise mit Expanded Memory 
+versorgt werden. </P>
+<H2><FONT color=#000080>DOS-Multitasker</FONT></H2>
+<P>Da der Prozessor in der Lage ist, mehrere V86-Prozesse zu verwalten, ergibt 
+sich auch die Möglichkeit, mehrere Betriebssysteme bzw. mehrere 8086-Anwendungen 
+parallel ablaufen zu lassen. Die Überwachung und Steuerung der einzelnen 
+Prozesse übernimmt, ähnlich wie bei EMS-Emulatoren, ein im Protected Mode 
+laufendes Überwachungsprogramm. </P>
+<P>Dabei hat das Überwachungsprogramm allerdings mit einigen Problemen zu 
+kämpfen, da sich DOS-Programme in der Regel nicht sehr kooperativ gegenüber 
+anderen Programmen zeigen. So schreiben viele DOS-Programme direkt in das Video 
+RAM, reservieren den gesamten verfügbaren Speicher oder programmieren den 
+Interrupt-Controller um.</P>
+<P>Da die Hardware aber nur einmal vorhanden ist, kann auch immer nur ein Prozeß 
+darauf zugreifen, um z.B. über die parallele Schnittstelle einen Text 
+auszugeben. Aufgabe des Kontrollprogrammes ist es, die einzelnen V86-Prozesse 
+untereinander zu koordinieren, um die parallele Ausführung zu gewährleisten. 
+Obwohl das Problem des Speicherzugriffs über den Paging-Mechanismus auf relativ 
+einfache Weise zu lösen ist, existieren weitere Probleme, die durch I/O Zugriffe 
+oder Speicherbereiche für bestimmte Peripheriegeräte (z.B. das Video RAM) 
+ausgelöst werden.</P>
+<P>Letzteres Problem läßt sich z.B. auch über das Paging lösen. Indem in der 
+Paging-Tabelle des jeweiligen V86-Prozesses die Speicherseiten des Video-RAMs 
+als nicht präsent markiert werden ("present"-Bit 0), kann ein Zugriffsversuch 
+auf die entsprechende Seite über eine Exception abgefangen werden und der 
+Speicherzugriff auf einen Buffer des Kontrollprogramms durchgeführt werden. Das 
+Kontrollprogramm entscheidet dann über die Ausgabe der Daten.</P>
+<P>Das Problem der I/O Portzugriffe ist im Gegensatz dazu nicht so einfach zu 
+lösen. Zwar kann über die I/O Permission Bitmap des zum V86-gehörigen 
+TS-Segmentes der Zugriff auf bestimmte Portadressen eingeschränkt werden, jedoch 
+wird dadurch auch die Lauffähigkeit einer Vielzahl von Programmen (die z.B. im 
+Grafikmodus arbeiten) unterbunden. Portzugriffe müssen deshalb unter den 
+einzelnen Programmen koordiniert werden. Um dieses Problem zu lösen, können z.B. 
+die folgenden Möglichkeiten benutzt werden:</P>
+<UL>
+  <LI>Den vollständigen Zugriff auf alle Portadressen zulassen und damit 
+  rechnen, das sich mehrere Anwendungen gegenseitig stören. 
+  <LI>Oder alle Ports vollkommen sperren, um einen Zugriff über eine Exception 
+  auszuwerten und eine eigene Betriebssystemroutine ausführen zu lassen. 
+</LI></UL>
+<P>Die erste Möglichkeit kann angewendet werden, wenn nur ein V86-Task läuft 
+(z.B. DOS mit EMS-Emulator). Die zweite Möglichkeit hat den Nachteil, viel Zeit 
+mit der Bearbeitung von Exceptions zu verbrauchen. Ein Programm, das eine Seite 
+über die Druckerschnittstelle ausgeben möchte, müßte mehrere tausend Exceptions 
+über sich ergehen lassen, die viel Zeit kosten (Task-Wechsel, Sichern aller 
+Register, Überprüfung der Privilegstufen, Auswerten der Exception, usw.).</P>
+<P>Viele Überwachungsprogramme gehen deshalb so vor: Grundsätzliches Sperren 
+aller Ports für den ausgeführten Prozeß und exklusives Freigeben des gewünschten 
+Ports bei der ersten Benutzung durch einen Task. Dieser Port ist für die Zeit 
+der Benutzung durch den Task für alle anderen gesperrt.<BR>Neben dem aktiven 
+Task existiert also auch ein "aktiver Augabetask". Auf diese Weise ist es 
+möglich, daß ein Programm im Hintergrund einen Text auf einem Drucker ausgibt, 
+während ein anderes Programm Daten über eine serielle Schnittstelle 
+empfängt.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez3.htm"><IMG 
+alt=Zurück src="Virtueller 8086-Modus (V86)-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos1.htm"><IMG alt=Weiter 
+src="Virtueller 8086-Modus (V86)-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_s"><IMG 
+alt="Zum Index" src="Virtueller 8086-Modus (V86)-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

@@ -1,0 +1,458 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<!-- Page Info -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="Blogs.Oracle.Com - SpiderLogic">
+  <meta name="keywords" content="blogs, oracle, blogs.oracle, blogging, bloggers">
+		            <title>Introduction to Bayeux Protocol (HTTP Publish-Subscribe) (SpiderLogic)</title>
+                           <meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="imagetoolbar" content="no" />
+
+        
+            <link rel="alternate" type="application/atom+xml" title="Recent Entries (Atom)"  href="https://blogs.oracle.com/slc/feed/entries/atom" />
+    <link rel="alternate" type="application/rss+xml"  title="Recent Entries (RSS)"   href="https://blogs.oracle.com/slc/feed/entries/rss" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Comments (Atom)" href="https://blogs.oracle.com/slc/feed/comments/atom" />
+    <link rel="alternate" type="application/rss+xml"  title="Recent Comments (RSS)"  href="https://blogs.oracle.com/slc/feed/comments/rss" />
+
+    
+    
+<!-- Stylesheets -->
+<link rel="stylesheet" href="https://blogs.oracle.com/slc/resource/oracle2col/theme.css" type="text/css" media="screen" />
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="https://blogs.oracle.com/slc/resource/oracle2col/favicon.gif" />    	</head>
+	<body>
+		<div id="container" class="two-columns"> <!-- Note: Change the class from "two-columns" to "three-columns" if needed -->
+			
+			<!-- Header -->
+			<div id="header">
+				<ul id="nav">
+					<li id="logo"><h6><a href="http://www.oracle.com">Oracle</a></h6></li>
+					<li class="current"><a href="/">Blogs Home</a></li>
+					<li><a href="http://www.oracle.com/us/products/index.html">Products &amp; Services</a></li>
+					<li><a href="http://www.oracle.com/technetwork/indexes/downloads/index.html">Downloads</a></li>
+					<li><a href="http://www.oracle.com/us/support/index.html">Support</a></li>
+					<li><a href="http://www.oracle.com/us/partnerships/index.html">Partners</a></li>
+					<li><a href="http://www.oracle.com/us/community/index.html">Communities</a></li>
+					<li><a href="http://www.oracle.com/us/corporate/index.html">About</a></li>
+                                            <li id="signIn"><a href="/roller-ui/login-redirect.rol">Login</a></li>
+                    				</ul>
+				<div id="jumbotron">
+					<h4>Oracle Blog</h4>
+          <h5><a href="https://blogs.oracle.com/slc/">SpiderLogic</a></h5>
+          <h5 class="subhead">.. useful blog on java and middleware technologies. </h5>
+				</div>
+                																										</div>
+			
+			<!-- Content -->
+			<div id="content">
+                <div id="mainColumn">
+                    
+                    <!-- Previous and Next Entries -->
+                    <div id="pager">
+                                                    &laquo; <a href="https://blogs.oracle.com/slc/entry/the_bookmark_portlet_locator">The Bookmark Portlet...</a> |  
+                <a href="/slc/">Main</a>
+                | <a href="https://blogs.oracle.com/slc/entry/javanio_vs_javaio">Java.nio vs Java.io</a> &raquo;
+                        </div>
+
+                    <!-- Entries -->
+				    
+                <div class="day">
+
+
+	<div class="entry" id="introduction_to_bayeux_protoco">
+
+	<h3 class="entry-title">
+			Introduction to Bayeux Protocol (HTTP Publish-Subscribe)
+	    </h3>
+
+    <h4 class="entry-meta">By Nino Guarnacci on <a href="#">Feb 05, 2009</a></h4>
+
+    <div class="entry-body">
+                                        	<p><p><strong><font color="#ff0000">Attention:</font></strong> <u>This is a short overview presentation showed at JavaDay Rome in 24 January 2009 on the form of slideshow. </u></p>  <p><u></u></p>  <table bordercolor="#c0c0c0" cellspacing="0" cellpadding="2" width="600" border="1"><tbody>     <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Beginning HTTP</u></font></i></p>          <ul>           <li>HTTP was designed as a protocol for retriving documents from remote servers              <ul>               <li>Communication between the client and the server is always initiated by the client and never by the server </li>                <li>Connections between the client and the server are transient and the server do not maintain any long-term state information regarding the client </li>             </ul>           </li>         </ul>          <table cellspacing="0" cellpadding="2" width="496" border="0"><tbody>             <tr>               <td valign="top" width="140"> </td>                <td valign="top" width="153"> </td>                <td valign="top" align="right" width="201"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_4.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="69" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_1.png" width="74" border="0" /></a> </td>             </tr>           </tbody></table>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Twist the Formula</u></font></i></p>          <ul>           <li>Why, then, should you want the server to be able to contact the client, and maintain persistent connections? </li>         </ul>          <p align="center"><strong><i>- There</i><i> </i><i>are</i><i> </i><i>several</i><i> suitable </i></strong></p>          <p align="center"><strong><i>common</i><i> use </i><i>case</i></strong><i><strong> -</strong> </i></p>          <p align="left"></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>use cases: AdviceME</u></font></i></p>          <ul>           <li>Monitoring and Data Feeds              <ul>               <li>Client as a Dashboard or Monitor </li>                <li>Demand for monitoring applications </li>                <li>Market data feeds </li>                <li>Security Alerting </li>                <li>SLA Violation Advisor </li>             </ul>           </li>         </ul>          <p align="right"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_8.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="172" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_3.png" width="219" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>use cases: Please Wait</u></font></i></p>          <ul>           <li>Progress Updates              <ul>               <li>Communicating progress on long-running server-side activities </li>                <li>Report progress on long running server task </li>             </ul>           </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_10.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="81" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_4.png" width="416" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>use cases: Share with me</u></font></i></p>          <ul>           <li>Chat and Collaboration              <ul>               <li>Chat System </li>                <li>Photo sharing </li>                <li>On-Line Gaming </li>                <li>Collaborative Tools </li>             </ul>           </li>         </ul>          <p align="right"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_12.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="106" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_5.png" width="335" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Actual Approachs</u></font></i></p>          <ul>           <li><b>Push Using Poling </b>              <ul>               <li>Collaborative ability by pooling the server with client regular request asking for update.                  <ul>                   <li>Network wasteful </li>                    <li>Server resource exhaustion </li>                    <li>Client repeatedly contact the server to check for change </li>                    <li>Pooling schedule not affected </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_14.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="211" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_6.png" width="350" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Actual Approachs</u></font></i></p>          <ul>           <li><b>Piggybacking </b>              <ul>               <li>The contents of the response aren’t strictly related to the nature of the request </li>                <li>Response will also contain any changes to the domain model </li>                <li>Pooling schedule reset </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_16.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="205" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_7.png" width="341" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>&lt;&lt;COMET&gt;&gt;</u></font></i></p>          <ul>           <li>Comet techniques              <ul>               <li>Keep the response stream open for a significantly longer time </li>                <li>Server send several pieces of data back in the response </li>                <li>Comet request is held open on the server for a while, multiple discrete changes are communicated </li>                <li><b><i>Long Polling</i></b> </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_18.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="193" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_8.png" width="336" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>&lt;&lt;COMET&gt;&gt;</u></font></i></p>          <ul>           <li>Comet techniques              <ul>               <li>Most modern web browser, permit only 2 concurrent HTTP connection to the given domain. </li>                <li>If more than one request is being held open against the same server, ordinary request will be blocked                  <p>(same for different <b><i>browser-tab</i></b>) </p>                  <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_20.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="192" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_9.png" width="316" border="0" /></a> </p>               </li>             </ul>           </li>         </ul>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>&lt;&lt;COMET&gt;&gt;</u></font></i></p>          <ul>           <li>Comet techniques              <ul>               <li>Traditional servers allocate a thread to each incoming request </li>                <li>Design work well when serving large volume of short lived request </li>                <li>Long polls are held open request for a considerable length of time. </li>                <li>Thread-per-Request model is generally unable to scale to large numbers of clients. </li>                <li>Java servlet model itself is inherently a thread-per-request </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_22.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="231" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_10.png" width="324" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>&lt;&lt;Java COMET&gt;&gt;</u></font></i></p>          <ul>           <li>Comet techniques              <ul>               <li>Java servlet model was developed to serve a very different traffic profile. </li>                <li>A large number of simultaneous request from Comet clients would exhaust the server’s thread pool. (<i>doesn’t scale well</i>) </li>                <li>More Comet-Friendly server architectures from the java-community:                  <ul>                   <li>Continuations (Jetty 6) </li>                    <li>Grizzly </li>                    <li>Tomcat 6 </li>                    <li>JSR 315 Servlet 3.0 </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_24.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="121" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_11.png" width="170" border="0" /></a>  </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u></u></font></i></p>          <p align="right"><em><u><font color="#ff0000"></font></u></em></p>          <p>Bayeux provides a very nice abstraction on <b>top of Comet</b> transport, by casting the <i>transfer</i> data in terms of channels, to which <b>clients</b> can publish and <b>subscribe</b><b> </b></p>          <br />          <p align="right"><font size="2"><em><strong><u>Comet and Reverse Ajax </u></strong></em></font></p>          <p align="right"><em><strong><font size="1">Dave Crane and Phil McCarthy (2008)</font></strong></em></p>          <p align="right"><strong><em><font size="1"> </font></em></strong></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Bayeux --&gt; CometD</u></font></i></p>          <ul>           <li>Bayeux              <ul>               <li>Emerging de facto standard for Comet </li>                <li>Existing reference implementation:                  <ul>                   <li><b>COMETD </b>                      <ul>                       <li>Provided by the people at Sitepen:                          <ul>                           <li><b>(the same as)</b><b> Dojo Javascript Toolkit </b></li>                         </ul>                       </li>                     </ul>                   </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p align="right"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_26.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="53" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_12.png" width="111" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Bayeux --&gt; CometD</u></font></i></p>          <ul>           <li>Bayeux              <ul>               <li>Adopts exactly the same approach and provides a flexible, scalable API based around a publish-subscribe model </li>                <li>Data sent through, is always assigned a notional “channel” </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_28.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="160" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_13.png" width="351" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Bayeux --&gt; CometD</u></font></i></p>          <ul>           <li>Bayeux              <ul>               <li>Channels allows multiple decoupled conversations on top of a single HTTP connection. </li>                <li>The <i>client-side</i> CometD and the <i>server-side</i> Bayeux implementation communicate over several notional channels, all bundled within a single HTTP request-response. </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_28.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="62" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_13.png" width="131" border="0" /></a> </p>          <p align="center"></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Purpose</u></font></i></p>          <ul>           <li><b><u>Cometd</u></b> is a project by the Dojo Fundation to implement Bayeux specification. </li>            <li><b><u>Bayeux</u></b> is a purpose to implement responsive user interaction for web clients using Ajax and server-push technique called Comet </li>         </ul>          <p> </p>          <ul>           <li>The messages are routed via named <b><u>channels</u></b> and can be delivered:               <ul>               <li><b><i>server2client </i></b></li>                <li><b><i>client2server </i></b></li>                <li><b><i>client2client</i></b><i> (via server) </i></li>             </ul>           </li>         </ul>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>JSON Messages</u></font></i></p>          <p>Bayeux message are specified in JSON notation </p>          <p> </p>          <p>     { </p>          <p>        &quot;channel&quot;: &quot;/some/name&quot;, </p>          <p>        &quot;clientId&quot;: &quot;83js73jsh29sjd92&quot;, </p>          <p>        &quot;data&quot;: { &quot;myapp&quot; : &quot;specific data&quot;, value: 100 } </p>          <p>     } </p>          <p> </p>          <p> </p>          <p align="center"><i><strong>JavaScript Object Notation is a lightweight data-interchange format</strong></i></p>          <p align="center"><strong><em> </em></strong></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Channels Style</u></font></i></p>          <ul>           <li>Channels are by default broadcast publish subscribe. </li>            <li>Channels are identified by names and always starts with “/” </li>            <li>Channel pattern support trailing wildcards of either “*” or “**” : </li>         </ul>          <p> </p>          <ul>           <li><b>/news/* </b>              <ul>               <li>Valid channels : /news/italy , /news/uk .... </li>             </ul>           </li>         </ul>          <p> </p>          <ul>           <li><b>/news/** </b>              <ul>               <li>Valid channels : /news/italy , /news/italy/lazio ... </li>             </ul>           </li>         </ul>          <p></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Bayeux approach</u></font></i></p>          <ul>           <li>Bayeux event is sent from the server to the client via HTTP response to a HTTP request sent in anticipation:              <ul>               <li>Polling Transport                  <ul>                   <li>On receipt of the HTTP response, the bayeux client issues a new bayeux message. </li>                 </ul>               </li>                <li>Streaming Transport                  <ul>                   <li>Use streaming technique (forever response), allowing multiple message to be sent over the same response </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p align="center"> </p>          <p align="center"></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Bi-Direction</u></font></i></p>          <ul>           <li>To solve the issue of bi-directional communications, Bayeux client <b><i>will</i></b> use two HTTP connections:               <ul>               <li>Messaging may occur asynchronously </li>             </ul>           </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_30.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="207" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_14.png" width="334" border="0" /></a></p>          <p align="center"> </p>          <p align="center"> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Handshake Connect</u></font></i></p>          <ul>           <li>Bayeux connection are negotiated between client and server with handshake messages that allow to define:              <ul>               <li>Connection Type </li>                <li>Authentication </li>                <li>Persistence subscription </li>                <li>Identification ..... </li>             </ul>           </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_32.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="244" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_15.png" width="326" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Interactions</u></font></i></p>          <ul>           <li>Bayeux client may send publish and subscribe messages to register interest in a channel: </li>         </ul>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_34.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="215" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_16.png" width="415" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Server APIs</u></font></i></p>          <ul>           <li>Web application developers can optionally use server-side pub-sub APIs in their servlets or Java classes to get the Bayeux server context, manage channels, and the incoming and outgoing messages </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_36.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="215" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_17.png" width="532" border="0" /></a> </p>          <p align="center"></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>WebLogic Stock Demo</u></font></i></p>          <ul>           <li>There is a useful sample in the WebLogic 10.3 installation about this technology:              <ul>               <li>Can find it in the folder :                  <ul>                   <li><u>{ORACLE_HOME}\wlserver_10.3\samples\server\examples\src\examples\webapp\pubsub\stock</u> </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p> </p>          <ul>           <li>The demo describes a real-world scenario based on <b>stock </b><b>trading</b>, and makes extensive use of the Bayeux APIs in both the server and client components               <ul>               <li>The Demo uses :                  <ul>                   <li>Dojo as its client-side library </li>                    <li>WebLogic Bayeux implementation as server APIs </li>                 </ul>               </li>             </ul>           </li>         </ul>          <p> </p>          <table cellspacing="0" cellpadding="2" width="491" border="0"><tbody>             <tr>               <td align="right" width="218"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_38.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="141" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_18.png" width="138" border="0" /></a> </td>                <td align="right" width="50"> </td>                <td align="right" width="224"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_40.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="92" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_19.png" width="213" border="0" /></a> </td>             </tr>           </tbody></table>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Web XML-Configuration</u></font></i></p>          <ul>           <li>Server dedicated file-based configuration environment </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_42.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="249" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_20.png" width="502" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Security Model</u></font></i></p>          <ul>           <li>JEE security configuration based (ssl support) </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_44.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="233" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_21.png" width="459" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>JMS-Bayeux</u></font></i></p>          <ul>           <li>Durable subscriber and persistence support, based on JMS architecture </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_46.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="170" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_22.png" width="472" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Message Persistance</u></font></i></p>          <ul>           <li>Persistent Channels and session-message failover support </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_48.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="102" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_23.png" width="453" border="0" /></a> </p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>JS Client APIs</u></font></i></p>          <ul>           <li>Dojo JS Cometd library (Init and Publish) </li>         </ul>          <p> </p>          <ul>           <ul>             <li><b>Initialize the Dojo cometd environment</b>. </li>           </ul>         </ul>          <p align="center"><i>dojo.io.cometd.init({}, &quot;/servletContextMapping/cometd&quot;); </i></p>          <br />          <ul>           <ul>             <li><b>Publish a message to a channel</b>. </li>           </ul>         </ul>          <p align="center"><em>dojo.io.cometd.publish(&quot;/a/channel&quot;, &quot;message content&quot;); </em></p>          <ul>           <ul>             <li><b>or JSON message: </b></li>           </ul>         </ul>          <p><b></b></p>          <p align="center"><em>dojo.io.cometd.publish(&quot;/a/channel&quot;, {&quot;data&quot;: &quot;content&quot;});</em></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>JS Client APIs</u></font></i></p>          <ul>           <li>Dojo JS Cometd library (Subscribe) </li>         </ul>          <p> </p>          <p><b>Subscribe to a channel </b></p>          <p><b></b></p>          <p>  <em>dojo.io.cometd.subscribe(&quot;/a/channel&quot;, null, &quot;onUpdate&quot;); </em></p>          <p><b><em></em></b></p>          <p><em>  function onUpdate(message) {              <br />          if (!message.data) {               <br />                 alert(&quot;bad message format &quot;+message);               <br />                 return;               <br />          } </em></p>          <p><em>          var data = message.data;              <br />   } </em></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>JS Dinamic Demo</u></font></i></p>          <ul>           <li>Dynamic Channel sub &amp; unsubscription </li>         </ul>          <p> </p>          <p> <em> function subscribe(symbol) { </em></p>          <p><em><b>        dojo.io.cometd.subscribe</b>(&quot;/stock/&quot;+symbol, null, &quot;onUpdate&quot;); </em></p>          <p><em>  } </em></p>          <p><em>  </em></p>          <p><em>  function unsubscribe(symbol) { </em></p>          <p><em><b>       dojo.io.cometd.unsubscribe</b>(&quot;/stock/&quot;+symbol, null, &quot;onUpdate&quot;); </em></p>          <p><em>  } </em></p>          <p><em></em></p>          <p><em>  function subscribeAll() { </em></p>          <p><em>       var count = itemsStore.get().length; </em></p>          <p><em>       for (var i=0; i&lt;count; i++) { </em></p>          <p><em>                   subscribe(itemsStore.getDataByIndex(i).symbol); </em></p>          <p><em>        } </em></p>          <p><em>  } </em></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Web Publisher</u></font></i></p>          <ul>           <li>Simple web-based client publisher (stock publisher) </li>         </ul>          <p> </p>          <p align="center"><a href="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_50.png"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="259" alt="image" src="http://blogs.oracle.com/slc/resource/WindowsLiveWriter-BayeuxProtocolIntroductionHTTPPublishSub_FE2E/image_thumb_24.png" width="444" border="0" /></a> </p>          <p align="center"> </p>          <p align="center"></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Some useful link</u></font></i></p>          <ul>           <li><b>Bayeux</b> specification provides only a protocol definition               <ul>               <li><u><a href="http://svn.cometd.org/trunk/bayeux/bayeux.html">http://svn.cometd.org/trunk/bayeux/bayeux.html</a></u><u> </u></li>             </ul>           </li>         </ul>          <p><u></u></p>          <ul>           <li><b>Cometd</b> is a project by the <b>Dojo Foundation</b> to produce a specification (Bayeux) and a set of implementations of that specification (Cometd)               <ul>               <li><u><a href="http://dojofoundation.org/#tab-cometD">http://dojofoundation.org/#tab-cometD</a> </u></li>             </ul>           </li>         </ul>          <p><u></u></p>          <p><u> </u><u> </u></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Some useful link</u></font></i></p>          <ul>           <li>Bayeux Java server-side implementation </li>         </ul>          <p> </p>          <ul>           <ul>             <li><b>CometdJetty</b><b> </b></li>           </ul>            <li><u><a href="http://code.google.com/p/cometd/wiki/CometdJetty"><font size="1">http://code.google.com/p/cometd/wiki/CometdJetty</font></a></u>               <ul>               <li><b>Oracle WebLogic Server </b></li>             </ul>           </li>            <li><u><a href="http://download.oracle.com/docs/cd/E12840_01/wls/docs103/webapp/pubsub.html"><font size="1">http://download.oracle.com/docs/cd/E12840_01/wls/docs103/webapp/pubs</font></a><u><font size="1">ub.html</font></u></u>               <ul>               <li><b>IBM WebSphere</b> </li>             </ul>           </li>            <li><u><a href="http://www.ibm.com/developerworks/websphere/techjournal/0802_haverloc"><font size="1">http://www.ibm.com/developerworks/websphere/techjournal/0802_haverloc</font></a><u><font size="1">k/0802_haverlock.html</font></u> </u></li>         </ul>          <p><u> </u></p>       </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="right"><i><font color="#ff0000"><u>Some useful link</u></font></i></p>          <ul>           <li>Bayeux others-server side implementation </li>         </ul>          <p> </p>          <ul>           <ul>             <li>Flash <b>FlexComet </b>                <ul>                 <li><u><a href="http://code.google.com/p/flexcomet/"><font size="1">http://code.google.com/p/flexcomet/</font></a> </u></li>               </ul>             </li>              <li>Perl <b>CometdPerl </b>                <ul>                 <li><u><a href="http://code.google.com/p/cometd/wiki/CometdPerl"><font size="1">http://code.google.com/p/cometd/wiki/CometdPerl</font></a></u> </li>               </ul>             </li>              <li>Python <b>CometdTwist</b>                 <ul>                 <li><u><a href="http://code.google.com/p/cometd/wiki/CometdTwisted"><font size="1">http://code.google.com/p/cometd/wiki/CometdTwisted</font></a> </u></li>               </ul>             </li>           </ul>         </ul>          <p><u> </u><u> </u></p>       </td>     </tr>      <tr>       <td valign="top" width="598"> </td>     </tr>      <tr>       <td valign="top" width="598">         <p align="center"><font size="2"><strong><em>Nino Guarnacci</em></strong>    </font></p>          <p align="center"><font size="1"><em>nino.guarnacci (AT) oracle.com</em></font></p>       </td>     </tr>   </tbody></table></p>
+        
+    </div>
+
+    <div class="entry-footer">
+        <p class="entry-category">Category: Oracle</p>
+        <p class="entry-tags">Tags:  none </p>
+        <p class="entry-links">
+        <a href="https://blogs.oracle.com/slc/entry/introduction_to_bayeux_protoco">Permanent link to this entry</a>
+                        </p>
+    </div>
+
+	    
+	</div>
+
+</div>    
+    
+          
+                    <!-- Previous and Next Entries -->
+                    <div id="pagerBottom">
+                                                    &laquo; <a href="https://blogs.oracle.com/slc/entry/the_bookmark_portlet_locator">The Bookmark Portlet...</a> |  
+                <a href="/slc/">Main</a>
+                | <a href="https://blogs.oracle.com/slc/entry/javanio_vs_javaio">Java.nio vs Java.io</a> &raquo;
+                        </div> 
+                    
+                    <!-- Comments -->
+                                                <a name="comments"></a>
+    <div class="comments" id="comments">
+
+            <div class="comments-head">Comments:</div>
+            
+    <br/>
+                        <a name="comment-1234179444000" id="comment-1234179444000"></a>
+            <div class="comment odd" id="comment1">
+
+                Nino, I would also encourage anyone that is interested in trying this with WLS to look at my series about this:
+http://blogs.oracle.com/jamesbayer/2008/10/realtime_updates_on_webpages_p_1.html
+
+The version of Dojo that shipped with the WLS 10.3 sample is old (0.9 maybe?) and the API's have changed in the later releases from the examples that you use in your slides.
+
+Thanks, James
+
+                <p class="comment-details">
+                Posted by
+                                    <a rel="nofollow" href="http://blogs.oracle.com/jamesbayer/"><b>James Bayer</b></a>
+                
+                on February 09, 2009 at 12:37 PM CET
+
+                <a href="https://blogs.oracle.com/slc/entry/introduction_to_bayeux_protoco#comment-1234179444000"
+                   class="entrypermalink" title="comment permalink">#</a>
+                </p>
+
+            </div>
+
+                                <a name="comment-1260005402000" id="comment-1260005402000"></a>
+            <div class="comment even" id="comment2">
+
+                excellent post!! if any of your readers are interested in quality <a href="http://www.deelsonheels.com/Unisex_Gel_Arch_Support_Pad_Shoe_Insoles/p133745_317684.aspx" rel="nofollow">ARCH SUPPORTS</a> just click the highlighted links.
+
+                <p class="comment-details">
+                Posted by
+                                    <a rel="nofollow" href="http://www.deelsonheels.com/Unisex_Gel_Arch_Support_Pad_Shoe_Insoles/p133745_317684.aspx"><b>Orthotic Insoles</b></a>
+                
+                on December 05, 2009 at 10:30 AM CET
+
+                <a href="https://blogs.oracle.com/slc/entry/introduction_to_bayeux_protoco#comment-1260005402000"
+                   class="entrypermalink" title="comment permalink">#</a>
+                </p>
+
+            </div>
+
+                </div>
+                        
+    <div class="comments-form">
+    <div class="comments-head">Post a Comment:</div>
+    <a name="comment-form"></a>
+
+
+    
+    <form method="post" action="https://blogs.oracle.com/slc/entry/introduction_to_bayeux_protoco" focus="name" 
+        name="commentForm" onsubmit="fixURL(this); return validateComments(this)">    
+        <input type="hidden" name="method" value="post" />
+
+        <ul>
+            <li>
+                <label class="desc">Name:</label>
+                <input type="text" name="name" class="text large" value="" size="50" maxlength="255" />
+            </li>
+
+            <li><label class="desc">E-Mail:</label>
+                <input type="text" name="email" class="text large" value="" size="50" maxlength="255" />
+            </li>
+
+            <li><label class="desc">URL:</label>
+                <input type="text" name="url" class="text large" value="" size="50" maxlength="255" />
+            </li>
+
+                    <li><input type="checkbox" class="checkbox" id="notify" name="notify" />
+                <label for="notify" class="choice">Notify me by email of new comments</label>
+            </li>
+                    <li>
+                <input type="checkbox" class="checkbox" id="rememberInfo" name="rememberInfo" />
+                <label for="rememberInfo" class="choice">Remember Information?</label>
+            </li>
+            <li>
+                <label class="desc">Your Comment:</label>
+             
+            <textarea name="content" class="textarea large" cols="40" rows="10"></textarea>
+
+            </li>
+            <li class="info">
+                <span class="comments-syntax-indicator">
+                HTML Syntax:
+                                    <span class="disabled">NOT allowed</span>
+                                </span>
+            </li>
+            <li class="info">
+               <script type="text/javascript" src="/theme/scripts/clientSideInclude.js"></script>
+               <div id="commentAuthenticator"></div>
+            </li>
+            <li>
+               <input type="button" class="button" name="post" value="&nbsp;Preview&nbsp;"
+                  onclick="this.form.method.value='preview';this.form.submit()" />
+               <input type="submit" class="button" name="post" value="&nbsp;Post&nbsp;" />
+            </li>
+        </ul>
+
+    </form>
+
+    <script type="text/javascript" src="/theme/scripts/roller.js"></script>
+    <script type="text/javascript">
+    clientSideInclude('commentAuthenticator', '/CommentAuthenticatorServlet');
+
+    var author = getCookie("commentAuthor");
+    var email = getCookie("commentEmail");
+    var url = getCookie("commentUrl");
+    // check each field - IE will render "null"
+   
+    if (author) {
+        document.forms['commentForm'].name.value = author;
+    }else{
+        document.forms['commentForm'].name.value = "guest";
+    }
+
+    if (email) {
+        document.forms['commentForm'].email.value = email;
+    }
+    if (url) {
+        document.forms['commentForm'].url.value = url;
+    }
+
+    if (author || email || url) {
+        document.forms['commentForm'].rememberInfo.checked = true;
+    }
+
+    function fixURL(theForm) {
+        if (theForm.url.value != "" &&
+            theForm.url.value.indexOf("http://") == -1) { //prepend http://
+            theForm.url.value = "http://"+theForm.url.value;
+        }
+        saveUserInformation(theForm);
+    }
+
+    function saveUserInformation(theForm) {
+        if (theForm.rememberInfo.checked) {
+            rememberUser(theForm);
+        } else {
+            forgetUser(theForm);
+        }
+    }
+
+    function validateComments(theForm) {
+        if (theForm.content.value == "") {
+            alert("Please enter a comment.");
+            theForm.content.focus();
+            return false;
+        }
+ 
+        if (document.forms['commentForm'].name.value=="" ) {
+        document.forms['commentForm'].name.value = "guest";
+        }
+
+    }
+    </script>
+
+
+    </div>
+                    				</div>
+
+                <!-- Sidebar -->
+                           <!-- Right Sidebar -->
+<div id="rightColumn">
+
+<!-- About -->
+  <div id="aboutSection">    
+    <h5 class="section-title">About</h5>
+    <div class="section-body">
+                  <p>.. useful blog on java and middleware technologies. </p>
+            </div>
+  </div>  
+<!-- End About -->
+
+<!-- Search -->
+  <div id="searchSection">  
+    <h5 class="section-title">Search</h5>
+    <div class="section-body">
+        <script type="text/javascript">
+    function prepareSearchForm() {
+        document.getElementById("searchForm").searchQuery.name = "oq";
+        document.getElementById("searchFilter").innerHTML = "<input type='hidden' id='searchFilteredQuery' name='q' value=''>" +
+                "<br /><input type='checkbox' id='searchScope' checked='true' /><label for='searchScope'>Search only this blog</label>";
+    }
+    function submitSearchForm() {
+        var form = document.getElementById("searchForm");
+        var query = form.searchQuery.value;
+        var urlSearchOp = form.searchOp.value; //searchOp
+        var urlGroup = form.searchGroup.value; //group
+         
+        if (query == null || query == "") {
+            return false;
+        }
+        var filter = " weblog:slc";
+        var curUrl = window.location.href;
+        if (form.searchScope.checked && form.searchQuery.value.indexOf(filter) == -1) {
+            form.searchFilteredQuery.value = form.searchQuery.value + filter;
+        }
+        else {
+            form.searchFilteredQuery.value = form.searchQuery.value;
+        }
+
+        if(curUrl.indexOf("-dev") != -1) {
+             form.action="http://search-stage.oracle.com/search/search";
+           }
+        else if(curUrl.indexOf("-stage") != -1) {
+             form.action="http://search-stage.oracle.com/search/search";
+           }
+        else {
+             form.action="http://search.oracle.com/search/search";
+           }
+        
+        window.location = form.action + "?search_p_main_operator=" + urlSearchOp + "&group=" + urlGroup +"&q=" + form.searchFilteredQuery.value;
+        return false;
+    }
+</script>
+<form id="searchForm" action="http://search.oracle.com/search/search"
+      onsubmit="return submitSearchForm();" method="get">
+    <input type="hidden" id="searchOp" name="search_p_main_operator" value="all" />
+    <input type="hidden" id="searchGroup" name="group" value="Blogs" />
+    <label for="searchQuery" title="Enter search term">Enter search term:</label>
+    <br />
+    <input type="text" id="searchQuery" name="q" class="text" alt="Enter Search Term" />
+    <input type="image" class="input-image" id="searchSubmit" alt="Submit Search" title="Submit Search" src="https://blogs.oracle.com/slc/resource/search-button.gif" />
+    <span id="searchFilter">
+    <noscript>Search filtering requires JavaScript</noscript>
+    </span>
+</form>
+<script type="text/javascript">prepareSearchForm();</script>
+    </div>
+  </div>    
+<!-- End Search -->
+
+<!-- Recent Posts -->
+  <div id="recentSection">  
+                <h5 class="section-title">Recent Posts</h5>
+        <div class="section-body">
+            <ul>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/javaday_iv_rome_30012010">JavaDay IV Rome 30/01/2010</a></li>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/the_annotation_webserviceref">The annotation @WebServiceRef</a></li>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/servlet_reveal">Servlet Reveal</a></li>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/javanio_vs_javaio">Java.nio vs Java.io</a></li>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/introduction_to_bayeux_protoco">Introduction to Bayeux Protocol (HTTP Publish-Subscribe)</a></li>
+                                    <li><a href="https://blogs.oracle.com/slc/entry/the_bookmark_portlet_locator">The Bookmark Portlet Locator</a></li>
+                            </ul>
+        </div>
+      </div>    
+<!-- End Recent Posts -->
+
+
+<!-- Top Tags -->
+  <div id="tagsSection">  
+            <h5 class="section-title">Top Tags</h5>
+    <div class="tags section-body">
+        <ul class="tag-cloud">
+                    <li><a href="https://blogs.oracle.com/slc/tags/portal" title="1" class="weight-1">portal</a></li>
+                    <li><a href="https://blogs.oracle.com/slc/tags/portlet" title="1" class="weight-1">portlet</a></li>
+                    <li><a href="https://blogs.oracle.com/slc/tags/presentation+services" title="1" class="weight-1">presentation services</a></li>
+                    <li><a href="https://blogs.oracle.com/slc/tags/web+services" title="1" class="weight-1">web services</a></li>
+                    <li><a href="https://blogs.oracle.com/slc/tags/weblogic" title="1" class="weight-1">weblogic</a></li>
+                </ul>
+    </div>
+    </div>    
+<!-- End Top Tags -->
+    
+
+<!-- Categories -->
+  <div id="categoriesSection">
+    <h5 class="section-title">Categories</h5>
+    <div class="section-body">
+                        <ul class="rCategory">
+                                                            <li><a href="https://blogs.oracle.com/slc/category/Oracle">Oracle</a></li>
+            <ul class="rCategory">
+                                                                            <li><a href="https://blogs.oracle.com/slc/category/Oracle/Integration+Solution">Integration Solution</a></li>
+                                                                                                            <li><a href="https://blogs.oracle.com/slc/category/Oracle/Presentation+Services">Presentation Services</a></li>
+                                                                                            <li><a href="https://blogs.oracle.com/slc/category/Oracle/Software">Software</a></li>
+            <ul class="rCategory">
+                                                                            <li><a href="https://blogs.oracle.com/slc/category/Oracle/Software/Portal+and+Portlet">Portal and Portlet</a></li>
+                                                                        </ul>
+                                </ul>
+                                    </ul>
+        </div>
+  </div>
+<!-- End Categories -->
+
+
+<!-- Archives -->
+   <div id="archiveSection">
+    <h5 class="section-title">Archives</h5>
+    <div class="section-body">
+        <table cellspacing="0" border="0"  summary="Blog Archive Calendar" class="hCalendarTable"><tr><td colspan="7" align="center" class="hCalendarMonthYearRow"><a href="/slc/date/200912" title="Prev" class="hCalendarNavBar">&laquo;</a> November 2011</td></tr><tr><th class="hCalendarDayNameRow" align="center">Sun</th><th class="hCalendarDayNameRow" align="center">Mon</th><th class="hCalendarDayNameRow" align="center">Tue</th><th class="hCalendarDayNameRow" align="center">Wed</th><th class="hCalendarDayNameRow" align="center">Thu</th><th class="hCalendarDayNameRow" align="center">Fri</th><th class="hCalendarDayNameRow" align="center">Sat</th></tr><tr><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDay"><div class="hCalendarDayTitle">1</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">2</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">3</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">4</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">5</div></td></tr><tr><td class="hCalendarDay"><div class="hCalendarDayTitle">6</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">7</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">8</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">9</div></td><td class="hCalendarDayCurrent"><div class="hCalendarDayTitle">10</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">11</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">12</div></td></tr><tr><td class="hCalendarDay"><div class="hCalendarDayTitle">13</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">14</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">15</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">16</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">17</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">18</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">19</div></td></tr><tr><td class="hCalendarDay"><div class="hCalendarDayTitle">20</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">21</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">22</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">23</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">24</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">25</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">26</div></td></tr><tr><td class="hCalendarDay"><div class="hCalendarDayTitle">27</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">28</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">29</div></td><td class="hCalendarDay"><div class="hCalendarDayTitle">30</div></td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td></tr><tr><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td><td class="hCalendarDayNotInMonth">&nbsp;</td></tr><tr class="hCalendarNextPrev"><td colspan="7" align="center"><a href="/slc/" class="hCalendarNavBar">Today</a></td></tr></table>
+    </div>
+  </div>
+<!-- End Archives -->
+
+<!-- Bookmarks -->
+   <div id="bookmarkSection">
+              </div>    
+<!-- End Bookmarks -->
+
+<!-- Blog and Author Menu -->
+   <div id="menuSection">
+    <h5 class="section-title">Menu</h5>
+    <div class="section-body">
+            <ul class="rNavigationBar">
+        <li class="rNavItem">
+            <a href="/"><span>Blogs Home</span></a>
+        </li>
+        <li class="rNavItem">
+            <a href="https://blogs.oracle.com/slc/"><span>Weblog</span></a>
+        </li>
+                                                                                                                            <li class="rNavItem">
+                    <a href="/roller-ui/login-redirect.rol"><span>Login</span></a>
+                </li>
+                        </ul>
+            </div>
+  </div>    
+<!-- End Blog and Author Menu -->
+
+    
+<!-- Feeds -->
+   <div id="feedsSection">   
+    <h5 class="section-title">Feeds</h5>
+    <div class="section-body">
+        <b>RSS</b>
+            <ul class="rFeeds">
+    <li><a href="https://blogs.oracle.com/slc/feed/entries/rss">All</a></li>
+                        <li><a href="https://blogs.oracle.com/slc/feed/entries/rss?cat=%2FOracle">/Oracle</a></li>
+        <li><a href="https://blogs.oracle.com/slc/feed/comments/rss">Comments</a></li>
+    </ul>
+        <b>Atom</b>    
+            <ul class="rFeeds">
+    <li><a href="https://blogs.oracle.com/slc/feed/entries/atom">All</a></li>
+                        <li><a href="https://blogs.oracle.com/slc/feed/entries/atom?cat=%2FOracle">/Oracle</a></li>
+        <li><a href="https://blogs.oracle.com/slc/feed/comments/atom">Comments</a></li>
+    </ul>
+    </div>
+  </div>          
+<!-- End Feeds -->    
+    
+</div>    			</div>
+
+			<!-- Footer -->
+			<div id="footer">
+				<p>The views expressed on this blog are those of the author and do not necessarily reflect the views of Oracle. <a href="http://www.oracle.com/html/terms.html">Terms of Use</a> | <a href="http://www.oracle.com/html/privacy.html">Your Privacy Rights</a></p>
+			</div>
+			<!-- Omniture Script --> 
+<!-- Start SiteCatalyst code -->
+
+<script language="JavaScript" src="/main/resource/resources/ora_blogs.js"></script>
+
+<!-- End SiteCatalyst code -->
+		</div>
+	</body>
+</html>

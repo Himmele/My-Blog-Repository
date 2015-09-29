@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all1.htm -->
+<HTML><HEAD><TITLE>Protected Mode Einleitung</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Protected Mode - Einleitung-Dateien/stone.jpg">
+<H1><FONT color=#800000>2 Protected Mode</FONT></H1>
+<H1><FONT color=#800000>2.1 Einleitung</FONT></H1>
+<H2><FONT color=#000080>Allgemeines</FONT></H2>
+<P>Die Möglichkeit, einen Intel Prozessor in zwei verschiedenen Modi betreiben 
+zu können, wurde 1982 mit der Vorstellung des 80286 eingeführt. Dieser Prozessor 
+befindet sich nach einem Reset standardmäßig im bekannten Realmode. Dabei 
+verhält er sich wie ein schneller, zum 8086 kompatiblen Prozessor. Erst durch 
+das Setzen eines Bits in einem bestimmten Register wird der neue Modus, der 
+sogenannte Protected-Mode aktiviert.</P>
+<P>Hinter "Protected-Mode" verbirgt sich dabei in erster Linie ein anderes 
+logisches Prinzip, auf den Arbeitsspeicher zuzugreifen. Dieses neue Prinzip 
+versetzt den Prozessor zusammen mit einem geeigneten Betriebssystem in die Lage, 
+mehrere Anwendungen quasi-parallel ablaufen zu lassen (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#multitasking">Multitasking</A>) 
+und sie gleichzeitig voneinander zu isolieren. So können beispielsweise Bereiche 
+des Speichers gegen Zugriffe anderer, quasi-parallel ablaufender Programme 
+geschützt werden (daher auch der Name: "Protected-Mode" <I>to protect, englisch, 
+schützen</I>). </P>
+<P>Einem Programm im Realmode ist es ohne (!) Einschränkungen gestattet, Teile 
+des Betriebssystems (z.B. den residenten Teil des Kommandointerpreters 
+COMMAND.COM) zu überschreiben und so das gesamte System zum "Absturz" zu 
+bringen. Obwohl es unwahrscheinlich ist, daß ein solches Programm existiert, 
+reicht in den meisten Fällen auch ein Programmfehler aus, um denselben Effekt zu 
+erreichen (dazu gehört z.B. der Versuch, einen NIL-Zeiger zu 
+dereferenzieren).</P>
+<P>Ein Prozessor im Protected Mode würde in einem dieser Fälle über eine <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#exception">Exception</A> 
+(<I>englisch, Ausnahme</I>) die Kontrolle an ein entsprechendes Betriebssystem 
+abgeben. Das Betriebssystem kann dann versuchen, den Fehler zu korrigieren, 
+oder, falls er sich nicht korrigieren läßt, das entsprechende Programm einfach 
+beenden. Dabei wird weder die Stabilität anderer Anwendungen, noch die des 
+gesamten Systems beeinflußt.</P>
+<H2><FONT color=#000080>Multitasking</FONT></H2>
+<P>Die gleichzeitige Ausführung mehrerer Programme (bzw. Programmteile oder 
+Tasks) wird als Multitasking bezeichnet. Bei den im PC-Bereich verwendeten 
+Systemen mit nur einem Prozessor handelt es sich dabei immer nur um eine 
+Illusion. Denn eine wirklich parallele Verarbeitung ist nur auf entsprechenden 
+Multiprozessor-Systemen möglich. Im PC-Bereich und unter allen anderen Systemen 
+mit nur einem Prozessor muß die verfügbare Prozessorzeit auf mehrere Tasks 
+verteilt werden.</P>
+<P>Dabei lassen sich zwei unterschiedliche Verfahren unterscheiden:</P>
+<UL>
+  <LI>"kooperatives" Multitasking: Dabei geben die einzelnen Tasks "von sich 
+  aus" die Kontrolle an das Betriebssystem zurück (Bsp.: Windows 3.1). 
+  <LI>"pre-emptives" Multitasking: Das Betriebssystem entscheidet darüber, ob 
+  der aktuelle Task fortgesetzt oder gestoppt wird, um die Arbeit mit einem 
+  anderen Task fortzusetzen. Die dabei benutzten Verfahren sind vom verwendeten 
+  Betriebssystem abhängig. 
+  <P><B>Anm.:</B> Unter anderem bestehen die folgenden zwei Möglichkeiten, diese 
+  Taskumschaltung zu realisieren:</P>
+  <UL>
+    <LI>Jedem Task wird eine bestimmte, gleichlange Zeitperiode des Prozessors 
+    zur Verfügung gestellt 
+    <LI>Es werden Prioritäten an die einzelnen Tasks vergeben, die darüber 
+    entscheiden, wie lange ein bestimmter Task den Prozessor verwenden darf, 
+    bevor er vom Betriebssystem unterbrochen wird. </LI></UL></LI></UL>
+<P>Damit ein unterbrochener Task später überhaupt fortgesetzt werden kann, muß 
+der aktuelle Zustand (beispielsweise der Inhalt der Prozessor-Register) 
+festgehalten werden. Der Protected Mode der Intel Prozessoren unterstützt diese 
+Art der Taskumschaltung bereits auf der Hardwarebene.</P>
+<P>Damit Multitasking überhaupt sinnvoll angewendet werden kann, müssen sich 
+auch mehrere Anwendungen (also Programme) gleichzeitig im Arbeitsspeicher 
+befinden. Daraus folgt, daß sich alle laufenden Programme bzw. Tasks den 
+Arbeitsspeicher untereinander aufteilen müssen. Damit sich diese Anwendungen 
+nicht gegenseitig stören können, hat Intel mit der Vorstellung des 80286 ein 
+Schutzkonzept eingeführt, das genau diese Trennung der einzelner Programme 
+voneinander unterstützt.</P>
+<H2><FONT color=#000080>Schutzkonzept / Privilegierung</FONT></H2>
+<P>Der verfügbare Arbeitspeicher wird nicht nur zwischen einzelnen Programmen 
+aufgeteilt, sondern es wird auch nach den Privilegstufen der Programme 
+unterschieden. Dabei kennt der Prozessor 4 Privilegstufen, die von 0 (höchste 
+Stufe) bis 3 (niedrigste Stufe) definiert sind. Jede dieser Stufen besitzt genau 
+definierte Zugriffsrechte. Unter Zugriffsrechten ist dabei die Möglichkeit zu 
+verstehen, auf die Daten anderer Privilegstufen zugreifen zu können bzw. 
+"kritische" Maschinensprache-Befehle auszuführen Dazu gehören beispielsweise 
+alle Portbefehle zur Kommunikation mit den Peripheriegeräten und Befehle, die in 
+die Speicheradressierung des Betriebssystems eingreifen.</P>
+<P>Es ist grundsätzlich nicht gestattet, daß ein Programm Programmcode in einer 
+anderen Privilegstufe ausführt! Dazu gehören vor allem Unterprogrammaufrufe.</P>
+<P>Dieses Schutzkonzept läßt sich in der Form eines Ringsystems darstellen, 
+wobei die Privilegierung der einzelnen Stufen nach außen abnimmt (Vgl. Abb. 
+2.1).</P>
+<CENTER>
+<P><IMG alt=Ringmodell src="Protected Mode - Einleitung-Dateien/p_2_1.gif" 
+border=3> <BR><I><B>Abb. 2.1:</B> Ringmodell eines geschützten Systems</I> 
+</P></CENTER>
+<P>Ein Betriebssystem muß dabei nicht alle 4 Privilegstufen benutzen. Viele 
+Systeme kommen bereits mit nur 2 Ebenen aus (Ring 0: für den Betriebssystemkern 
+und Ring 3: für gestartete Anwendungen).</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys7.htm"><IMG 
+alt=Zurück src="Protected Mode - Einleitung-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all2.htm"><IMG alt=Weiter 
+src="Protected Mode - Einleitung-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Protected Mode - Einleitung-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

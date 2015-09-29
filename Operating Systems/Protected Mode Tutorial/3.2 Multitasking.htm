@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez2.htm -->
+<HTML><HEAD><TITLE>Multitasking</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Multitasking-Dateien/stone.jpg>
+<H1><FONT color=#800000>3.2 Multitasking</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Wie bereits im Kapitel 2 kurz erwähnt wurde, bezeichnet Multitasking die 
+gleichzeitige Ausführung mehrerer Programme (oder Programmteile) bzw. im 
+Allgemeinen die gleichzeitige Ausführung von Prozessen. Diese gleichzeitige 
+Ausführung findet bei Systemen mit nur einem Prozessor in Wirklichkeit nicht 
+statt. Statt dessen wird eine quasi-parallele Ausführung aller Prozesse 
+erreicht, indem die verfügbare Prozessorzeit auf mehrere Tasks verteilt wird. 
+Wie ebenfalls in Kapitel 2 erwähnt wurde, existieren dazu eine Reihe von 
+Strategien, um diese Teilung möglichst effektiv zu organisieren. Allen 
+Prinzipien ist jedoch gemeinsam, daß ein laufender Prozeß (an irgendeiner Stelle 
+seines Programmcodes, Berechnungen etc.) unterbrochen werden muß, damit die 
+Ausführung mit einem anderen Prozeß fortgesetzt werden kann.</P>
+<P>Diese Unterbrechung wird als Task-Wechsel bezeichnet. Der Task-Wechsel muß 
+dafür sorgen, daß der gesamte(!) Prozessorzustand festgehalten wird, da das 
+unterbrochene Programm nicht von dieser Unterbrechung beeinflußt werden darf. 
+Nur so ist es möglich, den unterbrochenen Task später wieder fortzusetzen.</P>
+<H2><FONT color=#000080>Task State Segment (TSS)</FONT></H2>
+<P>Für das notwendige "Einfrieren" des Prozessorzustandes wird das sogenannte 
+Task State Segment (TSS) verwendet. Dabei handelt es sich um einen 
+Speicherbereich, der es dem Prozessor ermöglicht, den kompletten 
+Prozessorzustand (z.B. den Inhalt der Register) zu sichern. Bei einem 
+Task-Wechsel liest (Eigenschaften des neuen Prozeß) bzw. schreibt (Eigenschaften 
+des alten Prozeß) der Prozessor selbständig aus bzw. in die entsprechenden 
+TS-Segmente. Jedes TS-Segment besitzt seinen eigenen Deskriptor, der die 
+Basisadresse und die Größe des jeweiligen TS-Segmentes beschreibt. Abb. 3.6 
+zeigt den Aufbau eines TS-Segmentes der 80386/80486 Prozessoren. Der 80286 
+besitzt zwar ebenfalls ein TSS, dieses ist jedoch aufgrund der 16 Bit breiten 
+Register des 80286 nur 44 Byte groß. Das TSS des 80286 soll hier nicht beachtet 
+werden.</P>
+<CENTER>
+<P><IMG alt=TSS src="Multitasking-Dateien/p_3_6.gif" border=2> <BR><I><B>Abb. 
+3.6:</B> Aufbau des Task-State-Segmentes (TSS)</I> </P></CENTER>
+<P>Abb. 3.7 zeigt den dazugehörigen TSS-Deskriptor.</P>
+<CENTER>
+<P><IMG alt=TSS-Deskriptor src="Multitasking-Dateien/p_3_7.gif" border=2> 
+<BR><I><B>Abb. 3.7:</B> TSS-Deskriptor</I> </P></CENTER>
+<P>TSS-Deskriptoren besitzen ein zurückgesetztes S-Bit und gehören damit zur 
+Gruppe der Systemsegmente. TSS-Deskriptoren lassen sich nur in der Globalen 
+Deskriptor Tabelle (GDT) speichern und werden anhand ihres Type-Feldes 
+unterschieden. Dabei kann das Type-Feld nur 4 verschiedene Werte annehmen (Vgl. 
+Tabelle 3.1).
+<P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Wert</TH>
+    <TH vAlign=center align=middle width="20%">binär</TH>
+    <TH vAlign=center align=middle width="60%">Beschreibung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>1</TD>
+    <TD align=middle>0001b</TD>
+    <TD>80286-TSS</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>3</TD>
+    <TD align=middle>0011b</TD>
+    <TD>aktives 80286-TSS</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>9</TD>
+    <TD align=middle>1001b</TD>
+    <TD>80386-TSS</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD align=middle>11</TD>
+    <TD align=middle>1011b</TD>
+    <TD>aktives 80386-TSS</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 3.1:</B> mögliche TSS-Deskriptortypen</I> 
+</CAPTION></CENTER>
+<P>80286 TSS-Deskriptoren sollen hier nicht weiter betrachtet werden.</P>
+<P>Das variable Bit 2 des Type-Feldes wird als "Busy-Bit" bezeichnet, es gibt 
+den Status des beschriebenen Tasks an. Besitzt das Bit 2 den Wert 0 (Type= 
+1001b), dann wartet der beschriebene Task auf seine Aktivierung. Ist das Bit 2 
+gesetzt (Type=1011b), dann wurde der Task bereits aktiviert und ist der momentan 
+aktive Task. Wird versucht, zu einem bereits aktivierten Task zu wechseln, wird 
+eine Exception ausgelöst. Tasks sind nicht reentrant, d.h ein bereits 
+aktivierter Task darf nicht noch einmal aktiviert werden. In diesem Fall hat der 
+Prozessor keine andere Möglichkeit, als eine Exception auszulösen, denn das zum 
+aktiven Prozeß gehörende TSS-Segment wird ja bereits vom aktiven Task selbst 
+benutzt. Soll nun zum aktiven Task ein Task-Wechsel durchgeführt werden, so 
+müßte diese Datenstruktur überschrieben werden und eine Rückkehr zum 
+unterbrochenen Task wäre dann nicht mehr möglich. Das obige trifft natürlich nur 
+auf einen Task-Wechsel zu, ein JMP oder CALL innerhalb des aktiven Tasks ist 
+natürlich möglich.</P>
+<P>Der momentan aktive Task wird durch den Inhalt des Prozessor-Registers TR 
+beschrieben. Dieses Register enthält einen Selektor auf einen TSS-Deskriptor. 
+Zusätzlich wird dieser TSS-Deskriptor in einem "unsichtbaren" Schattenregister 
+festgehalten. Über die Befehle LTR (Load Task Register) und STR (Store Task 
+Register) kann auf das TR-Register zugegriffen werden. Der Inhalt des Task 
+Registers (TR) hat nur indirekt mit dem eigentlichen Task-Wechsel zu tun, er 
+beschreibt lediglich, in welchem TS-Segment der Prozessor im Falle eines 
+Taskwechsels seine aktuellen Registerinhalte ablegt. Das Laden von TR mit einem 
+neuen Wert ist lediglich Teil des Taskwechsels und nicht der Taskwechsel selbst 
+(Vgl. auch mit Abb. 3.8: Task-Register). 
+<CENTER>
+<P><IMG alt=TR-Aufbau src="Multitasking-Dateien/p_3_8.gif" border=2> 
+<BR><I><B>Abb. 3.8:</B> Task-Register</I> </P></CENTER>
+<H2><FONT color=#000080>Task-Wechsel</FONT></H2>
+<P>Die folgenden vier Ereignisse können einen Task-Wechsel auslösen:</P>
+<UL>
+  <LI>Ein CALL- oder JMP- FAR, wenn der angegebene Selektor auf einen 
+  TSS-Deskriptor verweist. Die im Sprungbefehl angegebene Offsetadresse wird 
+  dabei ignoriert. 
+  <LI>Ein CALL- oder JMP- FAR, wenn der als Sprungziel angegebene Selektor auf 
+  ein Task-Gate verweist. Hier wird ebenfalls der angegebene Offsetanteil 
+  ignoriert, näheres unter CALL/TASK- Gates. 
+  <LI>Hardware-Interrupts und Ausnahmebedingungen (Exceptions), wenn der 
+  dazugehörige IDT-Eintrag auf ein Task-Gate verweist. 
+  <LI>Der Rücksprung von einer Interrupt-Routine mittels IRET, wenn die 
+  Interrupt-Routine selbst den momentan aktiven Task darstellt, d.h. das Bit NT 
+  ("Nested Task") im Flagregister muß durch den Sprung zur 
+  Interrupt-Behandlungsroutine gesetzt worden sein. </LI></UL>
+<P>Bei einem Task-Wechsel führt der Prozessor die folgenden Schritte durch:</P>
+<OL>
+  <LI>
+  <P><B>Privilegprüfung<BR><BR></B>Ein Taskwechsel, der durch die Befehle JMP 
+  oder CALL ausgelöst wird, veranlaßt eine Prüfung der 
+  Zieldeskriptor-Privilegstufe. Sie muß höher bzw. mindestens gleich (d.h. 
+  numerisch kleiner oder gleich) der Privilegstufe des aufrufenden Tasks (CPL) 
+  und der im Selektor angegebenen, gewünschten Privilegstufe (RPL) sein. 
+  Zugriffsverletzungen werden dabei über die Exception 13 
+  gemeldet.<BR>Exceptions, Interrupts und durch IRET ausgelöste Task-Wechsel 
+  können unabhängig von der DPL des Ziel-Task-Gates bzw. des 
+  Ziel-TSS-Deskriptors einen Task-Wechsel durchführen.</P>
+  <LI>
+  <P><B>Segment- und Präsenzprüfung des angesprochenen 
+  TS-Segmentes<BR><BR></B>In diesem Schritt wird sichergestellt, daß das 
+  angesprochene TS-Segment im Speicher vorhanden ist (d.h. das "present"-Bit im 
+  TSS-Deskriptor muß gesetzt sein) und daß genügend Platz zur Speicherung der 
+  Register im beschriebenen TS-Segment bereitsteht (mindestens 104 Byte). Auch 
+  hier reagiert der Prozessor bei Fehlern mit einer Exception.<BR>Bis 
+  einschließlich diesem 2. Schritt verliefen alle Prüfungen im Kontext des alten 
+  (momentan noch aktiven) Prozesses. Alle bis zu diesem Punkt aufgetretenen 
+  Fehler konnten korrigiert und die entsprechenden Prüfungen wiederholt werden, 
+  ohne daß bisher der aktive Task gewechselt wurde. Die Fehlerbehandlung liegt 
+  in der Verantwortung des gerade aktiven Tasks.</P>
+  <LI>
+  <P><B>Festhalten des Task-Status<BR><BR></B>Der Selektor für das TS-Segment 
+  des unterbrochenen Tasks befindet sich im Taskregister (TR). Der Prozessor 
+  kopiert nun den Inhalt der Prozessorregister in das so adressierte TS-Segment. 
+  Der dabei in CS:EIP gespeicherte Wert zeigt hinter den Befehl, der den 
+  Task-Wechsel ausgelöst hat. Der Prozessor kann an dieser Adresse (bei der 
+  späteren Wiederaufnahme des Tasks) seine Arbeit fortsetzen.</P>
+  <LI>
+  <P><B>Register TR mit neuem Inhalt laden<BR><BR></B>Der Selektor des zum neuen 
+  Task gehörigen TSS-Deskriptors wird in das Task Register geladen. Der Wert des 
+  Selektors wird dabei entweder dem entsprechenden Gate oder dem Selektor eines 
+  FAR-Calls entnommen. Danach wird das "Busy"-Bit im neuen TSS-Deskriptor 
+  gesetzt, damit der Task als "aktiviert" gekennzeichnet wird. Weiterhin wird 
+  das TS-Bit ("Task-Switched"-Bit) im Statusregister 0 (CR0) gesetzt, um einen 
+  stattgefundenen Task-Wechsel zu signalisieren.</P>
+  <LI>
+  <P><B>Neuen Task-Status laden und mit der Ausführung des neuen Tasks 
+  beginnen<BR><BR></B>Alle Register werden mit den Werten aus dem neuen 
+  TS-Segment geladen. Wird der Task zum erstenmal aufgerufen, beginnt die 
+  Ausführung mit dem ersten Befehl des Tasks. Alle späteren Aufrufe setzen die 
+  Arbeit mit dem Befehl fort, der dem auslösenden Befehl für einen Task-Wechsel 
+  folgt.</P></LI></OL>
+<H2><FONT color=#000080>Task-Verkettung</FONT></H2>
+<P>Durch einen CALL- oder einen Interrupt-Aufruf wird die Ausführung eines Tasks 
+nur temporär unterbrochen (im Gegensatz dazu zum Beispiel: JMP). Nach der 
+Ausführung des entsprechenden Interrupt-Handlers muß der unterbrochene Task 
+fortgesetzt werden. Über das Backlink-Feld im TSS und über das NT-Flag wird 
+dabei eine Task-Kette aufgebaut, die es ermöglicht, die unterbrochenen Tasks 
+wieder fortzusetzen. Das NT-Flag ("Nested-Tasks") im Flagregister wird durch 
+einen Task-Wechsel (über CALL, Interrupt oder Trap) gesetzt und zeigt im 
+gesetzten Zustand an, daß ein Zurückschalten zum vorhergehenden Task über einen 
+IRET Befehl möglich ist. In diesem Fall handelt es sich also um verkettete 
+Tasks. Beendet der verschachtelte Task seine Arbeit mit IRET, interpretiert der 
+Prozessor die Ausführung von IRET als Task-Wechsel. Er schaltet zu dem Task 
+zurück, auf den das Backlink-Feld im aktuellen TSS verweist.</P>
+<P><B>Anmerkung:</B> Auch wenn CALL benutzt wird, um einen Task-Wechsel 
+auszulösen, muß <B>IRET</B> (nicht RET!!!) benutzt werden, um zum unterbrochenen 
+Task zurückzukehren.</P>
+<H2><FONT color=#000080>I/O Permission Bitmap</FONT></H2>
+<P>Welche Portadressen einem Task zur Verfügung stehen, wird ab dem 
+80386-Prozessor in einem zweistufigen System festgelegt. Das Feld IOPL ("I/O 
+Privilege Level", 2 Bit breit) im Flagregister legt fest, ab welcher 
+Privilegstufe ein Prozeß ohne Einschränkungen über alle Portadressen verfügen 
+kann. Das Flagregister kann dabei nur über die Befehle PUSHF und POPF verändert 
+werden, beide Befehle können jedoch nur vom Betriebssystem (Privilegstufe 0) 
+ausgeführt werden.</P>
+<P>Hat ein Prozeß eine höhere oder die gleiche Privilegstufe (numerisch kleiner 
+oder gleich) wie die durch den Inhalt des IOPL-Feldes festgelegte Privilegstufe, 
+so wird keine weitere Prüfung durchgeführt und der Portzugriff gestattet. 
+Anderenfalls legt das Betriebssystem über die "I/O Permission Bitmap" (gehört 
+zum TS-Segment) fest, welche Portadressen vom Prozeß benutzt werden dürfen und 
+welche nicht. </P>
+<P>Bei der I/O Permission Bitmap handelt es sich (wie der Name vermuten läßt), 
+um eine Bitmap, also einen Speicherbereich, bei der jedes Bit eine Funktion 
+besitzt. Im Fall der I/O Permission Bitmap legt der Status eines einzelnen Bits 
+das Zugriffsrecht auf eine einzelne Portadresse fest. Ist das Bit gelöscht (0), 
+kann der Prozeß die entsprechende Portadresse benutzen, ist das Bit hingegen 
+gesetzt (1), führt ein Zugriffsversuch auf diese Portadresse zu einer Exception. 
+Da es insgesamt 65536 I/O Adressen gibt, ist zur Speicherung des Status aller 
+Portadressen ein Bereich von 65536 Bit (=65536 / 8 Byte = 8192 Byte) notwendig. 
+Die Startadresse dieses Bereiches im TS-Segment wird über den Eintrag I/OP 
+Bitmap Base festgelegt. Die Länge des Feldes und damit die maximal verfügbare 
+Portadresse ergibt sich aus dem Limit-Feld des zum Segment gehörenden 
+Deskriptors. Der Wert 0 im Eintrag des "I/OP Bitmap Base" Feldes steht für "kein 
+Zugriffsrecht" auf die Portadressen. Dasselbe gilt für Startadressen, die größer 
+als das Segment-Limit des TSS-Deskriptors sind. Da die ersten 104 Byte in einem 
+TS-Segment für die Zustandsbeschreibung des Prozesses reserviert sind, muß die 
+Basisadresse der "I/O Permission Bitmap" größer oder gleich 104 sein.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Multitasking-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das Limit-Feld eines TSS-Deskriptors betrage, bei zurückgesetztem 
+      Granularity-Bit (G-Bit), 106 und der Inhalt der Speicherstellen 104 und 
+      105 in dem so beschriebenen TSS sei jeweils 3Fh. Weiterhin sei 
+      vorausgesetzt, daß das Feld "I/OP Bitmap Base" den Wert 104 enthält. 
+      Welche Portadressen stehen diesem Task zur Verfügung, wenn er in der 
+      Privilegstufe 3 (Ring 3) läuft und das Feld IOPL des Flagregisters den 
+      Wert 10b (2) besitzt ?</P>
+      <P>Zuerst überprüft der Prozessor bei einem Zugriffsversuch auf die 
+      Portadressen (über die Befehle IN und OUT) die Privilegstufe des Tasks. 
+      Die Privilegstufe (im Beispiel 3) muß numerisch kleiner oder gleich (also 
+      höher oder gleich privilegiert) dem im Feld IOPL des Flagregisters 
+      angegebenen Wert (im Beispiel 2) sein, damit der Task uneingeschränkten 
+      Zugriff auf die Portadressen erhält. In diesem Beispiel wird eine 
+      zusätzliche Überprüfung des Portzugriffs durch die "I/OP Bitmap" 
+      durchgeführt, da die CPL numerisch größer und damit geringer privilegiert 
+      als die im Feld IOPL festgelegte Privilegstufe ist.</P>
+      <P>Im zweiten Schritt überprüft der Prozessor die "I/O Permission Bitmap", 
+      falls der Wert des "I/OP Bitmap Base"-Feldes innerhalb des zum aktiven 
+      Task gehörigen TSS nicht 0 ist. Da dieses Feld im Beispiel den Wert 104 
+      enthält und das TSS maximal 106 Byte groß werden kann, kann für 2*8Bit=16 
+      Portadressen einzeln festgelegt werden, ob auf sie zugegriffen werden kann 
+      oder ob ein Zugriffsversuch eine Exception auslöst.</P>
+      <P>Im Beispiel sieht die Bitmap so aus:</P>Byte 104= 3Fh = 00111111b und 
+      Byte 105= 3Fh=00111111b, demnach ergibt sich<BR>die Bitmap: 
+      <P><IMG alt="IOP im Beispiel" src="Multitasking-Dateien/p_iop.gif"></P>
+      <P>Das heißt, die einzigen Portadressen, auf die der Task zugreifen kann, 
+      sind die Ports 6, 7, 14 und 15. Ein Zugriffsversuch auf alle anderen 
+      Portadressen würde eine Exeception 13 (allgemeine Zugriffsverletzung) 
+      auslösen (einschließlich aller Portadressen &gt; 
+15).</P></TD></TR></TBODY></TABLE></CENTER>
+<P>Ein Beispielprogramm zur Anwendung von Tasks finden Sie am Ende des nächsten 
+Punktes: 3.3 Call- und Task- Gates.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm"><IMG 
+alt=Zurück src="Multitasking-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez3.htm"><IMG 
+alt=Weiter src="Multitasking-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_s"><IMG 
+alt="Zum Index" src="Multitasking-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

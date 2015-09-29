@@ -1,0 +1,955 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META name="date" content="2008-09-01">
+<META name="collection" content="45.20">
+<META name="partnumber" content="817-1984">
+<META http-equiv="Content-Language" content="en">
+<META name="chapter-id" content="chapter6-46512">
+<title>Procedure Linkage Table (Processor-Specific) (Linker and Libraries Guide)  - Sun Microsystems</title>
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/css/default.css">
+<link rel="stylesheet" type="text/css" href="/css/sr.css">
+<link rel="stylesheet" type="text/css" href="/css/local/www.css">
+<link rel="stylesheet" type="text/css" href="/app/css/css/dsc.css">
+<link rel="stylesheet" href="/css/local/jp.css">
+<link rel="search" type="application/opensearchdescription+xml" title="Sun Search" href="http://search.sun.com/search/resources/onesearch/default-osd.xml">
+<script language="javascript1.2" type="text/javascript" src="/js/sniff.js"></script><script language="javascript1.2" type="text/javascript" src="/js/menucontent.js"></script><script language="javascript1.2" type="text/javascript" src="/js/menucode.js"></script><script language="javascript1.2" type="text/javascript" src="/lang-selector.js"></script>
+<!--Atom Feeds-->
+<link rel="alternate" type="application/atom+xml" title="docs.sun.com: Recently Published" href="/app/feed?n=10">
+</head>
+<body bgcolor="#FFFFFF">
+<div class="a0 a0v0" id="a0v0">
+<a name="top"></a>
+<!-- stopindex -->
+<!-- BEGIN A1 COMPONENT V.4 -->
+<div class="a1 a1r2">
+<div class="a1v4">
+<a href="#skip2content" class="skiplink">Skip to Content</a><span class="toolbarlinks"><a href="http://blogs.sun.com/innovation/?cid=922873">Innovating@Sun</a><a href="http://www.sun.com/communityvoices">Community Voices</a><a href="http://www.sun.com/sales/index.jsp">How to Buy</a><a href="https://portal.sun.com/portal/dt" class="dividelink">Log In</a></span><span class="site-select siteid"><a class="language-select" href="/language-select.html">&#26085;&#26412;&#35486;</a></span>
+</div>
+</div>
+<!-- END A1 COMPONENT V.4 -->
+<!-- BEGIN A2 COMPONENT V.7 -->
+<div class="a2w0">
+<div class="a2" id="a2v7">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks">
+<div class="a2x1"></div>
+<a href="http://www.sun.com" title="Sun Microsystems Home Page" id="sunlogo"><img src="/im/a.gif" alt="Sun Microsystems Home Page" width="98" height="58" border="0"></a><img id="venuespacer" src="/im/a.gif" alt="" width="1" height="33" border="0"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.7 -->
+<!-- BEGIN BREADCRUMB -->
+<div id="breadcrumb">
+<a href="http://docs.sun.com">&#12507;&#12540;&#12512;</a>  &gt; <a href="http://docs.sun.com/app/docs/coll/45.20?l=ja">Solaris 10 Software Developer Collection</a>  &gt; <a href="http://docs.sun.com/app/docs/doc/817-1984?l=ja">Linker and Libraries Guide</a>  &gt; <a href="http://docs.sun.com/app/docs/doc/817-1984/chapter6-46512?l=ja&amp;a=view">7.&nbsp;&nbsp;Object File Format </a>  &gt; <a href="http://docs.sun.com/app/docs/doc/817-1984/chapter6-14428?l=ja&amp;a=view">Dynamic Linking</a>  &gt; Procedure Linkage Table (Processor-Specific)</div>
+<br>
+<!-- END BREADCRUMB TRAIL -->
+<div class="pagetitle">Linker and Libraries Guide</div>
+<!-- BEGIN SR2 COMPONENT V.1 -->
+<div class="sr2 sr2v1" id="sr2">
+<div class="sr2w1">
+<div class="sr2w2">
+<div class="sr2w3">
+<div class="sr2w4">
+<div class="sr2w5">
+<form method="get" action="http://search.sun.com/docs/index.jsp" accept-charset="utf-8">
+<div class="sr2simpleSearch">
+<input type="hidden" name="col" value="docs_ja"><input type="hidden" name="locale" value="ja"><input type="text" name="qt" size="30" value=""><input type="submit" name="simpleSubmit" id="simpleSubmit" value="Search" class="hotbutton">
+<div>
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr valign="center">
+<td><input type="checkbox" name="book" value="/doc/817-1984">  &#12371;&#12398;&#12510;&#12491;&#12517;&#12450;&#12523;&#12398;&#12415;&#12434;&#26908;&#32034;</td>
+</tr>
+</table>
+</div>
+<div class="sr2extraLink">
+<a href="http://docs.sun.com/source/DSCHelp/p3.html?a=view">&#26908;&#32034;&#12398;&#12498;&#12531;&#12488;</a>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END SR2 COMPONENT V.1 -->
+<!-- BEGIN WRAPPER TABLE, 2 COLUMN, LEFT/MAIN -->
+<table border="0" cellpadding="2" cellspacing="10" width="100%">
+<tr>
+<a name="skip2content"></a>
+<!-- startindex --><td xmlns:str="http://xml.apache.org/xalan/java/java.lang.String" valign="top">
+<!-- BEGIN E17 COMPONENT V.0 -->
+<div class="e17">
+<div class="e17v0">
+<div class="e17x1">
+<div class="e17x2"></div>
+</div>
+<div class="e17w1">
+<h6>&#12371;&#12398;&#12510;&#12491;&#12517;&#12450;&#12523;&#12398;&#34920;&#31034;&#35328;&#35486;:</h6>
+<ul class="goto">
+<li>Other Languages</li>
+<li>
+<a href="http://docs.sun.com/app/docs/doc/819-0391?l=ja">&#26085;&#26412;&#35486;</a>
+</li>
+<li>
+<a href="http://docs.sun.com/app/docs/doc/819-7050?l=zh">&#31616;&#20307;&#20013;&#25991;</a>
+</li>
+</ul>
+</div>
+<div class="e17x3">
+<div class="e17x4"></div>
+</div>
+</div>
+</div>
+<!-- END E17 COMPONENT V.0 -->
+<!-- BEGIN E15 COMPONENT V.2 -->
+<div class="e15 e15v2">
+<div class="e15w1">
+<div class="e15w2">
+<h5>Contained Within</h5>
+<ul>
+<li>
+<a href="http://docs.sun.com/app/docs/coll/45.20?l=ja">Solaris 10 Software Developer Collection</a>
+</li>
+</ul>
+<h5>Find More Documentation</h5>
+<ul>
+<li>
+<a href="http://docs.sun.com/app/docs/titl?l=ja&amp;n=1">&#12479;&#12452;&#12488;&#12523;</a>
+</li>
+<li>
+<a href="http://docs.sun.com/app/docs/prod?l=ja">&#35069;&#21697;&#12459;&#12486;&#12468;&#12522;</a>
+</li>
+</ul>
+<h5>Featured Support Resources</h5>
+<ul>
+<li>
+<a href="http://www.sun.com/support">Sun Support Center</a>
+</li>
+<li>
+<a href="http://sunsolve.sun.com/">Sun Solve</a>
+</li>
+<li>
+<a href="http://www.sun.com/training">Sun Training Courses</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</td><td valign="top" width="100%"><a href="http://dlc.sun.com/pdf/817-1984/817-1984.pdf"><img src="/im/ic_pdf.gif" border="0"> PDF &#25991;&#26360;&#12501;&#12449;&#12452;&#12523;&#12434;&#12480;&#12454;&#12531;&#12525;&#12540;&#12489;&#12377;&#12427;  (1926 KB)</a>
+<br>
+<a name="skip2content"></a>
+<!--startindex-->
+<!-- BEGIN D8 COMPONENT V.1 -->
+<div class="d8 d8v1">
+<div class="d8w1">
+<div class="d8w2">
+<div class="d8w3">
+<div class="d8w4">
+<ul>
+<li class="d8left">
+<a href="http://docs.sun.com/app/docs/doc/817-1984/chapter6-74186?l=ja&amp;a=view"><em>&#25147;&#12427;</em>: Global Offset Table (Processor-Specific)</a>
+</li>
+<li class="d8right">
+<a href="http://docs.sun.com/app/docs/doc/817-1984/chapter8-1?l=ja&amp;a=view"><em>&#27425;&#12408;</em>: 8.&nbsp;&nbsp;Thread-Local Storage </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END D8 COMPONENT V.1 -->
+<a name=""></a>
+<h2 class="sol">Procedure Linkage Table (Processor-Specific)</h2>
+
+<a name="indexterm-739"></a><a name="indexterm-740"></a>
+<p>The global offset table converts position-independent address calculations to absolute locations. Similarly the procedure linkage table converts position-independent function calls to absolute
+locations. The link-editor cannot resolve execution transfers such as function calls between different dynamic objects. So, the link-editor arranges to have the program transfer control to entries
+in the procedure linkage table. The runtime linker thus redirects the entries without compromising the position-independence and shareability of the program's text. Executable files and shared object
+files have separate procedure linkage tables.</p>
+
+<a name="chapter6-1236"></a>
+<h3 class="sol">32-bit SPARC: Procedure Linkage Table</h3>
+
+<a name="chapter6-ix6281"></a>
+<p>For 32&ndash;bit SPARC dynamic objects, the procedure linkage table resides in private data. The runtime linker determines the absolute addresses of the destinations and modifies the procedure
+linkage table's memory image accordingly.</p>
+
+<p>The first four procedure linkage table entries are reserved. The original contents of these entries are unspecified, despite the example that is shown in <a href="http://docs.sun.com/app/docs/doc/817-1984/6mhm7pl9r?l=ja&a=view#chapter6-tbl-1">Table 7&ndash;37</a>. Each entry in the table occupies 3 words (12 bytes), and the last table entry is followed by a <tt>nop</tt> instruction.</p>
+
+<p>A relocation table is associated with the procedure linkage table. The <tt>DT_JMP_REL</tt> entry in the <tt>_DYNAMIC</tt> array gives the location of the first relocation
+entry. The relocation table has one entry, in the same sequence, for each non-reserved procedure linkage table entry. The relocation type of each of these entries is <tt>R_SPARC_JMP_SLOT</tt>.
+The relocation offset specifies the address of the first byte of the associated procedure linkage table entry. The symbol table index refers to the appropriate symbol.</p>
+
+<p>To illustrate procedure linkage tables, <a href="http://docs.sun.com/app/docs/doc/817-1984/6mhm7pl9r?l=ja&a=view#chapter6-tbl-1">Table 7&ndash;37</a> shows four entries. Two of the four are initial reserved entries. The third entry is
+a call to <tt>name101</tt>. The fourth entry is a call to <tt>name102</tt>. The example assumes that the entry for <tt>name102</tt> is the table's last entry. A <tt>nop</tt> instruction follows this last entry. The left column shows the instructions from the object file before dynamic linking. The right column illustrates a possible instruction sequence that
+the runtime linker might use to fix the procedure linkage table entries.</p>
+
+<a name="chapter6-tbl-1"></a>Table 7&ndash;37  32-bit SPARC: Procedure Linkage Table Example<table border="2" cellspacing="0" cellpadding="10" width="100%">
+<caption>
+<b></b>
+</caption>
+<thead>
+<tr>
+<th scope="col" align="center" valign="top">
+<p>
+<em>Object File</em>
+</p>
+
+</th><th scope="col" align="center" valign="top">
+<p>
+<em>Memory Segment</em>
+</p>
+
+</th>
+</tr>
+
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    unimp
+    unimp
+    unimp
+.PLT1:
+    unimp
+    unimp
+    unimp</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    save    %sp, -64, %sp
+    call    runtime_linker
+    nop
+.PLT1:
+    .word   identification
+    unimp
+    unimp</pre>
+
+
+</td>
+</tr>
+
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT101:
+    sethi   (.-.PLT0), %g1
+    ba,a    .PLT0
+    nop
+.PLT102:
+    sethi   (.-.PLT0), %g1
+    ba,a    .PLT0
+    nop
+
+    nop</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLT101:
+    nop
+    ba,a    name101
+    nop
+.PLT102:
+    sethi   (.-.PLT0), %g1
+    sethi   %hi(name102), %g1
+    jmpl    %g1+%lo(name102), %g0
+    
+    nop</pre>
+
+
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<p> 
+</p>
+<p>The following steps describe how the runtime linker and program jointly resolve the symbolic references through the procedure linkage table. The steps that are described are for explanation
+only. The precise execution-time behavior of the runtime linker is not specified.</p>
+
+<a name=""></a>
+<ol type="1">
+<li>
+<p>When the memory image of the program is initially created, the runtime linker changes the initial procedure linkage table entries. These entries are modified so that control can
+be transferred to one of the runtime linker's own routines. The runtime linker also stores a word of identification information in the second entry. When the runtime linker receives control, this
+word is examined to identify the caller.</p>
+
+
+</li>
+<li>
+<p>All other procedure linkage table entries initially transfer to the first entry. Thus, the runtime linker gains control at the first execution of a table entry. For example, the
+program calls <tt>name101</tt>, which transfers control to the label <tt>.PLT101</tt>.</p>
+
+
+</li>
+<li>
+<p>The <tt>sethi</tt> instruction computes the distance between the current and the initial procedure linkage table entries, <tt>.PLT101</tt> and <tt>.PLT0</tt>,
+respectively. This value occupies the most significant 22 bits of the <tt>%g1</tt> register.</p>
+
+
+</li>
+<li>
+<p>Next, the <tt>ba,a</tt> instruction jumps to <tt>.PLT0</tt>, establishing a stack frame, and calls the runtime linker.</p>
+
+
+</li>
+<li>
+<p>With the identification value, the runtime linker gets its data structures for the object, including the relocation table.</p>
+
+
+</li>
+<li>
+<p>By shifting the <tt>%g1</tt> value and dividing by the size of the procedure linkage table entries, the runtime linker calculates the index of the relocation entry for <tt>name101</tt>. Relocation entry <tt>101</tt> has type <tt>R_SPARC_JMP_SLOT</tt>. This relocation offset specifies the address of <tt>.PLT101</tt>, and its symbol
+table index refers to <tt>name101</tt>. Thus, the runtime linker gets the symbol's real value, unwinds the stack, modifies the procedure linkage table entry, and transfers control to the
+desired destination.</p>
+
+
+</li>
+</ol>
+
+<p>The runtime linker does not have to create the instruction sequences under the memory segment column. If the runtime linkers does, some points deserve more explanation.</p>
+
+<a name=""></a>
+<ul>
+<li>
+<p>To make the code re-entrant, the procedure linkage table's instructions are changed in a particular sequence. If the runtime linker is fixing a function's procedure linkage table
+entry and a signal arrives, the signal handling code must be able to call the original function with predictable and correct results.</p>
+
+
+</li>
+<li>
+<p>The runtime linker changes three words to convert an entry. The runtime linker can update only a single word atomically with regard to instruction execution. Therefore, re-entrancy
+is achieved by updating each word in reverse order. If a re-entrant function call occurs just prior to the last patch, the runtime linker gains control a second time. Although both invocations of
+the runtime linker modify the same procedure linkage table entry, their changes do not interfere with each other.</p>
+
+
+</li>
+<li>
+<p>The first <tt>sethi</tt> instruction of a procedure linkage table entry can fill the delay slot of the previous entry's <tt>jmp1</tt> instruction. Although the <tt>sethi</tt> changes the value of the <tt>%g1</tt> register, the previous contents can be safely discarded.</p>
+
+
+</li>
+<li>
+<p>After conversion, the last procedure linkage table entry, <tt>.PLT102</tt>, needs a delay instruction for its <tt>jmp1</tt>. The required, trailing <tt>nop</tt> fills
+this delay slot.</p>
+
+
+</li>
+</ul>
+
+<hr>
+<b>Note &ndash; </b>
+<p>The different instruction sequences that are shown for <tt>.PLT101</tt>, and <tt>.PLT102</tt> demonstrate how the update can be optimized for the associated destination.</p>
+
+<hr>
+
+<p>
+<a name="indexterm-741"></a>The <tt>LD_BIND_NOW</tt> environment variable
+changes dynamic linking behavior. If its value is non-null, the runtime linker processes <tt>R_SPARC_JMP_SLOT</tt> relocation entries before transferring control to the program.</p>
+
+<a name="chapter7-10"></a>
+<h3 class="sol">64-bit SPARC: Procedure Linkage Table</h3>
+
+<a name="indexterm-742"></a>
+<p>For 64&ndash;bit SPARC dynamic objects, the procedure linkage table resides in private data. The runtime linker determines the absolute addresses of the destination and modifies the procedure
+linkage table's memory image accordingly.</p>
+
+<p>The first four procedure linkage table entries are reserved. The original contents of these entries are unspecified, despite the example that is shown in <a href="http://docs.sun.com/app/docs/doc/817-1984/6mhm7pl9t?l=ja&a=view#chapter7-tbl-55">Table 7&ndash;38</a>. Each of the first 32,768 entries in the table occupies 8 words (32 bytes), and must be aligned on a 32&ndash;byte boundary. The table as a whole must be aligned on a 256&ndash;byte boundary.
+If more than 32,768 entries are required, the remaining entries consist of 6 words (24 bytes) and 1 pointer (8 bytes). The instructions are collected together in blocks of 160 entries followed by
+160 pointers. The last group of entries and pointers can contain less than 160 items. No padding is required.</p>
+
+<hr>
+<b>Note &ndash; </b>
+<p>The numbers 32,768 and 160 are based on the limits of branch and load displacements respectively with the second rounded down to make the divisions between code and data fall on 256&ndash;byte
+boundaries so as to improve cache performance.</p>
+
+<hr>
+
+<p>A relocation table is associated with the procedure linkage table. The <tt>DT_JMP_REL</tt> entry in the <tt>_DYNAMIC</tt> array gives the location of the first relocation
+entry. The relocation table has one entry, in the same sequence, for each non-reserved procedure linkage table entry. The relocation type of each of these entries is <tt>R_SPARC_JMP_SLOT</tt>.
+For the first 32,767 slots, the relocation offset specifies the address of the first byte of the associated procedure linkage table entry, the addend field is zero. The symbol table index refers
+to the appropriate symbol. For slots 32,768 and beyond, the relocation offset specifies the address of the first byte of the associated pointer. The addend field is the unrelocated value <tt>-(.PLTN
++ 4)</tt>. The symbol table index refers to the appropriate symbol.</p>
+
+<p>To illustrate procedure linkage tables, <a href="http://docs.sun.com/app/docs/doc/817-1984/6mhm7pl9t?l=ja&a=view#chapter7-tbl-55">Table 7&ndash;38</a> shows several entries. The first three show initial reserved entries. The following
+three show examples of the initial 32,768 entries together with possible resolved forms that might apply if the target address was +/- 2 Gbytes of the entry, within the lower 4 Gbytes of the address
+space, or anywhere respectively. The final two show examples of later entries, which consist of instruction and pointer pairs. The left column shows the instructions from the object file before
+dynamic linking. The right column demonstrates a possible instruction sequence that the runtime linker might use to fix the procedure linkage table entries.</p>
+
+<a name="chapter7-tbl-55"></a>Table 7&ndash;38  64-bit SPARC: Procedure Linkage Table Example<table border="2" cellspacing="0" cellpadding="10" width="100%">
+<caption>
+<b></b>
+</caption>
+<thead>
+<tr>
+<th scope="col" align="center" valign="top">
+<p>
+<em>Object File</em>
+</p>
+
+</th><th scope="col" align="center" valign="top">
+<p>
+<em>Memory Segment</em>
+</p>
+
+</th>
+</tr>
+
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+.PLT1:
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+.PLT2:
+    unimp</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    save    %sp, -176, %sp
+    sethi   %hh(runtime_linker_0), %l0
+    sethi   %lm(runtime_linker_0), %l1
+    or      %l0, %hm(runtime_linker_0), %l0
+    sllx    %l0, 32, %l0
+    or      %l0, %l1, %l0
+    jmpl    %l0+%lo(runtime_linker_0), %o1
+    mov     %g1, %o0
+.PLT1:
+    save    %sp, -176, %sp
+    sethi   %hh(runtime_linker_1), %l0
+    sethi   %lm(runtime_linker_1), %l1
+    or      %l0, %hm(runtime_linker_1), %l0
+    sllx    %l0, 32, %l0
+    or      %l0, %l1, %l0
+    jmpl    %l0+%lo(runtime_linker_0), %o1
+    mov     %g1, %o0
+.PLT2:
+    .xword  identification</pre>
+
+
+</td>
+</tr>
+
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT101:
+    sethi   (.-.PLT0), %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop;    nop
+    nop;    nop
+.PLT102:
+    sethi   (.-.PLT0), %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop;    nop
+    nop;    nop
+.PLT103:
+    sethi   (.-.PLT0),  %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLT101:
+    nop
+    mov     %o7,  %g1
+    call    name101
+    mov     %g1, %o7
+    nop;    nop
+    nop;    nop
+.PLT102:
+    nop
+    sethi   %hi(name102), %g1
+    jmpl    %g1+%lo(name102), %g0
+    nop
+    nop;    nop
+    nop;    nop
+.PLT103:
+    nop
+    sethi   %hh(name103), %g1
+    sethi   %lm(name103), %g5
+    or      %hm(name103), %g1
+    sllx    %g1, 32, %g1
+    or      %g1, %g5, %g5
+    jmpl    %g5+%lo(name103), %g0
+    nop</pre>
+
+
+</td>
+</tr>
+
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT32768:
+    mov     %o7, %g5
+    call    .+8
+    nop
+    ldx     [%o7+.PLTP32768 -
+              (.PLT32768+4)], %g1
+    jmpl    %o7+%g1, %g1
+    mov     %g5, %o7
+
+    ...
+
+.PLT32927:
+    mov     %o7, %g5
+    call    .+8
+    nop
+    ldx     [%o7+.PLTP32927 -
+              (.PLT32927+4)], %g1
+    jmpl    %o7+%g1, %g1
+    mov     %g5, %o7</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLT32768:
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    ...
+
+.PLT32927:
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;</pre>
+
+
+</td>
+</tr>
+
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLTP32768
+    .xword  .PLT0 -
+              (.PLT32768+4)
+    ...
+
+.PLTP32927
+    .xword  .PLT0 -
+              (.PLT32927+4)</pre>
+
+
+</td><td align="left" valign="top"><a name=""></a>
+<pre>.PLTP32768
+    .xword  name32768 -
+              (.PLT32768+4)
+    ...
+    
+.PLTP32927
+    .xword  name32927 -
+	      (.PLT32927+4)</pre>
+
+
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<p> 
+</p>
+<p>The following steps describe how the runtime linker and program jointly resolve the symbolic references through the procedure linkage table. The steps that are described are for explanation
+only. The precise execution-time behavior of the runtime linker is not specified.</p>
+
+<a name=""></a>
+<ol type="1">
+<li>
+<p>When the memory image of the program is initially created, the runtime linker changes the initial procedure linkage table entries. These entries are modified so that control is transfer
+to the runtime linker's own routines. The runtime linker also stores an extended word of identification information in the third entry. When the runtime linker receives control, this word is examined
+to identify the caller.</p>
+
+
+</li>
+<li>
+<p>All other procedure linkage table entries initially transfer to the first or second entry. These entries establish a stack frame and call the runtime linker.</p>
+
+
+</li>
+<li>
+<p>With the identification value, the runtime linker gets its data structures for the object, including the relocation table.</p>
+
+
+</li>
+<li>
+<p>The runtime linker computes the index of the relocation entry for the table slot.</p>
+
+
+</li>
+<li>
+<p>With the index information, the runtime linker gets the symbol's real value, unwinds the stack, modifies the procedure linkage table entry, and transfers control to the desired destination.</p>
+
+
+</li>
+</ol>
+
+<p>The runtime linker does not have to create the instruction sequences under the memory segment column. If the runtime linker does, some points deserve more explanation.</p>
+
+<a name=""></a>
+<ul>
+<li>
+<p>To make the code re-entrant, the procedure linkage table's instructions are changed in a particular sequence. If the runtime linker is fixing a function's procedure linkage table
+entry and a signal arrives, the signal handling code must be able to call the original function with predictable and correct results.</p>
+
+
+</li>
+<li>
+<p>The runtime linker can change up to eight words to convert an entry. The runtime linker can update only a single word atomically with regard to instruction execution. Therefore,
+re-entrancy is achieved by first overwriting the <tt>nop</tt> instructions with their replacement instructions, and then patching the <tt>ba,a</tt>, and the <tt>sethi</tt> if
+using a 64&ndash;bit store. If a re-entrant function call occurs just prior to the last patch, the runtime linker gains control a second time. Although both invocations of the runtime linker modify
+the same procedure linkage table entry, their changes do not interfere with each other.</p>
+
+
+</li>
+<li>
+<p>If the initial <tt>sethi</tt> instruction is changed, the instruction can only be replaced by a <tt>nop</tt>.</p>
+
+
+</li>
+</ul>
+
+<p>Changing the pointer as done for the second form of entry is done using a single atomic 64&ndash;bit store.</p>
+
+<hr>
+<b>Note &ndash; </b>
+<p>The different instruction sequences that are shown for <tt>.PLT101</tt>, <tt>.PLT102</tt>, and <tt>.PLT103</tt> demonstrate how the update can be optimized
+for the associated destination.</p>
+
+<hr>
+
+<p>
+<a name="indexterm-743"></a>The <tt>LD_BIND_NOW</tt> environment variable
+changes dynamic linking behavior. If its value is non-null, the runtime linker processes <tt>R_SPARC_JMP_SLOT</tt> relocation entries before transferring control to the program.</p>
+
+<a name="chapter6-1237"></a>
+<h3 class="sol">32-bit x86: Procedure Linkage Table</h3>
+
+<a name="indexterm-744"></a><a name="indexterm-745"></a>
+<p>For 32&ndash;bit x86 dynamic objects, the procedure linkage table resides in shared text but uses addresses in the private global offset table. The runtime linker determines the absolute
+addresses of the destinations and modifies the global offset table's memory image accordingly. The runtime linker thus redirects the entries without compromising the position-independence and shareability
+of the program's text. Executable files and shared object files have separate procedure linkage tables.</p>
+
+<a name=""></a>Table 7&ndash;39  32-bit x86: Absolute Procedure Linkage Table Example<table border="2" cellspacing="0" cellpadding="10" width="100%">
+<caption>
+<b></b>
+</caption>
+<tbody>
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    pushl   got_plus_4
+    jmp     *got_plus_8
+    nop;    nop
+    nop;    nop
+.PLT1:
+    jmp     *name1_in_GOT
+    pushl   $offset
+    jmp     .PLT0@PC
+.PLT2:
+    jmp     *name2_in_GOT
+    pushl   $offset
+    jmp     .PLT0@PC</pre>
+
+
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<p> 
+</p>
+<a name=""></a>Table 7&ndash;40  32-bit x86: Position-Independent Procedure Linkage Table Example<table border="2" cellspacing="0" cellpadding="10" width="100%">
+<caption>
+<b></b>
+</caption>
+<tbody>
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    pushl   4(%ebx)
+    jmp     *8(%ebx)
+    nop;    nop
+    nop;    nop
+.PLT1:
+    jmp     *name1@GOT(%ebx)
+    pushl   $offset
+    jmp     .PLT0@PC
+.PLT2:
+    jmp     *name2@GOT(%ebx)
+    pushl   $offset
+    jmp     .PLT0@PC</pre>
+
+
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<p> 
+</p>
+<hr>
+<b>Note &ndash; </b>
+<p>As the preceding examples show, the procedure linkage table instructions use different operand addressing modes for absolute code and for position-independent code. Nonetheless, their
+interfaces to the runtime linker are the same.</p>
+
+<hr>
+
+<p>The following steps describe how the runtime linker and program cooperate to resolve the symbolic references through the procedure linkage table and the global offset table.</p>
+
+<a name=""></a>
+<ol type="1">
+<li>
+<p>When the memory image of the program is initially created, the runtime linker sets the second and third entries in the global offset table to special values. The following steps
+explain these values.</p>
+
+
+</li>
+<li>
+<p>If the procedure linkage table is position-independent, the address of the global offset table must be in <tt>%ebx</tt>. Each shared object file in the process image has
+its own procedure linkage table, and control transfers to a procedure linkage table entry only from within the same object file. So, the calling function must set the global offset table base register
+before calling the procedure linkage table entry.</p>
+
+
+</li>
+<li>
+<p>For example, the program calls <tt>name1</tt>, which transfers control to the label <tt>.PLT1</tt>.</p>
+
+
+</li>
+<li>
+<p>The first instruction jumps to the address in the global offset table entry for <tt>name1</tt>. Initially, the global offset table holds the address of the following <tt>pushl</tt> instruction, not the real address of  <tt>name1</tt>.</p>
+
+
+</li>
+<li>
+<p>The program pushes a relocation offset (<tt>offset</tt>) on the stack. The relocation offset is a 32&ndash;bit, nonnegative byte offset into the relocation table. The designated
+relocation entry has the type <tt>R_386_JMP_SLOT</tt>, and its offset specifies the global offset table entry used in the previous <tt>jmp</tt> instruction. The relocation entry
+also contains a symbol table index, which the runtime linker uses to get the referenced symbol, <tt>name1</tt>.</p>
+
+
+</li>
+<li>
+<p>After pushing the relocation offset, the program jumps to <tt>.PLT0</tt>, the first entry in the procedure linkage table. The <tt>pushl</tt> instruction pushes
+the value of the second global offset table entry (<tt>got_plus_4</tt> or <tt>4(%ebx)</tt>) on the stack, giving the runtime linker one word of identifying information. The program
+then jumps to the address in the third global offset table entry (<tt>got_plus_8</tt> or <tt>8(%ebx)</tt>), to jump to the runtime linker.</p>
+
+
+</li>
+<li>
+<p>The runtime linker unwinds the stack, checks the designated relocation entry, gets the symbol's value, stores the actual address of <tt>name1</tt> in its global offset
+entry table, and jumps to the destination.</p>
+
+
+</li>
+<li>
+<p>Subsequent executions of the procedure linkage table entry transfer directly to <tt>name1</tt>, without calling the runtime linker again. The <tt>jmp</tt> instruction
+at <tt>.PLT1</tt> jumps to <tt>name1</tt> instead of falling through to the <tt>pushl</tt> instruction.</p>
+
+
+</li>
+</ol>
+
+<p>
+<a name="indexterm-746"></a>The <tt>LD_BIND_NOW</tt> environment variable changes dynamic linking behavior.
+If its value is non-null, the runtime linker processes <tt>R_386_JMP_SLOT</tt> relocation entries before transferring control to the program.</p>
+
+<a name="feowg"></a>
+<h3 class="sol">x64: Procedure Linkage Table</h3>
+
+<a name="indexterm-747"></a><a name="indexterm-748"></a>
+<p>For x64 dynamic objects, the procedure linkage table resides in shared text but uses addresses in the private global offset table. The runtime linker determines the absolute addresses
+of the destinations and modifies the global offset table's memory image accordingly. The runtime linker thus redirects the entries without compromising the position-independence and shareability
+of the program's text. Executable files and shared object files have separate procedure linkage tables.</p>
+
+<a name=""></a>Table 7&ndash;41  x64: Procedure Linkage Table Example<table border="2" cellspacing="0" cellpadding="10" width="100%">
+<caption>
+<b></b>
+</caption>
+<tbody>
+<tr>
+<td align="left" valign="top"><a name=""></a>
+<pre>.PLT0:
+    pushq   GOT+8(%rip)                         # GOT[1]
+    jmp     *GOT+16(%rip)                       # GOT[2]
+    nop;    nop
+    nop;    nop
+.PLT1:
+    jmp     *name1@GOTPCREL(%rip)               # 16 bytes from .PLT0
+    pushq   $index1
+    jmp     .PLT0
+.PLT2:
+    jmp     *name2@GOTPCREL(%rip)               # 16 bytes from .PLT1
+    pushl   $index2
+    jmp     .PLT0</pre>
+
+
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<p> 
+</p>
+<p>The following steps describe how the runtime linker and program cooperate to resolve the symbolic references through the procedure linkage table and the global offset table.</p>
+
+<a name=""></a>
+<ol type="1">
+<li>
+<p>When the memory image of the program is initially created, the runtime linker sets the second and third entries in the global offset table to special values. The following steps
+explain these values.</p>
+
+
+</li>
+<li>
+<p>Each shared object file in the process image has its own procedure linkage table, and control transfers to a procedure linkage table entry only from within the same object file.</p>
+
+
+</li>
+<li>
+<p>For example, the program calls <tt>name1</tt>, which transfers control to the label <tt>.PLT1</tt>.</p>
+
+
+</li>
+<li>
+<p>The first instruction jumps to the address in the global offset table entry for <tt>name1</tt>. Initially, the global offset table holds the address of the following <tt>pushq</tt> instruction, not the real address of  <tt>name1</tt>.</p>
+
+
+</li>
+<li>
+<p>The program pushes a relocation index (<tt>index1</tt>) on the stack. The relocation offset is a 32&ndash;bit, nonnegative index into the relocation table. The relocation
+table is identified by the <tt>DT_JUMPREL</tt> dynamic section entry. The designated relocation entry has the type <tt>R_AMD64_JMP_SLOT</tt>, and its offset specifies the global
+offset table entry used in the previous <tt>jmp</tt> instruction. The relocation entry also contains a symbol table index, which the runtime linker uses to get the referenced symbol, <tt>name1</tt>.</p>
+
+
+</li>
+<li>
+<p>After pushing the relocation index, the program jumps to <tt>.PLT0</tt>, the first entry in the procedure linkage table. The <tt>pushq</tt> instruction pushes
+the value of the second global offset table entry (<tt>GOT+8</tt>) on the stack, giving the runtime linker one word of identifying information. The program then jumps to the address in
+the third global offset table entry (<tt>GOT+16</tt>), to jump to the runtime linker.</p>
+
+
+</li>
+<li>
+<p>The runtime linker unwinds the stack, checks the designated relocation entry, gets the symbol's value, stores the actual address of <tt>name1</tt> in its global offset
+entry table, and jumps to the destination.</p>
+
+
+</li>
+<li>
+<p>Subsequent executions of the procedure linkage table entry transfer directly to <tt>name1</tt>, without calling the runtime linker again. The <tt>jmp</tt> instruction
+at <tt>.PLT1</tt> jumps to <tt>name1</tt> instead of falling through to the <tt>pushq</tt> instruction.</p>
+
+
+</li>
+</ol>
+
+<p>
+<a name="indexterm-749"></a>The <tt>LD_BIND_NOW</tt> environment variable changes dynamic linking behavior.
+If its value is non-null, the runtime linker processes <tt>R_AMD64_JMP_SLOT</tt> relocation entries before transferring control to the program.</p>
+<!-- BEGIN D8 COMPONENT V.1 -->
+<div class="d8 d8v1">
+<div class="d8w1">
+<div class="d8w2">
+<div class="d8w3">
+<div class="d8w4">
+<ul>
+<li class="d8left">
+<a href="http://docs.sun.com/app/docs/doc/817-1984/chapter6-74186?l=ja&amp;a=view"><em>&#25147;&#12427;</em>: Global Offset Table (Processor-Specific)</a>
+</li>
+<li class="d8right">
+<a href="http://docs.sun.com/app/docs/doc/817-1984/chapter8-1?l=ja&amp;a=view"><em>&#27425;&#12408;</em>: 8.&nbsp;&nbsp;Thread-Local Storage </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END D8 COMPONENT V.1 -->
+</td>
+<!-- stopindex -->
+</tr>
+<tr>
+<td><img src="/im/a.gif" width="170" height="1" border="0" alt=" "></td>
+</tr>
+</table>
+<!-- BEGIN G9 VARIATION 0 (Opinion Lab) -->
+<script language="javascript" type="text/javascript" charset="UTF-8" src="/share/op/oo_engine.js"></script><script language="javascript" type="text/javascript" charset="UTF-8" src="/share/op/oo_conf_en-US.js"></script>
+<!-- END G9 VARIATION 0 -->
+<!-- BEGIN A5 COMPONENT V.0 -->
+<div id="a5" class="a5 a5v0">
+<ul>
+<li>
+<a href="http://www.sun.com/aboutsun/media/index.jsp">News Center</a>
+</li>
+<li>
+<a href="http://www.sun.com/aboutsun/">About Sun</a>
+</li>
+<li>
+<a href="http://www.sun.com/contact/">Contact Sun</a>
+</li>
+<li>
+<a href="http://www.sun.com/share/text/termsofuse.html">Terms of Use</a>
+</li>
+<li class="copyright">
+<a href="http://www.sun.com/aboutsun/copyright/inquiries.jsp">Copyright <span id="copyDate">1994-2008</span> Sun Microsystems, Inc.</a>
+</li>
+</ul>
+</div>
+<!-- END A5 COMPONENT V.0 -->
+<!--Begin SiteCatalyst code version: G.5.-->
+<script language="JavaScript" src="/share/omniture/s_code_remote.js"></script>
+<!--End SiteCatalyst code version: G.5.-->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.cs.ucdavis.edu/~haungs/paper/node12.html -->
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><HTML><HEAD><TITLE>The ELF Header</TITLE>
+<META content="The ELF Header" name=description>
+<META content=paper name=keywords>
+<META content=document name=resource-type>
+<META content=global name=distribution>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="The ELF Header-Dateien/paper.css" rel=STYLESHEET><LINK 
+href="node13.html" rel=next><LINK href="node11.html" rel=previous><LINK 
+href="node11.html" rel=up><LINK href="node13.html" rel=next>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" name=tex2html238><IMG 
+height=24 alt=next src="The ELF Header-Dateien/next_motif.gif" width=37 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html235><IMG 
+height=24 alt=up src="The ELF Header-Dateien/up_motif.gif" width=26 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html229><IMG 
+height=24 alt=previous src="The ELF Header-Dateien/previous_motif.gif" 
+width=63 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html237><IMG 
+height=24 alt=contents src="The ELF Header-Dateien/contents_motif.gif" 
+width=65 align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" name=tex2html239>The 
+Program Header Table</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html236>The 
+ELF File Format</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html230>The 
+ELF File Format</A> <BR><BR><!--End of Navigation Panel-->
+<H3><A name=SECTION00441100000000000000>&nbsp;</A> <A 
+name=elfheadersection>&nbsp;</A> <BR>The ELF Header </H3>The ELF Header is the 
+only section that has a fixed position in the object file. It is always the 
+first section of the file. The other sections are not guaranteed to be in any 
+order or to even be present. The ELF Header describes the type of the object 
+file (relocatable, executable, shared, core), its target architecture, and the 
+version of ELF it is using. The location of the Program Header table, Section 
+Header table, and String table along with associated number and size of entries 
+for each table are also given. Lastly, the ELF Header contains the location of 
+the first executable instruction. The specific fields along with their size 
+requirements that are present in the ELF header are shown in Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html#ehformat">2.6</A>. 
+<BR>
+<DIV align=center><A name=phformat>&nbsp;</A><A name=509>&nbsp;</A> 
+<TABLE width="50%">
+  <CAPTION><STRONG>Figure:</STRONG> <EM>The Program Header</EM></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><IMG height=262 
+      alt="\begin{figure}&#10;\begin{tex2html_preform}\begin{verbatim}&#10;typedef struct {&#10;Elf...&#10;...lf32_Phdr;\end{verbatim}\end{tex2html_preform}&#10;\rule{6.5in}{0.3mm}&#10;\end{figure}" 
+      src="The ELF Header-Dateien/img9.gif" 
+width=590></TD></TR></TBODY></TABLE></DIV><BR>
+<P>
+<P><BR>
+<HR>
+
+<ADDRESS><I>Michael L. Haungs</I> <BR><I>1998-09-21</I> </ADDRESS></BODY></HTML>

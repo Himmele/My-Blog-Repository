@@ -1,0 +1,19 @@
+all: src/DLL1.cpp src/DLL2.cpp src/App.cpp
+	g++ -fPIC -c -o libDLL1.o src/DLL1.cpp -I./include
+	g++ -fPIC -c -o libDLL2.o src/DLL2.cpp -I./include
+	g++ -shared -Wl,-soname,libDLL1.dll -o libDLL1.dll libDLL1.o
+	g++ -shared -Wl,-soname,libDLL2.dll -o libDLL2.dll libDLL2.o -L. -lDLL1
+	g++ -o App.o -c src/App.cpp -I./include
+	g++ -o App.exe -L. -lDLL2 App.o
+	objdump -x libDLL1.so > libDLL1.txt
+	objdump -x libDLL2.so > libDLL2.txt
+	
+clean:
+	rm libDLL1.o
+	rm libDLL2.o
+	rm libDLL1.dll
+	rm libDLL2.dll
+	rm App.o
+	rm App.exe
+	rm libDLL1.txt
+	rm libDLL2.txt

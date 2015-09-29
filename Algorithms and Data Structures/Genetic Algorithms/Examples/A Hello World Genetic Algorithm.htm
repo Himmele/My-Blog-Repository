@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.generation5.org/content/2003/gahelloworld.asp -->
+<HTML><HEAD><TITLE>generation5 - A "Hello World!" Genetic Algorithm Example</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="/favicon.ico" rel="Shortcut Icon"><LINK href="/favicon.ico" type=image/ico 
+rel=Icon><LINK href="A Hello World Genetic Algorithm-Dateien/generation5.css" 
+type=text/css rel=StyleSheet>
+<SCRIPT language=JavaScript 
+src="A Hello World Genetic Algorithm-Dateien/default.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY vLink=darkblue aLink=darkblue link=blue bgColor=#ffffff><A name=TOP></A>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE style="BACKGROUND-IMAGE: url(/images/rhs-back.gif)" cellSpacing=0 
+      cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.generation5.org/"><IMG 
+            alt="Logo: Back to home" 
+            src="A Hello World Genetic Algorithm-Dateien/generation5-logo.gif" 
+            border=0></A> </TD>
+          <TD class=NoPrint vAlign=center align=middle width="100%"><A 
+            href="http://www.generation5.org/adRedirect.asp?url=/competition.asp&amp;image=/images/banners/aibocomp.gif"><IMG 
+            height=60 alt="Win a Sony ERS-111 AIBO with Generation5!" 
+            src="A Hello World Genetic Algorithm-Dateien/aibocomp.gif" width=468 
+            border=0></A> </TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%">
+        <TBODY>
+        <TR class=NoPrint 
+        style="BACKGROUND-IMAGE: url(/images/toolback.gif); LINE-HEIGHT: 27px">
+          <TD class=SmallText vAlign=center width=180><B>01/07/2004</B> </TD>
+          <TD class=SmallText align=middle><A 
+            title="All the latest AI and robotics news" 
+            href="http://www.generation5.org/">Home</A> | <A 
+            title="AI and robotics articles, tutorials, programs and more." 
+            href="http://www.generation5.org/articles.asp">Articles</A> | <A 
+            title="Hardware, software and games reviews." 
+            href="http://www.generation5.org/reviews.asp">Reviews</A> | <A 
+            title="Interviews from some of the biggest names in AI/Robotics" 
+            href="http://www.generation5.org/interviews.asp">Interviews</A> | <A 
+            title="Look up definitions of AI/Robotics acronyms, terms, even people." 
+            href="http://www.generation5.org/glossary.asp">Glossary</A> | <A 
+            title="Links, interactivities and everything else." 
+            href="http://www.generation5.org/features/features.asp">Features</A> 
+            | <A title="Discuss AI/robotics topics on the Generation5 forums" 
+            href="http://www.generation5.org/forums/">Discussions</A> | <A 
+            title="Search Generation5" 
+            href="http://www.generation5.org/search.asp">Search</A> </TD>
+          <TD class=SmallText width=180><A 
+            href="http://www.generation5.org/contribute.asp"><B>Contribute</B></A> 
+          </TD></TR>
+        <TR>
+          <TD class=NoPrint vAlign=top>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=black>
+              <TBODY>
+              <TR>
+                <TD class=BoxHeader>Login</TD></TR>
+              <TR>
+                <TD class=BoxMain>
+                  <FORM action=/login.asp method=post><INPUT type=hidden value=1 
+                  name=Login> <B>Login:</B><BR><INPUT size=24 
+                  name=Username><BR><B>Password:</B><BR><INPUT type=password 
+                  size=15 name=Password> 
+                  <INPUT type=submit value=Login><BR><INPUT type=checkbox 
+                  CHECKED name=Save> Keep me logged in. ( <A 
+                  href="http://www.generation5.org/help.asp?Query=Cookie">help</A> 
+                  )<BR></FORM>
+                  <DIV class=SmallText><A 
+                  href="http://www.generation5.org/register.asp">Register</A> | 
+                  <A href="http://www.generation5.org/register.asp#why">Why 
+                  register?</A><BR><A 
+                  href="http://www.generation5.org/help.asp?Query=Lost">Lost 
+                  your password?</A> </DIV></TD></TR></TBODY></TABLE>
+            <P>
+            <P>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=black>
+              <TBODY>
+              <TR>
+                <TD class=BoxHeader><A class=BoxHeader 
+                  href="http://www.generation5.org/">Latest News</A></TD></TR>
+              <TR>
+                <TD class=BoxMain>- <A 
+                  href="http://www.generation5.org/news.asp?Action=Full&amp;ID=723">Competition 
+                  Announcement</A> (29/06/2004)<BR>- <A 
+                  href="http://www.generation5.org/news.asp?Action=Full&amp;ID=722">GAUL 
+                  0.1847 Released</A> (29/06/2004)<BR>- <A 
+                  href="http://www.generation5.org/news.asp?Action=Full&amp;ID=721">http://www.generation5.org/news.asp?Action=Full&amp;ID=721</A> 
+                  (23/06/2004)<BR>- <A 
+                  href="http://www.generation5.org/news.asp?Action=Full&amp;ID=720">Evolution 
+                  Robotics announces Educational Robotics Package Deal</A> 
+                  (23/06/2004)<BR>- <A 
+                  href="http://www.generation5.org/news.asp?Action=Full&amp;ID=719">FrontierNumber4</A> 
+                  (16/06/2004)<BR></TD></TR></TBODY></TABLE>
+            <P>
+            <P>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=black>
+              <TBODY>
+              <TR>
+                <TD class=BoxHeader><A class=BoxHeader 
+                  href="http://www.generation5.org/whatsnew.asp">What's 
+                New?</A></TD></TR>
+              <TR>
+                <TD class=BoxMain>- <A 
+                  title="This article looks at defuzzifying data using Flex. Discusses fuzzy inference, rule propagation and more. (Articles)" 
+                  href="http://www.generation5.org/content/2004/defuzz.asp">Defuzzification 
+                  Options in Flex</A> (29/06/2004)<BR>- <A 
+                  title="A superb squad-based tactical war game, with immersive visuals, audio and some impressive AI to boot. (Reviews)" 
+                  href="http://www.generation5.org/content/2004/fsw_xbox.asp">Full 
+                  Spectrum Warrior (XBOX)</A> (23/06/2004)<BR>- <A 
+                  title="An excellent alternative to AT&amp;T's NaturalVoices, with a tiny footprint, good quality and reasonable price. (Reviews)" 
+                  href="http://www.generation5.org/content/2004/cepstral.asp">Cepstral 
+                  Text-To-Speech Voices</A> (23/06/2004)<BR>- <A 
+                  title="In this paper, the modified S-curve membership function methodology is used in a real life industrial problem of mix product selection. (Articles)" 
+                  href="http://www.generation5.org/content/2004/data/productMix.pdf">Optimization 
+                  in Product Mix Problem Using Fuzzy Linear Programming 
+                  (PDF)</A> (16/06/2004)<BR>- <A 
+                  title="This essays looks at the three main theories of consciousness with practical examples and associated problems. (Articles)" 
+                  href="http://www.generation5.org/content/2004/myth_consciousness.asp">Myth 
+                  of an Artificial Consciousness</A> 
+              (16/06/2004)<BR></TD></TR></TBODY></TABLE>
+            <P>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=black>
+              <TBODY>
+              <TR>
+                <TD class=BoxHeader><B>Friends and Affiliates</B></TD></TR>
+              <TR>
+                <TD class=BoxMain align=middle><A 
+                  href="http://www.aboutai.net/" target=_Blank><IMG alt=AboutAI 
+                  src="A Hello World Genetic Algorithm-Dateien/aboutai.png" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.active-robots.com/" target=_Blank><IMG 
+                  alt="Active Robots" 
+                  src="A Hello World Genetic Algorithm-Dateien/active-logo.gif" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.ai-depot.com/" target=_Blank><IMG 
+                  alt=AI-Depot 
+                  src="A Hello World Genetic Algorithm-Dateien/aidepot.png" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.amazon.com/exec/obidos/redirect?tag=generation5-20&amp;path=subst/home/home.html" 
+                  target=_Blank><IMG alt=Amazon.com 
+                  src="A Hello World Genetic Algorithm-Dateien/amazon-com-friend.gif" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.amazon.co.uk/exec/obidos/redirect-home?tag=generation5-21&amp;site=amazon" 
+                  target=_Blank><IMG alt=Amazon.co.uk 
+                  src="A Hello World Genetic Algorithm-Dateien/amazon-couk-friend.gif" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.flipcode.com/" target=_Blank><IMG 
+                  alt=Flipcode 
+                  src="A Hello World Genetic Algorithm-Dateien/flipcode.jpg" 
+                  width=88 vspace=3 border=1></A><BR><A 
+                  href="http://www.generation5.org/"><IMG 
+                  alt="Generation5: At the forefront of Artificial Intelligence" 
+                  src="A Hello World Genetic Algorithm-Dateien/generation5_sml.gif" 
+                  width=88 vspace=3 border=1></A><BR></TD></TR></TBODY></TABLE></P></TD>
+          <TD vAlign=top width="100%" bgColor=white><A 
+            href="http://www.generation5.org/">Home</A> &gt; <A 
+            href="http://www.generation5.org/articles.asp?Action=Display">Articles</A> 
+            &gt; <A 
+            href="http://www.generation5.org/articles.asp?Action=List&amp;Topic=Genetic Algorithms">Genetic 
+            Algorithms</A> &gt; Beginner<BR>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><B><FONT class=Heading>A "Hello World!" Genetic Algorithm 
+                  Example</FONT></B><BR>By <A title="Go to author's profile" 
+                  href="http://www.generation5.org/profile.asp?ID=1">James 
+                  Matthews</A></TD>
+                <TD class=SmallText vAlign=top noWrap align=right><A 
+                  href="http://www.generation5.org/content/2003/gahelloworld.asp?Print=1">Printable 
+                  Version</A></TD></TR></TBODY></TABLE>
+            <P><!-- ARTICLE 313 START -->Somebody over on the Generation5 forum 
+            asked for a "Hello World!" program for genetic algorithms. I took it 
+            literally and created a very simple program (138 lines of code) that 
+            evolves the phrase "Hello world!" 
+            <P>Here is some sample output (best population member and the 
+            fitness are displayed): <PRE>Best: IQQte=Ygqem# (152)
+Best: Crmt`!qrya+6 (148)
+Best: 8ufxp+Rigfm* (140)
+Best: b`hpf"woljh[ (120)
+Best: b`hpf"woljh4 (81)
+Best: b`hpf"woljh" (63)
+Best: Kdoit!wnsk_! (24)
+Best: Kdoit!wnsk_! (24)
+Best: Idoit!wnsk_! (22)
+Best: Idoit!wnsk_! (22)
+Best: Idoit!wnsk_! (22)
+Best: Idoit!wnsk_! (22)
+Best: Ifknm!vkrlf? (17)
+Best: Ifknm!vkrlf? (17)
+Best: Gfnio!wnskd$ (14)
+Best: Ffnjo!wnskd$ (14)
+Best: Hflio!wnskd$ (11)
+Best: Hflio!wnskd$ (11)
+Best: Kflkn wosld" (8)
+Best: Ifmmo workd" (6)
+Best: Hfljo wosld" (5)
+Best: Hflmo workd" (4)
+Best: Hflmo workd" (4)
+Best: Hflmo workd" (4)
+Best: Iflmo world! (3)
+Best: Iflmo world! (3)
+Best: Hflmo world! (2)
+Best: Hflmo world! (2)
+Best: Hflko world! (2)
+Best: Hflko world! (2)
+Best: Hdllo world! (1)
+Best: Hfllo world! (1)
+Best: Hfllo world! (1)
+Best: Helko world! (1)
+Best: Hfllo world! (1)
+Best: Hfllo world! (1)
+Best: Hfllo world! (1)
+Best: Hello world! (0)
+</PRE>
+            <H2>Genetic Algorithm</H2>The GA has the following characteristics: 
+            <P>
+            <TABLE class=SmallText 
+            style="BORDER-RIGHT: black 1px solid; BORDER-TOP: black 1px solid; BORDER-LEFT: black 1px solid; BORDER-BOTTOM: black 1px solid" 
+            cellSpacing=0 cellPadding=5 width=200 align=center>
+              <TBODY>
+              <TR>
+                <TD><B>Population Size:</B></TD>
+                <TD>2048</TD></TR>
+              <TR bgColor=#dfdfdf>
+                <TD><B>Mutation (%):</B></TD>
+                <TD>25</TD></TR>
+              <TR>
+                <TD><B>Elitism (%):</B></TD>
+                <TD>10</TD></TR></TBODY></TABLE>
+            <P>There are a few things to note about the code as well. Firstly, 
+            we cheat slightly by fixing the size of the strings in the GA 
+            population to be the same size as the target string. This just makes 
+            the code easier to understand. Secondly, the STL container class 
+            <TT>vector</TT> is used to hold the GA details - this also makes the 
+            sorting very efficient as simple to implement. Finally, the program 
+            uses two arrays to hold the population - one for the current 
+            population, and another as the buffer to contain the next 
+            generation. At the end of each generation, the pointers are swapped 
+            round to keep things fast. 
+            <P>
+            <H3>Fitness Function</H3>Finally, a quick look at the fitness 
+            function: <PRE><FONT color=blue>void</FONT> calc_fitness(ga_vector &amp;population)
+{
+  string target = GA_TARGET;
+  <FONT color=blue>int</FONT> tsize = target.size();
+  <FONT color=blue>unsigned int</FONT> fitness;
+
+  for (<FONT color=blue>int</FONT> i=0; i&lt;GA_POPSIZE; i++) {
+    fitness = 0;
+    <FONT color=blue>for</FONT> (<FONT color=blue>int</FONT> j=0; j&lt;tsize; j++) {
+      fitness += abs(<FONT color=blue>int</FONT>(population[i].str[j] - target[j]));
+    }
+	
+    population[i].fitness = fitness;
+  }
+}
+</PRE>Basically, all this does it go through each member of the 
+            population and compare it with the target string. It adds up the 
+            differences between the characters and uses the cumulative sum as 
+            the fitness value (therefore, the lower the value, the better). 
+            <P>
+            <H2>Conclusion</H2>Hopefully this little program serves as a decent 
+            look at how simple a GA can be to implement for a searching problem. 
+            This GA isn't the most efficient, although the use of the STL does 
+            help. Hopefully the code is ANSI compatible, although I've only 
+            tested it on Visual C++ 6.0. 
+            <UL>
+              <LI><IMG src="A Hello World Genetic Algorithm-Dateien/cpp.gif" 
+              align=absMiddle> <A 
+              href="http://www.generation5.org/content/2003/data/gahelloworld.cpp">gahelloworld.cpp</A> 
+              </LI></UL>
+            <P>
+            <DIV class=SmallText align=right>
+            <P>Submitted: 27/07/2003</P></DIV>
+            <P>
+            <DIV class=GreyLegal align=center>Article content copyright © James 
+            Matthews, 2003.</FONT>
+            <CENTER></CENTER></DIV></TD>
+          <TD class=NoPrint vAlign=top width=185>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=#7f7f7f>
+              <TBODY>
+              <TR>
+                <TD class=SmallText bgColor=#efefef>&nbsp;<B>Article 
+                  Toolbar</B></TD></TR>
+              <TR>
+                <TD class=SmallText2 bgColor=white><A 
+                  href="http://www.generation5.org/content/2003/gahelloworld.asp?Print=1"><IMG 
+                  src="A Hello World Genetic Algorithm-Dateien/print.gif" 
+                  align=absMiddle border=0>Print</A><BR><A 
+                  href="http://www.generation5.org/email.asp?Url=/content/2003/gahelloworld.asp"><IMG 
+                  src="A Hello World Genetic Algorithm-Dateien/email.gif" 
+                  align=absMiddle border=0>E-mail description</A><BR><A 
+                  href="javascript:popupBibTex('/content/2003/gahelloworld.asp');"><IMG 
+                  src="A Hello World Genetic Algorithm-Dateien/tex.gif" 
+                  align=absMiddle border=0>BibTeX entry</A> </TD></TR></TBODY></TABLE>
+            <P>
+            <TABLE cellSpacing=1 cellPadding=5 width=180 bgColor=black>
+              <TBODY>
+              <TR>
+                <TD class=BoxHeader>Search</TD></TR>
+              <TR>
+                <TD class=BoxMain>
+                  <FORM action=/search.asp method=post><B>Search:</B><BR><INPUT 
+                  size=18 name=Search> <INPUT type=submit value=Go> </FORM><A 
+                  href="http://www.generation5.org/search.asp">Advanced 
+                  Search</A> </TD></TR></TBODY></TABLE>
+            <P>
+            <DIV align=center>
+            <SCRIPT type=text/javascript><!--
+google_ad_client = "pub-0581926527205813";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_channel ="";
+//--></SCRIPT>
+
+            <SCRIPT src="A Hello World Genetic Algorithm-Dateien/show_ads.js" 
+            type=text/javascript>
+</SCRIPT>
+            </DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<DIV class=GreyLegal align=center>All content copyright © 1998-2004, Generation5 
+unless otherwise noted.<BR>- <A class=GreyLegal 
+href="http://www.generation5.org/help.asp?Query=Privacy">Privacy Policy</A> - 
+Legal - Terms of Use -<BR></DIV>
+<P></P></BODY></HTML>

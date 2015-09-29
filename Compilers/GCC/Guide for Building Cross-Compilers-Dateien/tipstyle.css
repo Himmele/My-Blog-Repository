@@ -1,0 +1,60 @@
+BODY {
+	FONT-FAMILY: helvetica, arial, sans-serif; BACKGROUND-COLOR: transparent
+}
+H1 {
+	FONT-FAMILY: helvetica, arial, sans-serif; BACKGROUND-COLOR: transparent
+}
+H2 {
+	FONT-FAMILY: helvetica, arial, sans-serif; BACKGROUND-COLOR: transparent
+}
+BODY {
+	FONT-SIZE: 10pt; BACKGROUND-IMAGE: url(./images/ribbed.gif); MARGIN-LEFT: 10%; COLOR: black; MARGIN-RIGHT: 10%
+}
+H1 {
+	MARGIN-LEFT: -5%; COLOR: #2b8cbe
+}
+H2 {
+	MARGIN-LEFT: -5%; COLOR: #2b8cbe
+}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 15pt; MARGIN-BOTTOM: 0.5em
+}
+H2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 13pt; MARGIN-BOTTOM: 2px
+}
+H3 {
+	FONT-WEIGHT: bold; MARGIN-BOTTOM: 2px
+}
+A {
+	TEXT-DECORATION: none
+}
+A:link {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #ed181e
+}
+A:visited {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #ed181e
+}
+A:hover {
+	BACKGROUND: #f0e68c; COLOR: #ed181e; TEXT-DECORATION: underline
+}
+UL {
+	MARGIN-TOP: -2px
+}
+OL {
+	MARGIN-TOP: -2px; MARGIN-LEFT: 2em
+}
+LI {
+	MARGIN-BOTTOM: 1em; MARGIN-LEFT: -3em
+}
+P.banner {
+	MARGIN-LEFT: -3%
+}
+CODE {
+	FONT-SIZE: 11pt; COLOR: #333333; FONT-FAMILY: courier, monospace
+}
+PRE {
+	FONT-SIZE: 11pt; COLOR: #333333; FONT-FAMILY: courier, monospace
+}
+PRE {
+	PADDING-LEFT: 1em; MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 1em; WIDTH: 95%; PADDING-TOP: 2px; BACKGROUND-COLOR: #e5ecf3
+}

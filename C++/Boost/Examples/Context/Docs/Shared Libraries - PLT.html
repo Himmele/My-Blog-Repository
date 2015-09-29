@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0036)http://www.airs.com/blog/archives/41 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+	<title>Airs – Ian Lance Taylor » Linkers part 4</title>
+	
+	<meta name="generator" content="WordPress 3.0.2"> <!-- leave this for stats -->
+
+	<style type="text/css" media="screen">
+		@import url( http://www.airs.com/blog/wp-content/themes/almost-spring/style.css );
+	</style>
+	
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.airs.com/blog/feed">
+	<link rel="alternate" type="text/xml" title="RSS .92" href="http://www.airs.com/blog/feed/rss">
+	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://www.airs.com/blog/feed/atom">
+	<link rel="pingback" href="http://www.airs.com/blog/xmlrpc.php">
+
+		<link rel="archives" title="February 2012" href="http://www.airs.com/blog/archives/date/2012/02">
+	<link rel="archives" title="December 2011" href="http://www.airs.com/blog/archives/date/2011/12">
+	<link rel="archives" title="November 2011" href="http://www.airs.com/blog/archives/date/2011/11">
+	<link rel="archives" title="October 2011" href="http://www.airs.com/blog/archives/date/2011/10">
+	<link rel="archives" title="September 2011" href="http://www.airs.com/blog/archives/date/2011/09">
+	<link rel="archives" title="August 2011" href="http://www.airs.com/blog/archives/date/2011/08">
+	<link rel="archives" title="July 2011" href="http://www.airs.com/blog/archives/date/2011/07">
+	<link rel="archives" title="June 2011" href="http://www.airs.com/blog/archives/date/2011/06">
+	<link rel="archives" title="May 2011" href="http://www.airs.com/blog/archives/date/2011/05">
+	<link rel="archives" title="April 2011" href="http://www.airs.com/blog/archives/date/2011/04">
+	<link rel="archives" title="March 2011" href="http://www.airs.com/blog/archives/date/2011/03">
+	<link rel="archives" title="February 2011" href="http://www.airs.com/blog/archives/date/2011/02">
+	<link rel="archives" title="January 2011" href="http://www.airs.com/blog/archives/date/2011/01">
+	<link rel="archives" title="December 2010" href="http://www.airs.com/blog/archives/date/2010/12">
+	<link rel="archives" title="November 2010" href="http://www.airs.com/blog/archives/date/2010/11">
+	<link rel="archives" title="October 2010" href="http://www.airs.com/blog/archives/date/2010/10">
+	<link rel="archives" title="September 2010" href="http://www.airs.com/blog/archives/date/2010/09">
+	<link rel="archives" title="August 2010" href="http://www.airs.com/blog/archives/date/2010/08">
+	<link rel="archives" title="July 2010" href="http://www.airs.com/blog/archives/date/2010/07">
+	<link rel="archives" title="June 2010" href="http://www.airs.com/blog/archives/date/2010/06">
+	<link rel="archives" title="May 2010" href="http://www.airs.com/blog/archives/date/2010/05">
+	<link rel="archives" title="April 2010" href="http://www.airs.com/blog/archives/date/2010/04">
+	<link rel="archives" title="March 2010" href="http://www.airs.com/blog/archives/date/2010/03">
+	<link rel="archives" title="February 2010" href="http://www.airs.com/blog/archives/date/2010/02">
+	<link rel="archives" title="January 2010" href="http://www.airs.com/blog/archives/date/2010/01">
+	<link rel="archives" title="December 2009" href="http://www.airs.com/blog/archives/date/2009/12">
+	<link rel="archives" title="November 2009" href="http://www.airs.com/blog/archives/date/2009/11">
+	<link rel="archives" title="November 2008" href="http://www.airs.com/blog/archives/date/2008/11">
+	<link rel="archives" title="October 2008" href="http://www.airs.com/blog/archives/date/2008/10">
+	<link rel="archives" title="September 2008" href="http://www.airs.com/blog/archives/date/2008/09">
+	<link rel="archives" title="August 2008" href="http://www.airs.com/blog/archives/date/2008/08">
+	<link rel="archives" title="July 2008" href="http://www.airs.com/blog/archives/date/2008/07">
+	<link rel="archives" title="June 2008" href="http://www.airs.com/blog/archives/date/2008/06">
+	<link rel="archives" title="May 2008" href="http://www.airs.com/blog/archives/date/2008/05">
+	<link rel="archives" title="April 2008" href="http://www.airs.com/blog/archives/date/2008/04">
+	<link rel="archives" title="March 2008" href="http://www.airs.com/blog/archives/date/2008/03">
+	<link rel="archives" title="February 2008" href="http://www.airs.com/blog/archives/date/2008/02">
+	<link rel="archives" title="January 2008" href="http://www.airs.com/blog/archives/date/2008/01">
+	<link rel="archives" title="December 2007" href="http://www.airs.com/blog/archives/date/2007/12">
+	<link rel="archives" title="November 2007" href="http://www.airs.com/blog/archives/date/2007/11">
+	<link rel="archives" title="October 2007" href="http://www.airs.com/blog/archives/date/2007/10">
+	<link rel="archives" title="September 2007" href="http://www.airs.com/blog/archives/date/2007/09">
+	<link rel="archives" title="August 2007" href="http://www.airs.com/blog/archives/date/2007/08">
+	<link rel="archives" title="February 2007" href="http://www.airs.com/blog/archives/date/2007/02">
+	<link rel="archives" title="January 2007" href="http://www.airs.com/blog/archives/date/2007/01">
+	<link rel="archives" title="December 2006" href="http://www.airs.com/blog/archives/date/2006/12">
+	<link rel="archives" title="July 2006" href="http://www.airs.com/blog/archives/date/2006/07">
+	<link rel="archives" title="June 2006" href="http://www.airs.com/blog/archives/date/2006/06">
+	<link rel="archives" title="April 2006" href="http://www.airs.com/blog/archives/date/2006/04">
+	<link rel="archives" title="February 2006" href="http://www.airs.com/blog/archives/date/2006/02">
+	<link rel="archives" title="January 2006" href="http://www.airs.com/blog/archives/date/2006/01">
+	<link rel="archives" title="December 2005" href="http://www.airs.com/blog/archives/date/2005/12">
+	<link rel="archives" title="November 2005" href="http://www.airs.com/blog/archives/date/2005/11">
+
+	<link rel="alternate" type="application/rss+xml" title="Airs - Ian Lance Taylor » Linkers part 4 Comments Feed" href="http://www.airs.com/blog/archives/41/feed">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.airs.com/blog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.airs.com/blog/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="Airs – Ian Lance Taylor" href="http://www.airs.com/blog">
+<link rel="start" title="Airs" href="http://www.airs.com/blog/archives/1">
+<link rel="prev" title="Linkers part 3" href="http://www.airs.com/blog/archives/40">
+<link rel="next" title="Linkers part 5" href="http://www.airs.com/blog/archives/42">
+<meta name="generator" content="WordPress 3.0.2">
+<link rel="canonical" href="./Shared Libraries - PLT_files/Shared Libraries - PLT.html">
+<link rel="shortlink" href="http://www.airs.com/blog/?p=41">
+
+<script src="./Shared Libraries - PLT_files/cb=gapi.loaded_0" async=""></script><script type="text/javascript" src="./Shared Libraries - PLT_files/plusone.js" gapi_processed="true"></script>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<div id="header">
+<h1><a href="http://www.airs.com/blog">Airs – Ian Lance Taylor</a></h1>
+</div>
+
+<div id="content">
+
+			
+		<div class="post">
+	
+			<h2 class="posttitle" id="post-41"><a href="./Shared Libraries - PLT_files/Shared Libraries - PLT.html" rel="bookmark" title="Permanent link to Linkers part 4">Linkers part 4</a></h2>
+			
+			<p class="postmeta"> 
+			August 27, 2007 at 10:47 pm 
+			· Filed under <a href="http://www.airs.com/blog/archives/category/programming" title="View all posts in Programming" rel="category tag">Programming</a>						</p>
+		
+			<div class="postentry">
+			<p>Shared Libraries</p>
+<p>We’ve talked a bit about what object files and executables look like, so what do shared libraries look like?  I’m going to focus on ELF shared libraries as used in SVR4 (and GNU/Linux, etc.), as they are the most flexible shared library implementation and the one I know best.</p>
+<p>Windows shared libraries, known as DLLs, are less flexible in that you have to compile code differently depending on whether it will go into a shared library or not.  You also have to express symbol visibility in the source code.  This is not inherently bad, and indeed ELF has picked up some of these ideas over time, but the ELF format makes more decisions at link time and is thus more powerful.</p>
+<p>When the program linker creates a shared library, it does not yet know which virtual address that shared library will run at.  In fact, in different processes, the same shared library will run at different address, depending on the decisions made by the dynamic linker.  This means that shared library code must be <em>position independent</em>.  More precisely, it must be position independent after the dynamic linker has finished loading it.  It is always possible for the dynamic linker to convert any piece of code to run at any virtula address, given sufficient relocation information.  However, performing the reloc computations must be done every time the program starts, implying that it will start more slowly.  Therefore, any shared library system seeks to generate position independent code which requires a minimal number of relocations to be applied at runtime, while still running at close to the runtime efficiency of position dependent code.</p>
+<p>An additional complexity is that ELF shared libraries were designed to be roughly equivalent to ordinary archives.  This means that by default the main executable may override symbols in the shared library, such that references in the shared library will call the definition in the executable, even if the shared library also defines that same symbol.  For example, an executable may define its own version of <code>malloc</code>.  The C library also defines <code>malloc</code>, and the C library contains code which calls <code>malloc</code>.  If the executable defines <code>malloc</code> itself, it will override the function in the C library.  When some other function in the C library calls <code>malloc</code>, it will call the definition in the executable, not the definition in the C library.</p>
+<p>There are thus different requirements pulling in different directions for any specific ELF implementation.  The right implementation choices will depend on the characteristics of the processor.  That said, most, but not all, processors make fairly similar decisions.  I will describe the common case here.  An example of a processor which uses the common case is the i386; an example of a processor which make some different decisions is the PowerPC.</p>
+<p>In the common case, code may be compiled in two different modes.  By default, code is position dependent.  Putting position dependent code into a shared library will cause the program linker to generate a lot of relocation information, and cause the dynamic linker to do a lot of processing at runtime.  Code may also be compiled in position independent mode, typically with the <code>-fpic</code> option.  Position independent code is slightly slower when it calls a non-static function or refers to a global or static variable.  However, it requires much less relocation information, and thus the dynamic linker will start the program faster.</p>
+<p>Position independent code will call non-static functions via the <em>Procedure Linkage Table</em> or <em>PLT</em>.  This PLT does not exist in .o files.  In a .o file, use of the PLT is indicated by a special relocation.  When the program linker processes such a relocation, it will create an entry in the PLT.  It will adjust the instruction such that it becomes a PC-relative call to the PLT entry.  PC-relative calls are inherently position independent and thus do not require a relocation entry themselves.  The program linker will create a relocation for the PLT entry which tells the dynamic linker which symbol is associated with that entry.  This process reduces the number of dynamic relocations in the shared library from one per function call to one per function called.</p>
+<p>Further, PLT entries are normally relocated lazily by the dynamic linker.  On most ELF systems this laziness may be overridden by setting the LD_BIND_NOW environment variable when running the program.  However, by default, the dynamic linker will not actually apply a relocation to the PLT until some code actually calls the function in question.  This also speeds up startup time, in that many invocations of a program will not call every possible function.  This is particularly true when considering the shared C library, which has many more function calls than any typical program will execute.</p>
+<p>In order to make this work, the program linker initializes the PLT entries to load an index into some register or push it on the stack, and then to branch to common code.  The common code calls back into the dynamic linker, which uses the index to find the appropriate PLT relocation, and uses that to find the function being called.  The dynamic linker then initializes the PLT entry with the address of the function, and then jumps to the code of the function.  The next time the function is called, the PLT entry will branch directly to the function.</p>
+<p>Before giving an example, I will talk about the other major data structure in position independent code, the <em>Global Offset Table</em> or <em>GOT</em>.  This is used for global and static variables.  For every reference to a global variable from position independent code, the compiler will generate a load from the GOT to get the address of the variable, followed by a second load to get the actual value of the variable.  The address of the GOT will normally be held in a register, permitting efficient access.  Like the PLT, the GOT does not exist in a .o file, but is created by the program linker.  The program linker will create the dynamic relocations which the dynamic linker will use to initialize the GOT at runtime.  Unlike the PLT, the dynamic linker always fully initializes the GOT when the program starts.</p>
+<p>For example, on the i386, the address of the GOT is held in the register <code>%ebx</code>.  This register is initialized at the entry to each function in position independent code.  The initialization sequence varies from one compiler to another, but typically looks something like this:</p>
+<p><code><br>
+call   __i686.get_pc_thunk.bx<br>
+add    $offset,%ebx<br>
+</code></p>
+<p>The function <code>__i686.get_pc_thunk.bx</code> simply looks like this:</p>
+<p><code><br>
+mov    (%esp),%ebx<br>
+ret<br>
+</code></p>
+<p>This sequence of instructions uses a position independent sequence to get the address at which it is running.  Then is uses an offset to get the address of the GOT.  Note that this requires that the GOT always be a fixed offset from the code, regardless of where the shared library is loaded.  That is, the dynamic linker must load the shared library as a fixed unit; it may not load different parts at varying addresses.</p>
+<p>Global and static variables are now read or written by first loading the address via a fixed offset from <code>%ebx</code>.  The program linker will create dynamic relocations for each entry in the GOT, telling the dynamic linker how to initialize the entry.  These relocations are of type <code>GLOB_DAT</code>.</p>
+<p>For function calls, the program linker will set up a PLT entry to look like this:</p>
+<p><code><br>
+    jmp *offset(%ebx)<br>
+    pushl #index<br>
+    jmp first_plt_entry<br>
+</code></p>
+<p>The program linker will allocate an entry in the GOT for each entry in the PLT.  It will create a dynamic relocation for the GOT entry of type <code>JMP_SLOT</code>.  It will initialize the GOT entry to the base address of the shared library plus the address of the second instruction in the code sequence above.  When the dynamic linker does the initial lazy binding on a <code>JMP_SLOT</code> reloc, it will simply add the difference between the shared library load address and the shared library base address to the GOT entry.  The effect is that the first <code>jmp</code> instruction will jump to the second instruction,  which will push the index entry and branch to the first PLT entry.  The first PLT entry is special, and looks like this:</p>
+<p><code><br>
+    pushl 4(%ebx)<br>
+    jmp *8(%ebx)<br>
+</code></p>
+<p>This references the second and third entries in the GOT.  The dynamic linker will initialize them to have appropriate values for a callback into the dynamic linker itself.  The dynamic linker will use the index pushed by the first code sequence to find the <code>JMP_SLOT</code> relocation.  When the dynamic linker determines the function to be called, it will store the address of the function into the GOT entry references by the first code sequence.  Thus, the next time the function is called, the <code>jmp</code> instruction will branch directly to the right code.</p>
+<p>That was a fast pass over a lot of details, but I hope that it conveys the main idea.  It means that for position independent code on the i386, every call to a global function requires one extra instruction after the first time it is called.  Every reference to a global or static variable requires one extra instruction.  Almost every function uses four extra instructions when it starts to initialize <code>%ebx</code> (leaf functions which do not refer to any global variables do not need to initialize %ebx).  This all has some negative impact on the program cache.  This is the runtime performance penalty paid to let the dynamic linker start the program quickly.</p>
+<p>On other processors, the details are naturally different.  However, the general flavour is similar: position independent code in a shared library starts faster and runs slightly slower.</p>
+<p>More tomorrow.</p>
+						</div>
+
+			<p class="postfeedback">
+			<a href="./Shared Libraries - PLT_files/Shared Libraries - PLT.html" rel="bookmark" title="Permanent link to Linkers part 4" class="permalink">Permalink</a>
+			</p>
+			
+		</div>
+		
+		
+<!-- You can start editing here. -->
+
+
+	<h2 id="comments">
+		8 Comments					<a href="http://www.airs.com/blog/archives/41#postcomment" title="Jump to the comments form">»</a>
+			</h2>
+	
+	<ol id="commentlist">
+
+	
+		<li class="alt" id="comment-3993">
+		
+		<h3 class="commenttitle">wh5a said,</h3>
+		
+		<p class="commentmeta">
+			August 29, 2007 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-3993" title="Permanent link to this comment">12:57 am</a>
+					</p>
+		
+		<p>Thanks for your great article. I’ve got one question:</p>
+<p>It seems if a pic function only access global variables but does not call global functions, it will call __i686.get_pc_thunk.cx to compute the GOT address, and its value will be cached in %ecx, instead of %ebx.  Why is that?</p>
+<p>I’m running Linux. Thanks.</p>
+		
+		</li>
+
+		
+	
+		<li class="" id="comment-4000">
+		
+		<h3 class="commenttitle"><a href="http://airs.com/ian/" rel="external nofollow" class="url">Ian Lance Taylor</a> said,</h3>
+		
+		<p class="commentmeta">
+			August 29, 2007 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-4000" title="Permanent link to this comment">8:02 pm</a>
+					</p>
+		
+		<p>%ebx is a callee saved register for the i386, which means that if a function changes %ebx, it must save it at the start of a function and restore it at the end.  This is normally the best choice for the GOT register, since it means that the the value does not have to be recomputed or restored after a function call.</p>
+<p>However, if a function does not call any other functions (i.e., it is a leaf function), then it is not important to keep the address of the GOT in a callee saved register.  In fact, in that case, it is better to keep it in a caller saved register–that is, a register which a function is permitted to change without needing to save and restore it.  So gcc optimizes by putting the GOT table in a caller saved register in a leaf function.</p>
+<p>gcc does not always use %ecx, incidentally, though that is a common choice.  Depending on the function, it may choose any available caller saved register.</p>
+		
+		</li>
+
+		
+	
+		<li class="alt" id="comment-4026">
+		
+		<h3 class="commenttitle"><a href="http://gnu.wildebeest.org/diary/2007/08/31/ian-lance-taylors-linker-notes/" rel="external nofollow" class="url">Mark J. Wielaard » Ian Lance Taylor’s Linker Notes</a> said,</h3>
+		
+		<p class="commentmeta">
+			August 31, 2007 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-4026" title="Permanent link to this comment">8:21 am</a>
+					</p>
+		
+		<p>[...] Linkers part 4 – Shared Libraries (Procedure Linkage Table – PLT and Global Offset Table – GOT). [...]</p>
+		
+		</li>
+
+		
+	
+		<li class="" id="comment-4273">
+		
+		<h3 class="commenttitle"><a href="http://weblog.johnlevine.com/" rel="external nofollow" class="url">jrlevine</a> said,</h3>
+		
+		<p class="commentmeta">
+			September 13, 2007 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-4273" title="Permanent link to this comment">3:46 pm</a>
+					</p>
+		
+		<p>The other advantage of PIC is better code sharing. If there’s no relocation fixups in a page, all processes can share the same physical copy of the page. As soon as there’s  load time fixup, you need a separate copy of the page per process. Making and maintaining the copy is way more work than the fixups themselves, since it requires a trap to the system and a copy of the whole page.</p>
+		
+		</li>
+
+		
+	
+		<li class="alt" id="comment-4286">
+		
+		<h3 class="commenttitle"><a href="http://airs.com/ian/" rel="external nofollow" class="url">Ian Lance Taylor</a> said,</h3>
+		
+		<p class="commentmeta">
+			September 13, 2007 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-4286" title="Permanent link to this comment">8:32 pm</a>
+					</p>
+		
+		<p>Thanks–I remembered to put that bit into part 6.</p>
+		
+		</li>
+
+		
+	
+		<li class="" id="comment-15007">
+		
+		<h3 class="commenttitle">jlh said,</h3>
+		
+		<p class="commentmeta">
+			October 28, 2008 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-15007" title="Permanent link to this comment">5:25 am</a>
+					</p>
+		
+		<p>For the uneducated reader, it may worth saying explicitely that the offset added to the ebx register is the difference between the start of the GOT and the actual location in the code.  Otherwise, the following sentence may not be as clear as you might think: “this requires that the GOT always be a fixed offset from the code, regardless of where the shared library is loaded”.  An interesting note is that these offsets are all fixed in the code at link time by the linker program.</p>
+		
+		</li>
+
+		
+	
+		<li class="alt" id="comment-15013">
+		
+		<h3 class="commenttitle"><a href="http://airs.com/ian/" rel="external nofollow" class="url">Ian Lance Taylor</a> said,</h3>
+		
+		<p class="commentmeta">
+			October 28, 2008 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-15013" title="Permanent link to this comment">5:43 pm</a>
+					</p>
+		
+		<p>jlh: yes; thanks for the note.</p>
+		
+		</li>
+
+		
+	
+		<li class="" id="comment-15623">
+		
+		<h3 class="commenttitle">berkus said,</h3>
+		
+		<p class="commentmeta">
+			January 2, 2009 
+			@ <a href="http://www.airs.com/blog/archives/41#comment-15623" title="Permanent link to this comment">2:09 pm</a>
+					</p>
+		
+		<p>Thanks, all this GOT/PLT thing became a bit more clear now. I was seeing the general picture before, but these little details is what was buzzing in my head all the time.</p>
+		
+		</li>
+
+		
+	
+	</ol>
+	
+	<p class="small">
+	<a href="http://www.airs.com/blog/archives/41/feed"><abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post</a>		· <a href="http://www.airs.com/blog/archives/41/trackback" rel="trackback">TrackBack <abbr title="Uniform Resource Identifier">URI</abbr></a>
+		</p>
+
+
+
+	<h2 id="postcomment">Leave a Comment</h2>
+	
+		
+		<p>You must be <a href="http://www.airs.com/blog/wp-login.php?redirect_to=http://www.airs.com/blog/archives/41">logged in</a> to post a comment.</p>
+	
+	
+				
+	
+</div>
+
+<div id="sidebar">
+
+<div style="height: 24px; width: 106px; text-indent: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; background-position: initial initial; background-repeat: initial initial; " id="___plusone_0"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; position: static; left: 0px; top: 0px; visibility: visible; width: 106px; height: 24px; " tabindex="0" vspace="0" width="100%" id="I0_1356907888766" name="I0_1356907888766" src="./Shared Libraries - PLT_files/fastbutton.html" allowtransparency="true" title="+1"></iframe></div>
+<hr>
+
+		<h2>Search</h2>
+		<form method="get" action="http://www.airs.com/blog/index.php">
+<p>
+<input type="text" value="" name="s" id="s">
+<input type="submit" value="Search">
+</p>
+</form>
+<hr>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-4410612968437964";
+/* blog vertical */
+google_ad_slot = "0317779985";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="./Shared Libraries - PLT_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><iframe allowtransparency="true" frameborder="0" height="600" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" scrolling="no" vspace="0" width="160" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins>
+
+<hr>
+
+<ul>
+		<li>
+		<h2>Archives</h2>
+		<ul>
+			<li><a href="http://www.airs.com/blog/archives/date/2012/02" title="February 2012">February 2012</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/12" title="December 2011">December 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/11" title="November 2011">November 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/10" title="October 2011">October 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/09" title="September 2011">September 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/08" title="August 2011">August 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/07" title="July 2011">July 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/06" title="June 2011">June 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/05" title="May 2011">May 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/04" title="April 2011">April 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/03" title="March 2011">March 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/02" title="February 2011">February 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2011/01" title="January 2011">January 2011</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/12" title="December 2010">December 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/11" title="November 2010">November 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/10" title="October 2010">October 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/09" title="September 2010">September 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/08" title="August 2010">August 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/07" title="July 2010">July 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/06" title="June 2010">June 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/05" title="May 2010">May 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/04" title="April 2010">April 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/03" title="March 2010">March 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/02" title="February 2010">February 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2010/01" title="January 2010">January 2010</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2009/12" title="December 2009">December 2009</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2009/11" title="November 2009">November 2009</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/11" title="November 2008">November 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/10" title="October 2008">October 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/09" title="September 2008">September 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/08" title="August 2008">August 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/07" title="July 2008">July 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/06" title="June 2008">June 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/05" title="May 2008">May 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/04" title="April 2008">April 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/03" title="March 2008">March 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/02" title="February 2008">February 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2008/01" title="January 2008">January 2008</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/12" title="December 2007">December 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/11" title="November 2007">November 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/10" title="October 2007">October 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/09" title="September 2007">September 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/08" title="August 2007">August 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/02" title="February 2007">February 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2007/01" title="January 2007">January 2007</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/12" title="December 2006">December 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/07" title="July 2006">July 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/06" title="June 2006">June 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/04" title="April 2006">April 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/02" title="February 2006">February 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2006/01" title="January 2006">January 2006</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2005/12" title="December 2005">December 2005</a></li>
+	<li><a href="http://www.airs.com/blog/archives/date/2005/11" title="November 2005">November 2005</a></li>
+		</ul>
+	</li>
+	<li>
+		<h2>Categories</h2>
+		<ul>
+			<li class="cat-item cat-item-4"><a href="http://www.airs.com/blog/archives/category/books" title="Books and authors.">Books</a>
+</li>
+	<li class="cat-item cat-item-2"><a href="http://www.airs.com/blog/archives/category/money" title="Thoughts on money, finance, economics, business.">Money</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.airs.com/blog/archives/category/movies" title="Movies.">Movies</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.airs.com/blog/archives/category/philosophy" title="Philosophy, religion, other things normally associated with the sophomore year in college.">Philosophy</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.airs.com/blog/archives/category/politics" title="Thoughts about politics.">Politics</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://www.airs.com/blog/archives/category/programming" title="Thoughts about computer programming.">Programming</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://www.airs.com/blog/archives/category/random" title="Random posts.">Random</a>
+</li>
+ 
+		</ul>
+	</li>
+	
+	
+		
+	
+	<li>
+		<h2>Meta</h2>
+		<ul>
+			<li><a href="http://www.airs.com/blog/wp-login.php?action=register">Register</a></li>			<li><a href="http://www.airs.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://www.airs.com/blog/feed" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://www.airs.com/blog/comments/feed" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by Wordpress, state-of-the-art semantic personal publishing platform.">Wordpress</a></li>
+					</ul>
+	</li>
+</ul>
+
+</div>
+
+<div id="footer">
+<p>
+Design by <a href="http://beccary.com/" title="Theme designed by Beccary">Beccary</a> and <a href="http://weblogs.us/" title="Theme sponsored by Weblogs.us">Weblogs.us</a>
+·
+<a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional"><abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a>
+·
+<a href="http://jigsaw.w3.org/css-validator/check/referer" title="This page validates as CSS"><abbr title="Cascading Style Sheets">CSS</abbr></a>
+</p>
+</div>
+
+</div>
+
+
+<script src="./Shared Libraries - PLT_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-760441-1";
+urchinTracker();
+</script>
+
+
+
+
+
+</body></html>

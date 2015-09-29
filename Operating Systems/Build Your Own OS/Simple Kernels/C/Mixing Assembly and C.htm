@@ -1,0 +1,522 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://www.osdev.org/developers/guide01/index.html -->
+<HTML><HEAD><TITLE>OS Developer Guides</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="The place to start for OS developers. Message Board, OS Development Links, Developer Guides, and Newsgroup Archive." 
+name=description>
+<META 
+content="osdev, os development, os design, operating system, system programming, assembly, programming" 
+name=keywords>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR bgColor=#0b8d94>
+    <TD vAlign=center align=left height=30><NOBR>&nbsp;<A 
+      href="http://www.osdev.org/"><FONT 
+      color=white><B>OSDEV.ORG</B></FONT></A></NOBR></TD></TR>
+  <TR bgColor=black>
+    <TD vAlign=center noWrap align=left>
+      <DIV align=center><NOBR class=topnav><A 
+      href="http://www.osdev.org/developers/index.html"><FONT color=white 
+      size=-1>Developer Guides</FONT></A><FONT color=white 
+      size=-1>&nbsp;|&nbsp;</FONT><A 
+      href="http://204.215.248.28/board.jsp"><FONT color=white size=-1>Message 
+      Board</FONT></A><FONT color=white size=-1>&nbsp;|&nbsp;</FONT><A 
+      href="http://www.osdev.org/cgi-bin/shownews.cgi"><FONT color=white 
+      size=-1>Newsgroups</FONT></A><FONT color=white 
+      size=-1>&nbsp;|&nbsp;</FONT><A 
+      href="http://www.osdev.org/cgi-bin/projects.cgi"><FONT color=white 
+      size=-1>OSDev Ring</FONT></A><FONT color=white 
+      size=-1>&nbsp;|&nbsp;</FONT><A 
+      href="http://www.osdev.org/cgi-bin/links.cgi"><FONT color=white 
+      size=-1>Links</FONT></NOBR></DIV></A></TD></TR>
+  <TR>
+    <TD bgColor=#d4d4d4><FONT color=black size=-1>OS Developer 
+  Guides</FONT></TD></TR></TBODY></TABLE><BR>
+<H2><A name=TOC></A><FONT color=#000077>Mixing Assembly and C</FONT></H2>
+<HR>
+
+<DL><FONT size=3>
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#About">About 
+  This Guide</A> 
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#Req">System 
+  Requirments</A> 
+  <DD><A 
+  href="http://www.osdev.org/developers/guide01/index.html#Intro1">Introduction</A> 
+
+  <DD><A 
+  href="http://www.osdev.org/developers/guide01/index.html#C">GCC/DJGPP</A> 
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#NASM">NASM</A> 
+
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#Mixing">Mixing 
+  C and Assembly</A> 
+  <DD><A 
+  href="http://www.osdev.org/developers/guide01/index.html#Additional">Additional 
+  Information</A> 
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#Loader">About 
+  The Loader</A> 
+  <DD><A href="http://www.osdev.org/developers/guide01/index.html#Sites">Related 
+  Sites</A> </FONT></DD></DL>
+<HR>
+
+<P><A name=About></A><FONT size=+1><B>About This Guide</B></FONT></P>
+<P>The purpose of this guide is to give the reader an understanding of how to 
+begin using C and Assembly to create an operating system for a x86 computer.This 
+guide is only designed to get you started with mixing C and Assembly to produce 
+flat binary files. Before reading thru this guide you shoud already have an 
+understanding of C or C++ and also be familiar with assembly language. If you're 
+not familiar with these languages or just need to brush up check out <A 
+href="http://www.osdev.org/developers/guide01/index.html#Sites">Related 
+Sites</A> for some sites that can help.</P>
+<P><B>WARNING</B>: If you are using any linux or possible other forms of unix 
+please read the "Additional Information" section at the end of this page before 
+trying any of the sample code. 
+<P><A name=Req></A><FONT size=+1><B>System Requirments</B></FONT></P>
+<P>The code in this guide requires: 
+<UL>
+  <LI>Intel compatible 386 or greater cpu 
+  <LI>4 megabytes of memory 
+  <LI>DOS compatible boot disk 
+  <LI>color vga adapter </LI></UL>
+<P></P>
+<P><A name=Intro1></A><FONT size=+1><B>Introduction</B></FONT></P>
+<P>So you want to write an Operating System? Good luck was the sarcastic reply I 
+recieved once after telling someone the exact same thing. It has been a long 
+time just finding enough information to figure out where to even start. But I 
+believe I've found the best starting point for most people, of course this 
+begins with what the heck you're going to use to write the thing. It turns out 
+that the best tools(my opion) for OS writing are freely downloadable from the 
+web. For C/C++ we'll be using GCC or the DOS port called DJGPP and for assembly 
+we'll be using NASM. One of the major pains of writing an OS is that you can't 
+just write a program and have it be an OS. To even load a OS you typically have 
+to write a bootsector followed by a bootstrap loader that sets up your protected 
+mode enviroment and then loads your kernel. On top of this even if you normally 
+program with the compiler and assembler that we are using there are special 
+considerations you have to make when writing an OS. To make your life easier I'm 
+going to be providing a couple small utilities so that you only have to learn 
+one step at a time. The first utility you're going to be using is a kernel 
+loading program that works under DOS. Since DOS is a real mode OS it's pretty 
+easy to use it to read a kernel file from disk then use the loading program to 
+startup protected mode. You can download the loader <A 
+href="http://www.osdev.org/developers/guide01/loader.com">here</A>.</P>
+<P>The download contains two files the first is the loader and the second is a 
+sample kernel to make sure you have the loader working with your system. The 
+loader needs to be run from DOS with no memory managers in memory. You can make 
+sure that no memory managers are loaded by either booting from a DOS/WIN9x boot 
+disk with no config.sys and autoexec.bat, or by pressing F8 during boot on WIN9x 
+and choosing safe mode command prompt only from your boot menu. If you don't 
+have a DOS boot disk or a WIN9x system you can download a free DOS clone called 
+<A href="http://www.freedos.org/" target=_blank>FREEDOS</A>. To load the test 
+kernel just start DOS, change to the directory that the kernel32.bin file is in 
+and run the loader. The message "Hi" should appear in the bottom right corner of 
+your screen and you should be returned back to a DOS promt. Hopefully everything 
+worked ok on your system and we can move right along to writing your own 
+kernel.</P>
+<P><A name=C></A><FONT size=+1><B>GCC/DJGPP</B></FONT></P>
+<P>GCC which stands for GNU's Compiler Collection is the C/C++ compiler that 
+comes with almost every type of unix. If you've been doing any programming under 
+any unix's I'm going to assume you atleast know how to use GCC for normal 
+purposes. Luckily for all the people running WIN9x and NT there is also a port 
+of GCC for download at <A href="http://www.delorie.com/djgpp" 
+target=_blank>www.delorie.com/djgpp</A>. For the people that will be trying 
+DJGPP for the first time, you should know that DJGPP is a command line compiler. 
+This means that you write your code in any program that can produce text files 
+and then compile from a DOS box.</P>
+<P>Once you have your compiler working there are a few things you need to know 
+before we continue. First is that you can't include any header files that you 
+didn't write yourself. Most header files have dependinces on the OS for which 
+they were written for. For example, printf and cout, when a program is run that 
+uses either one of these commands an OS service is called to display text. 
+Because we are writting the OS the only portions of C/C++ that we can use are 
+what we will call the core language. The core language includes only the 
+reserved keywords and expressions that are avalible when no header files are 
+included. If your wondering how the "Hi" was displayed with the sample kernel, 
+that is where assembly language comes into play.</P>
+<P>Since we can't really display anything until the assembly portion of this 
+guide, for now we're going to make a C kernel that does nothing. As easy as that 
+sounds it's a pain in the rear to figure out for the first time. First create a 
+text file that contains the following code: <PRE>	int main(void)
+	{
+	repeat: 	goto repeat;
+	}
+</PRE>Save as "kernel32.c". From the same location as the file enter the command 
+<BR><CODE>gcc -ffreestanding -c -o kernel32.o kernel32.c</CODE><BR><BR>If you 
+recieved no errors then enter the command <BR><CODE>ld -Ttext 0x100000 --oformat 
+binary -o kernel32.bin kernel32.o</CODE><BR><BR>You should get a warning that 
+says "warning: cannot find entry symbol start; defaulting to 
+00100000".<BR><BR>The <CODE>gcc</CODE> command compiles our C source into an 
+object file. The ld command links the object file into a binary file thats gets 
+loaded at 0x100000 (the first meg, where the loader copies the kernel too).If 
+you're not used to running ld you may think it's a little extra work but 
+actually you always run it anytime you create an executable with GCC or DJGPP. 
+<CODE>ld</CODE> is called by the compiler when a executable is created with only 
+a <CODE>gcc</CODE> command. The reason we used both commands instead of just 
+<CODE>gcc</CODE> is that we're going to be linking multiple object files 
+together and you need to learn the correct command syntax. Here is a list of 
+what each of the paramaters we'll be using means for <CODE>gcc</CODE>: 
+<DL>
+  <DT><STRONG><CODE>-ffreestanding</CODE></STRONG> 
+  <DD>produce code that is meant to be run without an OS (ie:kernel code) 
+  <DT><STRONG><CODE>-c</CODE></STRONG> 
+  <DD>compile but don't link (creates an object file) 
+  <DT><STRONG><CODE>-o</CODE></STRONG> 
+  <DD>specify the name of the file that is created </DD></DL><BR>And here is a 
+list of what each of the paramaters we'll be using means for <CODE>ld</CODE>: 
+<DL>
+  <DT><STRONG><CODE>--oformat</CODE></STRONG> 
+  <DD>specify the output format, we'll be using binary 
+  <DT><STRONG><CODE>-Ttext</CODE></STRONG> 
+  <DD>specify the address that the code will be loaded too 
+  <DT><STRONG><CODE>-o</CODE></STRONG> 
+  <DD>specify the name of the file that is created </DD></DL>
+<P></P><BR>For complete desriptions of all command options you can look at the 
+online manuals for <A 
+href="http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_3.html#SEC3" 
+target=_blank>gcc</A> and <A 
+href="http://www.gnu.org/manual/ld-2.9.1/html_chapter/ld_2.html#SEC3" 
+target=_blank>ld</A>. 
+<P>Rename the sample kernel and copy the new kernel32.bin over to the same 
+location as the old kernel32.bin. Try loading your new kernel just like the old 
+one. When you run the loader your system should hang and never return to a 
+prompt. If you used a floppy, the drive will stay spinning. Since the new kernel 
+is running in a endless loop and ignoring everthing else(interupts are disabled) 
+this is exactly what is supposed to happen. </P>
+<P><A name=NASM></A><FONT size=+1><B>NASM</B></FONT></P>
+<P>NASM which stands for Netwide Assembler is "a free portable assembler for the 
+Intel 80x86 microprocessor". You can find out where to download NASM at the <A 
+href="http://www.web-sites.co.uk/nasm/" target=_blank>NASM website</A>. If 
+you're running a type of unix look in the pakage collection of your distribution 
+for a copy of NASM. NASM, just like DJGPP, works via the command line. This 
+means that you write your code in any program that can produce text files and 
+then compile from a prompt. If you downloaded the Windows version you may want 
+to rename "nasmw.exe" to nasm.exe". The first thing we'll be doing is to make an 
+assembly code kernel that does the same thing as our C kernel, nothing.</P>
+<P>Create a text file that contains the following code: <PRE>	[BITS 32]
+
+	repeat:	jmp repeat
+</PRE>Save as "kernel32.asm". From the same location as the file enter the 
+command<BR><CODE>nasm -f coff -o kernel32.o kernel32.asm</CODE> <BR><BR>If you 
+recieved no errors then enter the command <BR><CODE>ld -Ttext 0x100000 --oformat 
+binary -o kernel32.bin kernel32.o</CODE><BR><BR>You should get a warning that 
+says "warning: cannot find entry symbol start; defaulting to 
+00100000".<BR><BR>Copy the new kernel32.bin over to the same location as the old 
+kernel32.bin. Try loading your new kernel just like the old one. When you run 
+the loader your system should hang just like the C kernel did. 
+<P></P>
+<P>To make it easier to test our kernels it's going to be alot easier if we can 
+just return to DOS after running them. After all having to hit reset after 
+testing each kernel gets old very fast. To accomplish this you need to know a 
+little about how the loader works. The loader reads "kernel32.bin" into memory 
+and places it at the first megabyte of memory. Then the loader sets up all 
+selectors to access the first four megabytes of memory and executes a far call 
+to the first instruction at 0x100000. So to return to the loader from the kernel 
+all we have to do is execute a far return. The loader then reenables interupts, 
+frees any memory it used, and returns to DOS. </P>
+<P>Create a text file that contains the following code: <PRE>	[BITS 32]
+
+	retf</PRE>Save as "kernel32.asm". From the same location as the file enter the 
+command<BR><CODE>nasm -f coff -o kernel32.o kernel32.asm</CODE> <BR><BR>If you 
+recieved no errors then enter the command <BR><CODE>ld -Ttext 0x100000 --oformat 
+binary -o kernel32.bin kernel32.o</CODE><BR><BR>You should get a warning that 
+says "warning: cannot find entry symbol start; defaulting to 
+00100000".<BR><BR>Try loading your new kernel just like the old one. When you 
+run the loader you should be returned back to a DOS prompt. Be sure not to mess 
+up the stack in your kernels, otherwise the far return won't work and anything 
+could happen. Here is a list of what each of the paramaters we'll be using means 
+for <CODE>nasm</CODE>: 
+<DL>
+  <DT><STRONG><CODE>-f</CODE></STRONG> 
+  <DD>specify the output format, we'll be using coff (coff is a type of object 
+  file) 
+  <DT><STRONG><CODE>-o</CODE></STRONG> 
+  <DD>specify the name of the file that is created </DD></DL>
+<P></P>
+<P>To display a "Hi" message just like the sample kernel, make a kernel that 
+contains the following code:<PRE>	[BITS 32]
+
+	mov byte [es:0xb8f9c],'H'
+	mov byte [es:0xb8f9e],'i'
+	retf</PRE>Since es points to a selector who's base addess is zero and the color 
+text area starts at 0xb8000 the letters H and i are displayed near the end of a 
+standard 80x25 text display. We'll discuss display adapters in a video 
+article(hopefully), for now all you need to know is that to write a character to 
+the display you just copy it's ASCII value to 0xb8000 to get it to show up in 
+the upper left corner. To display a character in any other location just add 2 
+to 0xb8000 for evey place to the right. Text wraps down to the start of the next 
+row when you reach the end of the column.
+<P></P>
+<P><A name=Mixing></A><FONT size=+1><B>Mixing C and Assembly</B></FONT> (Most of 
+the following text is taken directly from the nasm docs)</P>
+<H4>External Symbol Names</H4>
+<P>Most 32-bit C compilers share the convention used by 16-bit compilers, that 
+the names of all global symbols (functions or data) they define are formed by 
+prefixing an underscore to the name as it appears in the C program. However, not 
+all of them do: the ELF specification states that C symbols do <EM>not</EM> have 
+a leading underscore on their assembly-language names. 
+<H4>Function Definitions and Function Calls</H4>
+<P>The C calling convention in 32-bit programs is as follows. In the following 
+description, the words <EM>caller</EM> and <EM>callee</EM> are used to denote 
+the function doing the calling and the function which gets called. 
+<UL>
+  <LI>The caller pushes the function's parameters on the stack, one after 
+  another, in reverse order (right to left, so that the first argument specified 
+  to the function is pushed last). 
+  <LI>The caller then executes a near <CODE><NOBR>CALL</NOBR></CODE> instruction 
+  to pass control to the callee. 
+  <LI>The callee receives control, and typically (although this is not actually 
+  necessary, in functions which do not need to access their parameters) starts 
+  by saving the value of <CODE><NOBR>ESP</NOBR></CODE> in 
+  <CODE><NOBR>EBP</NOBR></CODE> so as to be able to use 
+  <CODE><NOBR>EBP</NOBR></CODE> as a base pointer to find its parameters on the 
+  stack. However, the caller was probably doing this too, so part of the calling 
+  convention states that <CODE><NOBR>EBP</NOBR></CODE> must be preserved by any 
+  C function. Hence the callee, if it is going to set up 
+  <CODE><NOBR>EBP</NOBR></CODE> as a frame pointer, must push the previous value 
+  first. 
+  <LI><B>Update: 1-21-2001</B> GCC based compilers also expect <CODE><NOBR>EBX 
+  EDI</NOBR></CODE> and <CODE><NOBR>ESI</NOBR></CODE> to be preserved by any 
+  function. 
+  <LI>The callee may then access its parameters relative to 
+  <CODE><NOBR>EBP</NOBR></CODE>. The doubleword at 
+  <CODE><NOBR>[EBP]</NOBR></CODE> holds the previous value of 
+  <CODE><NOBR>EBP</NOBR></CODE> as it was pushed; the next doubleword, at 
+  <CODE><NOBR>[EBP+4]</NOBR></CODE>, holds the return address, pushed implicitly 
+  by <CODE><NOBR>CALL</NOBR></CODE>. The parameters start after that, at 
+  <CODE><NOBR>[EBP+8]</NOBR></CODE>. The leftmost parameter of the function, 
+  since it was pushed last, is accessible at this offset from 
+  <CODE><NOBR>EBP</NOBR></CODE>; the others follow, at successively greater 
+  offsets. Thus, in a function such as <CODE><NOBR>printf</NOBR></CODE> which 
+  takes a variable number of parameters, the pushing of the parameters in 
+  reverse order means that the function knows where to find its first parameter, 
+  which tells it the number and type of the remaining ones. 
+  <LI>The callee may also wish to decrease <CODE><NOBR>ESP</NOBR></CODE> 
+  further, so as to allocate space on the stack for local variables, which will 
+  then be accessible at negative offsets from <CODE><NOBR>EBP</NOBR></CODE>. 
+  <LI>The callee, if it wishes to return a value to the caller, should leave the 
+  value in <CODE><NOBR>AL</NOBR></CODE>, <CODE><NOBR>AX</NOBR></CODE> or 
+  <CODE><NOBR>EAX</NOBR></CODE> depending on the size of the value. 
+  Floating-point results are typically returned in 
+  <CODE><NOBR>ST0</NOBR></CODE>. 
+  <LI>Once the callee has finished processing, it restores 
+  <CODE><NOBR>ESP</NOBR></CODE> from <CODE><NOBR>EBP</NOBR></CODE> if it had 
+  allocated local stack space, then pops the previous value of 
+  <CODE><NOBR>EBP</NOBR></CODE>, and returns via <CODE><NOBR>RET</NOBR></CODE> 
+  (equivalently, <CODE><NOBR>RETN</NOBR></CODE>). 
+  <LI>When the caller regains control from the callee, the function parameters 
+  are still on the stack, so it typically adds an immediate constant to 
+  <CODE><NOBR>ESP</NOBR></CODE> to remove them (instead of executing a number of 
+  slow <CODE><NOBR>POP</NOBR></CODE> instructions). Thus, if a function is 
+  accidentally called with the wrong number of parameters due to a prototype 
+  mismatch, the stack will still be returned to a sensible state since the 
+  caller, which <EM>knows</EM> how many parameters it pushed, does the removing. 
+  </LI></UL>
+<P>Thus, you would define a function in C style in the following way: 
+<P><PRE>          global _myfunc 
+_myfunc:  push ebp 
+          mov ebp,esp 
+          sub esp,0x40           ; 64 bytes of local stack space 
+          mov ebx,[ebp+8]        ; first parameter to function 
+          ; some more code 
+          leave                  ; mov esp,ebp / pop ebp 
+          ret
+</PRE>
+<P>At the other end of the process, to call a C function from your assembly 
+code, you would do something like this: 
+<P><PRE>          extern _printf 
+          ; and then, further down... 
+          push dword [myint]     ; one of my integer variables 
+          push dword mystring    ; pointer into my data segment 
+          call _printf 
+          add esp,byte 8         ; `byte' saves space 
+          ; then those data items... 
+          segment _DATA 
+myint     dd 1234 
+mystring  db 'This number -&gt; %d &lt;- should be 1234',10,0
+</PRE>
+<P>This piece of code is the assembly equivalent of the C code 
+<P><PRE>    int myint = 1234; 
+    printf("This number -&gt; %d &lt;- should be 1234\n", myint);
+</PRE>
+<H4>Accessing Data Items</H4>
+<P>To get at the contents of C variables, or to declare variables which C can 
+access, you need only declare the names as <CODE><NOBR>GLOBAL</NOBR></CODE> or 
+<CODE><NOBR>EXTERN</NOBR></CODE>. (Again, the names require leading 
+underscores.) Thus, a C variable declared as <CODE><NOBR>int i</NOBR></CODE> can 
+be accessed from assembler as 
+<P><PRE>          extern _i 
+          mov eax,[_i]
+</PRE>
+<P>And to declare your own integer variable which C programs can access as 
+<CODE><NOBR>extern int j</NOBR></CODE>, you do this (making sure you are 
+assembling in the <CODE><NOBR>_DATA</NOBR></CODE> segment, if necessary): 
+<P><PRE>          global _j 
+_j        dd 0
+</PRE>
+<P>To access a C array, you need to know the size of the components of the 
+array. For example, <CODE><NOBR>int</NOBR></CODE> variables are four bytes long, 
+so if a C program declares an array as <CODE><NOBR>int a[10]</NOBR></CODE>, you 
+can access <CODE><NOBR>a[3]</NOBR></CODE> by coding <CODE><NOBR>mov 
+ax,[_a+12]</NOBR></CODE>. (The byte offset 12 is obtained by multiplying the 
+desired array index, 3, by the size of the array element, 4.) The sizes of the C 
+base types in 32-bit compilers are: 1 for <CODE><NOBR>char</NOBR></CODE>, 2 for 
+<CODE><NOBR>short</NOBR></CODE>, 4 for <CODE><NOBR>int</NOBR></CODE>, 
+<CODE><NOBR>long</NOBR></CODE> and <CODE><NOBR>float</NOBR></CODE>, and 8 for 
+<CODE><NOBR>double</NOBR></CODE>. Pointers, being 32-bit addresses, are also 4 
+bytes long. 
+<P>To access a C data structure, you need to know the offset from the base of 
+the structure to the field you are interested in. You can either do this by 
+converting the C structure definition into a NASM structure definition (using 
+<CODE><NOBR>STRUC</NOBR></CODE>), or by calculating the one offset and using 
+just that. 
+<P>To do either of these, you should read your C compiler's manual to find out 
+how it organises data structures. NASM gives no special alignment to structure 
+members in its own <CODE><NOBR>STRUC</NOBR></CODE> macro, so you have to specify 
+alignment yourself if the C compiler generates it. Typically, you might find 
+that a structure like 
+<P><PRE>struct { 
+    char c; 
+    int i; 
+} foo;
+</PRE>
+<P>might be eight bytes long rather than five, since the 
+<CODE><NOBR>int</NOBR></CODE> field would be aligned to a four-byte boundary. 
+However, this sort of feature is sometimes a configurable option in the C 
+compiler, either using command-line options or <CODE><NOBR>#pragma</NOBR></CODE> 
+lines, so you have to find out how your own compiler does it. 
+<H4>Helper Macros for the 32-bit C Interface</H4>
+<P>If you find the underscores inconvenient, you can define macros to replace 
+the <CODE><NOBR>GLOBAL</NOBR></CODE> and <CODE><NOBR>EXTERN</NOBR></CODE> 
+directives as follows: 
+<P><PRE>%macro cglobal 1 
+          global _%1 
+%define %1 _%1 
+%endmacro
+</PRE>
+<P><PRE>%macro cextern 1 
+          extern _%1 
+%define %1 _%1 
+%endmacro
+</PRE>
+<P>(These forms of the macros only take one argument at a time; a 
+<CODE><NOBR>%rep</NOBR></CODE> construct could solve this.) 
+<P>If you then declare an external like this: 
+<P><PRE>          cextern printf
+</PRE>
+<P>then the macro will expand it as 
+<P><PRE>          extern _printf 
+%define printf _printf
+</PRE>
+<P>Thereafter, you can reference <CODE><NOBR>printf</NOBR></CODE> as if it was a 
+symbol, and the preprocessor will put the leading underscore on where necessary. 
+
+<P>The <CODE><NOBR>cglobal</NOBR></CODE> macro works similarly. You must use 
+<CODE><NOBR>cglobal</NOBR></CODE> before defining the symbol in question, but 
+you would have had to do that anyway if you used 
+<CODE><NOBR>GLOBAL</NOBR></CODE>. 
+<P>Included in the NASM archives, in the <CODE><NOBR>misc</NOBR></CODE> 
+directory, is a file <CODE><NOBR>c32.mac</NOBR></CODE> of macros. It defines 
+three macros: <CODE><NOBR>proc</NOBR></CODE>, <CODE><NOBR>arg</NOBR></CODE> and 
+<CODE><NOBR>endproc</NOBR></CODE>. These are intended to be used for C-style 
+procedure definitions, and they automate a lot of the work involved in keeping 
+track of the calling convention. 
+<P>An example of an assembly function using the macro set is given here: 
+<P><PRE>          proc _proc32 
+%$i       arg 
+%$j       arg 
+          mov eax,[ebp + %$i] 
+          mov ebx,[ebp + %$j] 
+          add eax,[ebx] 
+          endproc
+</PRE>
+<P>This defines <CODE><NOBR>_proc32</NOBR></CODE> to be a procedure taking two 
+arguments, the first (<CODE><NOBR>i</NOBR></CODE>) an integer and the second 
+(<CODE><NOBR>j</NOBR></CODE>) a pointer to an integer. It returns <CODE><NOBR>i 
++ *j</NOBR></CODE>. 
+<P>Note that the <CODE><NOBR>arg</NOBR></CODE> macro has an 
+<CODE><NOBR>EQU</NOBR></CODE> as the first line of its expansion, and since the 
+label before the macro call gets prepended to the first line of the expanded 
+macro, the <CODE><NOBR>EQU</NOBR></CODE> works, defining 
+<CODE><NOBR>%$i</NOBR></CODE> to be an offset from <CODE><NOBR>BP</NOBR></CODE>. 
+A context-local variable is used, local to the context pushed by the 
+<CODE><NOBR>proc</NOBR></CODE> macro and popped by the 
+<CODE><NOBR>endproc</NOBR></CODE> macro, so that the same argument name can be 
+used in later procedures. Of course, you don't <EM>have</EM> to do that. 
+<P><CODE><NOBR>arg</NOBR></CODE> can take an optional parameter, giving the size 
+of the argument. If no size is given, 4 is assumed, since it is likely that many 
+function parameters will be of type <CODE><NOBR>int</NOBR></CODE> or pointers. 
+<H4>Our first mixed kernel</H4>
+<P>Create a text file that contains the following code: <PRE>extern void sayhi(void);
+extern void quit(void);
+
+int main(void)
+{
+	sayhi();
+	quit();
+}
+</PRE>Save as "mix_c.c". 
+<P>Create another text file that contains the following code: <PRE>[BITS 32]
+
+GLOBAL _sayhi
+GLOBAL _quit
+
+
+SECTION .text
+
+_sayhi:	mov byte [es:0xb8f9c],'H'
+	mov byte [es:0xb8f9e],'i'
+	ret
+
+_quit:	mov esp,ebp
+	pop ebp
+	retf
+</PRE>Save as "mix_asm.asm". From the same location as the files enter the 
+commands<BR><CODE>gcc -ffreestanding -c -o mix_c.o mix_c.c</CODE><BR><CODE>nasm 
+-f coff -o mix_asm.o mix_asm.asm</CODE> <BR><BR>If you recieved no errors then 
+enter the command <BR><CODE>ld -Ttext 0x100000 --oformat binary -o kernel32.bin 
+mix_c.o mix_asm.o</CODE><BR><BR>You should get a warning that says "warning: 
+cannot find entry symbol start; defaulting to 00100000".<BR><BR>Copy the new 
+kernel32.bin over to the same location as the old kernel32.bin. Try loading your 
+new kernel just like the old one. When you run the loader your system should 
+display "Hi" in the bottom right corner of your screen and you should be 
+returned to the prompt. 
+<P></P>
+<P><A name=Additional></A><FONT size=+1><B>Additional 
+Information</B></FONT></P>When linking your object files your code will appear 
+inside of your output file in the order of the input files. Also when using 
+constants in your C code such as <CODE>myfunc("Hello");</CODE> gcc based 
+compilers will put your constants in the code segment before the beginning of 
+the function in which it's declared. When jumping or calling binary outputted C 
+code you have three options to avoid this problem. You can create a function at 
+the beginning your C code without constants thats calls or jumps to the next 
+function. You can link another file (assembly or C) before your C code that is 
+just there to call your C code. And your last option is too use the gcc option 
+<NOBR><CODE>-fwritable-strings</CODE></NOBR> to move your constants into the 
+data segment. 
+<P><B>Linux Warning</B>: There is a problem with ld on Linux. The problem is 
+that the "ld" that comes with linux distros lists support for the coff object 
+format, but apparently you have to rebuilt binutils from gnu.org to get it 
+working. I found two possible solutions. Recompile ld, or under edit your 
+assembly files and remove all the leading underscores. Then when you assemble 
+with nasm use the -f aout option instead of coff. I've tested the second method 
+briefly and it works.</P>
+<P><A name=Loader></A><FONT size=+1><B>About The Loader</B></FONT></P>The loader 
+in this lesson makes a small GDT with selectors for the first 4 megabytes of 
+memory and puts them in the segment registers before calling the kernel. It also 
+leaves all interrupts disabled while the kernel runs. Don't try to enable int's 
+in your kernel with this loader because a protected mode IDT is never setup. 
+Different lessons will be using different loaders, so don't assume that you 
+don't need to download the loader for whatever lesson you're on. If your want to 
+take a look, the source for the loader is <A 
+href="http://www.osdev.org/developers/guide01/loader.asm">here</A>. 
+<P><A name=Sites></A><FONT size=+1><B>Related Sites</B></FONT></P><A 
+href="http://directory.google.com/Top/Computers/Programming/Languages/C/Tutorials/" 
+target=_blank>http://directory.google.com/Top/Computers/Programming/Languages/C/Tutorials/</A> 
+<BR><A 
+href="http://directory.google.com/Top/Computers/Programming/Languages/Assembly" 
+target=_blank>http://directory.google.com/Top/Computers/Programming/Languages/Assembly</A> 
+<BR><A href="http://www.osdev.org/developers/guide01/djgppasm.zip" 
+target=_blank>Fuzzy Logic DJGPP+NASM Tutorial</A>&nbsp;<A 
+href="http://www.osdev.org/developers/guide01/djnasmex.zip" 
+target=_blank>example code</A>(local mirror) </BODY></HTML>

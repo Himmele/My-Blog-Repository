@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm -->
+<HTML><HEAD><TITLE>Paging</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Paging-Dateien/stone.jpg>
+<H1><FONT color=#800000>3 Spezielle Protected Mode Funktionen</FONT></H1>
+<P>In diesem Kapitel soll es um die Eigenschaften des Protected Mode gehen, die 
+zum einen in den vorangegangenen Kapiteln nur erwähnt wurden und zum anderen 
+erst die volle Nutzung der durch den Protected Mode bereitgestellten Funktionen 
+erlauben. In dieses Kapitel fallen die Möglichkeiten des Prozessors zum 
+Multitasking, zum Verwenden eines virtuellen Speichersystems und sogar die 
+Möglichkeit, mehrere (!) 8086-Prozessoren hardwareseitig zu emulieren.</P><A 
+name=paging>
+<H1><FONT color=#800000>3.1 Paging</FONT></H1></A>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Paging dient der Implementation eines virtuellen Speichersystems. Ein 
+(Multitasking-) Betriebssystem ist durch die Verwendung des Paging in der Lage, 
+weitaus größere Programme zu verwalten, als das ohne Paging möglich wäre. 
+Außerdem können durch Paging mehrere Programme (bzw. Tasks) gleichzeitig im 
+Speicher gehalten werden. Diese Möglichkeiten lassen sich mit der optimaleren 
+Speichernutzung bei eingeschaltetem Paging-Mechanismus erklären: Durch geeignete 
+Implementation werden nur die Speicherseiten belegt, die von Programmen bzw. 
+Daten momentan auch wirklich benötigt werden.</P>
+<P>Paging ist ein weiteres Verfahren, um logische (virtuelle) Adressen in 
+physische Adressen umzuwandeln. Im Gegensatz zur "normalen" Speicheradressierung 
+im Protected Mode mit Segmenten beliebiger Größe, basiert Paging auf 
+Speicherblöcken konstanter, genau festgelegter Größe, den sogenannten 
+Pageframes.</P>
+<P>Die Speicherverwaltung ist aufgrund dieser konstanten Größe in der Lage, 
+nicht benötigte Seiten auf ein anderes Medium (meist die Festplatte) auszulagern 
+und den so freigewordenen Platz im Hauptspeicher mit einer neuen Seite zu 
+belegen. Durch die konstante Seitengröße wird gleichzeitig die Fragmentierung 
+des Hauptspeichers verhindert, die bei der Auslagerung beliebig großer Segmente 
+auftreten würde. Weiterhin muß der von einem Programm benutzte Speicherbereich 
+nicht physikalisch durchgängig im Speicher angelegt sein. Ein Speicherbereich, 
+der beispielsweise über die Seiten 0, 3, 7 und 2 verteilt ist, kann wie ein 
+durchgängiger, linearer Speicherbereich angesprochen werden. Die dabei 
+notwendige Unterteilung in Speicherseiten geschieht für die laufenden Programme 
+unsichtbar und wird vom Prozessor, also hardwaremäßig übernommen.</P>
+<H2><FONT color=#000080>Paging bei Intel</FONT></H2>
+<P>Eingeschaltet wird der Paging-Mechanismus durch das Setzen des Bit 31 (PG, 
+Paging-Bit) des Steuerregisters 0 (CR0). Dadurch wird der physische Speicher in 
+Seiten zu jeweils 2<SUP>12</SUP>=4096 Byte unterteilt und die Berechnung einer 
+physischen Adresse in 3 Stufen durchgeführt (Vgl. Abb. 3.1).</P>
+<CENTER>
+<P><IMG alt="Umwandlung Selektor:Offset ->&#10;physikalische Adresse" 
+src="Paging-Dateien/p_3_1.gif" border=2> <BR><I><B>Abb. 3.1:</B> Umwandlung 
+Selektor:Offset in physische Adresse</I> </P></CENTER>
+<P>Die 32 Bit breite, lineare Adresse wird dabei zur Umwandlung in die physische 
+Adresse in 2 Teile aufgeteilt. Die oberen 20 Bit geben die Nummer einer 
+Speicherseite an. Die unteren 12 Bit werden als Offset in die selektierte 
+Speicherseite interpretiert. Um eine physische Adresse zu bilden, wird dabei der 
+Speicherseiten-Index (Bit 31..12) als Index in eine sogenannte Pagetable 
+verwendet. Dieser Tabelle wird die phys. Basisadresse der jeweiligen Seite 
+entnommen. Ein Eintrag in einer solchen Tabelle wird in Abb. 3.2 
+dargestellt.</P>
+<CENTER>
+<P><IMG alt="Pagetable Eintrag" src="Paging-Dateien/p_3_2.gif" border=2> 
+<BR><I><B>Abb. 3.2:</B> Eintrag in der Pagetable</I> </P></CENTER>
+<P>Die oberen 20 Bit (Bit 31..12) des Tabelleneintrages enthalten die 
+Speicherseitennummer. Der Eintrag 0 steht dabei für die Speicherseite 0 
+(0..4095), der Eintrag 1 für die Speicherseite 1 (4096..8191), der Eintrag 2 für 
+die Speicherseite 2 (8192..12287) usw. Zusammen mit den unteren 12 Bit der 
+linearen (logischen) Adresse bildet der Speicherseitenindex die endgültige 
+physische Adresse.</P>
+<P>Die in Abbildung 3.2 mit 0 gekennzeichneten Bits sind für zukünftige 
+Prozessoren reserviert und müssen den Wert 0 enthalten. Die Bit 11, 10 und 9 
+stehen einer Speicherverwaltung (z.B. dem Betriebssystem) frei zur Verfügung 
+(<I>available, englisch, verfügbar</I>) und können zum Beispiel für 
+Zusatzinformationen genutzt werden.</P>
+<UL>
+  <LI>
+  <P><B>Bit D</B> steht für "dirty" und wird vom Prozessor gesetzt, wenn auf die 
+  entsprechende Seite ein Schreibzugriff durchgeführt wird. Dadurch wird der 
+  Speicherverwaltung signalisiert, daß diese Seite nicht ohne zusätzliche 
+  Maßnahmen aus dem Speicher entfernt werden kann.</P>
+  <LI>
+  <P><B>Bit A</B> ("accessed") wird vom Prozessor gesetzt, wenn "irgendein" 
+  Zugriff auf die entsprechende Speicherseite durchgeführt wurde (Lesen / 
+  Schreiben von Daten oder Programmbefehlen). </P>
+  <LI>
+  <P><B>Bit P</B> ("present") gibt an, ob sich die entsprechende Speicherseite 
+  momentan im Speicher befindet (P=1) oder ausgelagert wurde (P=0). Ist das 
+  P-Bit zurückgesetzt (die Speicherseite also nicht im Hauptspeicher) und 
+  versucht ein Programm auf die entsprechende Seite zuzugreifen, reagiert der 
+  Prozessor mit einer "Page-Fault"-Exception (Interrupt 14). Der Wert des P-Bits 
+  wird von der Speicherverwaltung festgelegt.</P>
+  <LI>
+  <P>Die Bits <B>PCD</B> ("page cache disable") und <B>PWT</B> ("page 
+  write-through") sind nur beim 80486 definiert und dienen der Steuerung der 
+  Cache-Funktion auf Seitenbasis. Ist das PCD-Bit gesetzt, übernimmt der 
+  Prozessor aus dieser Seite geladene Daten nicht in seinen internen Cache. Über 
+  das PWT-Bit kann der Cache beeinflußt werden. Ist das Bit gesetzt, werden alle 
+  Schreibzugriffe auch in den Speicher übertragen ("write-through"). Ist es 
+  gelöscht, werden Schreibzugriffe nicht sofort in den Speicher übertragen 
+  ("write-back").</P>
+  <LI>
+  <P>Die Bits <B>U/S</B> ("User/Supervisor") und <B>R/W</B> ("Read/Write") 
+  dienen der Realisierung eines einfachen Schutzkonzeptes auf 
+  Speicherseitenbasis. Sie beeinflussen jedoch nicht die eigentliche 
+  Adressbildung. Eine Speicherseite mit einem gesetzten U/S-Bit kann nur von 
+  Anwendungen bzw. Programmen der Privilegstufen 0, 1 und 2 benutzt werden. Der 
+  Versuch einer Anwendung in Stufe 3, auf eine Seite mit gesetztem U/S-Bit 
+  zuzugreifen, endet ebenfalls mit einer Page-Fault Exception (Interrupt 14). 
+  Das R/W-Bit legt fest, ob ein Schreibzugriff auf die entsprechende 
+  Speicherseite möglich ist. Ist das Bit gesetzt, kann auf die entsprechende 
+  Seite auch schreibend zugegriffen werden.</P></LI></UL>
+<P>Abbildung 3.3 zeigt die Umwandlung von logischen in physische Adressen.</P>
+<CENTER>
+<P><IMG alt="Bildung der phys. Adresse" src="Paging-Dateien/p_3_3.gif" border=2> 
+<BR><I><B>Abb. 3.3:</B> Bildung der phys. Adresse</I> </P></CENTER>
+<P>Da jeder Eintrag in der Pagetable 32 Bit belegt (4 Byte) und 2<SUP>20</SUP> 
+(=1048576) Einträge bereitgestellt werden müssen, ergibt sich ein 
+Speicherplatzbedarf von 4 MB (!) allein für die Pagetable! Hinzu kommt, daß die 
+Pagetable in einem durchgehenden Block untergebracht werden müßte, um über einen 
+Index darauf zugreifen zu können. Aus diesen Gründen wendet Intel bei seinen 
+Prozessoren ein etwas anderes Prinzip an, das mit erheblich weniger Platz für 
+die Pagetables auskommt.</P>
+<P>Der 20 Bit breite Index in die Pagetable wird dabei noch einmal in zwei 
+gleich große Komponenten aufgeteilt. Die oberen 10 Bit des 20 Bit breiten 
+Seitenindexes werden als Index in ein sogenanntes Paging-Verzeichnis mit maximal 
+1024 (2<SUP>20</SUP>) Einträgen interpretiert. Dieses Paging-Verzeichnis hält 
+nun in seinen einzelnen Einträgen die Adresse jeweils einer Pagetable fest, in 
+die die unteren 10 Bit als Index interpretiert werden. Abb 3.4 zeigt den 
+kompletten Vorgang zur Bildung einer physischen Adresse.</P>
+<CENTER>
+<P><IMG alt="Bildung der phys. Adresse bei Intel" src="Paging-Dateien/p_3_4.gif" 
+border=2> <BR><I><B>Abb. 3.4:</B> Bildung der physischen Adresse bei 
+Intel-Prozessoren</I> </P></CENTER>
+<P>Über ein weiteres Steuerregister (CR3) wird die Startadresse des 
+Paging-Verzeichnis im Hauptspeicher festgelegt. Das Register enthält dazu in den 
+oberen 20 Bit die physische Startadresse des Paging-Verzeichnis in der Form 
+eines Speicherseitenindexes (ist der Inhalt der oberen 20 Bit z.B. 1234h, so 
+befindet sich das so ausgewählte Paging-Verzeichnis in der phys. Speicherseite 
+1234h bzw. an der phys. Speicheradresse 1234h * 1000h = 1234000h, da 
+2<SUP>12</SUP>= 4096d=1000h).</P>
+<P>Die 12 niederwertigen Bit sind beim 80386 reserviert und sollten 
+zurückgesetzt sein. Der 80486 verwendet die Bit 3 und 4 zur Steuerung des Cache. 
+Bit 3 entspricht dabei dem Bit PWT ("Page-write-through") einer Speicherseite 
+bezogen auf das gesamte Paging-Verzeichnis. Ähnlich verhält es sich mit Bit 4, 
+daß dem Bit PCD ("Page-cache-disable") einer Speicherseite entspricht.</P>
+<P>Einträge im Paging-Verzeichnis sind nach dem gleichen Prinzip aufgebaut wie 
+Einträge in einer Pagetable. Unterschiede beschränken sich dabei nur auf 
+Details, so wird das D-Bit ("dirty"-Bit) vom Prozessor ignoriert und das A-Bit 
+("accessed"-Bit) bei jedem Zugriff über die Tabelle gesetzt.</P>
+<P>Die Umsetzung linearer in physische Adressen soll anhand des folgenden, 
+konkreten Beispieles demonstriert werden.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Paging-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Die logische (lineare) 32 Bit Adresse 14F0256Ah soll dabei in eine 
+      physische Adresse umgewandelt werden. Das CR3 Register (Start des 
+      Paging-Verzeichnisses) enthält den Wert 0002E000h.</P>
+      <UL>
+        <LI>
+        <P>Aufteilen der linearen Adresse 14F0256Ah in 2 Teile:<BR>Seitennummer 
+        (höherwertige 20 Bit) = 14F02h und Offset (niederwertige 12 Bit) = 
+        56Ah</P>
+        <LI>
+        <P>Aufteilen der Seitennummer 14F02h (0001 0100 1111 0000 0010b) in 2, 
+        10 Bit breite Werte:</P>
+        <P>0001 0100 11 | 11 0000 0010</P>
+        <P>vorzeichenlose Erweiterung auf 12 Bit:</P>
+        <P><B>00</B>00 0101 0011 (053h, Paging-Verzeichnis Index) 
+        und<BR><B>00</B>11 0000 0010 (302h, Pagetable Index)</P>
+        <LI>
+        <P>Nur die oberen 20 Bit des CR3 Registers legen die phys. Seitennummer 
+        des Paging-Verzeichnisses fest. Die Seitennummer beträgt im Beispiel: 
+        2Eh und es ergibt sich damit die Basisadresse zu 2Eh * 1000h = 
+        2E000h.</P>
+        <P>Da die Einträge jeweils 4 Byte groß sind und der Index in das 
+        Paging-Verzeichnis 053h beträgt, liest der Prozessor ab der 
+        Speicherzelle:<BR><BR>2E000h + 4 * 053h = 2E000h + 14Ch = 
+        <B>2E14Ch</B><BR><BR>4 Byte aus und ermittelt so den 053h’ten Wert des 
+        Paging-Verzeichnis. <BR><BR>Angenommen, dieser Eintrag hat den Wert 
+        34530xxxh (xxx steht dabei für die in den unteren 12 Bit codierten 
+        Statusinformationen) und das Present-Bit ist gesetzt, die beschriebene 
+        Speicherseite befindet sich also im Speicher. Daraus folgt, daß sich die 
+        selektierte Pagetable an der Adresse 34530000h befindet. Da die Einträge 
+        in dieser Tabelle wiederum 4 Byte betragen, kann die Indizierung mit dem 
+        Wert 302h in der Pagetable nach dem gleichen Schema durchgeführt werden. 
+        Der Prozessor liest ein zweites Mal einen 32 Bit breiten Wert, diesmal 
+        jedoch ab der Speicherzelle:<BR><BR>34530000h + 4 * 302h = 34530000h + 
+        0C08h = <B>34530C08h</B><BR><BR>An dieser Stelle steht nun die 
+        eigentliche Basisadresse der Speicherseite. Angenommen, dieser Wert 
+        beträgt 23105xxx (xxx steht wiederum für die Statusinformationen) und 
+        die entsprechende Seite ist momentan im Speicher verfügbar, dann ergibt 
+        sich die Basisadresse 23105000h.</P>
+        <LI>
+        <P>Bildung der physischen Adresse:<BR>Speicherseiten Basisadresse + 
+        Offset (untere 12 Bit lineare Adresse) = 23105000h + 56Ah = 
+        <B>2310556Ah</B></P></LI></UL>
+      <P>Die Schritte zur Bildung einer physischen Adresse werden durch Abb. 3.5 
+      illustriert.</P>
+      <CENTER>
+      <P><IMG alt="Bildung einer phys. Adresse bei Intel" 
+      src="Paging-Dateien/p_3_5.gif" border=2> <BR><I><B>Abb. 3.5:</B> Beispiel 
+      für die Bildung einer physischen Adresse bei 
+      Intel-Prozessoren</I></P></CENTER></TD></TR></TBODY></TABLE></CENTER>
+<P>Neben der eigentlichen Demonstration der Adressbildung bei eingeschaltetem 
+Paging-Mechanismus zeigt das Beispiel auch das Problem, das beim Paging 
+auftritt. Dem abschließenden Zugriff auf die gewünschte (physische) Adresse 
+gehen insgesamt zwei 32 Bit Leseaktionen voraus: Eine Indizierung des 
+Paging-Verzeichnisses und eine Indizierung der gefundenen Pagetable. Handelt es 
+sich bei dem Zugriff um den ersten Zugriff auf die entsprechende Speicherseite, 
+kommen zwei weitere Schreibzugriffe hinzu, die das "Accessed"- Bit in den 
+jeweiligen Einträgen setzen. Da diese drei bzw. fünf Speicherzugriffe für eine 
+(!) Lese- bzw.- Schreibaktion eine deutliche Verlangsamung des gesamten Systems 
+nach sich ziehen würde, hat Intel ab dem 80386 den sogenannten Translation 
+Lookaside Buffer (TLB) eingeführt.</P>
+<H2><FONT color=#000080>Translation Lookaside Buffer (TLB)</FONT></H2>
+<P>Bei dem TLB handelt es sich um einen chipinternen Cache, der maximal 32 
+Speicheradressen aufnehmen kann. Der Prozessor überprüft bei jeder Umsetzung von 
+linearen in physische Adressen, ob der entsprechende Eintrag bereits im TLB 
+gespeichert ist. Ist das der Fall, wird der bereits gespeicherte Wert benutzt 
+und es ist kein weiterer Zugriff (für die Umsetzung) notwendig. Ist der Eintrag 
+noch nicht im TLB verfügbar, wird nach dem oben beschriebenen Verfahren die 
+Adresse ermittelt und im TLB festgehalten. Die Abfrage des TLB geschieht in 
+einem parallel zur restlichen Verarbeitung durchgeführten Takt und führt (laut 
+Intel) in rund 98 Prozent zum Erfolg. Die genaue Funktionsweise des TLB wird 
+z.B. im Buch: Hummel: "80386 Referenzhandbuch" erläutert.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Paging-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_03.asm">pm_03.asm</A> 
+      entspricht dem Programm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_02.asm">pm_02.asm</A>, 
+      es initialisiert jedoch zusätzlich eine Pagetable für das erste MB des 
+      Speichers, legt ein entsprechendes Paging-Verzeichnis an und schaltet den 
+      Paging-Mechanismus ein.</P>
+      <P>Zusätzlich dazu initialisiert das Programm den Standard VGA-Grafikmodus 
+      13h (<A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm">Anmerkung 
+      VGA</A>) und zeigt ein Bild in diesem Grafikmodus an. Dabei wird das Bild, 
+      wie in diesem Grafikmodus üblich, an die physische Adresse A0000h (unter 
+      Nutzung eines für diesen Zweck angelegten Deskriptors) kopiert. Die 
+      Pagetable zeigt für diesen Bereich (A0000h..AFFFFh) auf den originalen 
+      Bereich (A0000h..AFFFF). Das Bild wird also unverändert dargestellt.</P>
+      <P>Nachdem das Programm auf die Betätigung der ESC-Taste gewartet hat, 
+      kopiert es das gleiche Bild in den Bereich B0000h..BFFFFh. Die 
+      Pagetable-Einträge wurden jedoch so verändert, daß dieser Bereich nach 
+      A0000h..AFFFFh zeigt. Zu Testzwecken wurden dabei einige Einträge so 
+      verändert, daß sie nicht an ihren originalen Platz verweisen (z.B. zeigt 
+      die Seite B5000..B5FFFh nicht auf die Speicherseite A5000..A5FFFh, sondern 
+      in den Bereich AF000..AFFFFh). Als Ergebnis wird das Bild nicht mehr 
+      korrekt angezeigt.</P>
+      <P>Das Beispiel illustriert damit, daß die letztendlich angesprochene 
+      physische Adresse nur von den Pagetables abhängt. Ein Betriebssystem 
+      könnte auf diese Weise auch nicht benötigte Seiten auslagern, neue Seiten 
+      dem Speicher hinzufügen oder die Anordnung der Seiten im Speicher 
+      verändern, ohne daß das ausgeführte Programm in irgendeiner Weise davon 
+      beeinflußt wird.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all10.htm"><IMG 
+alt=Zurück src="Paging-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez2.htm"><IMG 
+alt=Weiter src="Paging-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_s"><IMG 
+alt="Zum Index" src="Paging-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

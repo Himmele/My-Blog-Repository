@@ -1,0 +1,837 @@
+
+<HTML>
+<HEAD>
+<TITLE>CodeGuru: Genetic Algorithm and Traveling Salesman Problem </TITLE>
+<META Name="description" Content="A programmer's view and example on Genetic Algorithms. By Konstantin Boukreev.">
+<META NAME="Author" CONTENT="Konstantin Boukreev">
+<META Name="keywords" Content="">
+<META NAME="date" CONTENT="20010927">
+
+<link REL="stylesheet" HREF="/css/text.css" TYPE="text/css">
+<script language="JavaScript" type="text/javascript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v3.0
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function HM_doPreload() { // dmr
+   MM_preloadImages('/img/visualc-but-on.gif',
+                    '/img/net-but-on.gif',
+                    '/img/vb-but-on.gif',
+                    '/img/forums-but-on.gif',
+                    '/img/reviews-but-on.gif',
+                    '/img/directory-but-on.gif',
+                    '/img/submit-but-on.gif',
+                    '/img/announcements-but-on.gif',
+                    '/img/guru-but-on.gif',
+                    '/img/guest-but-on.gif',
+                    '/img/about-but-on.gif',
+                    '/img/faq-but-on.gif')
+}
+window.onload=HM_doPreload;
+//-->
+</script>
+</HEAD>
+<BODY BGCOLOR="#666666" LEFTMARGIN="0" TOPMARGIN="4" MARGINWIDTH="0" MARGINHEIGHT="4">
+<script language="JavaScript1.2" src="/hierscripts/HM_Loader.js" type="text/javascript"></script>
+
+<MAP NAME="tabs_Map">
+  <AREA SHAPE="rect" ALT="Earthwebnews" COORDS="709,0,765,17" HREF="http://www.earthwebnews.com">
+  <AREA SHAPE="rect" ALT="Software Development" COORDS="559,0,707,17" HREF="http://softwaredev.earthweb.com">
+  <AREA SHAPE="rect" ALT="Hardware and Systems" COORDS="423,0,558,17" HREF="http://hardware.earthweb.com">
+  <AREA SHAPE="rect" ALT="Web Developer" COORDS="303,0,422,17" HREF="http://webdeveloper.earthweb.com/">
+  <AREA SHAPE="rect" ALT="Networking and Communications" COORDS="106,0,301,17" HREF="http://networking.earthweb.com/">
+  <AREA SHAPE="rect" ALT="IT Management" COORDS="0,0,104,17" HREF="http://itmanagement.earthweb.com">
+</MAP> 
+
+<table width="100%" cellpadding="4" cellspacing="0" border="0">
+  <tr>
+    <td align="center"><img src="/img/sp.gif" width="1" height="100" border="0" alt="" vspace="0" hspace="0" align="left"><script type="text/javascript" language="JavaScript">
+<!--
+         google_ad_client = 'internet_728x90';
+         google_ad_width = 728;
+         google_ad_height = 90;
+         google_ad_format = '728x90_sln';
+         google_safe = 'high';
+// -->
+</script>
+<script type="text/javascript" language="JavaScript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+<noscript>
+<img height=1 width=1 border=0 src="http://pagead2.googlesyndication.com/pagead/imp.gif?client=ca-internet_728x90&event=noscript"/>
+</noscript><IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1897890382/468x60-1/Google_26e/internet_728x90.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1></td>
+  </tr>
+</table>
+
+<!--Top Navigation-->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td>
+      <table width="780" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><IMG SRC="/img/tabs.gif" WIDTH=780 HEIGHT=17 BORDER=0 USEMAP="#tabs_Map" ALT="Earthweb Tabs" vspace="0" hspace="0"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td background="/img/top-bg.gif">
+      <table width="780" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="272"><a href="/"><img src="/img/logo.gif" width="272" height="82" border="0" alt="CodeGuru" vspace="0" hspace="0"></a></td>
+          <td background="/img/top-bg-2.gif">
+            <table width="508" cellpadding="0" cellspacing="0" border="0" background="">
+               <tr>
+                 <td width="508" colspan="2"><img src="/img/sp.gif" width="508" height="1" border="0" alt="" vspace="0" hspace="0"></td>
+               </tr>
+               <tr><form method="post" name="myform" action="http://search.internet.com/www.codeguru.com">
+                 <td width="1"><img src="/img/sp.gif" width="1" height="54" border="0" alt="" vspace="0" hspace="0"></td>
+                 <td><a href="http://www.earthweb.com"><img src="/img/eweb.gif" width="135" height="20" border="0" align="right" alt="Earthweb"></a>
+                 <input type="hidden" name="starget" value="">
+              	 <input type="hidden" name="IC_QueryDatabase" value="">
+              	 <img src="/img/search.gif" width="50" height="23" border="0" align="absmiddle" alt="Search">
+              	 <select name="searchsite" style="color: #000000; font-family:  verdana, arial, sans-serif ; font-weight: normal; font-size: 9pt; background-color: #ffffff;">
+                 <option value="CodeGuru" selected>CodeGuru.com</option>
+                 <option value="CodeGuru-Articles">---Articles</option>
+                 <option value="CodeGuru-Comments">---Comments</option>
+                 <option value="CodeGuru-Forums">---Forums</option>
+                 <option value="Earthweb">Earthweb</option>
+                 </select>
+              <input type="text" name="IC_QueryText" size="10">
+              <input type="image" border="0" name="submit" value="Go!" src="/img/go.gif" width="40" height="23" alt="Go" align="absmiddle">
+                 </td>
+               </tr></form>
+               <tr>
+                 <td width="1"><img src="/img/sp.gif" width="1" height="27" border="0" alt="" vspace="0" hspace="0"></td>
+                 <td align="center"> 
+                 <IMG SRC="/img/eweb-nav.gif" WIDTH=330 HEIGHT=14 BORDER=0 USEMAP="#eweb_nav_Map" vspace="0" hspace="0">
+					<MAP NAME="eweb_nav_Map">
+					<AREA SHAPE="rect" ALT="Forums" COORDS="253,0,330,14" HREF="http://www.codeguru.com/forum">
+					<AREA SHAPE="rect" ALT="Wireless" COORDS="185,0,244,14" HREF="http://www.developer.com/ws/">
+					<AREA SHAPE="rect" ALT="Jars" COORDS="145,0,176,14" HREF="http://www.jars.com">
+					<AREA SHAPE="rect" ALT="Gamelan" COORDS="77,0,136,14" HREF="http://www.developer.com/java/">
+					<AREA SHAPE="rect" ALT="Developer.com" COORDS="0,0,69,14" HREF="http://www.developer.com">
+					</MAP>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!--End Top-->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="1%" background="/img/leftnav-bg.gif" valign="top">
+    <!--Left Navigation-->
+<table width="146" bgcolor="#999999" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+          <a href="/"><img src="/img/leftnav-top.gif" width="146" height="30" border="0" alt="CodeGuru Navigation"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/Cpp" onMouseOver="HM_f_PopUp('HM_Menu1',event)" onMouseOut="HM_f_PopDown('HM_Menu1')"><img src="/img/visualc-but-off.gif" width="146" height="25" alt="Visual C++ / C++" border="0" name="visualc" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/Csharp" onMouseOver="HM_f_PopUp('HM_Menu2',event)" onMouseOut="HM_f_PopDown('HM_Menu2')"><img src="/img/net-but-off.gif" width="146" height="25" alt=".Net / C#" border="0" name="net" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/vb" onMouseOver="HM_f_PopUp('HM_Menu3',event)" onMouseOut="HM_f_PopDown('HM_Menu3')"><img src="/img/vb-but-off.gif" width="146" height="25" alt="Visual Basic" border="0" name="vb" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/edit-article.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('submit','','/img/submit-but-on.gif',1)"><img src="/img/submit-but-off.gif" width="146" height="25" alt="Submit an Article" border="0" name="submit" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/forum" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('forums','','/img/forums-but-on.gif',1)"><img src="/img/forums-but-off.gif" width="146" height="25" alt="Discussion Forums" border="0" name="forums" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/resources" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('directory','','/img/directory-but-on.gif',1)"><img src="/img/directory-but-off.gif" width="146" height="25" alt="Resource Directory" border="0" name="directory" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/announcements" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('announcements','','/img/announcements-but-on.gif',1)"><img src="/img/announcements-but-off.gif" width="146" height="25" alt="Announcements" border="0" name="announcements" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="http://extra.codeguru.com/bookList/booklist.asp" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('booklist','','/img/booklist-but-on.gif',1)"><img src="/img/booklist-but-off.gif" width="146" height="25" alt="Book List" border="0" name="booklist" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="http://extra.codeguru.com/default.asp" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('reviews','','/img/reviews-but-on.gif',1)"><img src="/img/reviews-but-off.gif" width="146" height="25" alt="Book Reviews" border="0" name="reviews" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/gurus.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('guru','','/img/guru-but-on.gif',1)"><img src="/img/guru-but-off.gif" width="146" height="25" alt="Guru Lists" border="0" name="guru" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="http://www.theguestbook.com/read.php/608196" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('guest','','/img/guest-but-on.gif',1)"><img src="/img/guest-but-off.gif" width="146" height="25" alt="Guest Book" border="0" name="guest" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/about.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('about','','/img/about-but-on.gif',1)"><img src="/img/about-but-off.gif" width="146" height="25" alt="About Us" border="0" name="about" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/faq.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('faq','','/img/faq-but-on.gif',1)"><img src="/img/faq-but-off.gif" width="146" height="25" alt="FAQs" border="0" name="faq" vspace="0" hspace="0"></a></td>
+        </tr>
+        <tr>
+          <td><a href="/sitemap.php" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('sitemap','','/img/map-but-on.gif',1)"><img src="/img/map-but-off.gif" width="146" height="25" alt="Site Map" border="0" name="sitemap" vspace="0" hspace="0"></a></td>
+        </tr>
+
+</table>
+<table width="146" cellpadding="3" cellspacing="0" border="0" bgcolor="#053061">
+  <tr><form action="/login.php" method="post">
+  <input type="hidden" name="action" value="login">
+  <input type="hidden" name="url" value="/Cpp/misc/misc/article.php/c3795/">
+    <td colspan="2" align="center">
+            	  <img src="/img/member-top.gif" width="113" height="13" border="0" vspace="5" alt="Member Sign In">
+          		</td>
+        	  </tr>
+        	  <tr>
+          		<td align="right"><span class="bodycopy"><font color="#FFFFFF">User ID:</font></span></td>
+          		<td><input type="text" size="7" style="width: 60px" name="username"></td>
+        	  </tr>
+        	  <tr>
+          		<td align="right"><span class="bodycopy"><font color="#FFFFFF">Password:</font></span></td>
+          		<td><input type="password" size="7" style="width: 60px" name="password"></td>
+        	  </tr>
+                  <tr>
+          		<td align="center" colspan="2"><span class="bodycopy"><font color="#FFFFFF">Remember Me:</font></span> <input type="checkbox" name="perm" value="1"></td>
+        	  </tr>
+
+        	  <tr>
+          		<td colspan="2" align="center"><input type="image" border="0" name="member" src="/img/signin-blue.gif" width="73" height="23" align="absmiddle"></td>
+        	  </tr></form>
+						<tr>
+        	    <td colspan="2" align="center"><a href="/forgotpw.php" class="moreinfo">Forgot Password?</a></td>
+        	  </tr>
+        	  <tr>
+        	    <td colspan="2" align="center"><a href="/register.php?url=/Cpp/misc/misc/article.php/c3795/" class="moreinfo">Not a member?<br>Click here for more information and to register.</a></td>
+        	  </tr>
+        	</table>
+
+<table width="146" bgcolor="#999999" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td bgcolor="#000000"><img src="/img/sp.gif" width="1" height="1" border="0" alt=""></td>
+        </tr>
+        <tr>
+          <td bgcolor="#999999"><img src="/img/sp.gif" width="1" height="1" border="0" alt=""></td>
+        </tr>
+      </table>
+      <img src="/img/sp.gif" width="151" height="10" border="0" alt="">
+      <table width="146" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td align="center">
+          <table border=0 style='border: solid 1pt black; font-size: 8pt; font-family: Verdana, Arial, Helvetica' width=125 height=125 cellpadding=1 cellspacing=0>
+<tr>
+<td align=center bgcolor=#CC0000>	
+<font color=white><B>Travel Ideas:</b></font>
+</td>
+</tr>
+<tr>
+<td valign=top align=center bgcolor=white>
+&nbsp;<a href=http://wd-world.orlandofloridareservations.com/>Disney Vacations</a><BR>
+&nbsp;<a href=http://www.hawaiihotelsreservations.com/>Hawaii Hotels</a><BR>
+&nbsp;<a href=http://www.neworleanshotelreservations.com/>New Orleans Hotels</a><BR>
+&nbsp;<a href=http://www.orlandofloridareservations.com/>Orlando Hotels</a><BR>
+&nbsp;<a href=http://www.coloradoreservationservice.com/>Colorado Vacations</a><BR>
+&nbsp;<a href=http://www.destinfloridareservations.com/>Destin Florida</a><BR>
+&nbsp;<a href=http://www.navigatia.com/>Discount Travel</a><BR>
+&nbsp;<a href=http://www.panamacitybeachreservations.com/>Panama City Beach</a><BR>		
+</td>
+</tr>
+</table><IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/314738730/125x125-1/Reservation_System_4c/AD_A.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1>          <p>
+          <a href="http://www.jobs.internet.com"><img src="/img/jobs.gif" width="120" height="35" alt="jobs.internet.com" border="0"></a>
+          <p>
+            <table width="100%" cellpadding="3" cellspacing="0" border="0" background="">
+              <tr>
+                <td bgcolor="#000000" align="center" class="bodycopy"><font color="#FFFFFF"><b>internet.commerce</b></font></td>
+              </tr>
+              <tr>
+                <td bgcolor="#CCCCCC" class="bodycopy" align="left"><a href="http://www.internet.com/partners/">Partners &amp; Affiliates</A><BR>
+<a href="http://www.valueweb.com/dedicated/dedicated-hosting.htm">Dedicated Servers</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/952943380/cp1/ValueWeb_5a/DedicatedServers.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.registersite.com/?source=jupmedia&cpgn_id=text">Register Domain Names</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1237103416/cp2/RegisterSite.com_3d/RegisterDomainNames.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.franchiseadvantage.com">Franchise Directory</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1735106693/cp3/FranchiseAdvantage_2d/FranchiseDirectory.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.epromos.com">Promotional Gifts</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1133532870/cp4/EPROMOS_4a/PromotionalGifts.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.mydomain.com">Domain Registration</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1096422881/cp5/Dotster2_14d/domainregistration.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.ReserveTravel.com">Discount Hotel Rooms</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1838124583/cp6/Reserve_Travel_4d/discount.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0>
+<br><a href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1577485486/cp7/HostSave_CP_5d/CheapWebHosting.html/64343930383437303430653432633730">Cheap Web Hosting</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1577485486/cp7/HostSave_CP_5d/CheapWebHosting.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0>
+<br><a href="http://www.getafreelancer.com">Custom Web Design</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1028827451/cp8/Innovate_IT_5d/CustomWebDesign.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/20399924/cp9/Enhance_Interactive_4d/WebSearch.html/64343930383437303430653432633730">Web Search</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/20399924/cp9/Enhance_Interactive_4d/WebSearch.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br><a href="http://www.9gdeal.com/jupiter_media.aspx?pjt=18aee215-c6e4-4606-9ce7-d723e0cf48b3">Wireless Products</a>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1896650868/cp10/9G_Communications_4a/WirelessProducts.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1 BORDER=0><br></td>
+              </tr>
+            </table>                
+          </td>
+        </tr>
+      </table>     
+<br>
+<br>
+<table width="146" cellpadding="4" bgcolor="#053061">
+<tr>
+<td>
+<font color="#CCCC66"><b>RSS Feeds</font></b><p>
+<a href="/icom_includes/feeds/codeguru/rss-all.xml"><img src="/img/xml.gif" width="36" height="14" border="0" align="absmiddle" hspace="5"><font color="#ffffff">All</font></a>
+<br><img src="/img/sp.gif" width="1" height="2" border="0" alt=""><br>
+<a href="/icom_includes/feeds/codeguru/rss-cpp.xml"><img src="/img/xml.gif" width="36" height="14" border="0" align="absmiddle" hspace="5"><font color="#ffffff">VC++/C++</font></a>
+<br><img src="/img/sp.gif" width="1" height="2" border="0" alt=""><br>
+<a href="/icom_includes/feeds/codeguru/rss-csharp.xml"><img src="/img/xml.gif" width="36" height="14" border="0" align="absmiddle" hspace="5"><font color="#ffffff">.NET/C#</font></a>
+<br><img src="/img/sp.gif" width="1" height="2" border="0" alt=""><br>
+<a href="/icom_includes/feeds/codeguru/rss-vb.xml"><img src="/img/xml.gif" width="36" height="14" border="0" align="absmiddle" hspace="5"><font color="#ffffff">VB</font></a>
+
+</td>
+</tr>
+</table>    </td>
+
+    <td width="99%" bgcolor="#FFFFFF" background="" valign="top">
+    <img src="/img/sp.gif" width="629" height="1" border="0" alt="">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="4" border="0">
+      <tr>
+	<td>
+
+
+
+
+<span class='bodycopy'><b><a href='/'>Home</a></b> >> <b><a href='/Cpp/'>Visual C++ / C++</a></b> >> <b><a href='/Cpp/misc/'>Miscellaneous</a></b> >> <b><a href='/Cpp/misc/misc/'>Miscellaneous</a></b><br><br>
+
+
+<!--content_start-->
+<table border="0" cellspacing="0" cellpadding="1" bgcolor="#000000">
+        <tr>
+          <td>
+            <table border="0" cellspacing="0" cellpadding="1" bgcolor="#CCCCCC">
+              <tr> 
+                <td><font face="Verdana, Arial, Helvetica, sans-serif" size="-2"><A HREF="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1594794399/ciu/Microsoft_Webcast_2h/CodeGuruV1.html/64343930383437303430653432633730">
+              Attend a Microsoft ® Developer Network (MSDN) Webcast to get tips from industry experts. Pick from hundreds of webcasts. Live or on-demand. All at no cost. Register! http://www.microsoft.com/webcasts
+
+</A>
+
+</font></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table><IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1594794399/ciu/Microsoft_Webcast_2h/CodeGuruV1.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1><BR>
+<font class="sectionhead">Genetic Algorithm and Traveling Salesman Problem </font><br>
+<b>Rating:</b> <font color="#990000">none</font><br>
+<br>
+
+<table cellpadding="5" cellspacing="0" border="0">
+  <tr>
+    <td align="right">
+    </td>
+    <td class="bodycopy">
+    <b>Konstantin Boukreev</b> (<a href='/member.php/131/'>view profile</a>)<br>
+    September 27, 2001    </td>
+  </tr>
+</table>	 
+
+
+
+<p>
+<span class="bodycopy">
+
+<br>(continued)<p><center><A HREF="http://ad.uk.doubleclick.net/jump/N1120.REALMEDIA/B1391744.9;sz=336x280;ord=1756738816?">
+<IMG SRC="http://ad.uk.doubleclick.net/ad/N1120.REALMEDIA/B1391744.9;sz=336x280;ord=1756738816?" BORDER=0 WIDTH=336 HEIGHT=280 ALT="Click Here!"></A>
+<IMG SRC="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/1756738816/336x280/IBM_RUPIBM23M_1d/softwaredeveopler_GERMANY336x280.html/64343930383437303430653432633730?_RM_EMPTY_" WIDTH=1 HEIGHT=1></center><p><img src="/img/legacy/misc/TSPApp.jpg" alt="Sample Image" width=565 height=534></p>
+
+
+<p><u>Environment:</u> VC++ 6.0. SP5, Win2k SP2, MS Platform SDK April 2001</p>
+
+<h3>Table of contents</h3>
+
+<ol>
+<li>Genetic Algorithm</li> 
+	<ul>
+	<li>Theory</li>
+	<li>GA and TSP</li>
+	</ul>
+<li>Base implementation, Template class GA<> and GA Selection classes</li>
+<li>Genome of Travel</li>
+<li>TSP Application</li>
+	<ul>
+	<li>GA thread</li>
+	<li>UI interface</li>
+	</ul>
+<li>Environment</li>
+<li>Reference</li>
+</ol>
+
+<h3>Disclaimer</h3>
+<p>I am not a genetic algorighm (GA) guru and I do not have any degree in GA so this article can't be used as a GA GA tutorial. There are not any mathematics, logic, or algebra about GA. It's only a programmer's view on Genetic Algorithms and only an example of GA coding. Use it carefully! Any comments and criticism are highly appreciated.
+</p>
+
+<h3>Genetic Algorithm, Theory</h3>
+
+<p>There are many books and resources on the WEB about Genetics Algorithm. Best that I can do, I can quote some nice description from my preferred sites.
+</p>
+<p>
+Definition from <a href="http://cs.felk.cvut.cz/~xobitko/ga/" target="new">Marek Obitko's Site</a></p>
+<blockquote>
+"Genetic algorithms are a part of evolutionary computing, which is a rapidly growing area of artificial intelligence. As you can guess, genetic algorithms are inspired by Darwin's theory about evolution. Simply said, solution to a problem solved by genetic algorithms is evolved."
+</blockquote>
+
+<p>Explanation from <a href="http://www.generation5.org/ga.shtml" target="new">Generation5.org Site</a>
+<blockquote>
+"Genetic algorithms are not too hard to program or understand, since they are biological based. Thinking in terms of real-life evolution may help you understand. Here is the general algorithm for a GA:
+
+<h4>Create a Random Initial State</h4>
+<p>
+An initial population is created from a random selection of solutions (which are analagous to chromosomes). This is unlike the situation for Symbolic AI systems, where the initial state in a problem is already given instead. </p>
+
+<h4>Evaluate Fitness</h4>
+
+<p>A value for fitness is assigned to each solution (chromosome) depending on how close it actually is to solving the problem (thus arriving to the answer of the desired problem). (These "solutions" are not to be confused with "answers" to the problem, think of them as possible characteristics that the system would employ in order to reach the answer.) </p>
+
+<h4>Reproduce (&amp; Children Mutate)</h4>
+
+<p>Those chromosomes with a higher fitness value are more likely to reproduce offspring (which can mutate after reproduction). The offspring is a product of the father and mother, whose composition consists of a combination of genes from them (this process is known as "crossing over". </p>
+
+<h4>Next Generation</h4>
+
+<p>If the new generation contains a solution that produces an output that is close enough or equal to the desired answer then the problem has been solved. If this is not the case, then the new generation will go through the same process as their parents did. This will continue until a solution is reached."
+</p>
+</blockquote>
+<p>
+My opinion, the GA is easy to understanding and easy to implementation on C++.
+The main advantage and disadvantage of GA at the same time is robustness.
+Even if you implement some features incorrect, the GA will continue run and sooner or later will solve the problem (or find any local optimum). Definitely such feature can produce some troubles during debugging and tuning program. Another interesting problem, to choose best algorithms from existing plenty of algorithms of crossover, mutation, gene presentation, etc.
+</p>
+<p>
+See references topic for some useful links about GA theory.
+</p>
+
+<h3>Genetic Algorithm and Traveling Salesman Problem</h3>
+
+<h4>About Traveling Salesman Problem</h4> 
+<p>
+Again quotation from <a href="http://www.math.princeton.edu/tsp/" target="new">http://www.math.princeton.edu/tsp/</a>
+</p>
+<blockquote>
+"The traveling salesman problem, or TSP for short, is this: given a finite number of 'cities' along with the cost of travel between each pair of them, find the cheapest way of visiting all the cities and returning to your starting point."
+</blockquote>
+
+<h4>Genome and Algorithm</h4>
+<p>
+We can't use a traditional presentation and algorithms for TSP problem, because every city must be unique in gene, and can't be duplicated.
+</p>
+<p>
+For gene presentation, I used sequential representation where the cities are listed in the order in which they are visited. It's common way for TSP Genome. 
+<pre>
+Example: [9 3 4 0 1 2 5 7 6 8]
+</pre>
+</p>
+<p>
+For crossover operation after several tests and researching I selected Greedy Crossover by J. Grefenstette. 
+</p>
+<p>
+The citation from <a href="http://gaslab.cs.unr.edu/docs/techreports/gong/node3.html" target="new">Sushil J. Louis</a>
+</p>
+<blockquote>
+"Greedy crossover selects the first city of one parent, compares the cities leaving that city in both parents, and chooses the closer one to extend the tour. If one city has already appeared in the tour, we choose the other city. If both cities have already appeared, we randomly select a non-selected city."
+</blockquote>
+<p>
+From my experience it's a very effective method.
+</p>
+
+<h4>Mutation</h4>
+<p>
+We can't change gene's bits as usual traditional mutation does. Instead of it we must swap order of cities in a path.
+</p>
+<pre>
+Example:
+  Before mutation   [0 1 2 3 4 5 6]
+  After mutation    [0 1 3 2 4 5 6]
+</pre>
+<p>
+There are a lot of manners for doing such swapping operation. Easiest way in using random swap. Unfortunately, such strategy unable to achieve optimum a quickly but can prevent convergence into a local optimum. Additionally I used a greedy-swap mutation.
+</p>
+<p>
+Once more citation from <a href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/node3.html" target="new">Sushil J. Louis</a> 
+</p>
+<blockquote>
+"The basic idea of greedy-swap is to randomly select two cities from one chromosome and swap them if the new (swapped) tour length is shorter than the old one"
+</blockquote>
+<p>
+In during browsing WEB I discover a excellent researching into GA <a href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm " target="new">"A fast TSP solver using a genetic algorithm"</a>  by Hiroaki Sengoku and Ikuo Yoshihara. It's fastest algorithm I ever saw. Unfortunately, It's Java implementation and without any sources. I could find only one PDF document with a description about this algorithm:
+<a href="http://www.gcd.org/sengoku/docs/arob98.pdf">arob98.pdf</a>
+After reading and studying I used "Mutation by 2opt" idea in my code. This method has the same idea as greedy-swap mutation but more expansive and more effective. After adding into code I can improve speed of my program greatly on small and middle sets (till 200 cities). 
+However for big sets (1000 and more) this heuristics is very slow method.
+</p>
+
+<h4>Selection</h4>
+<p>
+I implemented three selection methods : routlette rank, roulette cost and tournamnet.
+Of course I used elitism too.
+</p>
+<p>
+<span>
+<u>Roulette Wheel Selection</u></p>
+</span>
+Definition from <a href="http://cs.felk.cvut.cz/~xobitko/ga/" target="new">Marek Obitko's Site</a>
+</p>
+<blockquote>
+"Cost Selection : Parents are selected according to their fitness. The better the chromosomes are, the more chances to be selected they have. Imagine a roulette wheel where are placed all chromosomes in the population, every has its place big accordingly to its fitness function
+<br>
+Rank Selection : The previous selection will have problems when the fitnesses differ very much. For example, if the best chromosome fitness is 90% of all the roulette wheel then the other chromosomes will have very few chances to be selected. 
+Rank selection first ranks the population and then every chromosome receives fitness from this ranking. The worst will have fitness 1, second worst 2 etc. and the best will have fitness N (number of chromosomes in population)."
+</blockquote>
+<p>
+<span>
+<u>Tournamnet Selection and Elitism</u></p>
+</span>
+Definition from <a href="http://www.cs.bham.ac.uk/~wbl/thesis.html#toc" target="new">W. B. Langdon, University College, London</a> 
+<p>
+<blockquote>
+"A mechanism for choosing individuals from a population. A group (typically between 2 and 7 individuals) are selected at random from the population and the best (normally only one, but possibly more) is chosen An elitist genetic algorithm is one that always retains in the population the best individual found so far, Tournamnet Selection is naturally elitist."
+</blockquote>
+<p>
+In my opinion and after testing the roulette rank and tournament selections are slightly faster for TSP case. For another problems, others selection algorithms can be best.
+</p>
+
+<h4>Co-evolutions. Migrations</h4>
+<p>
+I didn't find many documents about these methods in WEB.
+The base idea: allow evolving of several populations at the same time.
+The description found in <a href="http://www.generation5.org/coevolution.shtml" target="new">Generation5.org Site</a>
+<blockquote>
+"Genetic algorithms are neat, but they do come with their own set of problems. One big problem is that genetic algorithms have a tendency to get stuck at local optima. In other words, they will find a reasonable solution, but not the best solution. There are several methods that have been devised to counter this problem, and the one we will look at is coevolution"
+</blockquote>
+Simultaneously, co-evolution idea allows utilizing the SMP ability of WinNT\2k machines with multi CPUs. We can easily run several GA in separate threads without any penalty. For exchange data between different GA we can migrate the best genes in population.
+</p>
+
+<h3>
+Base implementation<br> 
+Template class GA&lt;&gt; and GA Selection classes
+</h3>
+<p>
+The <code>GA&lt;&gt;</code> class implements a base logic of Genetic Algorithms: recombination, mutation. 
+User can manage the gene population via methods of <code>GA&lt;&gt;</code> class. It holds a gene population and gene context, selection methods, and method of randomization.  User can specify behavior of this class via template parameters.
+</p>
+<pre>
+<span class='codeKeyword'>template</span> &lt;<span class='codeKeyword'>typename</span> Traits, <span class='codeKeyword'>typename</span> Selection&gt; <span class='codeKeyword'>class</span> GA {}
+</pre>
+<p>
+Template parameter <code>Traits</code> must define typedefs for <code>Gene</code> class, <code>Random</code> class, <code>Population</code> container class and Thread Synchronize class.
+</p>
+<p>
+Template parameter <code>Selection</code> must provide the GA selection algorithm.
+Now there are three such classes: <code>selection_tournament&lt;&gt;</code>, <code>selection_roulette_cost&lt;&gt;</code>, <code>selection_roulette_rank&lt;&gt;</code>.
+</p>
+
+<h4><code>GA&lt;&gt;</code> interface</h4>
+<ul>
+<li><code>init</code> - initializes population</li>
+<li><code>update</code> - computes fitness's values and return optimal gene or end()</li>
+<li><code>find_best</code> - finds the gene with best fitness</li>
+<li><code>epoch</code> - makes next population (selection, crossover, mutation, etc)</li>
+<li><code>recombine</code> - makes selection, produce new genes, removes non elite parents and removes twins gene</li>
+<li><code>mutate</code> - attempts to mutate genes</li>
+<li><code>migration</code> - exchanges the best genes between populations</li>
+<li><code>sort</code> - orders the genes in population depending on fitness value (moves the best into a beginning of population)</li>
+<li><code>begin</code> - returns iterator at the first (best) gene of the population</li>
+<li><code>end</code> - returns a iterator that points just beyond the end of the population</li>
+<li><code>size</code> - returns the size of populations</li>
+</ul>
+<p>
+The example of using <code>GA&lt;&gt;</code> class
+</p>
+<pre>
+<span class='codeKeyword'>typedef</span> ga_traits&lt;RandomCRT&gt; traits;
+<span class='codeKeyword'>typedef</span> GA&lt;traits, selection_tournament&lt;traits&gt; &gt; tGA;
+traits::Gene::Context context;
+tGA ga(50, &amp;context);
+tGA::iterator it = ga.update();
+<span class='codeKeyword'>while</span>(it == ga.end())
+{
+  ga.epoch(); 
+  it = ga.update(); 
+}
+traits::Gene* gnp = (*it); 
+</pre>
+
+<h3>Genome of Travel</h3>
+
+<h4>class <code>TSPData</code></h4>
+<p>
+Context of travel holds a travel data, auxiliary data and methods for crossover operation.
+</p>
+
+<h4>struct <code>TSPBase</code></h4>
+<p>
+Base gene class has thread specific memory pool for memory optimization
+In process of computing GA creates and destroys a lot of dynamic gene objects. It's very ineffective to use default memory allocation routine. Instead of it I used a special memory pool class, which pre-allocated a large block of memory from process heap and then caches a freeing blocks.
+</p>
+<h4>class <code>TSPGene&lt;&gt; : TSPBase</code></h4>
+<p>
+Gene's implementation<br>
+Every gene holds a path (travel) of salesman and fitness value of this travel. 
+Of course the lower the cost of travel the better fitness of gene. 
+It has some constructors and methods for mutation and heuristics computing. 
+The default constructor creates gene with random travel and for crossover operation uses another constructor: 
+
+<pre>TSPGene* gnp = <span class='codeKeyword'>new</span> TSPGene(parent1, parent2).</pre>
+
+It creates offspring from genetic materials of parents' genes.
+</p>
+
+<h3>TSP Application, GA thread</h3>
+<p>
+For every co-evolution <code>_Main</code> class creates a separate thread with exemplar of <code>GA&lt;&gt;</code> class.
+Depending on user's setting it creates GA with one of three selection methods and sets a population size, elite size, migration's size, heuristics value, mutation and crossover probability.
+</p>
+<p>
+Then every turn (or AI term "epoch") it calls recombination, mutation, and heuristics methods and update the Application's board with result of best gene. Also it tries to prevent convergence to a local optimum and kills 50% population if fitness stays unchanged some time.
+</p>
+
+<h3>TSP Application, UI interface</h3>
+<p>
+User can change a setting of GA for tuning it depending on size and shape of set of points.
+</p>
+<ul>
+<li>Co-evolution field: a number of co-evolutions (separate threads) from 1 till 16. Default value is number of CPU * 2.</li>
+<li>Population field: a size of population per co-evolution, from 10 till 1000</li>
+<li>Elite field: an elite size in the population, from 0 till size of population.</li>
+<li>Migration field: a size of migrated genes, from 0 till size of population.</li>
+<li>Heuristics filed: a size of best genes improved via heuristics method in every epoch. Attention, in large population it can extremely slow the computing.</li>
+<li>Crossover field: probability of crossover, from 0 till 100</li>
+<li>Mutation filed: probability of mutation. From 0 till 100</li>
+<li>Selection combo: selection method (roulette rank, roulette cost and tournament)</li>
+<li>Remove Twins checkbox: set using a natural selection algorithm. It eliminates similar gene to for avoiding the immature convergence.</li>
+</ul>
+
+<h3>Environment</h3>
+<p>
+I used VC++ 6.0. SP5, Win2k SP2, MS Platform SDK April 2001.
+</p>
+<p>
+And tested on Win2k SP2 IE 6.0,Win2k SP1 IE 5.0, Win ME IE 5.5, Win 98 SE IE 5.0.
+</p>
+
+<h3>References</h3>
+
+<p>
+1. S.Hsiung and J.Matthews, 
+<a href="http://www.generation5.org/essays.shtml#ga" target="new">Generation 5 - Genetic Algorithms and Genetic Programming</a>
+</p>
+<p>
+2. <a href="http://cs.felk.cvut.cz/~xobitko/" target="new">Marek Obitko</a>,
+<a href="http://cs.felk.cvut.cz/~xobitko/ga/" target="new">Introduction to Genetic
+Algorithms</a>
+</p>
+</p>
+3. <a href="http://hp.vector.co.jp/authors/VA000770/theme.en.html" target="new">Hiroaki Sengoku</a> and Ikuo Yoshihara, 
+<a href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm" target="new">A fast TSP solver using a genetic algorithm</a>
+</p>
+<p>
+4. Sushil J. Louis</a> and Rilun Tang,<br>
+<a href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/gecco.html" target="new">Interactive
+Genetic Algorithms for the Traveling Salesman Problem</a>,<br> 
+<a href="http://gaslab.cs.unr.edu/docs/techreports/gong/journal.html" target="new">Genetic
+Algorithms with Memory for Traveling Salesman Problems</a>,<br> 
+<a href="http://www.cs.unr.edu/~sushil/papers/conference/papers/fea/97/fea/fea.html" target="new">Augmenting
+Genetic Algorithms with Memory to Solve Traveling Salesman Problems</a>
+</p>
+<p>
+5. <a href="http://www.chat.ru/~saisa" target="new">Sergey Isaev</a>, 
+<a href="http://saisa.chat.ru/ga.html" target="new">Genetic Algorithm</a>
+</p>
+<p>
+6. <a href="http://www.cs.bham.ac.uk/~wbl/index.html" target="new">W. B. Langdon</a>, 
+<a href="http://www.cs.bham.ac.uk/~wbl/thesis.html#toc" target="new">Genetic Programming and Data Structures</a>
+</p>
+<p>
+7. <a href="http://www.math.princeton.edu/tsp/index.html" target="new">Solving Traveling Salesman Problem</a>
+</p>
+
+<h3>Downloads</h3>
+
+<a href="/code/legacy/misc/TSPApp_exe.zip">Download TSPApp executable - 159 Kb </a><br>
+<a href="/code/legacy/misc/TSPApp_src.zip">Download TSPApp source - 119 Kb</a><p>
+
+
+
+
+
+</span>
+<!--content_stop-->
+
+
+<table border="0" width="100%" cellpadding="3">
+  <tr> 
+    <td align="left" valign="TOP"> <br>
+<a href="/Cpp/misc/misc/email.php/c3795/"><IMG SRC="/img/emailicon.gif" BORDER="0"></a>
+
+<a href="/Cpp/misc/misc/print.php/c3795/"><IMG SRC="/img/printicon.gif" BORDER="0"></a>           
+
+    </td>
+  </tr>
+</table>
+
+
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+<a name="rating"></a>
+<table width="100%" cellpadding="4" cellspacing="0" border="1" bgcolor="#CCCCCC">
+  <tr>
+    <input type="hidden" name="url" value="/Cpp/misc/misc/article.php/c3795/">
+    <td class="bodycopy">
+    <font color="#CC0000"><b>RATE THIS ARTICLE:</B></font>&nbsp;&nbsp;
+<input type="radio" value="5" name="vote">Excellent&nbsp;&nbsp;<input type="radio" value="4" name="vote">Very Good&nbsp;&nbsp;<input type="radio" value="3" name="vote">Average&nbsp;&nbsp;<input type="radio" value="2" name="vote">Below Average&nbsp;&nbsp;<input type="radio" value="1" name="vote">Poor&nbsp;&nbsp;<input type="image" src="/img/rate.gif" border="0" width="73" height="23" align="absmiddle">
+
+<br><br><b>(You must be signed in to rank an article. Not a member? <a href="/register.php?url=/Cpp/misc/misc/article.php/c3795/">Click here</a> to register)</b>
+    </td>
+  </tr>
+</form>
+</table>
+
+
+
+<br>
+
+
+  <!--COMMENTS-->  
+<table width="100%" cellpadding="4" cellspacing="0" border="0" bgcolor="#CCCCCC">
+  <tr>
+    <td class="bodycopy" colspan="2"><font class="title">Latest Comments: </font></td>
+  </tr>
+  <tr>
+    <td class="bodycopy">
+&#149; <a href="/Cpp/misc/misc/comments.php/c3795/?thread=47256">
+
+GA:Pascal Code</a> - Legacy CodeGuru (12/12/2003)<br>
+&#149; <a href="/Cpp/misc/misc/comments.php/c3795/?thread=47258">
+
+please tell me how to compute the distence of EUC_2D</a> - Legacy CodeGuru (04/02/2003)<br>
+&#149; <a href="/Cpp/misc/misc/comments.php/c3795/?thread=47260">
+
+Error on compilation</a> - Legacy CodeGuru (03/28/2003)<br>
+&#149; <a href="/Cpp/misc/misc/comments.php/c3795/?thread=47262">
+
+GA in Pascal</a> - Legacy CodeGuru (02/19/2003)<br>
+&#149; <a href="/Cpp/misc/misc/comments.php/c3795/?thread=47264">
+
+Minimum Spanning Tree is 2 orders of magnitude faster</a> - Legacy CodeGuru (12/27/2001)<br>
+ 
+<br><a href="/Cpp/misc/misc/comments.php/c3795/"><b>View All Comments</b></a>
+    <hr>
+    </td>
+  </tr> 
+  <tr>
+    <td class="bodycopy" colspan="2"><font class="title">Add a Comment: </font></td>
+  </tr>
+  <tr>
+    <td class="bodycopy">
+		    <input type="hidden" name="action" value="add">
+    <center>
+    <table class="bodycopy">
+      <tr valign="top">
+        <td align="right" class="bodycopy"><strong>Title: </strong></td>
+        <td><input type="text" name="title"  size="60" maxlength="256"></td>
+      </tr>
+      <tr valign="top">
+        <td align="right" class="bodycopy"><strong>Comment: </strong></td>
+        <td><textarea name="subject" rows=5 cols=60 wrap="physical"></textarea></td>
+      </tr>
+      <tr valign="top">
+        <td align="right" class="bodycopy"><strong>Pre-Formatted: </strong></td>
+        <td><input type="checkbox" name="preformatted" value="on">Check this if you want the text to display with the formatting as typed (good for source code)</td>
+      </tr>
+    </table>
+    <br>
+    <input type="image" src="/img/submit.gif" width="73" height="23" border="0" name="AddComment" value="Add Comment">
+    </center>
+		<br><br><b>(You must be signed in to comment on an article. Not a member? <a href="/register.php?url=/Cpp/misc/misc/article.php/c3795/">Click here</a> to register)</b>
+       </td>
+ </form>
+  </tr>
+</table>
+
+
+        </td>
+      </tr>
+
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#666666"><img src="/img/sp.gif" width="1" height="2" border="0" alt=""></td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFFF">
+  <tr>
+    <td align="center"><A HREF="http://www.codeguru.com/RealMedia/ads/click_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/147962720/468x60-2/House_OnlineUsability_1b/webinar-7-20-04-750.gif/64343930383437303430653432633730" target="_top"><IMG SRC="http://www.codeguru.com/RealMedia/ads/Creatives/House_OnlineUsability_1b/webinar-7-20-04-750.gif"  ALT=""  BORDER="0"></A><img src="http://www.codeguru.com/RealMedia/ads/adstream_lx.cgi/ew/ewsoftware/www.codeguru.com/Cpp/misc/misc/article/c3795/i/147962720/468x60-2/House_OnlineUsability_1b/webinar-7-20-04-750.gif/64343930383437303430653432633730?_RM_EMPTY_" Width="1" Height="1" Border="0"></td>
+  </tr>
+  <tr>
+    <td class="bodycopy" align="center">
+      <CENTER>
+
+<BR CLEAR="all"><center><table border="0" cellspacing="0" cellpadding="5" bgcolor="#FFFFFF">
+                <tr> 
+                  <form method="POST" action="http://search.internet.com/www.jupiterweb.com">
+                    <td align="center"><font size="-2" face="verdana, arial, helvetica"><b>JupiterWeb networks:</b></font> 
+                      <p> <a href="http://www.internet.com" class="foot"><img src="/icom_includes/footers/icom_foot.gif" alt="internet.com" width="97" height="15" hspace="0" border="0" align="absmiddle"></a><img src="/icom_includes/footers/ruledivide_foot.gif" alt="" width="1" height="25" hspace="10" border="0" align="absmiddle"><a href="http://www.earthweb.com"><img src="/icom_includes/footers/earthweb_foot2.gif" alt="earthweb.com" width="93" height="12" hspace="5" border="0" align="absmiddle"></a><img src="/icom_includes/footers/ruledivide_foot.gif" alt="" width="1" height="25" hspace="10" border="0" align="absmiddle"><a href="http://www.devx.com"><img src="/icom_includes/footers/devx_foot2.gif" alt="Devx.com" width="35" height="30" hspace="0" border="0" align="absmiddle"></a><img src="/icom_includes/footers/ruledivide_foot.gif" alt="" width="1" height="25" hspace="10" border="0" align="absmiddle"><a href="http://www.clickz.com"><img src="/icom_includes/footers/clickz_foot2.gif" alt="ClickZ" width="55" height="24" hspace="0" border="0" align="absmiddle"></a>
+                      <p> 
+                      <font size="-2" face="verdana, arial, helvetica"><b>Search JupiterWeb:</b> 
+                      <input type="HIDDEN" name="IC_Summary" value="1">
+                      <input type="HIDDEN" name="IC_StartNumber" value="0">
+                      <input type="HIDDEN" name="IC_BatchSize" value="10">
+                      <input type="HIDDEN" name="IC_RelevanceThreshold" value="50">
+                      <input type="hidden" name="IC_QueryDatabase" value="all">
+                      <input type="text" name="IC_QueryText" size="50">
+                      <input type="image" border="0" value="Find" name="SUBMIT" src="/icom_includes/footers/but_find.gif" width="41" height="20" align="absmiddle">
+                      </font>
+                      <p>
+                      <font size="-2" face="verdana, arial, helvetica">
+                     <a href="http://www.jupitermedia.com/" class="foot"> Jupitermedia Corporation</a> has four divisions:
+                      <br><a href="http://www.jupiterweb.com/" class="foot">JupiterWeb</a>, <a href="http://www.jupiterresearch.com/" class="foot">JupiterResearch</a>, <a href="http://www.jupiterevents.com/" class="foot">JupiterEvents</a> and <a href="http://www.jupiterimages.com/" class="foot">JupiterImages</a>
+                      <p>
+                      <span class="foot">Copyright <!--YEAR-->2004 Jupitermedia Corporation All Rights Reserved.<br>
+                        <a href="http://www.jupitermedia.com/corporate/legal.html" class="foot">Legal 
+                        Notices</a>, <a href="http://www.jupitermedia.com/corporate/reprints.html#Licensing1" class="foot">Licensing</a>, 
+                        <a href="http://www.jupitermedia.com/corporate/reprints.html#Reprints1" class="foot">Reprints</a>, 
+                        & <a href="http://www.jupitermedia.com/corporate/reprints.html#Permissions" class="foot">Permissions</a>, 
+                        <a href="http://www.jupitermedia.com/corporate/privacy/privacypolicy.html" class="foot">Privacy 
+                        Policy</a>. </font>
+                      <p> <font size="-2" face="verdana, arial, helvetica"><a href="http://www.jupitermedia.com/corporate/" class="foot">Jupitermedia Corporate 
+                        Info</a> | <a href="http://e-newsletters.internet.com/" class="foot">Newsletters</a> 
+                        | <a href="http://jobs.internet.com/" class="foot">Tech 
+                        Jobs</a> | <a href="http://e-newsletters.internet.com/mailinglists.html" class="foot">E-mail 
+                        Offers</a></span></font>
+
+                    </td>
+                  </form>
+                </tr>
+              </table></center>
+
+</CENTER>
+
+    </td>
+  </tr>
+  
+</table>     </BODY>
+</HTML>
+   

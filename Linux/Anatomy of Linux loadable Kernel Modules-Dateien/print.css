@@ -1,0 +1,172 @@
+#print-masthead { display:block; }
+
+#ibm-masthead,
+#ibm-page-tools,
+#ibm-footer,
+#ibm-myinterest-module,
+.bbg,
+.mbbg,
+.blbg-border,
+.blbg,
+#navigation,
+#right-nav,
+.bctl,
+.bct,
+.lgray,
+.no-print,
+td.v14-graphic-tab-lblue-table{ display:none !important; }
+
+tr.v14-graphic-tab-lblue-table td{ background-color:#fff; }
+td.v14-graphic-tab-dblue-table{ background-color:#fff; border-top: 1px solid #000; }
+
+.v14-graphic-tab-selected,
+.v14-graphic-tab-selected2,
+.v14-graphic-tab-unselected,
+.v14-graphic-tab-unselected2,
+td.v14-tab-hlrt,
+td.v14-tab-dmrt,
+td.v14-tab-hllt,
+td.v14-tab-dmrt-end,
+td.v14-tab-hlrt-end,
+td.v14-tab-hlrt2,
+td.v14-tab-dmrt2,
+td.v14-tab-hllt2,
+td.v14-tab-dmrt-end2,
+td.v14-tab-hlrt-end2{ background-color:#fff; background-image:url("//www.ibm.com/i/c.gif"); }
+
+a.v14-tab-link-selected:link,
+a.v14-tab-link-selected:visited,
+a.v14-tab-link-selected:hover{ color:#000; text-decoration:none; font-family:"Times New Roman",Garamond,sans-serif; background-color:#fff; font-weight:bold; }
+
+a.v14-tab-link-unselected:link,
+a.v14-tab-link-unselected:visited,
+a.v14-tab-link-unselected:hover{ color:#000; text-decoration:underline; font-family:"Times New Roman",Garamond,sans-serif; background-color:#fff; font-weight:normal; }
+
+body,
+p,
+b,
+.tdblue,
+.tdblue,
+.tgray,
+.small,
+.fnt,
+.price,
+td.why-ibm-rv p,
+td.why-ibm-rv p a:link,
+td.why-ibm-rv p a:visited,
+td.why-ibm-rv p a:hover,
+td.why-ibm-rv h2,
+td.v14-header-1,
+th.v14-header-1,
+td.v14-header-2,
+th.v14-header-2,
+td.v14-header-3,
+th.v14-header-3,
+td.v14-header-4,
+th.v14-header-4,
+table.data-table-1 th,
+table.data-table-2 th{ background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; }
+
+#content-table{background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; width:510px; }
+
+#content-3-1 p,
+#content-3-2 p{ background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; width:218px; }
+
+#content-4-1 p,
+#content-4-2 p,
+#content-4-3 p{ background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; width:143px; }
+
+#content-3-1,
+#content-3-2{ background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; width:218px; }
+
+#content-4-1,
+#content-4-2,
+#content-4-3{ background-color:#fff; color:#000; font-family:"Times New Roman",Garamond,sans-serif; width:143px; }
+
+td{ color:#000; font-family:"Times New Roman",Garamond,serif; }
+
+td.v14-header-1,
+th.v14-header-1,
+td.v14-header-2,
+th.v14-header-2,
+td.v14-header-3,
+th.v14-header-3,
+td.v14-header-4,
+th.v14-header-4{ padding-left:0px; padding-bottom:10px; padding-top:10px; margin-top:0px; margin-bottom:0px; }
+
+a.v14-text-tab-select-link:link,
+a.v14-text-tab-select-link:visited,
+a.v14-text-tab-select-link:hover{ color:#000; text-decoration:none; font-family:"Times New Roman",Garamond,serif; }
+
+tr.v14-graphic-tab-lblue-table a.v14-text-tab-unselect-link:link,
+tr.v14-graphic-tab-lblue-table a.v14-text-tab-unselect-link:visited,
+tr.v14-graphic-tab-lblue-table a.v14-text-tab-unselect-link:hover{ color:#000; text-decoration:underline; font-family:"Times New Roman",Garamond,serif; }
+
+a.v14-text-tab-unselect-link:link,
+a.v14-text-tab-unselect-link:visited,
+a.v14-text-tab-unselect-link:hover{ color:#000; text-decoration:underline; font-family:"Times New Roman",Garamond,serif; }
+
+a.smallplainlink:link,
+a.smallplainlink:visited,
+a.smallplainlink:hover,
+a:link,
+a:visited,
+a:hover,
+a.fbox:link,
+a.fbox:visited,
+a.fbox:hover{ color:#000; text-decoration:underline; font-family:"Times New Roman",Garamond,sans-serif; }
+
+table.v14-gray-table-border{ border:0px; }
+table.v14-gray-table-border p{ padding:0px 0px 0px 0px; }
+table.v14-gray-table-border table{ margin-left:0px; margin-right:0px; }
+
+body,
+#content,
+#content-3-1,
+#content-3-2,
+#content-4-1,
+#content-4-2,
+#content-4-3,
+p,
+b,
+.tdblue,
+.tdblue,
+.tgray,
+.small,
+.fnt,
+.price,
+td,
+td.v14-header-1,
+th.v14-header-1,
+td.v14-header-2,
+th.v14-header-2,
+td.v14-header-3,
+th.v14-header-3,
+td.v14-header-4,
+th.v14-header-4,
+a.v14-tab-link-selected:link,
+a.v14-tab-link-selected:visited,
+a.v14-tab-link-selected:hover,
+a.v14-tab-link-unselected:link,
+a.v14-tab-link-unselected:visited,
+a.v14-tab-link-unselected:hover,
+a.v14-text-tab-select-link:link,
+a.v14-text-tab-select-link:visited,
+a.v14-text-tab-select-link:hover,
+a.v14-text-tab-unselect-link:link,
+a.v14-text-tab-unselect-link:visited,
+a.v14-text-tab-unselect-link:hover,
+a.smallplainlink:link,
+a.smallplainlink:visited,
+a.smallplainlink:hover,
+a:link,
+a:visited,
+a:hover,
+a.fbox:link,
+a.fbox:visited,
+a.fbox:hover{ font-size:11pt; }
+
+table.data-table-1 td,
+table.data-table-1 th,
+table.data-table-2 td,
+table.data-table-2 th { font-size:10pt; }

@@ -1,0 +1,572 @@
+<!doctype html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Diving into HTML5 with WebSockets and Perl</title>
+        <link rel="stylesheet" href="/styles.css" type="text/css" />
+        <link rel="alternate" type="application/rss+xml" title="No time to wait" href="/index.rss" />
+        <meta name="generator" content="Twist 0.1" />
+    </head>
+    <body>
+        <div id="body">
+            <div id="header">
+                <div id="title">
+                    <a href="/">No time to wait</a>
+                    <sup><a href="/index.rss"><img src="/rss.png" alt="RSS" /></a></sup>
+                </div>
+                <div id="description">Just code</div>
+                                <span id="author">vti</span>,                                <span id="about">Perl hacker</span>                <div id="menu">
+                                            <a href="/">index</a>                        <a href="/tags.html">tags</a>                        <a href="/archive.html">archive</a>                        <a href="/pages/about.html">about</a>                </div>
+            </div>
+            <div id="content">
+                <div class="text">
+    <h1 class="title"><a href="/articles/2011/2/diving-into-html5-with-websockets-and-perl.html">Diving into HTML5 with WebSockets and Perl</a></h1>
+        <div class="article-meta">
+        Tue, 08 Feb 2011 by vti
+        <div class="tags">
+        <a href="/tags/Perl.html">Perl</a>, <a href="/tags/HTML5.html">HTML5</a>, <a href="/tags/WebSockets.html">WebSockets</a>        </div>
+    </div>
+    <div class="article-content">
+                
+<p>HTML5 is a new HTML standard that was adopted by W3C in 2007,
+and the first public working draft was published in 2008.
+The work is still in progress,
+it will reach Recommendation status probably in 2012,
+but many sections are already stable and have usable implementations among various browsers.</p>
+
+        <a id="cut"></a>        
+<p>Among many new things it brings WebSockets.
+Websockets are bidirectional full duplex persistent tcp connections between a server and a browser.
+In comparing to other technics that are used nowadays like long polling,
+comet etc.
+it requires only one connection,
+transmits only payload data (no http headers after connection has established) and has an extremely simple asynchronous API on the client side.
+Consider the following JavaScript code:</p>
+
+<pre>    var ws = new WebSocket(&#39;ws://localhost:3000&#39;);
+
+    ws.onopen = function() {
+        alert(&#39;Connection is established!&#39;);
+    };
+
+    ws.onclose = function() {
+        alert(&#39;Connection is closed&#39;);
+    };
+
+    ws.onmessage = function(e) {
+        var message = e.data;
+        alert(&#39;Got new message: &#39; + message);
+    };
+
+    ws.send(&#39;Hello, world!&#39;);</pre>
+
+<p>Here we register callbacks (anonymous functions) that will be called when a particular event occures. So <code>onopen</code> will be called when a connection with WebSocket server is established, <code>onclose</code> when it is closed, <code>onmessage</code> when a message is received. There is also <code>onerror</code> callback, but it is not shown for simplicity. Every time when you want to send a message call <code>send</code> function. As you can see, on the client side you don&#39;t have to worry about handshakes, frames, buffering and so on.</p>
+
+<p>Let&#39;s look at it on a deeper level.</p>
+
+<p>WebSocket connection starts with a handshake between a server and a browser using HTTP/1.1 <code>Upgrade</code> header. Here is an example what happens behind the scene:</p>
+
+<pre>    &#62; Browser request
+    GET / HTTP/1.1
+    Upgrade: WebSocket
+    Connection: Upgrade
+    Host: example.com
+    Origin: http://example.com
+    Sec-WebSocket-Key1: 18x 6]8vM;54 *(5:  {   U1]8  z [  8
+    Sec-WebSocket-Key2: 1_ tx7X d  &#60;  nw  334J702) 7]o}` 0
+
+    Tm[K T2u
+
+    &#60; Server response
+    HTTP/1.1 101 WebSocket Protocol Handshake
+    Upgrade: WebSocket
+    Connection: Upgrade
+    Sec-WebSocket-Origin: http://example.com
+    Sec-WebSocket-Location: ws://example.com/
+
+    fQJ,fN/4F4!~K~MH</pre>
+
+<p>In the latest WebSocket specification draft #76 (which is now version 00 <a href="http://tools.ietf.org/id/draft-ietf-hybi-thewebsocketprotocol-00" class="podlinkurl"
+>http://tools.ietf.org/id/draft-ietf-hybi-thewebsocketprotocol-00</a>) handshake was changed adding <code>Sec-*</code> fields and challenges for various security reasons. But there are still browsers that support draft #75 (e.g. some Android mobile browsers) and current implementations should keep that in mind. Moreover the protocol will change again (version 02 <a href="http://tools.ietf.org/id/draft-ietf-hybi-thewebsocketprotocol-02" class="podlinkurl"
+>http://tools.ietf.org/id/draft-ietf-hybi-thewebsocketprotocol-02</a> already has a much more complicated frame structure, current browsers don&#39;t support it though), but the client API should stay the same.</p>
+
+<p>Other <code>HTTP</code> headers passed along are mostly ignored, but there is one that is definitely important, and that is <code>Cookie</code>. With use of cookies such important tasks as authentication, user tracking and sessions can be performed.</p>
+
+<p>After the handshake, if it was successful, the server and the browser can send data back and forth using a simple framing (likely going to change):</p>
+
+<pre>    \x00...DATA...\xff</pre>
+
+<p>The data itself should be UTF-8 encoded. Specification also describes the ways to transmit binary data, but it is not recommended for now and I will skip it here too.</p>
+
+<p>WebSocket connection could be secured using a standard TLS/SSL encription, the client will be aware of this when connecting via <code>wss://</code> instead of <code>ws://</code>.</p>
+
+<p>Using TLS/SSL is advised not only when you need to encrypt the traffic but also when you need to bypass proxy servers and firewalls, that otherwise will just block or not understand WebSockets connections.</p>
+
+<h2>Browser Compatibility</h2>
+
+<p>As the WebSocket specifications change, it is worth knowing what browsers support them. I&#39;ve built a table of the clients that I checked:</p>
+
+<pre>    Draft #75
+    ---------
+    Chrome 5
+    Safari 5.0
+
+    Draft #76 (version 00)
+    ---------
+    Firefox 4b
+    Safari  5.0.2
+    Chrome  6
+    Opera   10.70
+
+    iOS     4.2</pre>
+
+<p>NOTE: Safari unfortunately does not support TLS/SSL WebSocket encryption. Hopefully this will be changed soon.</p>
+
+<p>NOTE2: Internet Explorer 9 will probably support WebSockets.</p>
+
+<p>These are pretty new versions, that are not that popular nowadays. So does it mean that we can&#39;t use WebSockets right now?</p>
+
+<h2>Nonwebsocket Browser Support</h2>
+
+<p>Even if the most browsers will support WebSockets, there still will be those who are either not updated or are not going to support them at all. For those some really wise technics were implemented. I am going to talk about the two major players, maybe there are others, but this is the whole another study.</p>
+
+<h3>Flash Fallback</h3>
+
+<p>This workaround uses a Flash fallback that sets up a persistent connection and does all the handshake parsing. So when a browser does not support WebSockets natively it falls back to Flash.</p>
+
+<p>There are two requirements that need to be set up for this to work. The first one is to include script headers on your page that load Flash and appropriate JavaScript code:</p>
+
+<pre>    &#60;script type=&#34;text/javascript&#34;&#62;
+        // Only load the flash fallback when needed
+        if (!(&#39;WebSocket&#39; in window)) {
+            document.write([
+                &#39;&#60;scr&#39;+&#39;ipt type=&#34;text/javascript&#34; &#39;
+                    + &#39;src=&#34;web-socket-js/swfobject.js&#34;&#62;&#60;/scr&#39;+&#39;ipt&#62;&#39;,
+                &#39;&#60;scr&#39;+&#39;ipt type=&#34;text/javascript&#34; &#39;
+                    + &#39;src=&#34;web-socket-js/FABridge.js&#34;&#62;&#60;/scr&#39;+&#39;ipt&#62;&#39;,
+                &#39;&#60;scr&#39;+&#39;ipt type=&#34;text/javascript&#34; &#39;
+                    + &#39;src=&#34;web-socket-js/web_socket.js&#34;&#62;&#60;/scr&#39;+&#39;ipt&#62;&#39;
+            ].join(&#39;&#39;));
+        }
+    &#60;/script&#62;
+    &#60;script type=&#34;text/javascript&#34;&#62;
+        if (WebSocket.__initialize) {
+            // Set URL of your WebSocketMain.swf here:
+            WebSocket.__swfLocation = &#39;web-socket-js/WebSocketMain.swf&#39;;
+        }
+
+        // Normal WebSocket initialization
+    &#60;/script&#62;</pre>
+
+<p>The second one is a Flash Socket Policy Server that must be run on port 843. All it has to do is to send this message on every request:</p>
+
+<pre>    &#60;?xml version=&#34;1.0&#34;?&#62;
+    &#60;!DOCTYPE cross-domain-policy SYSTEM
+        &#34;/xml/dtds/cross-domain-policy.dtd&#34;&#62;
+    &#60;cross-domain-policy&#62;
+    &#60;site-control permitted-cross-domain-policies=&#34;master-only&#34;/&#62;
+    &#60;allow-access-from domain=&#34;*&#34; to-ports=&#34;*&#34; secure=&#34;false&#34;/&#62;
+    &#60;/cross-domain-policy&#62;</pre>
+
+<p>There are some difficulties for users that are behind a proxy, but they could be solved by manually passing proxy parameters to the WebSocket constructor or letting the user specifing them.</p>
+
+<p>I&#39;ve personally used this workaround and it worked fine. Just don&#39;t forget to start the Flash Policy Server or you will have a hard time searching for the problems in your code.</p>
+
+<h3>Socket.IO</h3>
+
+<p>This library is a unified class for many HTTP persistent connection technics including not only WebSockets, but also Flash sockets, XHR long polling, iframes and others.</p>
+
+<p>It automatically guesses what transport to use depending on your browser. API is close enough to WebSocket&#39;s.</p>
+
+<pre>    socket = new io.Socket(&#39;localhost&#39;);
+    socket.connect();
+    socket.on(&#39;connect&#39;, function(){
+        // connected
+    });
+    socket.on(&#39;message&#39;, function(data){
+        // data here
+    });
+    socket.send(&#39;some data&#39;);</pre>
+
+<p>To use it just include a single line in your html source file:</p>
+
+<pre>    &#60;script src=&#34;http://cdn.socket.io/stable/socket.io.js&#34;&#62;&#60;/script&#62;</pre>
+
+<p>This library solves the proxy issue simply by switching to another transport.</p>
+
+<p>While being a more advanced library it requires a smarter server that actually supports all the transports too. You have to support not only WebSockets but also HTTP/1.1 with all its complexity.</p>
+
+<p>There is a Socket.IO for Perl implemented on top of <a href="http://search.cpan.org/perldoc?Mojolicious" class="podlinkpod"
+>Mojolicious</a> <a href="https://github.com/xantus/ignite" class="podlinkurl"
+>https://github.com/xantus/ignite</a> (long polling and WebSockets).</p>
+
+<h2>WebSocket Issues</h2>
+
+<p>There are many reasons why WebSocket protocol will be likely changed again in the future. Those issues are mostly provoked by the will of making them easy to implement and to use.</p>
+
+<h3>Reverse Proxy Support</h3>
+
+<p>The Draft #76 introduced a challenge that is sent as a body to the WebSocket client. The problem is that it doesn&#39;t have a <code>Content-Length</code> header and proxies will consider it as a next response or simply hang without any error report to the user. Several solutions were proposed for fixing this issue including adding a <code>Content-Length: 8</code> or <code>Connection: close</code> headers, using a <code>POST</code> method and others.</p>
+
+<h3>Framing</h3>
+
+<p>The <code>\x00..\xff</code> framing was considered not the best solution, since using just one byte for the message separation should enough (versions 01, 02 introduce a more advanced framing). It is also not clear if there are should be limitations on frame sizes for preventing DDoS attacks for example.</p>
+
+<h3>Other Issues</h3>
+
+<p>Other issues include: meta frames that could be used for additional settings, like cookies setting after handshake; the needed level of HTTP compliancy; importance of keep alive timeouts etc.</p>
+
+<h2>Using WebSockets In A Real Life</h2>
+
+<p>What do we need to start using WebSockets? Of course we need a suitable web browser. But that does not require any work. The real work is a WebSocket server.</p>
+
+<h3>WebSocket Server Requirements</h3>
+
+<p>The obvious requirements are:</p>
+
+<ul>
+<li>It must know how to parse WebSocket handshake and frames</li>
+
+<li>It must be asynchronous and nonblocking</li>
+
+<li>It must be able to hold many persistent connections</li>
+</ul>
+
+<p>Parsing handshake and frames is not as hard as parsing HTTP/1.1 messages for example, but does require some specification reading, including the fact that they will probably change very soon.</p>
+
+<p>Server must be asynchronous because of the WebSockets asynchronous nature. You can receive message any time and you can send message any time, and at the same time. Since threads are the root of all evils we will use nonblocking socket reading and writing. The differences between asyncronous and nonblocking is explained by only one phrase &#34;Nonblocking mode tells us when to start the action, asynchronous mode tells us when the action is finished&#34;.</p>
+
+<p>The third requirement isn&#39;t really a requirement if you are going to use WebSockets just for testing, but it is good to keep it mind.</p>
+
+<h3>Perl Options</h3>
+
+<p>There are Perl Web Frameworks that support WebSockets out of the box, like <a href="http://search.cpan.org/perldoc?Mojolicious" class="podlinkpod"
+>Mojolicious</a>, which has a WebSocket client in addition, some work is being done in <a href="http://search.cpan.org/perldoc?Dancer" class="podlinkpod"
+>Dancer</a>, <a href="http://search.cpan.org/perldoc?Tatsumaki" class="podlinkpod"
+>Tatsumaki</a>. Standalone WebSocket servers include those built on top of various event loops, check out <a href="http://search.cpan.org/perldoc?Net%3A%3AAsync%3A%3AWebSocket" class="podlinkpod"
+>Net::Async::WebSocket</a>, <a href="http://search.cpan.org/perldoc?AnyEvent%3A%3AHTTP%3A%3AServer" class="podlinkpod"
+>AnyEvent::HTTP::Server</a> and also <a href="http://search.cpan.org/perldoc?Plack" class="podlinkpod"
+>Plack</a> middleware <a href="https://github.com/motemen/Plack-Middleware-WebSocket" class="podlinkurl"
+>https://github.com/motemen/Plack-Middleware-WebSocket</a>. More info on how to build a WebSocket server in Perl you can find in the following article <a href="http://showmetheco.de/articles/2010/11/timtow-to-build-a-websocket-server-in-perl" class="podlinkurl"
+>http://showmetheco.de/articles/2010/11/timtow-to-build-a-websocket-server-in-perl</a>.</p>
+
+<p>The examples described later in this article use my own standalone WebSocket server ReAnimator and event loop EventReactor, but they could be easily ported to other event loops, since there is nothing special about parsing WebSocket handshake (or by using <a href="http://search.cpan.org/perldoc?Protocol%3A%3AWebSocket" class="podlinkpod"
+>Protocol::WebSocket</a>) and doing nonblocking in Perl.</p>
+
+<p>If you are considering what server to use check if it supports drafts #75 and #76 (version 00), has TLS/SSL support and understands Cookies. If you still can&#39;t choose take one that has an asynchronous DNS resolution.</p>
+
+<h2>WebSocket Demo Applications</h2>
+
+<h3>Configuration And Installation</h3>
+
+<p>Examples are accessible online from my GitHub page and usually don&#39;t require third-party modules installation. The only exception is <a href="http://search.cpan.org/perldoc?JSON" class="podlinkpod"
+>JSON</a>, but I am pretty sure it is already installed on every Perl developer&#39;s machine.</p>
+
+<h3>Simple Echo Server</h3>
+
+<p>In order to get started and get a feeling that something actually works, we are going to try a simple chat server that is shipped with ReAnimator. If you clone a git repository you will find <code>examples/</code> directory there (you can find more examples of WebSocket echo servers in <a href="http://search.cpan.org/perldoc?Protocol%3A%3AWebSocket" class="podlinkpod"
+>Protocol::WebSocket</a> distribution or on GitHub <a href="http://github.com/vti/protocol-websocket" class="podlinkurl"
+>http://github.com/vti/protocol-websocket</a> in <a href="http://search.cpan.org/perldoc?examples" class="podlinkpod"
+>&#34;&#34; in examples</a> directory).</p>
+
+<pre>    $ git clone http://github.com/vti/reanimator.git
+    $ cd reanimator/</pre>
+
+<p>Now start the chat server (by default it will listen on 0.0.0.0:3000):</p>
+
+<pre>    $ perl examples/echo</pre>
+
+<p>And open a static <code>index.html</code> page, that lies in the <code>examples/public/</code> directory, in your browser.</p>
+
+<p>If you get a <code>Disconnected</code> message it means that either your browser does not support WebSockets or there is a server problem. The server can be debugged by setting up <code>EVENT_REACTOR_DEBUG=1</code> environmental variable.</p>
+
+<p>On success you will get an <code>input</code> field and a <code>submit</code> button. If you send something you should get it back. There is no fallback mechanism embedded, so please use a browser that supports WebSockets natively.</p>
+
+<p>Below is an explanation how everything actually works.</p>
+
+<p>What&#39;s inside?</p>
+
+<p>Inside we have a static <code>index.html</code> page that connects with a help of JavaScript to the WebSocket server via API described earlier and there is an <code>echo</code> Perl script with a few lines of code:</p>
+
+<pre>    use ReAnimator;
+
+    my $server = ReAnimator-&#62;new;
+
+    ReAnimator-&#62;new(
+        on_accept =&#62; sub {
+            my ($self, $client) = @_;
+
+            $client-&#62;on_message(
+                sub {
+                    my ($client, $message) = @_;
+
+                    $client-&#62;send_message($message);
+                }
+            );
+        }
+    )-&#62;listen-&#62;start;</pre>
+
+<p>This code should remind you the code in JavaScript, here we have an <code>on_accept</code> hook that is run when a new connection is accepted, <code>on_message</code> hook that is run when a new message (already correctly parsed and decoded to UTF-8) arrives. A <code>send_message</code> method is used to send a message to the browser. In this simple example we just send it back without any change.</p>
+
+<p>To eliminate some confusions <code>on_accept</code> hook is called not when a normal socket connection is accepted but after a WebSocket handshake. So you can be sure that everything is prepared for bidirectional transmission. I didn&#39;t call it <code>on_connect</code> because that would make a reader think that a server connects to the browser, which is obviously the opposite.</p>
+
+<p>The echo application can&#39;t demonstrate all the power of WebSockets of course, so let&#39;s switch now to some real apps!</p>
+
+<h3>Remote Shell</h3>
+
+<p>Of course the best way to administrate a server is via <code>ssh</code>. You get a full featured terminal and you don&#39;t even notice that you are working on a remote side. But sometimes you either don&#39;t have a <code>ssh</code> client installed on your machine or there is no <code>ssh</code> access to your server.</p>
+
+<p>The obvious solution is to use a browser, because it is installed everywhere and you always can connect to any server. The problem is that to create a realtime terminal in a browser some advanced techniques have to be used. Every time you type a characted is should be sent immediately to the server. Every time a server sends something back it should be displayed immediately too. And this is asynchronous. HTML5 WebSockets is a perfect fit.</p>
+
+<p>The example I am going to show is a true realtime terminal. The difference from the most solutions is that a browser is just a thin layer between you and the remote shell on the server. Browser doesn&#39;t send commands but characters and special signals. The shell itself understands colors, terminal resizes, works naturally with long running or interactive applications. Just as you would expect a normal <code>ssh</code> client.</p>
+
+<h3>Server Side</h3>
+
+<p>To implement this kind of interactivity we have to create a pseudo terminal on server side to emulate a real terminal, parse special terminal characters like colors, understand commands like <code>CTRL-C</code>, <code>CTRL-D</code> and so on.</p>
+
+<p>For the pseudo terminal we will use <a href="http://search.cpan.org/perldoc?IO%3A%3APty" class="podlinkpod"
+>IO::Pty</a>, for the terminal emulation and characters handling <a href="http://search.cpan.org/perldoc?Term%3A%3AVT102" class="podlinkpod"
+>Term::VT102</a>.</p>
+
+<p>So to create a terminal the following steps should be made:</p>
+
+<dl>
+<dt><a name="Fork_a_child_process"
+>Fork a child process
+<dt><a name="Create_a_new_pty_object_making_it_a_slave_to_a_normal_tty"
+>Create a new pty object making it a slave to a normal tty
+<dt><a name="Reopen_STDIN,_STDOUT_and_STDERR_so_they_point_to_our_pty_object"
+>Reopen <code>STDIN</code>, <code>STDOUT</code> and <code>STDERR</code> so they point to our pty object
+<dt><a name="Exec_a_command_like_/bin/sh_to_start_a_shell_inside_a_new_terminal"
+>Exec a command like <code>/bin/sh</code> to start a shell inside a new terminal
+<dt><a name="Register_callbacks_that_are_invoked_when_a_new_data_arrives"
+>Register callbacks that are invoked when a new data arrives</a></dt>
+</dl>
+
+<p>This is all for the server side. For simplicity I put everything in one class and called it <code>Terminal.pm</code>, you can find the source code on GitHub <a href="https://github.com/vti/showmetheshell/blob/master/lib/Terminal.pm" class="podlinkurl"
+>https://github.com/vti/showmetheshell/blob/master/lib/Terminal.pm</a>. Now we just register descriptors in our event loop. In ReAnimator it could look like this (simplified):</p>
+
+<pre>    my $server = ReAnimator-&#62;new;
+
+    ReAnimator-&#62;new(
+        on_accept =&#62; sub {
+            my ($self, $client) = @_;
+
+            my $terminal = Terminal-&#62;new(
+                cmd            =&#62; &#39;/bin/sh&#39;,
+                on_row_changed =&#62; sub {
+                    my ($self, $row, $text) = @_;
+
+                    $client-&#62;send_message(
+                        JSON-&#62;new-&#62;encode(
+                            {type =&#62; &#39;row&#39;, row =&#62; $row, text =&#62; $text}
+                        )
+                    );
+                }
+            );
+
+            $self-&#62;event_reactor-&#62;add_atom($terminal);
+
+            $terminal-&#62;start;
+
+            $client-&#62;on_message(
+                sub {
+                    my ($client, $message) = @_;
+
+                    ...
+                    # Send a pressed key to the terminal
+                    $terminal-&#62;key($code);
+                }
+            );
+        }
+    )-&#62;listen-&#62;start;</pre>
+
+<p>And that&#39;s it. Every time something happens in a terminal it is sent to the browser and when something is typed in the browser it is sent to the terminal.</p>
+
+<h3>Client Side</h3>
+
+<p>The biggest problem on the client side it to catch all the key presses. It is even more difficult when it comes to different browsers. But using a modern js framework this can be greatly simplified (e.g. <code>JQuery</code>). Another solution is to create a virtual keyboard.</p>
+
+<p>Since the server sends which row has changed, there are no issues displaying it with <code>JavaScript</code>. I&#39;ve created 24 <code>span</code> rows with unique ids and used this function:</p>
+
+<pre>    function(n, data) {
+        var row = $(&#39;#row&#39; + n);
+        row.html(data);
+    };</pre>
+
+<p>Seriously, this is all that is needed. And WebSocket interaction stays the same.</p>
+
+<h3>Important Enhancement</h3>
+
+<p>The obvious enhancement is to use SSL of course. You don&#39;t want to run a <code>ssh</code> session via a not protected connection. And since WebSockets support SSL it&#39;s as easy as replacing <code>ws://</code> with <code>wss://</code> (evidently, the server must support SSL too).</p>
+
+<h3>Demo And Source code</h3>
+
+<p>The full source code of this example is available at <a href="http://github.com/vti/showmetheshell" class="podlinkurl"
+>http://github.com/vti/showmetheshell</a>. The demo video is also available at <a href="http://vimeo.com/13681309" class="podlinkurl"
+>http://vimeo.com/13681309</a>.</p>
+
+<h3>VNC</h3>
+
+<p>If you ever wanted to connect to other PC and be able actually see the desktop and use your keyboard and mouse (not via <code>ssh</code>) you probably know what VNC is. VNC is a really true thin client, that uses RFB (Remote FrameBuffer) protocol. It has a client-server architecture. All the display pixels computation is done on the server side and client only requests framebuffer updates. Data between client and server is transfered using various encodings to minimize traffic. Redrawing and input control can be really responsive.</p>
+
+<p>There are many VNC servers and clients, some of the operating systems even have a VNC server out of the box. For example so does Mac OS with its Screen sharing settings. Most of the Linux distributions provide several alternatives that could be installed with one command. There are also open source variants for Windows users too.</p>
+
+<p>But what to do if you have only a browser and internet connection? There are java applets that come with some VNC servers that you can use for accessing a remote machine. But that requires Java support, which sometimes could be a problem. Anyway we want a native solution. And that solution is WebSockets. They are ideal for persistent connections, they can transmit data without overhead and they are fun and easy to use.</p>
+
+<p>To be able to use RFB protocol we must know how to understand it and display it in a browser. While RFB operates on pixels we can use HTML5 <code>canvas</code> that has an extremely easy API to draw images, copy rectangles and more. Consider the following example:</p>
+
+<pre>    var canvas = document.getElementById(&#39;canvas&#39;);
+    var context = canvas.getContext(&#39;2d&#39;);
+
+    // Draw image
+    context.drawImage(img, x, y);
+
+    // Copy rectangle
+    var img = context.getImageData(x, y, width, height);
+    context.putImageData(img, x, y);</pre>
+
+<p>We can proxy RFB message to the browser without any modification but then we have to parse them using JavaScript which is not a good idea, since not only that could take awhile, but it is not that easy to work with binary data in JavaScript. We can parse RFB message on the server side, tranform that to some kind of a textual form and deliver it to the browser.</p>
+
+<p>All the user input interaction like a keyboard button pressing or mouse moves can be captured using JavaScript without any problems.</p>
+
+<p>When it comes to Perl and CPAN the only module that works with VNC is Net::VNC, but it only captures a screenshot and is not useful for other things. That is why I had to write a Protocol::RFB module, that understands most of the RFB messages, can deal with keyboard and mouse, provides hooks that can be used in asynchronous applications.</p>
+
+<p>But now the WebSocket server must not only listen to the browser&#39;s connection but it must also listen to the VNC server on another address. It has to have a simple mechanism to pass messages from the client to the server and vice versa.</p>
+
+<p>Using ReAnimator and EventReactor it is very straightforward (code is simplified):</p>
+
+<pre>    ReAnimator-&#62;new(
+        on_accept =&#62; sub {
+            my ($self, $client) = @_;
+
+            my $vnc = Protocol::RFB::Client-&#62;new(password =&#62; $VNC_PASSWORD);
+
+            my $slave = $self-&#62;event_reactor-&#62;connect(
+                address    =&#62; $VNC_ADDRESS,
+                port       =&#62; $VNC_PORT,
+                on_connect =&#62; sub {
+                    my $slave = shift;
+
+                    $slave-&#62;on_read(
+                        sub {
+                            my $slave = shift;
+                            my $chunk = shift;
+
+                            $vnc-&#62;parse($chunk);
+                        }
+                    );
+
+                    $slave-&#62;on_disconnect(sub { $self-&#62;drop($client) });
+                }
+            );
+
+            $vnc-&#62;on_handshake(
+                sub {
+                    my $vnc = shift;
+
+                    $client-&#62;send_message(
+                        JSON-&#62;new-&#62;encode(
+                            {   type   =&#62; &#39;s&#39;,
+                                name   =&#62; $vnc-&#62;server_name,
+                                width  =&#62; $WIDTH || $vnc-&#62;width,
+                                height =&#62; $HEIGHT || $vnc-&#62;height
+                            }
+                        )
+                    );
+                }
+            );
+
+            $vnc-&#62;on_framebuffer_update(
+                sub {
+                    my ($vnc, $message) = @_;
+
+                    foreach my $rectangle (@{$message-&#62;rectangles}) {
+                        $client-&#62;send_message(
+                            JSON-&#62;new-&#62;encode(
+                                {type =&#62; &#39;fu&#39;, rectangle =&#62; $rectangle}
+                            )
+                        );
+                    }
+                }
+            );
+
+            $vnc-&#62;on_write(
+                sub {
+                    my ($vnc, $chunk) = @_;
+
+                    $slave-&#62;write($chunk);
+                }
+            );
+
+            $client-&#62;on_message(
+                sub {
+                    my ($client, $message) = @_;
+
+                    my $json = JSON-&#62;new;
+
+                    eval { $message = $json-&#62;decode($message); };
+                    return if !$message || $@;
+
+                    if ($message-&#62;{type} eq &#39;fuq&#39;) {
+                        ...
+                    }
+
+                    ...
+                }
+            );
+        }
+    )-&#62;listen-&#62;start;</pre>
+
+<p>Here the WebSocket and VNC connections run in the same event loop, they just have a different level of abstraction. While the WebSocket connection operates on text messages, VNC connection operates on binary data.</p>
+
+<p>The actual speed of rendering is acceptable. The bottle neck is obviously Perl itself. That could be optimised writing an XS version, but it&#39;s more than enough for demonstating purposes.</p>
+
+<h3>Demo And Source Code</h3>
+
+<p>The full source code of this example is available at <a href="http://github.com/vti/showmethedesktop" class="podlinkurl"
+>http://github.com/vti/showmethedesktop</a>. To run this application you need a second machine with a VNC server, this could be for example a Linux distibution running on a virtual machine. The demo video is also available at <a href="http://vimeo.com/16459612" class="podlinkurl"
+>http://vimeo.com/16459612</a>.</p>
+
+<h2>Conclusion</h2>
+
+<p>HTML5 WebSockets is a powerful way for creating realtime applications that require a persistent connection and bidirectional communication. The future of the Web is here and Perl is ready to accept this challenge.</p>
+
+<pre>    This article was written for the $foo German Perl Magazine. So if you can read
+    German and want to support a good Perl periodical publication check out
+    http://www.perl-magazin.de/!</pre>
+
+    </div>
+    <h2>Comments</h2>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'showmetheco-de'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+            </div>
+            <div class="push"></div>
+        </div>
+        <div id="footer">Powered by <a href="http://github.com/vti/twist">Twist</a></div>
+
+                <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-3438369-7']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>    </body>
+</html>

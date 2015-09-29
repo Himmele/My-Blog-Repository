@@ -1,0 +1,486 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0043)http://bartoszmilewski.com/category/erlang/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Erlang « &nbsp;&nbsp;Bartosz Milewski's Programming Cafe</title>
+
+	<style type="text/css" media="screen">
+		@import url( http://s2.wp.com/wp-content/themes/pub/connections/style.css?m=1355519460g );
+	</style>
+	<link rel="pingback" href="http://bartoszmilewski.com/xmlrpc.php">
+
+<!--[if IE 7]>
+<style type="text/css">
+	#topnav li {
+		display: inline;
+	}
+</style>
+<![endif]-->
+
+			<script src="./Actors and CSP_files/quant.js" async="" type="text/javascript"></script><script src="./Actors and CSP_files/remote-login.php" type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="  Bartosz Milewski&#39;s Programming Cafe » Feed" href="http://bartoszmilewski.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="  Bartosz Milewski&#39;s Programming Cafe » Comments Feed" href="http://bartoszmilewski.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="  Bartosz Milewski&#39;s Programming Cafe » Erlang Category Feed" href="http://bartoszmilewski.com/category/erlang/feed/">
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" id="all-css-0" href="./Actors and CSP_files/saved_resource" type="text/css" media="all">
+<link rel="stylesheet" id="print-css-0" href="./Actors and CSP_files/global-print.css" type="text/css" media="print">
+<script type="text/javascript" src="./Actors and CSP_files/saved_resource(1)"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://bartoszmilewski.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://bartoszmilewski.wordpress.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress.com">
+<link rel="shortcut icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311976023g" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311976023g" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="http://s0.wp.com/i/webclip.png?m=1355642671g">
+<link rel="openid.server" href="http://bartoszmilewski.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="http://bartoszmilewski.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="http://bartoszmilewski.com/osd.xml" title="  Bartosz Milewski&#39;s Programming Cafe">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com">
+		<style>
+		/* <![CDATA[ */
+		/* Block: reblog */
+		
+		.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+		.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+		.reblogger-note-content            { margin: 0 0 20px; }
+		.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+		.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+		.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+		.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+		.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+		
+		.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+		
+		.reblog-post .wpcom-enhanced-excerpt address,
+		.reblog-post .wpcom-enhanced-excerpt li,
+		.reblog-post .wpcom-enhanced-excerpt h1,
+		.reblog-post .wpcom-enhanced-excerpt h2,
+		.reblog-post .wpcom-enhanced-excerpt h3,
+		.reblog-post .wpcom-enhanced-excerpt h4,
+		.reblog-post .wpcom-enhanced-excerpt h5,
+		.reblog-post .wpcom-enhanced-excerpt h6,
+		.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+		
+		.reblog-post .wpcom-enhanced-excerpt blockquote,
+		.reblog-post .wpcom-enhanced-excerpt pre,
+		.reblog-post .wpcom-enhanced-excerpt code,
+		.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+		
+
+		/* ]]> */		
+		</style>
+		<meta name="application-name" content="  Bartosz Milewski&#39;s Programming Cafe"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Concurrency, Multicore, C++, Haskell"><meta name="msapplication-task" content="name=Subscribe;action-uri=http://bartoszmilewski.com/feed/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico"><meta name="title" content="Posts about Erlang on   Bartosz Milewski&#39;s Programming Cafe">
+<meta name="description" content="Posts about Erlang written by Bartosz Milewski">
+<style type="text/css">
+#headimg {
+	background:#7d8b5a url(http://bartoszmilewski.files.wordpress.com/2008/08/cropped-bartosz-at-work.jpg) center repeat-y;
+}
+#headimg h1 a, #headimg h1 a:hover, #headimg #desc {
+	color: #FFFFFF;
+}
+</style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="./Actors and CSP_files/saved_resource(2)">
+		<script charset="utf-8" src="./Actors and CSP_files/rate.php"></script><script charset="utf-8" src="./Actors and CSP_files/rate(1).php"></script><script charset="utf-8" src="./Actors and CSP_files/rate(2).php"></script><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Actors and CSP_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Actors and CSP_files/services.css"><style type="text/css" id="pd_popup_holder_style_2203687_post_935">#pd_popup_holder_2203687_post_935 { position:absolute; display:none; width:350px; height:auto; top:0px; left:0px; z-index:10000; border:solid 1px #CCC; background-color:white; padding:0px 15px;font-family:Arial,Sans;box-shadow: -10px 10px 20px rgba(0, 0, 0, .5);-webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25);-moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25); }</style><style type="text/css" id="pd_popup_holder_style_2203687_post_505">#pd_popup_holder_2203687_post_505 { position:absolute; display:none; width:350px; height:auto; top:0px; left:0px; z-index:10000; border:solid 1px #CCC; background-color:white; padding:0px 15px;font-family:Arial,Sans;box-shadow: -10px 10px 20px rgba(0, 0, 0, .5);-webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25);-moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25); }</style><style type="text/css" id="pd_popup_holder_style_2203687_post_131">#pd_popup_holder_2203687_post_131 { position:absolute; display:none; width:350px; height:auto; top:0px; left:0px; z-index:10000; border:solid 1px #CCC; background-color:white; padding:0px 15px;font-family:Arial,Sans;box-shadow: -10px 10px 20px rgba(0, 0, 0, .5);-webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25);-moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, .25); }</style></head>
+
+<body class="archive category category-erlang category-214614 typekit-enabled highlander-enabled highlander-light">
+<div id="rap">
+
+<div id="header">
+		<ul id="topnav">
+		<li><a href="http://bartoszmilewski.com/" id="navHome" title="Posted Recently" accesskey="h">Home</a></li>
+		<li class="page_item page-item-2"><a href="http://bartoszmilewski.com/about/">About</a></li>
+	</ul>
+
+	<div id="headimg">
+	<h1><a href="http://bartoszmilewski.com/" title="  Bartosz Milewski&#39;s Programming Cafe">&nbsp;&nbsp;Bartosz Milewski's Programming Cafe</a></h1>
+	<div id="desc">Concurrency, Multicore, C++, Haskell</div>
+	</div>
+</div>
+	<div id="main">
+	<div id="content">
+					<h3>Erlang</h3>
+			<div class="post-info">Archived Posts from this Category</div>
+			<br>
+							<div class="post-935 post type-post status-publish format-standard hentry category-c category-concurrency category-d-programming-language category-erlang category-java category-multithreading category-programming category-scala category-type-system">
+					<p class="post-date">July 16, 2009</p>
+<div class="post-info">
+	<h2 class="post-title">
+			<a href="http://bartoszmilewski.com/2009/07/16/on-actors-and-casting/" rel="bookmark" title="Permanent Link: On Actors and Casting">On Actors and&nbsp;Casting</a>
+		</h2>
+Posted by Bartosz Milewski under <a href="http://bartoszmilewski.com/category/c/" title="View all posts in C++" rel="category tag">C++</a>, <a href="http://bartoszmilewski.com/category/concurrency/" title="View all posts in Concurrency" rel="category tag">Concurrency</a>, <a href="http://bartoszmilewski.com/category/d-programming-language/" title="View all posts in D Programming Language" rel="category tag">D Programming Language</a>, <a href="./Actors and CSP_files/Actors and CSP.html" title="View all posts in Erlang" rel="category tag">Erlang</a>, <a href="http://bartoszmilewski.com/category/java/" title="View all posts in Java" rel="category tag">Java</a>, <a href="http://bartoszmilewski.com/category/multithreading/" title="View all posts in Multithreading" rel="category tag">Multithreading</a>, <a href="http://bartoszmilewski.com/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>, <a href="http://bartoszmilewski.com/category/scala/" title="View all posts in Scala" rel="category tag">Scala</a>, <a href="http://bartoszmilewski.com/category/type-system/" title="View all posts in Type System" rel="category tag">Type System</a> <br><a href="http://bartoszmilewski.com/2009/07/16/on-actors-and-casting/#comments" title="Comment on On Actors and Casting">[31] Comments</a>&nbsp;</div>
+<div class="post-content">
+	<div class="pd-rating" id="pd_rating_holder_2203687_post_935" style="display: inline-block; "><div class="rating-icons" id="pd_rate_2203687_post_935" style="float:left;"><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_935.rebuild();" onclick="PDRTJS_2203687_post_935.rate(1);" onmouseover="PDRTJS_2203687_post_935.hover(1);" id="PDRTJS_2203687_post_935_stars_1" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_935.rebuild();" onclick="PDRTJS_2203687_post_935.rate(2);" onmouseover="PDRTJS_2203687_post_935.hover(2);" id="PDRTJS_2203687_post_935_stars_2" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_935.rebuild();" onclick="PDRTJS_2203687_post_935.rate(3);" onmouseover="PDRTJS_2203687_post_935.hover(3);" id="PDRTJS_2203687_post_935_stars_3" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_935.rebuild();" onclick="PDRTJS_2203687_post_935.rate(4);" onmouseover="PDRTJS_2203687_post_935.hover(4);" id="PDRTJS_2203687_post_935_stars_4" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_935.rebuild();" onclick="PDRTJS_2203687_post_935.rate(5);" onmouseover="PDRTJS_2203687_post_935.hover(5);" id="PDRTJS_2203687_post_935_stars_5" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div></div><span style="float:left;">&nbsp;</span><div id="rating_info_2203687_post_935" style="display:block;float:left;background:url(http://i0.poll.fm/images/ratings/info.png) no-repeat 3px 2px;width:16px;height:16px;cursor:pointer; null " onclick="javascript:PDRTJS_2203687_post_935.togglePopup();return false;"><span style="display:none;">i</span></div><div class="pd_popup_holder" id="pd_popup_holder_2203687_post_935">&nbsp;</div><div class="rating-msg" id="PDRTJS_2203687_post_935_msg" style="float:left; padding-left: 5px; text-align: left; font:normal normal /16px ; color: #;">1 Vote</div><p style="padding: 0px; margin: 0px; clear: both;"></p><img src="./Actors and CSP_files/p-ab3gTb8xb3dLg.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"></div><br><p>Is the Actor model just another name for message passing between threads? In other words, can you consider a Java <var>Thread</var> object with a message queue an Actor? Or is there more to the Actor model? Bartosz investigates. </p>
+<p>I’ll start with listing various properties that define the Actor Model. I will discuss implementation options in several languages.</p>
+<h2>Concurrency</h2>
+<p><b>Actors are objects that execute concurrently.</b> Well, sort of. Erlang, for instance, is not an object-oriented language, so we can’t really talk about “objects”. An actor in Erlang is represented by a thing called a Process ID (Pid). But that’s nitpicking. The second part of the statement is more interesting. Strictly speaking, an actor may execute concurrently but at times it will not. For instance, in Scala, actor code may be executed by the calling thread. </p>
+<p>Caveats aside, it’s convenient to think of actors as objects with a thread inside.</p>
+<h2>Message Passing</h2>
+<p><b>Actors communicate through message passing.</b> Actors don’t communicate using shared memory (or at least pretend not to). The only way data may be passed between actors is through messages. </p>
+<p>Erlang has a primitive send operation denoted by the exclamation mark. To send a message <var>Msg</var> to the process (actor) <var>Pid</var> you write:</p>
+<pre>Pid ! Msg</pre>
+<p>The message is copied to the address space of the receiver, so there is no sharing. </p>
+<p>If you were to imitate this mechanism in Java, you would create a <var>Thread</var> object with a mailbox (a concurrent message queue), with no public methods other than <var>put</var> and <var>get</var> for passing messages. Enforcing copy semantics in Java is impossible so, strictly speaking, mailboxes should only store built-in types. Note that passing a Java <var>String</var>s is okay, since strings are immutable. </p>
+<h3>-Typed messages</h3>
+<p>Here’s the first conundrum: in Java, as in any statically typed language, messages have to be typed. If you want to process more than one type of messages, it’s not enough to have just one mailbox per actor. In Erlang, which is dynamically typed, one canonical mailbox per actor suffices. In Java, mailboxes have to be abstracted from actors. So an actor may have one mailbox for accepting strings, another for integers, etc. You build actors from those smaller blocks.</p>
+<p>But having multiple mailboxes creates another problem: How to block, waiting for messages from more than one mailbox at a time without breaking the encapsulation? And when one of the mailboxes fires, how to retrieve the correct type of a message from the appropriate mailbox? I’ll describe a few approaches.</p>
+<h3>-Pattern matching</h3>
+<p>Scala, which is also a statically typed language, uses the power of functional programming to to solve the typed messages problem. The <var>receive</var> statement uses pattern matching, which can match different types. It looks like a switch statements whose <var>case</var> labels are patterns. A pattern may specify the type it expects. You may send a string, or an integer, or a more complex data structure to an actor. A single <var>receive</var> statement inside the actor code may match any of those.</p>
+<pre>receive {
+    case s: String =&gt; println("string: "+ s)
+    case i: Int =&gt; println("integer: "+ i)
+    case m =&gt; println("unknown: "+ m)
+}</pre>
+<p>In Scala the type of a variable is specified after the colon, so <var>s:String</var> declares the variable <var>s</var> of the type <var>String</var>. The last case is a catch-all.</p>
+<p>This is a very elegant solution to a difficult problem of marrying object-oriented programming to functional programming–a task at which Scala exceeds. </p>
+<h3>-Casting</h3>
+<p>Of course, we always have the option of escaping the type system. A mailbox could be just a queue of <var>Object</var>s. When a message is received, the actor could try casting it to each of the expected types in turn or use reflection to find out the type of the message. Here’s what Martin Odersky, the creator of Scala,  has to say about it:</p>
+<blockquote><p>The most direct (some would say: crudest) form of decomposition uses the type-test and type-cast instructions available in Java and many other languages.</p></blockquote>
+<p>In the paper he co-authored with Emir and Williams (<a href="http://lampwww.epfl.ch/~emir/written/MatchingObjectsWithPatterns-TR.pdf">Matching Objects With Patterns</a>) he gives the following evaluation of this method:</p>
+<blockquote><p>Evaluation: Type-tests and type-casts require zero overhead for the class hierarchy. The pattern matching itself is very verbose, for both shallow and deep patterns. In particular, every match appears as both a type-test and a subsequent type-cast. The scheme raises also the issue that type-casts are potentially unsafe because they can raise ClassCastExceptions. Type-tests and type-casts completely expose representation. They have mixed characteristics with respect to extensibility. On the one hand, one can add new variants without changing the framework (because there is nothing to be done in the framework itself). On the other hand, one cannot invent new patterns over existing variants that use the same syntax as the type-tests and type-casts.
+</p></blockquote>
+<p>The best one could do in C++ or D is to write generic code that hides casting from the client. Such generic code could use <i>continuations</i> to process messages after they’ve been cast. A continuation is a function that you pass to another function to be executed after that function completes (strictly speaking, a real continuation never returns, so I’m using this word loosely). The above example could be rewritten in C++ as:</p>
+<pre>void onString(std::string const &amp; s) {
+    cout &lt;&lt; "string: " &lt;&lt; s &lt;&lt; std::endl;
+}
+void onInt(int i) {
+    cout &lt;&lt; "integer: " &lt;&lt; i &lt;&lt; std::endl;
+}
+
+receive&lt;std::string, int&gt; (&amp;onString, &amp;onInt);</pre>
+<p>where <var>receive</var> is a variadic template (available in C++0x). It would do the dynamic casting and call the appropriate function to process the result. The syntax is awkward and less flexible than that of Scala, but it works. </p>
+<p>The use of lambdas might make things a bit clearer. Here’s an example in D using lambdas (function literals), courtesy Sean Kelly and Jason House:</p>
+<pre>receive(
+    (string s){ writefln("string: %s", s); },
+    (int i){ writefln("integer: %s", i); }
+);</pre>
+<p>Interestingly enough, Scala’s <var>receive</var> is a library function with the pattern matching block playing the role of a continuation. Scala has syntactic sugar to make lambdas look like curly-braced blocks of code. Actually, each case statement is interpreted by Scala as a <i>partial function</i>–a function that is not defined for all values (or types) of arguments. The pattern matching part of <var>case</var> becomes the <var>isDefinedAt</var> method of this partial function object, and the code after that becomes its <var>apply</var> method. Of course, partial functions could also be implemented in C++ or D, but with a lot of superfluous awkwardness–lambda notation doesn’t help when partial functions are involved.</p>
+<h3>-Isolation</h3>
+<p>Finally, there is the problem of <b>isolation</b>. A message-passing system must be protected from data sharing. As long as the message is a primitive type and is passed by value (or an immutable type passed by reference), there’s no problem. But when you pass a mutable <var>Object</var> as a message, in reality you are passing a reference (a handle) to it. Suddenly your message is shared and may be accessed by more than one thread at a time. You either need additional synchronization outside of the Actor model or risk data races. Languages that are not strictly functional, including Scala, have to deal with this problem. They usually pass this responsibility, conveniently, to the programmer.</p>
+<h3>-Kilim</h3>
+<p>Java is not a good language to implement the Actor model. You can extend Java though, and there is one such extension worth mentioning called <a href="http://www.malhar.net/sriram/kilim/kilim_ecoop08.pdf">Kilim</a> by Sriram Srinivasan and Alan Mycroft from Cambridge, UK. Messages in Kilim are restricted to objects with no internal aliasing, which have move semantics. The pre-processor (weaver) checks the structure of messages and generates appropriate Java code for passing them around. I tried to figure out how Kilim deals with waiting on multiple mailboxes, but there isn’t enough documentation available on the Web. The authors mention using the <var>select</var> statement, but never provide any details or examples.</p>
+<p><i>Correction: Sriram was kind enough to provide an example of the use of <var>select</var>:</i></p>
+<pre>int n = Mailbox.select(mb0, mb1, .., timeout);</pre>
+<p><i>The return value is the index of the mailbox, or -1 for the timeout. Composability is an important feature of the message passing model.</i></p>
+<h2>Dynamic Networks</h2>
+<p>Everything I described so far is common to CSP (Communicating Sequential Processes) and the Actor model. Here’s what makes actors more general:</p>
+<p><b>Connections between actors are dynamic.</b> Unlike processes in CSP, actors may establish communication channels dynamically. They may pass messages containing references to actors (or mailboxes). They can then send messages to those actors. Here’s a Scala example:</p>
+<pre>receive {
+    case (name: String, actor: Actor) =&gt;
+        actor ! lookup(name)
+}</pre>
+<p>The original message is a tuple combining a string and an actor object. The receiver sends the result of <var>lookup(name)</var> to the actor it has just learned about. Thus a new communication channel between the receiver and the unknown actor can be established at runtime. (In Kilim the same is possible by passing mailboxes via messages.)</p>
+<h2>Actors in D</h2>
+<p>The D programming language with <a href="http://bartoszmilewski.wordpress.com/2009/05/26/race-free-multithreading/">my proposed race-free type system</a> could dramatically improve the safety of message passing. Race-free type system distinguishes between various types of sharing and enforces synchronization when necessary. For instance, since an <var>Actor</var> would be shared between threads, it would have to be declared <var>shared</var>. All objects inside a shared actor, including the mailbox, would automatically inherit the shared property. A shared message queue inside the mailbox could only store value types, <var>unique</var> types with move semantics, or reference types that are either immutable or are monitors (provide their own synchronization). These are exactly the types of messages that may be safely passed between actors. Notice that this is more than is allowed in Erlang (value types only) or Kilim (unique types only), but doesn’t include “dangerous” types that even Scala accepts (not to mention Java or C++). </p>
+<p>I will discuss message queues in the next installment.</p>
+<div id="jp-post-flair" class="sharedaddy sd-rating-enabled sd-like-enabled"></div>	<div class="post-info">
+			</div>
+	<div class="post-footer">&nbsp;</div>
+</div>
+									</div>
+							<div class="post-505 post type-post status-publish format-standard hentry category-concurrency category-erlang category-programming">
+					<p class="post-date">February 10, 2009</p>
+<div class="post-info">
+	<h2 class="post-title">
+			<a href="http://bartoszmilewski.com/2009/02/10/message-passing-sync-or-async/" rel="bookmark" title="Permanent Link: Message Passing–Sync or Async?">Message Passing–Sync or&nbsp;Async?</a>
+		</h2>
+Posted by Bartosz Milewski under <a href="http://bartoszmilewski.com/category/concurrency/" title="View all posts in Concurrency" rel="category tag">Concurrency</a>, <a href="./Actors and CSP_files/Actors and CSP.html" title="View all posts in Erlang" rel="category tag">Erlang</a>, <a href="http://bartoszmilewski.com/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a> <br><a href="http://bartoszmilewski.com/2009/02/10/message-passing-sync-or-async/#comments" title="Comment on Message Passing–Sync or Async?">[16] Comments</a>&nbsp;</div>
+<div class="post-content">
+	<div class="pd-rating" id="pd_rating_holder_2203687_post_505" style="display: inline-block; "><div class="rating-icons" id="pd_rate_2203687_post_505" style="float:left;"><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_505.rebuild();" onclick="PDRTJS_2203687_post_505.rate(1);" onmouseover="PDRTJS_2203687_post_505.hover(1);" id="PDRTJS_2203687_post_505_stars_1" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_505.rebuild();" onclick="PDRTJS_2203687_post_505.rate(2);" onmouseover="PDRTJS_2203687_post_505.hover(2);" id="PDRTJS_2203687_post_505_stars_2" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_505.rebuild();" onclick="PDRTJS_2203687_post_505.rate(3);" onmouseover="PDRTJS_2203687_post_505.hover(3);" id="PDRTJS_2203687_post_505_stars_3" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_505.rebuild();" onclick="PDRTJS_2203687_post_505.rate(4);" onmouseover="PDRTJS_2203687_post_505.hover(4);" id="PDRTJS_2203687_post_505_stars_4" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_505.rebuild();" onclick="PDRTJS_2203687_post_505.rate(5);" onmouseover="PDRTJS_2203687_post_505.hover(5);" id="PDRTJS_2203687_post_505_stars_5" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div></div><span style="float:left;">&nbsp;</span><div id="rating_info_2203687_post_505" style="display:block;float:left;background:url(http://i0.poll.fm/images/ratings/info.png) no-repeat 3px 2px;width:16px;height:16px;cursor:pointer; null " onclick="javascript:PDRTJS_2203687_post_505.togglePopup();return false;"><span style="display:none;">i</span></div><div class="pd_popup_holder" id="pd_popup_holder_2203687_post_505">&nbsp;</div><div class="rating-msg" id="PDRTJS_2203687_post_505_msg" style="float:left; padding-left: 5px; text-align: left; font:normal normal /16px ; color: #;">4 Votes</div><p style="padding: 0px; margin: 0px; clear: both;"></p><img src="./Actors and CSP_files/p-ab3gTb8xb3dLg.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"></div><br><p>Recently I’ve been looking into message passing as a model for concurrency. It turns out that there are two warring camps in the message passing community. One believes that synchronous message passing is more fundamental, the other believes that asynchronous message passing is more basic. You might think that the discussion is moot, since one can be emulated by the other, but it’s not as simple as that.</p>
+<p>Let me first explain the concepts. In message passing you have a sender and a receiver–they usually run in separate threads. The sender sends a message and the receiver receives it. All issues of memory sharing and concurrent access are hidden inside the communication channel. The client does no low level synchronization actions like locking. Which is a good thing–no low level races or deadlocks!</p>
+<p>The receiver usually has a choice of synchronous or asynchronous access. It can block until a message is available, or it can peek to see if there is a message waiting. Usually both interfaces are available.</p>
+<p>The major choice of paradigms is on the sender’s side. </p>
+<ul>
+<li>In the <strong>synchronous </strong> model, the sender blocks until the receiver picks up the message. The two have to rendezvous.</li>
+<li>In the <strong>asynchronous </strong> model, the sender drops the message and continues with its own business.</li>
+</ul>
+<p>The synchronous model is used, among others, in CSP (Communicating Sequential Processes) and CML (Concurrent ML). The asynchronous one is used in Concurrent Haskell and in actor-based languages like Erlang or Scala.</p>
+<p>Here’s the main argument of the synchronous camp: After calling <var>send</var> the sender has the guarantee that the message has been received by the receiver. The code after <var>send</var> may safely make this assumption. If you’re a believer in RPC (Remote Procedure Call) you’ll love this. Sending a message is just like making a function call, only the work is done in a separate thread.</p>
+<p>To which the asynchronous camp answers: Yeah, but what about distribution? In a distributed system, the receiver may be in a different process on a different machine. There may be many reasons why the message doesn’t arrive at the recipient (the recipient is dead? a bulldozer cut the network cable?). In that case the sender will hang forever. The code after <var>send</var> may still assume safe delivery, but it will never be executed.</p>
+<p>There is another, more subtle problem with synchronous message passing between machines–a network protocol might deliver messages in different order than they were sent. If the receiver’s code expects a certain sequence of messages, it might block forever if the messages are permuted. </p>
+<p>All these problems may be overcome by queuing messages, building sophisticated protocols, and spawning helper threads. But is it really worth the trouble?</p>
+<p>Yes, say the synchronous camp, if you want to formally prove the correctness of your programs. With synchronous message passing you can use the theoretical machinery of C.A.R Hoare’s CSP. That’s an important advantage if you are writing your Ph.D. thesis, but maybe less so if you’re maintaining millions of lines of Erlang code. </p>
+<p>For my next installment I’m already working on translating Haskell’s MVar’s to Java. This will be fun!</p>
+<p>You may vote on this article on <a href="http://www.reddit.com/r/programming/comments/7wgpd/bartosz_discusses_synchronous_vs_asynchronous/">reddit</a>.</p>
+<div id="jp-post-flair" class="sharedaddy sd-rating-enabled sd-like-enabled"></div>	<div class="post-info">
+			</div>
+	<div class="post-footer">&nbsp;</div>
+</div>
+									</div>
+							<div class="post-131 post type-post status-publish format-standard hentry category-concurrency category-d-programming-language category-erlang category-multicore category-multithreading category-programming">
+					<p class="post-date">August 24, 2008</p>
+<div class="post-info">
+	<h2 class="post-title">
+			<a href="http://bartoszmilewski.com/2008/08/24/threads-dont-scale-processes-do/" rel="bookmark" title="Permanent Link: Threads Don’t Scale, Processes Do">Threads Don’t Scale, Processes&nbsp;Do</a>
+		</h2>
+Posted by Bartosz Milewski under <a href="http://bartoszmilewski.com/category/concurrency/" title="View all posts in Concurrency" rel="category tag">Concurrency</a>, <a href="http://bartoszmilewski.com/category/d-programming-language/" title="View all posts in D Programming Language" rel="category tag">D Programming Language</a>, <a href="./Actors and CSP_files/Actors and CSP.html" title="View all posts in Erlang" rel="category tag">Erlang</a>, <a href="http://bartoszmilewski.com/category/multicore/" title="View all posts in Multicore" rel="category tag">Multicore</a>, <a href="http://bartoszmilewski.com/category/multithreading/" title="View all posts in Multithreading" rel="category tag">Multithreading</a>, <a href="http://bartoszmilewski.com/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a> <br><a href="http://bartoszmilewski.com/2008/08/24/threads-dont-scale-processes-do/#comments" title="Comment on Threads Don’t Scale, Processes Do">[18] Comments</a>&nbsp;</div>
+<div class="post-content">
+	<div class="pd-rating" id="pd_rating_holder_2203687_post_131" style="display: inline-block; "><div class="rating-icons" id="pd_rate_2203687_post_131" style="float:left;"><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_131.rebuild();" onclick="PDRTJS_2203687_post_131.rate(1);" onmouseover="PDRTJS_2203687_post_131.hover(1);" id="PDRTJS_2203687_post_131_stars_1" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_131.rebuild();" onclick="PDRTJS_2203687_post_131.rate(2);" onmouseover="PDRTJS_2203687_post_131.hover(2);" id="PDRTJS_2203687_post_131_stars_2" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_131.rebuild();" onclick="PDRTJS_2203687_post_131.rate(3);" onmouseover="PDRTJS_2203687_post_131.hover(3);" id="PDRTJS_2203687_post_131_stars_3" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) top left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_131.rebuild();" onclick="PDRTJS_2203687_post_131.rate(4);" onmouseover="PDRTJS_2203687_post_131.hover(4);" id="PDRTJS_2203687_post_131_stars_4" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div><div class="rating-star-icon" onmouseout="PDRTJS_2203687_post_131.rebuild();" onclick="PDRTJS_2203687_post_131.rate(5);" onmouseover="PDRTJS_2203687_post_131.hover(5);" id="PDRTJS_2203687_post_131_stars_5" style="background-size: 32px 48px!important; cursor: pointer; width: 16px; height: 16px; line-height: 16px; background: url(http://i0.poll.fm/ratings/images/star-yellow-sml.png) bottom left; float: left; padding: 0px; marging: 0px; margin-right: 1px;">&nbsp;</div></div><span style="float:left;">&nbsp;</span><div id="rating_info_2203687_post_131" style="display:block;float:left;background:url(http://i0.poll.fm/images/ratings/info.png) no-repeat 3px 2px;width:16px;height:16px;cursor:pointer; null " onclick="javascript:PDRTJS_2203687_post_131.togglePopup();return false;"><span style="display:none;">i</span></div><div class="pd_popup_holder" id="pd_popup_holder_2203687_post_131">&nbsp;</div><div class="rating-msg" id="PDRTJS_2203687_post_131_msg" style="float:left; padding-left: 5px; text-align: left; font:normal normal /16px ; color: #;">2 Votes</div><p style="padding: 0px; margin: 0px; clear: both;"></p><img src="./Actors and CSP_files/p-ab3gTb8xb3dLg.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"></div><br><p>With the multicore explosion in the making, are we going to be running hundreds of thousands of threads in a single program?  Erlang programmers would emphatically say, yes! C++ and Java programmers would probably say no.</p>
+<h2>Why this discrepancy?</h2>
+<p>Thread model based on heavy-duty OS threads and mutexes has its limitations. You can ask server writers, or Google for “thread per connection” to convince yourself. Servers use thread pools exactly because of that.</p>
+<p>Thread pools are an admission of defeat for the thread model. Having to pool threads tells you that:</p>
+<ul>
+<li> Thread creation is not fast enough</li>
+<li> Threads’ consumption of resources is substantial, so it makes sense to keep their numbers down</li>
+</ul>
+<p>Granted, these are technical problems that might be overcome in future by improvements in operating systems.</p>
+<p>The more fundamental problem with threads has its root in memory sharing. It seems like sharing offers great advantage in terms of performance, but sharing requires locking. It’s a well known fact that locking doesn’t scale (or compose). Between races and deadlocks, it’s also extremely hard to get right.</p>
+<h2>Here’s what Erlang does</h2>
+<p><em>Erlang gives up on sharing!</em></p>
+<p>Threads that don’t share memory are called processes. We tend to think of processes as heavyweight beasts implemented by operating systems. That’s because one needs the operating system to strictly enforce the no-sharing policy (the isolation of address spaces). Only the OS can manage separate address spaces and the passing of data between them.</p>
+<p>But that’s not the only way. The isolation might instead be enforced by the language. Erlang is a functional language with strict copy semantics and with no pointers or references. Erlang processes communicate by message passing. Of course, behind the scenes, messages are passed through shared memory, thus avoiding a large performance hit of inter-process communication. But that’s invisible to the client.</p>
+<p><em>Erlang rolls out its own threads!</em></p>
+<p>Erlang interpreter provides <em>lightweight processes</em> (so lightweight that there’s a benchmark running 20 million Erlang processes).</p>
+<p>And there is a bonus: Erlang code that uses lightweight processes will also work with heavyweight processes and in a distributed environment.</p>
+<h2>Why don’t we all switch to Erlang?</h2>
+<p>As far as I know there are two main reasons:</p>
+<ul>
+<li>It’s a weird language. Don’t get me wrong, I love functional programming for its mathematical beauty, terseness, and elegance. But I had to rewire my brain to be able to write pure functional programs. Functional paradigm is as alien to our everyday experience as quantum mechanics. (CS grad students: you’re <em>not</em> typical programmers.)</li>
+<li>Messages have to be copied. You can’t deep-copy a large data structure without some performance degradation, and not all copying can be optimized away (it requires behind-the-scenes alias analysis). This is why mainstream languages (and I will even include Scala in this category) don’t abandon sharing. Instead they rely on programmer’s discipline or try to control aliasing.</li>
+</ul>
+<h2>Conclusions</h2>
+<p>Native threads are expensive. Interpreted languages, like Erlang, can afford to implement their own lightweight threads and schedulers. I don’t see that happening in compiled languages. The hope is that&nbsp; operating systems will improve their implementations of threads–I hear Linux’s NPTL already is a big improvement in this area. In the meanwhile, we have to rely on thread pools.</p>
+<p>Shared memory concurrency model is the reason why multithreaded programming is so difficult and error-prone. Separating address spaces simplifies programming, but at a performance cost. I believe that some kind of compromise is possible. A message-passing or an actor model can work with sharing, as long as aliasing is under control.</p>
+<h2>Inspiration for this post</h2>
+<p>After my last post on thin lock implementation, I was asked the question, why I used such a small number, 1024, for the maximum number of threads. It was actually a number I’ve found in the D compiler runtime. A thin lock could easily work with a much larger number of threads. In fact I’m going to substantially increase the number of bits for thread ID at the expense of recursion count. But this question got me thinking about scalability of threading in general.</p>
+<h2>Fibers</h2>
+<p>Fibers (as well as Java’s green threads) are not an alternative to heavyweight threads. Fibers can’t run in parallel, so they have no way to use multiple processors. They are more of a flow-of-control construct, often used interchangeably with coroutines.</p>
+<h2>Interesting reading</h2>
+<ul>
+<li> <a href="http://www.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-1.pdf">The Problem with Threads</a> by Edward E. Lee.</li>
+<li> <a href="http://www.malhar.net/sriram/kilim/kilim_ecoop08.pdf">Kilim: Isolation-Typed Actors for Java</a> by Sriram Srinivasan and Alan Mycroft.</li>
+</ul>
+<div id="jp-post-flair" class="sharedaddy sd-rating-enabled sd-like-enabled"></div>	<div class="post-info">
+			</div>
+	<div class="post-footer">&nbsp;</div>
+</div>
+									</div>
+						<p align="center"></p>
+		
+	</div>
+	<div id="sidebar">
+		<ul>
+<li id="search-2" class="widget widget_search"><form role="search" method="get" id="searchform" action="http://bartoszmilewski.com/">
+	<div><label class="screen-reader-text" for="s">Search for:</label>
+	<input type="text" value="" name="s" id="s">
+	<input type="submit" id="searchsubmit" value="Search">
+	</div>
+	</form></li>
+<li id="rss_links-3" class="widget widget_rss_links"><h2 class="widgettitle">Subscribe</h2>
+<p class="size-small"><a class="feed-image-link" href="http://bartoszmilewski.com/feed/" title="Subscribe to Posts"><img src="./Actors and CSP_files/red-small.png" alt="RSS Feed"></a>&nbsp;<a href="http://bartoszmilewski.com/feed/" title="Subscribe to Posts">RSS - Posts</a></p>
+</li>
+<li id="blog_subscription-3" class="widget widget_blog_subscription"><h2 class="widgettitle"><label for="subscribe-field">Email Subscription</label></h2>
+
+			<form action="https://subscribe.wordpress.com/" method="post" accept-charset="utf-8" id="subscribe-blog">
+									<p>Enter your email to receive new post notifications.</p>
+<p>Join 166 other followers</p>
+					<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="" id="subscribe-field"></p>
+				
+				<p>
+					<input type="hidden" name="action" value="subscribe">
+					<input type="hidden" name="blog_id" value="3549518">
+					<input type="hidden" name="source" value="http://bartoszmilewski.com/category/erlang/">
+					<input type="hidden" name="sub-type" value="widget">
+					<input type="hidden" name="redirect_fragment" value="blog_subscription-3">
+					<input type="hidden" id="_wpnonce" name="_wpnonce" value="811deba1bb">					<input type="submit" value="Sign me up!">
+				</p>
+			</form>
+			
+</li>
+<li id="top-posts-2" class="widget widget_top-posts"><h2 class="widgettitle">Top Posts</h2>
+<ul><li><a href="http://bartoszmilewski.com/2009/10/21/what-does-haskell-have-to-do-with-c/" class="bump-view" data-bump-view="tp">What Does Haskell Have to Do with C++?</a></li>
+<li><a href="http://bartoszmilewski.com/2008/11/05/who-ordered-memory-fences-on-an-x86/" class="bump-view" data-bump-view="tp">Who ordered memory fences on an x86?</a></li>
+<li><a href="http://bartoszmilewski.com/2008/12/01/c-atomics-and-memory-ordering/" class="bump-view" data-bump-view="tp">C++ atomics and memory ordering</a></li>
+<li><a href="http://bartoszmilewski.com/2011/10/10/async-tasks-in-c11-not-quite-there-yet/" class="bump-view" data-bump-view="tp">Async Tasks in C++11: Not Quite There Yet</a></li>
+<li><a href="http://bartoszmilewski.com/2009/05/21/unique_ptr-how-unique-is-it/" class="bump-view" data-bump-view="tp">unique_ptr--How Unique is it?</a></li>
+<li><a href="http://bartoszmilewski.com/2011/01/09/monads-for-the-curious-programmer-part-1/" class="bump-view" data-bump-view="tp">Monads for the Curious Programmer, Part 1</a></li>
+<li><a href="http://bartoszmilewski.com/2011/07/11/monads-in-c/" class="bump-view" data-bump-view="tp">Monads in C++</a></li>
+<li><a href="http://bartoszmilewski.com/2009/03/03/broken-promises-c0x-futures/" class="bump-view" data-bump-view="tp">Broken promises--C++0x futures</a></li>
+</ul></li>
+<li id="linkcat-1356" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://herbsutter.wordpress.com/" rel="contact met colleague">Sutter's Mill</a></li>
+<li><a href="http://dobbscodetalk.com/index.php?option=com_myblog&blogger=WalterBright&Itemid=29" rel="friend met colleague">Walter Bright in DDJ</a></li>
+<li><a href="http://steve-yegge.blogspot.com/" title="Thought provoking rants">Steve Yegge’s blog</a></li>
+<li><a href="http://pizer.wordpress.com/">Pizer</a></li>
+<li><a href="http://www.bluebytesoftware.com/blog/" title="MS Research">Joe Duffy's Weblog</a></li>
+<li><a href="http://cpp-next.com/" title="Dave Abrahams and Doug Gregor on the future of C++">C++ Next</a></li>
+<li><a href="http://mvanier.livejournal.com/">The best Haskell monad tutorial</a></li>
+<li><a href="http://akrzemi1.wordpress.com/">Andrzej's C++ Blog</a></li>
+
+	</ul>
+</li>
+
+<li id="linkcat-350881" class="widget widget_links"><h2 class="widgettitle">Follow Me</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://twitter.com/bartoszmilewski" rel="me">Twitter</a></li>
+
+	</ul>
+</li>
+
+<li id="linkcat-23266" class="widget widget_links"><h2 class="widgettitle">My Company</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://www.relisoft.com/" rel="me">Distributed version control system</a></li>
+<li><a href="http://www.corensic.com/" title="Corensics, the makers of Jinx">Corensic</a></li>
+
+	</ul>
+</li>
+
+<li id="linkcat-121563" class="widget widget_links"><h2 class="widgettitle">My other blog</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://reliablesoftware.wordpress.com/" rel="me">Reliable Software</a></li>
+<li><a href="http://corensic.wordpress.com/" title="A blog about concurrency">Corensic concurrency blog</a></li>
+
+	</ul>
+</li>
+
+<li id="linkcat-412" class="widget widget_links"><h2 class="widgettitle">Video</h2>
+
+	<ul class="xoxo blogroll">
+<li><a href="http://www.vimeo.com/3757991" rel="me" title="My presentation at the Seattle Java Users Group">Java Memory Model</a></li>
+<li><a href="http://www.vimeo.com/7211030" rel="me" title="Haskell and C++ Template Metaprogramming">Haskell and C++</a></li>
+<li><a href="http://video.google.com/videoplay?docid=7930525486054122558#" rel="me" title="Object-based STM proposal for D">Software Transactional Memory</a></li>
+
+	</ul>
+</li>
+
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>
+		<ul>
+			<li><a href="http://bartoszmilewski.com/2012/11/" title="November 2012">November 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/10/" title="October 2012">October 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/09/" title="September 2012">September 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/07/" title="July 2012">July 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/06/" title="June 2012">June 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/05/" title="May 2012">May 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/04/" title="April 2012">April 2012</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2012/02/" title="February 2012">February 2012</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2012/01/" title="January 2012">January 2012</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/12/" title="December 2011">December 2011</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/11/" title="November 2011">November 2011</a>&nbsp;(4)</li>
+	<li><a href="http://bartoszmilewski.com/2011/10/" title="October 2011">October 2011</a>&nbsp;(5)</li>
+	<li><a href="http://bartoszmilewski.com/2011/09/" title="September 2011">September 2011</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2011/08/" title="August 2011">August 2011</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/07/" title="July 2011">July 2011</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/06/" title="June 2011">June 2011</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/05/" title="May 2011">May 2011</a>&nbsp;(5)</li>
+	<li><a href="http://bartoszmilewski.com/2011/04/" title="April 2011">April 2011</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2011/03/" title="March 2011">March 2011</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2011/01/" title="January 2011">January 2011</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2010/11/" title="November 2010">November 2010</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2010/09/" title="September 2010">September 2010</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2010/08/" title="August 2010">August 2010</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2010/06/" title="June 2010">June 2010</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2010/05/" title="May 2010">May 2010</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2010/02/" title="February 2010">February 2010</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2009/11/" title="November 2009">November 2009</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2009/10/" title="October 2009">October 2009</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2009/09/" title="September 2009">September 2009</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2009/08/" title="August 2009">August 2009</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2009/07/" title="July 2009">July 2009</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2009/06/" title="June 2009">June 2009</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2009/05/" title="May 2009">May 2009</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2009/04/" title="April 2009">April 2009</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2009/03/" title="March 2009">March 2009</a>&nbsp;(4)</li>
+	<li><a href="http://bartoszmilewski.com/2009/02/" title="February 2009">February 2009</a>&nbsp;(4)</li>
+	<li><a href="http://bartoszmilewski.com/2009/01/" title="January 2009">January 2009</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2008/12/" title="December 2008">December 2008</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2008/11/" title="November 2008">November 2008</a>&nbsp;(3)</li>
+	<li><a href="http://bartoszmilewski.com/2008/10/" title="October 2008">October 2008</a>&nbsp;(2)</li>
+	<li><a href="http://bartoszmilewski.com/2008/09/" title="September 2008">September 2008</a>&nbsp;(1)</li>
+	<li><a href="http://bartoszmilewski.com/2008/08/" title="August 2008">August 2008</a>&nbsp;(5)</li>
+	<li><a href="http://bartoszmilewski.com/2008/07/" title="July 2008">July 2008</a>&nbsp;(2)</li>
+		</ul>
+</li>
+</ul>	</div>
+<p id="footer"><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>. — Theme: <a href="http://theme.wordpress.com/credits/bartoszmilewski.com/" title="Learn more about how this site is customized with the Custom Design upgrade">Customized Connections</a> by <a href="http://www.vanillamist.com/" rel="designer">www.vanillamist.com</a>.</p>
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript>&lt;div style="display: none;"&gt;&lt;img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom" height="1" width="1" alt="" /&gt;&lt;/div&gt;</noscript>
+
+<script type="text/javascript" src="./Actors and CSP_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Actors and CSP_files/wpgroho.js"></script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	</div>
+<script type="text/javascript" charset="UTF-8" id="polldaddyRatings"><!--//--><![CDATA[//><!--
+PDRTJS_settings_2203687_post_935={"id":2203687,"unique_id":"wp-post-935","title":"On%20Actors%20and%26nbsp%3BCasting","permalink":"http:\/\/bartoszmilewski.com\/2009\/07\/16\/on-actors-and-casting\/","item_id":"_post_935"}; if ( typeof PDRTJS_RATING !== 'undefined' ){if ( typeof PDRTJS_2203687_post_935 == 'undefined' ){PDRTJS_2203687_post_935 = new PDRTJS_RATING( PDRTJS_settings_2203687_post_935 );}}PDRTJS_settings_2203687_post_505={"id":2203687,"unique_id":"wp-post-505","title":"Message%20Passing%26%238211%3BSync%20or%26nbsp%3BAsync%3F","permalink":"http:\/\/bartoszmilewski.com\/2009\/02\/10\/message-passing-sync-or-async\/","item_id":"_post_505"}; if ( typeof PDRTJS_RATING !== 'undefined' ){if ( typeof PDRTJS_2203687_post_505 == 'undefined' ){PDRTJS_2203687_post_505 = new PDRTJS_RATING( PDRTJS_settings_2203687_post_505 );}}PDRTJS_settings_2203687_post_131={"id":2203687,"unique_id":"wp-post-131","title":"Threads%20Don%26%238217%3Bt%20Scale%2C%20Processes%26nbsp%3BDo","permalink":"http:\/\/bartoszmilewski.com\/2008\/08\/24\/threads-dont-scale-processes-do\/","item_id":"_post_131"}; if ( typeof PDRTJS_RATING !== 'undefined' ){if ( typeof PDRTJS_2203687_post_131 == 'undefined' ){PDRTJS_2203687_post_131 = new PDRTJS_RATING( PDRTJS_settings_2203687_post_131 );}}
+//--><!]]></script><script type="text/javascript" charset="UTF-8" src="./Actors and CSP_files/rating.js"></script><script type="text/javascript" src="./Actors and CSP_files/devicepx.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="./Actors and CSP_files/w.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'3549518','v':'wpcom','tz':'-7','user_id':'0','subd':'bartoszmilewski'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1LVmwrVi5vQS5fVFtfdHBbPyw1VXIrU3hWLHhzVndTdktBX0ddJnpXRjVaOTd6fj1YMX4ydzRUSk0wbVRfODlnNUZzfnlabSw/Smd3SH5XcXlRRzFBQVtTMHZXfmRYME5rblJUK3dbZi41LWMxbTkyTz1YZVJrbXd+UEMlW0RJWV1aZ3l5QnwsUGVIPUMvdVAsTlMmdCxZSjlHNnFpOUYxcGNWfHVdYXFJU3RxLzQtUEg9Q3VnYXNoMWhhOUcwJTF0cHR4WD8/W09jR0pCcG80SDNzflNMdi9ddHxzQ2l5a3FkOFtySS9Odlc0SWc1UFRsYkR+KzNCSk4zWWJl'});
+addLoadEvent(function(){linktracker_init('3549518',0);});
+	</script><img id="wpstats" src="./Actors and CSP_files/g.gif" alt=""><img id="wpstats2" src="./Actors and CSP_files/g(1).gif" alt="" style="display:none">
+<noscript>&lt;img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /&gt;</noscript>
+</div>
+</div>
+
+
+</body></html>

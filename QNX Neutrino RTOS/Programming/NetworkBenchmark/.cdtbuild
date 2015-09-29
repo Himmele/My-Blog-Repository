@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?fileVersion 3.1.0?>
+
+<ManagedProjectBuildInfo>
+<project id="NetworkBenchmark.com.qnx.nto.exe.1598467829" name="QNX Neutrino Executable" projectType="com.qnx.nto.exe">
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.be.3.3.5.debug.1129829245" name="ntoarmbe-gcc-3.3.5-debug" parent="com.qnx.nto.exe.arm.be.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.arm.be.3.3.5.debug.957949874" superClass="com.qnx.nto.exe.arm.be.3.3.5.debug">
+<tool id="com.qnx.nto.arm.be.3.3.5.debug.compiler.1673693772" name="QCC Compiler" superClass="com.qnx.nto.arm.be.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.arm.be.3.3.5.debug.linker.c.1598614735" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.be.3.3.5.debug.linker.c++.379596502" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.3.3.5.debug.linker.c++"/>
+<macros/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.be.3.3.5.release.851570923" name="ntoarmbe-gcc-3.3.5-release" parent="com.qnx.nto.exe.arm.be.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.arm.be.3.3.5.release.2091357477" superClass="com.qnx.nto.exe.arm.be.3.3.5.release">
+<tool id="com.qnx.nto.arm.be.3.3.5.release.compiler.1583870637" name="QCC Compiler" superClass="com.qnx.nto.arm.be.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.arm.be.3.3.5.release.linker.c.1101886890" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.be.3.3.5.release.linker.c++.2089503496" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.le.3.3.5.debug.1187905794" name="ntoarmle-gcc-3.3.5-debug" parent="com.qnx.nto.exe.arm.le.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.arm.le.3.3.5.debug.462580054" superClass="com.qnx.nto.exe.arm.le.3.3.5.debug">
+<tool id="com.qnx.nto.arm.le.3.3.5.debug.compiler.1198180729" name="QCC Compiler" superClass="com.qnx.nto.arm.le.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.arm.le.3.3.5.debug.linker.c.1124357833" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.le.3.3.5.debug.linker.c++.2059153014" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.le.3.3.5.release.1972908095" name="ntoarmle-gcc-3.3.5-release" parent="com.qnx.nto.exe.arm.le.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.arm.le.3.3.5.release.631955432" superClass="com.qnx.nto.exe.arm.le.3.3.5.release">
+<tool id="com.qnx.nto.arm.le.3.3.5.release.compiler.440916804" name="QCC Compiler" superClass="com.qnx.nto.arm.le.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.arm.le.3.3.5.release.linker.c.1951091496" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.le.3.3.5.release.linker.c++.1677255278" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.be.3.3.5.debug.2138331905" name="ntomipsbe-gcc-3.3.5-debug" parent="com.qnx.nto.exe.mips.be.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.mips.be.3.3.5.debug.640136947" superClass="com.qnx.nto.exe.mips.be.3.3.5.debug">
+<tool id="com.qnx.nto.mips.be.3.3.5.debug.compiler.1024379779" name="QCC Compiler" superClass="com.qnx.nto.mips.be.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.mips.be.3.3.5.debug.linker.c.2042360943" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.be.3.3.5.debug.linker.c++.1231602083" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.be.3.3.5.release.1322541657" name="ntomipsbe-gcc-3.3.5-release" parent="com.qnx.nto.exe.mips.be.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.mips.be.3.3.5.release.711703130" superClass="com.qnx.nto.exe.mips.be.3.3.5.release">
+<tool id="com.qnx.nto.mips.be.3.3.5.release.compiler.1912200985" name="QCC Compiler" superClass="com.qnx.nto.mips.be.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.mips.be.3.3.5.release.linker.c.1100428303" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.be.3.3.5.release.linker.c++.415867968" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.le.3.3.5.debug.42960173" name="ntomipsle-gcc-3.3.5-debug" parent="com.qnx.nto.exe.mips.le.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.mips.le.3.3.5.debug.1834110897" superClass="com.qnx.nto.exe.mips.le.3.3.5.debug">
+<tool id="com.qnx.nto.mips.le.3.3.5.debug.compiler.31535587" name="QCC Compiler" superClass="com.qnx.nto.mips.le.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.mips.le.3.3.5.debug.linker.c.1718064494" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.le.3.3.5.debug.linker.c++.1334795435" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.le.3.3.5.release.1954315833" name="ntomipsle-gcc-3.3.5-release" parent="com.qnx.nto.exe.mips.le.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.mips.le.3.3.5.release.131436614" superClass="com.qnx.nto.exe.mips.le.3.3.5.release">
+<tool id="com.qnx.nto.mips.le.3.3.5.release.compiler.282939485" name="QCC Compiler" superClass="com.qnx.nto.mips.le.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.mips.le.3.3.5.release.linker.c.1527716641" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.le.3.3.5.release.linker.c++.554012110" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.ppc.be.3.3.5.debug.2068245169" name="ntoppcbe-gcc-3.3.5-debug" parent="com.qnx.nto.exe.ppc.be.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.ppc.be.3.3.5.debug.2077626008" superClass="com.qnx.nto.exe.ppc.be.3.3.5.debug">
+<tool id="com.qnx.nto.ppc.be.3.3.5.debug.compiler.1853138449" name="QCC Compiler" superClass="com.qnx.nto.ppc.be.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.ppc.be.3.3.5.debug.linker.c.908939030" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.ppc.be.3.3.5.debug.linker.c++.196091157" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.ppc.be.3.3.5.release.1551743783" name="ntoppcbe-gcc-3.3.5-release" parent="com.qnx.nto.exe.ppc.be.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.ppc.be.3.3.5.release.1133369330" superClass="com.qnx.nto.exe.ppc.be.3.3.5.release">
+<tool id="com.qnx.nto.ppc.be.3.3.5.release.compiler.761963178" name="QCC Compiler" superClass="com.qnx.nto.ppc.be.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.ppc.be.3.3.5.release.linker.c.512120041" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.ppc.be.3.3.5.release.linker.c++.754323197" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.sh.le.3.3.5.debug.138032340" name="ntoshle-gcc-3.3.5-debug" parent="com.qnx.nto.exe.sh.le.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.sh.le.3.3.5.debug.838598541" superClass="com.qnx.nto.exe.sh.le.3.3.5.debug">
+<tool id="com.qnx.nto.sh.le.3.3.5.debug.compiler.1704507237" name="QCC Compiler" superClass="com.qnx.nto.sh.le.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.sh.le.3.3.5.debug.linker.c.400031810" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.sh.le.3.3.5.debug.linker.c++.1617355993" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.sh.le.3.3.5.release.899190310" name="ntoshle-gcc-3.3.5-release" parent="com.qnx.nto.exe.sh.le.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.sh.le.3.3.5.release.1931829706" superClass="com.qnx.nto.exe.sh.le.3.3.5.release">
+<tool id="com.qnx.nto.sh.le.3.3.5.release.compiler.1070208238" name="QCC Compiler" superClass="com.qnx.nto.sh.le.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.sh.le.3.3.5.release.linker.c.1810871924" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.sh.le.3.3.5.release.linker.c++.1881851173" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.3.3.5.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.x86.3.3.5.debug.430851269" name="ntox86-gcc-3.3.5-debug" parent="com.qnx.nto.exe.x86.3.3.5.debug">
+<toolChain id="com.qnx.nto.exe.x86.3.3.5.debug.1731787184" superClass="com.qnx.nto.exe.x86.3.3.5.debug">
+<tool id="com.qnx.nto.x86.3.3.5.debug.compiler.623447834" name="QCC Compiler" superClass="com.qnx.nto.x86.3.3.5.debug.compiler"/>
+<tool id="com.qnx.nto.exe.x86.3.3.5.debug.linker.c.1520298786" name="QCC Linker" superClass="com.qnx.nto.exe.x86.3.3.5.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.x86.3.3.5.debug.linker.c++.1165723249" name="QCC Linker" superClass="com.qnx.nto.exe.x86.3.3.5.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.x86.3.3.5.release.1861929521" name="ntox86-gcc-3.3.5-release" parent="com.qnx.nto.exe.x86.3.3.5.release">
+<toolChain id="com.qnx.nto.exe.x86.3.3.5.release.1427420078" superClass="com.qnx.nto.exe.x86.3.3.5.release">
+<tool id="com.qnx.nto.x86.3.3.5.release.compiler.1509166357" name="QCC Compiler" superClass="com.qnx.nto.x86.3.3.5.release.compiler"/>
+<tool id="com.qnx.nto.exe.x86.3.3.5.release.linker.c.455720113" name="QCC Linker" superClass="com.qnx.nto.exe.x86.3.3.5.release.linker.c"/>
+<tool id="com.qnx.nto.exe.x86.3.3.5.release.linker.c++.278408605" name="QCC Linker" superClass="com.qnx.nto.exe.x86.3.3.5.release.linker.c++">
+<option id="com.qnx.qcc.linker.option.libraries.1868630755" superClass="com.qnx.qcc.linker.option.libraries" valueType="libs">
+<listOptionValue builtIn="false" value="socket"/>
+</option>
+</tool>
+<macros/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.be.2.95.3.debug.906913991" name="ntoarmbe-gcc-2.95.3-debug" parent="com.qnx.nto.exe.arm.be.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.arm.be.2.95.3.debug.1563333987" superClass="com.qnx.nto.exe.arm.be.2.95.3.debug">
+<tool id="com.qnx.nto.arm.be.2.95.3.debug.compiler.1075102116" name="QCC Compiler" superClass="com.qnx.nto.arm.be.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.arm.be.2.95.3.debug.linker.c.1597831694" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.be.2.95.3.debug.linker.c++.282741010" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.be.2.95.3.release.2086219899" name="ntoarmbe-gcc-2.95.3-release" parent="com.qnx.nto.exe.arm.be.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.arm.be.2.95.3.release.1824855292" superClass="com.qnx.nto.exe.arm.be.2.95.3.release">
+<tool id="com.qnx.nto.arm.be.2.95.3.release.compiler.633285339" name="QCC Compiler" superClass="com.qnx.nto.arm.be.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.arm.be.2.95.3.release.linker.c.1114585733" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.be.2.95.3.release.linker.c++.98506125" name="QCC Linker" superClass="com.qnx.nto.exe.arm.be.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.le.2.95.3.debug.565707931" name="ntoarmle-gcc-2.95.3-debug" parent="com.qnx.nto.exe.arm.le.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.arm.le.2.95.3.debug.381634171" superClass="com.qnx.nto.exe.arm.le.2.95.3.debug">
+<tool id="com.qnx.nto.arm.le.2.95.3.debug.compiler.1728238343" name="QCC Compiler" superClass="com.qnx.nto.arm.le.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.arm.le.2.95.3.debug.linker.c.614203745" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.le.2.95.3.debug.linker.c++.1517442485" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.arm.le.2.95.3.release.562876747" name="ntoarmle-gcc-2.95.3-release" parent="com.qnx.nto.exe.arm.le.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.arm.le.2.95.3.release.2052617116" superClass="com.qnx.nto.exe.arm.le.2.95.3.release">
+<tool id="com.qnx.nto.arm.le.2.95.3.release.compiler.1345269365" name="QCC Compiler" superClass="com.qnx.nto.arm.le.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.arm.le.2.95.3.release.linker.c.768119415" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.arm.le.2.95.3.release.linker.c++.1836349798" name="QCC Linker" superClass="com.qnx.nto.exe.arm.le.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.be.2.95.3.debug.374086892" name="ntomipsbe-gcc-2.95.3-debug" parent="com.qnx.nto.exe.mips.be.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.mips.be.2.95.3.debug.1894264712" superClass="com.qnx.nto.exe.mips.be.2.95.3.debug">
+<tool id="com.qnx.nto.mips.be.2.95.3.debug.compiler.1101792945" name="QCC Compiler" superClass="com.qnx.nto.mips.be.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.mips.be.2.95.3.debug.linker.c.1746756928" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.be.2.95.3.debug.linker.c++.784669212" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.be.2.95.3.release.1109343995" name="ntomipsbe-gcc-2.95.3-release" parent="com.qnx.nto.exe.mips.be.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.mips.be.2.95.3.release.798077229" superClass="com.qnx.nto.exe.mips.be.2.95.3.release">
+<tool id="com.qnx.nto.mips.be.2.95.3.release.compiler.2047892410" name="QCC Compiler" superClass="com.qnx.nto.mips.be.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.mips.be.2.95.3.release.linker.c.1217366158" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.be.2.95.3.release.linker.c++.56757150" name="QCC Linker" superClass="com.qnx.nto.exe.mips.be.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.le.2.95.3.debug.1803208406" name="ntomipsle-gcc-2.95.3-debug" parent="com.qnx.nto.exe.mips.le.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.mips.le.2.95.3.debug.1332043281" superClass="com.qnx.nto.exe.mips.le.2.95.3.debug">
+<tool id="com.qnx.nto.mips.le.2.95.3.debug.compiler.1779836559" name="QCC Compiler" superClass="com.qnx.nto.mips.le.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.mips.le.2.95.3.debug.linker.c.1246026177" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.le.2.95.3.debug.linker.c++.1985758776" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.mips.le.2.95.3.release.351387273" name="ntomipsle-gcc-2.95.3-release" parent="com.qnx.nto.exe.mips.le.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.mips.le.2.95.3.release.1906025239" superClass="com.qnx.nto.exe.mips.le.2.95.3.release">
+<tool id="com.qnx.nto.mips.le.2.95.3.release.compiler.1612021562" name="QCC Compiler" superClass="com.qnx.nto.mips.le.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.mips.le.2.95.3.release.linker.c.565898075" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.mips.le.2.95.3.release.linker.c++.156834382" name="QCC Linker" superClass="com.qnx.nto.exe.mips.le.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.ppc.be.2.95.3.debug.1461831753" name="ntoppcbe-gcc-2.95.3-debug" parent="com.qnx.nto.exe.ppc.be.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.ppc.be.2.95.3.debug.840710223" superClass="com.qnx.nto.exe.ppc.be.2.95.3.debug">
+<tool id="com.qnx.nto.ppc.be.2.95.3.debug.compiler.887342767" name="QCC Compiler" superClass="com.qnx.nto.ppc.be.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.ppc.be.2.95.3.debug.linker.c.438674751" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.ppc.be.2.95.3.debug.linker.c++.226074705" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.ppc.be.2.95.3.release.1837218057" name="ntoppcbe-gcc-2.95.3-release" parent="com.qnx.nto.exe.ppc.be.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.ppc.be.2.95.3.release.2045099262" superClass="com.qnx.nto.exe.ppc.be.2.95.3.release">
+<tool id="com.qnx.nto.ppc.be.2.95.3.release.compiler.1181464751" name="QCC Compiler" superClass="com.qnx.nto.ppc.be.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.ppc.be.2.95.3.release.linker.c.125529651" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.ppc.be.2.95.3.release.linker.c++.428615156" name="QCC Linker" superClass="com.qnx.nto.exe.ppc.be.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.sh.le.2.95.3.debug.2060156764" name="ntoshle-gcc-2.95.3-debug" parent="com.qnx.nto.exe.sh.le.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.sh.le.2.95.3.debug.1779196363" superClass="com.qnx.nto.exe.sh.le.2.95.3.debug">
+<tool id="com.qnx.nto.sh.le.2.95.3.debug.compiler.1017090466" name="QCC Compiler" superClass="com.qnx.nto.sh.le.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.sh.le.2.95.3.debug.linker.c.455289119" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.sh.le.2.95.3.debug.linker.c++.1347955018" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.sh.le.2.95.3.release.699536270" name="ntoshle-gcc-2.95.3-release" parent="com.qnx.nto.exe.sh.le.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.sh.le.2.95.3.release.680196546" superClass="com.qnx.nto.exe.sh.le.2.95.3.release">
+<tool id="com.qnx.nto.sh.le.2.95.3.release.compiler.3481961" name="QCC Compiler" superClass="com.qnx.nto.sh.le.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.sh.le.2.95.3.release.linker.c.472234476" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.sh.le.2.95.3.release.linker.c++.2083350577" name="QCC Linker" superClass="com.qnx.nto.exe.sh.le.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.x86.2.95.3.debug.2104064523" name="ntox86-gcc-2.95.3-debug" parent="com.qnx.nto.exe.x86.2.95.3.debug">
+<toolChain id="com.qnx.nto.exe.x86.2.95.3.debug.480090953" superClass="com.qnx.nto.exe.x86.2.95.3.debug">
+<tool id="com.qnx.nto.x86.2.95.3.debug.compiler.1132038215" name="QCC Compiler" superClass="com.qnx.nto.x86.2.95.3.debug.compiler"/>
+<tool id="com.qnx.nto.exe.x86.2.95.3.debug.linker.c.1292732919" name="QCC Linker" superClass="com.qnx.nto.exe.x86.2.95.3.debug.linker.c"/>
+<tool id="com.qnx.nto.exe.x86.2.95.3.debug.linker.c++.1506216549" name="QCC Linker" superClass="com.qnx.nto.exe.x86.2.95.3.debug.linker.c++"/>
+</toolChain>
+</configuration>
+<configuration artifactName="NetworkBenchmark" cleanCommand="rm -f" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.qnx.nto.exe.x86.2.95.3.release.564695583" name="ntox86-gcc-2.95.3-release" parent="com.qnx.nto.exe.x86.2.95.3.release">
+<toolChain id="com.qnx.nto.exe.x86.2.95.3.release.1466312410" superClass="com.qnx.nto.exe.x86.2.95.3.release">
+<tool id="com.qnx.nto.x86.2.95.3.release.compiler.213637704" name="QCC Compiler" superClass="com.qnx.nto.x86.2.95.3.release.compiler"/>
+<tool id="com.qnx.nto.exe.x86.2.95.3.release.linker.c.319393896" name="QCC Linker" superClass="com.qnx.nto.exe.x86.2.95.3.release.linker.c"/>
+<tool id="com.qnx.nto.exe.x86.2.95.3.release.linker.c++.971068774" name="QCC Linker" superClass="com.qnx.nto.exe.x86.2.95.3.release.linker.c++"/>
+</toolChain>
+</configuration>
+<macros/>
+</project>
+</ManagedProjectBuildInfo>

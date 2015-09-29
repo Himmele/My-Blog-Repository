@@ -1,0 +1,380 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+AbWidgets           0x8               abmain.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+TARGET(elf32-i386)
+LOAD /x86/lib/crt1.o
+LOAD /x86/lib/crti.o
+LOAD /x86/lib/crtbegin.o
+LOAD InitMenu.o
+LOAD abmain.o
+LOAD /x86/usr/lib/libphexlib.so
+LOAD /x86/usr/lib/libAp.so
+LOAD /x86/usr/lib/libph.so
+LOAD /x86/usr/lib/libphrender.so
+LOAD /x86/lib/libm.so
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/libgcc.a
+LOAD /x86/lib/libc.so
+LOAD /x86/lib/libc.a
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/libgcc.a
+LOAD /x86/lib/crtend.o
+LOAD /x86/lib/crtn.o
+                0x080480f4                .=(0x8048000+SIZEOF_HEADERS)
+
+.interp         0x080480f4       0x14
+ *(.interp)
+ .interp        0x080480f4       0x14 /x86/lib/crtbegin.o
+
+.note0          0x08048108        0x0
+
+.hash           0x08048108       0xc8
+ *(.hash)
+ .hash          0x08048108       0xc8 /x86/lib/crtbegin.o
+
+.dynsym         0x080481d0      0x1f0
+ *(.dynsym)
+ .dynsym        0x080481d0      0x1f0 /x86/lib/crtbegin.o
+
+.dynstr         0x080483c0      0x176
+ *(.dynstr)
+ .dynstr        0x080483c0      0x176 /x86/lib/crtbegin.o
+
+.gnu.version    0x08048536        0x0
+ *(.gnu.version)
+
+.gnu.version_d  0x08048538        0x0
+ *(.gnu.version_d)
+
+.gnu.version_r  0x08048538        0x0
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.sdata
+ *(.rel.sdata)
+ *(.rel.sdata.*)
+ *(.rel.gnu.linkonce.s*)
+
+.rela.sdata
+ *(.rela.sdata)
+ *(.rela.sdata.*)
+ *(.rela.gnu.linkonce.s*)
+
+.rel.sbss
+ *(.rel.sbss)
+
+.rela.sbss
+ *(.rela.sbss)
+
+.rel.bss        0x08048538       0x30
+ *(.rel.bss)
+ .rel.bss       0x08048538       0x30 /x86/lib/crtbegin.o
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt        0x08048568       0x68
+ *(.rel.plt)
+ .rel.plt       0x08048568       0x68 /x86/lib/crtbegin.o
+
+.rela.plt
+ *(.rela.plt)
+
+.init           0x080485d0        0x8
+ *(.init)
+ .init          0x080485d0        0x5 /x86/lib/crtend.o
+ .init          0x080485d5        0x3 /x86/lib/crtn.o
+
+.plt            0x080485d8       0xe0
+ *(.plt)
+ .plt           0x080485d8       0xe0 /x86/lib/crtbegin.o
+                0x080485e8                printf
+                0x080485f8                ApLinkWindow
+                0x08048608                ApInitialize
+                0x08048618                PtGetParentWidget
+                0x08048628                PtExit
+                0x08048638                PtSetParentWidget
+                0x08048648                PtMessageBox
+                0x08048658                _init_libc
+                0x08048668                PtAddCallback
+                0x08048678                atexit
+                0x08048688                PtCreateWidget
+                0x08048698                PtMainLoop
+                0x080486a8                exit
+
+.text           0x080486b8      0x444
+                0x080486b8                _btext=.
+ *(.text)
+ .text          0x080486b8       0x5f /x86/lib/crt1.o
+                0x080486c0                _start
+ *fill*         0x08048717        0x1 37008
+ .text          0x08048718       0x52 /x86/lib/crtbegin.o
+ *fill*         0x0804876a        0x2 37008
+ .text          0x0804876c      0x2e3 InitMenu.o
+                0x0804876c                InitMenu
+                0x080489b0                ShapeMenuCB
+ *fill*         0x08048a4f        0x1 37008
+ .text          0x08048a50       0x4e abmain.o
+                0x08048a50                main
+ *fill*         0x08048a9e        0x2 37008
+ .text          0x08048aa0       0x5a /x86/lib/crtend.o
+ *fill*         0x08048afa        0x2 37008
+ *(.text.*)
+ *(.stub)
+ *(.gnu.warning)
+ *(.gnu.linkonce.t*)
+                0x08048afc                _etext=.
+                0x08048afc                PROVIDE (etext, .)
+
+.fini           0x08048afc        0x8
+ *(.fini)
+ .fini          0x08048afc        0x5 /x86/lib/crtbegin.o
+ .fini          0x08048b01        0x3 /x86/lib/crtn.o
+
+.rodata         0x08048b04      0x1db
+ *(.rodata)
+ .rodata        0x08048b04       0x64 InitMenu.o
+ .rodata        0x08048b68      0x177 abmain.o
+                0x08048c84                ABN_base
+                0x08048c63                ApOptions
+                0x08048c88                ABN_MenuButton
+                0x08048c8c                ABN_MyMenu
+ *(.rodata.*)
+ *(.gnu.linkonce.r*)
+
+.rodata1
+ *(.rodata1)
+                0x08049cdf                .=(ALIGN(0x1000)+(.&0xfff))
+
+.data           0x08049ce0       0xe4
+ *(.data)
+ .data          0x08049ce0        0x4 /x86/lib/crtbegin.o
+ *fill*         0x08049ce4       0x1c
+ .data          0x08049d00       0xc0 abmain.o
+                0x08049d00                base
+                0x08049d60                MyMenu
+                0x08049da0                AbContext
+ .data          0x08049dc0        0x4 /x86/lib/crtend.o
+ *(.data.*)
+ *(.gnu.linkonce.d*)
+
+.data1
+ *(.data1)
+
+.eh_frame
+ *(.eh_frame)
+
+.gcc_except_table
+ *(.gcc_except_table)
+
+.ctors          0x08049dc4        0x8
+ *crtbegin.o(.ctors)
+ .ctors         0x08049dc4        0x4 /x86/lib/crtbegin.o
+ EXCLUDE_FILE ( *crtend.o)*(.ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ .ctors         0x08049dc8        0x4 /x86/lib/crtend.o
+
+.dtors          0x08049dcc        0x8
+ *crtbegin.o(.dtors)
+ .dtors         0x08049dcc        0x4 /x86/lib/crtbegin.o
+ EXCLUDE_FILE ( *crtend.o)*(.dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ .dtors         0x08049dd0        0x4 /x86/lib/crtend.o
+
+.got            0x08049dd4       0x40
+ *(.got.plt)
+ .got.plt       0x08049dd4       0x40 /x86/lib/crtbegin.o
+                0x08049dd4                _GLOBAL_OFFSET_TABLE_
+ *(.got)
+
+.dynamic        0x08049e14       0xb0
+ *(.dynamic)
+ .dynamic       0x08049e14       0xb0 /x86/lib/crtbegin.o
+                0x08049e14                _DYNAMIC
+
+.sdata
+ *(.sdata)
+ *(.sdata.*)
+ *(.gnu.linkonce.s.*)
+                0x08049ec4                _edata=.
+                0x08049ec4                PROVIDE (edata, .)
+                0x08049ec4                __bss_start=.
+
+.sbss
+ *(.dynsbss)
+ *(.sbss)
+ *(.sbss.*)
+ *(.scommon)
+
+.bss            0x08049ec4       0x6c
+ *(.dynbss)
+ *fill*         0x08049ec4        0x4
+ .dynbss        0x08049ec8       0x60 /x86/lib/crtbegin.o
+                0x08049ec8                errno
+                0x08049ecc                PtMenu
+                0x08049ed0                PtMenuBar
+                0x08049ed4                PtMenuButton
+                0x08049ed8                PtWindow
+                0x08049ee0                _Ap_
+ *(.bss)
+ *(.bss.*)
+ *(COMMON)
+ COMMON         0x08049f28        0x8 abmain.o
+                                  0x0 (size before relaxing)
+                0x08049f28                AbWidgets
+                0x08049f30                .=ALIGN(0x4)
+                0x08049f30                .=ALIGN(0x4)
+                0x08049f30                _end=.
+                0x08049f30                PROVIDE (end, .)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x98
+ *(.comment)
+ .comment       0x00000000       0x26 /x86/lib/crtbegin.o
+ .comment       0x00000026       0x26 InitMenu.o
+ .comment       0x0000004c       0x26 abmain.o
+ .comment       0x00000072       0x26 /x86/lib/crtend.o
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+OUTPUT(Menu elf32-i386)
+
+.note           0x00000000       0x50
+ .note          0x00000000       0x14 /x86/lib/crtbegin.o
+ .note          0x00000014       0x14 InitMenu.o
+ .note          0x00000028       0x14 abmain.o
+ .note          0x0000003c       0x14 /x86/lib/crtend.o

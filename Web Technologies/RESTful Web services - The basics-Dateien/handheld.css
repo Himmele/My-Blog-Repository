@@ -1,0 +1,56 @@
+/* handheld CSS styles */
+/* $Id: handheld.css,v 1.7 2007/08/24 18:43:02 florent Exp $  */
+
+#ibm-logo {background-color: black;}
+#ibm-logo a img{
+	height:20px;
+	width:44px;
+}
+.ibm-access {display:none;}
+img {
+	border:none;
+	overflow:hidden;
+}
+#ibm-geo-tou {
+	margin:0px;
+	padding:0px;
+}
+#ibm-search-form {display:none;}
+
+#ibm-universal-nav,
+#ibm-footer {margin:10px;}
+
+#ibm-universal-nav ul,
+#ibm-footer ul {
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+        font-size:10px;
+}
+
+/* To hide masthead dynamic dropdown menu */
+
+#ibm-unav-home div,
+#ibm-unav-solutions div,
+#ibm-unav-services div,
+#ibm-unav-products div,
+#ibm-unav-support div,
+#ibm-unav-myibm div {display:none !important;}
+
+#ibm-search {display:block;}
+#ibm-content-head.ibm-content-subtitle h1 {font-size:20px;}
+
+#ibm-secondary-navigation h2,
+#ibm-content-head.ibm-content-subtitle em {font-size:15px;}
+
+#ibm-content-main{
+	font-size:15px;
+	padding:5px;
+}
+#ibm-primary-links {list-style-type:circle;}
+#ibm-navigation ul {font-size:10px;}
+
+li,a {white-space:nowrap;}   
+p {color:black;}
+input.ibm-btn-go {background:url(//1.www.s81c.com/i/v16/buttons/go.gif) no-repeat 0% 30%;}
+

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys1.htm -->
+<HTML><HEAD><TITLE>Physische Adressierung</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver background="Physische Adressierung-Dateien/stone.jpg">
+<H1><FONT color=#800000>1 Realmode Adressierung, Grundlagen</FONT></H1>
+<P>Die folgenden Abschnitte sollen als Einleitung in die Protected Mode 
+Programmierung dienen. Sie stellen die Grundlage der physischen, sowie der 
+darauf aufbauenden logischen Adressierung im Realmode dar. Weiterhin sprechen 
+sie Probleme an, die dabei auftreten können. Sie gehen auf Lösungsmöglichkeiten 
+dieser Probleme ein und demonstrieren die genannten Möglichkeiten jeweils an 
+einem Beispiel.</P><A name=r_phys1>
+<H1><FONT color=#800000>1.1 Physische Adressierung</FONT></H1></A>
+<P>Die Schnittstelle zwischen CPU und Hauptspeicher funktioniert bei allen 
+Computern, die nach dem <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#neumann">von 
+Neumann-Modell</A> arbeiten, auf dem gleichen Prinzip. Die CPU ist über einen 
+Adress-, einen Daten- und einen Steuerbus mit dem Hauptspeicher verbunden. In 
+diesem Zusammenhang versteht man unter einem "Bus" eine festgelegte Anzahl 
+Leitungen, die jeweils nur 2 Zustände unterscheiden können (Leitung führt HIGH- 
+oder LOW-Pegel)</P>
+<P>Bei einem Lesezugriff der CPU auf den Hauptspeicher legt die CPU zunächst die 
+gewünschte Adresse in Form eines Bitmusters auf den Adressbus. Dieses Bitmuster 
+wird von den Speicherbausteinen als Adresse interpretiert und anschließend wird 
+das durch die Adresse identifizierte Datum (über den Datenbus) an die CPU 
+übertragen.</P>
+<P>Die dabei mit einem (!) Lesezugriff maximal zu übertragende Datenmenge ist 
+abhängig von der zur Verfügung stehenden Anzahl an Datenleitungen. Für 
+Bytezugriffe genügen 8 Leitungen. Ein entsprechender Wort-Zugriff setzt jedoch 
+mindestens 16 Datenleitungen voraus (bzw. es muß ein 16 Bit Zugriff bei nur 8 
+Leitungen auf zwei nacheinander ausgeführte 8 Bit Zugriffe verteilt werden).</P>
+<P>Eine Schreibaktion läuft auf ähnliche Weise ab, nur sendet die CPU zusätzlich 
+die zu schreibenden Werte über den Datenbus.</P>
+<P>Damit dieser ständige Datenaustausch nicht zu einem großen Durcheinander 
+führt, existiert der Steuerbus. Er dient der Koordination der einzelnen 
+Komponenten untereinander und sorgt dadurch dafür, daß immer nur eine Komponente 
+den Bus benutzen kann.</P>
+<P>Das eben Gesagte wird durch Abb. 1.1 illustriert, dabei sollte jedoch 
+beachtet werden, daß die Abbildung eine Vereinfachung der tatsächlichen 
+Busverbindungen darstellt. Neben der CPU und dem Hauptspeicher gibt es weitere 
+Komponenten, die auf den Bus zugreifen können. Zu diesen Komponenten gehören 
+Erweiterungskarten und Support-Chips, wie der DMA-Controller.</P>
+<P>
+<CENTER><IMG alt=Bussystem src="Physische Adressierung-Dateien/r_1_1.gif" 
+border=3> 
+<P></P>
+<P><I><B>Abb. 1.1:</B> Bussystem</I> </CENTER></P>
+<P>Da bei dieser Form der Speicheradressierung nur einer von zwei Zuständen pro 
+Leitung auftreten kann, sind 2<SUP>n</SUP> verschiedene Speicherzellen (bei n 
+Adressleitungen) ansprechbar. Die maximal erreichbare Speicherzelle bei 16 
+Adressleitungen ergibt sich dadurch zu: 2<SUP>16</SUP>=65536, entsprechend steht 
+bei 20 Adressleitungen ein Speicherraum von 2<SUP>20</SUP>=1048576=1 MB zur 
+Verfügung. Die verwendeten Speicherbausteine arbeiten dabei "linear", d.h. jedem 
+der möglichen Speicherplätze wird eine Adresse zugewiesen.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><IMG src="Physische Adressierung-Dateien/null.gif" align=left border=0> 
+<A onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys2.htm"><IMG 
+alt=Weiter src="Physische Adressierung-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Physische Adressierung-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

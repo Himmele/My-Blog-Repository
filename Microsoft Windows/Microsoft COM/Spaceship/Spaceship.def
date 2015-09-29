@@ -1,0 +1,10 @@
+; Spaceship.def : Deklariert die Modul-Parameter für die DLL.
+
+LIBRARY      "Spaceship"
+DESCRIPTION  'Spaceship Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+	DllCanUnloadNow PRIVATE
+	DllGetClassObject PRIVATE
+	DllRegisterServer PRIVATE

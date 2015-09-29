@@ -1,0 +1,166 @@
+/* OCT  2010 styles for comments, ratings, sign-in (tdc): start */
+/* Comments area styles begin ================================================== */
+#cmtTog div.dw-commentbox
+ {
+   background-color:#ffffb8;
+}
+textarea.dw-operable {
+   background-color:#ffffff;
+}
+textarea.dw-inoperable {
+   background-color:#efefef;
+}
+#notifiedSect,
+#art-rating-summary,
+.dw-btn-cancel-sec {
+   font-family:arial, sans-serif !important;
+   font-size:0.76em !important;
+}
+#notifiedSect label {
+   width:400px !important;
+   font-weight:normal !important;
+}
+#notifiedSect label > span {
+   float:left;
+   margin-left:2px;
+   margin-top:-4px;
+}
+#notifiedSect > span {
+   float:right;
+   padding-right:75px;
+   vertical-align:bottom;
+}
+p.ibm-buttons-row {
+   background-color:#FFFFB8;
+}
+.dw-comment-totals {
+   border-style:none !important;
+   zoom:1;
+}
+div.dw-comment-totals > div {
+   border-style:none !important;
+   background-image:none !important;
+}
+.dw-comment-totals-label {
+   text-align:right !important;
+}
+.dw-how-many-comments-label {
+   margin-left:245px;
+   margin-top:5px;
+   white-space:nowrap;
+}
+.dw-how-many-comments {
+   text-align:left !important;
+}
+.dw-noborder {
+   border-style:none !important;
+}
+.dw-item-note-alternate-left {
+   font-size:1em;
+   font-family:arial, sans-serif;
+   float:left;
+}
+.dw-item-note-alternate-right {
+   font-size:1em;
+   font-family:arial, sans-serif;
+   margin-bottom:3px;
+   float:right;
+}
+.dw-report-abuse {
+   float:right;
+   margin-right:5px !important;
+}
+.dw-clear-both {
+   clear:both;
+}
+/* #art-rating-widget {
+   height: 220px;
+} */
+
+#ibmid,
+#password,
+#displayname {
+   width:200px;
+}
+.rating-label {
+      margin-left: -3000px;
+   }
+.rating-image {
+      margin-bottom: 4px;
+      margin-left: 2970px;
+      /* vertical-align: -6px; */
+      vertical-align: middle;
+      padding:0px !important;
+   }
+  .rating-image2 {
+      margin-bottom: 4px;
+      margin-left: 2966px;
+      /* vertical-align: -7px; */
+      vertical-align: middle;
+      padding: 0px !important;
+  }
+  .dw-container-ratings {
+     border:0px !important;
+     background:none !important;
+  }  
+  
+  .dw-avg-rating {
+     padding:0px !important;
+     vertical-align: -4px;
+  }
+  
+  .dw-view-comment {
+     padding: 0px 0px 3px 15px;
+     background-image: url('//www.ibm.com/i/v16/icons/d_bold.gif');
+     background-repeat: no-repeat;
+     margin-left:-4px;
+}
+
+.dw-overlay-legal {
+   background:url("//www.ibm.com/i/v16/icons/lock.gif") no-repeat scroll 100% 50% transparent;
+   padding:0.6em 18px;
+   text-align:right;
+   color:#666666;
+}
+
+.dw-rating-text {
+   font-family: arial, sans-serif;
+   font-size: .76em;
+   padding-bottom: 4px;
+   vertical-align: middle;
+}
+.dw-ratings-form {
+   margin-left:3px;
+}
+.dw-ratings-submit {
+   margin-left: -3px;
+}
+.no-bottom-padding {
+   padding-bottom:0px;
+}
+.metavalue {
+  display: none;
+}
+.no-display {
+   display: none !important;
+}
+input.dw-btn-arrow-sec  {
+background:url("//www.ibm.com/developerworks/i/short-btn-y.gif") no-repeat scroll -2px !important;
+background-position-y:0px !important;
+}
+input.dw-btn-arrow-sec:hover{
+color:#2A507B;
+background:url(//www.ibm.com/developerworks/i/short-btn-ry.gif) no-repeat -2px !important;
+background-position-y:0px !important;
+}
+#art-rating-widget {
+height:220px;
+}
+
+#art-rating-widget {
+   width: 500px !important;
+}
+.dw-your-rating {
+   float:left;
+   margin-left:123px;
+}

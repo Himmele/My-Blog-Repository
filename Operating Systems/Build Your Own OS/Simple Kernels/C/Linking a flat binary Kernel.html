@@ -1,0 +1,61 @@
+
+<html>
+<head>
+	<title>Operating Systems FAQ :: Kernels</title>
+
+	<link rel=stylesheet type="text/css" href="default.css">
+</head>
+
+<body>
+<TABLE border="0" width="100%">
+	<TR>
+		<TD><H2><A name="load_kernel">How do I make a kernel file I can load?</A></H2>
+		</TD>
+	</TR>
+	<TR>
+		<TD>As with all things, you can do it several ways. You
+        can tell GCC to output a flat binary file with no
+        relocations, headers or any other information. I assume
+        this is what you want.
+<P>example;</P>
+<pre>
+GCC -c my_kernel.c
+LD my_kernel.o -o kernel.bin -oformat binary -Ttext 0x100000
+</pre>
+<P>The &quot;<b>-c</b>&quot; GCC switch tells GCC to only compile
+        to an object file and not run the link process.</P>
+<P>Running LD with &quot;<b>-oformat binary</b>&quot; tells the linker you want your output file to be plain, no
+        relocations, no header information, just a straight flat binary image.</P>
+<P>&quot;<b>-Ttext 0x100000</b>&quot; tells linker you want your &quot;text&quot; (code segment)
+		address to be at 1mb memory mark.</P>
+<P>You have to of course, load your binary file image into the correct
+	offset for it to run properly since all its relocations have been statically
+        linked already.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P>&nbsp;</P>
+<TABLE border="0" width="100%">
+	<TR>
+		<TD><H2><A name="32bit_files">Help! when I load my kernel my machine resets!</A></H2>
+		</TD>
+	</TR>
+	<TR>
+		<TD>Yes. DJGPP outputs 32bit protected mode code. When
+        your PC boots up it is in what is known as Real Mode, you
+        have to switch your machine into Protected Mode, THEN
+        jump to your kernel image.
+<P>How you do this is up to
+        you. You can alter your bootsector code to load your
+        file, switch to protected mode and jump to your kernel
+        image (if you have enough room for the code in your
+        bootsector!) or you can write a stub program and stick
+        that on to the front of your kernel image (assuming it
+        gets loaded below 1mb memory mark) OR you can write a
+        stub program, load it in under 1mb memory mark and have
+        that program load in your kernel image.</P>
+		</TD>
+	</TR>
+</TABLE>
+</body>
+</html>

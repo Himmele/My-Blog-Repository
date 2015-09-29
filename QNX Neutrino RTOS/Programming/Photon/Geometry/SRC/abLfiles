@@ -1,0 +1,2 @@
+ABLIB = -l Ap -l ph -l phrender -l m -lang-c++
+

@@ -1,0 +1,420 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+std::bad_exception type_info node
+                    0xc               Buttons.o
+std::bad_alloc type_info node
+                    0xc               Buttons.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+TARGET(elf32-i386)
+LOAD /x86/lib/crt1.o
+LOAD /x86/lib/crti.o
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+LOAD Buttons.o
+LOAD SearchIt.o
+LOAD abmain.o
+LOAD init.o
+LOAD /x86/usr/lib/libphexlib.so
+LOAD /x86/usr/lib/libAp.so
+LOAD /x86/usr/lib/libph.so
+LOAD /x86/usr/lib/libphrender.so
+LOAD /x86/lib/libm.so
+LOAD /x86/lib/libcpp.so
+LOAD /x86/lib/libm.so
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/exceptions/libgcc.a
+LOAD /x86/lib/libc.so
+LOAD /x86/lib/libc.a
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/exceptions/libgcc.a
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+LOAD /x86/lib/crtn.o
+                0x080480f4                .=(0x8048000+SIZEOF_HEADERS)
+
+.interp         0x080480f4       0x14
+ *(.interp)
+ .interp        0x080480f4       0x14 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.note0          0x08048108        0x0
+
+.hash           0x08048108      0x13c
+ *(.hash)
+ .hash          0x08048108      0x13c /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.dynsym         0x08048244      0x280
+ *(.dynsym)
+ .dynsym        0x08048244      0x280 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.dynstr         0x080484c4      0x213
+ *(.dynstr)
+ .dynstr        0x080484c4      0x213 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.gnu.version    0x080486d8        0x0
+ *(.gnu.version)
+
+.gnu.version_d  0x080486d8        0x0
+ *(.gnu.version_d)
+
+.gnu.version_r  0x080486d8        0x0
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got        0x080486d8       0x10
+ *(.rel.got)
+ .rel.got       0x080486d8       0x10 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.rela.got
+ *(.rela.got)
+
+.rel.sdata
+ *(.rel.sdata)
+ *(.rel.sdata.*)
+ *(.rel.gnu.linkonce.s*)
+
+.rela.sdata
+ *(.rela.sdata)
+ *(.rela.sdata.*)
+ *(.rela.gnu.linkonce.s*)
+
+.rel.sbss
+ *(.rel.sbss)
+
+.rela.sbss
+ *(.rela.sbss)
+
+.rel.bss        0x080486e8       0x38
+ *(.rel.bss)
+ .rel.bss       0x080486e8       0x38 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt        0x08048720       0x98
+ *(.rel.plt)
+ .rel.plt       0x08048720       0x98 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.rela.plt
+ *(.rela.plt)
+
+.init           0x080487b8        0xd
+ *(.init)
+ .init          0x080487b8        0x5 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .init          0x080487bd        0x5 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+ .init          0x080487c2        0x3 /x86/lib/crtn.o
+
+.plt            0x080487c8      0x140
+ *(.plt)
+ .plt           0x080487c8      0x140 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+                0x080487d8                strcpy
+                0x080487e8                ApLinkWindow
+                0x080487f8                ApInitialize
+                0x08048808                __throw
+                0x08048818                PtExit
+                0x08048828                __deregister_frame_info
+                0x08048838                PtMessageBox
+                0x08048848                std::terminate(void)
+                0x08048858                _init_libc
+                0x08048868                getopt
+                0x08048878                ApGetWidgetPtr
+                0x08048888                __builtin_vec_new
+                0x08048898                atexit
+                0x080488a8                __builtin_vec_delete
+                0x080488b8                PtMainLoop
+                0x080488c8                exit
+                0x080488d8                _PtGetResource
+                0x080488e8                ApGetInstance
+                0x080488f8                __register_frame_info
+
+.text           0x08048908      0x378
+                0x08048908                _btext=.
+ *(.text)
+ .text          0x08048908       0x5f /x86/lib/crt1.o
+                0x08048910                _start
+ *fill*         0x08048967        0x1 37008
+ .text          0x08048968       0xf4 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .text          0x08048a5c       0xbc Buttons.o
+                0x08048a5c                MyButton(Pt_widget *, ApInfo_t *, Pt_callback_info *)
+                0x08048a98                GetQNXPlatform(Pt_widget *, ApInfo_t *, Pt_callback_info *)
+ .text          0x08048b18       0x4f SearchIt.o
+                0x08048b18                SearchIt
+ *fill*         0x08048b67        0x1 37008
+ .text          0x08048b68       0x5e abmain.o
+                0x08048b68                main
+ *fill*         0x08048bc6        0x2 37008
+ .text          0x08048bc8       0x5b init.o
+                0x08048bc8                init
+ *fill*         0x08048c23        0x1 37008
+ .text          0x08048c24       0x5c /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+ *(.text.*)
+ *(.stub)
+ *(.gnu.warning)
+ *(.gnu.linkonce.t*)
+                0x08048c80                _etext=.
+                0x08048c80                PROVIDE (etext, .)
+
+.fini           0x08048c80        0x8
+ *(.fini)
+ .fini          0x08048c80        0x5 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .fini          0x08048c85        0x3 /x86/lib/crtn.o
+
+.rodata         0x08048ca0      0x35e
+ *(.rodata)
+ .rodata        0x08048ca0       0x3d Buttons.o
+ .rodata        0x08048cdd        0xa SearchIt.o
+ *fill*         0x08048ce7       0x19
+ .rodata        0x08048d00      0x2d0 abmain.o
+                0x08048d18                ABN_base
+                0x08048d20                ABN_PtMyButton
+                0x08048d2c                ABN_TextString
+                0x08048d30                ABN_SearchNow
+                0x08048d28                ABN_Search
+                0x08048d1c                ABN_SearchButton
+                0x08048d24                ABN_PlatformButton
+ .rodata        0x08048fd0       0x2e init.o
+                0x08048fd0                ApOptions
+ *(.rodata.*)
+ *(.gnu.linkonce.r*)
+
+.rodata1
+ *(.rodata1)
+                0x08049ffe                .=(ALIGN(0x1000)+(.&0xfff))
+
+.data           0x0804a000       0x80
+ *(.data)
+ .data          0x0804a000        0x8 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ *fill*         0x0804a008       0x18
+ .data          0x0804a020       0x60 abmain.o
+                0x0804a020                base
+                0x0804a060                AbContext
+                0x0804a034                Search
+ *(.data.*)
+ *(.gnu.linkonce.d*)
+
+.data1
+ *(.data1)
+
+.eh_frame       0x0804a080      0x180
+ *(.eh_frame)
+ .eh_frame      0x0804a080       0xf4 Buttons.o
+ .eh_frame      0x0804a174       0x88 abmain.o
+ .eh_frame      0x0804a1fc        0x4 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+
+.gcc_except_table
+                0x0804a200       0x2c
+ *(.gcc_except_table)
+ .gcc_except_table
+                0x0804a200       0x2c Buttons.o
+
+.ctors          0x0804a22c        0x8
+ *crtbegin.o(.ctors)
+ EXCLUDE_FILE ( *crtend.o)*(.ctors)
+ .ctors         0x0804a22c        0x4 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .ctors         0x0804a230        0x4 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+ *(SORT(.ctors.*))
+ *(.ctors)
+
+.dtors          0x0804a234        0x8
+ *crtbegin.o(.dtors)
+ EXCLUDE_FILE ( *crtend.o)*(.dtors)
+ .dtors         0x0804a234        0x4 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .dtors         0x0804a238        0x4 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+ *(SORT(.dtors.*))
+ *(.dtors)
+
+.got            0x0804a23c       0x60
+ *(.got.plt)
+ .got.plt       0x0804a23c       0x58 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+                0x0804a23c                _GLOBAL_OFFSET_TABLE_
+ *(.got)
+ .got           0x0804a294        0x8 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+
+.dynamic        0x0804a29c       0xb8
+ *(.dynamic)
+ .dynamic       0x0804a29c       0xb8 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+                0x0804a29c                _DYNAMIC
+
+.sdata
+ *(.sdata)
+ *(.sdata.*)
+ *(.gnu.linkonce.s.*)
+                0x0804a354                _edata=.
+                0x0804a354                PROVIDE (edata, .)
+                0x0804a354                __bss_start=.
+
+.sbss
+ *(.dynsbss)
+ *(.sbss)
+ *(.sbss.*)
+ *(.scommon)
+
+.bss            0x0804a354       0xb0
+ *(.dynbss)
+ *fill*         0x0804a354        0x4
+ .dynbss        0x0804a358       0x60 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+                0x0804a358                errno
+                0x0804a35c                PtButton
+                0x0804a360                PtGroup
+                0x0804a364                PtText
+                0x0804a368                PtLabel
+                0x0804a36c                PtWindow
+                0x0804a370                _Ap_
+ *(.bss)
+ .bss           0x0804a3b8       0x18 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .bss           0x0804a3d0       0x1c abmain.o
+                0x0804a3d0                AbWidgets
+ *(.bss.*)
+ *(COMMON)
+ COMMON         0x0804a3ec       0x18 Buttons.o
+                                  0x0 (size before relaxing)
+                0x0804a3ec                std::bad_exception type_info node
+                0x0804a3f8                std::bad_alloc type_info node
+                0x0804a404                .=ALIGN(0x4)
+                0x0804a404                .=ALIGN(0x4)
+                0x0804a404                _end=.
+                0x0804a404                PROVIDE (end, .)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0xe4
+ *(.comment)
+ .comment       0x00000000       0x26 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .comment       0x00000026       0x26 Buttons.o
+ .comment       0x0000004c       0x26 SearchIt.o
+ .comment       0x00000072       0x26 abmain.o
+ .comment       0x00000098       0x26 init.o
+ .comment       0x000000be       0x26 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+OUTPUT(MultipleInstnceWindows elf32-i386)
+
+.note           0x00000000       0x78
+ .note          0x00000000       0x14 /usr/lib/gcc-lib/ntox86/2.95.2/crtbeginC++.o
+ .note          0x00000014       0x14 Buttons.o
+ .note          0x00000028       0x14 SearchIt.o
+ .note          0x0000003c       0x14 abmain.o
+ .note          0x00000050       0x14 init.o
+ .note          0x00000064       0x14 /usr/lib/gcc-lib/ntox86/2.95.2/crtendC++.o

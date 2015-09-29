@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all6.htm -->
+<HTML><HEAD><TITLE>Selektoren</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Selektoren-Dateien/stone.jpg>
+<H2><FONT color=#800000>Selektoren</FONT></H2>
+<P>Der zweite Teil einer virtuellen Adresse ist der Selektor. Neben der 
+Hauptaufgabe eines Selektors, einen Deskriptor zu "selektieren", enthält er zwei 
+weitere Informationen. Das TI-Bit ("Table Indicator") legt fest, ob die momentan 
+aktive Lokale Deskriptortabelle angesprochen werden soll oder ob sich der 
+Selektor auf die Globale Deskriptor Tabelle bezieht. Weiterhin enthält der 
+Selektor ein Feld RPL ("Requested Privilege Level"), das die gewünschte 
+Privilegstufe angibt (Vgl. Abb. 2.9)</P>
+<CENTER>
+<P><IMG alt=Selektor src="Selektoren-Dateien/p_2_9.gif" border=3> <BR><I><B>Abb. 
+2.9:</B> Selektor</I> </P></CENTER>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Selektoren-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Welcher Index, welche Tabelle und welche Privilegstufe wird mit dem 
+      folgenden Selektor angesprochen?</P><PRE>Selektor: 02FBh (binär: <U>0000001011111</U>011b)
+
+Lösung:   TI-Bit =  0 , Deskriptor aus GDT
+          RPL    = 11b, niedrigste Privilegstufe (3)
+          Index  = <U>0000001011111b</U>  = 05Fh</PRE></TD></TR></TBODY></TABLE></CENTER>
+<H2><FONT color=#000080>Besonderheiten</FONT></H2>
+<P>Obwohl auf einen Selektor über einen MOV-Befehl zugegriffen werden kann, ist 
+es nicht erlaubt, einen direkt angegebenen Wert zu laden. Beispielsweise ist MOV 
+DS, 02FBh nicht gestattet und muß durch MOV AX,02FBh und MOV DS,AX ersetzt 
+werden.</P>
+<P>Beim Laden eines neuen Selektorwertes wird nicht nur das entsprechende 
+Selektorregister (CS, DS, ES, FS, GS) mit einem neuen 16 Bit Wert geladen, 
+sondern auch der durch den Selektor identifizierte Deskriptor in ein 88 Bit 
+breites "Schattenregister" gebracht. Zusätzlich überprüft der Prozessor, ob das 
+momentan laufende Programm diesen Deskriptor überhaupt benutzen darf (aufgrund 
+der Privilegierung). Ein Programm, das versucht, ungültige Selektoren oder 
+Deskriptoren zu benutzen, wird durch eine Exception unterbrochen.</P>
+<P>Aus diesen Gründen (zusätzliche Überprüfung der Privilegstufen und Laden der 
+Schattenregister) dauert das Laden eines Selektorregisters (CS, DS, ES, FS oder 
+GS) im Protected Mode länger als das Laden eines Segmentregisters (CS, DS, ES, 
+FS oder GS) im Realmode!</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all5.htm"><IMG alt=Zurück 
+src="Selektoren-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all7.htm"><IMG alt=Weiter 
+src="Selektoren-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Selektoren-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 30.06.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

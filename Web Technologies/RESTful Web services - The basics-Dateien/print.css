@@ -1,0 +1,24 @@
+/*	$Id: print.css,v 1.8 2006/10/13 23:05:08 jeffdos Exp $ */
+
+#ibm-print-masthead {display:block !important;}
+#ibm-logo, #ibm-geo, #ibm-search-form, #ibm-universal-nav, #ibm-content-sidebar, #ibm-navigation, .ibm-page-tools, #ibm-page-tools, #ibm-footer, .ibm-no-print, .ibm-access, #ibm-overlay-top, #ibm-navigation-trail, #ibm-myinterest-module, ul.ibm-portlet-controls,#ibm-social-tools{display:none !important;}
+.ibm-dyn-tabs .ibm-tab-section,
+p.ibm-ind-link.ibm-back-to-top {display:none;}
+
+#ibm-content-head h1,
+#ibm-content-head p {margin-top:0px;padding-top:0px;}
+h1,h2,h3 {margin-bottom:0px;padding-bottom:0px;}
+#ibm-content-head p em {font-style:normal;font-weight:bold;}
+
+img {border:0px;}
+a {text-decoration:none;}
+
+ul.ibm-stock-list,
+ul.ibm-portrait-module-list {list-style-type:none;margin:0px;padding:0px;}
+
+table.ibm-data-table {width:100%;}
+table caption em {font-style:normal;font-weight:bold;}
+table caption,table th {text-align:left;}
+table th.ibm-table-row {font-weight:normal;}
+
+.ibm-mobile { display: none; }

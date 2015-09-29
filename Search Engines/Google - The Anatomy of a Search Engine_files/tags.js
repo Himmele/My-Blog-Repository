@@ -1,0 +1,1 @@
+document.write('<scr' + 'ipt src="http://tags.stanford.edu/tags.py?js_referer=' + encodeURIComponent(document.referrer) + '&js_url=' + encodeURIComponent(document.URL) + '&t=' + (new Date()).getTime() + '" type="text/javascript"></scr' + 'ipt>');

@@ -1,0 +1,25 @@
+sudo apt-get install libbz2-dev
+sudo apt-get install python-dev
+
+./bootstrap.sh 
+./b2
+
+-> Libs are in boost_1_52_0/stage/lib/
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/daniel/Projects/Boost/boost_1_52_0/stage/lib
+make
+./Fibonacci
+
+====
+
+Context:
+make_fcontext and jump_fcontext -> contexts do not return, but you can switch between them using jump_fcontext
+-> Each context has its own stack. Everything else is shared.
+
+Coroutine:
+Coroutine is a simple library that is built upon Context to have a somewhat nicer API. But is does not provide scheduling.
+
+Fiber:
+Fiber is a simple library that is built upon Content to provide round-robin scheduling for contexts.
+It also brings mutexes and communication channels that suspend and resume the contexts.
+

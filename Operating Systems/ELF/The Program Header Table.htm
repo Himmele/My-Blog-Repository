@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.cs.ucdavis.edu/~haungs/paper/node13.html -->
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><HTML><HEAD><TITLE>The Program Header Table</TITLE>
+<META content="The Program Header Table" name=description>
+<META content=paper name=keywords>
+<META content=document name=resource-type>
+<META content=global name=distribution>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="The Program Header Table-Dateien/paper.css" rel=STYLESHEET><LINK 
+href="node14.html" rel=next><LINK href="node12.html" rel=previous><LINK 
+href="node11.html" rel=up><LINK href="node14.html" rel=next>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node14.html" name=tex2html249><IMG 
+height=24 alt=next src="The Program Header Table-Dateien/next_motif.gif" 
+width=37 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html246><IMG 
+height=24 alt=up src="The Program Header Table-Dateien/up_motif.gif" 
+width=26 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html240><IMG 
+height=24 alt=previous 
+src="The Program Header Table-Dateien/previous_motif.gif" width=63 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html248><IMG 
+height=24 alt=contents 
+src="The Program Header Table-Dateien/contents_motif.gif" width=65 
+align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node14.html" name=tex2html250>The 
+Section Header Table</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html247>The 
+ELF File Format</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html241>The 
+ELF Header</A> <BR><BR><!--End of Navigation Panel-->
+<H3><A name=SECTION00441200000000000000>The Program Header Table</A> </H3>
+<P>Program headers are only important in executable and shared object files. The 
+program header table is an array of entries where each entry is a structure 
+describing a segment in the object file or other information needed to create an 
+executable process image. The size of an entry in the table and the number of 
+entries in the table are given in the ELF header (See Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html#ehformat">2.6</A>). 
+Each entry in the program header table (see Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html#phformat">2.7</A>) 
+contains the type, file offset, physical address, virtual address, file size, 
+memory image size, and alignment for a segment in the program. The program 
+header is crucial to creating a process image for the object file. The operating 
+system copies the segment (if it is loadable, i.e., if <TT>p_type</TT> is 
+PT_LOAD) into memory according to the location and size information. The 
+<TT>p_type</TT> field is shown in Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html#phformat">2.7</A> as 
+the first item in the struct. <BR>
+<DIV align=center><A name=shformat>&nbsp;</A><A name=510>&nbsp;</A> 
+<TABLE width="50%">
+  <CAPTION><STRONG>Figure:</STRONG> <EM>The Section Header</EM></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><IMG height=308 
+      alt="\begin{figure}&#10;\begin{tex2html_preform}\begin{verbatim}&#10;typedef struct {&#10;Elf...&#10;..._Shdr;\end{verbatim}\end{tex2html_preform}&#10;\rule{6.5in}{0.3mm}&#10;\end{figure}" 
+      src="The Program Header Table-Dateien/img10.gif" 
+  width=599></TD></TR></TBODY></TABLE></DIV><BR><BR>
+<HR>
+
+<ADDRESS><I>Michael L. Haungs</I> <BR><I>1998-09-21</I> </ADDRESS></BODY></HTML>

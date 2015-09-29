@@ -1,0 +1,71 @@
+// Created by Microsoft (R) C/C++ Compiler Version 11.00.0000 (26f11e65).
+//
+// Debug/ExchangeData.tlh
+//
+// C++ source equivalent of Win32 type library ..\ExchangeData\Release\ExchangeData.tlb
+// compiler-generated file created 07/15/01 at 17:26:07 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+namespace ExchangeDataComponent {
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("96bd13d6-dc81-49dc-aadd-d290ddc4fc42"))
+/* dispinterface */ IExchangeDataAuto;
+struct /* coclass */ ExchangeData;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IExchangeDataAuto, __uuidof(IDispatch));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("96bd13d6-dc81-49dc-aadd-d290ddc4fc42"))
+IExchangeDataAuto : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetLongData,put=PutLongData))
+    long LongData;
+    __declspec(property(get=GetTextData,put=PutTextData))
+    _bstr_t TextData;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    VARIANT_BOOL DisplayDialog ( );
+
+    // Properties:
+    long GetLongData ( );
+    void PutLongData ( long _val );
+    _bstr_t GetTextData ( );
+    void PutTextData ( _bstr_t _val );
+};
+
+struct __declspec(uuid("2bbc3374-3403-4195-8929-3b66c0b58280"))
+ExchangeData;
+    // [ default ] dispinterface IExchangeDataAuto
+
+//
+// Wrapper method implementations
+//
+
+#include "Debug/ExchangeData.tli"
+
+} // namespace ExchangeDataComponent
+
+#pragma pack(pop)

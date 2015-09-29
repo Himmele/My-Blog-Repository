@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:scrollbars="vertical"> 
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent">	    
+		<TableLayout android:id="@+id/TableLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TableRow>
+				<TextView android:id="@+id/labelTrailName"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Trail Selector: "/>
+				<EditText android:id="@+id/trailName"				
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:text="-"
+					android:textStyle="bold"
+					android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_+-,. "/>				
+			</TableRow>
+		</TableLayout>
+		<TableLayout android:id="@+id/TableLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TableRow>
+				<Button android:id="@+id/startLogging"
+					android:text="@string/startLogging"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+				<Button android:id="@+id/stopLogging"
+					android:text="@string/stopLogging"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			</TableRow>
+		</TableLayout>
+		<TextView android:id="@+id/Settings"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"			
+			android:text="Configure Droid Trail's Logging Settings:"/>
+		<TableLayout android:id="@+id/TableLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TableRow>
+				<EditText android:id="@+id/minTime"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="0" 
+					android:numeric="decimal"/>
+				<TextView android:id="@+id/unitSeconds"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="seconds"/>
+			</TableRow>
+			<TableRow>
+				<EditText android:id="@+id/minDistance"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="0"
+					android:numeric="decimal"/>
+				<TextView android:id="@+id/unitMeters"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="meters"/>
+			</TableRow>
+		</TableLayout>
+	</LinearLayout>
+</ScrollView> 

@@ -1,0 +1,388 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.genetic-programming.com/gpflowchart.html -->
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = 
+"urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>gpanimatedtutorial</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content=Word.Document name=ProgId>
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR>
+<META content="Microsoft Word 9" name=Originator><LINK 
+href="./gpflowchart_files/filelist.xml" rel=File-List><LINK 
+href="./gpflowchart_files/editdata.mso" rel=Edit-Time-Data><!--[if !mso]>
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<![endif]-->
+<STYLE>@font-face {
+	font-family: Times;
+}
+@page Section1 {size: 8.5in 11.0in; margin: 1.0in 1.25in 1.0in 1.25in; mso-header-margin: .5in; mso-footer-margin: .5in; mso-paper-source: 0; }
+P.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+LI.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+DIV.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 13.5pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; mso-outline-level: 3
+}
+H4 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; mso-outline-level: 4
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+P {
+	FONT-SIZE: 12pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto
+}
+P.Normalaftermajorheading {
+	FONT-SIZE: 18pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Normal after major heading"; mso-style-next: Normal; mso-line-height-alt: 3.0pt; mso-bidi-font-size: 10.0pt
+}
+LI.Normalaftermajorheading {
+	FONT-SIZE: 18pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Normal after major heading"; mso-style-next: Normal; mso-line-height-alt: 3.0pt; mso-bidi-font-size: 10.0pt
+}
+DIV.Normalaftermajorheading {
+	FONT-SIZE: 18pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Normal after major heading"; mso-style-next: Normal; mso-line-height-alt: 3.0pt; mso-bidi-font-size: 10.0pt
+}
+P.Enumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; mso-line-height-alt: 1.0pt; tab-stops: 40.0pt
+}
+LI.Enumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; mso-line-height-alt: 1.0pt; tab-stops: 40.0pt
+}
+DIV.Enumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; mso-line-height-alt: 1.0pt; tab-stops: 40.0pt
+}
+P.SubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.4in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: Enumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 63.0pt
+}
+LI.SubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.4in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: Enumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 63.0pt
+}
+DIV.SubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.4in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: Enumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 63.0pt
+}
+P.SubSubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.8in; TEXT-INDENT: -27pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: SubEnumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubSubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 1.25in
+}
+LI.SubSubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.8in; TEXT-INDENT: -27pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: SubEnumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubSubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 1.25in
+}
+DIV.SubSubEnumerate {
+	FONT-SIZE: 10pt; MARGIN: 2pt 0in 2pt 1.8in; TEXT-INDENT: -27pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-style-parent: SubEnumerate; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: SubSubEnumerate; mso-line-height-alt: 1.0pt; tab-stops: 1.25in
+}
+DIV.Section1 {
+	page: Section1
+}
+</STYLE>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1027"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+<META content="C:\Program Files\Microsoft Office\OFFICE\html.dot" 
+name=Template></HEAD>
+<BODY lang=EN-US style="tab-interval: .5in" vLink=purple link=blue>
+<DIV class=Section1>
+<H2 style="TEXT-ALIGN: center" align=center>Flowchart (Executional Steps) of 
+Genetic Programming</H2>
+<P>Genetic programming is problem-independent in the sense that the flowchart 
+specifying the basic sequence of executional steps is not modified for each new 
+run or each new problem. </P>
+<P>There is usually no discretionary human intervention or interaction during a 
+run of genetic programming (although a human user may exercise judgment as to 
+whether to terminate a run). </P>
+<P class=MsoNormal>The figure below is a flowchart showing the executional steps 
+of a run of genetic programming. The flowchart shows the genetic operations of 
+crossover, reproduction, and mutation as well as the architecture-altering 
+operations. This flowchart shows a two-offspring version of the crossover 
+operation. </P>
+<P class=MsoNormal style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1042 
+height=508 src="Flowchart-Dateien/BBB2028flowchartleft.gif" width=500></P>
+<H3>Overview of Flowchart</H3>
+<P>Genetic programming starts with an initial population of computer programs 
+composed of functions and terminals appropriate to the problem. The individual 
+programs in the initial population are typically generated by recursively 
+generating a rooted point-labeled program tree composed of random choices of the 
+primitive functions and terminals (provided by the human user as part of the 
+first and second <B><A 
+href="http://www.genetic-programming.com/gppreparatory.html">preparatory 
+steps</A></B> of a run of genetic programming). The initial individuals are 
+usually generated subject to a pre-established maximum size (specified by the 
+user as a minor parameter as part of the fourth preparatory step). In general, 
+the programs in the population are of different size (number of functions and 
+terminals) and of different shape (the particular graphical arrangement of 
+functions and terminals in the program tree). </P>
+<P>Each individual program in the population is executed. Then, each individual 
+program in the population is either measured or compared in terms of how well it 
+performs the task at hand (using the fitness measure provided in the third 
+preparatory step). For many problems (including all problems in this book), this 
+measurement yields a single explicit numerical value, called <I>fitness</I>. The 
+fitness of a program may be measured in many different ways, including, for 
+example, in terms of the amount of error between its output and the desired 
+output, the amount of time (fuel, money, etc.) required to bring a system to a 
+desired target state, the accuracy of the program in recognizing patterns or 
+classifying objects into classes, the payoff that a game-playing program 
+produces, or the compliance of a complex structure (such as an antenna, circuit, 
+or controller) with user-specified design criteria. The execution of the program 
+sometimes returns one or more explicit values. Alternatively, the execution of a 
+program may consist only of side effects on the state of a world (e.g., a 
+robot’s actions). Alternatively, the execution of a program may produce both 
+return values and side effects. </P>
+<P>The fitness measure is, for many practical problems, multiobjective in the 
+sense that it combines two or more different elements. The different elements of 
+the fitness measure are often in competition with one another to some degree. 
+</P>
+<P>For many problems, each program in the population is executed over a 
+representative sample of different <I>fitness cases</I>. These fitness cases may 
+represent different values of the program’s input(s), different initial 
+conditions of a system, or different environments. Sometimes the fitness cases 
+are constructed probabilistically. </P>
+<P>The creation of the initial random population is, in effect, a blind random 
+search of the search space of the problem. It provides a baseline for judging 
+future search efforts. Typically, the individual programs in generation 0 all 
+have exceedingly poor fitness. Nonetheless, some individuals in the population 
+are (usually) more fit than others. The differences in fitness are then 
+exploited by genetic programming. Genetic programming applies Darwinian 
+selection and the genetic operations to create a new population of offspring 
+programs from the current population. </P>
+<P>The genetic operations include crossover (sexual recombination), mutation, 
+reproduction, and the architecture-altering operations. These genetic operations 
+are applied to individual(s) that are probabilistically selected from the 
+population based on fitness. In this probabilistic selection process, better 
+individuals are favored over inferior individuals. However, the best individual 
+in the population is not necessarily selected and the worst individual in the 
+population is not necessarily passed over. </P>
+<P>After the genetic operations are performed on the current population, the 
+population of offspring (i.e., the new generation) replaces the current 
+population (i.e., the now-old generation). This iterative process of measuring 
+fitness and performing the genetic operations is repeated over many generations. 
+</P>
+<P>The run of genetic programming terminates when the termination criterion (as 
+provided by the fifth preparatory step) is satisfied. The outcome of the run is 
+specified by the method of result designation. The best individual ever 
+encountered during the run (i.e., the best-so-far individual) is typically 
+designated as the result of the run. </P>
+<P>All programs in the initial random population (generation 0) of a run of 
+genetic programming are syntactically valid, executable programs. The genetic 
+operations that are performed during the run (i.e., crossover, mutation, 
+reproduction, and the architecture-altering operations) are designed to produce 
+offspring that are syntactically valid, executable programs. Thus, every 
+individual created during a run of genetic programming (including, in 
+particular, the best-of-run individual) is a syntactically valid, executable 
+program.</P>
+<P>There are numerous alternative implementations of genetic programming that 
+vary from the foregoing brief description. </P>
+<H3>Creation of Initial Population of Computer Programs</H3>
+<P>Genetic programming starts with a primordial ooze of thousands of 
+randomly-generated computer programs. The set of functions that may appear at 
+the internal points of a program tree may include ordinary arithmetic functions 
+and conditional operators. The set of terminals appearing at the external points 
+typically include the program's external inputs (such as the independent 
+variables X and Y) and random constants (such as 3.2 and 0.4). The randomly 
+created programs typically have different sizes and shapes. <A 
+href="http://www.genetic-programming.com/creation.gif"><B>Click here for 
+animated example of random creation of two illustrative computer 
+programs</B></A>. </P>
+<H3>Main Generational Loop of Genetic Programming</H3>
+<P>The main generational loop of a run of genetic programming consists of the 
+fitness evaluation, Darwinian selection, and the genetic operations. Each 
+individual program in the population is evaluated to determine how fit it is at 
+solving the problem at hand. Programs are then probabilistically selected from 
+the population based on their fitness to participate in the various genetic 
+operations, with reselection allowed. While a more fit program has a better 
+chance of being selected, even individuals known to be unfit are allocated some 
+trials in a mathematically principled way. That is, genetic programming is not a 
+purely greedy hill-climbing algorithm. </P>
+<P>The individuals in the initial random population and the offspring produced 
+by each genetic operation are all syntactically valid executable programs. </P>
+<P>After many generations, a program may emerge that solves, or approximately 
+solves, the problem at hand. </P>
+<H4>Mutation Operation</H4>
+<P>In the mutation operation, a single parental program is probabilistically 
+selected from the population based on fitness. A mutation point is randomly 
+chosen, the subtree rooted at that point is deleted, and a new subtree is grown 
+there using the same random growth process that was used to generate the initial 
+population. This asexual mutation operation is typically performed sparingly 
+(with a low probability of, say, 1% during each generation of the run). <A 
+href="http://www.genetic-programming.com/mutation.gif"><B>Click here for 
+animated example of mutation operation</B></A>. </P>
+<H4>Crossover (Sexual Recombination) Operation</H4>
+<P>In the crossover, or sexual recombination operation, two parental programs 
+are probabilistically selected from the population based on fitness. The two 
+parents participating in crossover are usually of different sizes and shapes. A 
+crossover point is randomly chosen in the first parent and a crossover point is 
+randomly chosen in the second parent. Then the subtree rooted at the crossover 
+point of the first, or receiving, parent is deleted and replaced by the subtree 
+from the second, or contributing, parent. Crossover is the predominant operation 
+in genetic programming (and genetic algorithm) work and is performed with a high 
+probability (say, 85% to 90%). <A 
+href="http://www.genetic-programming.com/crossover.gif"><B>Click here for 
+animated example of crossover operation</B></A>. </P>
+<H4>Reproduction Operation</H4>
+<P>The reproduction operation copies a single individual, probabilistically 
+selected based on fitness, into the next generation of the population. </P>
+<H4>Architecture-Altering Operations</H4>
+<P>Simple computer programs consist of one main program (called a 
+result-producing branch). However, more complicated programs contain subroutines 
+(also called automatically defined functions, ADFs, or function-defining 
+branches), iterations (automatically defined iterations or ADIs), loops 
+(automatically defined loops or ADLs), recursions (automatically defined 
+recursions or ADRs), and memory of various dimensionality and size 
+(automatically defined stores or ADSs). If a human user is trying to solve an 
+engineering problem, he or she might choose to simply prespecify a reasonable 
+fixed architectural arrangement for all programs in the population (i.e., the 
+number and types of branches and number of arguments that each branch 
+possesses). Genetic programming can then be used to evolve the exact sequence of 
+primitive work-performing steps in each branch. </P>
+<P>However, sometimes the size and shape of the solution <I>is</I> the problem 
+(or at least a major part of it). Genetic programming is capable of making all 
+architectural decisions dynamically during the run of genetic programming. 
+Genetic programming uses architecture-altering operations to automatically 
+determine program architecture in a manner that parallels gene duplication in 
+nature and the related operation of gene deletion in nature. 
+Architecture-altering operations provide a way, dynamically during the run of 
+genetic programming, to add and delete subroutines and other types of branches 
+to individual programs to add and delete arguments possessed by the subroutines 
+and other types of branches. These architecture-altering operation quickly 
+create an architecturally diverse population containing programs with different 
+numbers of subroutines, arguments, iterations, loops, recursions, and memory 
+and, also, different hierarchical arrangements of these elements. Programs with 
+architectures that are well-suited to the problem at hand will tend to grow and 
+prosper in the competitive evolutionary process, while programs with inadequate 
+architectures will tend to wither away under the relentless selective pressure 
+of the problem's fitness measure. Thus, the architecture-altering operations 
+relieve the human user of the task of prespecifying program architecture. </P>
+<P>There are several different architecture-altering operations (described 
+below). They are each applied sparingly during the run (say, with a probability 
+of 1/2% of 1% on each generation). </P>
+<P>The subroutine duplication operation duplicates a preexisting subroutine in 
+an individual program gives a new name to the copy and randomly divides the 
+preexisting calls to the old subroutine between the two. This operation changes 
+the program architecture by broadening the hierarchy of subroutines in the 
+overall program. As with gene duplication in nature, this operation preserves 
+semantics when it first occurs. The two subroutines typically diverge later, 
+sometimes yielding specialization. <A 
+href="http://www.genetic-programming.com/branch-dup2.gif"><B>Click here for 
+animated example of the subroutine duplication operation</B></A><B>.</B> </P>
+<P>The argument duplication operation duplicates one argument of a subroutine, 
+randomly divides internal references to it, and preserves overall program 
+semantics by adjusting all calls to the subroutine. This operation enlarges the 
+dimensionality of the subspace on which the subroutine operates. <A 
+href="http://www.genetic-programming.com/arg-dup2.gif"><B>Click here for 
+animated example of the argument duplication operation</B></A>. </P>
+<P>The subroutine creation operation can create a new subroutine from part of a 
+main result-producing branch thereby deepening the hierarchy of references in 
+the overall program, by creating a hierarchical reference between the main 
+program and the new subroutine. The subroutine creation operation can also 
+create a new subroutine from part of an existing subroutine further deepening 
+the hierarchy of references, by creating a hierarchical reference between a 
+preexisting subroutine and a new subroutine and a deeper and more complex 
+overall hierarchy. <A 
+href="http://www.genetic-programming.com/branch-create2.gif"><B>Click here for 
+animated example of the subroutine creation operation</B></A><B>.</B> </P>
+<P>The architecture-altering operation of subroutine deletion deletes a 
+subroutine from a program thereby making the hierarchy of subroutines either 
+narrower or shallower. <A 
+href="http://www.genetic-programming.com/branch-delete.gif"><B>Click here for 
+animated example of the subroutine deletion operation</B></A><B>.</B> </P>
+<P>The argument deletion operation deletes an argument from a subroutine thereby 
+reducing the amount of information available to the subroutine, a process that 
+can be viewed as generalization. <A 
+href="http://www.genetic-programming.com/arg-delete.gif"><B>Click here for 
+animated example of the argument deletion operation</B></A>. </P>
+<P>Other architecture-altering operations add and delete automatically defined 
+iterations, automatically defined loops, automatically defined recursions, and 
+automatically defined stores (memory). </P>
+<P>Click here for an example of an <B><A 
+href="http://www.genetic-programming.com/gpquadraticexample.html">illustrative 
+run of genetic programming</A></B> for a problem of symbolic regression of a 
+quadratic polynomial. </P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>The home page of Genetic 
+Programming Inc. at <A 
+href="http://www.genetic-programming.com/"><B>www.genetic-programming.com</B></A>. 
+</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information about the 
+field of genetic programming in general, visit <A 
+href="http://www.genetic-programming.org/"><B>www.genetic-programming.org</B></A> 
+</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>The home page of<B> </B><A 
+href="http://www.genetic-programming.com/johnkoza.html"><B>John R. Koza at 
+Genetic Programming Inc.</B></A> (including online versions of most papers) and 
+the home page of<B> </B><A href="http://smi.stanford.edu/~koza/"><B>John R. Koza 
+at Stanford University </B></A></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>Information about the 1992 
+book <B><I><A href="http://www.genetic-programming.org/gpbook1toc.html">Genetic 
+Programming: On the Programming of Computers by Means of Natural 
+Selection</A></I></B>, the 1994 book <A 
+href="http://www.genetic-programming.org/gpbook2toc.html"><B><I>Genetic 
+Programming II: Automatic Discovery of Reusable Programs</I></B></A>, the 1999 
+book <A href="http://www.genetic-programming.org/gpbook3toc.html"><B><I>Genetic 
+Programming III: Darwinian Invention and Problem Solving</I></B></A>, and the 
+2003 book <B><I><A 
+href="http://www.genetic-programming.org/gpbook4toc.html">Genetic Programming 
+IV<SPAN style="FONT-STYLE: normal">: </SPAN>Routine Human-Competitive Machine 
+Intelligence</A></I></B>. Click here to read <B><A 
+href="http://www.genetic-programming.org/gp4chapter1.pdf">chapter 1 of 
+<I>Genetic Programming IV</I> book in PDF format.<SPAN 
+style="FONT-WEIGHT: normal"> </SPAN></A></B></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information on 3,198 
+papers (many on-line) on genetic programming (as of June 27, 2003) by over 900 
+authors, see <B><A 
+href="http://liinwww.ira.uka.de/bibliography/Ai/genetic.programming.html">William 
+Langdon’s bibliography on genetic programming</A></B>. <SPAN 
+style="FONT-FAMILY: Times"><o:p></o:p></SPAN></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information on the 
+<B><A href="http://www.kluweronline.com/issn/1389-2576">Genetic Programming and 
+Evolvable Machines journal</A> </B>published by Kluwer Academic Publishers</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information on the 
+Genetic Programming book series from Kluwer Academic Publishers, see the <A 
+href="http://www.genetic-programming.com/gpkluwer.html"><B>Call For Book 
+Proposals</B></A> </P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information about the 
+annual <B><A href="http://www-illigal.ge.uiuc.edu:8080/GECCO-2004/">Genetic and 
+Evolutionary Computation (GECCO) conference</A></B> (which includes the annual 
+GP conference) to be held on June 26–30, 2004 (Saturday – Wednesday) in Seattle 
+and its sponsoring organization, the International Society for Genetic and 
+Evolutionary Computation (<A href="http://www.isgec.org/"><B>ISGEC</B></A>).<B> 
+</B>For information about the annual <B><A 
+href="http://ehw.jpl.nasa.gov/events/nasaeh04/">NASA/DoD Conference on Evolvable 
+Hardware Conference (EH)</A></B> to be held on June 24-26 (Thursday-Saturday), 
+2004 in Seattle.<B> </B>For information about the annual <B><A 
+href="http://evonet.dcs.napier.ac.uk/eurogp2004/">Euro-Genetic-Programming 
+Conference</A></B> to be held on April 5-7, 2004 (Monday – Wednesday) at the 
+University of Coimbra in Coimbra Portugal.<B> <o:p></o:p></B></P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<P>Last updated on August 27, 2003</P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV></DIV></BODY></HTML>

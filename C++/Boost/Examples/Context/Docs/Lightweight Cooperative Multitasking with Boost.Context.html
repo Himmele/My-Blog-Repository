@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- saved from url=(0045)http://www.tolon.co.uk/2012/08/boost-context/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+	<title>Tolon's Workshop » Lightweight Cooperative Multitasking with Boost.Context</title>
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all posts" href="http://www.tolon.co.uk/feed/">
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all comments" href="http://www.tolon.co.uk/comments/feed/">
+	<link rel="pingback" href="http://www.tolon.co.uk/xmlrpc.php">
+
+	<!-- style START -->
+	<!-- default style -->
+	<style type="text/css" media="screen">@import url( http://www.tolon.co.uk/wp-content/themes/inove/style.css );</style>
+	<!-- for translations -->
+		<!--[if IE]>
+		<link rel="stylesheet" href="http://www.tolon.co.uk/wp-content/themes/inove/ie.css" type="text/css" media="screen" />
+	<![endif]-->
+	<!-- style END -->
+
+	<!-- script START -->
+	<script src="./Lightweight Cooperative Multitasking with Boost.Context_files/quant.js" async="" type="text/javascript"></script><script src="./Lightweight Cooperative Multitasking with Boost.Context_files/cb=gapi.loaded_0" async=""></script><script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/base.js"></script>
+	<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/menu.js"></script>
+	<!-- script END -->
+
+	<link rel="alternate" type="application/rss+xml" title="Tolon&#39;s Workshop » Lightweight Cooperative Multitasking with Boost.Context Comments Feed" href="http://www.tolon.co.uk/2012/08/boost-context/feed/">
+<link rel="stylesheet" id="NextGEN-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/nggallery.css" type="text/css" media="screen">
+<link rel="stylesheet" id="shutter-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/shutter-reloaded.css" type="text/css" media="screen">
+<link rel="stylesheet" id="jetpack-widgets-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/widgets.css" type="text/css" media="all">
+<link rel="stylesheet" id="sharedaddy-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/sharing.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp_dlmp_styles-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/styles.css" type="text/css" media="all">
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/snowstorm.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var shutterSettings = {"msgLoading":"L O A D I N G","msgClose":"Click to Close","imageCount":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/shutter-reloaded.js"></script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/jquery.js"></script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/jquery.cycle.all.min.js"></script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/ngg.slideshow.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.tolon.co.uk/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.tolon.co.uk/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Reading an In-Memory SQLite Database" href="http://www.tolon.co.uk/2012/04/in-memory-sqlite/">
+<link rel="next" title="Transporting SDO_GEOMETRY objects across an Oracle DBLINK in PLSQL" href="http://www.tolon.co.uk/2012/09/geometry-objects-across-dblink/">
+<meta name="generator" content="WordPress 3.5">
+<link rel="canonical" href="./Lightweight Cooperative Multitasking with Boost.Context_files/Lightweight Cooperative Multitasking with Boost.Context.html">
+<link rel="shortlink" href="http://wp.me/pzC7d-7P">
+	<style type="text/css">
+	.download-info .download-button {
+		background-image: url(http://www.tolon.co.uk/wp-content/plugins/download-monitor/page-addon/downloadbutton.gif);
+	}
+	.download-info .more-button {
+		background-image: url(http://www.tolon.co.uk/wp-content/plugins/download-monitor/page-addon/morebutton.gif);
+	}
+	</style>
+<!-- <meta name="NextGEN" version="1.9.10" /> -->
+
+	<!-- CSS Added By PhpList Plugin. Version 1.5 -->
+
+	<link href="./Lightweight Cooperative Multitasking with Boost.Context_files/phplist.css" rel="stylesheet" type="text/css">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lightweight Cooperative Multitasking with Boost.Context">
+<meta property="og:url" content="http://www.tolon.co.uk/2012/08/boost-context/">
+<meta property="og:description" content="I&#39;m writing this in response to Kenny Kerr&#39;s article Lightweight Cooperative Multitasking with C++ in the August 2012 issue of MSDN Magazine, in which Kenny describes a method of implementing coope...">
+<meta property="og:site_name" content="Tolon&#39;s Workshop">
+<link rel="stylesheet" type="text/css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/shCore.css"><link rel="stylesheet" type="text/css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/shThemeDefault.css"><meta id="syntaxhighlighteranchor" name="syntaxhighlighter-version" content="3.1.3">
+<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Lightweight Cooperative Multitasking with Boost.Context_files/services.css"></head>
+
+
+<body>
+<!-- wrap START -->
+<div id="wrap">
+
+<!-- container START -->
+<div id="container">
+
+<!-- header START -->
+<div id="header">
+
+	<!-- banner START -->
+		<!-- banner END -->
+
+	<div id="caption">
+		<h1 id="title"><a href="http://www.tolon.co.uk/">Tolon's Workshop</a></h1>
+		<div id="tagline">Software &amp; Software Development Opinion from Tolon</div>
+	</div>
+
+	<div class="fixed"></div>
+</div>
+<!-- header END -->
+
+<!-- navigation START -->
+<div id="navigation">
+	<!-- menus START -->
+	<ul id="menus">
+		<li class="page_item"><a class="home" title="Home" href="http://www.tolon.co.uk/">Home</a></li>
+		<li class="page_item page-item-408"><a href="http://www.tolon.co.uk/">Home</a></li>
+<li class="page_item page-item-290"><a href="http://www.tolon.co.uk/news/">News</a></li>
+<li class="page_item page-item-55"><a href="http://www.tolon.co.uk/software/">Software</a><ul class="children" style="visibility: hidden; display: block; "><li class="page_item page-item-57"><a href="http://www.tolon.co.uk/software/notekeeper/" class=" subtitle">Tolon NoteKeeper</a><ul class="children" style="visibility: hidden; display: block; "><li class="page_item page-item-122"><a href="http://www.tolon.co.uk/software/notekeeper/manual/">Manual</a></li><li class="page_item page-item-131"><a href="http://www.tolon.co.uk/software/notekeeper/screenshots/">Screenshots</a></li><li class="page_item page-item-134"><a href="http://www.tolon.co.uk/software/notekeeper/to-do-wish-list/">To Do / Wish List</a></li><li class="page_item page-item-136"><a href="http://www.tolon.co.uk/software/notekeeper/change-log/">Tolon NoteKeeper Change Log</a></li><li class="page_item page-item-138"><a href="http://www.tolon.co.uk/software/notekeeper/download/" class=" last">Download</a></li></ul></li><li class="page_item page-item-98"><a href="http://www.tolon.co.uk/software/tolon-dcs/">Tolon-DCS</a></li><li class="page_item page-item-111"><a href="http://www.tolon.co.uk/software/skinnyreader/">SkinnyReader</a></li><li class="page_item page-item-534"><a href="http://www.tolon.co.uk/software/hrlookup/" class=" last">hrlookup</a></li></ul></li>
+<li class="page_item page-item-140"><a href="http://www.tolon.co.uk/miscellaneous/">Miscellaneous</a><ul class="children" style="visibility: hidden; display: block; "><li class="page_item page-item-2"><a href="http://www.tolon.co.uk/miscellaneous/about/">About Tolon</a></li><li class="page_item page-item-115"><a href="http://www.tolon.co.uk/miscellaneous/tolon-supporters/">Tolon Supporters</a></li><li class="page_item page-item-142"><a href="http://www.tolon.co.uk/miscellaneous/mailing-lists/">Mailing Lists</a></li><li class="page_item page-item-221"><a href="http://www.tolon.co.uk/miscellaneous/support/">Support</a></li><li class="page_item page-item-315"><a href="http://www.tolon.co.uk/miscellaneous/lab/" class=" last subtitle">Tolon’s Coding Lab</a><ul class="children" style="visibility: hidden; display: block; "><li class="page_item page-item-385"><a href="http://www.tolon.co.uk/miscellaneous/lab/dependency-build-scripts/" class=" last">Dependency Build Scripts</a></li></ul></li></ul></li>
+		<li><a class="lastmenu" href="javascript:void(0);"></a></li>
+	</ul>
+	<!-- menus END -->
+
+	<!-- searchbox START -->
+	<div id="searchbox">
+					<form action="http://www.tolon.co.uk/" method="get">
+				<div class="content">
+					<input type="text" class="textfield searchtip" name="s" size="24" value="">
+					<input type="submit" class="button" value="">
+				</div>
+			</form>
+			</div>
+<script type="text/javascript">
+//<![CDATA[
+	var searchbox = MGJS.$("searchbox");
+	var searchtxt = MGJS.getElementsByClassName("textfield", "input", searchbox)[0];
+	var searchbtn = MGJS.getElementsByClassName("button", "input", searchbox)[0];
+	var tiptext = "Type text to search here...";
+	if(searchtxt.value == "" || searchtxt.value == tiptext) {
+		searchtxt.className += " searchtip";
+		searchtxt.value = tiptext;
+	}
+	searchtxt.onfocus = function(e) {
+		if(searchtxt.value == tiptext) {
+			searchtxt.value = "";
+			searchtxt.className = searchtxt.className.replace(" searchtip", "");
+		}
+	}
+	searchtxt.onblur = function(e) {
+		if(searchtxt.value == "") {
+			searchtxt.className += " searchtip";
+			searchtxt.value = tiptext;
+		}
+	}
+	searchbtn.onclick = function(e) {
+		if(searchtxt.value == "" || searchtxt.value == tiptext) {
+			return false;
+		}
+	}
+//]]>
+</script>
+	<!-- searchbox END -->
+
+	<div class="fixed"></div>
+</div>
+<!-- navigation END -->
+
+<!-- content START -->
+<div id="content">
+
+	<!-- main START -->
+	<div id="main">
+
+
+	<div id="postpath">
+		<a title="Go to homepage" href="http://www.tolon.co.uk/">Home</a>
+		 &gt; <a href="http://www.tolon.co.uk/category/lab/" title="View all posts in Tolon&#39;s Coding Lab" rel="category tag">Tolon's Coding Lab</a>		 &gt; Lightweight Cooperative Multitasking with Boost.Context	</div>
+
+	<div class="post" id="post-485">
+		<h2>Lightweight Cooperative Multitasking with Boost.Context</h2>
+		<div class="info">
+			<span class="date">August 31st, 2012</span>
+													<span class="addcomment"><a href="http://www.tolon.co.uk/2012/08/boost-context/#respond">Leave a comment</a></span>
+				<span class="comments"><a href="http://www.tolon.co.uk/2012/08/boost-context/#comments">Go to comments</a></span>
+						<div class="fixed"></div>
+		</div>
+		<div class="content">
+			<p>I’m writing this in response to Kenny Kerr’s article <a href="http://msdn.microsoft.com/en-us/magazine/jj553509.aspx" target="_blank"><i>Lightweight Cooperative Multitasking with C++</i></a> in the August 2012 issue of MSDN Magazine, in which Kenny describes a method of implementing cooperative multitasking in C++.</p>
+<h4>What is Cooperative Multitasking?</h4>
+<p>This is a method of achieving concurrency in an application without using multiple threads. The basic idea is that you can have multiple tasks running on just a single thread. Now of course only one of these tasks can be running at any one time, so each task must perform some work and then explicitly yield to another task.</p>
+<p>Ideally whatever method is used for beginning tasks and yielding should automatically provide a separate context for each task. That is, each task should have its own stack and register data.</p>
+<h4>Why Kenny’s Article is Cool</h4>
+<p>Kenny’s article is all about how you can implement your own cooperative multitasking in C++ without having to resort to a specific API calls or a separate library. Yes it’s based on a previously known technique by Tom Duff, but it demonstrates that an awful lot can be done with a relatively small amount of code. This is why I like C++; it gives you the power to do things like this.</p>
+<p>As cool as it is, I don’t think I’ll be adding it to my production code any time soon. Besides the problems I’d have getting it past code review, I found a better solution…</p>
+<h4>Enter Boost.Context</h4>
+<p>At the end of the article, Kenny reveals his hopes (and dreams?) of a day when he can implement cooperative multitasking in C++ without having to resort to unmaintainable macro hacks.</p>
+<p>As luck would have it, on the 20th August 2012 version 1.51 of the Boost C++ libraries was released which contained the new library Boost.Context by Oliver Kowalke. This is a fairly low-level library, but it does provide a basic cooperative multitasking library with a separate context for each task.</p>
+<h4>Average Task, Boost.Context Style</h4>
+<p>In his article, Kenny implements a basic application to take numeric input from the command line and produce some statistics. It’s not what I’d call a classic concurrency problem, but it serves the purpose of demonstrating the tasks yielding control only when appropriate. I’ve taken the code and re-implemented it using Boost.Context. Enjoy!</p>
+<p></p><div><div id="highlighter_730770" class="syntaxhighlighter  plain"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div><div class="line number41 index40 alt2">41</div><div class="line number42 index41 alt1">42</div><div class="line number43 index42 alt2">43</div><div class="line number44 index43 alt1">44</div><div class="line number45 index44 alt2">45</div><div class="line number46 index45 alt1">46</div><div class="line number47 index46 alt2">47</div><div class="line number48 index47 alt1">48</div><div class="line number49 index48 alt2">49</div><div class="line number50 index49 alt1">50</div><div class="line number51 index50 alt2">51</div><div class="line number52 index51 alt1">52</div><div class="line number53 index52 alt2">53</div><div class="line number54 index53 alt1">54</div><div class="line number55 index54 alt2">55</div><div class="line number56 index55 alt1">56</div><div class="line number57 index56 alt2">57</div><div class="line number58 index57 alt1">58</div><div class="line number59 index58 alt2">59</div><div class="line number60 index59 alt1">60</div><div class="line number61 index60 alt2">61</div><div class="line number62 index61 alt1">62</div><div class="line number63 index62 alt2">63</div><div class="line number64 index63 alt1">64</div><div class="line number65 index64 alt2">65</div><div class="line number66 index65 alt1">66</div><div class="line number67 index66 alt2">67</div><div class="line number68 index67 alt1">68</div><div class="line number69 index68 alt2">69</div><div class="line number70 index69 alt1">70</div><div class="line number71 index70 alt2">71</div><div class="line number72 index71 alt1">72</div><div class="line number73 index72 alt2">73</div><div class="line number74 index73 alt1">74</div><div class="line number75 index74 alt2">75</div><div class="line number76 index75 alt1">76</div><div class="line number77 index76 alt2">77</div><div class="line number78 index77 alt1">78</div><div class="line number79 index78 alt2">79</div><div class="line number80 index79 alt1">80</div><div class="line number81 index80 alt2">81</div><div class="line number82 index81 alt1">82</div><div class="line number83 index82 alt2">83</div><div class="line number84 index83 alt1">84</div><div class="line number85 index84 alt2">85</div><div class="line number86 index85 alt1">86</div><div class="line number87 index86 alt2">87</div><div class="line number88 index87 alt1">88</div><div class="line number89 index88 alt2">89</div><div class="line number90 index89 alt1">90</div><div class="line number91 index90 alt2">91</div><div class="line number92 index91 alt1">92</div><div class="line number93 index92 alt2">93</div><div class="line number94 index93 alt1">94</div><div class="line number95 index94 alt2">95</div><div class="line number96 index95 alt1">96</div><div class="line number97 index96 alt2">97</div><div class="line number98 index97 alt1">98</div><div class="line number99 index98 alt2">99</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain plain">#include &lt;boost\context\all.hpp&gt;</code></div><div class="line number2 index1 alt1">&nbsp;</div><div class="line number3 index2 alt2"><code class="plain plain">namespace ctx = boost::ctx;</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="plain plain">ctx::fcontext_t fc_avg, fc_input, fc_main;</code></div><div class="line number6 index5 alt1"><code class="plain plain">bool b_quit = false;</code></div><div class="line number7 index6 alt2">&nbsp;</div><div class="line number8 index7 alt1"><code class="plain plain">// --- The Average Task ---</code></div><div class="line number9 index8 alt2"><code class="plain plain">// Computes the average of the input data and </code></div><div class="line number10 index9 alt1"><code class="plain plain">// then yields execution back to the main task</code></div><div class="line number11 index10 alt2"><code class="plain plain">//-------------------------</code></div><div class="line number12 index11 alt1"><code class="plain plain">// struct average_args - data for the task</code></div><div class="line number13 index12 alt2"><code class="plain plain">// average_yield() - wrapper for yielding execution back to the main task</code></div><div class="line number14 index13 alt1"><code class="plain plain">// average_task() - the task logic</code></div><div class="line number15 index14 alt2"><code class="plain plain">// ------------------------</code></div><div class="line number16 index15 alt1"><code class="plain plain">struct average_args</code></div><div class="line number17 index16 alt2"><code class="plain plain">{</code></div><div class="line number18 index17 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int * source;</code></div><div class="line number19 index18 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int sum;</code></div><div class="line number20 index19 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int count;</code></div><div class="line number21 index20 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int average;</code></div><div class="line number22 index21 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int task_;</code></div><div class="line number23 index22 alt2"><code class="plain plain">};</code></div><div class="line number24 index23 alt1"><code class="plain plain">void average_yield() { ctx::jump_fcontext(&amp;fc_avg, &amp;fc_main, 0); }</code></div><div class="line number25 index24 alt2"><code class="plain plain">void average_task(intptr_t p)</code></div><div class="line number26 index25 alt1"><code class="plain plain">{</code></div><div class="line number27 index26 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">average_args* args = (average_args*)p;</code></div><div class="line number28 index27 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">args-&gt;sum = 0;</code></div><div class="line number29 index28 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">args-&gt;count = 0;</code></div><div class="line number30 index29 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">args-&gt;average = 0;</code></div><div class="line number31 index30 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">while (true)</code></div><div class="line number32 index31 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">{</code></div><div class="line number33 index32 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">args-&gt;sum += *args-&gt;source;</code></div><div class="line number34 index33 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">++args-&gt;count;</code></div><div class="line number35 index34 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">args-&gt;average = args-&gt;sum / args-&gt;count;</code></div><div class="line number36 index35 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">average_yield();</code></div><div class="line number37 index36 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">}</code></div><div class="line number38 index37 alt1">&nbsp;</div><div class="line number39 index38 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">printf("ERROR: should not reach the end of average function\n");</code></div><div class="line number40 index39 alt1"><code class="plain plain">}</code></div><div class="line number41 index40 alt2">&nbsp;</div><div class="line number42 index41 alt1"><code class="plain plain">// --- The Input Task ---</code></div><div class="line number43 index42 alt2"><code class="plain plain">// Reads a number as input from the console and </code></div><div class="line number44 index43 alt1"><code class="plain plain">// then yields execution back to the main task</code></div><div class="line number45 index44 alt2"><code class="plain plain">// ----------------------</code></div><div class="line number46 index45 alt1"><code class="plain plain">// struct input_args - data for the task</code></div><div class="line number47 index46 alt2"><code class="plain plain">// input_yield() - wrapper for yielding execution back to the main task</code></div><div class="line number48 index47 alt1"><code class="plain plain">// input_task() - the task logic</code></div><div class="line number49 index48 alt2"><code class="plain plain">// ----------------------</code></div><div class="line number50 index49 alt1"><code class="plain plain">struct input_args</code></div><div class="line number51 index50 alt2"><code class="plain plain">{</code></div><div class="line number52 index51 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">average_args* aa;</code></div><div class="line number53 index52 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int * target;</code></div><div class="line number54 index53 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int task_;</code></div><div class="line number55 index54 alt2"><code class="plain plain">};</code></div><div class="line number56 index55 alt1"><code class="plain plain">void input_yield() { ctx::jump_fcontext(&amp;fc_input, &amp;fc_main, 0); }</code></div><div class="line number57 index56 alt2"><code class="plain plain">void input_task(intptr_t p)</code></div><div class="line number58 index57 alt1"><code class="plain plain">{</code></div><div class="line number59 index58 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">input_args* pia = (input_args*)p;</code></div><div class="line number60 index59 alt1">&nbsp;</div><div class="line number61 index60 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">while (true)</code></div><div class="line number62 index61 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">{</code></div><div class="line number63 index62 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">printf("number: ");</code></div><div class="line number64 index63 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">if (!scanf_s("%d", pia-&gt;target))</code></div><div class="line number65 index64 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">{</code></div><div class="line number66 index65 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">b_quit = true;</code></div><div class="line number67 index66 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">return;</code></div><div class="line number68 index67 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">}</code></div><div class="line number69 index68 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number70 index69 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">input_yield();</code></div><div class="line number71 index70 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">}</code></div><div class="line number72 index71 alt1">&nbsp;</div><div class="line number73 index72 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">printf("ERROR: should not reach the end of input function\n");</code></div><div class="line number74 index73 alt1"><code class="plain plain">}</code></div><div class="line number75 index74 alt2">&nbsp;</div><div class="line number76 index75 alt1"><code class="plain plain">void main()</code></div><div class="line number77 index76 alt2"><code class="plain plain">{</code></div><div class="line number78 index77 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">int share = -1;</code></div><div class="line number79 index78 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">average_args aa = {&amp;share};</code></div><div class="line number80 index79 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">input_args ia = {&amp;aa, &amp;share};</code></div><div class="line number81 index80 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">ctx::stack_allocator alloc;</code></div><div class="line number82 index81 alt1">&nbsp;</div><div class="line number83 index82 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">// construct the input task</code></div><div class="line number84 index83 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">fc_input.fc_stack.base = alloc.allocate(ctx::minimum_stacksize());</code></div><div class="line number85 index84 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">ctx::make_fcontext(&amp;fc_input, input_task);</code></div><div class="line number86 index85 alt1">&nbsp;</div><div class="line number87 index86 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">// construct the average task</code></div><div class="line number88 index87 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">fc_avg.fc_stack.base = alloc.allocate(ctx::minimum_stacksize());</code></div><div class="line number89 index88 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">ctx::make_fcontext(&amp;fc_avg, average_task);</code></div><div class="line number90 index89 alt1">&nbsp;</div><div class="line number91 index90 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">while (!b_quit)</code></div><div class="line number92 index91 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">{</code></div><div class="line number93 index92 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">ctx::jump_fcontext( &amp;fc_main, &amp;fc_input, (intptr_t) &amp;ia);</code></div><div class="line number94 index93 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">ctx::jump_fcontext( &amp;fc_main, &amp;fc_avg, (intptr_t) &amp;aa);</code></div><div class="line number95 index94 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">printf("sum=%d count=%d average=%d\n", aa.sum, aa.count, aa.average);</code></div><div class="line number96 index95 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">}</code></div><div class="line number97 index96 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number98 index97 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">printf("main: done\n");</code></div><div class="line number99 index98 alt2"><code class="plain plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p></p>
+<h4>Footnotes</h4>
+<p>The Boost.Context library has been described as a good candidate for providing low-level cooperative multitasking support to the developing Boost.Coroutine library. Coroutine will provide a more high-level, abstract way of applying these concurrency techniques in your code.</p>
+<p>I’m looking forward to Kenny’s next article in which he has promised to show how the Visual C++ team is working on what must be some kind of cooperative multitasking that he’s called ‘resumable functions’.</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-official sd-sharing"><div class="sd-content"><ul><li class="share-facebook"><div class="like_button"><iframe src="./Lightweight Cooperative Multitasking with Boost.Context_files/like.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:96px; height:21px;" allowtransparency="true"></iframe></div></li><li class="share-google-plus-1"><div class="googleplus1_button"><div style="height: 20px; width: 90px; text-indent: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; background-position: initial initial; background-repeat: initial initial; " id="___plusone_0"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; position: static; left: 0px; top: 0px; visibility: visible; width: 90px; height: 20px; " tabindex="0" vspace="0" width="100%" id="I0_1357055409994" name="I0_1357055409994" src="./Lightweight Cooperative Multitasking with Boost.Context_files/fastbutton.html" allowtransparency="true" title="+1"></iframe></div></div></li><li class="share-twitter"><div class="twitter_button"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="./Lightweight Cooperative Multitasking with Boost.Context_files/tweet_button.html" style="width:101px; height:20px;"></iframe></div></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></div></div>			<div class="fixed"></div>
+		</div>
+		<div class="under">
+			<span class="categories">Categories: </span><span><a href="http://www.tolon.co.uk/category/lab/" title="View all posts in Tolon&#39;s Coding Lab" rel="category tag">Tolon's Coding Lab</a></span>			<span class="tags">Tags: </span><span><a href="http://www.tolon.co.uk/tag/boost/" rel="tag">boost</a>, <a href="http://www.tolon.co.uk/tag/c/" rel="tag">C++</a>, <a href="http://www.tolon.co.uk/tag/concurrency/" rel="tag">concurrency</a></span>		</div>
+	</div>
+
+	<!-- related posts START -->
+		<!-- related posts END -->
+
+	<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/comment.js"></script>
+
+
+
+<div id="comments">
+
+<div id="cmtswitcher">
+			<a id="commenttab" class="curtab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thecomments,commentnavi&#39;, &#39;thetrackbacks&#39;, &#39;commenttab&#39;, &#39;curtab&#39;, &#39;trackbacktab&#39;, &#39;tab&#39;);">Comments (0)</a>
+		<a id="trackbacktab" class="tab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thetrackbacks&#39;, &#39;thecomments,commentnavi&#39;, &#39;trackbacktab&#39;, &#39;curtab&#39;, &#39;commenttab&#39;, &#39;tab&#39;);">Trackbacks (0)</a>
+				<span class="addcomment"><a href="http://www.tolon.co.uk/2012/08/boost-context/#respond">Leave a comment</a></span>
+				<span class="addtrackback"><a href="http://www.tolon.co.uk/2012/08/boost-context/trackback/">Trackback</a></span>
+		<div class="fixed"></div>
+</div>
+
+<div id="commentlist">
+	<!-- comments START -->
+	<ol id="thecomments">
+			<li class="messagebox">
+			No comments yet.		</li>
+		</ol>
+	<!-- comments END -->
+
+
+	<!-- trackbacks START -->
+			<ol id="thetrackbacks">
+							<li class="messagebox">
+					No trackbacks yet.				</li>
+
+					</ol>
+		<div class="fixed"></div>
+	<!-- trackbacks END -->
+</div>
+
+</div>
+
+	<form action="http://www.tolon.co.uk/wp-comments-post.php" method="post" id="commentform">
+	<div id="respond">
+
+					
+			<div id="author_info">
+				<div class="row">
+					<input type="text" name="author" id="author" class="textfield" value="" size="24" tabindex="1">
+					<label for="author" class="small">Name (required)</label>
+				</div>
+				<div class="row">
+					<input type="text" name="email" id="email" class="textfield" value="" size="24" tabindex="2">
+					<label for="email" class="small">E-Mail (will not be published) (required)</label>
+				</div>
+				<div class="row">
+					<input type="text" name="url" id="url" class="textfield" value="" size="24" tabindex="3">
+					<label for="url" class="small">Website</label>
+				</div>
+			</div>
+
+			
+		
+		<!-- comment input -->
+		<div class="row">
+			<textarea name="comment" id="comment" tabindex="4" rows="8" cols="50"></textarea>
+		</div>
+
+		<!-- comment submit and rss -->
+		<div id="submitbox">
+			<a class="feed" href="http://www.tolon.co.uk/comments/feed/">Subscribe to comments feed</a>
+			<div class="submitbutton">
+				<input name="submit" type="submit" id="submit" class="button" tabindex="5" value="Submit Comment">
+			</div>
+						<input type="hidden" name="comment_post_ID" value="485">
+			<div class="fixed"></div>
+		</div>
+
+	</div>
+	<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="22f677ff7c"></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments" style="display: inline;">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Notify me of new posts by email.</label></p>	</form>
+
+	
+
+	<div id="postnavi">
+		<span class="prev"><a href="http://www.tolon.co.uk/2012/09/geometry-objects-across-dblink/" rel="next">Transporting SDO_GEOMETRY objects across an Oracle DBLINK in PLSQL</a></span>
+		<span class="next"><a href="http://www.tolon.co.uk/2012/04/in-memory-sqlite/" rel="prev">Reading an In-Memory SQLite Database</a></span>
+		<div class="fixed"></div>
+	</div>
+
+
+	</div>
+	<!-- main END -->
+
+	
+<!-- sidebar START -->
+<div id="sidebar">
+
+<!-- sidebar north START -->
+<div id="northsidebar" class="sidebar">
+
+	<!-- feeds -->
+	<div class="widget widget_feeds">
+		<div class="content">
+			<div id="subscribe"><a rel="external nofollow" id="feedrss" title="Subscribe to this blog..." href="http://www.tolon.co.uk/feed/"><abbr title="Really Simple Syndication">RSS</abbr></a></div>
+						<div class="fixed"></div>
+		</div>
+	</div>
+
+	<!-- showcase -->
+	
+		<div id="recent-posts-2" class="widget widget_recent_entries">		<h3>Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://www.tolon.co.uk/2012/12/hresult-lookup-utility/" title="HRESULT Lookup Utility">HRESULT Lookup Utility</a>
+						</li>
+					<li>
+				<a href="http://www.tolon.co.uk/2012/09/geometry-objects-across-dblink/" title="Transporting SDO_GEOMETRY objects across an Oracle DBLINK in PLSQL">Transporting SDO_GEOMETRY objects across an Oracle DBLINK in PLSQL</a>
+						</li>
+					<li>
+				<a href="./Lightweight Cooperative Multitasking with Boost.Context_files/Lightweight Cooperative Multitasking with Boost.Context.html" title="Lightweight Cooperative Multitasking with Boost.Context">Lightweight Cooperative Multitasking with Boost.Context</a>
+						</li>
+					<li>
+				<a href="http://www.tolon.co.uk/2012/04/in-memory-sqlite/" title="Reading an In-Memory SQLite Database">Reading an In-Memory SQLite Database</a>
+						</li>
+					<li>
+				<a href="http://www.tolon.co.uk/2012/04/tolon-notekeeper-0-10-beta-released/" title="Tolon NoteKeeper 0.10 BETA Released">Tolon NoteKeeper 0.10 BETA Released</a>
+						</li>
+				</ul>
+		</div></div>
+<!-- sidebar north END -->
+
+<div id="centersidebar">
+
+	<!-- sidebar east START -->
+	<div id="eastsidebar" class="sidebar">
+	
+		<!-- categories -->
+		<!--<div class="widget widget_categories">
+			<h3>Categories</h3>
+			<ul>
+					<li class="cat-item cat-item-9"><a href="http://www.tolon.co.uk/category/news/" title="View all posts filed under News">News</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.tolon.co.uk/category/software/" title="View all posts filed under Software">Software</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.tolon.co.uk/category/lab/" title="View all posts filed under Tolon&#039;s Coding Lab">Tolon&#039;s Coding Lab</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.tolon.co.uk/category/website/" title="Anything related to new features on the website or maintenence announcements.">Website</a>
+</li>
+			</ul>
+		</div>-->
+
+		</div>
+	<!-- sidebar east END -->
+
+	<!-- sidebar west START -->
+	<div id="westsidebar" class="sidebar">
+	
+		<!-- blogroll -->
+		<!--<div class="widget widget_links">
+			<h3>Blogroll</h3>
+			<ul>
+				<li><a href="http://accu.org" title="ACCU is an organisation of programmers who care about professionalism in programming and are dedicated to raising the standard of programming." target="_blank"><img src="http://accu.org/content/images/buttonl_88x31.gif"  alt="ACCU: Professionalism in Programming"  title="ACCU is an organisation of programmers who care about professionalism in programming and are dedicated to raising the standard of programming." /></a></li>
+<li><a href="http://www.boost.org/" title="Free peer-reviewed portable C++ source libraries" target="_blank">Boost C++ Libraries</a></li>
+<li><a href="https://github.com/TolonUK" title="Browse Tolon&#8217;s public code on github" target="_blank">TolonUK on github</a></li>
+			</ul>
+		</div>-->
+
+		</div>
+	<!-- sidebar west END -->
+	<div class="fixed"></div>
+</div>
+
+<!-- sidebar south START -->
+<div id="southsidebar" class="sidebar">
+<div id="archives-3" class="widget widget_archive"><h3>Archives</h3>		<ul>
+			<li><a href="http://www.tolon.co.uk/2012/12/" title="December 2012">December 2012</a>&nbsp;(1)</li>
+	<li><a href="http://www.tolon.co.uk/2012/09/" title="September 2012">September 2012</a>&nbsp;(1)</li>
+	<li><a href="http://www.tolon.co.uk/2012/08/" title="August 2012">August 2012</a>&nbsp;(1)</li>
+	<li><a href="http://www.tolon.co.uk/2012/04/" title="April 2012">April 2012</a>&nbsp;(3)</li>
+	<li><a href="http://www.tolon.co.uk/2012/03/" title="March 2012">March 2012</a>&nbsp;(2)</li>
+	<li><a href="http://www.tolon.co.uk/2009/08/" title="August 2009">August 2009</a>&nbsp;(2)</li>
+	<li><a href="http://www.tolon.co.uk/2009/01/" title="January 2009">January 2009</a>&nbsp;(2)</li>
+	<li><a href="http://www.tolon.co.uk/2008/12/" title="December 2008">December 2008</a>&nbsp;(3)</li>
+		</ul>
+</div><div id="linkcat-11" class="widget widget_links"><h3>software development</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://accu.org/" title="ACCU is an organisation of programmers who care about professionalism in programming and are dedicated to raising the standard of programming." target="_blank">ACCU: Professionalism in Programming</a></li>
+<li><a href="http://www.boost.org/" title="Free peer-reviewed portable C++ source libraries" target="_blank">Boost C++ Libraries</a></li>
+<li><a href="https://github.com/TolonUK" title="Browse Tolon’s public code on github" target="_blank">TolonUK on github</a></li>
+
+	</ul>
+</div>
+</div>
+<!-- sidebar south END -->
+
+</div>
+<!-- sidebar END -->
+	<div class="fixed"></div>
+</div>
+<!-- content END -->
+
+<!-- footer START -->
+<div id="footer">
+	<a id="gotop" href="http://www.tolon.co.uk/2012/08/boost-context/#" onclick="MGJS.goTop();return false;">Top</a>
+	<a id="powered" href="http://wordpress.org/">WordPress</a>
+	<div id="copyright">
+		<br>
+<b>Warning</b>:  Missing argument 2 for wpdb::prepare(), called in /homepages/37/d84010375/htdocs/blog/wp-content/themes/inove/footer.php on line 22 and defined in <b>/homepages/37/d84010375/htdocs/blog/wp-includes/wp-db.php</b> on line <b>990</b><br>
+Copyright © 2008-2012 Tolon's Workshop	</div>
+	<div id="themeinfo">
+		Theme by <a href="http://www.neoease.com/">NeoEase</a>. Valid <a href="http://validator.w3.org/check?uri=referer">XHTML 1.1</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">CSS 3</a>.	</div>
+</div>
+<!-- footer END -->
+
+</div>
+<!-- container END -->
+</div>
+<!-- wrap END -->
+
+	<div style="display:none">
+	</div>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/sharing.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			jQuery( 'a.share-facebook' ).click(function(){
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+					<script type="text/javascript" charset="utf-8">
+				function sharing_plusone( obj ) { 
+					jQuery.ajax( {
+						url: 'http://www.tolon.co.uk/2012/08/boost-context/?share=google-plus-1',
+						type: 'POST',
+						data: obj
+					} );
+				}
+			</script>
+			<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/plusone.js" gapi_processed="true"></script> 		<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			jQuery( 'a.share-twitter' ).click(function(){
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/shCore.js"></script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/shBrushPlain.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.tolon.co.uk/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.tolon.co.uk/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Lightweight Cooperative Multitasking with Boost.Context_files/wpgroho.js"></script>
+
+	<script src="./Lightweight Cooperative Multitasking with Boost.Context_files/e-201301.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:2.0.4',blog:'8487999',post:'485',tz:'0'});
+	var load_cmc = function(){linktracker_init(8487999,485,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script><img id="wpstats" src="./Lightweight Cooperative Multitasking with Boost.Context_files/g.gif" alt="">
+
+
+
+</body><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 364.63861664438303px; top: -876.1697830103786px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 50.01821263665309px; top: -330.0008853205925px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 948.0246436557793px; top: -794.0462699518573px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 24px; top: -454px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 764px; top: -646px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1417.5515785530379px; top: -574.2296137178755px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 12px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1614.9229634180008px; top: -388.77039803052287px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1797.999530166156px; top: -722.5794037328992px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1450.0097909439776px; top: -448.4280130648984px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1406.0582172256397px; top: -209.91653670859557px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 609px; top: -96px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1803px; top: -956px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1886.4591008422722px; top: -94.3383521813669px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 618.1928382095241px; top: -219.0707694655281px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 998.4687743312938px; top: -286.8994693558571px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 586.2197770618963px; top: -896.1500950449879px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 93.56060098230606px; top: -503.22417314711663px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1398.8070357599881px; top: -29.80746228410854px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1484px; top: -964px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1388.7094968666543px; top: -435.4506132695836px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 167.35536439124886px; top: -225.98088136816034px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 12px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 450.80201366195183px; top: -815.1723644353918px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 227.4994390334334px; top: -376.0054250955119px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 558.1962396331965px; top: -183.9698245171455px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 12px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1339.0838913001576px; top: -766.5939413541894px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1578.030791534203px; top: -109.07353256607936px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1204.6319267607923px; top: -530.252520758595px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 439.8517276676567px; top: -692.3673764170373px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 123px; top: -60px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1580px; top: -834px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 536.0328688524763px; top: -761.9939139978977px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 340px; top: -204px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 946.0013216215932px; top: -752.8490445500938px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 859.855355003415px; top: -647.5769103614107px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1467.047199434179px; top: -202.04916586750102px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 745.1032682877759px; top: -171.43653724016605px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1165.9401893277059px; top: -374.5732384826978px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1857px; top: -825px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1215.9791926029943px; top: -356.412377435713px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1877.0995527514094px; top: -664.2159001289388px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 49.90243622329528px; top: 41.899974539643125px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1140.8816469090052px; top: -751.8787444860192px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 814.9275584625308px; top: -878.041580235589px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 424.02074618851145px; top: -298.0201311298879px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1337.8981409513808px; top: -206.1377510720632px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1379.247981623133px; top: -779.812054530021px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 682.2187100175308px; top: -719.3039246144438px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 427.7499028638961px; top: -420.0432311798213px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 10px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 806.8796754970558px; top: -26.118754308205098px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; text-align: center; vertical-align: baseline; display: block; left: 963.0710674526727px; top: -197.25623722327924px; opacity: 0.25; font-size: 3px; line-height: 9.8125px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 987.6500045732486px; top: -882.8413866292699px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1489.9681031816856px; top: -620.4341562045697px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 933.651730620384px; top: -547.2116668373312px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 18px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 898.2939966412586px; top: -243.47612228710307px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 517px; top: -666px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 173.32045949582812px; top: -382.51242171973126px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 16px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 597.9504552559355px; top: -409.2323015816496px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 14px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1696.2904858195602px; top: -504.02679003227934px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 20px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1291px; top: -578px; ">•</div><div style="color: rgb(255, 255, 255); width: 5px; height: 5px; font-family: arial, verdana; cursor: default; overflow-x: hidden; overflow-y: hidden; font-weight: normal; z-index: 100000; position: absolute; bottom: auto; opacity: 1; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 12px; line-height: 7px; text-align: center; vertical-align: baseline; display: block; left: 1331.4678602080749px; top: -854.739801621763px; ">•</div></html>

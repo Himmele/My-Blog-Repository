@@ -1,0 +1,837 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0088)http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » How debuggers work: Part 3 – Debugging information</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./How debuggers work  Part 3 – Debugging information_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » How debuggers work: Part 3 – Debugging information Comments Feed" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./How debuggers work  Part 3 – Debugging information_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./How debuggers work  Part 3 – Debugging information_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./How debuggers work  Part 3 – Debugging information_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Where the top of the stack is on x86" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/">
+<link rel="next" title="Array initialization with enum indices in C but not C++" href="http://eli.thegreenplace.net/2011/02/15/array-initialization-with-enum-indices-in-c-but-not-c/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./How debuggers work  Part 3 – Debugging information_files/How debuggers work  Part 3 – Debugging information.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=2402">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./How debuggers work  Part 3 – Debugging information_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./How debuggers work  Part 3 – Debugging information_files/api" type="text/javascript"></script><script src="./How debuggers work  Part 3 – Debugging information_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./How debuggers work  Part 3 – Debugging information_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./How debuggers work  Part 3 – Debugging information_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./How debuggers work  Part 3 – Debugging information_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-2402">
+			<h2><a href="./How debuggers work  Part 3 – Debugging information_files/How debuggers work  Part 3 – Debugging information.html" rel="bookmark" title="Permanent Link: How debuggers work: Part 3 – Debugging information">How debuggers work: Part 3 – Debugging information</a></h2>
+			<small>February 7th, 2011 at 7:02 pm <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>This is the third part in a series of articles on how debuggers work. Make sure you read <a class="reference external" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/">the first</a> and <a class="reference external" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/">the second</a> parts before this one.</p>
+<div class="section" id="in-this-part">
+<h3>In this part</h3>
+<p>I’m going to explain how the debugger figures out where to find the C functions and variables in the machine code it wades through, and the data it uses to map between C source code lines and machine language words.</p>
+</div>
+<div class="section" id="debugging-information">
+<h3>Debugging information</h3>
+<p>Modern compilers do a pretty good job converting your high-level code, with its nicely indented and nested control structures and arbitrarily typed variables into a big pile of bits called machine code, the sole purpose of which is to run as fast as possible on the target CPU. Most  lines of C get converted into several machine code instructions. Variables are shoved all over the place – into the stack, into registers, or completely optimized away. Structures and objects don’t even <em>exist</em> in the resulting code – they’re merely an abstraction that gets translated to hard-coded offsets into memory buffers.</p>
+<p>So how does a debugger know where to stop when you ask it to break at the entry to some function? How does it manage to find what to show you when you ask it for the value of a variable? The answer is – debugging information.</p>
+<p>Debugging information is generated by the compiler together with the machine code. It is a representation of the relationship between the executable program and the original source code. This information is encoded into a pre-defined format and stored alongside the machine code. Many such formats were invented over the years for different platforms and executable files. Since the aim of this article isn’t to survey the history of these formats, but rather to show how they work, we’ll have to settle on something. This something is going to be DWARF, which is almost ubiquitously used today as the debugging information format for ELF executables on Linux and other Unix-y platforms.</p>
+</div>
+<div class="section" id="the-dwarf-in-the-elf">
+<h3>The DWARF in the ELF</h3>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/dwarf_logo.gif" class="align-center" src="./How debuggers work  Part 3 – Debugging information_files/dwarf_logo.gif"></div>
+<p>According to <a class="reference external" href="http://en.wikipedia.org/wiki/DWARF">its Wikipedia page</a>, DWARF was designed alongside ELF, although it can in theory be embedded in other object file formats as well <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id7" id="id1">[1]</a>.</p>
+<p>DWARF is a complex format, building on many years of experience with previous formats for various architectures and operating systems. It has to be complex, since it solves a very tricky problem – presenting debugging information from any high-level language to debuggers, providing support for arbitrary platforms and ABIs. It would take much more than this humble article to explain it fully, and to be honest I don’t understand all its dark corners well enough to engage in such an endeavor anyway <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id8" id="id2">[2]</a>. In this article I will take a more hands-on approach, showing just enough of DWARF to explain how debugging information works in practical terms.</p>
+</div>
+<div class="section" id="debug-sections-in-elf-files">
+<h3>Debug sections in ELF files</h3>
+<p>First let’s take a glimpse of where the DWARF info is placed inside ELF files. ELF defines arbitrary sections that may exist in each object file. A <em>section header table</em> defines which sections exist and their names. Different tools treat various sections in special ways – for example the linker is looking for some sections, the debugger for others.</p>
+<p>We’ll be using an executable built from this C source for our experiments in this article, compiled into <tt class="docutils literal"><span class="pre">tracedprog2</span></tt>:</p>
+<div class="highlight">
+<pre><span style="color: #007f00">#include &lt;stdio.h&gt;</span>
+
+
+<span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">do_stuff</span>(<span style="color: #00007f; font-weight: bold">int</span> my_arg)
+{
+    <span style="color: #00007f; font-weight: bold">int</span> my_local = my_arg + <span style="color: #007f7f">2</span>;
+    <span style="color: #00007f; font-weight: bold">int</span> i;
+
+    <span style="color: #00007f; font-weight: bold">for</span> (i = <span style="color: #007f7f">0</span>; i &lt; my_local; ++i)
+        printf(<span style="color: #7f007f">"i = %d\n"</span>, i);
+}
+
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">main</span>()
+{
+    do_stuff(<span style="color: #007f7f">2</span>);
+    <span style="color: #00007f; font-weight: bold">return</span> <span style="color: #007f7f">0</span>;
+}
+</pre>
+</div>
+<p>Dumping the section headers from the ELF executable using <tt class="docutils literal"><span class="pre">objdump</span> <span class="pre">-h</span></tt> we’ll notice several sections with names beginning with <tt class="docutils literal"><span class="pre">.debug_</span></tt> – these are the DWARF debugging sections:</p>
+<div class="highlight">
+<pre>26 .debug_aranges 00000020  00000000  00000000  00001037
+                 CONTENTS, READONLY, DEBUGGING
+27 .debug_pubnames 00000028  00000000  00000000  00001057
+                 CONTENTS, READONLY, DEBUGGING
+28 .debug_info   000000cc  00000000  00000000  0000107f
+                 CONTENTS, READONLY, DEBUGGING
+29 .debug_abbrev 0000008a  00000000  00000000  0000114b
+                 CONTENTS, READONLY, DEBUGGING
+30 .debug_line   0000006b  00000000  00000000  000011d5
+                 CONTENTS, READONLY, DEBUGGING
+31 .debug_frame  00000044  00000000  00000000  00001240
+                 CONTENTS, READONLY, DEBUGGING
+32 .debug_str    000000ae  00000000  00000000  00001284
+                 CONTENTS, READONLY, DEBUGGING
+33 .debug_loc    00000058  00000000  00000000  00001332
+                 CONTENTS, READONLY, DEBUGGING
+</pre>
+</div>
+<p>The first number seen for each section here is its size, and the last is the offset where it begins in the ELF file. The debugger uses this information to read the section from the executable.</p>
+<p>Now let’s see a few practical examples of finding useful debug information in DWARF.</p>
+</div>
+<div class="section" id="finding-functions">
+<h3>Finding functions</h3>
+<p>One of the most basic things we want to do when debugging is placing breakpoints at some function, expecting the debugger to break right at its entrance. To be able to perform this feat, the debugger must have some mapping between a function name in the high-level code and the address in the machine code where the instructions for this function begin.</p>
+<p>This information can be obtained from DWARF by looking at the <tt class="docutils literal"><span class="pre">.debug_info</span></tt> section. Before we go further, a bit of background. The basic descriptive entity in DWARF is called the Debugging Information Entry (DIE). Each DIE has a tag – its type, and a set of attributes. DIEs are interlinked via sibling and child links, and values of attributes can point at other DIEs.</p>
+<p>Let’s run:</p>
+<div class="highlight">
+<pre>objdump --dwarf=info tracedprog2
+</pre>
+</div>
+<p>The output is quite long, and for this example we’ll just focus on these lines <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id9" id="id3">[3]</a>:</p>
+<div class="highlight">
+<pre>&lt;1&gt;&lt;71&gt;: Abbrev Number: 5 (DW_TAG_subprogram)
+    &lt;72&gt;   DW_AT_external    : 1
+    &lt;73&gt;   DW_AT_name        : (...): do_stuff
+    &lt;77&gt;   DW_AT_decl_file   : 1
+    &lt;78&gt;   DW_AT_decl_line   : 4
+    &lt;79&gt;   DW_AT_prototyped  : 1
+    &lt;7a&gt;   DW_AT_low_pc      : 0x8048604
+    &lt;7e&gt;   DW_AT_high_pc     : 0x804863e
+    &lt;82&gt;   DW_AT_frame_base  : 0x0      (location list)
+    &lt;86&gt;   DW_AT_sibling     : &lt;0xb3&gt;
+
+&lt;1&gt;&lt;b3&gt;: Abbrev Number: 9 (DW_TAG_subprogram)
+    &lt;b4&gt;   DW_AT_external    : 1
+    &lt;b5&gt;   DW_AT_name        : (...): main
+    &lt;b9&gt;   DW_AT_decl_file   : 1
+    &lt;ba&gt;   DW_AT_decl_line   : 14
+    &lt;bb&gt;   DW_AT_type        : &lt;0x4b&gt;
+    &lt;bf&gt;   DW_AT_low_pc      : 0x804863e
+    &lt;c3&gt;   DW_AT_high_pc     : 0x804865a
+    &lt;c7&gt;   DW_AT_frame_base  : 0x2c     (location list)
+</pre>
+</div>
+<p>There are two entries (DIEs) tagged <tt class="docutils literal"><span class="pre">DW_TAG_subprogram</span></tt>, which is a function in DWARF’s jargon. Note that there’s an entry for <tt class="docutils literal"><span class="pre">do_stuff</span></tt> and an entry for <tt class="docutils literal"><span class="pre">main</span></tt>. There are several interesting attributes, but the one that interests us here is <tt class="docutils literal"><span class="pre">DW_AT_low_pc</span></tt>. This is the program-counter (<tt class="docutils literal"><span class="pre">EIP</span></tt> in x86) value for the beginning of the function. Note that it’s <tt class="docutils literal"><span class="pre">0x8048604</span></tt> for <tt class="docutils literal"><span class="pre">do_stuff</span></tt>. Now let’s see what this address is in the disassembly of the executable by running <tt class="docutils literal"><span class="pre">objdump</span> <span class="pre">-d</span></tt>:</p>
+<div class="highlight">
+<pre>08048604 &lt;do_stuff&gt;:
+ 8048604:       55           push   ebp
+ 8048605:       89 e5        mov    ebp,esp
+ 8048607:       83 ec 28     sub    esp,0x28
+ 804860a:       8b 45 08     mov    eax,DWORD PTR [ebp+0x8]
+ 804860d:       83 c0 02     add    eax,0x2
+ 8048610:       89 45 f4     mov    DWORD PTR [ebp-0xc],eax
+ 8048613:       c7 45 (...)  mov    DWORD PTR [ebp-0x10],0x0
+ 804861a:       eb 18        jmp    8048634 &lt;do_stuff+0x30&gt;
+ 804861c:       b8 20 (...)  mov    eax,0x8048720
+ 8048621:       8b 55 f0     mov    edx,DWORD PTR [ebp-0x10]
+ 8048624:       89 54 24 04  mov    DWORD PTR [esp+0x4],edx
+ 8048628:       89 04 24     mov    DWORD PTR [esp],eax
+ 804862b:       e8 04 (...)  call   8048534 &lt;printf@plt&gt;
+ 8048630:       83 45 f0 01  add    DWORD PTR [ebp-0x10],0x1
+ 8048634:       8b 45 f0     mov    eax,DWORD PTR [ebp-0x10]
+ 8048637:       3b 45 f4     cmp    eax,DWORD PTR [ebp-0xc]
+ 804863a:       7c e0        jl     804861c &lt;do_stuff+0x18&gt;
+ 804863c:       c9           leave
+ 804863d:       c3           ret
+</pre>
+</div>
+<p>Indeed, <tt class="docutils literal"><span class="pre">0x8048604</span></tt> is the beginning of <tt class="docutils literal"><span class="pre">do_stuff</span></tt>, so the debugger can have a mapping between functions and their locations in the executable.</p>
+</div>
+<div class="section" id="finding-variables">
+<h3>Finding variables</h3>
+<p>Suppose that we’ve indeed stopped at a breakpoint inside <tt class="docutils literal"><span class="pre">do_stuff</span></tt>. We want to ask the debugger to show us the value of the <tt class="docutils literal"><span class="pre">my_local</span></tt> variable. How does it know where to find it? Turns out this is much trickier than finding functions. Variables can be located in global storage, on the stack, and even in registers. Additionally, variables with the same name can have different values in different lexical scopes. The debugging information has to be able to reflect all these variations, and indeed DWARF does.</p>
+<p>I won’t cover all the possibilities, but as an example I’ll demonstrate how the debugger can find <tt class="docutils literal"><span class="pre">my_local</span></tt> in <tt class="docutils literal"><span class="pre">do_stuff</span></tt>. Let’s start at <tt class="docutils literal"><span class="pre">.debug_info</span></tt> and look at the entry for <tt class="docutils literal"><span class="pre">do_stuff</span></tt> again, this time also looking at a couple of its sub-entries:</p>
+<div class="highlight">
+<pre>&lt;1&gt;&lt;71&gt;: Abbrev Number: 5 (DW_TAG_subprogram)
+    &lt;72&gt;   DW_AT_external    : 1
+    &lt;73&gt;   DW_AT_name        : (...): do_stuff
+    &lt;77&gt;   DW_AT_decl_file   : 1
+    &lt;78&gt;   DW_AT_decl_line   : 4
+    &lt;79&gt;   DW_AT_prototyped  : 1
+    &lt;7a&gt;   DW_AT_low_pc      : 0x8048604
+    &lt;7e&gt;   DW_AT_high_pc     : 0x804863e
+    &lt;82&gt;   DW_AT_frame_base  : 0x0      (location list)
+    &lt;86&gt;   DW_AT_sibling     : &lt;0xb3&gt;
+ &lt;2&gt;&lt;8a&gt;: Abbrev Number: 6 (DW_TAG_formal_parameter)
+    &lt;8b&gt;   DW_AT_name        : (...): my_arg
+    &lt;8f&gt;   DW_AT_decl_file   : 1
+    &lt;90&gt;   DW_AT_decl_line   : 4
+    &lt;91&gt;   DW_AT_type        : &lt;0x4b&gt;
+    &lt;95&gt;   DW_AT_location    : (...)       (DW_OP_fbreg: 0)
+ &lt;2&gt;&lt;98&gt;: Abbrev Number: 7 (DW_TAG_variable)
+    &lt;99&gt;   DW_AT_name        : (...): my_local
+    &lt;9d&gt;   DW_AT_decl_file   : 1
+    &lt;9e&gt;   DW_AT_decl_line   : 6
+    &lt;9f&gt;   DW_AT_type        : &lt;0x4b&gt;
+    &lt;a3&gt;   DW_AT_location    : (...)      (DW_OP_fbreg: -20)
+&lt;2&gt;&lt;a6&gt;: Abbrev Number: 8 (DW_TAG_variable)
+    &lt;a7&gt;   DW_AT_name        : i
+    &lt;a9&gt;   DW_AT_decl_file   : 1
+    &lt;aa&gt;   DW_AT_decl_line   : 7
+    &lt;ab&gt;   DW_AT_type        : &lt;0x4b&gt;
+    &lt;af&gt;   DW_AT_location    : (...)      (DW_OP_fbreg: -24)
+</pre>
+</div>
+<p>Note the first number inside the angle brackets in each entry. This is the nesting level – in this example entries with <tt class="docutils literal"><span class="pre">&lt;2&gt;</span></tt> are children of the entry with <tt class="docutils literal"><span class="pre">&lt;1&gt;</span></tt>. So we know that the variable <tt class="docutils literal"><span class="pre">my_local</span></tt> (marked by the <tt class="docutils literal"><span class="pre">DW_TAG_variable</span></tt> tag) is a child of the <tt class="docutils literal"><span class="pre">do_stuff</span></tt> function. The debugger is also interested in a variable’s type to be able to display it correctly. In the case of <tt class="docutils literal"><span class="pre">my_local</span></tt> the type points to another DIE – <tt class="docutils literal"><span class="pre">&lt;0x4b&gt;</span></tt>. If we look it up in the output of <tt class="docutils literal"><span class="pre">objdump</span></tt> we’ll see it’s a signed 4-byte integer.</p>
+<p>To actually locate the variable in the memory image of the executing process, the debugger will look at the <tt class="docutils literal"><span class="pre">DW_AT_location</span></tt> attribute. For <tt class="docutils literal"><span class="pre">my_local</span></tt> it says <tt class="docutils literal"><span class="pre">DW_OP_fbreg:</span> <span class="pre">-20</span></tt>. This means that the variable is stored at offset -20 from the <tt class="docutils literal"><span class="pre">DW_AT_frame_base</span></tt> attribute of its containing function – which is the base of the frame for the function.</p>
+<p>The <tt class="docutils literal"><span class="pre">DW_AT_frame_base</span></tt> attribute of <tt class="docutils literal"><span class="pre">do_stuff</span></tt> has the value <tt class="docutils literal"><span class="pre">0x0</span> <span class="pre">(location</span> <span class="pre">list)</span></tt>, which means that this value actually has to be looked up in the location list section. Let’s look at it:</p>
+<div class="highlight">
+<pre>$ objdump --dwarf=loc tracedprog2
+
+tracedprog2:     file format elf32-i386
+
+Contents of the .debug_loc section:
+
+    Offset   Begin    End      Expression
+    00000000 08048604 08048605 (DW_OP_breg4: 4 )
+    00000000 08048605 08048607 (DW_OP_breg4: 8 )
+    00000000 08048607 0804863e (DW_OP_breg5: 8 )
+    00000000 &lt;End of list&gt;
+    0000002c 0804863e 0804863f (DW_OP_breg4: 4 )
+    0000002c 0804863f 08048641 (DW_OP_breg4: 8 )
+    0000002c 08048641 0804865a (DW_OP_breg5: 8 )
+    0000002c &lt;End of list&gt;
+</pre>
+</div>
+<p>The location information we’re interested in is the first one <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id10" id="id4">[4]</a>. For each address where the debugger may be, it specifies the current frame base from which offsets to variables are to be computed as an offset from a register. For x86, <tt class="docutils literal"><span class="pre">bpreg4</span></tt> refers to <tt class="docutils literal"><span class="pre">esp</span></tt> and <tt class="docutils literal"><span class="pre">bpreg5</span></tt> refers to <tt class="docutils literal"><span class="pre">ebp</span></tt>.</p>
+<p>It’s educational to look at the first several instructions of <tt class="docutils literal"><span class="pre">do_stuff</span></tt> again:</p>
+<div class="highlight">
+<pre>08048604 &lt;do_stuff&gt;:
+ 8048604:       55          push   ebp
+ 8048605:       89 e5       mov    ebp,esp
+ 8048607:       83 ec 28    sub    esp,0x28
+ 804860a:       8b 45 08    mov    eax,DWORD PTR [ebp+0x8]
+ 804860d:       83 c0 02    add    eax,0x2
+ 8048610:       89 45 f4    mov    DWORD PTR [ebp-0xc],eax
+</pre>
+</div>
+<p>Note that <tt class="docutils literal"><span class="pre">ebp</span></tt> becomes relevant only after the second instruction is executed, and indeed for the first two addresses the base is computed from <tt class="docutils literal"><span class="pre">esp</span></tt> in the location information listed above. Once <tt class="docutils literal"><span class="pre">ebp</span></tt> is valid, it’s convenient to compute offsets relative to it because it stays constant while <tt class="docutils literal"><span class="pre">esp</span></tt> keeps moving with data being pushed and popped from the stack.</p>
+<p>So where does it leave us with <tt class="docutils literal"><span class="pre">my_local</span></tt>? We’re only really interested in its value after the instruction at <tt class="docutils literal"><span class="pre">0x8048610</span></tt> (where its value is placed in memory after being computed in <tt class="docutils literal"><span class="pre">eax</span></tt>), so the debugger will be using the <tt class="docutils literal"><span class="pre">DW_OP_breg5:</span> <span class="pre">8</span></tt> frame base to find it. Now it’s time to rewind a little and recall that the <tt class="docutils literal"><span class="pre">DW_AT_location</span></tt> attribute for <tt class="docutils literal"><span class="pre">my_local</span></tt>  says <tt class="docutils literal"><span class="pre">DW_OP_fbreg:</span> <span class="pre">-20</span></tt>. Let’s do the math: -20 from the frame base, which is <tt class="docutils literal"><span class="pre">ebp</span> <span class="pre">+</span> <span class="pre">8</span></tt>. We get <tt class="docutils literal"><span class="pre">ebp</span> <span class="pre">-</span> <span class="pre">12</span></tt>. Now look at the disassembly again and note where the data is moved from <tt class="docutils literal"><span class="pre">eax</span></tt> – indeed, <tt class="docutils literal"><span class="pre">ebp</span> <span class="pre">-</span> <span class="pre">12</span></tt> is where <tt class="docutils literal"><span class="pre">my_local</span></tt> is stored.</p>
+</div>
+<div class="section" id="looking-up-line-numbers">
+<h3>Looking up line numbers</h3>
+<p>When we talked about finding functions in the debugging information, I was cheating a little. When we debug C source code and put a breakpoint in a function, we’re usually not interested in the first <em>machine code</em> instruction <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id11" id="id5">[5]</a>. What we’re <em>really</em> interested in is the first <em>C code</em> line of the function.</p>
+<p>This is why DWARF encodes a full mapping between lines in the C source code and machine code addresses in the executable. This information is contained in the <tt class="docutils literal"><span class="pre">.debug_line</span></tt> section and can be extracted in a readable form as follows:</p>
+<div class="highlight">
+<pre>$ objdump --dwarf=decodedline tracedprog2
+
+tracedprog2:     file format elf32-i386
+
+Decoded dump of debug contents of section .debug_line:
+
+CU: /home/eliben/eli/eliben-code/debugger/tracedprog2.c:
+File name           Line number    Starting address
+tracedprog2.c                5           0x8048604
+tracedprog2.c                6           0x804860a
+tracedprog2.c                9           0x8048613
+tracedprog2.c               10           0x804861c
+tracedprog2.c                9           0x8048630
+tracedprog2.c               11           0x804863c
+tracedprog2.c               15           0x804863e
+tracedprog2.c               16           0x8048647
+tracedprog2.c               17           0x8048653
+tracedprog2.c               18           0x8048658
+</pre>
+</div>
+<p>It shouldn’t be hard to see the correspondence between this information, the C source code and the disassembly dump. Line number 5 points at the entry point to <tt class="docutils literal"><span class="pre">do_stuff</span></tt> – <tt class="docutils literal"><span class="pre">0x8040604</span></tt>. The next line, 6, is where the debugger should really stop when asked to break in <tt class="docutils literal"><span class="pre">do_stuff</span></tt>, and it points at <tt class="docutils literal"><span class="pre">0x804860a</span></tt> which is just past the prologue of the function. This line information easily allows bi-directional mapping between lines and addresses:</p>
+<ul class="simple">
+<li>When asked to place a breakpoint at a certain line, the debugger will use it to find which address it should put its trap on (remember our friend <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> from the previous article?)</li>
+<li>When an instruction causes a segmentation fault, the debugger will use it to find the source code line on which it happened.</li>
+</ul>
+</div>
+<div class="section" id="libdwarf-working-with-dwarf-programmatically">
+<h3><tt class="docutils literal"><span class="pre">libdwarf</span></tt> – Working with DWARF programmatically</h3>
+<p>Employing command-line tools to access DWARF information, while useful, isn’t fully satisfying. As programmers, we’d like to know how to write actual code that can read the format and extract what we need from it.</p>
+<p>Naturally, one approach is to grab the DWARF specification and start hacking away. Now, remember how everyone keeps saying that you should never, ever parse HTML manually but rather use a library? Well, with DWARF it’s even worse. DWARF is <em>much</em> more complex than HTML. What I’ve shown here is just the tip of the iceberg, and to make things even harder, most of this information is encoded in a very compact and compressed way in the actual object file <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id12" id="id6">[6]</a>.</p>
+<p>So we’ll take another road and use a library to work with DWARF. There are two major libraries I’m aware of (plus a few less complete ones):</p>
+<ol class="arabic simple">
+<li>BFD (<tt class="docutils literal"><span class="pre">libbfd</span></tt>) is used by the <a class="reference external" href="http://www.gnu.org/software/binutils/">GNU binutils</a>, including <tt class="docutils literal"><span class="pre">objdump</span></tt> which played a star role in this article, <tt class="docutils literal"><span class="pre">ld</span></tt> (the GNU linker) and <tt class="docutils literal"><span class="pre">as</span></tt> (the GNU assembler).</li>
+<li><tt class="docutils literal"><span class="pre">libdwarf</span></tt> – which together with its big brother <tt class="docutils literal"><span class="pre">libelf</span></tt> are used for the tools on Solaris and FreeBSD operating systems.</li>
+</ol>
+<p>I’m picking <tt class="docutils literal"><span class="pre">libdwarf</span></tt> over BFD because it appears less arcane to me and its license is more liberal (<tt class="docutils literal"><span class="pre">LGPL</span></tt> vs. <tt class="docutils literal"><span class="pre">GPL</span></tt>).</p>
+<p>Since <tt class="docutils literal"><span class="pre">libdwarf</span></tt> is itself quite complex it requires a lot of code to operate. I’m not going to show all this code here, but <a class="reference external" href="http://eli.thegreenplace.net/files/prog_code/articles_code/debugger/dwarf_get_func_addr.c">you can download</a> and run it yourself. To compile this file you’ll need to have <tt class="docutils literal"><span class="pre">libelf</span></tt> and <tt class="docutils literal"><span class="pre">libdwarf</span></tt> installed, and pass the <tt class="docutils literal"><span class="pre">-lelf</span></tt> and <tt class="docutils literal"><span class="pre">-ldwarf</span></tt> flags to the linker.</p>
+<p>The demonstrated program takes an executable and prints the names of functions in it, along with their entry points. Here’s what it produces for the C program we’ve been playing with in this article:</p>
+<div class="highlight">
+<pre>$ dwarf_get_func_addr tracedprog2
+DW_TAG_subprogram: 'do_stuff'
+low pc  : 0x08048604
+high pc : 0x0804863e
+DW_TAG_subprogram: 'main'
+low pc  : 0x0804863e
+high pc : 0x0804865a
+</pre>
+</div>
+<p>The documentation of <tt class="docutils literal"><span class="pre">libdwarf</span></tt> (linked in the References section of this article) is quite good, and with some effort you should have no problem pulling any other information demonstrated in this article from the DWARF sections using it.</p>
+</div>
+<div class="section" id="conclusion-and-next-steps">
+<h3>Conclusion and next steps</h3>
+<p>Debugging information is a simple concept in principle. The implementation details may be intricate, but in the end of the day what matters is that we now know how the debugger finds the information it needs about the original source code from which the executable it’s tracing was compiled. With this information in hand, the debugger bridges between the world of the user, who thinks in terms of lines of code and data structures, and the world of the executable, which is just a bunch of machine code instructions and data in registers and memory.</p>
+<p>This article, with its two predecessors, concludes an introductory series that explains the inner workings of a debugger. Using the information presented here and some programming effort, it should be possible to create a basic but functional debugger for Linux.</p>
+<p>As for the next steps, I’m not sure yet. Maybe I’ll end the series here, maybe I’ll present some advanced topics such as backtraces, and perhaps debugging on Windows. Readers can also suggest ideas for future articles in this series or related material. Feel free to use the comments or send me an email.</p>
+</div>
+<div class="section" id="references">
+<h3>References</h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">objdump</span></tt> man page</li>
+<li>Wikipedia pages for <a class="reference external" href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a> and <a class="reference external" href="http://en.wikipedia.org/wiki/DWARF">DWARF</a>.</li>
+<li><a class="reference external" href="http://dwarfstd.org/">Dwarf Debugging Standard home page</a> – from here you can obtain the excellent DWARF tutorial by Michael Eager, as well as the DWARF standard itself. You’ll probably want version 2 since it’s what <tt class="docutils literal"><span class="pre">gcc</span></tt> produces.</li>
+<li><a class="reference external" href="http://reality.sgiweb.org/davea/dwarf.html">libdwarf home page</a> – the download package includes a comprehensive reference document for the library</li>
+<li><a class="reference external" href="http://sourceware.org/binutils/docs-2.21/bfd/index.html">BFD documentation</a></li>
+</ul>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./How debuggers work  Part 3 – Debugging information_files/hline.jpg" style="width: 320px; height: 5px;"></div>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id1">[1]</a></td>
+<td>DWARF is an open standard, published <a class="reference external" href="http://dwarfstd.org/">here</a> by the DWARF standards committee. The DWARF logo displayed above is taken from that website.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id2">[2]</a></td>
+<td>At the end of the article I’ve collected some useful resources that will help you get more familiar with DWARF, if you’re interested. Particularly, start with the DWARF tutorial.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id3">[3]</a></td>
+<td>Here and in subsequent examples, I’m placing <tt class="docutils literal"><span class="pre">(...)</span></tt> instead of some longer and un-interesting information for the sake of more convenient formatting.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id4">[4]</a></td>
+<td>Because the <tt class="docutils literal"><span class="pre">DW_AT_frame_base</span></tt> attribute of <tt class="docutils literal"><span class="pre">do_stuff</span></tt> contains offset <tt class="docutils literal"><span class="pre">0x0</span></tt> into the location list. Note that the same attribute for <tt class="docutils literal"><span class="pre">main</span></tt> contains the offset <tt class="docutils literal"><span class="pre">0x2c</span></tt> which is the offset for the second set of location expressions.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id5">[5]</a></td>
+<td>Where the function prologue is usually executed and the local variables aren’t even valid yet.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#id6">[6]</a></td>
+<td>Some parts of the information (such as location data and line number data) are encoded as instructions for a specialized virtual machine. Yes, really.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/" rel="bookmark" title="How debuggers work: Part 2 – Breakpoints">How debuggers work: Part 2 – Breakpoints</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/" rel="bookmark" title="How debuggers work: Part 1 – Basics">How debuggers work: Part 1 – Basics</a></li>
+<li><a href="http://eli.thegreenplace.net/2004/11/14/pure-delight-mix-byte-code-debugger-and-other-oddities/" rel="bookmark" title="pure delight !! (MIX byte code, debugger and other oddities)">pure delight !! (MIX byte code, debugger and other oddities)</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/12/26/the-contents-of-dwarf-sections/" rel="bookmark" title="The contents of DWARF sections">The contents of DWARF sections</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Monday, February 7th, 2011 at 19:02						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/debuggers/" title="View all posts in Debuggers" rel="category tag">Debuggers</a>, <a href="http://eli.thegreenplace.net/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">20 Responses to “How debuggers work: Part 3 – Debugging information”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-411326">
+			<cite><a href="http://www.yjost.com/" rel="external nofollow">Yannick Jost</a><a href="http://www.yjost.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/1c72bce95176cfcb37de816f5be59dd5" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-411326" title="">February 7th, 2011 at 21:12</a> </small>
+
+			<p>Thank you for this article !</p>
+<p>(it’s “BFD Documentation”, not “BDF Documentation”)</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-411606">
+			<cite>asmwarrior<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/f9e58df9b122b658e7023a0bc08fc4a9" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-411606" title="">February 8th, 2011 at 03:40</a> </small>
+
+			<p>your article was very nice!!<br>
+Also, I found some articles about writing a windows debugger, see<br>
+<a href="http://www.codeproject.com/KB/system/writing_debugger_1.aspx" rel="nofollow">http://www.codeproject.com/KB/system/writing_debugger_1.aspx</a></p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-411707">
+			<cite><a href="http://godorz.info/" rel="external nofollow">Arthur1989</a><a href="http://godorz.info/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/3384e4ac29c17aeafa82e0a6db651bd6" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-411707" title="">February 8th, 2011 at 05:40</a> </small>
+
+			<p>again, thanks for this great post. It helps me a lot, what you have done is quite impressive.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-411739">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-411739" title="">February 8th, 2011 at 06:43</a> </small>
+
+			<p><b>Yannick</b>,</p>
+<p>Thanks, fixed the typo.</p>
+<p><b>asmwarrior</b>,</p>
+<p>Thanks for the link.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-412058">
+			<cite>Siva Chandran P<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/f6f9a2f9604328ed62d085592a8896e0" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-412058" title="">February 8th, 2011 at 13:50</a> </small>
+
+			<p>Great post, thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-420098">
+			<cite><a href="http://www.kgdb.info/" rel="external nofollow">libfetion</a><a href="http://www.kgdb.info/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/3b4331837c3d3f4c3b129df6996ddf73" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-420098" title="">February 16th, 2011 at 11:06</a> </small>
+
+			<p>Hi eliben,<br>
+Thanks very much for your share the debugger techniques.</p>
+<p>All the series of articles on how debuggers work have been translated to Chinese by Arthur1989,<br>
+and public them under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="nofollow">http://creativecommons.org/licenses/by-nc-sa/3.0/</a> license at his blog <a href="http://godorz.info/" rel="nofollow">http://godorz.info/</a> and my website <a href="http://www.kgdb.info/" rel="nofollow">http://www.kgdb.info</a>.</p>
+<p>We are waiting for you next article, if you have time to continue. <img src="./How debuggers work  Part 3 – Debugging information_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+<p>Yours,<br>
+Dongdong</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-423634">
+			<cite><a href="http://www.jdxyw.com/" rel="external nofollow">jdxyw</a><a href="http://www.jdxyw.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/ed236e72f44d5c8f29314ed0a4add798" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-423634" title="">February 19th, 2011 at 17:54</a> </small>
+
+			<p>Could you write something about debugging on Windows and how to use the PDB files? Not from Visual Studio, but use the Windows API.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-426294">
+			<cite>Jessy<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/405edc1aafeea5253d1d88bc394c1314" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-426294" title="">February 22nd, 2011 at 14:34</a> </small>
+
+			<p>I really liked the way this post was presented. I am looking forward for such amazing posts and something on Windows will surely be great.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-434514">
+			<cite>Sivan R<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/eb76f0ace0a2e8402d430553e1e96c27" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-434514" title="">March 1st, 2011 at 19:42</a> </small>
+
+			<p>Eli,<br>
+As usual – great post!<br>
+Thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-434976">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-434976" title="">March 2nd, 2011 at 06:58</a> </small>
+
+			<p><strong>Sivan</strong>,</p>
+<p>Thanks <img src="./How debuggers work  Part 3 – Debugging information_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-469389">
+			<cite>Frank<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/a69819b033b67987dd92784cdf699cab" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-469389" title="">April 1st, 2011 at 08:13</a> </small>
+
+			<p>Hi,</p>
+<p>thank you very much for this article.<br>
+Is it possible to calculate the address of a global variable using libdwarf or libdw?</p>
+<p>best regards,<br>
+Frank</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-469400">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-469400" title="">April 1st, 2011 at 08:23</a> </small>
+
+			<p><b>Frank,</b></p>
+<p>Sure you can, but first find in the DWARF spec how globals are located. Each variable has a location specifier the debugger can follow to find it in memory. In the example in this article, the variable was on stack and the location specifier provided an offset from the frame pointer. I suppose for global variables it’s different – most likely a global address relative to the beginning of the process’ address space (where the data segment with the globals is mapped)</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-717994">
+			<cite>Jesse dziedzic<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/825f4fe03c7cf7ce03aad09cefa4d353" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-717994" title="">October 20th, 2011 at 10:35</a> </small>
+
+			<p>This makes perfect sense..</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-733249">
+			<cite><a href="http://reborn2266.blogspot.com/" rel="external nofollow">Mars</a><a href="http://reborn2266.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/dd3b711ef11b74e76a05f693a2f3e403" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-733249" title="">November 3rd, 2011 at 10:10</a> </small>
+
+			<p>Tradition Chinese version:<br>
+<a href="http://reborn2266.blogspot.com/2011/11/how-debuggers-work-part-3-debugging.html" rel="nofollow">http://reborn2266.blogspot.com/2011/11/how-debuggers-work-part-3-debugging.html</a></p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-733281">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-733281" title="">November 3rd, 2011 at 11:20</a> </small>
+
+			<p>@Mars,</p>
+<p>Great, thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-796992">
+			<cite>Johnny Ec<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/b49cdbc81dd020f82439d83de11413d6" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-796992" title="">January 6th, 2012 at 00:01</a> </small>
+
+			<p>Fantastically well written article series. Keep up the good work!</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-887221">
+			<cite>Memo<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/f9ef7726a06f114220cb2d0b2e5e9b7f" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-887221" title="">April 19th, 2012 at 01:59</a> </small>
+
+			<p>Thank you for publishing this series. The explanations are very clear.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-903743">
+			<cite>karthik<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/2a016b227bb30404f671baba70fe8fef" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-903743" title="">May 21st, 2012 at 09:42</a> </small>
+
+			<p>Thanks.. great post!</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-930170">
+			<cite>Chandra<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/2ce3ae03142ba962ecf91641231bb6eb" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-930170" title="">June 27th, 2012 at 17:10</a> </small>
+
+			<p>Hi eliben,<br>
+Is there any way to find the return statement address of a function from the dwarf information. Especially if there are multiple return statements?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-930548">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 3 – Debugging information_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/#comment-930548" title="">June 28th, 2012 at 05:32</a> </small>
+
+			<p><b>Chandra</b>,</p>
+<p>I don’t think it’s in the domain of DWARF to describe that. DWARF is oblivious to the architecture for which the executable is compiled, so it doesn’t know how to discern <code class="backtick">return</code> instructions. You need a disassembler for that.</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="2402">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="4bf03298a3"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; position: absolute; top: -1px; left: 0px; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

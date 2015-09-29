@@ -1,0 +1,3444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0044)http://www.codesourcery.com/cxx-abi/abi.html -->
+<HTML><HEAD><TITLE>Itanium C++ ABI</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="Itanium C++ ABI-Dateien/code.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR></HEAD>
+<BODY>
+<HR>
+
+<H1>Itanium C++ ABI ($Revision: 1.86 $)</H1>
+<P>
+<HR>
+
+<P>
+<H2>Contents </H2>
+<UL>
+  <LI><A 
+  href="http://www.codesourcery.com/cxx-abi/abi.html#acknowledgements">Acknowledgements</A> 
+
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#intro">Chapter 1: 
+  Introduction </A>
+  <UL>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#definitions">1.1 
+    Definitions </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#limits">1.2 Limits 
+    </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#namespace">1.3 
+    Namespace and Header </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#scope">1.4 Scope 
+    of This ABI </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#docs">1.5 Base 
+    Documents </A></LI></UL>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#layout">Chapter 2: 
+  Data Layout </A>
+  <UL>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#general">2.1 
+    General </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#pod">2.2 POD Data 
+    Types </A>
+    <LI><A 
+    href="http://www.codesourcery.com/cxx-abi/abi.html#member-pointers">2.3 
+    Member Pointers </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#class-types">2.4 
+    Non-POD Class Types </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#vtable">2.5 
+    Virtual Table Layout </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#vtable-ctor">2.6 
+    Virtual Tables During Object Construction </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#array-cookies">2.7 
+    Array Operator <CODE>new</CODE> Cookies </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#guards">2.8 
+    Initialization Guard Variables </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#rtti">2.9 Run-Time 
+    Type Information (RTTI) </A></LI></UL>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#calls">Chapter 3: 
+  Function Calling Conventions and APIs </A>
+  <UL>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#normal-call">3.1 
+    Non-virtual Function Calling Conventions </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#vcall">3.2 Virtual 
+    Function Calling Conventions </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#obj-ctor">3.3 
+    Construction and Destruction APIs</A> 
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#demangler">3.4 
+    Demangler API</A> </LI></UL>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi-eh.html">Chapter 4: 
+  Exception Handling </A>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#linkage">Chapter 5: 
+  Linkage and Object Files </A>
+  <UL>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#mangling">5.1 
+    External Names (a.k.a. Mangling)</A> 
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#vague">5.2 Vague 
+    Linkage </A>
+    <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#unwind">5.3 Unwind 
+    Table Location </A></LI></UL>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#revisions">Appendix 
+  R: Revision History</A> </LI></UL>
+<P>
+<HR>
+
+<P><A name=acknowledgements>
+<H2>Acknowledgements</H2>
+<P>
+<HR>
+
+<P>
+<P>This document was developed jointly by an informal industry coalition 
+consisting of (in alphabetical order) CodeSourcery, Compaq, EDG, HP, IBM, Intel, 
+Red Hat, and SGI. Additional contributions were provided by a variety of 
+individuals.</P>
+<P>
+<HR>
+
+<P><A name=intro>
+<H2>Chapter 1: Introduction </H2>
+<P>
+<HR>
+
+<P>In this document, we specify the Application Binary Interface for C++ 
+programs, that is, the object code interfaces between user C++ code and the 
+implementation-provided system and libraries. This includes the memory layout 
+for C++ data objects, including both predefined and user-defined data types, as 
+well as internal compiler generated objects such as virtual tables. It also 
+includes function calling interfaces, exception handling interfaces, global 
+naming, and various object code conventions. 
+<P>In general, this document is written as a generic specification, to be usable 
+by C++ implementations on a variety of architectures. However, it does contain 
+processor-specific material for the Itanium 64-bit ABI, identified as such. 
+Where structured data layout is described, we generally assume Itanium psABI 
+member sizes. An implementation for a 32-bit ABI would typically just change the 
+sizes of members as appropriate (i.e. pointers and long ints would become 32 
+bits), but sometimes an order change would be required for compactness, and we 
+note more substantive changes. 
+<P>
+<HR>
+
+<P><A name=definitions>
+<H3>1.1 Definitions </H3>
+<P>The descriptions below make use of the following definitions: 
+<DL>
+  <P>
+  <DT><I>alignment</I> of a type T (or object X) 
+  <DD>A value A such that any object X of type T has an address satisfying the 
+  constraint that &amp;X modulo A == 0. 
+  <P></P>
+  <DT><I>base class</I> of a class T 
+  <DD>When this document refers to base classes of a class T, unless otherwise 
+  specified, it means T itself as well as all of the classes from which it is 
+  derived, directly or indirectly, virtually or non-virtually. We use the 
+  term&nbsp; <I>proper base class</I> to exclude T itself from the list. 
+  <P></P>
+  <DT><I>base object destructor</I> of a class T 
+  <DD>A function that runs the destructors for non-static data members of T and 
+  non-virtual direct base classes of T. 
+  <P></P>
+  <DT><I>complete object destructor</I> of a class T 
+  <DD>A function that, in addition to the actions required of a base object 
+  destructor, runs the destructors for the virtual base classes of T. 
+  <P></P>
+  <DT><I>deleting destructor</I> of a class T 
+  <DD>A function that, in addition to the actions required of a complete object 
+  destructor, calls the appropriate deallocation function (i.e,. <CODE>operator 
+  delete</CODE>) for T. 
+  <P></P>
+  <DT><I>direct base class order</I> 
+  <DD>When the direct base classes of a class are viewed as an ordered set, the 
+  order assumed is the order declared, left-to-right. 
+  <P></P>
+  <DT><I>diamond-shaped inheritance</I> 
+  <DD>A class has diamond-shaped inheritance iff it has a virtual base class 
+  that can be reached by distinct inheritance graph paths through more than one 
+  direct base. 
+  <P></P>
+  <DT><I>dynamic class</I> 
+  <DD>A class requiring a virtual table pointer (because it or its bases have 
+  one or more virtual member functions or virtual base classes). 
+  <P></P>
+  <DT><I>empty class</I> 
+  <DD>A class with no non-static data members other than zero-width bitfields, 
+  no virtual functions, no virtual base classes, and no non-empty non-virtual 
+  proper base classes. 
+  <P></P>
+  <DT><I>inheritance graph</I> 
+  <DD>A graph with nodes representing a class and all of its subobjects, and 
+  arcs connecting each node with its direct bases. 
+  <P></P>
+  <DT><I>inheritance graph order</I> 
+  <DD>The ordering on a class object and all its subobjects obtained by a 
+  depth-first traversal of its inheritance graph, from the most-derived class 
+  object to base objects, where: 
+  <UL>
+    <P>
+    <LI>No node is visited more than once. (So, a virtual base subobject, and 
+    all of its base subobjects, will be visited only once.) 
+    <P></P>
+    <LI>The subobjects of a node are visited in the order in which they were 
+    declared. (So, given&nbsp; <CODE>class A : public B, public C</CODE>, A is 
+    walked first, then B and its subobjects, and then C and its subobjects.) 
+    </LI></UL>
+  <P>Note that the traversal may be preorder or postorder. Unless otherwise 
+  specified, preorder (derived classes before their bases) is intended. 
+  <P></P>
+  <DT><I>morally virtual</I> 
+  <DD>A subobject X is a <I>morally virtual</I> base of Y if X is either a 
+  virtual base of Y, or the direct or indirect base of a virtual base of Y. 
+  <P><A name=q3></A></P>
+  <DT><I>nearly empty class</I> 
+  <DD>A class that contains a virtual pointer, but no other data except 
+  (possibly) virtual bases. In particular, it: 
+  <UL>
+    <LI>has no non-static data members other than zero-width bitfields, 
+    <LI>has no direct base classes that are not either empty, nearly empty, or 
+    virtual, 
+    <LI>has at most one non-virtual, nearly empty direct base class, and 
+    <LI>has no proper base class that is empty, not morally virtual, and at an 
+    offset other than zero. </LI></UL>Such classes may be primary base classes 
+  even if virtual, sharing a virtual pointer with the derived class. 
+  <P><A name=POD></P>
+  <DT><I>POD for the purpose of layout</I>
+  <DT>
+  <DD>
+  <P>In general, a type is considered a POD for the purposes of layout if it is 
+  a POD type (in the sense of ISO C++ [basic.types]). However, a POD-struct or 
+  POD-union (in the sense of ISO C++ [class]) with a bitfield member whose 
+  declared width is wider than the declared type of the bitfield is not a POD 
+  for the purpose of layout. Similarly, an array type is not a POD for the 
+  purpose of layout if the element type of the array is not a POD for the 
+  purpose of layout. Where references to the ISO C++ are made in this paragraph, 
+  the Technical Corrigendum 1 version of the standard is intended. 
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> The ISO 
+  C++ standard published in 1998 had a different definition of POD types. In 
+  particular, a class with a non-static data member of pointer-to-member type 
+  was not considered a POD in C++98, but is considered a POD in TC1. Because the 
+  C++ standard requires that compilers not overlay the tail padding in a POD, 
+  using the C++98 definition in this ABI would prevent a conforming compiler 
+  from correctly implementing the TC1 version of the C++ standard. Therefore, 
+  this ABI uses the TC1 definition of POD. </P>
+  <P></P>
+  <DT><I>primary base class</I> 
+  <DD>For a dynamic class, the unique base class (if any) with which it shares 
+  the virtual pointer at offset 0. 
+  <P></P>
+  <DT><I>secondary virtual table</I> 
+  <DD>The instance of a virtual table for a base class that is embedded in the 
+  virtual table of a class derived from it. 
+  <P></P>
+  <DT><I>thunk</I> 
+  <DD>A segment of code associated (in this ABI) with a target function, which 
+  is called instead of the target function for the purpose of modifying 
+  parameters (e.g. <CODE>this</CODE>) or other parts of the environment before 
+  transferring control to the target function, and possibly making further 
+  modifications after its return. A thunk may contain as little as an 
+  instruction to be executed prior to falling through to an immediately 
+  following target function, or it may be a full function with its own stack 
+  frame that does a full call to the target function. 
+  <P></P>
+  <DT><I>vague linkage</I> 
+  <DD>The treatment of entities -- e.g. inline functions, templates, virtual 
+  tables -- with external linkage that can be defined in multiple translation 
+  units, while the ODR requires that the program behave as if there were only a 
+  single definition. 
+  <P></P>
+  <DT><I>virtual table</I> (or <I>vtable</I>) 
+  <DD>A dynamic class has an associated table (often several instances, but not 
+  one per object) which contains information about its dynamic attributes, e.g. 
+  virtual function pointers, virtual base class offsets, etc. 
+  <P></P>
+  <DT><I>virtual table group</I> 
+  <DD>The primary virtual table for a class along with all of the associated 
+  secondary virtual tables for its proper base classes. </DD></DL>
+<P>
+<HR>
+
+<P><A name=limits>
+<H3>1.2 Limits </H3>
+<P>Various representations specified by this ABI impose limitations on 
+conforming user programs. These include, for the 64-bit Itanium ABI: 
+<UL>
+  <P>
+  <LI>The offset of a non-virtual base subobject in the full object containing 
+  it must be representable by a 56-bit signed integer (due to RTTI 
+  implementation). This implies a practical limit of 2**55 bytes on the size of 
+  a class. </LI></UL>
+<P>
+<HR>
+
+<P><A name=namespace>
+<H3>1.3 Namespace and Header </H3>
+<P>This ABI specifies a number of type and function APIs supplemental to those 
+required by the ISO C++ Standard. A header file named <CODE>cxxabi.h</CODE> will 
+be provided by implementations that declares these APIs. The reference header 
+file included with this ABI definition shall be the authoritative definition of 
+the APIs. 
+<P>These APIs will be placed in a namespace <CODE>__cxxabiv1</CODE>. The header 
+file will also declare a namespace alias <CODE>abi</CODE> for 
+<CODE>__cxxabiv1</CODE>. It is expected that users will use the alias, and the 
+remainder of the ABI specification will use it as well. 
+<P>In general, API objects defined as part of this ABI are assumed to be extern 
+"C++". However, some (many?) are specified to be extern "C" if they: 
+<UL>
+  <LI>are expected to be called by users from C code, e.g. 
+  <CODE>longjmp_unwind</CODE>; or 
+  <LI>are expected to be called only implicitly by compiled code, and are likely 
+  to be implemented in C. </LI></UL>
+<P>
+<HR>
+
+<P><A name=scope>
+<H3>1.4 Scope of This ABI </H3><A name=scope-library>
+<H3>1.4.1 Runtime Libraries </H3>
+<P>The objective of a full ABI is to allow arbitrary mixing of object files 
+produced by conforming implementations, by fully specifying the <B>binary 
+interface</B> of application programs. We do not fully achieve this objective. 
+<P>There are two principal reasons for this: 
+<OL type=I>
+  <P>
+  <LI>We start from the Itanium processor-specific ABI as the standard for the 
+  underlying C interfaces. At this time, however, the psABI does not attempt to 
+  specify the supported C library interfaces. 
+  <P></P>
+  <LI>More fundamental is the definition of the Standard C++ Library. As the 
+  standard interface makes heavy use of templates, most user object files will 
+  end up with embedded template instantiations. Vendors are allowed to use 
+  helper functions and data in their implementations of these templates, and 
+  quite reasonably do so, with the result that a typical user object file will 
+  contain references to such helper objects specific to the implementation where 
+  compiled. We have not attempted to constrain the interface at this level, 
+  because we do not consider doing so feasible at this time. </LI></OL>
+<P>Notwithstanding these problems, because this ABI does completely specify the 
+data model and certain library interfaces that inherently interact between 
+objects (e.g. construction, destruction, and exceptions), it is our intent that 
+interoperation of object files produced by different compilers be possible in 
+the following cases: 
+<UL>
+  <P>
+  <LI>A program which uses only the standalone standard library interfaces 
+  (Chapter 18) does not depend on the problematic template features. 
+  <P></P>
+  <LI>Since the standard library headers for an implementation presumably match 
+  the interfaces of the standard library on that implementation, a program 
+  compiled with the target system's headers, even if a mixture of compilers is 
+  used, should function properly on that system. </LI></UL>
+<P>Even these cases can fail if the compiler makes use of implementation-defined 
+library interfaces to implement runtime functionality without explicit user 
+reference, e.g. a software divide function. We can distinguish between: 
+<UL>
+  <LI>the standard support library, which provides interfaces required by the 
+  C++ Standard Library specification and the vendor header files required for 
+  it, as well as interfaces required by this ABI; and 
+  <P></P>
+  <LI>the implicit compiler support library, which provides other interfaces 
+  implicitly assumed by the compiler and used to implement either standard 
+  features or extensions. </LI></UL>
+<P>An implementation shall place its standard support library in a DSO named 
+<CODE>libcxa.so</CODE> on Itanium systems, or in auxiliary DSOs automatically 
+loaded by it. It shall place implicit compiler support in a library separate 
+from the standard support library, with any external names chosen to avoid 
+conflicts between vendors (e.g. by including a vendor identifier as part of the 
+names). This allows a program to function properly if linked with the target's 
+standard support library and the implicit compiler support libraries from any 
+implementations used to build components. <A name=scope-templates>
+<H3>1.4.2 Export Templates </H3>
+<P>This ABI does not specify the treatment of export templates, as there are no 
+working implementations to serve as models at this time. We hope to address this 
+weakness in the future when implementation experience is available. 
+<P>
+<HR>
+
+<P><A name=docs>
+<H3>1.5 Base Documents </H3>
+<P>A number of other documents provide a basis on which this ABI is built, and 
+are occasionally referenced herein: 
+<UL>
+  <P>
+  <LI>[gABI] The <B>System V Application Binary Interface</B>, otherwise known 
+  as the <I>Generic ABI</I>. This document describes processor-independent 
+  object file formats and binary software interfaces for C under Unix. A 
+  somewhat out-of-date version is available from the SCO website, <A 
+  href="http://www.caldera.com/developers/devspecs/">http://www.caldera.com/developers/devspecs/</A>. 
+  A newer version, produced in conjunction with the next document, should be 
+  released in the future. Included by reference in this ABI. 
+  <P></P>
+  <LI>[psABI] The Intel <B>Unix System V Application Binary Interface, Itanium 
+  Processor Supplement</B>. This document describes Itanium processor-specific 
+  object file formats and binary software interfaces, primarily for C, under 
+  Unix. Available from the Intel Itanium software developer website, <A 
+  href="http://developer.intel.com/design/ia-64/devinfo.htm">http://developer.intel.com/design/ia-64/devinfo.htm</A>. 
+  Included by reference in this ABI. 
+  <P></P>
+  <LI>[SWCONV] The Intel <B>Itanium Software Conventions and Runtime 
+  Architecture Guide</B>. This document describes Itanium processor-specific 
+  binary software interfaces, notably including register usage, subprogram 
+  calling conventions, and stack unwind facilities, under all systems. Available 
+  from the Intel Itanium software developer website, <A 
+  href="http://developer.intel.com/design/ia-64/devinfo.htm">http://developer.intel.com/design/ia-64/devinfo.htm</A>. 
+  Included by reference in this ABI. 
+  <P></P>
+  <LI>[ABI-EH] The <A 
+  href="http://www.codesourcery.com/cxx-abi/abi-eh.html"><B>C++ ABI for Itanium: 
+  Exception Handling</B></A>. Its Level II is considered an integral part of 
+  this document (Chapter 4). It also contains the base specification of unwind 
+  support for [psABI]. 
+  <P></P>
+  <LI>[C++FDIS] The <B>Final Draft International Standard, Programming Language 
+  C++</B>, ISO/IEC FDIS 14882:1998(E). References herein to the "C++ Standard," 
+  or to just the "Standard," are to this document. </LI></UL>
+<P>
+<HR>
+
+<P><A name=layout>
+<H2>Chapter 2: Data Layout </H2>
+<P>
+<HR>
+
+<P><A name=general>
+<H3>2.1 General </H3>
+<P>In what follows, we define the memory layout for C++ data objects. 
+Specifically, for each type, we specify the following information about an 
+object O of that type: 
+<UL>
+  <LI>the <I>size</I> of an object, <I>sizeof</I>(O); 
+  <LI>the <I>alignment</I> of an object, <I>align</I>(O); and 
+  <LI>the <I>offset</I> within O, <I>offset</I>(C), of each data component C, 
+  i.e. base or member. </LI></UL>
+<P>For purposes internal to the specification, we also specify: 
+<UL>
+  <LI><I>dsize</I>(O): the <I>data size</I> of an object, which is the size of O 
+  without tail padding. 
+  <P></P>
+  <LI><I>nvsize</I>(O): the <I>non-virtual size</I> of an object, which is the 
+  size of O without virtual bases. 
+  <P></P>
+  <LI><I>nvalign</I>(O): the <I>non-virtual alignment</I> of an object, which is 
+  the alignment of O without virtual bases. </LI></UL>
+<P>
+<HR>
+
+<P><A name=pod>
+<H3>2.2 POD Data Types </H3>
+<P>The size and alignment of a type which is a <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#POD">POD for the purpose of 
+layout<A> is as specified by the base (C) ABI. Type bool has size and alignment 
+1. All of these types have data size and non-virtual size equal to their size. 
+(We ignore tail padding for PODs because the Standard does not allow us to use 
+it for anything else.) 
+<P>
+<HR>
+
+<P><A name=member-pointers></A>
+<H3>2.3 Member Pointers </H3>
+<P>A pointer to data member is an offset from the base address of the class 
+object containing it, represented as a <CODE>ptrdiff_t</CODE>. It has the size 
+and alignment attributes of a <CODE>ptrdiff_t</CODE>. A NULL pointer is 
+represented as -1. 
+<P>A pointer to member function is a pair <PTR, adj>as follows: 
+<DL>
+  <P>
+  <DT><CODE>ptr</CODE>: 
+  <DD>For a non-virtual function, this field is a simple function pointer. 
+  (Under current base Itanium psABI conventions, that is a pointer to a 
+  GP/function address pair.) For a virtual function, it is 1 plus the virtual 
+  table offset (in bytes) of the function, represented as a 
+  <CODE>ptrdiff_t</CODE>. The value zero represents a NULL pointer, independent 
+  of the adjustment field value below. 
+  <P></P>
+  <DT><CODE>adj</CODE>: 
+  <DD>The required adjustment to <I>this</I>, represented as a 
+  <CODE>ptrdiff_t</CODE>. </DD></DL>
+<P>It has the size, data size, and alignment of a class containing those two 
+members, in that order. (For 64-bit Itanium, that will be 16, 16, and 8 bytes 
+respectively.) 
+<P>
+<HR>
+
+<P><A name=class-types>
+<H3>2.4 Non-POD Class Types </H3>For a class type C which is not a <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#POD">POD for the purpose of 
+layout</A>, assume that all component types (i.e. proper base classes and 
+non-static data member types) have been laid out, defining size, data size, 
+non-virtual size, alignment, and non-virtual alignment. (See the description of 
+these terms in <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#general"><B>General</B></A> 
+above.) Further, assume for data members that nvsize==size, and nvalign==align. 
+Layout (of type C) is done using the following procedure. 
+<OL type=I>
+  <P>
+  <LI>
+  <H5>Initialization </H5>
+  <OL type=1>
+    <P>
+    <LI>Initialize sizeof(C) to zero, align(C) to one, dsize(C) to zero. 
+    <P></P>
+    <LI>If C is a dynamic class type: 
+    <OL type=a>
+      <P>
+      <LI>Identify all virtual base classes, direct or indirect, that are 
+      primary base classes for some other direct or indirect base class. Call 
+      these <I>indirect primary base classes</I>. 
+      <P></P>
+      <LI>If C has a dynamic base class, attempt to choose a primary base class 
+      B. It is the first (in direct base class order) non-virtual dynamic base 
+      class, if one exists. Otherwise, it is a nearly empty virtual base class, 
+      the first one in (preorder) inheritance graph order which is not an 
+      indirect primary base class if any exist, or just the first one if they 
+      are all indirect primaries. 
+      <P></P>
+      <LI>If C has no primary base class, allocate the virtual table pointer for 
+      C at offset zero, and set sizeof(C), align(C), and dsize(C) to the 
+      appropriate values for a pointer (all 8 bytes for Itanium 64-bit ABI). 
+      </LI></OL></LI></OL>
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>Case 
+  (2b) above is now considered to be an error in the design. The use of the 
+  first indirect primary base class as the derived class' primary base does not 
+  save any space in the object, and will cause some duplication of virtual 
+  function pointers in the additional copy of the base classes virtual table. 
+  <P>The benefit is that using the derived class virtual pointer as the base 
+  class virtual pointer will often save a load, and no adjustment to the 
+  <CODE>this</CODE> pointer will be required for calls to its virtual functions. 
+
+  <P>It was thought that 2b would allow the compiler to avoid adjusting 
+  <CODE>this</CODE> in some cases, but this was incorrect, as the <A 
+  href="http://www.codesourcery.com/cxx-abi/abi.html#vcall">virtual function 
+  call algorithm</A> requires that the function be looked up through a pointer 
+  to a class that defines the function, not one that just inherits it. Removing 
+  that requirement would not be a good idea, as there would then no longer be a 
+  way to emit all thunks with the functions they jump to. For instance, consider 
+  this example: 
+  <BLOCKQUOTE><CODE><PRE>struct A { virtual void f(); };
+struct B : virtual public A { int i; };
+struct C : virtual public A { int j; };
+struct D : public B, public C {};
+</PRE></CODE></BLOCKQUOTE>
+  <P>When B and C are declared, A is a primary base in each case, so although 
+  vcall offsets are allocated in the A-in-B and A-in-C vtables, no 
+  <CODE>this</CODE> adjustment is required and no thunk is generated. However, 
+  inside D objects, A is no longer a primary base of C, so if we allowed calls 
+  to <CODE>C::f()</CODE> to use the copy of A's vtable in the C subobject, we 
+  would need to adjust <CODE>this</CODE> from <CODE>C*</CODE> to 
+  <CODE>B::A*</CODE>, which would require a third-party thunk. Since we require 
+  that a call to <CODE>C::f()</CODE> first convert to <CODE>A*</CODE>, C-in-D's 
+  copy of A's vtable is never referenced, so this is not necessary. </I>
+  <P></P>
+  <LI>
+  <H5>Allocation of Members Other Than Virtual Bases </H5>
+  <P>For each data component D (first the primary base of C, if any, then the 
+  non-primary, non-virtual direct base classes in declaration order, then the 
+  non-static data members and unnamed bitfields in declaration order), allocate 
+  as follows: 
+  <OL type=1>
+    <P>
+    <LI>If D is a (possibly unnamed) bitfield whose declared type is 
+    <CODE>T</CODE> and whose declared width is <CODE>n</CODE> bits: 
+    <P>There are two cases depending on <CODE>sizeof(T)</CODE> and 
+    <CODE>n</CODE>: 
+    <OL type=a>
+      <P>
+      <LI>If <CODE>sizeof(T)*8 &gt;= n</CODE>, the bitfield is allocated as 
+      required by the underlying C psABI, subject to the constraint that a 
+      bitfield is never placed in the tail padding of a base class of C. 
+      <P>If dsize(C) &gt; 0, and the byte at offset dsize(C) - 1 is partially 
+      filled by a bitfield, and that bitfield is also a data member declared in 
+      C (but not in one of C's proper base classes), the next available bits are 
+      the unfilled bits at offset dsize(C) - 1. Otherwise, the next available 
+      bits are at offset dsize(C). 
+      <P>Update align(C) to max (align(C), align(T)). 
+      <P></P>
+      <LI>If <CODE>sizeof(T)*8 &lt; n</CODE>, let T' be the largest integral POD 
+      type with <CODE>sizeof(T')*8 &lt;= n</CODE>. The bitfield is allocated 
+      starting at the next offset aligned appropriately for T', with length n 
+      bits. The first <CODE>sizeof(T)*8</CODE> bits are used to hold the value 
+      of the bitfield, followed by <CODE>n - sizeof(T)*8</CODE> bits of padding. 
+
+      <P>Update align(C) to max (align(C), align(T')). </P></LI></OL>
+    <P>In either case, update dsize(C) to include the last byte containing (part 
+    of) the bitfield, and update sizeof(C) to max(sizeof(C),dsize(C)). 
+    <P></P>
+    <LI>If D is not an empty base class or D is a data member: 
+    <P>Start at offset dsize(C), incremented if necessary for alignment to 
+    nvalign(D) for base classes or to align(D) for data members. Place D at this 
+    offset unless doing so would result in two components (direct or indirect) 
+    of the same type having the same offset. If such a component type conflict 
+    occurs, increment the candidate offset by nvalign(D) for base classes or by 
+    align(D) for data members and try again, repeating until success occurs 
+    (which will occur no later than sizeof(C) rounded up to the required 
+    alignment). 
+    <P>If D is a base class, this step allocates only its non-virtual part, i.e. 
+    excluding any direct or indirect virtual bases. 
+    <P>If D is a base class, update sizeof(C) to max (sizeof(C), 
+    offset(D)+nvsize(D)). Otherwise, if D is a data member, update sizeof(C) to 
+    max (sizeof(C), offset(D)+sizeof(D)). 
+    <P>If D is a base class (not empty in this case), update dsize(C) to 
+    offset(D)+nvsize(D), and align(C) to max (align(C), nvalign(D)). If D is a 
+    data member, update dsize(C) to offset(D)+sizeof(D), align(C) to max 
+    (align(C), align(D)). </P>
+    <P></P>
+    <LI>If D is an empty proper base class: 
+    <P>Its allocation is similar to case (2) above, except that additional 
+    candidate offsets are considered before starting at dsize(C). First, attempt 
+    to place D at offset zero. If unsuccessful (due to a component type 
+    conflict), proceed with attempts at dsize(C) as for non-empty bases. As for 
+    that case, if there is a type conflict at dsize(C) (with alignment updated 
+    as necessary), increment the candidate offset by nvalign(D), and try again, 
+    repeating until success occurs. 
+    <P>Once offset(D) has been chosen, update sizeof(C) to max (sizeof(C), 
+    offset(D)+sizeof(D)). Note that nvalign(D) is 1, so no update of align(C) is 
+    needed. Similarly, since D is an empty base class, no update of dsize(C) is 
+    needed. </P></LI></OL>
+  <P>After all such components have been allocated, set nvalign(C) = align(C) 
+  and nvsize(C) = sizeof(C). The values of nvalign(C) and nvsize(C) will not 
+  change during virtual base allocation. Note that nvsize(C) need not be a 
+  multiple of nvalign(C). 
+  <P><A name=a17></P>
+  <LI>
+  <H5>Virtual Base Allocation </H5>
+  <P>
+  <P>Finally allocate any direct or indirect virtual base classes (except the 
+  primary base class or any indirect primary base classes) as we did non-virtual 
+  base classes in step II-2 (if not empty) or II-3 (if empty), in inheritance 
+  graph order. Update sizeof(C) to max (sizeof(C), offset(D)+nvsize(D)). If 
+  non-empty, also update align(C) and dsize(C) as in II-2. 
+  <P>The primary base class has already been allocated in I-2b. Any indirect 
+  primary base class E of the current class C, i.e. one that has been chosen as 
+  the primary base class of some other base class (direct or indirect, virtual 
+  or non-virtual) of C, will be allocated as part of that other base class, and 
+  is not allocated here. If E is a primary base class of more than one other 
+  base, the instance used as its allocation in C shall be the first such in the 
+  inheritance graph order. <I>
+  <P>Consider: <PRE><CODE>
+  struct R { virtual void r (); };
+  struct S { virtual void s (); };
+  struct T : virtual public S { virtual void t (); };
+  struct U : public R, virtual public T { virtual void u (); };
+
+</CODE></PRE>R is the primary base class for U since it is the first direct 
+  non-virtual dynamic base. Then, since an inheritance-order walk of U is { U, 
+  R, T, S } the T base is allocated next. Since S is a primary base of T, there 
+  is no need to allocate it separately. However, given: <PRE><CODE>
+  struct V : public R, virtual public S, virtual public T {
+    virtual void v ();
+  };
+
+</CODE></PRE>the inheritance-order walk of V is { V, R, S, T }. Nevertheless, 
+  although S is considered for allocation first as a virtual base, it is not 
+  allocated separately because it is a primary base of T, another base. Thus 
+  sizeof (V) == sizeof (U), and the full layout is equivalent to the C struct: 
+  </I><PRE><CODE>
+  struct X {
+    R r;
+    T t;
+  };
+
+</CODE></PRE>
+  <P></P>
+  <LI>
+  <H5>Finalization </H5>
+  <P>Round sizeof(C) up to a non-zero multiple of align(C). If C is a POD, but 
+  not a POD for the purpose of layout, set nvsize(C) = sizeof(C). </P></LI></OL>
+<P>
+<HR>
+
+<P><A name=vtable>
+<H3>2.5 Virtual Table Layout </H3>
+<P>
+<H4>2.5.1 General </H4>
+<P>A <I>virtual table</I> (<I>vtable</I>) is a table of information used to 
+dispatch virtual functions, to access virtual base class subobjects, and to 
+access information for runtime type identification (RTTI). Each class that has 
+virtual member functions or virtual bases has an associated set of virtual 
+tables. There may be multiple virtual tables for a particular class, if it is 
+used as a base class for other classes. However, the virtual table pointers 
+within all the objects (instances) of a particular most-derived class point to 
+the same set of virtual tables. 
+<P>A virtual table consists of a sequence of offsets, data pointers, and 
+function pointers, as well as structures composed of such items. We will 
+describe below the sequence of such items. Their offsets within the virtual 
+table are determined by that allocation sequence and the natural ABI size and 
+alignment, just as a data struct would be. In particular: 
+<UL>
+  <LI>Offsets are of type <CODE>ptrdiff_t</CODE> unless otherwise stated. 
+  <LI>Data pointers have normal pointer size and alignment. 
+  <LI>On Itanium, function pointers are pairs: the function address follwed by 
+  the global pointer value that should be used when calling the function, 
+  aligned as for a pointer. On other platforms, function pointers are 
+  represented as they would be in any other context. </LI></UL>
+<P>In general, what we consider the address of a virtual table (i.e. the address 
+contained in objects pointing to a virtual table) may not be the beginning of 
+the virtual table. We call it the <I>address point</I> of the virtual table. The 
+virtual table may therefore contain components at either positive or negative 
+offsets from its address point. 
+<P>
+<H4>2.5.2 Virtual Table Components and Order </H4>
+<P>This section describes the usage and relative order of various components 
+that may appear in virtual tables. Precisely which components are present in 
+various possible virtual tables is specified in the next section. If present, 
+components are present in the order described, except for the exceptions 
+specified. 
+<UL>
+  <P>
+  <LI><I>Virtual call (vcall) offsets</I> are used to perform pointer adjustment 
+  for virtual functions that are declared in a virtual base class or its 
+  subobjects and overridden in a class derived from it. These entries are 
+  allocated in the virtual table for the virtual base class that is most 
+  immediately derived from the base class containing the overridden virtual 
+  function declaration. They are used to find the necessary adjustment from the 
+  virtual base to the derived class containing the overrider, if any. When a 
+  virtual function is invoked via a virtual base, but has been overridden in a 
+  derived class, the overriding function first adds a fixed offset to adjust the 
+  <CODE>this</CODE> pointer to the virtual base, and then adds the value 
+  contained at the vcall offset in the virtual base to its <CODE>this</CODE> 
+  pointer to get the address of the derived object where the function was 
+  overridden. These values may be positive or negative. These are first in the 
+  virtual table if present, ordered as specified in categories 3 and 4 of 
+  Section 2.5.3 below. 
+  <P></P>
+  <LI><A name=q1><I>Virtual Base (vbase) offsets</I> are used to access the 
+  virtual bases of an object. Such an entry is added to the derived class object 
+  address (i.e. the address of its virtual table pointer) to get the address of 
+  a virtual base class subobject. Such an entry is required for each virtual 
+  base class. The values can be positive or negative. <BR><IMG 
+  alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>However, in 
+  classes sharing a virtual table with a primary base class, the vcall and vbase 
+  offsets added by the derived class all come before the vcall and vbase offsets 
+  required by the base class, so that the latter may be laid out as required by 
+  the base class without regard to additions from the derived class(es). </I>
+  <P></P>
+  <LI>The <I>offset to top</I> holds the displacement to the top of the object 
+  from the location within the object of the virtual table pointer that 
+  addresses this virtual table, as a&nbsp; <CODE>ptrdiff_t</CODE>. It is always 
+  present. The offset provides a way to find the top of the object from any base 
+  subobject with a virtual table pointer. This is necessary for 
+  dynamic_cast&lt;void*&gt; in particular. <BR><IMG alt="<b>NOTE</b>:" 
+  src="Itanium C++ ABI-Dateien/warning.gif"> <I>In a complete object virtual 
+  table, and therefore in all of its primary base virtual tables, the value of 
+  this offset will be zero. For the secondary virtual tables of other 
+  non-virtual bases, and of many virtual bases, it will be negative. Only in 
+  some construction virtual tables will some virtual base virtual tables have 
+  positive offsets, due to a different ordering of the virtual bases in the full 
+  object than in the subobject's standalone layout. </I>
+  <P></P>
+  <LI>The <I>typeinfo pointer</I> points to the typeinfo object used for RTTI. 
+  It is always present. All entries in each of the virtual tables for a given 
+  class must point to the same typeinfo object. A correct implementation of 
+  typeinfo equality is to check pointer equality, except for pointers (directly 
+  or indirectly) to incomplete types. The typeinfo pointer is a valid pointer 
+  for polymorphic classes, i.e. those with virtual functions, and is zero for 
+  non-polymorphic classes. 
+  <P></P>
+  <LI>The virtual table address point points here, i.e. this is the virtual 
+  table address contained in an object's virtual pointer. This address must have 
+  the alignment required for pointers. 
+  <P></P>
+  <LI><I>Virtual function pointers</I> are used for virtual function dispatch. 
+  Each pointer holds either the address of a virtual function of the class, or 
+  the address of a secondary entry point that performs certain adjustments 
+  before transferring control to a virtual function. 
+  <P>The form of a virtual function pointer is specified by the 
+  processor-specific C++ ABI for the implementation. In the specific case of 
+  64-bit Itanium shared library builds, a virtual function pointer entry 
+  contains a pair of components (each 64 bits): the value of the target GP value 
+  and the actual function address. That is, rather than being a normal function 
+  pointer, which points to such a two-component descriptor, a virtual function 
+  pointer entry is the descriptor. 
+  <P>The order of the virtual function pointers in a virtual table is the order 
+  of declaration of the corresponding member functions in the class. There is an 
+  entry for any virtual function declared in a class, whether it is a new 
+  function or overrides a base class function, unless it overrides a function 
+  from the primary base, and conversion between their return types does not 
+  require an adjustment. (In the case of this exception, the primary base and 
+  the derived class share the virtual table, and can share the virtual function 
+  entry because their 'this' and result type adjustments are the same.) If a 
+  class has an implicitly-defined virtual destructor, its entries come after the 
+  declared virtual function pointers. 
+  <P>When a derived class and its primary base share a virtual table, the 
+  virtual function entries introduced by the derived class follow those for the 
+  primary base, so that the layout of the primary base's embedded virtual table 
+  is the same as that of its standalone virtual table. In particular, if the 
+  derived class overrides a base class virtual function with a different 
+  (covariant) return type, the entry for the derived class comes after the 
+  primary base's embedded virtual table in declaration order, and is the entry 
+  used for calls from the derived class without adjustment. The entry in the 
+  embedded primary virtual table points to a routine that adjusts the result 
+  pointer before returning. 
+  <P>The entries for virtual destructors are actually pairs of entries. The 
+  first destructor, called the complete object destructor, performs the 
+  destruction without calling delete() on the object. The second destructor, 
+  called the deleting destructor, calls delete() after destroying the object. 
+  Both destroy any virtual bases; a separate, non-virtual function, called the 
+  base object destructor, performs destruction of the object but not its virtual 
+  base subobjects, and does not call delete(). </P></LI></UL>
+<P>Following the primary virtual table of a derived class are <I>secondary 
+virtual tables</I> for each of its proper base classes, except any primary 
+base(s) with which it shares its primary virtual table. These are copies of the 
+virtual tables for the respective base classes (copies in the sense that they 
+have the same layout, though the fields may have different values). We call the 
+collection consisting of a primary virtual table along with all of its secondary 
+virtual tables a <I>virtual table group</I>. The order in which they occur is 
+the same as the order in which the base class subobjects are considered for 
+allocation in the derived object: 
+<UL>
+  <P>
+  <LI>First are the virtual tables of direct non-primary, non-virtual proper 
+  bases, in the order declared, including their secondary virtual tables for 
+  non-virtual bases in the order they appear in the standalone virtual table 
+  group for the base. (Thus the effect is that these virtual tables occur in 
+  inheritance graph order, excluding primary bases and virtual bases.) 
+  <P></P>
+  <LI>Then come the virtual base virtual tables, also in inheritance graph 
+  order, and again excluding primary bases (which share virtual tables with the 
+  classes for which they are primary). </LI></UL>
+<P>
+<H4>2.5.3 Virtual Table Construction </H4>
+<P>In this section, we describe how to construct the virtual table for an class, 
+given virtual tables for all of its proper base classes. To do so, we divide 
+classes into several categories, based on their base class structure. 
+<P>
+<H5>Category 0: Trivial </H5>Structure: 
+<UL>
+  <LI>No virtual base classes. 
+  <LI>No virtual functions. </LI></UL>
+<P>Such a class has no associated virtual table, and an object of such a class 
+contains no virtual pointer. 
+<P>
+<H5>Category 1: Leaf </H5>Structure: 
+<UL>
+  <LI>No inherited virtual functions. 
+  <LI>No virtual base classes. 
+  <LI>Declares virtual functions. </LI></UL>
+<P>The virtual table contains offset-to-top and RTTI fields followed by virtual 
+function pointers. There is one function pointer entry for each virtual function 
+declared in the class, in declaration order, with any implicitly-defined virtual 
+destructor pair last. 
+<P>
+<H5>Category 2: Non-Virtual Bases Only </H5>Structure: 
+<UL>
+  <LI>Only non-virtual proper base classes. 
+  <LI>Inherits virtual functions. </LI></UL>
+<P>The class has a virtual table for each proper base class that has a virtual 
+table. The secondary virtual table for a base class B has the same contents as 
+the primary virtual table for B, except that: 
+<UL>
+  <P>
+  <LI>The offset-to-top and RTTI fields contain information for the class, 
+  rather than for the base class. 
+  <P></P>
+  <LI>The function pointer entries for virtual functions inherited from the base 
+  class and overridden by this class are replaced with the addresses of the 
+  overriding functions (or the corresponding adjustor secondary entry points). 
+  </LI></UL>
+<P>For a proper base class <CODE>Base</CODE>, and a derived class 
+<CODE>Derived</CODE> for which we are constructing this set of virtual tables, 
+we shall refer to the virtual table for <CODE>Base</CODE> as 
+<CODE>Base-in-Derived</CODE>. The virtual pointer of each base subobject of an 
+object of the derived class will point to the corresponding base virtual table 
+in this set. 
+<P>The primary virtual table for the derived class contains entries for each of 
+the functions in the primary base class virtual table, replaced by new 
+overriding functions as appropriate. Following these entries, there is an entry 
+for each virtual function declared in the derived class (in declaration order) 
+for which one of the following two conditions holds: 
+<UL>
+  <LI>The virtual function does not override any function already appearing in 
+  the virtual table. 
+  <LI>The virtual function overrides a function (or functions) appearing in the 
+  virtual table, but the return type of the overrider is substantively different 
+  from the return type of the function(s) already present. If the return types 
+  are different, they are both pointer-to-class types, or both 
+  reference-to-class types. Let B and D denote the classes, where D is derived 
+  from B. The types are substantively different if B is a morally virtual base 
+  of D or if B is not located at offset zero in D. </LI></UL>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>The 
+primary virtual table can be viewed as two virtual tables accessed from a shared 
+virtual table pointer. </I>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>A 
+benefit of replicated virtual function entries (i.e., entries that appear both 
+in the primary virtual table and in a secondary virtual table) is that they 
+reduce the number of this pointer adjustments during virtual calls. Without 
+replication, there would be more cases where the this pointer would have to be 
+adjusted to access a secondary virtual table prior to the call. These additional 
+cases would be exactly those where the function is overridden in the derived 
+class, implying an additional thunk adjustment back to the original pointer. 
+Replication saves two 'this' adjustments for each virtual call to an overridden 
+function originally introduced by a non-primary proper base class. </I>
+<P>
+<H5>Category 3: Virtual Bases Only </H5>
+<P>Structure: 
+<UL>
+  <LI>Only virtual base classes (but those may have non-virtual bases). 
+  <LI>The virtual base classes are neither empty nor nearly empty. </LI></UL>
+<P>The class has a virtual table for each virtual base class that has a virtual 
+table. These are all secondary virtual tables, because there are no empty or 
+nearly empty base classes to be primary, and they are constructed from copies of 
+the base class full object virtual tables according to the same rules as in 
+Category 2, except that the virtual table for a virtual base A also includes a 
+vcall offset entry for each virtual function represented in A's primary virtual 
+table and the secondary virtual tables from A's non-virtual bases. 
+<P>The vcall offsets in the secondary virtual table for a virtual base A are 
+ordered as described next. We describe the ordering from the entry closest to 
+the virtual table address point to that furthest. Since the vcall offsets 
+precede the virtual table address point, this means that the memory address 
+order is the reverse of that described. 
+<UL>
+  <P>
+  <LI>If virtual base A has a primary base class P sharing its virtual table, 
+  P's vcall offsets come first, in the same order they would appear if P itself 
+  were the virtual base. 
+  <P></P>
+  <LI>Next come vcall offsets for each virtual function declared in A, in 
+  declaration order. Note that even for an overriding virtual function with 
+  covariant return types, only one vcall offset is present, as it can be shared 
+  by both virtual table entries. 
+  <P></P>
+  <LI>Finally come vcall offsets for virtual functions declared in non-virtual 
+  bases of A other than P. These bases are considered in inheritance graph 
+  preorder, and the vcall offsets for multiple functions declared in one of them 
+  are in declaration order. </LI></UL>
+<P>If the above listing of vcall offsets includes more than one for a particular 
+virtual function signature, only the first one (closest to the virtual table 
+address point) is allocated. That is, an offset from primary base P (and its 
+non-virtual bases) eliminates any from A or its other bases, an offset from A 
+eliminates any from the non-primary bases, and an offset from a non-primary base 
+B of A eliminates any from the bases of B. 
+<P><I>Note that there are no vcall offsets for virtual functions declared in a 
+virtual base class V of A and never overridden within A or its non-virtual 
+bases. Calls to such functions will use the vcall offset in V's virtual table. 
+</I>
+<P>The class also has a virtual table that is not copied from the virtual base 
+class virtual tables. This virtual table is the primary virtual table of the 
+class and is addressed by the virtual table pointer at the top of the object, 
+which is not shared because there are no nearly empty virtual bases to be 
+primary. It holds the following function pointer entries, following those of any 
+primary base's virtual table, in the virtual functions' declaration order: 
+<UL>
+  <P>
+  <LI>Entries for virtual functions introduced by this class, i.e. those not 
+  declared by any of its bases. 
+  <LI>Entries for overridden virtual functions from the base classes, called 
+  replicated entries because they are already in the secondary virtual tables of 
+  the class. </LI></UL>
+<P>The primary virtual table also has virtual base offset entries to allow 
+finding the virtual base subobjects. There is one virtual base offset entry for 
+each virtual base class, direct or indirect. The entries are in the reverse of 
+the inheritance graph order. That is, the entry for the leftmost virtual base is 
+closest to the address point of the virtual table. 
+<P>
+<H5>Category 4: Complex </H5>
+<P>Structure: 
+<UL>
+  <LI>None of the above, i.e. directly or indirectly inherits both virtual and 
+  non-virtual proper base classes, or at least one nearly empty virtual base 
+  class. </LI></UL>
+<P>The rules for constructing virtual tables of the class are a combination of 
+the rules from Categories 2 and 3, and can generally be determined inductively. 
+The differences are mostly due to the fact that virtual base classes can now 
+have (nearly empty) primary bases: 
+<UL>
+  <P>
+  <LI>If virtual base A has a primary virtual base class P sharing its virtual 
+  table, P's vbase and vcall offsets come first in the primary virtual table, in 
+  the same order they would appear if P itself were the virtual base, and those 
+  from A that do not replicate those from P precede them. 
+  <P></P>
+  <LI>As for the non-virtual base case, virtual function pointer entries from 
+  the derived class introductions occur only after the entries from the primary 
+  base class. There are entries for overridden virtual functions from the 
+  primary base class only if the result types are different (covariant). For 
+  purposes of this case, the two types are considered different if one of them 
+  is a non-primary or virtual base class of the other. </LI></UL>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>For an 
+S-as-T virtual table, the vbase offset entries from the primary virtual table 
+for T are replaced with appropriate offsets given the completed hierarchy. </I>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> 
+<I>Consider the following inheritance hierarchy: <CODE><PRE>  struct S { virtual void f() };
+  struct T : virtual public S {};
+  struct U : virtual public T {};
+  struct V : public T, virtual public U {};
+</PRE></CODE>
+<P>T's virtual table contains a virtual base offset for S. U's virtual table 
+contains virtual base offsets for S and T. V's virtual table contains virtual 
+base offsets for S, U, and T (in reverse inheritance graph preorder), where the 
+vbase offset for T is for the virtual base of U, not for the non-virtual direct 
+base of V. 
+<P>Consider in addition: <CODE><PRE>  struct W : public T {};
+</PRE></CODE>
+<P>T is a primary base class for W. Therefore, its virtual base offset for S in 
+its embedded T-in-W virtual table is the only one present. </I>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>The 
+above-described virtual table group layout would allow all non-virtual secondary 
+base class virtual tables in a group to be accessed from a virtual pointer for 
+one of them, since the relative offsets would be fixed. (Since the primary 
+virtual table could end up being embedded, as the primary base class virtual 
+table, in another virtual table with additional virtual pointers separating it 
+from its secondary virtual tables, this observation is not true of the primary 
+virtual table.) However, since construction virtual table groups may be 
+organized differently (see below), an implementation may not depend on this 
+relationship between secondary virtual tables. This tradeoff was made because 
+the space savings resulting from not requiring construction virtual tables to 
+occur in complete groups was considered more important than potential sharing of 
+virtual pointers. </I>
+<P>
+<HR>
+
+<P><A name=vtable-ctor>
+<H3>2.6 Virtual tables During Object Construction </H3>
+<P>
+<H4>2.6.1 General </H4>
+<P>In some situations, a special virtual table called a construction virtual 
+table is used during the execution of proper base class constructors and 
+destructors. These virtual tables are for specific cases of virtual inheritance. 
+
+<P>During the construction of a class object, the object assumes the type of 
+each of its proper base classes, as each base class subobject is constructed. 
+RTTI queries in the base class constructor will return the type of the base 
+class, and virtual calls will resolve to member functions of the base class 
+rather than the complete class. RTTI queries, dynamic casts and virtual calls of 
+the object under construction statically converted to bases of the base under 
+construction will dynamically resolve to the type of the base under 
+construction. Normally, this behavior is accomplished by setting, in the base 
+class constructor, the object's virtual table pointers to the addresses of the 
+virtual tables for the base class. 
+<P>However, if the base class has direct or indirect virtual bases, the virtual 
+table pointers have to be set to the addresses of construction virtual tables. 
+This is because the normal proper base class virtual tables may not hold the 
+correct virtual base index values to access the virtual bases of the object 
+under construction, and adjustment addressed by these virtual tables may hold 
+the wrong this parameter adjustment if the adjustment is to cast from a virtual 
+base to another part of the object. The problem is that a complete object of a 
+proper base class and a complete object of a derived class do not have virtual 
+bases at the same offsets. 
+<P>A construction virtual table holds the virtual function addresses, 
+offset-to-top, and RTTI information associated with the base class, and virtual 
+base offsets and addresses of adjustor entry points with their parameter 
+adjustments associated with objects of the complete class. 
+<P>To ensure that the virtual table pointers are set to the appropriate virtual 
+tables during proper base class construction, a table of virtual table pointers, 
+called the VTT, which holds the addresses of construction and non-construction 
+virtual tables is generated for the complete class. The constructor for the 
+complete class passes to each proper base class constructor a pointer to the 
+appropriate place in the VTT where the proper base class constructor can find 
+its set of virtual tables. Construction virtual tables are used in a similar way 
+during the execution of proper base class destructors. 
+<P><IMG alt=NOTE src="Itanium C++ ABI-Dateien/warning.gif"> <I>When a complete 
+object constructor is constructing a virtual base, it must be wary of using the 
+vbase offsets in the virtual table, since the possibly shared virtual pointer 
+may point to a construction virtual table of an unrelated base class. For 
+instance, in <PRE><CODE>
+  struct S {};
+  struct T: virtual S {};
+  struct U {};
+  struct V: virtual T, virtual U {};
+</CODE></PRE>the virtual pointers for T and V are in the same place. When V's 
+constructor is about to construct U, that virtual pointer points to a virtual 
+table for T, and therefore cannot be used to locate U. </I>
+<P></P>
+<P>
+<H4>2.6.2 VTT Order</H4>
+<P>An array of virtual table addresses, called the <I><B>VTT</B></I>, is 
+declared for each class type that has indirect or direct virtual base classes. 
+(Otherwise, each proper base class may be initialized using its complete object 
+virtual table group.) 
+<P>The elements of the VTT array for a class D are in this order: 
+<OL type=1>
+  <LI><I>Primary virtual pointer</I>: address of the primary virtual table for 
+  the complete object D. 
+  <P></P>
+  <LI><I>Secondary VTTs</I>: for each direct non-virtual proper base class B of 
+  D that requires a VTT, in declaration order, a sub-VTT for B-in-D, structured 
+  like the main VTT for B, with a primary virtual pointer, secondary VTTs, and 
+  secondary virtual pointers, but without virtual VTTs. 
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>This 
+  construction is applied recursively. </I>
+  <P></P>
+  <LI><I>Secondary virtual pointers</I>: for each base class X which (a) has 
+  virtual bases or is reachable along a virtual path from D, and (b) is not a 
+  non-virtual primary base, the address of the virtual table for X-in-D or an 
+  appropriate construction virtual table. 
+  <P>X is reachable along a virtual path from D if there exists a path X, B1, 
+  B2, ..., BN, D in the inheritance graph such that at least one of X, B1, B2, 
+  ..., or BN is a virtual base class.</P>
+  <P>The order in which the virtual pointers appear in the VTT is inheritance 
+  graph preorder.</P>
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>There 
+  are virtual pointers for direct and indirect base classes. Although primary 
+  non-virtual bases do not get secondary virtual pointers, they do not otherwise 
+  affect the ordering. </I>
+  <P><I>Primary virtual bases require a secondary virtual pointer in the VTT 
+  because the derived class with which they will share a virtual pointer is 
+  determined by the most derived class in the hierarchy. </I>
+  <P><I>Secondary virtual pointers may be required for base classes that do not 
+  require secondary VTTs. A virtual base with no virtual bases of its own does 
+  not require a VTT, but does require a virtual pointer entry in the VTT. </I>
+  <P></P>
+  <LI><I>Virtual VTTs</I>: For each proper virtual base classes in inheritance 
+  graph preorder, construct a sub-VTT as in (2) above. 
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>The 
+  virtual VTT addresses come last because they are only passed to the virtual 
+  base class constructors for the complete object. </I></P></LI></OL>
+<P>Each virtual table address in the VTT is the address to be assigned to the 
+respective virtual pointer, i.e. the address of the first virtual function 
+pointer in the virtual table, not of the first vcall offset. 
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>It is 
+required that the VTT for a complete class D be identical in structure to the 
+sub-VTT for the same class D as a subclass of another class E derived from it, 
+so that the constructors for D can depend on that structure. Therefore, the 
+various components of its VTT are present based on the rules given, even if they 
+point to the D complete object virtual table or its secondary virtual tables. 
+That is, secondary VTTs are present for all bases with virtual bases (including 
+the virtual bases themselves, which have their secondary VTTs in the virtual VTT 
+section), and secondary virtual pointers are present for all bases with either 
+virtual bases or virtual function declarations overridden along a virtual path. 
+The only exception is that a primary non-virtual base class does not require a 
+secondary virtual pointer. 
+<P>Parts (1) and (3) of a primary (not secondary, i.e. nested) VTT, that is the 
+primary and secondary virtual pointers, are used for the final initialization of 
+an object's virtual pointers before the full-object initialization and later 
+use, and must therefore point to the main virtual table group for the class. 
+Those bases which do not have secondary virtual pointers in the VTT have their 
+virtual pointers explicitly initialized to the main virtual table group by the 
+constructors (see <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#subobj-ctor">Subobject 
+Construction and Destruction</A>). 
+<P>The virtual pointers in the secondary VTTs and virtual VTTs are used for 
+subobject construction, and may always point to special construction virtual 
+tables laid out as described in the following subsections. However, it will 
+sometimes be possible to use either the full-object virtual table for the 
+subclass, or its secondary virtual table for the full class being constructed. 
+This ABI does not specify a choice, nor does it specify names for the 
+construction virtual tables, so the constructors must use the VTT rather than 
+assuming that a particular construction virtual table exists. 
+<P>For example, suppose we have the following hierarchy: </I><CODE><PRE>  class A1 { int i; };
+  class A2 { int i; virtual void f(); };
+  class V1 : public A1, public A2 { int i; };
+	// A2 is primary base of V1, A1 is non-polymorphic
+  class B1 { int i; };
+  class B2 { int i; };
+  class V2 : public B1, public B2, public virtual V1 { int i; };
+	// V2 has no primary base, V1 is secondary base
+  class V3 {virtual void g(); };
+  class C1 : public virtual V1 { int i; };
+	// C1 has no primary base, V1 is secondary base
+  class C2 : public virtual V3, virtual V2 { int i; };
+	// C2 has V3 primary (nearly-empty virtual) base, V2 is secondary base
+  class X1 { int i; };
+  class C3 : public X1 { int i; };
+  class D : public C1, public C2, public C3 { int i;  };
+	// C1 is primary base, C2 is secondary base, C3 is non-polymorphic
+
+</PRE></CODE><I>Then the VTT for D would appear in the following order, where 
+indenting indicates the sub-VTT structure, and asterisks (*) indicate that 
+construction virtual tables instead of complete object virtual tables are 
+required. </I><CODE><PRE>  // 1. Primary virtual pointer:
+  [0] D has virtual bases (complete object vptr)
+
+  // 2. Secondary VTTs:
+  [1]  C1 * (has virtual base)
+  [2]     V1-in-C1 in D (secondary vptr)
+
+  [3]  C2 * (has virtual bases)
+  [4]    V3-in-C2 in D (primary vptr)
+  [5]    V2-in-C2 in D (secondary vptr)
+  [6]    V1-in-C2 in D (secondary vptr)
+
+  // 3. Secondary virtual pointers:
+    // (no C1-in-D -- primary base)
+  [7]    V1-in-D (V1 is virtual)
+  [8]  C2-in-D (preorder; has virtual bases)
+  [9]    V3-in-D (V3 is virtual)
+  [10]    V2-in-D (V2 is virtual)
+    // (For complete object D VTT, these all can point to the
+    // secondary vtables in the D vtable, the V3-in-D entry
+    // will be the same as the C2-in-D entry, as that is the active
+    // V3 virtual base in the complete object D.  In the sub-VTT for
+    // D in a class derived from D, some might be construction
+    // virtual tables.)
+
+  // 4. Virtual VTTs:
+    // (V1 has no virtual bases).
+  [11] V2 * (V2 has virtual bases)
+  [12]   V1-in-V2 in D * (secondary vptr, V1 is virtual)
+	   (A2 is primary base of V1)
+    // (V3 has no virtual bases)
+
+</PRE></CODE>
+<P><I>If A2 is a virtual base of V1, the VTT will contain more elements 
+(exercise left to the astute reader). </I>
+<P>
+<H4>2.6.3 Construction Virtual Table Layout</H4>
+<P>The construction virtual tables for a complete object are emitted in the same 
+object file as the virtual table. </FONT>So the virtual table structures for a 
+complete object of class C include, in no particular order: 
+<UL>
+  <LI>the main virtual table group for C, i.e. the virtual table to which the 
+  primary virtual pointer (at offset 0) points, along with its proper base class 
+  virtual tables in order of allocation, including virtual base class virtual 
+  tables; 
+  <LI>any construction virtual tables required for non-virtual and virtual 
+  bases; and 
+  <LI>the VTT array for C, providing location information for the above. 
+</LI></UL>
+<P>The VTT array is referenced via its own mangled external name, and the 
+construction virtual tables are accessed via the VTT array, so the latter do not 
+have external names. 
+<P>
+<H4>2.6.4 Construction Virtual Table entries</H4>
+<P>The construction virtual table group for a proper base class subobject B (of 
+derived class D) does not have the same entries in the same order as the main 
+virtual table group for a complete object B, as described in <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#vtable">Virtual Table 
+Layout</A> above. Some of the base class subobjects may not need construction 
+virtual tables, which will therefore not be present in the construction virtual 
+table group, even though the subobject virtual tables are present in the main 
+virtual table group for the complete object. 
+<P>The <I>values</I> of some construction virtual table entries will differ from 
+the corresponding entries in either the main virtual table group for B or the 
+virtual table group for B-in-D, primarily because the virtual bases of B will be 
+at different relative offsets in a D object than in a standalone B object, as 
+follows: 
+<OL>
+  <LI>Virtual base class offsets reflect the positions of the virtual base 
+  classes in the full D object. 
+  <LI>Similarly, vcall offsets reflect the relative positions of the overridden 
+  and overriding classes within the complete object D. 
+  <LI>The offset-to-top fields refer to B (and B's in particular will therefore 
+  be zero). 
+  <LI>The RTTI pointers point to B's RTTI. 
+  <LI>Only functions in B and its base classes are considered for virtual 
+  function resolution. </LI></OL>
+<P>
+<HR>
+
+<P><A name=array-cookies>
+<H3>2.7 Array Operator <CODE>new</CODE> Cookies </H3>
+<P>When operator <CODE>new</CODE> is used to create a new array, a cookie is 
+usually stored to remember the allocated length (number of array elements) so 
+that it can be deallocated correctly. 
+<P>Specifically: 
+<UL>
+  <P>
+  <LI>No cookie is required if the array element type T has a trivial destructor 
+  (12.4 [class.dtor]) and the usual (array) deallocation function (3.7.3.2 
+  [basic.stc.dynamic.deallocation]) function does not take two arguments. 
+  <P>(Note: if the usual array deallocation function takes two arguments, then 
+  it is a member function whose second argument is of type size_t. The standard 
+  guarantees (12.5 [class.free]) that this function will be passed the number of 
+  bytes allocated with the previous array new expression.) 
+  <P></P>
+  <LI>No cookie is required if the <CODE>new</CODE> operator being used is 
+  <CODE>::operator new[](size_t, void*)</CODE>. 
+  <P></P>
+  <LI>Otherwise, this ABI requires a cookie, setup as follows: 
+  <UL>
+    <LI>The cookie will have size <CODE>sizeof(size_t)</CODE>. 
+    <LI>Let <CODE>align</CODE> be the maximum alignment of <CODE>size_t</CODE> 
+    and an element of the array to be allocated. 
+    <LI>Let <CODE>padding</CODE> be the maximum of <CODE>sizeof(size_t)</CODE> 
+    and <CODE>align</CODE> bytes. 
+    <LI>The space allocated for the array will be the space required by the 
+    array itself plus <CODE>padding</CODE> bytes. 
+    <LI>The alignment of the space allocated for the array will be 
+    <CODE>align</CODE> bytes. 
+    <LI>The array data will begin at an offset of <CODE>align</CODE> bytes from 
+    the space allocated for the array. 
+    <LI>The cookie will be stored in the <CODE>sizeof(size_t)</CODE> bytes 
+    immediately preceding the array data. </LI></UL><I>
+  <P>These rules have the following consequences: 
+  <UL>
+    <LI>The array elements and the cookie are all aligned naturally. 
+    <LI>Padding will be required if <CODE>sizeof(size_t)</CODE> is smaller than 
+    the array element alignment, and if present will precede the cookie. 
+  </LI></UL></I></LI></UL>
+<P>Given the above, the following is pseudocode for processing <CODE>new(ARGS) 
+T[n]</CODE>: <CODE><PRE>  if T has a trivial destructor (C++ standard, 12.4/3)
+    padding = 0
+  else if we're using ::operator new[](size_t, void*)
+    padding = 0
+  else
+    padding = max(sizeof(size_t), alignof(T))
+
+  p = operator new[](n * sizeof(T) + padding, ARGS)
+  p1 = (T*) ( (char *)p + padding )
+
+  if padding &gt; 0
+    *( (size_t *)p1 - 1) = n
+
+  for i = [0, n)
+    create a T, using the default constructor, at p1[i]
+
+  return p1
+</PRE></CODE>
+<P>
+<HR>
+
+<P><A name=guards>
+<H3>2.8 Initialization Guard Variables </H3>
+<P>If a function-scope static variable or a static data member with vague 
+linkage (i.e., a static data member of a class template) is dynamically 
+initialized, then there is an associated guard variable which is used to 
+guarantee that construction occurs only once. The guard variables name is 
+mangled based on the mangling of the guarded object name. Thus, for 
+function-scope static variables, if multiple instances of the function body are 
+emitted (e.g., due to inlining), each function uses the same guard variable to 
+ensure that the function-scope static is initialized only once. Similarly, if a 
+static data member is instantiated in multiple object files, the initialization 
+code in each object file will use the same guard variable to ensure that the 
+static data member is initialized only once. 
+<P>The size of the guard variable is 64 bits. The first byte (i.e. the byte at 
+the address of the full variable) shall contain the value 0 prior to 
+initialization of the associated variable, and 1 after initialization is 
+complete. Usage of the other bytes of the guard variable is 
+implementation-defined. 
+<P>See <A href="http://www.codesourcery.com/cxx-abi/abi.html#once-ctor">Section 
+3.3.2</A> for the API for references to this guard variable. 
+<P>
+<HR>
+
+<P><A name=rtti>
+<H3>2.9 Run-Time Type Information (RTTI) </H3>
+<P>
+<H4>2.9.1 General </H4>
+<P>The C++ programming language definition implies that information about types 
+be available at run time for three distinct purposes: 
+<OL type=a>
+  <LI>to support the typeid operator, 
+  <LI>to match an exception handler with a thrown object, and 
+  <LI>to implement the dynamic_cast operator. </LI></OL>(c) only requires type 
+information about dynamic class types, but (a) and (b) may apply to other types 
+as well; for example, when a pointer to an int is thrown, it can be caught by a 
+handler that catches "int const*". 
+<P>It is intended that two type_info pointers point to equivalent type 
+descriptions if and only if the pointers are equal. An implementation must 
+satisfy this constraint, e.g. by using symbol preemption, COMDAT sections, or 
+other mechanisms. 
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>Note 
+that the full structure described by an RTTI descriptor may include incomplete 
+types not required by the Standard to be completed, although not in contexts 
+where it would cause ambiguity. Therefore, any cross-references within the RTTI 
+to types not known to be complete must be weak symbol references. </I>
+<P>
+<H4>2.9.2 Place of Emission </H4>
+<P>It is desirable to minimize the number of places where a particular bit of 
+RTTI is emitted. For dynamic class types, a similar problem occurs for virtual 
+function tables, and hence the RTTI descriptor should be emitted with the 
+primary virtual table for that type. For other types, they must be emitted at 
+the location where their use is implied: the object file containing the typeid, 
+throw or catch. 
+<P>Basic type information (e.g. for "int", "bool", etc.) will be kept in the 
+run-time support library. Specifically, the run-time support library should 
+contain type_info objects for the types X, X* and X const*, for every X in: 
+void, bool, wchar_t, char, unsigned char, signed char, short, unsigned short, 
+int, unsigned int, long, unsigned long, long long, unsigned long long, float, 
+double, long double. (Note that various other type_info objects for class types 
+may reside in the run-time support library by virtue of the preceding rules, 
+e.g. that of <CODE>std::bad_alloc</CODE>.) 
+<P><A name=typeid>
+<H4>2.9.3 The <CODE>typeid</CODE> Operator</H4>
+<P>The typeid operator produces a reference to a std::type_info structure with 
+the following public interface (18.5.1): <PRE><CODE>
+  namespace std {
+    class type_info {
+      public:
+	virtual ~type_info();
+	bool operator==(const type_info &amp;) const;
+	bool operator!=(const type_info &amp;) const;
+	bool before(const type_info &amp;) const;
+	const char* name() const;
+      private:
+	type_info (const type_info&amp; rhs);
+	type_info&amp; operator= (const type_info&amp; rhs);
+    };
+  }
+</PRE></CODE>
+<P>After linking and loading, only one std::type_info structure is accessible 
+via the external name defined by this ABI for any particular complete type 
+symbol (see <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#vague-rtti">Vague 
+Linkage</A>). Therefore, except for direct or indirect pointers to incomplete 
+types, the equality and inequality operators can be written as address 
+comparisons when operating on those type_info objects: two type_info structures 
+describe the same type if and only if they are the same structure (at the same 
+address). However, in the case of pointer types, directly or indirectly pointing 
+to incomplete class types, a more complex comparison is required, described 
+below with the RTTI layout of pointer types. 
+<P>The <CODE>name()</CODE> member function returns the address of an NTBS, 
+unique to the type, containing the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-type">mangled 
+name</A> of the type. It has a <A 
+href="http://www.codesourcery.com/cxx-abi/mangling-special">mangled name</A> 
+defined by the ABI to allow consistent reference to it, and the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#vague-rtti">Vague Linkage</A> 
+section specifies how to produce a unique copy. 
+<P>In a flat address space (such as that of the Itanium architecture), the 
+<CODE>operator==</CODE>, <CODE>operator!=</CODE>, and <CODE>before()</CODE> 
+members are easily implemented in terms of an address comparison of the name 
+NTBS. 
+<P>This implies that the type information must keep a description of the public, 
+unambiguous inheritance relationship of a type, as well as the const and 
+volatile qualifications applied to types. 
+<P>
+<H4>2.9.4 The <CODE>dynamic_cast</CODE> Operator</H4>
+<P>Although dynamic_cast can work on pointers and references, from the point of 
+view of representation we need only to worry about polymorphic class types. 
+Also, some kinds of dynamic_cast operations are handled at compile time and do 
+not need any RTTI. There are then three kinds of truly dynamic cast operations: 
+<UL>
+  <LI>dynamic_cast&lt;void cv*&gt;, which returns a pointer to the complete 
+  lvalue, 
+  <LI>dynamic_cast operation from a proper base class to a derived class, and 
+  <LI>dynamic_cast across the hierarchy which can be seen as a cast to the 
+  complete lvalue and back to a sibling base. </LI></UL>
+<P>The most common kind of dynamic_cast is base-to-derived in a singly inherited 
+hierarchy. 
+<P><A name=rtti-layout>
+<H4>2.9.5 RTTI Layout </H4>
+<OL type=1>
+  <P>
+  <LI>The class definitions below are to be interpreted as implying a memory 
+  layout following the class layout rules for the host ABI. They specify data 
+  members only, except for the Standard-specified member functions of the 
+  <CODE>std::type_info</CODE> class given below, and do not imply anything about 
+  the member functions of these classes. Virtual member functions of these 
+  classes may only be used within the target systems' respective runtime 
+  libraries. The data members must be laid out exactly as specified. 
+  <P></P>
+  <LI>Every virtual table shall contain one entry describing the offset from a 
+  virtual pointer for that virtual table to the origin of the object containing 
+  that virtual pointer (or equivalently: to the virtual pointer for the primary 
+  virtual table). This entry is directly useful to implement 
+  dynamic_cast&lt;void cv*&gt;, but is also needed for the other truly dynamic 
+  casts. This entry is located two words ahead of the location pointed to by the 
+  virtual pointer (i.e., entry "-2"). This entry is present in all virtual 
+  tables, even for classes having virtual bases but no virtual functions. 
+  <P></P>
+  <LI>Every virtual table shall contain one entry that is a pointer to an object 
+  derived from <CODE>std::type_info</CODE>. This entry is located at the word 
+  preceding the location pointed to by the virtual pointer (i.e., entry "-1"). 
+  The entry is allocated in all virtual tables; for classes having virtual bases 
+  but no virtual functions, the entry is zero. 
+  <P>We add one pointer to the <CODE>std::type_info</CODE> class in addition to 
+  the virtual table pointer implied by its virtual destructor: <PRE><CODE>
+      class type_info {
+	 ... // See <A href="http://www.codesourcery.com/cxx-abi/abi.html#typeid">section 2.9.3</A>
+	private:
+	 const char *__type_name;
+      };
+
+</PRE></CODE>
+  <UL>
+    <LI>The class will contain a virtual pointer before the explicit members. 
+    <LI><CODE>__type_name</CODE> is a pointer to a NTBS representing the mangled 
+    name of the type. </LI></UL>
+  <P>The possible derived types are: 
+  <UL>
+    <LI><CODE>abi::__fundamental_type_info</CODE> 
+    <LI><CODE>abi::__array_type_info</CODE> 
+    <LI><CODE>abi::__function_type_info</CODE> 
+    <LI><CODE>abi::__enum_type_info</CODE> 
+    <LI><CODE>abi::__class_type_info</CODE> 
+    <LI><CODE>abi::__si_class_type_info</CODE> 
+    <LI><CODE>abi::__vmi_class_type_info</CODE> 
+    <LI><CODE>abi::__pbase_type_info</CODE> 
+    <LI><CODE>abi::__pointer_type_info</CODE> 
+    <LI><CODE>abi::__pointer_to_member_type_info</CODE> </LI></UL>
+  <P></P>
+  <LI><CODE>abi::__fundamental_type_info</CODE> adds no data members to 
+  <CODE>std::type_info</CODE>; 
+  <P></P>
+  <LI><CODE>abi::__array_type_info</CODE> and 
+  <CODE>abi::__function_type_info</CODE> do not add data members to 
+  <CODE>std::type_info</CODE> (these types are only produced by the typeid 
+  operator; they decay in other contexts).&nbsp;&nbsp; 
+  <CODE>abi::__enum_type_info</CODE> does not add data members either. 
+  <P></P>
+  <LI>Three different types are used to represent user type information: 
+  <OL type=a>
+    <P>
+    <LI><CODE>abi::__class_type_info</CODE> is used for class types having no 
+    bases, and is also a base type for the other two class type representations. 
+<PRE><CODE>
+      class __class_type_info : public std::type_info {}
+
+</PRE></CODE>
+    <P>This RTTI class may also be used for incomplete class types when 
+    referenced by a pointer RTTI, in which case it must be prevented from 
+    preempting the RTTI for the complete class type, for instance by emitting it 
+    as a static object (without external linkage). 
+    <P>Two <CODE>abi::__class_type_info</CODE> objects can always be compared, 
+    for equality (i.e. of the types represented) or ordering, by comparison of 
+    their name NTBS addresses. In addition, complete class RTTI objects may also 
+    be compared for equality by comparison of their type_info addresses. 
+    <P></P>
+    <LI>For classes containing only a single, public, non-virtual base at offset 
+    zero (i.e. the derived class is dynamic iff the base is), class 
+    <CODE>abi::__si_class_type_info</CODE> is used. It adds to 
+    <CODE>abi::__class_type_info</CODE> a single member pointing to the 
+    type_info structure for the base type, declared "<CODE>__class_type_info 
+    const *__base_type</CODE>". <PRE><CODE>
+      class __si_class_type_info : public __class_type_info {
+	public:
+	  const __class_type_info *__base_type;
+      };
+
+</PRE></CODE><A name=vmi>
+    <P></P>
+    <LI>For classes with bases that do not satisfy the 
+    <CODE>__si_class_type_info</CODE> constraints, 
+    <CODE>abi::__vmi_class_type_info</CODE> is used. It is derived from 
+    <CODE>abi::__class_type_info</CODE>: <PRE><CODE>
+      class __vmi_class_type_info : public __class_type_info {
+	public:
+	  unsigned int __flags;
+	  unsigned int __base_count;
+	  __base_class_type_info __base_info[1];
+
+	  enum __flags_masks {
+	    __non_diamond_repeat_mask = 0x1,
+	    __diamond_shaped_mask = 0x2
+	  };
+      };
+
+</PRE></CODE>
+    <UL>
+      <P>
+      <LI><CODE>__flags</CODE> is a word with flags describing details about the 
+      class structure, which may be referenced by using the 
+      <CODE>__flags_masks</CODE> enumeration. 
+      <UL>
+        <LI>0x01: class has non-diamond repeated inheritance 
+        <LI>0x02: class is diamond shaped </LI></UL>These flags refer to both 
+      direct and indirect bases. The type of the <CODE>__flags</CODE> field is 
+      defined by each psABI, but must be at least 16 bits. For the 64-bit 
+      Itanium ABI, it will be unsigned int (32 bits). 
+      <P></P>
+      <LI><CODE>__base_count</CODE> is a word with the number of direct proper 
+      base class descriptions that follow. The type of the 
+      <CODE>__base_count</CODE> field is defined by each psABI. For the 64-bit 
+      Itanium ABI, it will be unsigned int (32 bits). 
+      <P></P>
+      <LI><CODE>__base_info[]</CODE> is an array of base class descriptions -- 
+      one for every direct proper base. Each description is of the type: <PRE><CODE>
+      struct abi::__base_class_type_info {
+	public:
+         const __class_type_info *__base_type;
+	 long __offset_flags;
+
+	 enum __offset_flags_masks {
+	   __virtual_mask = 0x1,
+	   __public_mask = 0x2,
+	   __offset_shift = 8
+	 };
+
+      };
+</PRE></CODE>
+      <P>The <CODE>__base_type</CODE> member points to the RTTI for the base 
+      type. 
+      <P>All but the lower 8 bits of <CODE>__offset_flags</CODE> are a signed 
+      offset. For a non-virtual base, this is the offset in the object of the 
+      base subobject. For a virtual base, this is the offset in the virtual 
+      table of the virtual base offset for the virtual base referenced 
+      (negative). 
+      <P>The low-order byte of <CODE>__offset_flags</CODE> contains flags, as 
+      given by the masks from the enumeration <CODE>__offset_flags_masks</CODE>: 
+
+      <UL>
+        <LI>0x1: Base class is virtual 
+        <LI>0x2: Base class is public </LI></UL></LI></UL>
+    <P>Note that the resulting structure is variable-length, with the actual 
+    size depending on the number of trailing base class descriptions. 
+  </P></LI></OL>
+  <P></P>
+  <LI><CODE>abi::__pbase_type_info</CODE> is a base for both pointer types and 
+  pointer-to-member types. It adds two data members: <PRE><CODE>
+      class __pbase_type_info : public std::type_info {
+	public:
+	  unsigned int __flags;
+	  const std::type_info *__pointee;
+
+	  enum __masks {
+	    __const_mask = 0x1,
+	    __volatile_mask = 0x2,
+	    __restrict_mask = 0x4,
+	    __incomplete_mask = 0x8,
+	    __incomplete_class_mask = 0x10
+	  };
+      };
+
+</PRE></CODE>
+  <UL>
+    <P>
+    <LI><CODE>__flags</CODE> is a flag word describing the cv-qualification and 
+    other attributes of the type pointed to (e.g., "int volatile*" should have 
+    the "volatile" bit set in that word); and 
+    <P></P>
+    <LI><CODE>__pointee</CODE> is a pointer to the <CODE>std::type_info</CODE> 
+    derivation for the unqualified type being pointed to. </LI></UL>
+  <P>Note that the <CODE>__flags</CODE> bits should not be folded into the 
+  pointer to allow future definition of additional flags. It contains the 
+  following bits, and may be referenced using the flags defined in the 
+  <CODE>__masks</CODE> enum: 
+  <UL>
+    <LI>0x1: <CODE>__pointee</CODE> type has const qualifier 
+    <LI>0x2: <CODE>__pointee</CODE> type has volatile qualifier 
+    <LI>0x4: <CODE>__pointee</CODE> type has restrict qualifier 
+    <LI>0x8: <CODE>__pointee</CODE> type is incomplete 
+    <LI>0x10: class containing <CODE>__pointee</CODE> is incomplete (in pointer 
+    to member) </LI></UL>
+  <P>When the <CODE>abi::__pbase_type_info</CODE> is for a direct or indirect 
+  pointer to an incomplete class type, the incomplete target type flag is set. 
+  When it is for a direct or indirect pointer to a member of an incomplete class 
+  type, the incomplete class type flag is set. In addition, it and all of the 
+  intermediate <CODE>abi::__pointer_type_info</CODE> structs in the chain down 
+  to the <CODE>abi::__class_type_info</CODE> for the incomplete class type must 
+  be prevented from resolving to the corresponding type_info structs for the 
+  complete class type, possibly by making them local static objects. Finally, a 
+  dummy class RTTI is generated for the incomplete type that will not resolve to 
+  the final complete class RTTI (because the latter need not exist), possibly by 
+  making it a local static object. 
+  <P>Two <CODE>abi::__pbase_type_info</CODE> objects can always be compared for 
+  equality (i.e. of the types represented) or ordering by comparison of their 
+  name NTBS addresses. In addition, unless either or both have either of the 
+  incomplete flags set, equality can be tested by comparing the type_info 
+  addresses. 
+  <P></P>
+  <LI><CODE>abi::__pointer_type_info</CODE> is derived from 
+  <CODE>abi::__pbase_type_info</CODE> with no additional data members. 
+  <P></P>
+  <LI>The <CODE>abi::__pointer_to_member_type_info</CODE> type adds one field to 
+  <CODE>abi::__pbase_type_info</CODE>: <PRE><CODE>
+      class __pointer_to_member_type_info : public __pbase_type_info {
+	public:
+	  const abi::__class_type_info *__context;
+      };
+
+</PRE></CODE>
+  <UL>
+    <LI><CODE>__context</CODE> is a pointer to an 
+    <CODE>abi::__class_type_info</CODE> corresponding to the class type 
+    containing the member pointed to (e.g., the "A" in "int A::*") 
+</LI></UL></LI></OL>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>Note 
+that this ABI requires elsewhere that a virtual table be emitted for a dynamic 
+type in the object where the first non-inline virtual function member is 
+defined, if any, or everywhere referenced if none. Therefore, an implementation 
+should include at least one non-inline virtual function member and define it in 
+the library, to avoid having user code inadvertently preempt the virtual table. 
+Since the Standard requires a virtual destructor, and it will rarely be called, 
+it is a good candidate for this role. </I>
+<H4>2.9.6 <CODE>std::type_info::name()</CODE> </H4>
+<P>The null-terminated byte string returned by this routine is the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#mangling">mangled name</A> of 
+the type. 
+<P>
+<H4>2.9.7 The <CODE>dynamic_cast</CODE> Algorithm </H4>
+<P>Dynamic casts to "void cv*" are inserted inline at compile time. So are 
+dynamic casts of null pointers and dynamic casts that are really static. 
+<P>This leaves the following test to be implemented in the run-time library for 
+truly dynamic casts of the form "dynamic_cast&lt;T&gt;(v)": (see 
+[expr.dynamic_cast] 5.2.7/8) 
+<UL>
+  <P>
+  <LI>If, in the most derived object pointed (referred) to by v, v points 
+  (refers) to a public base class subobject of a T object [note: this can be 
+  checked at compile time], and if only one object of type T is derived from the 
+  subobject pointed (referred) to by v, the result is a pointer (an lvalue 
+  referring) to that T object. 
+  <P></P>
+  <LI>Otherwise, if v points (refers) to a public base class subobject of the 
+  most derived object, and the type of the most derived object has an 
+  unambiguous public base class of type T, the result is a pointer (an lvalue 
+  referring) to the T subobject of the most derived object. 
+  <P></P>
+  <LI>Otherwise, the run-time check fails. </LI></UL>
+<P>The first check corresponds to a "base-to-derived cast" and the second to a 
+"cross cast". These tests are implemented by abi::__dynamic_cast: <PRE><CODE>
+   extern "C" 
+   void* __dynamic_cast ( const void *sub,
+			  const abi::__class_type_info *src,
+			  const abi::__class_type_info *dst,
+			  std::ptrdiff_t src2dst_offset);
+   /* sub: source address to be adjusted; nonnull, and since the
+    *      source object is polymorphic, *(void**)sub is a virtual
+    pointer.
+    * src: static type of the source object.
+    * dst: destination type (the "T" in "dynamic_cast&lt;T&gt;(v)").
+    * src2dst_offset: a static hint about the location of the
+    *    source subobject with respect to the complete object;
+    *    special negative values are:
+    *       -1: no hint
+    *       -2: src is not a public base of dst
+    *       -3: src is a multiple public base type but never a
+    *           virtual base type
+    *    otherwise, the src type is a unique public nonvirtual
+    *    base type of dst at offset src2dst_offset from the
+    *    origin of dst.
+    */
+
+</PRE></CODE>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> 
+<I>Rationale: 
+<UL>
+  <P>
+  <LI>A simple dynamic_cast algorithm that is efficient in the common case of 
+  base-to-most-derived cast case is preferable to more sophisticated ideas that 
+  handle deep-base-to-in-between-derived casts more efficiently at a slight cost 
+  to the common case. Hence, an earlier scheme of providing a hash-table into 
+  the list of base classes (as is done e.g. in the HP aC++ compiler) was 
+  dropped. 
+  <P></P>
+  <LI>For similar reasons, we only keep direct base information about a class 
+  type. Indirect base information can be found by chasing type_info pointers 
+  (and care should be taken to determine ambiguous base class types). 
+  <P></P>
+  <LI>The GNU egcs development team has implemented an idea of this ABI group to 
+  accelerate dynamic_cast operations by a-posteriori checking a "likely 
+  outcome". This is the purpose of the src2dst_offset hint. An implementation is 
+  free to always pass -1 (no hint), or to always ignore the hint in 
+  __dynamic_cast. </LI></UL></I>
+<P>
+<H4>2.9.8 The Exception Handler Matching Algorithm</H4>
+<P>Since the RTTI related exception handling routines are "personality 
+specific", no interfaces need to be specified in this document (beyond the 
+layout of the RTTI data). 
+<P>
+<HR>
+
+<P><A name=calls>
+<H2>Chapter 3: Function Calling Conventions and APIs </H2>
+<P>
+<HR>
+
+<P>
+<P>In general, the calling conventions for C++ in this ABI follow those 
+specified by the underlying processor-specific ABI for C, whenever there is an 
+analogous construct in C. This chapter specifies exceptions required by 
+C++-specific semantics, or by features without analogues in C. It also specifies 
+the APIs of a variety of runtime utility routines required to be part of the 
+support library of an ABI-conforming implementation for use by compiled code. In 
+addition, reference is made to the separate description of <A 
+href="http://www.codesourcery.com/cxx-abi/abi-eh.html">exception handling</A> in 
+this ABI, which defines a large number of runtime utility routine APIs. 
+<P><A name=normal-call>
+<H3>3.1 Non-Virtual Function Calling Conventions </H3></A>
+<P>
+<H4>3.1.1 Value Parameters </H4>
+<P>In general, C++ value parameters are handled just like C parameters. This 
+includes class type parameters passed wholly or partially in registers. However, 
+in the special case where the parameter type has a non-trivial copy constructor 
+or destructor, the caller must allocate space for a temporary copy, and pass the 
+resulting copy by reference (below). Specifically, 
+<UL>
+  <P>
+  <LI>Space is allocated by the caller for the temporary. If there is no 
+  non-trivial copy constructor or destructor, it is in the normal 
+  parameter-passing space, i.e. in the parameter registers or on the stack, and 
+  the constructor is called if necessary. Otherwise, it is allocated on the 
+  stack or heap. 
+  <P></P>
+  <LI>The caller constructs the parameter in the space allocated, using a simple 
+  copy to the parameter space (parameter registers or stack) if there is no 
+  non-trivial copy constructor or destructor. 
+  <P></P>
+  <LI>The function is called, passing the parameter value (if there is no 
+  non-trivial copy constructor or destructor), or its address (if there is one). 
+
+  <P></P>
+  <LI>The caller calls any non-trivial destructor for the parameter after 
+  returning (at the end of the containing expression). 
+  <P></P>
+  <LI>If necessary (e.g. if the parameter was allocated on the heap), the caller 
+  deallocates space after return and destruction. </LI></UL>
+<P>
+<H4>3.1.2 Reference Parameters </H4>
+<P>Reference parameters are handled by passing a pointer to the actual 
+parameter. 
+<P>
+<H4>3.1.3 Empty Parameters </H4>
+<P>Empty classes will be passed no differently from ordinary classes. If passed 
+in registers the NaT bit must not be set on all registers that make up the 
+class. </P>
+<P>The contents of the single byte parameter slot are unspecified, and the 
+callee may not depend on any particular value. On Itanium, the associated NaT 
+bit must not be set if the parameter slot is associated with a register. 
+<P>
+<H4>3.1.4 Return Values </H4>
+<P>In general, C++ return values are handled just like C return values. This 
+includes class type results returned in registers. However, if the return value 
+type has a non-trivial copy constructor or destructor, the caller allocates 
+space for a temporary, and passes a pointer to the temporary as an implicit 
+first parameter preceding both the <CODE>this</CODE> parameter and user 
+parameters. The callee constructs the return value into this temporary. 
+<P>A result of an empty class type will be returned as though it were a struct 
+containing a single char, i.e. <CODE>struct S { char c; };</CODE>. The actual 
+content of the return register is unspecified. On Itanium, the associated NaT 
+bit must not be set. 
+<P>
+<H4>3.1.5 Constructor Return Values </H4>
+<P>Constructors return <CODE>void</CODE> results. 
+<P><A name=vcall>
+<H3>3.2 Virtual Function Calling Conventions </H3></A>
+<P>
+<H4>3.2.1 Foundation </H4>
+<P>This section sketches the calling convention for virtual functions, based on 
+the above virtual table layout. <I>See also the <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#vcall">ABI 
+examples</A> document for motivating examples and potential implementations.</I> 
+
+<P>We explain, at a high level, what information must be present in the virtual 
+table for a class A which declares a virtual function f in order that, given an 
+pointer of type A*, the caller can call the virtual function f. This section 
+does not specify exactly where that information is located (see above), nor does 
+it specify how to convert a pointer to a class derived from A to an A*, if that 
+is required. 
+<P>When this section uses the term <I>function pointer</I> it is understood that 
+this term may refer either to a traditional function pointer (i.e., a pointer to 
+a GP/address pair) or a GP/address pair itself. Which of these alternatives is 
+actually used is specified elsewhere in the ABI, but is independent of the 
+description in this section. 
+<P>Throughout this section, we assume that A is the class for which we are 
+creating a virtual table, B is the most derived class in the hierarchy, and C is 
+the class that contains C::f, the unique final overrider for A::f. This section 
+specifies the contents of the f entry in the A-in-B virtual table. (If A is 
+primary base in the hierarchy, then the A-in-B virtual table will be shared with 
+the derived class virtual table -- but the contents of the A portion of that 
+virtual table will still be as specified here.) 
+<P>In all cases, the <I>non-adjusting entry point</I> for a virtual function 
+expects the `this' pointer to point to an instance of the class in which the 
+virtual function is defined. In other words, the non-adjusting entry point for 
+C::f will expect that its `this' pointer points to a C object. 
+<P>
+<H4>3.2.2 Virtual Table Components </H4>
+<P>For each virtual function declared in a class C, we add an entry to its 
+virtual table if one is not already there (i.e. if it is not overriding a 
+function in its primary base). In particular, a declaration which overrides a 
+function inherited from a secondary base gets a new slot in the primary virtual 
+table. We do this to avoid useless adjustments when calling a virtual function 
+through a pointer to the most derived class. 
+<P>The content of this entry for class A is a function pointer, as determined by 
+one of the following cases. Recall that we are dealing with a hierarchy where B 
+is most derived, A is a direct (or indirect) base of B defining f, and C 
+contains the unique final overrider C::f of A::f. 
+<OL type=1>
+  <P>
+  <LI>A = C 
+  <P>(In this case, we are creating either the primary virtual table for A, or 
+  the A-in-B secondary virtual table.) 
+  <P>The virtual table contains a function pointer pointing to the non-adjusting 
+  entry point for A::f. 
+  <P></P>
+  <LI>A != C 
+  <P>In this case, we are creating the A-in-B secondary virtual table. 
+  <P>The virtual table contains a pointer to an entry point that performs the 
+  adjustment from an A* to a C*, and then transfers control to the non-adjusting 
+  entry point for C::f. </P></LI></OL>
+<P>When a class is used as a virtual base, we add a vcall offset slot to the 
+beginning of its virtual table for each of the virtual functions it provides, 
+whether in its primary or secondary virtual tables. Derived classes which 
+override these functions may use the slots to determine the adjustment 
+necessary. 
+<P>
+<H4>3.2.3 Callee </H4>
+<P>For each direct or indirect base A of C that is not a morally virtual base of 
+C, the compiler must emit, in the same object file as the code for C::f, an 
+<I>A-adjusting entry point</I> for C::f. This entry point will expect that its 
+<CODE>this</CODE> pointer points to an A*, and will convert it to a C* (which 
+merely requires adding a constant offset) before transferring control to the 
+non-adjusting entry point for C::f. 
+<P>For each direct or indirect virtual base V of C such that V declares f, the 
+compiler must emit, in the same object file as the code for C::f, a 
+<I>V-adjusting entry point</I> for C::f. This entry point will expect that its 
+<CODE>this</CODE> pointer points to the unique virtual V subobject of C. (Note 
+that there may in general be multiple V subobjects of C, but that only one of 
+them will be virtual.) This entry point must load the vcall offset corresponding 
+to f located in the virtual table for V obtained via its <CODE>this</CODE> 
+pointer, extract the vcall offset corresponding to f located in that virtual 
+table, and add this offset to the <CODE>this</CODE> pointer. (Note that, as 
+specified in the data layout document, when V is used as a virtual base, its 
+virtual table contains vcall offsets for every virtual function declared in V or 
+any of its bases.) Then, this entry point must transfer control to the 
+non-adjusting entry point. <A name=morally-virtual>
+<P>For each morally virtual base M of C such that M is <I><B>not</B></I> a 
+virtual base (and therefore must be a subobject of a virtual base V), and such 
+that M declares f, the compiler must emit, in the same object file as the code 
+for C::f, an <I>M-adjusting entry point</I> for C::f. This entry point will 
+expect that its <CODE>this</CODE> pointer points to an M*, and will convert it 
+to a V* (a fixed offset), where V is the nearest virtual base to M along the 
+inheritance path from C to M. Then, it will convert the V* to a C* by using the 
+vcall offset stored in the V's virtual table. 
+<P>
+<H4>3.2.4 Caller </H4>
+<P>When calling a virtual function f, through a pointer of static type B*, the 
+caller 
+<UL>
+  <P>
+  <LI>Selects a (possibly improper) subobject A of B such that A declares f. (In 
+  general, A may be the same as B.) (Note that A need not define f; it may 
+  contain either a definition of f, or a declaration of f as a pure virtual 
+  function.) 
+  <P></P>
+  <LI>Converts the B* to point to this subobject. (Call the resulting pointer 
+  `a'.) 
+  <P></P>
+  <LI>Uses the virtual table pointer contained in the A subobject to locate the 
+  function pointer through which to perform the call. 
+  <P></P>
+  <LI>Calls through this function pointer, passing `a' as the <CODE>this</CODE> 
+  pointer. </LI></UL><I>
+<P>(Note that in general it will be optimal to select the class which contained 
+the final overrider (i.e., C) as the class to which the B* should be converted. 
+This class is always a satisfactory choice, since it is known to contain a 
+definition of f. In addition, if the dynamic type of the object is B, then C::f 
+will be the function ultimately selected by the call, which means that C's 
+virtual table will contain a pointer to the non-adjusting entry point, meaning 
+that no additional adjustments to the <CODE>this</CODE> pointer will be 
+required. 
+<P>However, there may be cases in which choosing a different base subobject 
+could be superior. For example, if there is an alternate base D which also 
+declares f, and a pointer to the D subobject is already available, then it may 
+be better to use the D subobject rather than converting the B* to a C*, in order 
+to avoid the cost of the conversion.) </I>
+<P>
+<H4>3.2.5 Implementation </H4>
+<P>Note that the ABI only specifies the multiple entry points for a virtual 
+function and its associated thunks; how those entry points are provided is 
+unspecified. An existing compiler which uses thunks with a different means of 
+adjusting the virtual table pointers can be made compliant with this ABI by only 
+adding the vcall offsets -- the thunks need not use them. A more efficient 
+implementation would be to emit all of the thunks immediately before the 
+non-adjusting entry point to the function. Another might emit a new copy of the 
+function for each entry point; this is a quality of implementation issue. <I>See 
+further discussion of implementation in the <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#vcall-impl">ABI 
+examples</A> document.</I> 
+<UL></UL>
+<P><A name=pure-virtual>
+<H4>3.2.6 Pure Virtual Function API </H4>
+<P>An implementation shall provide a standard entry point that a compiler may 
+reference in virtual tables to indicate a pure virtual function. Its interface 
+is: <CODE><PRE>  extern "C" void __cxa_pure_virtual ();
+</PRE></CODE>
+<P>This routine will only be called if the user calls a non-overridden pure 
+virtual function, which has undefined behavior according to the C++ Standard. 
+Therefore, this ABI does not specify its behavior, but it is expected that it 
+will terminate the program, possibly with an error message. 
+<P><A name=obj-ctor>
+<H3>3.3 Construction and Destruction APIs </H3></A>
+<P>This section describes APIs to be used for the construction and destruction 
+of objects. This includes: 
+<UL>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#subobj-ctor">3.3.1 
+  Subobject Construction and Destruction</A> 
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#once-ctor">3.3.2 
+  One-time Construction API </A>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#array-ctor">3.3.3 
+  Array Construction and Destruction API </A>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#ctor-order">3.3.4 
+  Controlling Object Construction Order </A>
+  <LI><A href="http://www.codesourcery.com/cxx-abi/abi.html#dso-dtor">3.3.5 DSO 
+  Object Destruction API </A></LI></UL>
+<P><A name=subobj-ctor>
+<H4>3.3.1 Subobject Construction and Destruction </H4></A>
+<P>The complete object constructors and destructors find the VTT, described in 
+Section 2.6, Virtual Tables During Object Construction, via its mangled name. 
+They pass the address of the subobject's sub-VTT entry in the VTT as a second 
+parameter when calling the base object constructors and destructors. The base 
+object constructors and destructors use the addresses passed to initialize the 
+primary virtual pointer and virtual pointers that point to the classes which 
+either have virtual bases or override virtual functions with a virtual step 
+(have vcall offsets needing adjustment). 
+<P>If a constructor calls constructors for base class subobjects that do not 
+need construction virtual tables, e.g. because they have no virtual bases, the 
+construction virtual table parameter is not passed to the base class subobject 
+constructor, and the base class subobject constructors use their complete object 
+virtual tables for initialization. 
+<P>If a class has a non-virtual destructor, and a deleting destructor is emitted 
+for that class, the deleting destructor must correctly handle the case that the 
+<CODE>this</CODE> pointer is <CODE>NULL</CODE>. All other destructors, including 
+deleting destructors for classes with a virtual destructor, may assume that the 
+<CODE>this</CODE> pointer is not <CODE>NULL</CODE>. 
+<P><I>Suppose we have a subobject class D that needs a construction virtual 
+table, derived from a base B that needs a construction virtual table as part of 
+D, and possibly from others that do not need construction virtual tables. Then 
+the sub-VTT and constructor code for D would look like the following: </I>
+<P><CODE><PRE>     // Sub-VTT for D (embedded in VTT for its derived class X):
+     static vtable *__VTT__1D [1+n+m] =
+	{ D primary vtable,
+	  // The sub-VTT for B-in-D in X may have further structure:
+	  B-in-D sub-VTT (n elements),
+	  // The secondary virtual pointers for D's bases have elements
+	  // corresponding to those in the B-in-D sub-VTT,
+	  // and possibly others for virtual bases of D:
+	  D secondary virtual pointer for B and bases (m elements) }; 
+
+     D ( D *this, vtable **ctorvtbls )
+     {
+	// (The following will be unwound, not a real loop):
+	for ( each base A of D ) {
+
+	   // A "boring" base is one that does not need a ctorvtbl:
+	   if ( ! boring(A) ) {
+	     // Call subobject constructors with sub-VTT index
+	     // if the base needs it -- only B in our example:
+	      A ( (A*)this, ctorvtbls + sub-VTT-index(A) ); 
+
+	   } else {
+	     // Otherwise, just invoke the complete-object constructor:
+	      A ( (A*)this );
+	   }
+	}
+
+        // Initialize virtual pointer with primary ctorvtbls address
+	// (first element):
+        this-&gt;vptr = ctorvtbls+0;	// primary virtual pointer
+
+	// (The following will be unwound, not a real loop):
+	for ( each subobject A of D ) {
+	
+	   // Initialize virtual pointers of subobjects with ctorvtbls
+	   // addresses for the bases 
+	   if ( ! boring(A) ) {
+	      ((A*)this)-&gt;vptr = ctorvtbls + 1+n + secondary-vptr-index(A);
+		   // where n is the number of elements in the sub-VTTs
+	    
+	   } else {
+	     // Otherwise, just use the complete-object vtable:
+	      ((A *)this)-&gt;vptr = &amp;(A-in-D vtable);
+	   }
+	}
+
+        // Code for D constructor.
+	...
+      }
+</PRE></CODE></TABLE>
+<P>A test program for this can be found in the <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#vtable-ctor">ABI 
+Examples</A> document. 
+<DL></DL>
+<P><A name=once-ctor></A>
+<H4>3.3.2 One-time Construction API </H4>
+<P>As described in <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#guards">Section 2.8</A>, 
+certain objects with static storage duration have associated guard variables 
+used to support the requirement that they be initialized exactly once, the first 
+time the scope declaring them is entered. An implementation that does not 
+anticipate supporting multi-threading may simply check the first byte (i.e., the 
+byte with lowest address) of that guard variable, initializing if and only if 
+its value is zero, and then setting it to a non-zero value. 
+<P>However, an implementation intending to support automatically thread-safe, 
+one-time initialization (as opposed to requiring explicit user control for 
+thread safety) may make use of the following API functions: 
+<DL>
+  <DT><CODE><PRE>extern "C" int __cxa_guard_acquire ( __int64_t *guard_object );
+</PRE></CODE>
+  <DD>
+  <P>Returns 1 if the initialization is not yet complete; 0 otherwise. This 
+  function is called before initialization takes place. If this function returns 
+  1, either <CODE>__cxa_guard_release</CODE> or <CODE>__cxa_guard_abort</CODE> 
+  must be called with the same argument. The first byte of the 
+  <CODE>guard_object</CODE> is not modified by this function. 
+  <P>A thread-safe implementation will probably guard access to the first byte 
+  of the <CODE>guard_object</CODE> with a mutex. If this function returns 1, the 
+  mutex will have been acquired by the calling thread. </P>
+  <DT><CODE><PRE>extern "C" void __cxa_guard_release ( __int64_t *guard_object );
+</PRE></CODE>
+  <DD>
+  <P>Sets the first byte of the guard object to a non-zero value. This function 
+  is called after initialization is complete. </P>
+  <P>A thread-safe implementation will release the mutex acquired by 
+  <CODE>__cxa_guard_acquire</CODE> after setting the first byte of the guard 
+  object. </P>
+  <DT><CODE><PRE>extern "C" void __cxa_guard_abort ( __int64_t *guard_object );
+</PRE></CODE>
+  <DD>
+  <P>This function is called if the initialization terminates by throwing an 
+  exception. </P>
+  <P>A thread-safe implementation will release the mutex acquired by 
+  <CODE>__cxa_guard_acquire</CODE>. </P></DD></DL><PRE></PRE></CODE>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>
+<P>The following is pseudo-code showing how these functions can be used: 
+<BLOCKQUOTE><CODE><PRE>  if (<I>obj_guard.first_byte</I> == 0) {
+    if ( __cxa_guard_acquire (<I>&amp;obj_guard</I>) ) {
+      try {
+	<I>... initialize the object ...</I>;
+      } catch (...) {
+        __cxa_guard_abort (<I>&amp;obj_guard</I>);
+        throw;
+      }
+      <I>... queue object destructor with __cxa_atexit() ...</I>;
+      __cxa_guard_release (<I>&amp;obj_guard</I>);
+    }
+  }
+</PRE></CODE></BLOCKQUOTE>
+<P>An implementation need not include the simple inline test of the 
+initialization flag in the guard variable around the above sequence. If it does 
+so, the cost of this scheme, when run single-threaded with minimal versions of 
+the above functions, will be two extra function calls, each of them accessing 
+the guard variable, the first time the scope is entered. 
+<P>An implementation supporting thread-safety on multiprocessor systems must 
+also guarantee that references to the initialized object do not occur before the 
+load of the initialization flag. On Itanium, this can be done by using a 
+<CODE>ld1.acq</CODE> operation to load the flag. 
+<P>The intent of specifying an 8-byte structure for the guard variable, but only 
+describing one byte of its contents, is to allow flexibility in the 
+implementation of the API above. On systems with good small lock support, the 
+second word might be used for a mutex lock. On others, it might identify (as a 
+pointer or index) a more complex lock structure to use. </I>
+<P><A name=array-ctor></A>
+<H4>3.3.3 Array Construction and Destruction API </H4>
+<P>An ABI-compliant system shall provide several runtime routines for use in 
+array construction and destruction. They may be used by compilers, but their use 
+is not required. The required APIs are: 
+<DL>
+  <DT><CODE><PRE>extern "C" void * __cxa_vec_new (
+	    size_t element_count,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*constructor) ( void *this ),
+	    void (*destructor) ( void *this ) );
+</PRE></CODE>
+  <DD>
+  <P>Equivalent to <CODE><PRE>  __cxa_vec_new2(element_count, element_size, padding_size, constructor,
+                 destructor, &amp;::operator new[], &amp;::operator delete[])
+</PRE></CODE>
+  <P></P>
+  <DT><CODE><PRE>extern "C" void * __cxa_vec_new2 (
+	    size_t element_count,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*constructor) ( void *this ),
+	    void (*destructor) ( void *this ),
+	    void* (*alloc) ( size_t size ),
+	    void (*dealloc) ( void *obj ) );
+</PRE></CODE>
+  <DD>
+  <P>Given the number and size of elements for an array and the non-negative 
+  size of prefix padding for a cookie, allocate space (using <CODE>alloc</CODE>) 
+  for the array preceded by the specified padding, initialize the cookie if the 
+  padding is non-zero, and call the given constructor on each element. Return 
+  the address of the array proper, after the padding.</P>
+  <P>If <CODE>alloc</CODE> throws an exception, rethrow the exception. If 
+  <CODE>alloc</CODE> returns <CODE>NULL</CODE>, return <CODE>NULL</CODE>. If the 
+  <CODE>constructor</CODE> throws an exception, call <CODE>destructor</CODE> for 
+  any already constructed elements, and rethrow the exception. If the 
+  <CODE>destructor</CODE> throws an exception, call 
+  <CODE>std::terminate</CODE>.</P>
+  <P>The constructor may be <CODE>NULL</CODE>, in which case it must not be 
+  called. If the <CODE>padding_size</CODE> is zero, the <CODE>destructor</CODE> 
+  may be <CODE>NULL</CODE>; in that case it must not be called.</P>
+  <P>Neither <CODE>alloc</CODE> nor <CODE>dealloc</CODE> may be 
+  <CODE>NULL</CODE>.</P>
+  <DT><CODE><PRE>extern "C" void * __cxa_vec_new3 (
+	    size_t element_count,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*constructor) ( void *this ),
+	    void (*destructor) ( void *this ),
+	    void* (*alloc) ( size_t size ),
+	    void (*dealloc) ( void *obj, size_t size ) );
+</PRE></CODE>
+  <DD>Same as <CODE>__cxa_vec_new2</CODE> except that the deallocation function 
+  takes both the object address and its size. 
+  <DT><CODE><PRE>extern "C" void __cxa_vec_ctor (
+	    void *array_address,
+	    size_t element_count,
+	    size_t element_size,
+	    void (*constructor) ( void *this ),
+	    void (*destructor) ( void *this ) );
+</PRE></CODE>
+  <DD>Given the (data) address of an array, not including any cookie padding, 
+  and the number and size of its elements, call the given constructor on each 
+  element. If the constructor throws an exception, call the given destructor for 
+  any already-constructed elements, and rethrow the exception. If the destructor 
+  throws an exception, call <CODE>terminate()</CODE>. The constructor and/or 
+  destructor pointers may be NULL. If either is NULL, no action is taken when it 
+  would have been called. 
+  <DT><CODE><PRE>extern "C" void __cxa_vec_dtor (
+	    void *array_address,
+	    size_t element_count,
+	    size_t element_size,
+	    void (*destructor) ( void *this ) );
+</PRE></CODE>
+  <DD>Given the (data) address of an array, the number of elements, and the size 
+  of its elements, call the given destructor on each element. If the destructor 
+  throws an exception, rethrow after destroying the remaining elements if 
+  possible. If the destructor throws a second exception, call 
+  <CODE>terminate()</CODE>. The destructor pointer may be NULL, in which case 
+  this routine does nothing. 
+  <DT><CODE><PRE>extern "C" void __cxa_vec_cleanup (
+	    void *array_address,
+	    size_t element_count,
+	    size_t element_size,
+	    void (*destructor) ( void *this ) );
+</PRE></CODE>
+  <DD>Given the (data) address of an array, the number of elements, and the size 
+  of its elements, call the given destructor on each element. If the destructor 
+  throws an exception, call <CODE>terminate()</CODE>. The destructor pointer may 
+  be NULL, in which case this routine does nothing. 
+  <DT><CODE><PRE>extern "C" void __cxa_vec_delete (
+	    void *array_address,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*destructor) ( void *this ) );
+</PRE></CODE>
+  <DD>
+  <P>If the <CODE>array_address</CODE> is <CODE>NULL</CODE>, return immediately. 
+  Otherwise, given the (data) address of an array, the non-negative size of 
+  prefix padding for the cookie, and the size of its elements, call the given 
+  destructor on each element, using the cookie to determine the number of 
+  elements, and then delete the space by calling <CODE>::operator delete[](void 
+  *)</CODE>. If the destructor throws an exception, rethrow after (a) destroying 
+  the remaining elements, and (b) deallocating the storage. If the destructor 
+  throws a second exception, call <CODE>terminate()</CODE>. If padding_size is 
+  0, the destructor pointer must be NULL. If the destructor pointer is NULL, no 
+  destructor call is to be made. </P>
+  <P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> The 
+  intent of this function is to permit an implementation to call this function 
+  when confronted with an expression of the form <CODE>delete[] p</CODE> in the 
+  source code, provided that the default deallocation function can be used. 
+  Therefore, the semantics of this function are consistent with those required 
+  by the standard. The requirement that the deallocation function be called even 
+  if the destructor throws an exception derives from the resolution to DR 353 to 
+  the C++ standard, which was adopted in April, 2003. </P>
+  <DT><CODE><PRE>extern "C" void __cxa_vec_delete2 (
+	    void *array_address,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*destructor) ( void *this ),
+	    void (*dealloc) ( void *obj ) );
+</PRE></CODE>
+  <DD>Same as <CODE>__cxa_vec_delete</CODE>, except that the given function is 
+  used for deallocation instead of the default delete function. If 
+  <CODE>dealloc</CODE> throws an exception, the result is undefined. The 
+  <CODE>dealloc</CODE> pointer may not be NULL. 
+  <DT><CODE><PRE>extern "C" void __cxa_vec_delete3 (
+	    void *array_address,
+	    size_t element_size,
+	    size_t padding_size,
+	    void (*destructor) ( void *this ),
+	    void (*dealloc) ( void *obj, size_t size ) );
+</PRE></CODE>
+  <DD>Same as <CODE>__cxa_vec_delete</CODE>, except that the given function is 
+  used for deallocation instead of the default delete function. The deallocation 
+  function takes both the object address and its size. If <CODE>dealloc</CODE> 
+  throws an exception, the result is undefined. The <CODE>dealloc</CODE> pointer 
+  may not be NULL. <A name=array-copy-ctor></A>
+  <DT><CODE><PRE>extern "C" void __cxa_vec_cctor (
+	    void *dest_array,
+	    void *src_array,
+	    size_t element_count,
+	    size_t element_size,
+	    void (*constructor) (void *destination, void *source),
+	    void (*destructor) (void *));
+</PRE></CODE>
+  <DD>Given the (data) addresses of a destination and a source array, an element 
+  count and an element size, call the given copy constructor to copy each 
+  element from the source array to the destination array. The copy constructor's 
+  arguments are the destination address and source address, respectively. If an 
+  exception occurs, call the given destructor (if non-NULL) on each copied 
+  element and rethrow. If the destructor throws an exception, call 
+  <CODE>terminate()</CODE>. The constructor and or destructor pointers may be 
+  NULL. If either is NULL, no action is taken when it would have been called. 
+  </DD></DL>
+<P><A name=ctor-order>
+<H4>3.3.4 Controlling Object Construction Order </H4>
+<P>
+<H5>3.3.4.1 Motivation </H5>
+<P><I>The only requirement of the C++ Standard with respect to file scope object 
+construction order is that file scope objects in a single object file are 
+constructed in declaration order. However, building large programs sometimes 
+requires careful attention to construction ordering for objects in different 
+object files, and a number of vendors have provided extra-lingual facilities to 
+control it. This ABI does not require an implementation to support this 
+capability, but it specifies such a facility for those implementations that do. 
+</I>
+<P>This facility only controls construction order within a singled linked object 
+(executable or DSO). Construction order between linked objects is determined by 
+the initialization ordering specified in the base ABI. 
+<P>
+<H5>3.3.4.2 Source Code API </H5>
+<P>A user may specify the construction priority with the pragma: <CODE><PRE>    #pragma priority ( &lt;priority&gt; )
+</PRE></CODE>The &lt;priority&gt; parameter specifies a 32-bit signed 
+initialization priority, with lower numbers meaning earlier initialization. The 
+range of priorities [MIN_INT .. MIN_INT+1023] is reserved to the implementation. 
+The pragma applies to all file scope variables in the file where it appears, 
+from the point of appearance to the next priority pragma or the end of the file. 
+Objects defined before any priority pragmas have a default priority of zero, as 
+do initialization actions specified by other means, e.g. 
+<CODE>DT_INIT_ARRAY</CODE> entries. For consistency with the C++ Standard 
+requirements on initialization order, behavior is undefined unless the 
+priorities appearing in a single file, including any default zero priorities, 
+are in non-decreasing numeric (non-increasing priority) order. 
+<P>Initialization entries with the same priority from different files (or from 
+other sources such as link command options) will be executed in an unspecified 
+order. 
+<P>
+<H5>3.3.4.3 Object File Representation </H5>
+<P>Initialization priority is represented in the object file by elements of a 
+target-specific section type, <CODE><B>SHT_IA_64_PRIORITY_INIT</B></CODE>, with 
+section ID <CODE>0x79000000</CODE> on Itanium, and section name 
+<CODE>.priority_init</CODE>, and attributes allowing writing but not execution. 
+The elements are structs: <CODE><PRE>	typedef struct {
+	  ElfXX_Word	pi_pri;
+	  ElfXX_Addr	pi_addr;
+	} ElfXX_Priority_Init;
+</PRE></CODE>The field <CODE>pi_addr</CODE> is a function pointer, as defined by 
+the base ABI (a pointer to a function descriptor on Itanium). The function takes 
+a single <CODE>unsigned int</CODE> priority parameter, which performs some 
+initialization at priority <CODE>pi_pri</CODE>. The priority value is obtained 
+from the signed int in the source pragma by subtracting MIN_INT, so the default 
+priority is -MIN_INT. The section header field <CODE>sh_entsize</CODE> is 8 for 
+ELF-32, or 16 for ELF-64. 
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>An 
+implementation may initialize as many (or as few) objects of the same priority 
+as it chooses in a single such initialization function, as long as the sequence 
+of such initialization entries for a given file preserves the source code order 
+of objects to be initialized. </I>
+<P>
+<H5>3.3.4.4 Runtime Library Support </H5>
+<P>Each implementation supporting priority initialization shall provide a 
+runtime library function with prototype: <CODE><PRE>    void __cxa_priority_init ( ElfXX_Priority_Init *pi, int cnt );
+</PRE></CODE>It will be called with the address of a <CODE>cnt</CODE>-element 
+(sub-)vector of the priority initialization entries, and must call each of them 
+in order. It will be called with the GP of the initialization entries. 
+<P>
+<H5>3.3.4.5 Linker Processing </H5>
+<P>The only required static linker processing is to concatenate the 
+<CODE>SHT_IA_64_PRIORITY_INIT</CODE> sections in link order, which, given equal 
+section IDs, section names, and section attributes as specified above, is the 
+default behavior specified by the generic ABI for unknown section types. 
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>Given 
+minimum static linker processing, an implementation supporting priority 
+initialization would need to include bracketing files in the link command that 
+(1) label the ends of the <CODE>SHT_IA_64_PRIORITY_INIT</CODE> section, and (2) 
+provide initial and final <CODE>DT_INIT_ARRAY</CODE> entries. The initial 
+<CODE>DT_INIT_ARRAY</CODE> entry would need to sort the 
+<CODE>SHT_IA_64_PRIORITY_INIT</CODE> section and call 
+<CODE>__cxa_priority_init</CODE> to run the constructors with negative priority 
+(in the source). The final <CODE>DT_INIT_ARRAY</CODE> entry would need to call 
+<CODE>__cxa_priority_init</CODE> to run the constructors with non-negative 
+priority. Other <CODE>DT_INIT_ARRAY</CODE> entries would thus run at the proper 
+point in the priority sequence. 
+<P>A more ambitious linker implementation could sort the 
+<CODE>SHT_IA_64_PRIORITY_INIT</CODE> section at link time and fabricate the code 
+to call <CODE>__cxa_priority_init</CODE> at the beginning and end. At the 
+extreme, it could even include other <CODE>DT_INIT_ARRAY</CODE> entries in the 
+<CODE>SHT_IA_64_PRIORITY_INIT</CODE> sequence at the appropriate places and emit 
+exactly one call to <CODE>__cxa_priority_init</CODE>, with no other entries in 
+the <CODE>DT_INIT_ARRAY</CODE> section. </I>
+<P><A name=dso-dtor>
+<H4>3.3.5 DSO Object Destruction API </H4>
+<P>
+<H5>3.3.5.1 Motivation </H5>
+<P>The C++ Standard requires that destructors be called for global objects when 
+a program exits in the opposite order of construction. Most implementations have 
+handled this by calling the C library <CODE>atexit</CODE> routine to register 
+the destructors. This is problematic because the 1999 C Standard only requires 
+that the implementation support 32 registered functions, although most 
+implementations support many more. More important, it does not deal at all with 
+the ability in most implementations to remove DSOs from a running program image 
+by calling <CODE>dlclose</CODE> prior to program termination. 
+<P>The API specified below is intended to provide standard-conforming treatment 
+during normal program exit, which includes executing 
+<CODE>atexit</CODE>-registered functions in the correct sequence relative to 
+constructor-registered destructors, and reasonable treatment during early DSO 
+unload (e.g. <CODE>dlclose</CODE>). 
+<P>
+<H5>3.3.5.2 Runtime Data Structure </H5>
+<P>The runtime library shall maintain a list of termination functions with the 
+following information about each: 
+<UL>
+  <LI>A function pointer (a pointer to a function descriptor on Itanium). 
+  <LI>A void* operand to be passed to the function. 
+  <LI>A void* handle for the <I>home DSO</I> of the entry (below). </LI></UL>
+<P>The representation of this structure is implementation defined. All 
+references are via the API described below. 
+<P>
+<H5>3.3.5.3 Runtime API </H5>
+<OL type=A>
+  <P>
+  <LI>Object construction: 
+  <P>After constructing a global (or local static) object, that will require 
+  destruction on exit, a termination function is <I>registered</I> as follows: 
+  <CENTER><CODE>extern "C" int __cxa_atexit ( void (*f)(void *), void *p, void 
+  *d ); </CODE></CENTER>This registration, e.g. 
+  <CODE>__cxa_atexit(f,p,d)</CODE>, is intended to cause the call 
+  <CODE>f(p)</CODE> when DSO <CODE>d</CODE> is unloaded, before all such 
+  termination calls registered before this one. It returns zero if registration 
+  is successful, nonzero on failure. 
+  <P>The registration function is not called from within the constructor. 
+  <P></P>
+  <LI>User <CODE>atexit</CODE> calls: 
+  <P>When the user registers exit functions with <CODE>atexit</CODE>, they 
+  should be registered with NULL parameters and DSO handles, i.e. 
+  <CENTER><CODE>__cxa_atexit ( f, NULL, NULL ); </CODE></CENTER>It is expected 
+  that implementations supporting both C and C++ will integrate this capability 
+  into the libc <CODE>atexit</CODE> implementation so that C-only DSOs will 
+  nevertheless interact with C++ programs in a C++-standard-conforming manner. 
+  No user interface to <CODE>__cxa_atexit</CODE> is supported, so the user is 
+  not able to register an <CODE>atexit</CODE> function with a parameter or a 
+  home DSO. 
+  <P></P>
+  <LI>Termination: 
+  <P>When linking any DSO containing a call to <CODE>__cxa_atexit</CODE>, the 
+  linker should define a hidden symbol <CODE>__dso_handle</CODE>, with a value 
+  which is an address in one of the object's segments. (It does not matter what 
+  address, as long as they are different in different DSOs.) It should also 
+  include a call to the following function in the FINI list (to be executed 
+  first): 
+  <CENTER><CODE>extern "C" void __cxa_finalize ( void *d ); </CODE></CENTER>The 
+  parameter passed should be <CODE>&amp;__dso_handle</CODE>. 
+  <P>Note that the above can be accomplished either by explicitly providing the 
+  symbol and call in the linker, or by implicitly including a relocatable object 
+  in the link with the necessary definitions, using a .fini_array section for 
+  the FINI call. Also, note that these can be omitted for an object with no 
+  calls to <CODE>__cxa_atexit</CODE>, but they can be safely included in all 
+  objects. 
+  <P>When <CODE>__cxa_finalize(d)</CODE> is called, it should walk the 
+  termination function list, calling each in turn if <CODE>d</CODE> matches 
+  <CODE>__dso_handle</CODE> for the termination function entry. If <CODE>d == 
+  NULL</CODE>, it should call all of them. Multiple calls to 
+  <CODE>__cxa_finalize</CODE> shall not result in calling termination function 
+  entries multiple times; the implementation may either remove entries or mark 
+  them finished. 
+  <P>When the main program calls <CODE>exit</CODE>, it must call any remaining 
+  <CODE>__cxa_atexit</CODE>-registered functions, either by calling 
+  <CODE>__cxa_finalize(NULL)</CODE>, or by walking the registration list itself. 
+
+  <P>Note that the destructors must be called by <CODE>__cxa_finalize()</CODE> 
+  in the opposite of the order in which they were enqueued by 
+  <CODE>__cxa_atexit</CODE>. </P></LI></OL>
+<P>Since <CODE>__cxa_atexit</CODE> and <CODE>__cxa_finalize</CODE> must both 
+manipulate the same termination function list, they must be defined in the 
+implementation's runtime library, rather than in the individual linked objects. 
+<P><A name=demangler>
+<H3>3.4 Demangler API </H3>
+<P><B>Synopsis</B>: <CODE><PRE>namespace abi {
+  extern "C" char* __cxa_demangle (const char* mangled_name,
+				   char* buf,
+				   size_t* n,
+				   int* status);
+}
+
+</CODE></PRE>
+<UL>
+  <P>
+  <LI><CODE>mangled-name</CODE> is a pointer to a null-terminated array of 
+  characters. It may be either an external name, i.e. with a "_Z" prefix, or an 
+  internal NTBS mangling, e.g. of a type for type_info. 
+  <P></P>
+  <LI><CODE>buf</CODE> may be null. If it is non-null, then <CODE>n</CODE> must 
+  also be nonnull, and <CODE>buf</CODE> is a pointer to an array, of at least 
+  <CODE>*n</CODE> characters, that was allocated using malloc. 
+  <P></P>
+  <LI><CODE>status</CODE> points to an int that is used as an error indicator. 
+  It is permitted to be null, in which case the user just doesn't get any 
+  detailed error information. </LI></UL>
+<P><B>Behavior</B>: The return value is a pointer to a null-terminated array of 
+characters, the demangled name. Ambiguities are possible between extern "C" 
+object names and type manglings, e.g. "i" may be either an object named "i" or 
+the built-in "int" type. Such ambiguous arguments are assumed to be type 
+manglings. If the user has a set of external names to demangle, they should 
+check that the names are in fact mangled (that is, begin with "_Z") before 
+passing them to <CODE>__cxa_demangle</CODE>. 
+<P>If there is an error in demangling, the return value is a null pointer. The 
+user can examine *status to find out what kind of error occurred. Meaning of 
+error indications: 
+<UL>
+  <LI>0: success 
+  <LI>-1: memory allocation failure 
+  <LI>-2: invalid mangled name 
+  <LI>-3: invalid arguments (e.g. buf nonnull and n null) </LI></UL>
+<P><B>Memory management</B>: 
+<UL>
+  <LI>If <CODE>buf</CODE> is a null pointer, <CODE>__cxa_demangle</CODE> 
+  allocates a new buffer with <CODE>malloc</CODE>. It stores the size of the 
+  buffer in <CODE>*n</CODE>, if <CODE>n</CODE> is not <CODE>NULL</CODE>. 
+  <LI>If <CODE>buf</CODE> is not a null pointer, it must have been allocated 
+  with <CODE>malloc</CODE>. If <CODE>buf</CODE> is not big enough to store the 
+  resulting demangled name, <CODE>__cxa_demangle</CODE> must either a) call 
+  <CODE>free</CODE> to deallocate <CODE>buf</CODE> and then allocate a new 
+  buffer with <CODE>malloc</CODE>, or b) call <CODE>realloc</CODE> to increase 
+  the size of the buffer. In either case, the new buffer size will be stored in 
+  <CODE>*n</CODE>. </LI></UL>
+<P>
+<HR>
+
+<P><A name=layout>
+<H2>Chapter 4: Exception Handling </H2>
+<P>
+<HR>
+
+<P>See <A href="http://www.codesourcery.com/cxx-abi/abi-eh.html">Exception 
+Handling</A> document, currently just the base psABI-level material, and the HP 
+<A href="http://www.codesourcery.com/cxx-abi/exceptions.pdf">exception 
+handling</A> working paper, 8 December 1999. 
+<P>
+<HR>
+
+<P><A name=layout>
+<H2>Chapter 5: Linkage and Object Files </H2>
+<P>
+<HR>
+
+<P><A name=mangling>
+<H3>5.1 External Names (a.k.a. Mangling) </H3>
+<P>
+<H4>5.1.1 General </H4>
+<P>This section specifies the <I>mangling</I>, i.e. encoding, of external names 
+(external in the sense of being visible outside the object file where they 
+occur). The encoding is formalized as a derivation grammar along with the 
+explanatory text, in a modified BNF with the following conventions: 
+<UL>
+  <LI>Non-terminals are delimited by diamond braces: "&lt;&gt;". 
+  <LI>Italics in non-terminals are modifiers to be ignored, e.g. 
+  &lt;<I>function</I> name&gt; is the same as &lt;name&gt;. 
+  <LI>Spaces are to be ignored. 
+  <LI>Text beginning with '#' is comments, to be ignored. 
+  <LI>Tokens in square brackets "[]" are optional. 
+  <LI>Tokens are placed in parentheses "()" for grouping purposes. 
+  <LI>'*' repeats the preceding item 0 or more times. 
+  <LI>'+' repeats the preceding item 1 or more times. 
+  <LI>All other characters are terminals, representing themselves. </LI></UL>
+<P>See the separate <A 
+href="http://www.codesourcery.com/cxx-abi/abi-mangling.html">table</A> 
+summarizing the encoding characters used as terminals. Also see additional <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#mangling">mangling 
+examples</A> in the separate ABI examples document. 
+<P>In the various explanatory examples, we use <CODE>Ret?</CODE> for an unknown 
+function return type (i.e. that is not given by the mangling), or 
+<CODE>Type?</CODE> for an unknown data type. 
+<P>
+<H4>5.1.2 General Structure </H4>
+<P>Entities with C linkage and global namespace variables are not mangled. 
+Mangled names have the general structure: <PRE><FONT color=blue><CODE>
+    &lt;mangled-name&gt; ::= _Z &lt;encoding&gt;
+    &lt;encoding&gt; ::= &lt;<I>function</I> name&gt; &lt;bare-function-type&gt;
+	       ::= &lt;<I>data</I> name&gt;
+	       ::= &lt;special-name&gt;
+</PRE></FONT></CODE>Thus, a name is mangled by prefixing "_Z" to an encoding of 
+its name, and in the case of functions its type (to support overloading). At 
+this top level, function types do not have the special delimiter characters 
+required when nested (see below). The type is omitted for variables and static 
+data members. 
+<P>For the purposes of mangling, the name of an anonymous union is considered to 
+be the name of the first named data member found by a pre-order, depth-first, 
+declaration-order walk of the data members of the anonymous union. If there is 
+no such data member (i.e., if all of the data members in the union are unnamed), 
+then there is no way for a program to refer to the anonymous union, and there is 
+therefore no need to mangle its name. </P>
+<P>All of these examples: 
+<BLOCKQUOTE><CODE><PRE>union { int i; int j; };
+union { union { int : 7 }; union { int i; }; };
+union { union { int j; } i; };
+</PRE></CODE></BLOCKQUOTE>are considered to have the name <CODE>i</CODE> for the 
+purposes of mangling. 
+<P></P><PRE><FONT color=blue><CODE>
+    &lt;name&gt; ::= &lt;nested-name&gt;
+	   ::= &lt;unscoped-name&gt;
+	   ::= &lt;unscoped-template-name&gt; &lt;template-args&gt;
+	   ::= &lt;local-name&gt;	# See <A href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-scope">Scope Encoding</A> below
+
+    &lt;unscoped-name&gt; ::= &lt;unqualified-name&gt;
+		    ::= St &lt;unqualified-name&gt;   # ::std::
+
+    &lt;unscoped-template-name&gt; ::= &lt;unscoped-name&gt;
+			     ::= &lt;substitution&gt;
+</PRE></FONT></CODE>Names of objects nested in namespaces or classes are 
+identified as a delimited sequence of names identifying the enclosing scopes. In 
+addition, when naming a class member function, CV-qualifiers may be prefixed to 
+the compound name, encoding the <CODE>this</CODE> attributes. Note that if 
+member function CV-qualifiers are required, the delimited form must be used even 
+if the remainder of the name is a single substitution. <PRE><CODE><FONT color=blue>
+    &lt;nested-name&gt; ::= N [&lt;CV-qualifiers&gt;] &lt;prefix&gt; &lt;unqualified-name&gt; E
+		  ::= N [&lt;CV-qualifiers&gt;] &lt;template-prefix&gt; &lt;template-args&gt; E
+
+    &lt;prefix&gt; ::= &lt;prefix&gt; &lt;unqualified-name&gt;
+	     ::= &lt;template-prefix&gt; &lt;template-args&gt;
+             ::= &lt;template-param&gt;
+	     ::= # empty
+	     ::= &lt;substitution&gt;
+
+    &lt;template-prefix&gt; ::= &lt;prefix&gt; &lt;<I>template</I> unqualified-name&gt;
+                      ::= &lt;template-param&gt;
+                      ::= &lt;substitution&gt;
+    &lt;unqualified-name&gt; ::= &lt;operator-name&gt;
+                       ::= &lt;ctor-dtor-name&gt;  
+                       ::= &lt;source-name&gt;   
+
+    &lt;source-name&gt; ::= &lt;<I>positive length</I> number&gt; &lt;identifier&gt;
+    &lt;number&gt; ::= [n] &lt;<I>non-negative decimal integer</I>&gt;
+    &lt;identifier&gt; ::= &lt;<I>unqualified source code identifier</I>&gt;
+
+</PRE></CODE></FONT>
+<P>&lt;number&gt; is a pseudo-terminal representing a decimal integer, with a 
+leading 'n' for negative integers. It is used in &lt;source-name&gt; to provide 
+the byte length of the following identifier. &lt;number&gt;s appearing in 
+mangled names never have leading zeroes, except for the value zero, represented 
+as '0'. &lt;identifier&gt; is a pseudo-terminal representing the unqualified 
+identifier for the entity in the source code. 
+<P>Note that &lt;source-name&gt; in the productions for &lt;unqualified-name&gt; 
+may be either a function or data object name when derived from &lt;name&gt;, or 
+a class or enum name when derived from &lt;type&gt;. 
+<P><A name=mangling-operator>
+<H4>5.1.3 Operator Encodings </H4>
+<P>Operators appear as function names, and in nontype template argument 
+expressions. Unlike Cfront, unary and binary operators using the same symbol 
+have different encodings. All operators are encoded using exactly two letters, 
+the first of which is lowercase. <PRE><FONT color=blue><CODE>
+  &lt;operator-name&gt; ::= nw	# new           
+		  ::= na	# new[]
+		  ::= dl	# delete        
+		  ::= da	# delete[]      
+		  ::= ps        # + (unary)
+		  ::= ng	# - (unary)     
+		  ::= ad	# &amp; (unary)     
+		  ::= de	# * (unary)     
+		  ::= co	# ~             
+		  ::= pl	# +             
+		  ::= mi	# -             
+		  ::= ml	# *             
+		  ::= dv	# /             
+		  ::= rm	# %             
+		  ::= an	# &amp;             
+		  ::= or	# |             
+		  ::= eo	# ^             
+		  ::= aS	# =             
+		  ::= pL	# +=            
+		  ::= mI	# -=            
+		  ::= mL	# *=            
+		  ::= dV	# /=            
+		  ::= rM	# %=            
+		  ::= aN	# &amp;=            
+		  ::= oR	# |=            
+		  ::= eO	# ^=            
+		  ::= ls	# &lt;&lt;            
+		  ::= rs	# &gt;&gt;            
+		  ::= lS	# &lt;&lt;=           
+		  ::= rS	# &gt;&gt;=           
+		  ::= eq	# ==            
+		  ::= ne	# !=            
+		  ::= lt	# &lt;             
+		  ::= gt	# &gt;             
+		  ::= le	# &lt;=            
+		  ::= ge	# &gt;=            
+		  ::= nt	# !             
+		  ::= aa	# &amp;&amp;            
+		  ::= oo	# ||            
+		  ::= pp	# ++            
+		  ::= mm	# --            
+		  ::= cm	# ,             
+		  ::= pm	# -&gt;*           
+		  ::= pt	# -&gt;            
+		  ::= cl	# ()            
+		  ::= ix	# []            
+		  ::= qu	# ?             
+		  ::= st	# sizeof (a type)
+		  ::= sz	# sizeof (an expression)
+		  ::= cv &lt;type&gt;	# (cast)        
+		  ::= v &lt;digit&gt; &lt;source-name&gt;	# vendor extended operator
+
+</PRE></FONT></CODE>
+<P>Vendors who define builtin extended operators (e.g. __alignof) shall encode 
+them as a 'v' prefix followed by the operand count as a single decimal digit, 
+and the name in &lt;length,ID&gt; form. </P>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"><I> For a 
+user-defined conversion operator the result type (i.e., the type to which the 
+operator converts) is part of the mangled name of the function. If the 
+conversion operator is a member template, the result type will appear before the 
+template parameters. There may be forward references in the result type to the 
+template parameters. </I></P>
+<P><A name=mangling-special>
+<H4>5.1.4 Other Special Functions and Entities </H4>
+<P>Associated with a virtual table are several entities with mangled external 
+names: the virtual table itself, the VTT for construction, the typeinfo 
+structure, and the name it references. Each has a &lt;special-name&gt; encoding 
+that is a simple two-character code, prefixed to the type encoding for the class 
+to which it applies. <PRE><FONT color=blue><CODE>
+  &lt;special-name&gt; ::= TV &lt;type&gt;	# virtual table
+		 ::= TT &lt;type&gt;	# VTT structure (construction vtable index)
+		 ::= TI &lt;type&gt;	# typeinfo structure
+		 ::= TS &lt;type&gt;	# typeinfo name (null-terminated byte string)
+</PRE></FONT></CODE>
+<P>Initialization of certain objects with static storage duration requires a 
+guard variable to prevent multiple initialization. The mangled name of a guard 
+variable is the name of the guarded variable prefixed with <CODE>GV</CODE>. <PRE><FONT color=blue><CODE>
+  &lt;special-name&gt; ::= GV &lt;<I>object</I> name&gt;	# Guard variable for one-time initialization
+			# No &lt;type&gt;
+
+</PRE></FONT></CODE>
+<P>Virtual function override thunks come in two forms. Those overriding from a 
+non-virtual base, with fixed <CODE>this</CODE> adjustments, use a "Th" prefix 
+and encode the required adjustment offset, probably negative, indicated by a 'n' 
+prefix, and the encoding of the target function. Those overriding from a virtual 
+base must encode two offsets after a "Tv" prefix. The first is the constant 
+adjustment to the nearest virtual base (of the full object), of which the 
+defining object is a non-virtual base. It is coded like the non-virtual case, 
+with a 'n' prefix if negative. The second offset identifies the vcall offset in 
+the nearest virtual base, which will be used to finish adjusting 
+<CODE>this</CODE> to the full object. After these two offsets comes the encoding 
+of the target function. The target function encodings of both thunks incorporate 
+the function type; no additional type is encoded for the thunk itself. <PRE><FONT color=blue><CODE>
+  &lt;special-name&gt; ::= T &lt;call-offset&gt; &lt;<I>base</I> encoding&gt;
+		      # <I>base</I> is the nominal target function of thunk
+  &lt;call-offset&gt; ::= h &lt;nv-offset&gt; _
+		::= v &lt;v-offset&gt; _
+  &lt;nv-offset&gt; ::= &lt;<I>offset</I> number&gt;
+		      # non-virtual base override
+  &lt;v-offset&gt;  ::= &lt;<I>offset</I> number&gt; _ &lt;<I>virtual offset</I> number&gt;
+		      # virtual base override, with vcall offset
+
+</PRE></FONT></CODE>
+<P>Virtual function override thunks with covariant returns are twice as complex. 
+Just as normal virtual function override thunks must adjust the <I>this</I> 
+pointer before calling the base function, those with covariant returns must 
+adjust the return pointer after they return from the base function. So the 
+mangling must also encode a fixed offset to a non-virtual base, and possibly an 
+offset to a vbase offset in the vtable to get to the virtual base containing the 
+result subobject. We achieve this by encoding two &lt;call-offset&gt; 
+components, either of which may be either virtual or non-virtual. <PRE><FONT color=blue><CODE>
+  &lt;special-name&gt; ::= Tc &lt;call-offset&gt; &lt;call-offset&gt; &lt;<I>base</I> encoding&gt;
+		      # <I>base</I> is the nominal target function of thunk
+		      # first <I>call-offset</I> is 'this' adjustment
+		      # second <I>call-offset</I> is result adjustment
+
+</PRE></FONT></CODE>
+<P>Constructors and destructors are simply special cases of 
+&lt;unqualified-name&gt;, where the final &lt;unqualified-name&gt; of a nested 
+name is replaced by one of the following: <PRE><FONT color=blue><CODE>
+  &lt;ctor-dtor-name&gt; ::= C1	# complete object constructor
+		   ::= C2	# base object constructor
+		   ::= C3	# complete object allocating constructor
+		   ::= D0	# deleting destructor
+		   ::= D1	# complete object destructor
+		   ::= D2	# base object destructor
+
+</PRE></FONT></CODE>
+<P><A name=mangling-type>
+<H4>5.1.5 Type encodings </H4>
+<P>Types are encoded as follows: <PRE><FONT color=blue><CODE>
+  &lt;type&gt; ::= &lt;builtin-type&gt;
+	 ::= &lt;function-type&gt;
+	 ::= &lt;class-enum-type&gt;
+	 ::= &lt;array-type&gt;
+	 ::= &lt;pointer-to-member-type&gt;
+	 ::= &lt;template-param&gt;
+	 ::= &lt;template-template-param&gt; &lt;template-args&gt;
+	 ::= &lt;substitution&gt; # See <A href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-compression">Compression</A> below
+
+</PRE></FONT></CODE>
+<P>Types are qualified (optionally) by single-character prefixes encoding 
+cv-qualifiers and/or pointer, reference, complex, or imaginary types: <PRE><FONT color=blue><CODE>
+  &lt;type&gt; ::= &lt;CV-qualifiers&gt; &lt;type&gt;
+	 ::= P &lt;type&gt;	# pointer-to
+	 ::= R &lt;type&gt;	# reference-to
+	 ::= C &lt;type&gt;	# complex pair (C 2000)
+	 ::= G &lt;type&gt;	# imaginary (C 2000)
+	 ::= U &lt;source-name&gt; &lt;type&gt;	# vendor extended type qualifier
+
+  &lt;CV-qualifiers&gt; ::= [r] [V] [K] 	# restrict (C99), volatile, const
+
+</PRE></FONT></CODE>
+<P>Vendors who define extended type qualifiers (e.g. _near, _far for pointers) 
+shall encode them as a 'U' prefix followed by the name in &lt;length,ID&gt; 
+form. 
+<P>In cases where multiple order-insensitive qualifiers are present, they should 
+be ordered 'K' (closest to the base type), 'V', 'r', and 'U' (farthest from the 
+base type), with the 'U' qualifiers in alphabetical order by the vendor name 
+(with alphabetically earlier names closer to the base type). For example, 
+<CODE>int* volatile const restrict _far p</CODE> has mangled type name 
+<CODE>U4_farrVKPi</CODE>. 
+<P><I>Vendors must therefore specify which of their extended qualifiers are 
+considered order-insensitive, not necessarily on the basis of whether their 
+language translators impose an order in source code. They are encouraged to 
+resolve questionable cases as being order-insensitive to maximize consistency in 
+mangling. </I>
+<P><I>For purposes of substitution, given a CV-qualified type, the base type is 
+substitutible, and the type with all the C, V, and r qualifiers plus any vendor 
+extended types in the same order-insensitive set is substitutible; any type with 
+a subset of those qualifiers is not. That is, given a type <CODE>const volatile 
+foo</CODE>, the fully qualified type or foo may be substituted, but not 
+<CODE>volatile foo</CODE> nor <CODE>const foo</CODE>. Also, note that the 
+grammar above is written with the assumption that vendor extended type 
+qualifiers will be in the order-sensitive (not CV) set. An appropriate grammar 
+modification would be necessitated by an order-insensitive vendor extended type 
+qualifier like const or volatile. </I>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>The 
+restrict qualifier is part of the C99 standard, but is strictly an extension to 
+C++ at this time. There is no standard specification of whether the restrict 
+attribute is part of the type for overloading purposes. An implementation should 
+include its encoding in the mangled name if and only if it also treats it as a 
+distinguishing attribute for overloading purposes. This ABI does not specify 
+that choice. </I><A name=mangling-builtin>
+<P>Builtin types are represented by single-letter codes: <PRE><FONT color=blue><CODE>
+  &lt;builtin-type&gt; ::= v	# void
+		 ::= w	# wchar_t
+		 ::= b	# bool
+		 ::= c	# char
+		 ::= a	# signed char
+		 ::= h	# unsigned char
+		 ::= s	# short
+		 ::= t	# unsigned short
+		 ::= i	# int
+		 ::= j	# unsigned int
+		 ::= l	# long
+		 ::= m	# unsigned long
+		 ::= x	# long long, __int64
+		 ::= y	# unsigned long long, __int64
+		 ::= n	# __int128
+		 ::= o	# unsigned __int128
+		 ::= f	# float
+		 ::= d	# double
+		 ::= e	# long double, __float80
+		 ::= g	# __float128
+		 ::= z	# ellipsis
+		 ::= u &lt;source-name&gt;	# vendor extended type
+
+</PRE></FONT></CODE>
+<P>Vendors who define builtin extended types shall encode them as a 'u' prefix 
+followed by the name in &lt;length,ID&gt; form. 
+<P>Function types are composed from their parameter types and possibly the 
+result type. Except at the outer level type of an &lt;encoding&gt;, or in the 
+&lt;encoding&gt; of an otherwise delimited external name in a 
+&lt;template-parameter&gt; or &lt;local-name&gt; function encoding, these types 
+are delimited by an "F..E" pair. For purposes of substitution (see <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-compression">Compression</A> 
+below), delimited and undelimited function types are considered the same. 
+<P>Whether the mangling of a function type includes the return type depends on 
+the context and the nature of the function. The rules for deciding whether the 
+return type is included are: 
+<OL>
+  <LI>Template functions (names or types) have return types encoded, with the 
+  exceptions listed below. 
+  <LI>Function types not appearing as part of a function name mangling, e.g. 
+  parameters, pointer types, etc., have return type encoded, with the exceptions 
+  listed below. 
+  <LI>Non-template function names do not have return types encoded. </LI></OL>The 
+exceptions mentioned in (1) and (2) above, for which the return type is never 
+included, are 
+<UL>
+  <LI>Constructors. 
+  <LI>Destructors. 
+  <LI>Conversion operator functions, e.g. <CODE>operator int</CODE>. </LI></UL>
+<P>Empty parameter lists, whether declared as <CODE>()</CODE> or conventionally 
+as <CODE>(void)</CODE>, are encoded with a void parameter specifier (v). 
+Therefore function types always encode at least one parameter type, and function 
+manglings can always be distinguished from data manglings by the presence of the 
+type. Member functions do not encode the types of implicit parameters, either 
+<CODE>this</CODE> or the VTT parameter. 
+<P>A "Y" prefix for the bare function type encodes extern "C". If there are any 
+cv-qualifiers of <CODE>this</CODE>, they are encoded at the beginning of the 
+&lt;qualified-name&gt; as described above. This affects only type mangling, 
+since extern "C" function objects have unmangled names. <PRE><FONT color=blue><CODE>
+  &lt;function-type&gt; ::= F [Y] &lt;bare-function-type&gt; E
+  &lt;bare-function-type&gt; ::= &lt;<I>signature</I> type&gt;+
+	# types are possible return type, then parameter types
+
+</PRE></FONT></CODE>
+<P>A class, union, or enum type is simply a name, It may be a simple 
+&lt;unqualified-name&gt;, with or without a template argument list, or a more 
+complex &lt;nested-name&gt;. Thus, it is encoded like a function name, except 
+that no CV-qualifiers are present in a nested name specification. <PRE><CODE><FONT color=blue>
+  &lt;class-enum-type&gt; ::= &lt;name&gt;
+</PRE></FONT></CODE>
+<P>Array types encode the dimension (number of elements) and the element type. 
+Note that "array" parameters to functions are encoded as pointer types. For 
+variable length arrays (C99 VLAs), the dimension (but not the '_' separator) is 
+omitted. <PRE><FONT color=blue><CODE>
+  &lt;array-type&gt; ::= A &lt;<I>positive dimension</I> number&gt; _ &lt;<I>element</I> type&gt;
+	       ::= A [&lt;<I>dimension</I> expression&gt;] _ &lt;<I>element</I> type&gt;
+
+</PRE></FONT></CODE>
+<P>When the dimension is an expression involving template parameters, the second 
+production is used. Thus, the declarations: <PRE><CODE>    template&lt;int I&gt; void foo (int (&amp;)[I + 1]) { }
+    template void foo&lt;2&gt; (int (&amp;)[3]);
+</PRE></CODE>produce the mangled name "<CODE>_Z3fooILi2EEvRAplT_Li1E_i</CODE>". 
+<P>Pointer-to-member types encode the class and member types. <PRE><FONT color=blue><CODE>
+  &lt;pointer-to-member-type&gt; ::= M &lt;<I>class</I> type&gt; &lt;<I>member</I> type&gt;
+
+</PRE></FONT></CODE>
+<P>Note that for a pointer to cv-qualified member function, the qualifiers are 
+attached to the function type, so <PRE><CODE>
+    struct A;
+    void f (void (A::*)() const) {}
+</CODE></PRE>produces the mangled name "<CODE>_Z1fM1AKFvvE</CODE>". 
+<P>When function and member function template instantiations reference the 
+template parameters in their parameter/result types, the template parameter 
+number is encoded, with the sequence T_, T0_, ... Class template parameter 
+references are mangled using the standard mangling for the actual parameter 
+type, typically a substitution. Note that a template parameter reference is a 
+substitution candidate, distinct from the type (or other substitutible entity) 
+that is the actual parameter. <PRE><CODE><FONT color=blue>
+  &lt;template-param&gt; ::= T_	# first template parameter
+		   ::= T &lt;<I>parameter-2 non-negative</I> number&gt; _
+  &lt;template-template-param&gt; ::= &lt;template-param&gt;
+			    ::= &lt;substitution&gt;
+
+</FONT></CODE></PRE>
+<P>Template argument lists appear after the unqualified template name, and are 
+bracketed by I/E. This is used in names for specializations in particular, but 
+also in types and scope identification. <PRE><FONT color=blue><CODE>
+  &lt;template-args&gt; ::= I &lt;template-arg&gt;+ E
+  &lt;template-arg&gt; ::= &lt;type&gt;			# type or template
+		 ::= X &lt;expression&gt; E		# expression
+                 ::= &lt;expr-primary&gt;             # simple expressions
+
+  &lt;expression&gt; ::= &lt;<I>unary</I> operator-name&gt; &lt;expression&gt;
+	       ::= &lt;<I>binary</I> operator-name&gt; &lt;expression&gt; &lt;expression&gt;
+	       ::= &lt;<I>trinary</I> operator-name&gt; &lt;expression&gt; &lt;expression&gt; &lt;expression&gt;
+               ::= st &lt;type&gt;
+               ::= &lt;template-param&gt;
+               ::= sr &lt;type&gt; &lt;unqualified-name&gt;                   # dependent name
+               ::= sr &lt;type&gt; &lt;unqualified-name&gt; &lt;template-args&gt;   # dependent template-id
+	       ::= &lt;expr-primary&gt;
+
+  &lt;expr-primary&gt; ::= L &lt;type&gt; &lt;<I>value</I> number&gt; E                   # integer literal
+                 ::= L &lt;type &lt;<I>value</I> float&gt; E                     # floating literal
+                 ::= L &lt;mangled-name&gt; E                           # external name
+
+</PRE></CODE></FONT>
+<P>Type arguments appear using their regular encoding. For example, the template 
+class "A&lt;char, float&gt;" is encoded as "1AIcfE". A slightly more involved 
+example is a dependent function parameter type "A&lt;T2&gt;::X" (T2 is the 
+second template parameter) which is encoded as "N1AIT0_E1XE", where the "N...E" 
+construct is used to describe a qualified name. 
+<P>Literal arguments, e.g. "A&lt;42L&gt;", are encoded with their type and 
+value. Negative integer values are preceded with "n"; for example, 
+"A&lt;-42L&gt;" becomes "1AILln42EE". The bool value false is encoded as 0, true 
+as 1. 
+<P>Floating-point literals are encoded using a fixed-length lowercase 
+hexadecimal string corresponding to the internal representation (IEEE on 
+Itanium), high-order bytes first, without leading zeroes. For example: "Lf 
+bf800000 E" is -1.0f on Itanium. 
+<P>The encoding for a literal of an enumerated type is the encoding of the type 
+name followed by the encoding of the numeric value of the literal in its base 
+integral type (which deals with values that don't have names declared in the 
+type). 
+<P>A reference to an entity with external linkage is encoded with "L&lt;mangled 
+name&gt;E". For example: <CODE><PRE>          void foo(char); // mangled as _Z3fooc
+          template&lt;void (&amp;)(char)&gt; struct CB;
+          // CB&lt;foo&gt; is mangled as "2CBIL_Z3foocEE"
+
+</PRE></CODE>
+<P>The &lt;encoding&gt; of an extern "C" function is treated like global-scope 
+data, i.e. as its &lt;source-name&gt; without a type. For example: <CODE><PRE>          extern "C" bool IsEmpty(char *); // (un)mangled as IsEmpty
+          template&lt;void (&amp;)(char *)&gt; struct CB;
+          // CB&lt;IsEmpty&gt; is mangled as "2CBIL_Z7IsEmptyEE"
+
+</PRE></CODE>
+<P>An expression, e.g., "B&lt;(J+1)/2&gt;", is encoded with a prefix traversal 
+of the operators involved, delimited by "X...E". The operators are encoded using 
+their two letter mangled names. For example, "B&lt;(J+1)/2&gt;", if J is the 
+third template parameter, becomes "1BI Xdv pl T1_ Li1E Li2E E E" (the blanks are 
+present only to visualize the decomposition). Note that the expression is 
+mangled without constant folding or other simplification, and without 
+parentheses, which are implicit in the prefix representation. Except for the 
+parentheses, therefore, it represents the source token stream. (C++ Standard 
+reference 14.5.5.1 p. 5.) 
+<P>If an expression is a qualified-name, and the qualifying scope is a dependent 
+type, one of the <CODE>sr</CODE> productions is used, rather than the 
+<CODE>&lt;mangled-name&gt;</CODE> production. If the qualified name refers to an 
+operator for which both unary and binary manglings are available, the mangling 
+chosen is the mangling for the binary version. 
+<P><A name=mangling-scope>
+<H4>5.1.6 Scope Encoding </H4>
+<P>A nonlocal scope is encoded as the qualifier of a qualified name: it can be 
+the top-level name qualification or it can appear inside &lt;type&gt; to denote 
+dependent types or bind specific names as arguments. Qualified names are encoded 
+as: <CODE><PRE>   N &lt;qual 1&gt; ... &lt;qual N&gt; &lt;unqual name&gt; E
+</PRE></CODE>where each &lt;qual K&gt; is the encoding of a namespace name or a 
+class name (with the latter possibly including a template argument list). 
+<P>Occasionally entities in local scopes must be mangled too (e.g. because 
+inlining or template compilation causes multiple translation units to require 
+access to that entity). The encoding for such entities is as follows: <CODE><PRE><FONT color=blue>
+  &lt;local-name&gt; := Z &lt;<I>function</I> encoding&gt; E &lt;<I>entity</I> name&gt; [&lt;discriminator&gt;]
+               := Z &lt;<I>function</I> encoding&gt; E s [&lt;discriminator&gt;]
+  &lt;discriminator&gt; := _ &lt;<I>non-negative</I> number&gt; 
+</FONT></PRE></CODE>
+<P>The first production is used for named local static objects and classes, 
+which are identified by their declared names. The &lt;<I>entity</I> name&gt; may 
+itself be a compound name, but it is relative to the closest enclosing function, 
+i.e. none of the components of the function encoding appear in the entity name. 
+It is possible to have nested function scopes, e.g. when dealing with a member 
+function in a local class. In such cases, the function encoding will itself have 
+&lt;local-name&gt; structure. The discriminator is used only for the second and 
+later occurrences of the same name within a single function. In this case 
+&lt;number&gt; is n - 2, if this is the nth occurrence, in lexical order, of the 
+given name. 
+<P>The second production is used for string literals. The discriminator is used 
+only if there is more than one, for the second and subsequent ones. In this case 
+&lt;number&gt; is n - 2, if this is the nth distinct string literal, in lexical 
+order, appearing in the function. Multiple references to the same string literal 
+produce one string object with one name in the sequence. <I>Note that this 
+assumes that the same string literal occurring twice in a given function in fact 
+represents a single entity, i.e. has a unique address. </I><I>
+<P>For both named objects and string literals, the numbering order is strictly 
+lexical order based on the original token sequence. All objects occurring in 
+that sequence are to be numbered, even if subsequent optimization makes some of 
+them unnecessary. The ordering of literals appearing in a mem-initializer-list 
+shall be the order that the literals appear in the source, which may be 
+different from the order in which the initializers will be executed when the 
+program runs. It is expected that this will be the 'natural' order in most 
+compilers. In any case, conflicts would arise only if different compilation 
+units including the same code were compiled by different compilers, and multiple 
+entities requiring mangling had the same name. </I>
+<P>For static objects in constructors and destructors, the mangling of the 
+complete object constructor or destructor is used as the base function name, 
+i.e. the C1 or D1 version. This yields mangled names that are consistent across 
+the versions. 
+<P>Example: <CODE><PRE>   namespace N {
+      inline char* f(int i) {
+         static char *p = "Itanium C++ ABI";  // p = 1, "..." = 2
+         {  struct X {                      // X = 3
+               void g() {}
+            };   }
+         return p[i];
+      }
+   }
+</PRE></CODE>
+<UL>
+  <LI>"<CODE>_ZZN1N1fEiE1p</CODE>": encoding of N::f::p (first local mangled 
+  entity) 
+  <LI>"<CODE>_ZZN1N1fEiEs</CODE>": encoding of N::f::"Itanium C++ ABI" (no 
+  discriminator) 
+  <LI>"<CODE>_ZNZN1N1fEiE1X1gE</CODE>": encoding of N::f::X::g() (third local 
+  mangled entity used as a class-qualifier) </LI></UL>See additional examples in 
+the <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#mangling-ex">ABI 
+examples</A> document. 
+<P><A name=mangling-compression>
+<H4>5.1.7 Compression </H4>
+<P>To minimize the length of external names, we use two mechanisms, a 
+substitution encoding to eliminate repetition of name components, and 
+abbreviations for certain common names. Each non-terminal in the grammar above 
+for which &lt;substitution&gt; appears on the right-hand side is both a source 
+of future substitutions and a candidate for being substituted. There are two 
+exceptions that appear to be substitution candidates from the grammar, but are 
+explicitly excluded: 
+<UL>
+  <LI>&lt;builtin-type&gt; other than vendor extended types, and 
+  <LI>function and operator names other than extern "C" functions. </LI></UL>
+<P><I>All substitutions are for entities that would appear in a symbol table. In 
+particular, we make substitutions for prefixes of qualified names, but not for 
+arbitrary components of them. Thus, the components ::n1::foo() and ::n2:foo() 
+appearing in the same name would not result in substituting for the second 
+"foo." Similarly, we do not substitute for expressions, though names appearing 
+in them might be substituted. The reason for this is to facilitate 
+implementations that use the symbol table to keep track of components that might 
+be substitutable. 
+<P>Note that the above exclusion of function and operator names from 
+consideration for substitution does <U>not</U> exclude the full function entity, 
+i.e. its name plus its signature encoding. </I>
+<P>Logically, the substitutable components of a mangled name are considered 
+left-to-right, components before the composite structure of which they are a 
+part. If a component has been encountered before, it is substituted as described 
+below. This decision is independent of whether its components have been 
+substituted, so an implementation may optimize by considering large structures 
+for substitution before their components. If a component has not been 
+encountered before, its mangling is identified, and it is added to a dictionary 
+of substitution candidates. No entity is added to the dictionary twice. 
+<P>The type of a non-static member function is considered to be different, for 
+the purposes of substitution, from the type of a namespace-scope or static 
+member function whose type appears similar. The types of two non-static member 
+functions are considered to be different, for the purposes of substitution, if 
+the functions are members of different classes. In other words, for the purposes 
+of substitution, the class of which the function is a member is considered part 
+of the type of function. </P>
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> 
+<I>Therefore, in the following example: 
+<BLOCKQUOTE><CODE><PRE>typedef void T();
+struct S {};
+void f(T*, T (S::*)) {}
+</PRE></CODE></BLOCKQUOTE>the function <CODE>f</CODE> is mangled as 
+<CODE>_Z1fPFvvEM1SFvvE</CODE>; the type of the member function pointed to by the 
+second parameter is not considered the same as the type of the function pointed 
+to by the first parameter. Both function types are, however, entered the 
+substitution table; subsequent references to either variant of the function type 
+will result in the use of substitutions. </I>
+<P></P>
+<P>Substitution is according to the production: <PRE><FONT color=blue><CODE>
+  &lt;substitution&gt; ::= S &lt;seq-id&gt; _
+		 ::= S_
+
+</PRE></FONT></CODE>The &lt;seq-id&gt; is a sequence number in base 36, using 
+digits and upper case letters, and identifies the &lt;seq-id&gt;-th encoded 
+component, in left-to-right order, starting at "0". As a special case, the first 
+substitutable entity is encoded as "S_", i.e. with no number, so the numbered 
+entities are the second one as "S0_", the third as "S1_", the twelfth as "SA_", 
+the thirty-eighth as "S10_", etc. All substitutable components are so numbered, 
+except those that have already been numbered for substitution. A component is 
+earlier in the substitution dictionary than the structure of which it is a part. 
+For example: <CODE><PRE>   "_ZN1N1TIiiE2mfES0_IddE": Ret? N::T&lt;int, int&gt;::mf(N::T&lt;double, double&gt;)
+</PRE></CODE>since the substitutions generated for this name are: <CODE><PRE>   "S_" == N (qualifier is less recent than qualified entity)
+   "S0_" == N::T (template-id comes before template)
+	(int is builtin, and isn't considered)
+   "S1_" == N::T&lt;int, int&gt;
+   "S2_" == N::T&lt;double, double&gt;
+</PRE></CODE>
+<P>Note that substitutable components are the represented symbolic constructs, 
+not their associated mangling character strings. Thus, a substituted object 
+matches its unsubstituted form, and a delimited &lt;function-type&gt; matches 
+its &lt;bare-function-type&gt;. 
+<P>In addition, the following catalog of abbreviations of the form "Sx" are 
+used: <PRE><FONT color=blue><CODE>
+   &lt;substitution&gt; ::= St # ::std::
+   &lt;substitution&gt; ::= Sa # ::std::allocator
+   &lt;substitution&gt; ::= Sb # ::std::basic_string
+   &lt;substitution&gt; ::= Ss # ::std::basic_string &lt; char,
+						 ::std::char_traits&lt;char&gt;,
+						 ::std::allocator&lt;char&gt; &gt;
+   &lt;substitution&gt; ::= Si # ::std::basic_istream&lt;char,  std::char_traits&lt;char&gt; &gt;
+   &lt;substitution&gt; ::= So # ::std::basic_ostream&lt;char,  std::char_traits&lt;char&gt; &gt;
+   &lt;substitution&gt; ::= Sd # ::std::basic_iostream&lt;char, std::char_traits&lt;char&gt; &gt;
+
+</PRE></FONT></CODE>
+<P>The abbreviation St is always an initial qualifier, i.e. appearing as the 
+first element of a compound name. It does not require N...E delimiters unless 
+either followed by more than one additional composite name component, or 
+preceded by CV-qualifiers for a member function. This adds the case: <PRE><FONT color=blue><CODE>
+   &lt;name&gt; ::= St &lt;unqualified-name&gt; # ::std::
+
+</PRE></FONT></CODE>For example: <CODE><PRE>   "_ZSt5state": ::std::state
+   "_ZNSt3_In4wardE": ::std::_In::ward
+</PRE></CODE>
+<P>
+<HR>
+
+<P><A name=vague>
+<H3>5.2 Vague Linkage </H3>
+<P>Many objects in C++ are not clearly part of a single object file, but are 
+required by the ODR to have a single definition. This section identifies, for 
+such objects, where (i.e. in which objects) they should be emitted, and what 
+special treatment might be required if duplicates are possible. 
+<P>In many cases, we will deal with duplicates by putting possibly duplicated 
+objects in distinct ELF sections or groups of sections, and using the COMDAT 
+feature of <CODE>SHT_GROUP</CODE> sections in the gABI to remove duplicates. We 
+will refer to this simply as using a COMDAT group, and specify the symbol to be 
+used to identify duplicates in the <CODE>SHT_GROUP</CODE> section. <I>COMDAT 
+groups are a new gABI feature specified during the Itanium ABI definition, and 
+may not be implemented everywhere immediately. See the separate <A 
+href="http://www.codesourcery.com/cxx-abi/abi-examples.html#vague">ABI 
+examples</A> document for a discussion of alternatives pending COMDAT 
+implementation. </I>
+<P>Note that nothing in this section should be construed to require COMDAT usage 
+for objects with internal linkage unless they may in fact be referenced outside 
+the translation unit where they appear, for instance due to inlining. 
+<P><A name=vague-inline></A>
+<H4>5.2.1 Out-of-line Functions</H4>
+<P>It may sometimes be necessary or desirable to reference an out-of-line copy 
+of a function declared inline, i.e. to reference a global symbol naming the 
+function. This may occur because the implementation cannot, or chooses not to, 
+inline the function, or because it needs an address rather than a call. In such 
+a case, the function is to be emitted in each object where its name is 
+referenced. A COMDAT group is used to eliminate duplicates, with the mangled 
+name of the function as the identifying symbol. 
+<P><A name=vague-static></A>
+<H4>5.2.2 Static Data </H4>
+<P>Inline functions, whether or not declared as such, and whether they are 
+inline or out-of-line copies, may reference static data or character string 
+literals, that must be kept in common among all copies by using the local symbol 
+mangling defined above. These objects are named according to the rules for local 
+names in the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-scope">Scope 
+Encoding </A>section above, and the definition of each is emitted in a COMDAT 
+group, identified by the symbol name described in the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#mangling-scope">Scope 
+Encoding </A>section above. Each COMDAT group must be emitted in any object with 
+references to the symbol for the object it contains, whether inline or 
+out-of-line. 
+<P>Some objects with static storage duration have associated guard variables 
+used to ensure that they are initialized only once (see <A 
+href="http://www.codesourcery.com/cxx-abi/once-ctor">3.3.2</A>). If the object 
+is emitted using a COMDAT group, the guard variable must be too. It is suggested 
+that it be emitted in the same COMDAT group as the associated data object, but 
+it may be emitted in its own COMDAT group, identified by its name. In either 
+case, it must be weak. 
+<P><A name=vague-vtable></A>
+<H4>5.2.3 Virtual Tables</H4>
+<P>The virtual table for a class is emitted in the same object containing the 
+definition of its <I>key function</I>, i.e. the first non-pure virtual function 
+that is not inline at the point of class definition. If there is no key 
+function, it is emitted everywhere used. The emitted virtual table includes the 
+full virtual table group for the class, any new construction virtual tables 
+required for subobjects, and the VTT for the class. They are emitted in a COMDAT 
+group, with the virtual table mangled name as the identifying symbol. <I>Note 
+that if the key function is not declared inline in the class definition, but its 
+definition later is always declared inline, it will be emitted in every object 
+containing the definition.</I> 
+<P><IMG alt="<b>NOTE</b>:" src="Itanium C++ ABI-Dateien/warning.gif"> <I>In the 
+abstract, a pure virtual destructor could be used as the key function, as it 
+must be defined even though it is pure. However, the ABI committee did not 
+realize this fact until after the specification of key function was complete; 
+therefore a pure virtual destructor cannot be the key function.</I> 
+<P><A name=vague-rtti></A>
+<H4>5.2.4 Typeinfo</H4>
+<P>The RTTI std::type_info structure for a complete class type is emitted in the 
+same object as its virtual table if dynamic, or everywhere referenced if not. 
+The RTTI std::type_info structure for an incomplete class type is emitted 
+wherever referenced. The RTTI std::type_info structures for various basic types 
+as specified by the <A 
+href="http://www.codesourcery.com/cxx-abi/abi.html#rtti">Run-Time Type 
+Information</A> section are provided by the runtime library. The RTTI name NTBS 
+objects are emitted with each referencing std::type_info object. 
+<P>The RTTI std::type_info structures for complete class types and basic types 
+are emitted in COMDAT groups identified by their mangled names. The RTTI 
+std::type_info structures for incomplete class types are emitted with other than 
+the ABI-defined complete type mangled names; an implementation may choose to 
+emit them as local static objects, or in COMDAT groups with 
+implementation-defined names and COMDAT identifiers. The RTTI name NTBS objects 
+are emitted in separate COMDAT groups identified by the NTBS mangled names as 
+weak symbols. 
+<P><A name=vague-ctor></A>
+<H4>5.2.5 Constructors and Destructors</H4>
+<P>Constructors and destructors for a class, whether implicitly-defined or 
+user-defined, are emitted under the same rules as other functions. That is, 
+user-defined constructors or destructors, unless the function is declared 
+inline, or has internal linkage, are emitted where defined, with their complete, 
+and base object variants. For destructors, in classes with a virtual destructor, 
+the deleting variant is emitted as well. A user-defined constructor or 
+destructor with non-inline, internal linkage is emitted where defined, with only 
+the variants actually referenced. Implicitly-defined or inline user-defined 
+constructors and destructors are emitted where referenced, each in its own 
+COMDAT group identified by the constructor or destructor name. 
+<P>This ABI does not require the generation or use of allocating constructors or 
+deleting destructors for classes without a virtual destructor. However, if an 
+implementation emits such functions, it must use the external names specified in 
+this ABI. If such a function has external linkage, it must be emitted wherever 
+referenced, in a COMDAT group whose name is the external name of the function. 
+<P><A name=vague-itemplate></A>
+<H4>5.2.6 Instantiated Templates</H4>
+<P>An instantiation of a class template requires: 
+<UL>
+  <P>
+  <LI>In the object where instantiated, the virtual table, any subobject 
+  construction virtual tables, and the VTT, are emitted in a COMDAT identified 
+  by the virtual table mangled name. 
+  <P></P>
+  <LI>Any static member data object is emitted in a COMDAT identified by its 
+  mangled name, in any object file with a reference to its name symbol. 
+  <P></P>
+  <LI>In the object where instantiated, virtual member functions are emitted in 
+  COMDAT groups identified by the function name. 
+  <P></P>
+  <LI>A non-inline, non-virtual member function is emitted in any object where 
+  its symbol is referenced (i.e. if the function is called without inlining, or 
+  its name is referenced without calling it), in a COMDAT group identified by 
+  the function name. </LI></UL>
+<P>An instantiation of a function template or member function template is 
+emitted in any object where its symbol is referenced (non-inline), in a COMDAT 
+group identified by the function name. 
+<P>
+<HR>
+
+<P><A name=unwind>
+<H3>5.3 Unwind Table Location </H3>
+<P>As described in the Itanium psABI, Itanium implementations shall produce 
+unwind table entries in a <CODE>SHT_IA_64_UNWIND</CODE> section, and unwind 
+information descriptors in a section that will be linked with the associated 
+code. Itanium linkers shall put the unwind table, the unwind information table, 
+and the associated code in a single text segment, with a 
+<CODE>PT_IA_64_UNWIND</CODE> program table entry identifying the unwind table 
+location. 
+<P>
+<HR>
+
+<P>
+<HR>
+
+<P><A name=revisions>
+<H2>Appendix R: Revision History </H2>
+<P>
+<HR>
+
+<P>
+<P>This version of this document is $Revision: 1.86 $. No special significance 
+should be attached to the form of the revision number; it is simply a 
+identifying number.</P>
+<P><FONT color=blue>[031006]</FONT> Clarify that guard variables are used to 
+guard static data members of class templates, as well as function-scope statics. 
+
+<P><FONT color=blue>[030806]</FONT> Specify that function pointers in virtual 
+tables are address/GP pairs on Itanium. 
+<P><FONT color=blue>[050504]</FONT> Remove use of <CODE>out0</CODE> for by-value 
+return types on Itanium. 
+<P><FONT color=blue>[050211]</FONT> Reverse treatment of ambiguous arguments to 
+__cxa_demangle (3.4). 
+<P><FONT color=blue>[041118]</FONT> Clarify the layout of bitfields. </P><FONT 
+color=blue>[041025]</FONT> Indicate that the TC1 definition of POD is intended 
+in the section defining a "POD for the purpose of layout". Clearly indicate that 
+an array whose elements are not PODs for the purpose of layout is itself not a 
+POD for the purpose of layout. 
+<P></P>
+<P><FONT color=blue>[040923]</FONT> Clarify behavior of 
+<CODE>__cxa_vec_delete</CODE>. </P>
+<P><FONT color=blue>[040219]</FONT> Clarify substition of member function types. 
+</P>
+<P><FONT color=blue>[031128]</FONT> Fix alphabetization of company names. 
+<P><FONT color=blue>[031123]</FONT> Add note about forward references to 
+template parameters in member template conversion operators. 
+<P><FONT color=blue>[031102]</FONT> Specify the behavior of 
+<CODE>__cxa_vec_delete</CODE> when the <CODE>array_address</CODE> is 
+<CODE>NULL</CODE>. 
+<P><FONT color=blue>[030905]</FONT> Specify the behavior of 
+<CODE>__cxa_vec_new</CODE>, <CODE>__cxa_vec_new2</CODE>, and 
+<CODE>__cxa_vec_new3</CODE> in the event that the allocation function returns 
+<CODE>NULL</CODE>. 
+<P><FONT color=blue>[030609]</FONT> Use <CODE>void*</CODE> instead of 
+<CODE>dso_handle</CODE>. 
+<P><FONT color=blue>[030518]</FONT> Specify behavior of 
+<CODE>__cxa_vec_new2</CODE> and <CODE>__cxa_vec_new3</CODE> when the 
+deallocation function throws an exception. 
+<P><FONT color=blue>[030518]</FONT> Define "POD for the purpose of layout." 
+<P><FONT color=blue>[030316]</FONT> Add acknowledgements section. 
+<P><FONT color=blue>[030313]</FONT> Correct broken links and incorrect 
+formatting. 
+<P><FONT color=blue>[030103]</FONT> Clarify definition of substantively 
+different types. 
+<P><FONT color=blue>[021222]</FONT> Document mangling for anonymous unions. 
+<P><FONT color=blue>[021204]</FONT> Remove note about 32-bit RTTI variation. 
+<P><FONT color=blue>[021125]</FONT> Clarify guard functions. 
+<P><FONT color=blue>[021110]</FONT> Clarify definition of nearly empty class. 
+<P><FONT color=blue>[021110]</FONT> Clarify ordering of string literals in 
+mem-initializer-list. 
+<P><FONT color=blue>[021110]</FONT> Remove unnecessary V-adjusting thunks. 
+<P><FONT color=blue>[021110]</FONT> Clarify VTT contents. 
+<P><FONT color=blue>[021021]</FONT> Specify place and manner of emission for 
+deleting destructors. 
+<P><FONT color=blue>[021021]</FONT> Clarify mangling of pointer-to-member 
+functions. 
+<P><FONT color=blue>[021016]</FONT> Clarify mangling of floating-point literals. 
+
+<P><FONT color=blue>[021014]</FONT> Clarify use of <CODE>sr</CODE> in mangling. 
+<P><FONT color=blue>[021011]</FONT> Add mangling for unary plus. 
+<P><FONT color=blue>[021008]</FONT> Make the names used for constructors and 
+destructor entry points consistent throughout. 
+<P><FONT color=blue>[021008]</FONT> Define manglings for typename types. 
+<P><FONT color=blue>[020916]</FONT> Clarify ordering of functions in virtual 
+function table. Correct mangling substitution example. 
+<P><FONT color=blue>[020906]</FONT> Add trinary expression variant. Remove use 
+of "low-order" to describe bytes in guard variables. 
+<P><FONT color=blue>[020827]</FONT> Clarify definition of nearly empty class, 
+dsize, nvsize, nvalign. 
+<P><FONT color=blue>[020827]</FONT> Clarify handling of tail-padding. 
+<P><FONT color=blue>[020326]</FONT> Clarify wording in 
+<CODE>__cxa_demangle</CODE> memory management specification. 
+<P><FONT color=blue>[020220]</FONT> Clarify pointer to member function mangling 
+(5.1.5). 
+<P><FONT color=blue>[010407]</FONT> Don't assume that virtual functions can be 
+called through intermediate bases. Add notes about missed opportunities. The VTT 
+parm isn't mangled, either. 
+<P><FONT color=blue>[010315]</FONT> Many outstanding updates. Empty classes 
+passed as ordinary classes (3.1.3). Secondary virtual pointers for subobjects 
+reachable via a virtual path (text of 2.6.1, text and example in 2.6.2). Note 
+about locating virtual bases statically during construction (2.6.1). Rename 
+IA-64 to Itanium throughout. Add __cxa_vec_cleanup (3.3.3). 
+<P><FONT color=blue>[000817]</FONT> Updates from 17 August meeting, email. 
+<P><FONT color=blue>[000807]</FONT> Added base document section (1.5). Further 
+RTTI field name cleanup (2.9.5). Update proposed one-time construction API 
+(3.3.2). Update proposed object construction priority API (3.3.4). Removed 
+&lt;name&gt; substitution (5.1.2). COMDAT not generally necessary for internal 
+linkage (5.2). COMDAT for local static guard variables (5.2.2). 
+<P><FONT color=blue>[000727]</FONT> Updates from 20 July meeting. Added section 
+on controlling object construction order (3.3.4). 
+<P><FONT color=blue>[000707]</FONT> Introduce consistent type_info field names 
+(2.9.5). Removed vmi flags for publicly/non-publicly inherited bases (2.9.5). 
+Collect all construction/destruction APIs in one section (3.3). Added one-time 
+initialization API (3.3.2). Vector construction/destruction routines are extern 
+"C" (3.3.3). Added routines for vector construction/destruction (3.3.3). Added 
+copy construction runtime API (3.3.3). Make Alex's changes in mangling grammar 
+(5.1). Add &lt;special-name&gt; cases for covariant override thunks (5.1.4). 
+Allow expressions as array type dimensions (5.1.5). Discuss vague linkage for 
+virtual function override thunks (5.2.6). 
+<P><FONT color=blue>[000621]</FONT> Add scope section 1.4. Specify guard 
+variables and vague linkage of static data (5.2.2) and instantiated templates 
+(5.2.4). Clarify vcall offsets (2.5.3), VTT (2.6.2), mangling compression rules 
+(5.1.7), and mangling examples. 
+<P><FONT color=blue>[000511]</FONT> Specify 32-bit form of vmi_offset_flags. Add 
+export template note. 
+<P><FONT color=blue>[000505]</FONT> Updates from 4 May meeting. VTT is preorder, 
+like everything else. Add issue C-3 destructor API. Added demangler API. Yet 
+another try at the nested-name mangling grammar. Don't mangle builtin types 
+(except vendor extended ones). Reverse mangling substitution order, and fix 
+mangling substitution examples, Add vague linkage information for instantiated 
+templates. Specify location of unwind tables. 
+<P><FONT color=blue>[000502]</FONT> Fixed mangling of template parameters again. 
+
+<P><FONT color=blue>[000427]</FONT> Reorganization and section numbering. Added 
+<A href="http://www.codesourcery.com/cxx-abi/abi.html#normal-call">non-virtual 
+function calling conventions</A>. 
+<P><FONT color=blue>[000417]</FONT> Updates from 17 April meeting. Clarify order 
+of vcall offsets. More elaboration of construction virtual table. Specification 
+of COMDAT RTTI name. Reorganization of pointer RTTI. Modify mangling grammar to 
+clarify substitution in compound names. Clarify Vague Linkage section. 
+<P><FONT color=blue>[000407]</FONT> Updates from 6 April meeting, email. More 
+elaboration of construction vtable. Updates/issues in RTTI. Minor mangling 
+changes. Added Vague Linkage section. 
+<P><FONT color=blue>[000327]</FONT> Updates from 30 March meeting. Define base 
+classes to include self, proper base classes. Modify local function mangling per 
+JFW proposal. 
+<P><FONT color=blue>[000327]</FONT> Updates from 23 March meeting. Adopt 
+construction vtable Proposal B, and rewrite. Further work on mangling, 
+especially substitution. 
+<P><FONT color=blue>[000320]</FONT> Clarify class size limit. Editorial changes 
+in vtable components description. Add alternate to construction vtable proposal. 
+Clarification in array cookie specification. Removed COMMON proxy from class 
+RTTI. Extensive changes to mangling writeup. 
+<P><FONT color=blue>[000314]</FONT> Construction vtable modifications. RTTI 
+modifications for incomplete class types. Mangling rework: grammar, new 
+constructs, function return types. 
+<P><FONT color=blue>[000309]</FONT> Add limits section. Specify NULL member 
+pointer values. Combine vtable content and order sections; clarify ordering. 
+Specify when distinct virtual function entries are needed for overriders. Define 
+(and modify) vector constructor/destructor runtime APIs. Virtual base offsets 
+are promoted from non-virtual bases. 
+<P><FONT color=blue>[000228]</FONT> Add thunk definition. Revise inheritance 
+graph order definition. Fix member function pointer description (no division by 
+two). Move bitfield allocation description (much modified) to the 
+non-virtual-base allocation description. Replace virtual function calling 
+convention description. 
+<P><FONT color=blue>[000228]</FONT> Add thunk definition. Revise inheritance 
+graph order definition. Fix member function pointer description (no division by 
+two). Move bitfield allocation description (much modified) to the 
+non-virtual-base allocation description. Replace virtual function calling 
+convention description. 
+<P><FONT color=blue>[000217]</FONT> Add excess-size bitfield specification. Add 
+namespace/header section. Touch up array new cookies. Remove construction vtable 
+example to new file. Add mangling proposal. 
+<P><FONT color=blue>[000214]</FONT> Complete array new cookie specification. 
+Remove unnecessary RTTI flags. Correct repeated inheritance flag description. 
+Move all type_info subclasses in namespace abi, not namespace std. Note 
+requirements for an implementation to prevent users from emitting invalid 
+vtables for RTTI classes. Include construction vtable proposal. 
+<P><FONT color=blue>[000203]</FONT> Incorporate discussion of 3 Febrary. Remove 
+__reference_type_info (issue A-22). Restructure struct RTTI and flags (issue 
+A-23). Clarify __base_class_info layout. 
+<P><FONT color=blue>[000125]</FONT> Incorporate discussion of 20 January, 
+generally clarifications. Resolved A-19 (choice of a primary virtual base). 
+Answered Nathan's questions about RTTI. Included RTTI "Deliberations" as 
+rationale notes in the specification, or removed redundant ones. Added array 
+operator new section. 
+<P><FONT color=blue>[000119]</FONT> Clarify when virtual base offsets are 
+required. Note that a vtable has offset-to-top and RTTr entries for classes with 
+virtual bases even if there are no virtual functions. Resolve allocation of a 
+virtual base class that is a primary base for another base (A-17). Resolve 
+choice of a primary virtual base class that is a primary base for another base 
+(A-19). Describe the (non-)effect of virtual bases on the alignment of the 
+non-virtual part of a class as the base of another class (A-18). 
+<P><FONT color=blue>[991230]</FONT> Integrate proposed resolution of A-16, A-17 
+in base class layout. Add outstanding questions list, and clean up questions in 
+text. 
+<P><FONT color=blue>[991229]</FONT> Clarify definition of nearly empty class, 
+layout of virtual bases. 
+<P><FONT color=blue>[991203]</FONT> Added description of vfunc calling 
+convention from Jason. 
+<P><FONT color=blue>[991104]</FONT> Noted pair of vtable entries for virtual 
+destructors. 
+<P><FONT color=blue>[991019]</FONT> Modified RTTI proposal for 14 October 
+decisions. 
+<P><FONT color=blue>[991006]</FONT> Added RTTI proposal. 
+<P><FONT color=blue>[990930]</FONT> Updated to new vtable layout proposal. 
+<P><FONT color=blue>[990811]</FONT> Described member pointer representations, 
+virtual table layout. 
+<P><FONT color=blue>[990730]</FONT> Selected first variant for empty base 
+allocation; removed others. 
+<P>
+<HR>
+</BODY></HTML>

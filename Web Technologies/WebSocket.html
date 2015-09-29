@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" dir="ltr" class="client-nojs" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>WebSocket - Wikipedia, the free encyclopedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="MediaWiki 1.18wmf1" />
+<link rel="canonical" href="/wiki/WebSocket" />
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/w/index.php?title=WebSocket&amp;action=edit" />
+<link rel="edit" title="Edit this page" href="/w/index.php?title=WebSocket&amp;action=edit" />
+<link rel="apple-touch-icon" href="//en.wikipedia.org/apple-touch-icon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Wikipedia (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd" />
+<link rel="copyright" href="//creativecommons.org/licenses/by-sa/3.0/" />
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.wikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<style type="text/css" media="all">a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: enwiki:resourceloader:filter:minify-css:4:f2a9127573a22335c2a9102b208c73e7 */</style>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "WebSocket", "wgTitle": "WebSocket", "wgCurRevisionId": 459013040, "wgArticleId": 25553718, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Articles needing cleanup from April 2011", "All pages needing cleanup", "Articles needing link rot cleanup from April 2011", "Internet terminology", "Web development", "Web 2.0", "Application layer protocols"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0], "wgFlaggedRevsParams": {"tags": {"status": {"levels": 1, "quality": 2, "pristine": 3}}}, "wgStableRevisionId": null, "wgVectorEnabledModules": {"collapsiblenav": true, "collapsibletabs": true, "editwarning": true, "expandablesearch": false, "footercleanup": false, "sectioneditlinks": false, "simplesearch": true, "experiments": true}, "wgWikiEditorEnabledModules": {"toolbar": true, "dialogs": true, "hidesig": true, "templateEditor": false, "templates": false, "preview": false, "previewDialog": false, "publish": false, "toc": false}, "wgTrackingToken": "98f908fb332ecb6bdf898c9b15cecb59", "wikilove-recipient": "", "wikilove-edittoken": "+\\", "wikilove-anon": 0, "mbEditToken": "+\\", "Geo": {"city": "", "country": ""}, "wgNoticeProject": "wikipedia"});
+}
+</script><script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script>
+<style type="text/css">/*<![CDATA[*/
+.source-html4strict {line-height: normal;}
+.source-html4strict li, .source-html4strict pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for html4strict
+ * CSS class: source-html4strict, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.html4strict.source-html4strict .de1, .html4strict.source-html4strict .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.html4strict.source-html4strict  {font-family:monospace;}
+.html4strict.source-html4strict .imp {font-weight: bold; color: red;}
+.html4strict.source-html4strict li, .html4strict.source-html4strict .li1 {font-weight: normal; vertical-align:top;}
+.html4strict.source-html4strict .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.html4strict.source-html4strict .li2 {font-weight: bold; vertical-align:top;}
+.html4strict.source-html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict.source-html4strict .kw3 {color: #000066;}
+.html4strict.source-html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict.source-html4strict .br0 {color: #66cc66;}
+.html4strict.source-html4strict .sy0 {color: #66cc66;}
+.html4strict.source-html4strict .st0 {color: #ff0000;}
+.html4strict.source-html4strict .nu0 {color: #cc66cc;}
+.html4strict.source-html4strict .sc-2 {color: #404040;}
+.html4strict.source-html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict.source-html4strict .sc0 {color: #00bbdd;}
+.html4strict.source-html4strict .sc1 {color: #ddbb00;}
+.html4strict.source-html4strict .sc2 {color: #009900;}
+.html4strict.source-html4strict .ln-xtra, .html4strict.source-html4strict li.ln-xtra, .html4strict.source-html4strict div.ln-xtra {background-color: #ffc;}
+.html4strict.source-html4strict span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/w/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=2678400";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.18/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-WebSocket action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><!-- centralNotice loads here --></div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">WebSocket</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub">  (Redirected from <a href="/w/index.php?title=WebSockets&amp;redirect=no" title="WebSockets">WebSockets</a>)</div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div lang="en" dir="ltr" class="mw-content-ltr"><p><b>WebSocket</b> is a technology providing for bi-directional, <a href="/wiki/Duplex_(telecommunications)#Full-duplex" title="Duplex (telecommunications)">full-duplex</a> communications channels, over a single <a href="/wiki/Transmission_Control_Protocol" title="Transmission Control Protocol">Transmission Control Protocol</a> (TCP) <a href="/wiki/Internet_socket" title="Internet socket">socket</a>. It is designed to be implemented in <a href="/wiki/Web_browser" title="Web browser">web browsers</a> and <a href="/wiki/Web_server" title="Web server">web servers</a>, but it can be used by any client or server application. The WebSocket API is being standardized by the <a href="/wiki/World_Wide_Web_Consortium" title="World Wide Web Consortium">W3C</a>, and the WebSocket protocol is being standardized by the <a href="/wiki/Internet_Engineering_Task_Force" title="Internet Engineering Task Force">IETF</a>. Because ordinary TCP connections to ports other than 80 are frequently blocked by administrators outside of home environments, it can be used as a way to overcome these restrictions and provide similar functionality with some additional <a href="/wiki/Protocol_overhead" title="Protocol overhead">protocol overhead</a> while multiplexing several WebSocket services over a single TCP port.</p>
+<p>For the client side, WebSocket was implemented in <a href="/wiki/Firefox_4" title="Firefox 4">Firefox 4</a>, <a href="/wiki/Google_Chrome" title="Google Chrome">Google Chrome</a> 4, <a href="/wiki/Opera_(web_browser)" title="Opera (web browser)">Opera</a> 11, and <a href="/wiki/Safari_(web_browser)" title="Safari (web browser)">Safari</a> 5, as well as the mobile version of Safari in <a href="/wiki/IOS_4.2" title="IOS 4.2" class="mw-redirect">iOS 4.2</a>.<sup id="cite_ref-0" class="reference"><a href="#cite_note-0"><span>[</span>1<span>]</span></a></sup> Also, the BlackBerry Browser in OS7 supports WebSocket.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>2<span>]</span></a></sup> However, although present, support was disabled by default in Firefox 4 and 5 and Opera 11 because of concerns over security vulnerabilities.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>3<span>]</span></a></sup><sup id="cite_ref-3" class="reference"><a href="#cite_note-3"><span>[</span>4<span>]</span></a></sup> The new <i>-07</i> version of the WebSocket protocol, which fixes the protocol bug, is implemented and enabled by default in Firefox 6 <sup id="cite_ref-4" class="reference"><a href="#cite_note-4"><span>[</span>5<span>]</span></a></sup> and in Chrome 14.<sup id="cite_ref-5" class="reference"><a href="#cite_note-5"><span>[</span>6<span>]</span></a></sup></p>
+<p>There is also a command line switch for Google Chrome (<code>--enable-websocket-over-spdy</code>) that enables an early experimental implementation of WebSocket over <a href="/wiki/SPDY" title="SPDY">SPDY</a>.<sup id="cite_ref-6" class="reference"><a href="#cite_note-6"><span>[</span>7<span>]</span></a></sup></p>
+<table id="toc" class="toc">
+<tr>
+<td>
+<div id="toctitle">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#WebSocket_Protocol_Handshake"><span class="tocnumber">1</span> <span class="toctext">WebSocket Protocol Handshake</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#draft-ietf-hybi-thewebsocketprotocol-00"><span class="tocnumber">1.1</span> <span class="toctext">draft-ietf-hybi-thewebsocketprotocol-00</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#draft-ietf-hybi-thewebsocketprotocol-06"><span class="tocnumber">1.2</span> <span class="toctext">draft-ietf-hybi-thewebsocketprotocol-06</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#Proxy_traversal"><span class="tocnumber">2</span> <span class="toctext">Proxy traversal</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#URL_scheme"><span class="tocnumber">3</span> <span class="toctext">URL scheme</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#Browser_support"><span class="tocnumber">4</span> <span class="toctext">Browser support</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#See_also"><span class="tocnumber">5</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#References"><span class="tocnumber">6</span> <span class="toctext">References</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#External_links"><span class="tocnumber">7</span> <span class="toctext">External links</span></a></li>
+</ul>
+</td>
+</tr>
+</table>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=1" title="Edit section: WebSocket Protocol Handshake">edit</a>]</span> <span class="mw-headline" id="WebSocket_Protocol_Handshake">WebSocket Protocol Handshake</span></h2>
+<p>To establish a WebSocket connection, the client sends a WebSocket handshake request, and the server sends a WebSocket handshake response, as shown in the following example:</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=2" title="Edit section: draft-ietf-hybi-thewebsocketprotocol-00">edit</a>]</span> <span class="mw-headline" id="draft-ietf-hybi-thewebsocketprotocol-00">draft-ietf-hybi-thewebsocketprotocol-00</span></h3>
+<p>This is the older handshake mechanism; see below for newer versions.</p>
+<p>Browser request to the server:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="html4strict source-html4strict">
+<pre class="de1">
+GET /demo HTTP/1.1
+Upgrade: WebSocket
+Connection: Upgrade
+Host: example.com
+Origin: http://example.com
+Sec-WebSocket-Key1: 4 @1  46546xW%0l 1 5
+Sec-WebSocket-Key2: 12998 5 Y3 1  .P00
+ 
+^n:ds[4U
+</pre></div>
+</div>
+<p>Server response:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="html4strict source-html4strict">
+<pre class="de1">
+HTTP/1.1 101 WebSocket Protocol Handshake
+Upgrade: WebSocket
+Connection: Upgrade
+Sec-WebSocket-Origin: http://example.com
+Sec-WebSocket-Location: ws://example.com/demo
+Sec-WebSocket-Protocol: sample
+ 
+8jKS'y:G*Co,Wxa-
+</pre></div>
+</div>
+<p>The Sec-WebSocket-Key1 and Sec-WebSocket-Key2 fields and the 8 bytes after the fields are random tokens which the server uses to construct a 16-byte token at the end of its handshake to prove that it has read the client's handshake.</p>
+<p>The handshake is constructed by concatenating the numbers from the first key, and dividing by the number of spaces. This is then repeated for the second key. The two resulting numbers are concatenated with each other, and with the last 8 bytes after the fields. The final result is an <a href="/wiki/MD5" title="MD5">MD5</a> sum of the concatenated string.<sup id="cite_ref-7" class="reference"><a href="#cite_note-7"><span>[</span>8<span>]</span></a></sup></p>
+<p>The handshake looks like HTTP but actually isn't. It allows the server to interpret part of the handshake request as HTTP and then switch to WebSocket.</p>
+<p>Once established, WebSocket data frames can be sent back and forth between the client and the server in full-duplex mode. Text frames can be sent <a href="/wiki/Duplex_(telecommunications)" title="Duplex (telecommunications)">full-duplex</a>, in either direction at the same time. The data is minimally framed with just two bytes. Each frame starts with a 0x00 byte, ends with a 0xFF byte, and contains UTF-8 data in between. Binary frames are not supported yet in the API. WebSocket text frames use a terminator, while binary frames use a length prefix.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=3" title="Edit section: draft-ietf-hybi-thewebsocketprotocol-06">edit</a>]</span> <span class="mw-headline" id="draft-ietf-hybi-thewebsocketprotocol-06">draft-ietf-hybi-thewebsocketprotocol-06</span></h3>
+<p>To establish a WebSocket connection, the client sends a WebSocket handshake request, and the server sends a WebSocket handshake response, as shown in the following example:</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="html4strict source-html4strict">
+<pre class="de1">
+GET /ws HTTP/1.1
+Host: pmx
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Version: 6
+Sec-WebSocket-Origin: http://pmx
+Sec-WebSocket-Extensions: deflate-stream
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+</pre></div>
+</div>
+<p>Server response:(Server Architecture)</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;">
+<div class="html4strict source-html4strict">
+<pre class="de1">
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+</pre></div>
+</div>
+<p>The client sends a Sec-WebSocket-Key which is base64 encoded. To this key the magic string "258EAFA5-E914-47DA-95CA-C5AB0DC85B11" is appended, hashed with SHA1 and then base64 encoded. Notice that the Sec-WebSocket-Key is base64 encoded but is <b>not</b> decoded by the server. The result is then replied in the header "Sec-WebSocket-Accept".</p>
+<p>Sec-WebSocket-Key to Sec-WebSocket-Accept example&#160;:</p>
+<ul>
+<li>"x3JJHMbDL1EzLkh9GBhXDw==258EAFA5-E914-47DA-95CA-C5AB0DC85B11" string hashed by SHA1 gives "1d29ab734b0c9585240069a6e4e3e91b61da1969" hexadecimal value.</li>
+<li>Unix command `printf "\x1d\x29\xab\x73\x4b\x0c\x95\x85\x24\x00\x69\xa6\xe4\xe3\xe9\x1b\x61\xda\x19\x69" | base64` prints "HSmrc0sMlYUkAGmm5OPpG2HaGWk="</li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=4" title="Edit section: Proxy traversal">edit</a>]</span> <span class="mw-headline" id="Proxy_traversal">Proxy traversal</span></h2>
+<p>WebSocket protocol client implementations try to detect if the <a href="/wiki/User_agent" title="User agent">user agent</a> is configured to use a proxy when connecting to destination host and port and, if it is, uses <a href="/wiki/HTTP" title="HTTP" class="mw-redirect">HTTP</a> CONNECT method to set up a persistent tunnel.</p>
+<p>While the WebSocket protocol itself is unaware of proxy servers and firewalls, it features an HTTP-compatible handshake so that HTTP servers can share their default HTTP and HTTPS ports (80 and 443) with a WebSocket gateway or server. The WebSocket protocol defines a ws:// and wss:// prefix to indicate a WebSocket and a WebSocket Secure connection, respectively. Both schemes use an HTTP upgrade mechanism to upgrade to the WebSocket protocol. Some proxy servers are harmless and work fine with WebSocket; others will prevent WebSocket from working correctly, causing the connection to fail. In some cases additional proxy server configuration may be required, and certain proxy servers may need to be upgraded to support WebSocket.</p>
+<p>If unencrypted WebSocket traffic flows through an explicit or a transparent proxy server on its way to the WebSocket server, then, whether or not the proxy server behaves as it should, the connection is almost certainly bound to fail today (as WebSocket become more mainstream, proxy servers may become WebSocket aware). Therefore, unencrypted WebSocket connections should be used only in the simplest topologies.<sup id="cite_ref-8" class="reference"><a href="#cite_note-8"><span>[</span>9<span>]</span></a></sup></p>
+<p>If an encrypted WebSocket connection is used, then the use of <a href="/wiki/Transport_Layer_Security" title="Transport Layer Security">Transport Layer Security</a> (TLS) in the WebSocket Secure connection ensures that an HTTP CONNECT command is issued when the browser is configured to use an explicit proxy server. This sets up a tunnel, which provides low-level end-to-end TCP communication through the HTTP proxy, between the WebSocket Secure client and the WebSocket server. In the case of transparent proxy servers, the browser is unaware of the proxy server, so no HTTP CONNECT is sent. However, since the wire traffic is encrypted, intermediate transparent proxy servers may simply allow the encrypted traffic through, so there is a much better chance that the WebSocket connection will succeed if WebSocket Secure is used. Using encryption is not free of resource cost, but often provides the highest success rate.</p>
+<p>A mid-2010 draft (version hixie-76) broke compatibility with reverse-proxies and gateways by including 8 bytes of key data after the headers, but not advertising that data in a Content-Length: 8 header.<sup id="cite_ref-9" class="reference"><a href="#cite_note-9"><span>[</span>10<span>]</span></a></sup> This data was not forwarded by all intermediates, which could lead to protocol failure. More recent drafts (e.g., hybi-09<sup id="cite_ref-10" class="reference"><a href="#cite_note-10"><span>[</span>11<span>]</span></a></sup>) put the key data in a Sec-WebSocket-Key header, solving this problem.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=5" title="Edit section: URL scheme">edit</a>]</span> <span class="mw-headline" id="URL_scheme">URL scheme</span></h2>
+<p>The WebSocket protocol specification defines two new <a href="/wiki/URI" title="URI" class="mw-redirect">URI</a> schemes, <b>ws:</b> and <b>wss:</b>,<sup id="cite_ref-11" class="reference"><a href="#cite_note-11"><span>[</span>12<span>]</span></a></sup> for unencrypted and encrypted connections respectively. Apart from the scheme name, the rest of the URI components are defined to use <a href="/wiki/URI_scheme#Generic_syntax" title="URI scheme">URI generic syntax</a>.<sup id="cite_ref-12" class="reference"><a href="#cite_note-12"><span>[</span>13<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=6" title="Edit section: Browser support">edit</a>]</span> <span class="mw-headline" id="Browser_support">Browser support</span></h2>
+<p>Chrome 14, Firefox 7 and Internet Explorer 10 are currently the only browsers supporting the latest draft specification ("hybi-10") of the WebSocket protocol. A detailed protocol test suite report <sup id="cite_ref-autobahn_13-0" class="reference"><a href="#cite_note-autobahn-13"><span>[</span>14<span>]</span></a></sup> lists the conformance of those browsers to specific protocol aspects.</p>
+<p>Firefox 4<sup id="cite_ref-14" class="reference"><a href="#cite_note-14"><span>[</span>15<span>]</span></a></sup> and Opera 11<sup id="cite_ref-15" class="reference"><a href="#cite_note-15"><span>[</span>16<span>]</span></a></sup> originally supported the outdated draft-ietf-hybi-thewebsocketprotocol-00 WebSocket, but have since disabled the protocol by default due to security issues. Chrome also plans to disable the WebSocket if actual exploit code appears before the protocol is revised.<sup id="cite_ref-16" class="reference"><a href="#cite_note-16"><span>[</span>17<span>]</span></a></sup></p>
+<p>Current versions of Microsoft's Internet Explorer support the draft-ietf-hybi-thewebsocketprotocol-09 through a prototype, HTML5 Labs.<sup id="cite_ref-html5labs-09_17-0" class="reference"><a href="#cite_note-html5labs-09-17"><span>[</span>18<span>]</span></a></sup></p>
+<table class="wikitable">
+<caption>Implementation status</caption>
+<tr>
+<th>Protocol</th>
+<th>Internet Explorer</th>
+<th>Firefox</th>
+<th>Chrome</th>
+<th>Safari</th>
+<th>Opera</th>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-75">hixie-75</a></th>
+<td></td>
+<td></td>
+<td>4</td>
+<td>5.0.0</td>
+<td></td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76">hixie-76</a><br />
+<a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-00">hybi-00</a></th>
+<td></td>
+<td>4.0 (DISABLED)</td>
+<td>6</td>
+<td>5.0.1</td>
+<td>11.00 (DISABLED)</td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-06">hybi-06</a></th>
+<td>HTML5 Labs<sup id="cite_ref-18" class="reference"><a href="#cite_note-18"><span>[</span>19<span>]</span></a></sup></td>
+<td>dev<sup id="cite_ref-19" class="reference"><a href="#cite_note-19"><span>[</span>20<span>]</span></a></sup></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-07">hybi-07</a></th>
+<td></td>
+<td>6.0<sup id="cite_ref-20" class="reference"><a href="#cite_note-20"><span>[</span>21<span>]</span></a></sup><sup>1</sup></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-09">hybi-09</a></th>
+<td>HTML5 Labs<sup id="cite_ref-html5labs-09_17-1" class="reference"><a href="#cite_note-html5labs-09-17"><span>[</span>18<span>]</span></a></sup></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-10">hybi-10</a></th>
+<td>IE10 developer preview <sup id="cite_ref-autobahn_13-1" class="reference"><a href="#cite_note-autobahn-13"><span>[</span>14<span>]</span></a></sup></td>
+<td>7<sup id="cite_ref-21" class="reference"><a href="#cite_note-21"><span>[</span>22<span>]</span></a></sup><sup>1</sup></td>
+<td>14<sup id="cite_ref-22" class="reference"><a href="#cite_note-22"><span>[</span>23<span>]</span></a></sup></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17">hybi-17</a></th>
+<td></td>
+<td></td>
+<td>Undefined Chromium version<sup id="cite_ref-23" class="reference"><a href="#cite_note-23"><span>[</span>24<span>]</span></a></sup></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<p><sup>1</sup> Gecko-based browsers versions 6, 7 and 8-beta implement the WebSocket object as "MozWebSocket"<sup id="cite_ref-24" class="reference"><a href="#cite_note-24"><span>[</span>25<span>]</span></a></sup>, requiring extra code to integrate with existing WebSocket-enabled code.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=7" title="Edit section: See also">edit</a>]</span> <span class="mw-headline" id="See_also">See also</span></h2>
+<ul>
+<li><a href="/wiki/Comparison_of_WebSocket_implementations" title="Comparison of WebSocket implementations">Comparison of WebSocket implementations</a></li>
+<li><a href="/wiki/XMLHttpRequest" title="XMLHttpRequest">XMLHttpRequest</a></li>
+<li><a href="/wiki/Push_technology" title="Push technology">Push technology</a></li>
+<li><a href="/wiki/Comet_(programming)" title="Comet (programming)">Comet</a></li>
+<li><a href="/wiki/Server-sent_events" title="Server-sent events">Server-sent events</a></li>
+<li><a href="/wiki/BOSH" title="BOSH">BOSH</a></li>
+<li><a href="/wiki/Ian_Hickson" title="Ian Hickson">Ian Hickson</a></li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=8" title="Edit section: References">edit</a>]</span> <span class="mw-headline" id="References">References</span></h2>
+<table class="metadata plainlinks ambox ambox-style ambox-cleanup-link_rot" style="">
+<tr>
+<td class="mbox-image">
+<div style="width: 52px;"><a href="/wiki/File:Text_document_with_red_question_mark.svg" class="image"><img alt="Text document with red question mark.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/40px-Text_document_with_red_question_mark.svg.png" width="40" height="40" /></a></div>
+</td>
+<td class="mbox-text" style="">This article <b>uses <a href="/wiki/Wikipedia:Bare_URLs" title="Wikipedia:Bare URLs">bare URLs</a> for <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">citations</a>.</b> Please consider adding <a href="/wiki/Wikipedia:Citing_sources#Citation_styles" title="Wikipedia:Citing sources">full citations</a> so that the article remains <a href="/wiki/Wikipedia:Verifiability" title="Wikipedia:Verifiability">verifiable</a> in the future. <a href="/wiki/Wikipedia:Template_messages/Sources_of_articles#Examples" title="Wikipedia:Template messages/Sources of articles">Several templates</a> and the <a rel="nofollow" class="external text" href="http://toolserver.org/~dispenser/cgi-bin/webreflinks.py?page=WebSocket&amp;citeweb=on&amp;overwrite=simple&amp;limit=200">Reflinks tool</a> are available to assist in formatting. <small><i>(April 2011)</i></small></td>
+</tr>
+</table>
+<ol class="references">
+<li id="cite_note-0"><b><a href="#cite_ref-0">^</a></b> <span class="citation web">Katie Marsal (November 23, 2010). <a rel="nofollow" class="external text" href="http://www.appleinsider.com/articles/10/11/23/apple_adds_accelerometer_websockets_support_to_safari_in_ios_4_2.html">"Apple adds accelerometer, WebSockets support to Safari in iOS 4.2"</a>. <i>AppleInsider.com</i><span class="printonly">. <a rel="nofollow" class="external free" href="http://www.appleinsider.com/articles/10/11/23/apple_adds_accelerometer_websockets_support_to_safari_in_ios_4_2.html">http://www.appleinsider.com/articles/10/11/23/apple_adds_accelerometer_websockets_support_to_safari_in_ios_4_2.html</a></span><span class="reference-accessdate">. Retrieved 2011-05-09</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Apple+adds+accelerometer%2C+WebSockets+support+to+Safari+in+iOS+4.2&amp;rft.atitle=AppleInsider.com&amp;rft.aulast=Katie+Marsal&amp;rft.au=Katie+Marsal&amp;rft.date=November+23%2C+2010&amp;rft_id=http%3A%2F%2Fwww.appleinsider.com%2Farticles%2F10%2F11%2F23%2Fapple_adds_accelerometer_websockets_support_to_safari_in_ios_4_2.html&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-1"><b><a href="#cite_ref-1">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://docs.blackberry.com/en/developers/deliverables/29271/Web_Sockets_support_1582781_11.jsp">"Web Sockets API"</a>. RIM<span class="printonly">. <a rel="nofollow" class="external free" href="http://docs.blackberry.com/en/developers/deliverables/29271/Web_Sockets_support_1582781_11.jsp">http://docs.blackberry.com/en/developers/deliverables/29271/Web_Sockets_support_1582781_11.jsp</a></span><span class="reference-accessdate">. Retrieved 8 July 2011</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Web+Sockets+API&amp;rft.atitle=&amp;rft.pub=RIM&amp;rft_id=http%3A%2F%2Fdocs.blackberry.com%2Fen%2Fdevelopers%2Fdeliverables%2F29271%2FWeb_Sockets_support_1582781_11.jsp&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-2"><b><a href="#cite_ref-2">^</a></b> <span class="citation web">Chris Heilmann (December 8, 2010). <a rel="nofollow" class="external text" href="http://hacks.mozilla.org/2010/12/websockets-disabled-in-firefox-4/">"WebSocket disabled in Firefox 4"</a>. <i>Hacks.Mozilla.org</i><span class="printonly">. <a rel="nofollow" class="external free" href="http://hacks.mozilla.org/2010/12/websockets-disabled-in-firefox-4/">http://hacks.mozilla.org/2010/12/websockets-disabled-in-firefox-4/</a></span><span class="reference-accessdate">. Retrieved 2011-05-09</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=WebSocket+disabled+in+Firefox+4&amp;rft.atitle=Hacks.Mozilla.org&amp;rft.aulast=Chris+Heilmann&amp;rft.au=Chris+Heilmann&amp;rft.date=December+8%2C+2010&amp;rft_id=http%3A%2F%2Fhacks.mozilla.org%2F2010%2F12%2Fwebsockets-disabled-in-firefox-4%2F&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-3"><b><a href="#cite_ref-3">^</a></b> <span class="citation web">Aleksander Aas (December 10, 2010). <a rel="nofollow" class="external text" href="http://my.opera.com/chooseopera/blog/2010/12/10/regarding-websocket">"Regarding WebSocket"</a>. <i>My Opera Blog</i><span class="printonly">. <a rel="nofollow" class="external free" href="http://my.opera.com/chooseopera/blog/2010/12/10/regarding-websocket">http://my.opera.com/chooseopera/blog/2010/12/10/regarding-websocket</a></span><span class="reference-accessdate">. Retrieved 2011-05-09</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Regarding+WebSocket&amp;rft.atitle=My+Opera+Blog&amp;rft.aulast=Aleksander+Aas&amp;rft.au=Aleksander+Aas&amp;rft.date=December+10%2C+2010&amp;rft_id=http%3A%2F%2Fmy.opera.com%2Fchooseopera%2Fblog%2F2010%2F12%2F10%2Fregarding-websocket&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-4"><b><a href="#cite_ref-4">^</a></b> <span class="citation web">Dirkjan Ochtman (May 27, 2011). <a rel="nofollow" class="external text" href="https://developer.mozilla.org/en/WebSockets">"WebSocket enabled in Firefox 6"</a>. <i>Mozilla.org</i><span class="printonly">. <a rel="nofollow" class="external free" href="https://developer.mozilla.org/en/WebSockets">https://developer.mozilla.org/en/WebSockets</a></span><span class="reference-accessdate">. Retrieved 2011-06-30</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=WebSocket+enabled+in+Firefox+6&amp;rft.atitle=Mozilla.org&amp;rft.aulast=Dirkjan+Ochtman&amp;rft.au=Dirkjan+Ochtman&amp;rft.date=May+27%2C+2011&amp;rft_id=https%3A%2F%2Fdeveloper.mozilla.org%2Fen%2FWebSockets&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-5"><b><a href="#cite_ref-5">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://www.chromium.org/developers/web-platform-status">"Chromium Web Platform Status"</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://www.chromium.org/developers/web-platform-status">http://www.chromium.org/developers/web-platform-status</a></span><span class="reference-accessdate">. Retrieved 2011-08-03</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Chromium+Web+Platform+Status&amp;rft.atitle=&amp;rft_id=http%3A%2F%2Fwww.chromium.org%2Fdevelopers%2Fweb-platform-status&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-6"><b><a href="#cite_ref-6">^</a></b> <a rel="nofollow" class="external text" href="http://peter.sh/experiments/chromium-command-line-switches/">List of Chromium Command Line Switches</a></li>
+<li id="cite_note-7"><b><a href="#cite_ref-7">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://www.whatwg.org/specs/web-socket-protocol/">"The WebSocket protocol"</a>. August 16, 2010<span class="printonly">. <a rel="nofollow" class="external free" href="http://www.whatwg.org/specs/web-socket-protocol/">http://www.whatwg.org/specs/web-socket-protocol/</a></span><span class="reference-accessdate">. Retrieved 2011-05-09</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=The+WebSocket+protocol&amp;rft.atitle=&amp;rft.date=August+16%2C+2010&amp;rft_id=http%3A%2F%2Fwww.whatwg.org%2Fspecs%2Fweb-socket-protocol%2F&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-8"><b><a href="#cite_ref-8">^</a></b> <a rel="nofollow" class="external text" href="http://www.infoq.com/articles/Web-Sockets-Proxy-Servers">How Web Sockets Interact With Proxy Servers</a></li>
+<li id="cite_note-9"><b><a href="#cite_ref-9">^</a></b> <a rel="nofollow" class="external text" href="http://www.ietf.org/mail-archive/web/hybi/current/msg02149.html">WebSocket -76 is incompatible with HTTP reverse proxies</a></li>
+<li id="cite_note-10"><b><a href="#cite_ref-10">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-09">"The WebSocket protocol, draft hybi-09"</a>. June 13, 2011<span class="printonly">. <a rel="nofollow" class="external free" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-09">http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-09</a></span><span class="reference-accessdate">. Retrieved June 15, 2011</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=The+WebSocket+protocol%2C+draft+hybi-09&amp;rft.atitle=&amp;rft.date=June+13%2C+2011&amp;rft_id=http%3A%2F%2Ftools.ietf.org%2Fhtml%2Fdraft-ietf-hybi-thewebsocketprotocol-09&amp;rfr_id=info:sid/en.wikipedia.org:WebSocket"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-11"><b><a href="#cite_ref-11">^</a></b> <a rel="nofollow" class="external text" href="http://www.iana.org/assignments/uri-schemes.html">IANA Uniform Resource Identifer (URI) Schemes</a></li>
+<li id="cite_note-12"><b><a href="#cite_ref-12">^</a></b> <a rel="nofollow" class="external free" href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol">http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol</a></li>
+<li id="cite_note-autobahn-13">^ <a href="#cite_ref-autobahn_13-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-autobahn_13-1"><sup><i><b>b</b></i></sup></a> <a rel="nofollow" class="external text" href="http://www.tavendo.de/autobahn/testsuite/report/clients/index.html">WebSockets Protocol Test Report</a></li>
+<li id="cite_note-14"><b><a href="#cite_ref-14">^</a></b> <a rel="nofollow" class="external text" href="https://developer.mozilla.org/en/WebSockets">How to enable WebSockets in Firefox</a></li>
+<li id="cite_note-15"><b><a href="#cite_ref-15">^</a></b> <a rel="nofollow" class="external text" href="http://my.opera.com/ODIN/blog/2010/12/17/new-html5-features-in-opera-11">Opera 11 release notes, with procedure to re-enable Web Sockets</a></li>
+<li id="cite_note-16"><b><a href="#cite_ref-16">^</a></b> <a rel="nofollow" class="external text" href="http://codereview.chromium.org/5643005/">Issue 5643005: Disable WebSocket by default</a></li>
+<li id="cite_note-html5labs-09-17">^ <a href="#cite_ref-html5labs-09_17-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-html5labs-09_17-1"><sup><i><b>b</b></i></sup></a> <a rel="nofollow" class="external text" href="http://blogs.msdn.com/b/interoperability/archive/2011/06/23/websockets-prototype-gets-another-update.aspx">The WebSockets Prototype Gets Another Update</a></li>
+<li id="cite_note-18"><b><a href="#cite_ref-18">^</a></b> <a rel="nofollow" class="external text" href="http://blogs.msdn.com/b/interoperability/archive/2011/03/11/latest-websockets-release-interoperates-with-eclipse-s-jetty.aspx">Latest WebSockets Release Interoperates with Firefox, Eclipse's Jetty - Interoperability @ Microsoft - Site Home - MSDN Blogs</a></li>
+<li id="cite_note-19"><b><a href="#cite_ref-19">^</a></b> <a rel="nofollow" class="external text" href="http://www.ietf.org/mail-archive/web/hybi/current/msg06854.html">hybi Firefox with WebSocket -06 demo build</a></li>
+<li id="cite_note-20"><b><a href="#cite_ref-20">^</a></b> <a rel="nofollow" class="external text" href="https://bugzilla.mozilla.org/show_bug.cgi?id=640003">Bug 640003 - WebSockets - upgrade to ietf-06+</a></li>
+<li id="cite_note-21"><b><a href="#cite_ref-21">^</a></b> <a rel="nofollow" class="external text" href="https://bugzilla.mozilla.org/show_bug.cgi?id=640003#c91">WebSockets - upgrade to ietf-07</a>&gt;</li>
+<li id="cite_note-22"><b><a href="#cite_ref-22">^</a></b> <a rel="nofollow" class="external text" href="http://code.google.com/p/chromium/issues/detail?id=64470">Chromium bug 64470</a></li>
+<li id="cite_note-23"><b><a href="#cite_ref-23">^</a></b> <a rel="nofollow" class="external text" href="http://trac.webkit.org/changeset/97249">WebKit Changeset 97247: WebSocket: Update WebSocket protocol to hybi-17</a></li>
+<li id="cite_note-24"><b><a href="#cite_ref-24">^</a></b> <a rel="nofollow" class="external free" href="https://developer.mozilla.org/en/WebSockets">https://developer.mozilla.org/en/WebSockets</a></li>
+</ol>
+<h2><span class="editsection">[<a href="/w/index.php?title=WebSocket&amp;action=edit&amp;section=9" title="Edit section: External links">edit</a>]</span> <span class="mw-headline" id="External_links">External links</span></h2>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://highlevellogic.blogspot.com/2011/09/websocket-server-demonstration_26.html">HLL Websocket Server</a> Article linked to live demo and providing downloadable dhtml for running final draft protocols (submitted as standard).</li>
+<li><a rel="nofollow" class="external text" href="https://datatracker.ietf.org/wg/hybi/charter/">IETF Hypertext-Bidirectional (HyBi) working group</a>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol">The WebSocket protocol</a> - Internet-Draft published by the IETF HyBi Working Group</li>
+<li><a rel="nofollow" class="external text" href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76">The WebSocket protocol</a> - Original protocol proposal by Ian Hickson</li>
+</ul>
+</li>
+<li><a rel="nofollow" class="external text" href="http://dev.w3.org/html5/websockets/">The WebSocket API</a> - W3C draft specification of the API</li>
+<li><a rel="nofollow" class="external text" href="http://www.websocket.org/">WebSocket.org</a> - a web-site dedicated to WebSocket</li>
+<li><a rel="nofollow" class="external text" href="http://websocketstest.com/">WebSocketsTest.com</a> - a web-site to test WebSockets support and operation in your browser.</li>
+<li><a rel="nofollow" class="external text" href="http://today.java.net/article/2010/04/26/html5-server-push-technologies-part-2">HTML5 Server-Push Technologies, Part 2</a> - explains WebSocket</li>
+<li><a rel="nofollow" class="external text" href="http://www.mobicules.com/web-application-development/websockets-in-html5/">Websockets in HTML5</a> - Easy to understand read on WebSocket</li>
+<li><a rel="nofollow" class="external text" href="http://www.ajeeshwrites.blogspot.com/2011/02/peek-at-websockets.html">HTML5 WebSockets: An example with jetty and chrome</a> - A complete example on WebSocket with jetty.</li>
+<li><a rel="nofollow" class="external text" href="http://docs.blackberry.com/en/developers/deliverables/29271/Web_Sockets_support_1582781_11.jsp">Web Socket API in BlackBerry Browser with OS7</a></li>
+</ul>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 5520/1000000
+Post-expand include size: 31759/2048000 bytes
+Template argument size: 12153/2048000 bytes
+Expensive parser function count: 2/500
+-->
+
+<!-- Saved in parser cache with key enwiki:pcache:idhash:25553718-0!*!0!!en!4!* and timestamp 20111104184821 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://en.wikipedia.org/w/index.php?title=WebSocket&amp;oldid=459013040">http://en.wikipedia.org/w/index.php?title=WebSocket&amp;oldid=459013040</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Internet_terminology" title="Category:Internet terminology">Internet terminology</a></li><li><a href="/wiki/Category:Web_development" title="Category:Web development">Web development</a></li><li><a href="/wiki/Category:Web_2.0" title="Category:Web 2.0">Web 2.0</a></li><li><a href="/wiki/Category:Application_layer_protocols" title="Category:Application layer protocols">Application layer protocols</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:Articles_needing_cleanup_from_April_2011" title="Category:Articles needing cleanup from April 2011">Articles needing cleanup from April 2011</a></li><li><a href="/wiki/Category:All_pages_needing_cleanup" title="Category:All pages needing cleanup">All pages needing cleanup</a></li><li><a href="/wiki/Category:Articles_needing_link_rot_cleanup_from_April_2011" title="Category:Articles needing link rot cleanup from April 2011">Articles needing link rot cleanup from April 2011</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=WebSocket" title="You are encouraged to log in; however, it is not mandatory. [o]" accesskey="o">Log in / create account</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/WebSocket"  title="View the content page [c]" accesskey="c">Article</a></span></li>
+					<li  id="ca-talk"><span><a href="/wiki/Talk:WebSocket"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="/wiki/WebSocket" >Read</a></span></li>
+					<li id="ca-edit"><span><a href="/w/index.php?title=WebSocket&amp;action=edit"  title="You can edit this page. &#10;Please use the preview button before saving. [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=WebSocket&amp;action=history"  title="Past versions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/w/index.php" id="searchform">
+		<input type='hidden' name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input type="text" name="search" value="" title="Search Wikipedia [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search Wikipedia for this text" id="searchButton"><img src="//bits.wikimedia.org/skins-1.18/vector/images/search-ltr.png?303-4" alt="Search" /></button>					</div>
+			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(//upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png);" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id='p-navigation'>
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li>
+			<li id="n-contents"><a href="/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li>
+			<li id="n-featuredcontent"><a href="/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li>
+			<li id="n-currentevents"><a href="/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li>
+			<li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random article [x]" accesskey="x">Random article</a></li>
+			<li id="n-sitesupport"><a href="//wikimediafoundation.org/wiki/Special:Landingcheck?landing_page=WMFJA085&amp;language=en&amp;utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=20101204SB002" rel="nofollow" title="Support us">Donate to Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- interaction -->
+<div class="portal" id='p-interaction'>
+	<h5>Interaction</h5>
+	<div class="body">
+		<ul>
+			<li id="n-help"><a href="/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li>
+			<li id="n-aboutsite"><a href="/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li>
+			<li id="n-portal"><a href="/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+			<li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+			<li id="n-contact"><a href="/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /interaction -->
+
+<!-- TOOLBOX -->
+<div class="portal" id='p-tb'>
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/WebSocket" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/WebSocket" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-upload"><a href="/wiki/Wikipedia:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li>
+			<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li id="t-permalink"><a href="/w/index.php?title=WebSocket&amp;oldid=459013040" title="Permanent link to this revision of the page">Permanent link</a></li>
+<li id="t-cite"><a href="/w/index.php?title=Special:Cite&amp;page=WebSocket&amp;id=459013040" title="Information on how to cite this page">Cite this page</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- coll-print_export -->
+<div class="portal" id='p-coll-print_export'>
+	<h5>Print/export</h5>
+	<div class="body">
+		<ul id="collectionPortletList"><li id="coll-create_a_book"><a href="/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=WebSocket" title="Create a book or page collection" rel="nofollow">Create a book</a></li><li id="coll-download-as-rl"><a href="/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=WebSocket&amp;oldid=459013040&amp;writer=rl" title="Download a PDF version of this wiki page" rel="nofollow">Download as PDF</a></li><li id="t-print"><a href="/w/index.php?title=WebSocket&amp;printable=yes" title="Printable version of this page [p]" accesskey="p">Printable version</a></li></ul>	</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- LANGUAGES -->
+<div class="portal" id='p-lang'>
+	<h5>Languages</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-de"><a href="//de.wikipedia.org/wiki/WebSocket">Deutsch</a></li>
+			<li class="interwiki-es"><a href="//es.wikipedia.org/wiki/WebSocket">Español</a></li>
+			<li class="interwiki-fr"><a href="//fr.wikipedia.org/wiki/Websocket">Français</a></li>
+			<li class="interwiki-hu"><a href="//hu.wikipedia.org/wiki/WebSocket">Magyar</a></li>
+			<li class="interwiki-ja"><a href="//ja.wikipedia.org/wiki/WebSocket">日本語</a></li>
+			<li class="interwiki-pl"><a href="//pl.wikipedia.org/wiki/WebSocket">Polski</a></li>
+			<li class="interwiki-pt"><a href="//pt.wikipedia.org/wiki/WebSockets">Português</a></li>
+			<li class="interwiki-ru"><a href="//ru.wikipedia.org/wiki/WebSocket">Русский</a></li>
+			<li class="interwiki-zh"><a href="//zh.wikipedia.org/wiki/WebSocket">中文</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 4 November 2011 at 18:48.<br /></li>
+											<li id="footer-info-copyright">Text is available under the <a rel="license" href="//en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="//creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.
+See <a href="//wikimediafoundation.org/wiki/Terms_of_use">Terms of use</a> for details.<br/>
+Wikipedia&reg; is a registered trademark of the <a href="//www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.<br /></li><li class="noprint"><a class='internal' href="//en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact us</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="//wikimediafoundation.org/wiki/Privacy_policy" title="wikimedia:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href='/w/index.php?title=WebSockets&amp;useformat=mobile'>Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-copyrightico">
+						<a href="//wikimediafoundation.org/"><img src="//bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>
+					</li>
+					<li id="footer-poweredbyico">
+						<a href="//www.mediawiki.org/"><img src="//bits.wikimedia.org/skins-1.18/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=skins.vector&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest", "ext.gadget.wmfFR2011Style", "ext.vector.collapsibleNav", "ext.vector.collapsibleTabs", "ext.vector.editWarning", "ext.vector.simpleSearch", "ext.UserBuckets", "ext.articleFeedback.startup"]);
+}
+</script>
+<script src="/w/index.php?title=Special:BannerController&amp;cache=/cn.js&amp;303-4" type="text/javascript"></script>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":false,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":4,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"flaggedrevssimpleui":1,"flaggedrevsstable":0,"flaggedrevseditdiffs":true,"flaggedrevsviewdiffs":false,"vector-simplesearch":1,"useeditwarning":1,"vector-collapsiblenav":1,"usebetatoolbar":1,"usebetatoolbar-cgd":1,"wikilove-enabled":1,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs100":false,"searchNs101":false,"searchNs108":false,"searchNs109":false,"gadget-wmfFR2011Style":1});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: enwiki:resourceloader:filter:minify-js:4:b41a86ec4e0fe8329bc3ce917e792339 */
+}
+</script><script src="//geoiplookup.wikimedia.org/" type="text/javascript"></script><!-- Served by srv288 in 0.083 secs. -->
+	</body>
+</html>

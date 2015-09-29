@@ -1,0 +1,693 @@
+/*1304450640,169776318*/
+
+button.async_saving .default_message,
+a.async_saving .default_message,
+form.async_saving .default_message,
+.saving_message{display:none}
+.default_message,
+button.async_saving .saving_message,
+a.async_saving .saving_message,
+form.async_saving .saving_message{display:inline}
+.DOMControl_placeholder{color:#777}
+.no_js .DOMControl_placeholder{color:#000}
+.DOMControl_shadow{left:-10000px;position:absolute;top:-10000px;white-space:pre-wrap}
+body{background:#fff;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size: 11px;color:#333;margin:0;padding:0;text-align:left;direction:ltr;unicode-bidi:embed;overflow-y:scroll}
+.mini_iframe,.serverfbml_iframe{overflow-y:visible}
+.auto_resize_iframe{height:auto}
+h1,h2,h3,h4,h5,h6{font-size: 13px;color:#333;margin:0;padding:0}
+h1{font-size: 14px}
+h4,h5{font-size: 11px}
+p{font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size: 11px;text-align:left;margin:1em 0}
+a{cursor:pointer;color:#3b5998;text-decoration:none}
+a:hover{text-decoration:underline}
+img{border:0}
+select{border:1px solid #bdc7d8;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size: 11px;padding:2px}
+td,td.label{font-size: 11px;text-align:left}
+dd{color:#000}
+dt{color:#777}
+ul{list-style-type:none;margin:0;padding:0}
+abbr{border-bottom:none}
+hr{background:#d9d9d9;border-width:0;color:#d9d9d9;height:1px}
+.pipe{color:#808080;padding:0 3px}
+.column{float:left}
+.center{margin-left:auto;margin-right:auto}
+#facebook .hidden_elem{display:none !important}
+#facebook .invisible_elem{visibility:hidden}
+#content{width:auto;padding:0;margin:0}
+.profile #content,.home #content,.search #content{min-height:600px}
+.UIStandardFrame_Container{width:960px;padding:0;margin:20px auto 0}
+.UIStandardFrame_Content{width:760px;float:left;margin:0;padding:0}
+.UIStandardFrame_SidebarAds{width:200px;padding:0;margin:0;float:right}
+.UIFullPage_Container{width:940px;padding:0 12px;margin:20px auto 0}
+.empty_message{font-size: 13px;line-height:17px;padding:20px 20px 50px 20px;text-align:center;background:#f7f7f7}
+.clearfix:after{clear:both;content:".";display:block;font-size:0;height:0;line-height:0;visibility:hidden}
+.clearfix{display:block;zoom:1}
+form{margin:0;padding:0}
+label{cursor:pointer;color:#666;font-weight:bold;vertical-align:middle}
+label input{font-weight:normal}
+textarea,.inputtext,.inputpassword{border:1px solid #bdc7d8;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size: 11px;padding:3px;-webkit-appearance:none;-webkit-border-radius:0}
+.inputtext,.inputpassword{margin:0;padding-bottom:4px}
+.inputradio{padding:0;margin:0 5px 0 0;vertical-align:middle}
+.inputcheckbox{border:0;vertical-align:middle}
+.inputbutton,.inputsubmit{border-style:solid;border-width:1px;border-color:#d9dfea #0e1f5b #0e1f5b #d9dfea;background-color:#3b5998;color:#fff;padding:2px 15px 3px 15px;text-align:center}
+.inputsubmit_disabled{background-color:#999;border-bottom:1px solid #000;border-right:1px solid #666;color:#fff}
+.inputaux{background:#f0f0f0;border-color:#e7e7e7 #666 #666 #e7e7e7;color:#000}
+.inputaux_disabled{color:#999}
+.inputsearch{background:#fff url(http://static.ak.fbcdn.net/rsrc.php/v1/zV/r/IJYgcESal33.png) no-repeat left 4px;padding-left:17px}
+.datawrap{word-wrap:break-word}
+.word_break{display:block;float:left;margin-left:-10px;padding:0}
+.img_loading{position:absolute;left:-100000px;top:-100000px}
+.see_all{text-align:right}
+.standard_status_element{visibility:hidden}
+.standard_status_element.async_saving{visibility:visible}
+.aero{opacity:.5}
+img.tracking_pixel{height:1px;position:absolute;visibility:hidden;width:1px}
+#dropmenu_container{display:block;height:0;margin:0 auto;padding:0;position:absolute;width:964px;z-index:300}
+.direction_ltr{direction:ltr}
+.direction_rtl{direction:rtl}
+.text_align_ltr{text-align:left}
+.text_align_rtl{text-align:right}
+button.as_link{font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-size:100%;overflow:visible;width:auto;text-align:left;background:none;margin:0;padding:0;border:none;cursor:pointer;color:#3b5998;-moz-user-select:text}
+button.as_link::-moz-focus-inner{border:0;padding:0}
+button.as_link:hover span,
+button.as_link:focus span{text-decoration:underline}
+button.as_link .button_img{margin:0 6px 0 0;vertical-align:text-bottom;width:16px;height:16px}
+.fbx #pageFooter{margin:auto;width:auto}
+.hasLeftCol #pageFooter{background-color:#fff;clear:both;margin-left:180px}
+#pagefooter{border-top:0}
+#pageFooter{color:#737373;font-size: 11px;margin:0 auto;width:980px}
+#pageFooter a{text-decoration:none;white-space:nowrap}
+#pageFooter a:last-child{margin-right:0}
+#pageFooter a:hover{text-decoration:underline}
+#contentCurve{background-color:#fff;border-bottom:1px solid #b3b3b3;height:8px;font-size: 1px}
+.hasLeftCol #contentCurve{border:1px solid #b3b3b3;border-top:none;position:relative}
+#footerContainer{border-top:1px solid #eee;margin-bottom:30px;padding:8px;position:relative}
+#blueBar{background-color:#3b5998;height:41px;left:0;position:absolute;width:100%;z-index:-1}
+#globalContainer{margin:0 auto}
+.fbx #globalContainer{width:981px}
+.fbx #tab_canvas > div{padding-top:0}
+.fb_content{padding-bottom:20px}
+.fbx .fb_content{padding-bottom:0}
+.fbx #globalContainer #content{min-height:inherit}
+#mainContainer{margin-left:-1px;display:block;width:100%}
+.hasLeftCol #mainContainer{border-right:1px solid #b3b3b3}
+#leftCol{display:none;float:left;padding:20px 0 0 2px;width:179px;word-wrap:break-word}
+.hasLeftCol #leftCol{display:block}
+#rightCol{margin-top:-10000px;float:right;padding-right:0;width:244px;word-wrap:break-word}
+.hasRightCol #rightCol{margin-top:0}
+.hasLeftCol #rightCol{padding-right:20px}
+#contentCol{background-color:#fff;padding-top:15px}
+.hasLeftCol #contentCol{border-left:1px solid #b3b3b3;margin-left:181px}
+#headerArea{margin-bottom:5px;padding:2px 0 12px}
+.hasLeftCol #headerArea{float:left;margin:0 20px 0;width:759px}
+#contentArea{margin-right:-1px;padding-left:1px;word-wrap:break-word}
+.hasLeftCol #contentArea,.hasRightCol #contentArea{float:left;margin-right:0}
+.hasLeftCol #contentArea{padding:0 20px;width:759px}
+.hasRightCol #contentArea{width:714px}
+.hasLeftCol .hasRightCol #contentArea{padding-right:0;width:493px}
+#bottomContent{clear:both;padding:0 20px 12px}
+.permalink_stream .uiStream .uiStreamMessage{font-size: 13px}
+.UIActionLinks_title{font-size: 9px;font-weight:normal;white-space:nowrap;color:#999}
+.has_body .UIActionLinks_title{display:none}
+.log_mode .has_body .UIActionLinks_title{display:inline}
+.UIActionLinks_bottom{color:#999}
+.UIActionLinks_bottom a,
+.UIActionLinks_bottom button.as_link,
+.UIActionLinks_left,
+.UIActionLinks_right{color:#6d84b4}
+.UIActionLinks .uiBlingBox{color:#3b5998}
+.UIActionLinks_left{float:left}
+.UIActionLinks_right{float:right}
+.from_friend_story_content_container .UIActionLinks_bottom,
+.has_body .UIActionLinks_bottom,
+.story_body .UIActionLinks_bottom{clear:both;display:block}
+.log_mode .UIActionLinks_bottom{display:none}
+.tab_status_updates .UIActionLinks_title{font-size: 11px}
+
+.photosCroppedThumbHighlighted{background-color:#edeff4;border-color:#3b5998}
+.fbPhotoInlineCaptionEditor .editIcon{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/z4/r/ffUJLIqlYCk.gif) no-repeat -18px 0;height:18px;width:18px}
+.fbPhotoInlineCaptionEditor .editIcon:hover{background-position:0 0}
+.fbPhotoInlineCaptionEditor .captionWrapper{margin-right:18px}
+.fbPhotoInlineCaptionEditorEditMode .captionWrapper{margin-right:0}
+.fbPhotoInlineCaptionEditor .editForm,
+.fbPhotoInlineCaptionEditorEditMode .fbPhotoCaption,
+.fbPhotoInlineCaptionEditorEditMode .noCaption,
+.fbPhotoInlineCaptionEditorEditMode .editIcon{display:none}
+.fbPhotoInlineCaptionEditorEditMode .editForm{display:block;margin:0;padding:0;text-align:right}
+.fbPhotoInlineCaptionEditor textarea{margin-bottom:2px;width:429px}
+.fbPhotosTaglist .caption + .tagItem .separater{display:none}
+.fbPrivacyWidget .customEdit .editLink:hover{text-decoration:underline}
+.fbPrivacyWidget .customEdit,
+.fbPrivacyWidget .checked .customize{display:none}
+.fbPrivacyWidget .checked .customEdit{display:inline}
+.fbProfileByline{width:493px;margin-top:4px;line-height:15px}
+.fbProfileBylineFragment{margin-right:8px;color:#666}
+.fbProfileBylineIcon{margin-bottom:1px;vertical-align:bottom}
+.profileHeader{margin-top:4px}
+.profileHeaderMain{width:513px}
+.profileHeaderMain h1{display:inline}
+.profileHeader .mainButton{vertical-align:top}
+.profileHeader .headerFormButton{display:inline}
+.profileHeader .headerActions{text-align:right}
+.profileHeader .subtitle{line-height:15px;padding-top:4px;width:490px}
+.profileHeader .profileActions{float:left;margin-top:3px}
+.profileHeader .profileCallButton .img{margin-top:2px}
+.profileHeader .fadedDespressedButton{opacity:.6}
+.ginormousProfileName{color:#1c2a47;font-size: 20px}
+.profileArrow{margin:0 5px 2px 6px}
+.fbx_above_html #above_the_profile{width:auto;padding-right:0}
+.profile-picture{background-color:#fff;display:block;overflow:hidden;position:relative;width:180px}
+.profile-picture:hover{text-decoration:none}
+.profile-picture:hover .edit_profilepicture{display:block}
+.profile-picture img{display:block;margin:auto;max-width:180px}
+.profile-picture span{background-color:#000;height:800px;position:absolute;top:0;right:0;width:1px;opacity:.30}
+.edit_profilepicture{background:#000;color:#fff;display:none;height:20px;opacity:.7;padding:6px 7px 0 23px;position:absolute;right:1px;top:0}
+.edit_profilepicture:hover{opacity:.95}
+span.edit_profilepicture_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zA/r/QbfalTL4SQ2.png) no-repeat left 4px;height:18px;left:7px;opacity:.95;position:absolute;top:4px;width:18px}
+.profile-friends .profileFriendsContent{height:42px;line-height:14px;overflow:hidden}
+.profile-friends .profileFriendsText{overflow:hidden;text-overflow:ellipsis;width:102px;word-wrap:normal}
+.profileFriendsNetwork{white-space:nowrap}
+.profile-left-nav-facepile{margin:2px 6px 14px 6px}
+.relationshipSection:hover .fbProfileNavHeaderEditButton{display:block}
+.relationshipSection .fbProfileNavHeaderEditButton{display:none}
+.profile-friends{margin:7px 6px 15px}
+.profile-friends li{margin-bottom:7px}
+.profile-friends li .UIImageBlock_Content{padding-top:3px}
+.profile-friends-footer{border-top:1px solid #cdcdcd;padding:8px 10px 0 6px}
+.profile-friends-footer li:first-child{padding-top:0}
+div.profile-pagelet-section{margin-bottom:24px}
+.profile .fbx_profile_tab_loading{background:no-repeat url(http://static.ak.fbcdn.net/rsrc.php/v1/z9/r/jKEcVPZFk-2.gif) center center;padding:150px 0}
+.fbx .profileInfoTable th.label{padding-right:8px;width:80px}
+.fbx .nuxBanner .description{width:450px}
+.fbProfilePhotoBar{margin-left:-2px}
+.fbProfilePhotoBar li{float:left;line-height:0;padding-left:2px}
+.fbProfilePhotoStrip{overflow:hidden;width:493px}
+.fbProfilePhotoStrip .fbProfilePhotoBar{display:block;width:900px}
+a.fbProfilePhotoThumb,
+a.fbProfilePhotoThumb:hover{border:none;padding:0}
+a.fbProfilePhotoThumb i{height:68px;width:97px}
+div.fbProfilePhotoThumbEmpty{background-color:#f2f2f2;border-top:1px solid #d9d9d9;height:67px;width:97px}
+#profile_minifeed .reportHide{display:none}
+#profile_minifeed.uiReportStream .reportHide{display:block}
+#profile_minifeed.uiReportStream .hideButton,#profile_minifeed.uiReportStream .hideSelector .uiSelectorButton{opacity:1}
+.fbProfileStream .uiStreamMessage .passiveName{font-weight:normal}
+.fbProfileStream .uiStreamMessage a.passiveName{font-weight:bold}
+.pop_container_advanced{background:rgba(82,82,82,0.7);-webkit-border-radius:8px;padding:10px}
+.pop_content_old{position:relative}
+.pop_container{direction:ltr;position:relative;top:10px}
+.pop_topleft,.pop_topright,.pop_bottomleft,.pop_bottomright{height:10px;width:10px;overflow:hidden;position:absolute}
+.pop_topleft{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zv/r/b9B5rP7CZUJ.png);background-repeat:no-repeat;left:-10px;top:-10px}
+.pop_topright{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zP/r/pbUw18P5OnW.png);background-repeat:no-repeat;right:-10px;top:-10px}
+.pop_bottomleft{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zc/r/Civ9WLumChT.png);background-repeat:no-repeat;bottom:-10px;left:-10px}
+.pop_bottomright{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zS/r/fc4z4Z6xzEI.png);background-repeat:no-repeat;right:-10px;bottom:-10px}
+.pop_verticalslab,.pop_horizontalslab{width:100%;height:100%;position:absolute;background:#525252;opacity:.7}
+.pop_verticalslab{margin:-10px 0 0;padding-bottom:20px}
+.pop_horizontalslab{margin:0 0 0 -10px;padding-right:20px}
+.generic_dialog{height:0;left:0;overflow:visible;outline:none;position:absolute;top:0;width:100%;z-index:250}
+.generic_dialog_popup{height:0;overflow:visible;position:relative;width:465px;margin:auto}
+.generic_dialog div.dialog_loading{background-color:#f2f2f2;border:1px solid #606060;font-size: 24px;padding:10px}
+#generic_dialog_overlay{height:100%;position:fixed;top:0;width:100%;z-index:200;background-color:#fff;opacity:0}
+#generic_dialog_overlay.dark{background-color:#747474;opacity:.5}
+#generic_dialog_overlay.white{background-color:#fff;opacity:.5}
+.pop_content{direction:ltr}
+.pop_dialog_rtl .pop_content{direction:rtl}
+.pop_content h2.dialog_title{background:#6d84b4;border:1px solid #3b5998;border-bottom:none;color:#fff;font-size: 14px;font-weight:bold;margin:0}
+.pop_content h2.secure{background:#6d84b4 url(http://static.ak.fbcdn.net/rsrc.php/v1/zu/r/jp8TzrZb6J1.png) 98% no-repeat}
+.pop_content h2.loading{background:#6d84b4 url(http://static.ak.fbcdn.net/rsrc.php/v1/z-/r/AGUNXgX_Wx3.gif) 98% no-repeat}
+.pop_content h2.dialog_loading{background:#6d84b4 url(http://static.ak.fbcdn.net/rsrc.php/v1/z-/r/AGUNXgX_Wx3.gif) no-repeat 400px 10px;padding-right:40px}
+.pop_content h2 span{display:block;padding:5px 10px}
+.pop_content .dialog_content{background:#fff;border:1px solid #555;border-top-width:0}
+.pop_content .dialog_body{padding:10px;border-bottom:1px solid #ccc}
+.omitDialogFooter .pop_content .dialog_body{border-bottom:0}
+.pop_content .dialog_summary{background:#f2f2f2;padding:8px 10px;border-bottom:1px solid #ccc}
+.pop_content .dialog_buttons{background:#f2f2f2;padding:8px 10px 8px 10px;position:relative;text-align:right}
+.pop_content .dialog_buttons_msg{float:left;line-height:17px;padding-top:4px}
+.pop_content .dialog_footer{background:#F2F2F2 none repeat scroll 0}
+.full_bleed .pop_content .dialog_body{padding:0}
+.uiButton,.uiButtonSuppressed:active,.uiButtonSuppressed:focus,.uiButtonSuppressed:hover{background:#eee url(http://static.ak.fbcdn.net/rsrc.php/v1/zD/r/B4K_BWwP7P5.png) repeat 0 0;border:1px solid #999;border-bottom-color:#888;box-shadow:0 1px 0 rgba(0, 0, 0, .1);-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, .1);cursor:pointer;display:-moz-inline-box;display:inline-block;font-size: 11px;font-weight:bold;line-height:normal !important;padding:2px 6px;text-align:center;text-decoration:none;vertical-align:top;white-space:nowrap}
+.uiButton + .uiButton{margin-left:4px}
+.uiButton:hover{text-decoration:none}
+.uiButton:active,.uiButtonDepressed{background:#ddd;border-bottom-color:#999;box-shadow:0 1px 0 rgba(0, 0, 0, .05);-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, .05)}
+.uiButton .img{margin-top:2px;vertical-align:top}
+.uiButtonLarge .img{margin-top:4px}
+.uiButton .customimg{margin-top:0}
+.uiButton .uiButtonText,.uiButton input{background:none;border:0;color:#333;cursor:pointer;display:-moz-inline-box;display:inline-block;font-family:'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;font-size: 11px;font-weight:bold;margin:0;outline:none;padding:1px 0 2px;white-space:nowrap}
+.uiButtonSpecial{background-color:#69a74e;background-position:0 -96px;border-color:#3b6e22 #3b6e22 #2c5115}
+.uiButtonSpecial:active{background:#609946;border-bottom-color:#3b6e22}
+.uiButtonSpecial.uiButtonDisabled,.uiButtonSpecial.uiButtonDisabled:active,.uiButtonSpecial.uiButtonDisabled:focus,.uiButtonSpecial.uiButtonDisabled:hover{background:#b4d3a7;border-color:#9db791}
+.uiButtonConfirm{background-color:#5b74a8;background-position:0 -48px;border-color:#29447e #29447e #1a356e}
+.uiButtonConfirm:active{background:#4f6aa3;border-bottom-color:#29447e}
+.uiButtonConfirm.uiButtonDisabled,.uiButtonConfirm.uiButtonDisabled:active,.uiButtonConfirm.uiButtonDisabled:focus,.uiButtonConfirm.uiButtonDisabled:hover{background:#adbad4;border-color:#94a2bf}
+.uiButtonSpecial .uiButtonText,.uiButtonSpecial input,.uiButtonSpecial.uiButtonDisabled .uiButtonText,.uiButtonSpecial.uiButtonDisabled input,.uiButtonConfirm .uiButtonText,.uiButtonConfirm input,.uiButtonConfirm.uiButtonDisabled .uiButtonText,.uiButtonConfirm.uiButtonDisabled input{color:#fff}
+.uiButtonDisabled,.uiButtonDisabled:active,.uiButtonDisabled:focus,.uiButtonDisabled:hover{background:#f2f2f2;border-color:#c8c8c8;box-shadow:none;-webkit-box-shadow:none}
+.uiButtonDisabled .img{opacity:.5}
+.uiButtonDisabled .uiButtonText,.uiButtonDisabled input{color:#b8b8b8}
+.uiButtonDepressed,.uiButtonDepressed .uiButtonText,.uiButtonDepressed input,.uiButtonDisabled,.uiButtonDisabled .uiButtonText,.uiButtonDisabled input{cursor:default}
+.uiButtonLarge,.uiButtonLarge .uiButtonText,.uiButtonLarge input{font-size: 13px}
+.uiButtonSuppressed{background:none;border-color:transparent;box-shadow:none;-webkit-box-shadow:none}
+.uiButtonNoText .img{margin-left:-1px;margin-right:-1px}
+.android .uiButton .uiButtonText,.android .uiButton input{padding:3px 0 1px 1px}
+.uiCloseButton{cursor:pointer;display:-moz-inline-box;display:inline-block;margin:0;padding:0;zoom:1}
+label.uiCloseButton{overflow:hidden}
+.uiCloseButton input{cursor:pointer;opacity:0;outline:none;padding:18px}
+.uiCloseButton{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/z5/r/Yz_2RL5XOEG.png);height:15px;width:15px}
+.uiCloseButtonSmall{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/za/r/1Be-brvKO2y.png);height:11px;margin-top:1px;width:11px}
+.uiCloseButtonDark{background-position:left -15px}
+.uiCloseButtonInverted{background-position:left -15px;background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zp/r/vQK-sxr3HG0.png)}
+.uiCloseButton:hover,.uiCloseButton:focus{background-position:left -30px}
+.uiCloseButton:active{background-position:left -45px}
+.uiCloseButtonSmallDark{background-position:left -11px}
+.uiCloseButtonSmallInverted{background-position:left -11px;background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zn/r/WSQ2wnhSG-F.png)}
+.uiCloseButtonSmall:hover,.uiCloseButtonSmall:focus{background-position:left -22px}
+.uiCloseButtonSmall:active{background-position:left -33px}
+.uiLinkButton input{background:none;border:none;color:#3b5998;cursor:pointer;font-family:'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;font-size: 11px;margin:0;padding:0;vertical-align:top}
+.uiLinkButton:hover,.uiLinkButton input:hover,.uiLinkButton input:focus,.uiLinkButton input:active{color:#3b5998;text-decoration:underline}
+.uiLinkButtonSubtle input,.uiLinkButtonSubtle:hover,.uiLinkButtonSubtle input:hover,.uiLinkButtonSubtle input:focus,.uiLinkButtonSubtle input:active{color:#808080}
+.uiLinkButton input.async_saving{text-decoration:none}
+.uiComposer{border-bottom:1px solid #ccc}
+.uiComposerTopBorder{border-top:1px solid #ccc}
+.uiComposerOpen,.no_js .uiComposer{border-bottom:none}
+.uiComposer .attachmentLoader{line-height:normal;position:absolute;right:2px;top:9px}
+.uiComposer .attachmentSentenceBar{line-height:22px;padding:3px 0 6px;position:relative;z-index:2;zoom:1}
+.uiComposer .attachmentCloseBtn{position:absolute;right:2px;top:7px}
+.uiComposer .attachmentFrame{border:1px solid #b4bbcd;border-bottom-color:#ccc}
+.uiComposerHideMessageBox .attachmentFrame,.uiComposerHideInput .attachmentFrame{border-bottom-color:#b4bbcd}
+.uiComposerHideContent .attachmentFrame{display:none}
+.uiComposerOpen .focus_target{padding-bottom:10px}
+.uiComposerWhiteMessageBox .child_was_focused{border-bottom:1px solid #e9e9e9}
+.uiComposerHideMessageBox .child_was_focused{border-bottom:none}
+.uiComposer .showWhenOpen,.uiComposer .showWhenLoading,.uiComposer .showOnceInteracted,.uiComposer.async_saving .hideWhenLoading{display:none !important}
+.uiComposerOpen .showWhenOpen,.no_js .uiComposer .showWhenOpen,.uiComposerInteracted .showOnceInteracted,.uiComposer .child_was_focused .showOnceInteracted,.uiComposer.async_saving .showWhenLoading{display:block !important}
+.uiComposerAttachment .attachmentLink{outline:none}
+.uiComposerAttachment .attachmentLink:focus{text-decoration:underline}
+.uiComposerAttachment .selected,
+.uiComposerAttachmentSelected .normal{display:none}
+.uiComposerAttachmentSelected .selected{display:inline}
+.uiComposerAttachment .nub{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zf/r/PfBgtiydy5U.gif) no-repeat center top;height:7px;left:2px;position:absolute;top:18px;width:11px}
+span.uiComposerAttachment{color:#333;display:inline-block}
+.uiComposerAttachments{line-height:22px;padding:3px 0 4px;position:relative;z-index:2}
+.uiComposerOpen .uiComposerAttachments{padding-bottom:6px}
+.uiComposerMessageBox{background-color:#f2f2f2;border:1px solid #b4bbcd;border-top-width:0;padding:8px;zoom:1}
+.uiComposerHideMessageBox .uiComposerMessageBox{display:none}
+.uiComposerWhiteMessageBox .uiComposerMessageBox{background-color:#fff;border-width:0;padding:0}
+.uiComposerMessageBox .inputContainer{background-color:#fff;border:1px solid #b4bbcd;zoom:1}
+.uiComposerHideInput .uiComposerMessageBox .inputContainer{display:none}
+.uiComposerMessageBoxControls{margin-top:5px}
+.uiComposerHideInput .uiComposerMessageBoxControls{margin-top:0}
+.uiComposerMessageBoxMentions .inputContainer{border:none;padding:0;position:relative;zoom:1}
+.uiComposerMention .inputContainer{z-index:1}
+.uiComposerMessageBox .composerTypeahead{border-bottom:1px solid !important;border-color:#b4bbcd !important}
+.uiComposerMessageBox .composerTypeahead .wrap{padding:5px !important;border-color:#b4bbcd !important}
+.uiComposerMessageBox .uiMentionsInput .highlighter{font-size: 13px;left:2px;top:2px}
+.uiComposerMessageBox .uiMentionsInput .highlighter div{line-height:16px}
+.uiComposerMessageBox .input{background:transparent;border-width:0;font-size: 13px;height:16px;margin:0;outline:none;padding:0;resize:none;vertical-align:bottom;width:100%}
+.uiComposerMessageBox .textBlurb{line-height:25px}
+.uiComposerMessageBox .textBlurb label{vertical-align:baseline}
+.uiComposerMessageBox .textBlurb input{vertical-align:middle}
+.uiBoxGray{background-color:#f2f2f2;border:1px solid #ccc}
+.uiBoxDarkgray{color:#ccc;background-color:#333;border:1px solid #666}
+.uiBoxLightblue{background-color:#edeff4;border:1px solid #d8dfea}
+.uiBoxRed{background-color:#ffebe8;border:1px solid #dd3c10}
+.uiBoxWhite{background-color:#fff;border:1px solid #ccc}
+.uiBoxYellow{background-color:#fff9d7;border:1px solid #e2c822}
+.uiBoxOverlay{background:rgba(255, 255, 255, .85);border:1px solid #3b5998;border:1px solid rgba(59, 89, 153, .65);zoom:1}
+.noborder{border:none}
+.topborder{border-bottom:none;border-left:none;border-right:none}
+.bottomborder{border-left:none;border-right:none;border-top:none}
+.dashedborder{border-style:dashed}
+.uiGrid{border:0;border-collapse:collapse;border-spacing:0}
+.uiGridCalc{width:100%}
+.uiGrid .vTop{vertical-align:top}
+.uiGrid .vMid{vertical-align:middle}
+.uiGrid .vBot{vertical-align:bottom}
+.uiGrid .hLeft{text-align:left}
+.uiGrid .hCent{text-align:center}
+.uiGrid .hRght{text-align:right}
+
+.UIImageBlock_Content{display:table-cell;vertical-align:top;width:10000px}
+.UIImageBlock_Image{float:left;margin-right:5px}
+.UIImageBlock_Image .img,img.UIImageBlock_Image,i.UIImageBlock_Image{display:block}
+.UIImageBlock_Ext{float:right}
+.UIImageBlock_ICON_Image{margin-right:5px}
+.UIImageBlock_ICON_Content{padding-top:1px}
+.UIImageBlock_SMALL_Image{margin-right:8px}
+.UIImageBlock_MED_Image,.UIImageBlock_ENT_Image{margin-right:10px}
+.UIImageBlock_Entity .UIImageBlock_Content{height:50px;vertical-align:middle}
+.UIImageBlock_Entity img.UIImageBlock_Image,.UIImageBlock_Entity i.UIImageBlock_Image,.UIImageBlock_Entity .UIImageBlock_Image .img{height:50px;width:50px}
+.UIImageBlock_Entity .UIImageBlock_Ext{margin-top:14px;padding-left:8px}
+.lfloat{float:left}
+.rfloat{float:right}
+a.uiLinkSubtle{color:#808080}
+.uiListItem{display:block}
+.uiListHorizontalItem{float:left}
+.uiListLight,.uiListMedium,.uiListDark{border-style:solid}
+.uiListHorizontalItemBorder{border-width:0 0 0 1px}
+.uiListVerticalItemBorder{border-width:1px 0 0 0}
+.uiListItem:first-child{border-width:0}
+.uiListLight{border-color:#e9e9e9}
+.uiListMedium{border-color:#ccc}
+.uiListDark{border-color:#aaa}
+.uiListBulleted{color:#3b5998;list-style-type:square;margin-left:12px}
+.pas{padding:5px}
+.pam{padding:10px}
+.pal{padding:20px}
+.pts{padding-top:5px}
+.ptm{padding-top:10px}
+.ptl{padding-top:20px}
+.prs{padding-right:5px}
+.prm{padding-right:10px}
+.prl{padding-right:20px}
+.pbs{padding-bottom:5px}
+.pbm{padding-bottom:10px}
+.pbl{padding-bottom:20px}
+.pls{padding-left:5px}
+.plm{padding-left:10px}
+.pll{padding-left:20px}
+.phs{padding-left:5px;padding-right:5px}
+.phm{padding-left:10px;padding-right:10px}
+.phl{padding-left:20px;padding-right:20px}
+.pvs{padding-top:5px;padding-bottom:5px}
+.pvm{padding-top:10px;padding-bottom:10px}
+.pvl{padding-top:20px;padding-bottom:20px}
+.mas{margin:5px}
+.mam{margin:10px}
+.mal{margin:20px}
+.mts{margin-top:5px}
+.mtm{margin-top:10px}
+.mtl{margin-top:20px}
+.mrs{margin-right:5px}
+.mrm{margin-right:10px}
+.mrl{margin-right:20px}
+.mbs{margin-bottom:5px}
+.mbm{margin-bottom:10px}
+.mbl{margin-bottom:20px}
+.mls{margin-left:5px}
+.mlm{margin-left:10px}
+.mll{margin-left:20px}
+.mhs{margin-left:5px;margin-right:5px}
+.mhm{margin-left:10px;margin-right:10px}
+.mhl{margin-left:20px;margin-right:20px}
+.mvs{margin-top:5px;margin-bottom:5px}
+.mvm{margin-top:10px;margin-bottom:10px}
+.mvl{margin-top:20px;margin-bottom:20px}
+.fss{font-size: 9px}
+.fsm{font-size: 11px}
+.fsl{font-size: 13px}
+.fsxl{font-size: 16px}
+.fsxxl{font-size: 18px}
+.fwn{font-weight:normal}
+.fwb{font-weight:bold}
+.fcb{color:#333}
+.fcg{color:#808080}
+.uiMentionsInput{position:relative}
+.uiMentionsInput .mentionsTextarea,.uiMentionsInput .mentionsTypeahead{background:transparent;zoom:1}
+.uiMentionsInput .highlighter{left:1px;overflow:hidden;position:absolute;padding:4px;top:1px}
+.uiMentionsInput .highlighter div{color:transparent;line-height:14px;white-space:pre-wrap;width:100%}
+.uiMentionsInput .highlighter b{background:#d8dfea;font-weight:normal}
+.uiSelector .uiCloseButton{border:1px solid #fff;margin:0}
+.uiSelector .openToggler .uiCloseButton{background-position:left -30px}
+.uiSelector .openToggler .uiCloseButtonSmall{background-position:left -22px}
+.uiMenu{background-color:#fff;border:1px solid #777;border-bottom:2px solid #293e6a;padding:3px 0 4px}
+.uiMenuItem .itemAnchor{border:solid #fff;border-width:1px 0;color:#111;display:block;font-weight:normal;line-height:16px;padding:1px 16px 1px 22px;text-decoration:none}
+.uiMenuItem a:hover{text-decoration:none}
+.uiMenuItem a:active,.uiMenuItem a:focus{background-color:#6d84b4;border-color:#3b5998;color:#fff;outline:none}
+.uiMenu .checked .itemAnchor{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zu/r/6NHt8H5uyPf.png) left 4px no-repeat;font-weight:bold}
+.uiMenu .checked a:active,.uiMenu .checked a:focus{background-color:#6d84b4;background-position:left -56px}
+.uiMenuItem .itemLabel{display:block;max-width:300px;text-overflow:ellipsis;white-space:nowrap}
+.uiMenuItemBigLabel .itemLabel{overflow:hidden;min-width:300px}
+.uiMenuItem .disabledAnchor,.uiMenu .disabled .itemAnchor{display:none}
+.uiMenu .disabled .disabledAnchor{display:block}
+.uiMenu .disabled .itemAnchor{opacity:.55}
+.uiMenuItemGroup .groupTitle{margin:0 16px 3px 22px}
+.uiMenuSeparator{border-bottom:1px solid #ddd;margin:5px 7px 6px;padding-top:1px}
+.openToggler{z-index:100}
+.uiToggleFlyout,.openToggler .uiToggleFlyout .uiToggleFlyout{display:none}
+.openToggler .uiToggleFlyout,.openToggler .uiToggleFlyout .openToggler .uiToggleFlyout{display:block}
+.hideToggler{border:0;height:0;opacity:0;overflow:hidden;position:absolute;width:0}
+.uiSelector{display:-moz-inline-box;display:inline-block;max-width:200px;vertical-align:top;zoom:1}
+.uiSelector .wrap{position:relative}
+.uiSelector select,.uiSelector .submitButton,.no_js form .uiSelectorButton{display:none}
+.no_js form .uiSelector select,.no_js form .uiSelector .submitButton{display:inline}
+.uiSelector .uiButton,.uiSelector .uiButton:active,.uiSelector .uiButton:focus,.uiSelector .uiButton:hover{background-image:none}
+.uiSelector .uiSelectorButton{vertical-align:top}
+.uiSelector .uiSelectorButton:active{background-color:#ddd}
+.uiSelector .openToggler .uiSelectorButton,.uiSelector .openToggler .uiSelectorButton:active,.uiSelector .openToggler .uiSelectorButton:focus,.uiSelector .openToggler .uiSelectorButton:hover{background-color:#6d84b4;border:1px solid #3b5998;border-bottom-color:#6d84b4;box-shadow:none;-webkit-box-shadow:none}
+.uiSelectorNormal .uiSelectorChevronOnly,.uiSelectorNormal .uiSelectorChevronOnly:active,.uiSelectorNormal .uiSelectorChevronOnly:focus,.uiSelectorNormal .uiSelectorChevronOnly:hover{height:20px;padding:0}
+.uiSelectorNormal .uiSelectorButton,.uiSelectorNormal .uiSelectorButton:active,.uiSelectorNormal .uiSelectorButton:focus,.uiSelectorNormal .uiSelectorButton:hover,.uiSelectorNormal .uiButtonSuppressed:active,.uiSelectorNormal .uiButtonSuppressed:focus,.uiSelectorNormal .uiButtonSuppressed:hover{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zD/r/B4K_BWwP7P5.png);background-position:right -144px;background-repeat:no-repeat;max-width:169px;padding-right:23px}
+.uiSelectorNormal .uiButtonDisabled,.uiSelectorNormal a.uiButtonDisabled:active,.uiSelectorNormal a.uiButtonDisabled:focus,.uiSelectorNormal a.uiButtonDisabled:hover{background-position:right -288px}
+.uiSelectorNormal .uiButtonSuppressed.uiButtonDisabled{background-position:right -337px}
+.uiSelectorNormal .uiSelectorButton:active,.uiSelectorNormal .uiButtonSuppressed{background-position:right -241px}
+.uiSelectorNormal .openToggler .uiSelectorButton,.uiSelectorNormal .openToggler .uiSelectorButton:active,.uiSelectorNormal .openToggler .uiSelectorButton:focus,.uiSelectorNormal .openToggler .uiSelectorButton:hover,.uiSelectorNormal .openToggler .uiButtonSuppressed,.uiSelectorNormal .openToggler .uiButtonSuppressed:active,.uiSelectorNormal .openToggler .uiButtonSuppressed:focus,.uiSelectorNormal .openToggler .uiButtonSuppressed:hover{background-position:right -192px}
+.uiSelectorNormal .uiSelectorButton .uiButtonText{max-width:169px;overflow:hidden;text-overflow:ellipsis;vertical-align:top}
+.uiSelectorNormal .uiSelectorBigButtonLabel .img{float:left}
+.uiSelectorNormal .uiSelectorBigButtonLabel .uiButtonText{display:block}
+.uiSelectorNormal .openToggler .uiSelectorButton .uiButtonText{color:#fff}
+.uiSelectorMenuWrapper{bottom:auto;left:0;margin:-1px 0 30px;max-width:340px;min-width:100%;position:absolute;right:auto;top:100%;z-index:-1}
+.uiSelectorRight .uiSelectorMenuWrapper{left:auto;right:0}
+.uiSelectorMenuWrapper .loading{padding:5px 20px}
+.uiSelectorMenuWrapper .loading span{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zb/r/GsNJNwuI-UM.gif) no-repeat 0 0;display:-moz-inline-box;display:inline-block;height:11px;margin:0 auto;width:16px}
+.uiTextareaNoResize{resize:none}
+.uiTextareaAutogrow{overflow:hidden}
+.uiHeader h2{color:#1c2a47;font-size: 16px}
+.uiHeader h2 a{color:#1c2a47}
+.uiHeader h3,.uiHeader h4{color:#333;font-size: 11px}
+.uiHeader h5{color:#666;font-size: 11px}
+.uiHeaderWithImage .uiHeaderTop{position:relative}
+.uiHeaderWithImage .uiHeaderTitle{padding-left:22px}
+.uiHeaderImage{left:0;position:absolute}
+.uiHeader h2 .uiHeaderImage{top:2px}
+.uiHeaderTopBorder{border-top:1px solid #aaa;padding-top:.5em}
+div.uiHeaderTopBorder{margin-left:0}
+.uiHeaderTopAndBottomBorder{border-bottom:1px solid #e9e9e9;border-top:1px solid #aaa;padding:5px 0}
+.uiHeaderMiddleBorder{border-bottom:1px solid #ccc;height:.8em;margin:.5em 0 1.5em 0;position:relative}
+.uiHeaderMiddleBorder .uiHeaderTitle,.uiHeaderMiddleBorder .uiHeaderActions{background-color:#fff;position:absolute;top:0}
+.uiHeaderMiddleBorder .uiHeaderTitle{left:0;padding-right:.5em}
+.uiHeaderMiddleBorder .uiHeaderActions{padding-left:.5em;right:0}
+.uiHeaderMiddleBorder .uiButton{margin-top:-2px}
+.uiHeaderBottomBorder{border-bottom:1px solid #aaa;padding-bottom:.5em}
+.uiHeaderPage{padding:6px 0 16px}
+.uiHeaderPage .uiHeaderTitle{line-height:20px;min-height:20px;padding-bottom:2px;vertical-align:bottom}
+.uiHeaderPage .uiHeaderActions{margin-top:-1px}
+.uiHeaderPage .uiHeaderTop .fsl{margin-top:3px}
+.uiHeaderNav{border-color:#eee;margin:8px 0 0 6px;padding:7px 6px 3px 5px}
+.uiHeaderNavEmpty{padding-top:6px}
+.uiHeaderNav h4{color:#808080}
+.uiHeaderSection,.uiSideHeader{background-color:#f2f2f2;border-bottom:none;border-top:solid 1px #e2e2e2;padding:4px 5px 5px}
+.uiIconLink{position:relative}
+.uiIconLink .img{left:0;position:absolute;vertical-align:middle}
+.uiTooltip{position:relative}
+.uiTooltipActive,.uiTooltip:active,.uiTooltip:focus,.uiTooltip:hover{outline:none;text-decoration:none;z-index:2}
+.uiTooltipWrap{display:none}
+.uiTooltipWrap:hover{visibility:hidden}
+.uiTooltipActive .uiTooltipWrap:hover{visibility:visible}
+.uiTooltipText{background-color:#282828;color:#fff !important;display:block;font-size: 11px;line-height:14px;padding:4px 8px;text-align:left;white-space:nowrap}
+.uiTooltipActive .uiTooltipWrap,.uiTooltip:active .uiTooltipWrap,.uiTooltip:focus .uiTooltipWrap,.uiTooltip:hover .uiTooltipWrap{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/z1/r/uVR6w3wRHEJ.gif) left bottom no-repeat;bottom:100%;display:block;left:0;padding:0 0 4px;position:absolute}
+.uiTooltipActive .center,.uiTooltip:active .center,.uiTooltip:focus .center,.uiTooltip:hover .center{left:50%;margin-left:-10px;padding-left:10px}
+.uiTooltip .center .uiTooltipText{left:-50%;position:relative}
+.uiTooltip .centerbottom .uiTooltipText{margin-left:18px}
+.uiTooltipActive .right,.uiTooltip:active .right,.uiTooltip:focus .right,.uiTooltip:hover .right{background-position:right bottom;left:auto;right:0}
+.uiTooltipActive .middle,.uiTooltip:active .middle,.uiTooltip:focus .middle,.uiTooltip:hover .middle{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zR/r/kPCE0g_tKJs.gif);background-position:right top;left:auto;margin:-4px 4px 0 0;right:100%;padding:4px;top:50%}
+.uiTooltip .middle .uiTooltipText{margin-top:-10px}
+.uiTooltipActive .rightmiddle,.uiTooltip:active .rightmiddle,.uiTooltip:focus .rightmiddle,.uiTooltip:hover .rightmiddle{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zY/r/_ZWZupdaAgS.gif);background-position:left top;left:100%;margin:-4px 0 0 4px;right:auto}
+.uiTooltipActive .bottom,.uiTooltip:active .bottom,.uiTooltip:focus .bottom,.uiTooltip:hover .bottom{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zX/r/k2R_CZuPy2I.png);background-position:left top;bottom:auto;padding:4px 0 0;top:100%}
+.uiTooltipActive .rightbottom,.uiTooltip:active .rightbottom,.uiTooltip:focus .rightbottom,.uiTooltip:hover .rightbottom{background-position:right top}
+.uiTooltipDisabled:active .uiTooltipWrap,.uiTooltipDisabled:focus .uiTooltipWrap,.uiTooltipDisabled:hover .uiTooltipWrap,.openToggler > .uiTooltip:active .uiTooltipWrap,.openToggler > .uiTooltip:focus .uiTooltipWrap,.openToggler > .uiTooltip:hover .uiTooltipWrap{display:none}
+.uiCollapsedList .visible{margin-right:10px}
+.uiCollapsedListVisible .showAll,
+.uiCollapsedListHidden .hiddenItem{display:none}
+.uiCollapsedListNoSeparate .visible{margin-right:3px}
+.uiCollapsedListVisible .visible,
+.uiCollapsedListMiddot .visible{margin-right:0}
+.uiMediaThumb{background:#fff;border:1px solid #ccc;display:-moz-inline-box;display:inline-block;outline:none;padding:4px;position:relative;vertical-align:bottom}
+.loading.uiMediaThumb{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/LOOn0JtHNzb.gif) no-repeat center center}
+.loading.uiMediaThumb i{opacity:.3}
+.uiMediaThumbSelected{background-color:#3b5998;border-color:#3b5998}
+.uiMediaThumb:hover,.uiMediaThumb:hover .uiMediaThumbWrap,.uiMediaThumb:active,.uiMediaThumb:active .uiMediaThumbWrap,.uiMediaThumb:focus,.uiMediaThumb:focus .uiMediaThumbWrap{border-color:#3b5998}
+.uiMediaThumb i{background-color:#eee;background-position:center 25%;background-repeat:no-repeat;display:block}
+.uiMediaThumbSmall i{height:54px;width:73px}
+.uiMediaThumbMedium i{height:85px;width:114px}
+.uiMediaThumbLarge i{height:116px;width:149px}
+.uiMediaThumbHuge i{height:120px;width:161px}
+.uiMediaThumbAlb{margin-bottom:4px;margin-right:4px}
+.uiMediaThumbWrap{background:#fff;border:1px solid #ccc;left:4px;padding:4px;position:absolute;top:4px}
+.uiMediaThumbAlbSmall,.uiMediaThumbSmall .uiMediaThumbWrap i{height:49px;width:68px}
+.uiMediaThumbAlbMedium,.uiMediaThumbMedium .uiMediaThumbWrap i{height:80px;width:109px}
+.uiMediaThumbAlbLarge,.uiMediaThumbLarge .uiMediaThumbWrap i{height:111px;width:144px}
+.uiMediaThumbAlbHuge,.uiMediaThumbHuge .uiMediaThumbWrap i{height:115px;width:156px}
+.uiSideNav ul{display:none}
+.uiSideNav .open ul{display:block}
+.uiSideNav li{position:relative;zoom:1}
+.uiSideNav .hidden{display:none}
+.uiSideNav .item,.uiSideNav .subitem{color:#333;display:block;border-bottom:1px solid #fff;line-height:13px;padding:3px 8px 4px 28px;position:relative;text-decoration:none;zoom:1}
+.uiSideNav .subitem{padding-left:37px}
+.uiSideNav .item:hover,.uiSideNav .item:active,.uiSideNav .item:focus,.uiSideNav .subitem:hover,.uiSideNav .subitem:active,.uiSideNav .subitem:focus{background-color:#eff2f7;text-decoration:none}
+.uiSideNav .selectedItem .item,.uiSideNav .selectedItem .item:hover,.uiSideNav ul .selectedItem .subitem,.uiSideNav ul .selectedItem .subitem:hover{background-color:#d8dfea;font-weight:bold}
+.uiSideNav .item .imgWrap{position:absolute;top:2px;left:5px;text-align:center;width:18px}
+.uiSideNav .external{padding-right:12px;background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zW/r/AebrcwrBeG6.png) no-repeat right 3px}
+.uiSideNav .loading ul .count,.uiSideNav .count{color:#808080}
+.uiSideNav .loading a{background-color:#eff2f7;border-color:#eff2f7;border-bottom-color:#fff}
+.uiSideNav .loading ul a{background-color:#fff;border-color:#fff}
+.uiSideNav .loadingIndicator{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zb/r/GsNJNwuI-UM.gif) no-repeat 0 0;display:none;height:11px;position:absolute;right:5px;top:5px;width:16px}
+.loading .loadingIndicator{display:block}
+.loading ul .loadingIndicator{display:none}
+.uiSideNav ul .loading .loadingIndicator{top:5px}
+.uiSideNav .showSubitems .hiddenSubitem,.uiSideNav .open .navMore{display:block}
+.uiSideNav .hiddenSubitem,.uiSideNav .showSubitems .navMore,.uiSideNav .navMore{display:none}
+.uiSideNav li .navMore{margin:4px 0 10px 37px}
+.uiSideNav .loading .navMore{background-color:transparent}
+.navMore .moreLessArrow,.navLess .moreLessArrow{margin:4px 0 0 4px;position:absolute;display:inline}
+.uiFacepileSmall ul{margin-top:-2px}
+.uiFacepileMedium ul{margin-top:-1px}
+.uiFacepileLarge ul{margin-top:-3px}
+.uiFacepile .link{display:-moz-inline-box;display:inline-block}
+.uiFacepile .uiFacepileItem .img{vertical-align:bottom}
+.uiFacepileSmall .uiFacepileItem{margin:2px 2px 0 0}
+.uiFacepileMedium .uiFacepileItem{margin:1px 1px 0 0}
+.uiFacepileLarge .uiFacepileItem{margin:3px 3px 0 0}
+.uiFacepile li:last-child .img{margin-right:0}
+.uiFacepile .chatOnline .uiTooltipText,.uiFacepile .chatIdle .uiTooltipText{background-position:right center;background-repeat:no-repeat;border-right:7px solid #282828;padding-right:12px}
+.uiFacepile .chatOnline .uiTooltipText{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zU/r/gATt-jY8pG8.png)}
+.uiFacepile .chatIdle .uiTooltipText{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zC/r/iCw8rbNFfB-.png)}
+.uiFacepile .chatStatus{border:solid #fff;border-width:1px 0 0 1px;bottom:0;height:5px;position:absolute;right:0;width:5px}
+.uiFacepile .chatOnline .chatStatus{background:#84ca5a;background:-moz-linear-gradient(top, #88cc5f, #7bc64d);background:-webkit-gradient(
+linear,
+left top,
+left bottom,
+from(#88cc5f), to(#7bc64d))}
+.uiFacepile .chatIdle .chatStatus{background:#8698bb}
+.uiFacepile .chatOffline .chatStatus{border:none}
+.uiProfilePhotoHuge{background-position:center 25%;width:100px;height:100px}
+.uiProfilePhotoLarge{width:50px;height:50px}
+.uiProfilePhotoMedium{width:32px;height:32px}
+.uiProfilePhotoSmall{width:24px;height:24px}
+div.experienceAttachment{border-left:2px solid #ccc;float:none}
+div.experienceAttachment .img{margin-top:1px}
+.dealsSmallIcon{vertical-align:bottom}
+.uiStreamStory .uiPhotoThumb img{max-width:121px}
+.uiStreamMinistoryGroup{padding:10px 0 11px 60px}
+.uiStreamMinistoryGroup .uiStreamStory{padding-top:1px}
+.uiStreamMinistoryGroup .header{color:#aaa;padding:2px 0 8px}
+.uiStreamMinistoryGroup .uiStreamStory .ministoryMessage{color:#333}
+.uiStreamMinistoryGroup .uiStreamStory .ministoryInlineMessage{display:inline}
+.uiStreamMinistoryGroup .showSimilar{display:block;margin:0 2px 8px 22px}
+.uiStreamMinistoryGroup .ministoryUfi{margin-bottom:6px}
+.uiStream .uiStreamMessage{color:#000;font-size: 11px;font-weight:normal;margin:0 0 5px 0}
+.Locale_zh_CN .uiStream .uiStreamMessage,.Locale_zh_TW .uiStream .uiStreamMessage,.Locale_zh_HK .uiStream .uiStreamMessage{font-size: 13px}
+.Locale_ja_JP .uiStream .uiStreamMessage{font-size: 12px}
+.uiStreamMessage,.uiAttachmentTitle,.uiAttachmentDesc{word-wrap:break-word}
+.uiStreamMessage .actorDescription{padding-bottom:3px}
+.uiStreamMessage .messageBody{line-height:14px}
+div.uiAttachmentTitle{color:#333}
+.uiStreamStory{padding-right:35px}
+.uiStream .hideButton,.uiStream .hideSelector{float:right;margin:-2px -35px 0 0}
+.uiStream .hideButton,.uiStream .hideSelector .uiSelectorButton{opacity:0}
+.uiStream .storyContent:hover .hideButton,.uiStream li.uiStreamStory:hover .hideButton,.uiStream .hideButton:active,.uiStream .hideButton:focus,.uiStream .storyContent:hover .hideSelector .uiSelectorButton,.uiStream li.uiStreamStory:hover .hideSelector .uiSelectorButton,.uiStream .hideSelector .uiSelectorButton:active,.uiStream .hideSelector .uiSelectorButton:focus,.uiStream .hideSelector .openToggler .uiSelectorButton{opacity:1}
+.uiStream .uiAttachmentDesc,.uiStream .uiStreamPassive{color:#808080}
+.uiStream .tagIcon{vertical-align:bottom}
+.uiStream .text_exposed_link{display:block;padding-top:4px;font-size: 11px}
+.uiStream .uiStreamStoryHide .storyContent{display:none}
+.uiStreamAttachments .external img{max-height:90px;max-width:90px}
+.uiStream .uiAttachmentDetails{color:#333}
+.uiAttachmentInline .uiAttachmentTitle,.uiAttachmentInline .uiAttachmentDesc{display:inline}
+.uiStreamMessage .actorName,.uiStreamMessage .passiveName{font-weight:bold}
+.uiStreamMessage .readButton{float:right}
+.uiAttachmentNoMedia{border-left:2px solid #ccc}
+.uiAttachmentMedia{float:left}
+.uiStreamAttachments .exploded .UIImageBlock_Image{margin-right:0}
+.uiStreamAttachments .exploded .UIImageBlock_Content,.uiStreamAttachments .text_exposed .truncatedMediaInfo{clear:both;display:block;padding-left:0;width:auto}
+.uiStreamAttachments .truncatedMediaItem{display:none}
+.uiStreamAttachments .text_exposed .truncatedMediaItem{display:block}
+.uiStreamAttachments .truncatedMediaInfo{display:table;zoom:1}
+.uiStream .uiStreamPrivacy .uiTooltipWrap{left:-5px}
+.uiStreamPrivacyContainer{color:#999}
+.uiStreamCollapsed{border-top:1px solid #eee}
+.uiStreamSubstories li.showAll{line-height:16px;padding:10px 0 0}
+.uiStreamSubstories .unseenItem{border-left:2px solid #a8b2ce;margin-left:-4px;padding-left:2px}
+.uiStreamSubstories .uiUfi{width:358px}
+.uiStream .uiStreamSeparator{background-color:#e9e9e9;border:0;height:7px;margin:6px 0;padding:0;text-align:center}
+.uiStream .uiStreamSeparatorText{background-color:#fff;padding:0 5px;position:relative;top:-4px}
+.uiStream .suppressBorder{border-top:0}
+.uiStreamFooter,.uiStreamSource{color:#999}
+.uiStreamFooter a{color:#6d84b4}
+.uiStreamSource a{color:#999}
+.uiTypeahead{background:#fff;border:solid #bdc7d8;border-width:1px 0;cursor:default;position:relative}
+.uiTypeahead .wrap{border:solid #bdc7d8;border-width:0 1px}
+.uiTypeahead .innerWrap{overflow:hidden;zoom:1}
+.uiTypeahead .textInput{background-color:transparent;border:0;outline:0;width:100%}
+.uiTypeahead .selected{background-color:#e2e8f6}
+.uiTypeaheadDisabled,
+.uiTypeaheadDisabled div.wrap{border-color:#ccc}
+.uiTypeaheadDisabled div.wrap{background:#e2e2e2}
+.uiTypeaheadDisabled div.wrap .textInput{color:#333}
+.uiTypeaheadFocused,
+.uiTypeaheadFocused .uiTypeahead{z-index:1}
+.uiTypeaheadView{display:block;left:0;position:absolute;top:100%;width:100%}
+.uiTypeaheadView ul{background:#fff;border:solid;border-width:1px 1px 2px;border-color:#333 #333 #293e6a;overflow:hidden;padding:2px 0}
+.uiTypeaheadView li{border:solid #fff;border-width:1px 0;color:#333;cursor:pointer;display:block;min-height:1px;padding:0 6px;position:relative}
+.uiTypeaheadView strong{background-color:#d8dfea;color:#3b5998}
+.uiTypeaheadView .selected{background-color:#6d84b4;border-color:#3b5998}
+.uiTypeaheadView .selected,.uiTypeaheadView .selected a,.uiTypeaheadView .selected div,.uiTypeaheadView .selected span{color:#fff !important}
+.uiTypeaheadView .selected strong{background-color:#5670a6}
+.uiTypeaheadView .text,.uiTypeaheadView .subtext,.uiTypeaheadView .category{display:block;padding-bottom:2px}
+.uiTypeaheadView .category{color:#666}
+.uiTypeaheadView .subtext{color:#999}
+.uiTypeaheadView .arrow{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zV/r/IJYgcESal33.png) 0 -413px;display:inline-block;height:7px;margin-left:4px;width:4px}
+.uiTypeaheadView .selected .arrow{background-position:0 -420px}
+.uiTypeahead .uiTypeaheadView .calltoaction{background:#f7f7f7;border-bottom:none;border-color:#ddd;display:block;min-height:1px;margin:2px 0 -2px;padding:8px;text-align:center}
+.uiTypeahead .uiTypeaheadView .calltoaction.selected{background:#6d84b4;border-color:#3b5998}
+.typeaheadLoading .uiTypeaheadView .calltoaction span.text{visibility:hidden}
+.typeaheadLoading .uiTypeaheadView .calltoaction{background:#f7f7f7 url(http://static.ak.fbcdn.net/rsrc.php/v1/zb/r/GsNJNwuI-UM.gif) no-repeat 50% 50%}
+.typeaheadLoading .uiTypeaheadView .calltoaction.selected{background:#6d84b4 url(http://static.ak.fbcdn.net/rsrc.php/v1/z-/r/AGUNXgX_Wx3.gif) no-repeat 50% 50%}
+.uiTypeaheadView .compact li{min-height:32px;padding:2px 10px 2px 45px}
+.uiTypeaheadView .compact .splitpics,.uiTypeaheadView .compact img{display:block;height:32px;left:6px;position:absolute;width:32px}
+.uiTypeaheadView .compact .text{font-weight:bold}
+.uiTypeaheadView .compact .details{color:#999;padding-top:0}
+.uiTypeaheadView .compact .detailsContents{position:relative}
+.uiTypeaheadView .compact .splitpic{float:left;overflow:hidden;width:15px}
+.uiTypeaheadView .compact .splitpics img{left:0;margin-left:-8px;position:static}
+.uiTypeaheadView .compact .splitpics .leftpic{margin-right:1px;width:16px}
+.autoexpand_mode .feedback_toggle_link{display:none}
+.UIActionLinks .comment_link,
+.UIActionLinks .comment_link input{color:#6b84b4;font-weight:normal;vertical-align:text-top}
+.collapsed_comments .uiUfi{display:none}
+.uiUfi{padding-top:2px;width:398px}
+.uiUfi .ufiItem{background-color:#edeff4;border-bottom:1px solid #e5eaf1;margin-top:2px;padding:5px 5px 4px}
+.uiUfi .uiUfiSpamItem{background-color:#e2e2e2}
+.uiUfi .uiUfiUnseenItem{border-left:2px solid #a8b2ce;padding-left:3px}
+.uiUfi .ufiNub{margin-bottom:-2px;margin-top:0}
+.uiUfi .ufiNub i{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/z7/r/UvyvLtJTQzO.png);background-repeat:no-repeat;display:block;height:5px;margin-left:17px;width:9px}
+.uiUfiAddComment .actorPic{float:left;margin-right:6px}
+.uiUfiAddComment .commentArea{padding:0 !important}
+.uiUfiAddComment .commentBox{padding:0 8px 0 0}
+.uiUfiAddComment .commentBtn{float:right}
+.uiUfiAddComment .textBox{display:block;margin:0;width:100%}
+.child_is_active .uiUfiAddCommentCollapsed .textBox,.uiUfiAddComment .textBox{height:29px}
+.uiUfiAddCommentCollapsed .textBox{height:14px}
+.hidden_add_comment .uiUfiAddComment,.uiUfiAddCommentCollapsed .actorPic,.uiUfiAddComment .commentBtn,.uiUfiAddCommentCollapsed .sendOnEnterTip,.uiUfiAddCommentCollapsed .commentBoxSubtitle,.commentUndoTip{display:none}
+.child_is_active .uiUfiAddCommentCollapsed .actorPic,.child_is_active .uiUfiAddComment .commentBtn,.child_is_active .sendOnEnterTip,.child_is_active .commentBoxSubtitle,.commentUndone .child_is_focused .commentUndoTip{display:block}
+.commentUndone .commentBoxSubtitle,.commentUndone .sendOnEnterTip{display:none}
+.uiUfiAddTip{padding-top:1px;padding-left:0}
+.uiUfiAddComment .mentionsAddComment .commentBox{padding:0}
+.uiUfiAddComment .mentionsAddComment .mentionsTypeahead .wrap{padding:3px}
+.uiUfiAddComment .mentionsAddComment .textBoxContainer{background-color:#fff}
+.uiUfiAddComment .mentionsAddComment .textBox{padding:0;line-height:13px}
+.uiUfiAddComment .mentionsAddComment .highlighter{padding:3px}
+.uiUfiAddComment .mentionsAddComment .highlighter div{line-height:13px}
+.uiUfiComment .commentContent{padding-top:1px}
+.uiUfiComment .actorName{font-weight:bold}
+.uiUfiComment .commentActions{padding-top:2px}
+.uiUfiComment .deleteAction,.uiUfiComment .commentHideSelector .uiSelectorButton{opacity:0}
+.uiUfiComment:hover .deleteAction,.uiUfiComment:hover .commentHideSelector .uiSelectorButton,.uiUfiSpamItem .commentHideSelector .uiSelectorButton,.uiUfiComment .commentHideSelector .openToggler .uiSelectorButton{opacity:1}
+.commentHideSelector .uiSelectorButton{border:none}
+.uiUfiFailureShow,
+.uiUfiCommentFailed .uiUfiFailureHide{display:none}
+.uiUfiCommentFailed .uiUfiFailureShow{display:block}
+.uiUfiCommentFailed{background:#f2f2f2 !important;border-left:2px solid #aaa7a2}
+.uiUfiCommentFailed .actorName,
+.uiUfiCommentFailed{color:#808080}
+.uiUfiCommentFailed .uiUfiFailureMessage{color:#111}
+.uiUfiSmall .commentArea .textBox{height:14px}
+.UIPage_LoggedOut .UIFullPage_Container,
+.UIPage_LoggedOut .UIStandardFrame_Container{margin-top:26px}
+
+#bootloader_ff6N5 { height: 42px; }

@@ -1,0 +1,1094 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0090)http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » Position Independent Code (PIC) in shared libraries</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./The Procedure Linkage Table_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » Position Independent Code (PIC) in shared libraries Comments Feed" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./The Procedure Linkage Table_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./The Procedure Linkage Table_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./The Procedure Linkage Table_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="An observation on writing line-processing loop code" href="http://eli.thegreenplace.net/2011/10/28/an-observation-on-writing-line-processing-loop-code/">
+<link rel="next" title="Position Independent Code (PIC) in shared libraries on x64" href="http://eli.thegreenplace.net/2011/11/11/position-independent-code-pic-in-shared-libraries-on-x64/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./The Procedure Linkage Table_files/The Procedure Linkage Table.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=2704">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./The Procedure Linkage Table_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./The Procedure Linkage Table_files/api" type="text/javascript"></script><script src="./The Procedure Linkage Table_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./The Procedure Linkage Table_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./The Procedure Linkage Table_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./The Procedure Linkage Table_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-2704">
+			<h2><a href="./The Procedure Linkage Table_files/The Procedure Linkage Table.html" rel="bookmark" title="Permanent Link: Position Independent Code (PIC) in shared libraries">Position Independent Code (PIC) in shared libraries</a></h2>
+			<small>November 3rd, 2011 at 6:14 am <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>I’ve described the need for special handling of shared libraries while loading them into the process’s address space in a <a class="reference external" href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/">previous article</a>. Briefly, when the linker creates a shared library, it doesn’t know in advance where it might be loaded. This creates a problem for the data and code references within the library, which should be somehow made to point to the correct memory locations.</p>
+<p>There are two main approaches to solve this problem in Linux ELF shared libraries:</p>
+<ol class="arabic simple">
+<li>Load-time relocation</li>
+<li>Position independent code (PIC)</li>
+</ol>
+<p>Load-time relocation was <a class="reference external" href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/">already covered</a>. Here, I want to explain the second approach – PIC.</p>
+<p>I originally planned to focus on both x86 and x64 (a.k.a. x86-64) in this article, but as it grew longer and longer I decided it won’t be practical. So, it will explain only how PIC works on x86, picking this older architecture specifically because (unlike x64) it wasn’t designed with PIC in mind, so implementing PIC on it is a bit trickier. A future (hopefully much shorter) article will build upon the foundation of this one to explain how PIC is implemented on x64.</p>
+<div class="section" id="some-problems-of-load-time-relocation">
+<h3>Some problems of load-time relocation</h3>
+<p>As we’ve seen in the previous article, load-time relocation is a fairly straightforward method, and it works. PIC, however, is much more popular nowadays, and is usually the recommended method of building shared libraries. Why is this so?</p>
+<p>Load-time relocation has a couple of problems: it takes time to perform, and it makes the text section of the library non-shareable.</p>
+<p>First, the performance problem. If a shared library was linked with load-time relocation entries, it will take some time to actually perform these relocations when the application is loaded. You may think that the cost shouldn’t be too large – after all, the loader doesn’t have to scan through the whole text section – it should only look at the relocation entries. But if a complex piece of software loads multiple large shared libraries at start-up, and each shared library must first have its load-time relocations applied, these costs can build up and result in a noticeable delay in the start-up time of the application.</p>
+<p>Second, the non-shareable text section problem, which is somewhat more serious. One of the main points of having shared libraries in the first place, is saving RAM. Some common shared libraries are used by multiple applications. If the text section (where the code is) of the shared library can only be loaded into memory once (and then mapped into the virtual memories of many processes), considerable amounts of RAM can be saved. But this is not possible with load-time relocation, since when using this technique the text section has to be modified at load-time to apply the relocations. Therefore, for each application that loaded this shared library, it will have to be wholly placed in RAM again <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id9" id="id1">[1]</a>. Different applications won’t be able to really share it.</p>
+<p>Moreover, having a writable text section (it must be kept writable, to allow the dynamic loader to perform the relocations) poses a security risk, making it easier to exploit the application.</p>
+<p>As we’ll see in this article, PIC mostly mitigates these problems.</p>
+</div>
+<div class="section" id="pic-introduction">
+<h3>PIC – introduction</h3>
+<p>The idea behind PIC is simple – add an additional level of indirection to all global data and function references in the code. By cleverly utilizing some artifacts of the linking and loading processes, it’s possible to make the text section of the shared library truly <em>position independent</em>, in the sense that it can be easily mapped into different memory addresses without needing to change one bit. In the next few sections I will explain in detail how this feat is achieved.</p>
+</div>
+<div class="section" id="key-insight-1-offset-between-text-and-data-sections">
+<h3>Key insight #1 – offset between text and data sections</h3>
+<p>One of the key insights on which PIC relies is the offset between the text and data sections, known to the linker <em>at link-time</em>. When the linker combines several object files together, it collects their sections (for example, all text sections get unified into a single large text section). Therefore, the linker knows both about the sizes of the sections and about their relative locations.</p>
+<p>For example, the text section may be immediately followed by the data section, so the offset from any given instruction in the text section to the beginning of the data section is just the size of the text section minus the offset of the instruction from the beginning of the text section – and both these quantities are known to the linker.</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/code_data_offset_1.png" class="align-center" src="./The Procedure Linkage Table_files/code_data_offset_1.png"></p>
+<p>In the diagram above, the code section was loaded into some address (unknown at link-time) 0xXXXX0000 (the X-es literally mean "don’t care"), and the data section right after it at offset 0xXXXXF000. Then, if some instruction at offset 0×80 in the code section wants to reference stuff in the data section, the linker knows the relative offset (0xEF80 in this case) and can encode it in the instruction.</p>
+<p>Note that it wouldn’t matter if another section was placed between the code and data sections, or if the data section preceded the code section. Since the linker knows the sizes of all sections and decides where to place them, the insight holds.</p>
+</div>
+<div class="section" id="key-insight-2-making-an-ip-relative-offset-work-on-x86">
+<h3>Key insight #2 – making an IP-relative offset work on x86</h3>
+<p>The above is only useful if we can actually put the relative offset to work. But data references (i.e. in the <tt class="docutils literal">mov</tt> instruction) on x86 require absolute addresses. So, what can we do?</p>
+<p>If we have a relative address and need an absolute address, what’s missing is the value of the instruction pointer (since, by definition, the <em>relative</em> address is relative to the instruction’s location). There’s no instruction to obtain the value of the instruction pointer on x86, but we can use a simple trick to get it. Here’s some assembly pseudo-code that demonstrates it:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">    call TMPLABEL
+TMPLABEL:
+    pop ebx
+</pre>
+</div>
+<p>What happens here is:</p>
+<ol class="arabic simple">
+<li>The CPU executes <tt class="docutils literal">call TMPLABEL</tt>, which causes it to save the address of the next instruction (the <tt class="docutils literal">pop ebx</tt>) on stack and jump to the label.</li>
+<li>Since the instruction at the label is <tt class="docutils literal">pop ebx</tt>, it gets executed next. It pops a value from the stack into <tt class="docutils literal">ebx</tt>. But this value is the address of the instruction itself, so <tt class="docutils literal">ebx</tt> now effectively contains the value of the instruction pointer.</li>
+</ol>
+</div>
+<div class="section" id="the-global-offset-table-got">
+<h3>The Global Offset Table (GOT)</h3>
+<p>With this at hand, we can finally get to the implementation of position-independent data addressing on x86. It is accomplished by means of a "global offset table", or in short GOT.</p>
+<p>A GOT is simply a table of addresses, residing in the data section. Suppose some instruction in the code section wants to refer to a variable. Instead of referring to it directly by absolute address (which would require a relocation), it refers to an entry in the GOT. Since the GOT is in a known place in the data section, this reference is relative and known to the linker. The GOT entry, in turn, will contain the absolute address of the variable:</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/code_data_got_1.png" class="align-center" src="./The Procedure Linkage Table_files/code_data_got_1.png"></p>
+<p>In pseudo-assembly, we replace an absolute addressing instruction:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">; Place the value of the variable in edx
+mov edx, [ADDR_OF_VAR]
+</pre>
+</div>
+<p>With displacement addressing from a register, along with an extra indirection:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">; 1. Somehow get the address of the GOT into ebx
+lea ebx, ADDR_OF_GOT
+
+; 2. Suppose ADDR_OF_VAR is stored at offset 0x10
+;    in the GOT. Then this will place ADDR_OF_VAR
+;    into edx.
+mov edx, DWORD PTR [ebx + 0x10]
+
+; 3. Finally, access the variable and place its
+;    value into edx.
+mov edx, DWORD PTR [edx]
+</pre>
+</div>
+<p>So, we’ve gotten rid of a relocation in the code section by redirecting variable references through the GOT. But we’ve also created a relocation in the data section. Why? Because the GOT still has to contain the absolute address of the variable for the scheme described above to work. So what have we gained?</p>
+<p>A lot, it turns out. A relocation in the data section is much less problematic than one in the code section, for two reasons (which directly address the two main problems of load-time relocation of code described in the beginning of the article):</p>
+<ol class="arabic simple">
+<li>Relocations in the code section are required <em>per variable reference</em>, while in the GOT we only need to relocate once <em>per variable</em>. There are likely much more references to variables than variables, so this is more efficient.</li>
+<li>The data section is writable and not shared between processes anyway, so adding relocations to it does no harm. Moving relocations from the code section, however, allows to make it read-only and share it between processes.</li>
+</ol>
+</div>
+<div class="section" id="pic-with-data-references-through-got-an-example">
+<h3>PIC with data references through GOT – an example</h3>
+<p>I will now show a complete example that demonstrates the mechanics of PIC:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">int</span> myglob = <span style="color: #007f7f">42</span>;
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">ml_func</span>(<span style="color: #00007f; font-weight: bold">int</span> a, <span style="color: #00007f; font-weight: bold">int</span> b)
+{
+    <span style="color: #00007f; font-weight: bold">return</span> myglob + a + b;
+}
+</pre>
+</div>
+<p>This chunk of code will be compiled into a shared library (using the <tt class="docutils literal"><span class="pre">-fpic</span></tt> and <tt class="docutils literal"><span class="pre">-shared</span></tt> flags as appropriate) named <tt class="docutils literal">libmlpic_dataonly.so</tt>.</p>
+<p>Let’s take a look at its disassembly, focusing on the <tt class="docutils literal">ml_func</tt> function:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">0000043c &lt;ml_func&gt;:
+ 43c:   55                      push   ebp
+ 43d:   89 e5                   mov    ebp,esp
+ 43f:   e8 16 00 00 00          call   45a &lt;__i686.get_pc_thunk.cx&gt;
+ 444:   81 c1 b0 1b 00 00       add    ecx,0x1bb0
+ 44a:   8b 81 f0 ff ff ff       mov    eax,DWORD PTR [ecx-0x10]
+ 450:   8b 00                   mov    eax,DWORD PTR [eax]
+ 452:   03 45 08                add    eax,DWORD PTR [ebp+0x8]
+ 455:   03 45 0c                add    eax,DWORD PTR [ebp+0xc]
+ 458:   5d                      pop    ebp
+ 459:   c3                      ret
+
+0000045a &lt;__i686.get_pc_thunk.cx&gt;:
+ 45a:   8b 0c 24                mov    ecx,DWORD PTR [esp]
+ 45d:   c3                      ret
+</pre>
+</div>
+<p>I’m going to refer to instructions by their addresses (the left-most number in the disassembly). This address is the offset from the load address of the shared library.</p>
+<ul class="simple">
+<li>At <tt class="docutils literal">43f</tt>, the address of the next instruction is placed into <tt class="docutils literal">ecx</tt>, by means of the technique described in the "key insight #2" section above.</li>
+<li>At <tt class="docutils literal">444</tt>, a known constant offset from the instruction to the place where the GOT is located is added to <tt class="docutils literal">ecx</tt>. So <tt class="docutils literal">ecx</tt> now serves as a base pointer to GOT.</li>
+<li>At <tt class="docutils literal">44a</tt>, a value is taken from <tt class="docutils literal">[ecx - 0x10]</tt>, which is a GOT entry, and placed into <tt class="docutils literal">eax</tt>. This is the address of <tt class="docutils literal">myglob</tt>.</li>
+<li>At <tt class="docutils literal">450</tt> the indirection is done, and the <em>value</em> of <tt class="docutils literal">myglob</tt> is placed into <tt class="docutils literal">eax</tt>.</li>
+<li>Later the parameters <tt class="docutils literal">a</tt> and <tt class="docutils literal">b</tt> are added to <tt class="docutils literal">myglob</tt> and the value is returned (by keeping it in <tt class="docutils literal">eax</tt>).</li>
+</ul>
+<p>We can also query the shared library with <tt class="docutils literal">readelf <span class="pre">-S</span></tt> to see where the GOT section was placed:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">Section Headers:
+  [Nr] Name     Type            Addr     Off    Size   ES Flg Lk Inf Al
+  &lt;snip&gt;
+  [19] .got     PROGBITS        00001fe4 000fe4 000010 04  WA  0   0  4
+  [20] .got.plt PROGBITS        00001ff4 000ff4 000014 04  WA  0   0  4
+  &lt;snip&gt;
+</pre>
+</div>
+<p>Let’s do some math to check the computation done by the compiler to find <tt class="docutils literal">myglob</tt>. As I mentioned above, the call to <tt class="docutils literal">__i686.get_pc_thunk.cx</tt> places the address of the next instruction into <tt class="docutils literal">ecx</tt>. That address is <tt class="docutils literal">0x444</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id10" id="id2">[2]</a>. The next instruction then adds <tt class="docutils literal">0x1bb0</tt> to it, and the result in <tt class="docutils literal">ecx</tt> is going to be <tt class="docutils literal">0x1ff4</tt>. Finally, to actually obtain the GOT entry holding the address of <tt class="docutils literal">myglob</tt>, displacement addressing is used – <tt class="docutils literal">[ecx - 0x10]</tt>, so the entry is at <tt class="docutils literal">0x1fe4</tt>, which is the first entry in the GOT according to the section header.</p>
+<p>Why there’s another section whose name starts with <tt class="docutils literal">.got</tt> will be explained later in the article <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id11" id="id3">[3]</a>. Note that the compiler chooses to point <tt class="docutils literal">ecx</tt> to after the GOT and then use negative offsets to obtain entries. This is fine, as long as the math works out. And so far it does.</p>
+<p>There’s something we’re still missing, however. How does the address of <tt class="docutils literal">myglob</tt> actually get into the GOT slot at <tt class="docutils literal">0x1fe4</tt>? Recall that I mentioned a relocation, so let’s find it:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">&gt; readelf -r libmlpic_dataonly.so
+
+Relocation section '.rel.dyn' at offset 0x2dc contains 5 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00002008  00000008 R_386_RELATIVE
+00001fe4  00000406 R_386_GLOB_DAT    0000200c   myglob
+&lt;snip&gt;
+</pre>
+</div>
+<p>Note the relocation section for <tt class="docutils literal">myglob</tt>, pointing to address <tt class="docutils literal">0x1fe4</tt>, as expected. The relocation is of type <tt class="docutils literal">R_386_GLOB_DAT</tt>, which simply tells the dynamic loader – "put the actual value of the symbol (i.e. its address) into that offset". So everything works out nicely. All that’s left is to check how it actually looks when the library is loaded. We can do this by writing a simple "driver" executable that links to <tt class="docutils literal">libmlpic_dataonly.so</tt> and calls <tt class="docutils literal">ml_func</tt>, and then running it through GDB.</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">&gt; gdb driver
+[...] skipping output
+(gdb) set environment LD_LIBRARY_PATH=.
+(gdb) break ml_func
+[...]
+(gdb) run
+Starting program: [...]pic_tests/driver
+
+Breakpoint 1, ml_func (a=1, b=1) at ml_reloc_dataonly.c:5
+5         return myglob + a + b;
+(gdb) set disassembly-flavor intel
+(gdb) disas ml_func
+Dump of assembler code for function ml_func:
+   0x0013143c &lt;+0&gt;:   push   ebp
+   0x0013143d &lt;+1&gt;:   mov    ebp,esp
+   0x0013143f &lt;+3&gt;:   call   0x13145a &lt;__i686.get_pc_thunk.cx&gt;
+   0x00131444 &lt;+8&gt;:   add    ecx,0x1bb0
+=&gt; 0x0013144a &lt;+14&gt;:  mov    eax,DWORD PTR [ecx-0x10]
+   0x00131450 &lt;+20&gt;:  mov    eax,DWORD PTR [eax]
+   0x00131452 &lt;+22&gt;:  add    eax,DWORD PTR [ebp+0x8]
+   0x00131455 &lt;+25&gt;:  add    eax,DWORD PTR [ebp+0xc]
+   0x00131458 &lt;+28&gt;:  pop    ebp
+   0x00131459 &lt;+29&gt;:  ret
+End of assembler dump.
+(gdb) i registers
+eax            0x1    1
+ecx            0x132ff4       1257460
+[...] skipping output
+</pre>
+</div>
+<p>The debugger has entered <tt class="docutils literal">ml_func</tt>, and stopped at IP <tt class="docutils literal">0x0013144a</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id12" id="id4">[4]</a>. We see that <tt class="docutils literal">ecx</tt> holds the value <tt class="docutils literal">0x132ff4</tt> (which is the address of the instruction plus <tt class="docutils literal">0x1bb0</tt>, as explained before). Note that at this point, at runtime, these are absolute addresses – the shared library has already been loaded into the address space of the process.</p>
+<p>So, the GOT entry for <tt class="docutils literal">myglob</tt> is at <tt class="docutils literal">[ecx - 0x10]</tt>. Let’s check what’s there:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) x 0x132fe4
+0x132fe4:     0x0013300c
+</pre>
+</div>
+<p>So, we’d expect <tt class="docutils literal">0x0013300c</tt> to be the address of <tt class="docutils literal">myglob</tt>. Let’s verify:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) p &amp;myglob
+$1 = (int *) 0x13300c
+</pre>
+</div>
+<p>Indeed, it is!</p>
+</div>
+<div class="section" id="function-calls-in-pic">
+<h3>Function calls in PIC</h3>
+<p>Alright, so this is how data addressing works in position independent code. But what about function calls? Theoretically, the exact same approach could work for function calls as well. Instead of <tt class="docutils literal">call</tt> actually containing the address of the function to call, let it contain the address of a known GOT entry, and fill in that entry during loading.</p>
+<p>But this is <em>not</em> how function calls work in PIC. What actually happens is a bit more complicated. Before I explain how it’s done, a few words about the motivation for such a mechanism.</p>
+</div>
+<div class="section" id="the-lazy-binding-optimization">
+<h3>The lazy binding optimization</h3>
+<p>When a shared library refers to some function, the real address of that function is not known until load time. Resolving this address is called <em>binding</em>, and it’s something the dynamic loader does when it loads the shared library into the process’s memory space. This binding process is non-trivial, since the loader has to actually <em>look up</em> the function symbol in special tables <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id13" id="id5">[5]</a>.</p>
+<p>So, resolving each function takes time. Not a lot of time, but it adds up since the amount of functions in libraries is typically much larger than the amount of global variables. Moreover, most of these resolutions are done in vain, because in a typical run of a program only a fraction of functions actually get called (think about various functions handling error and special conditions, which typically don’t get called at all).</p>
+<p>So, to speed up this process, a clever lazy binding scheme was devised. "Lazy" is a generic name for a family of optimizations in computer programming, where work is delayed until the last moment when it’s actually needed, with the intention of avoiding doing this work if its results are never required during a specific run of a program. Good examples of laziness are <a class="reference external" href="http://en.wikipedia.org/wiki/Copy-on-write">copy-on-write</a> and <a class="reference external" href="http://en.wikipedia.org/wiki/Lazy_evaluation">lazy evaluation</a>.</p>
+<p>This lazy binding scheme is attained by adding yet another level of indirection – the PLT.</p>
+</div>
+<div class="section" id="the-procedure-linkage-table-plt">
+<h3>The Procedure Linkage Table (PLT)</h3>
+<p>The PLT is part of the executable text section, consisting of a set of entries (one for each external function the shared library calls). Each PLT entry is a short chunk of executable code. Instead of calling the function directly, the code calls an entry in the PLT, which then takes care to call the actual function. This arrangement is sometimes called a "<a class="reference external" href="http://en.wikipedia.org/wiki/Trampoline_%28computing%29">trampoline</a>". Each PLT entry also has a corresponding entry in the GOT which contains the actual offset to the function, but only when the dynamic loader resolves it. I know this is confusing, but hopefully it will be come clearer once I explain the details in the next few paragraphs and diagrams.</p>
+<p>As the previous section mentioned, PLTs allow lazy resolution of functions. When the shared library is first loaded, the function calls have not been resolved yet:</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/plt_before.png" class="align-center" src="./The Procedure Linkage Table_files/plt_before.png"></p>
+<p>Explanation:</p>
+<ul class="simple">
+<li>In the code, a function <tt class="docutils literal">func</tt> is called. The compiler translates it to a call to <tt class="docutils literal">func@plt</tt>, which is some N-th entry in the PLT.</li>
+<li>The PLT consists of a special first entry, followed by a bunch of identically structured entries, one for each function needing resolution.</li>
+<li>Each PLT entry but the first consists of these parts:
+<ul>
+<li>A jump to a location which is specified in a corresponding GOT entry</li>
+<li>Preparation of arguments for a "resolver" routine</li>
+<li>Call to the resolver routine, which resides in the first entry of the PLT</li>
+</ul>
+</li>
+<li>The first PLT entry is a call to a resolver routine, which is located in the dynamic loader itself <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id14" id="id6">[6]</a>. This routine resolves the actual address of the function. More on its action a bit later.</li>
+<li>Before the function’s actual address has been resolved, the Nth GOT entry just points to after the jump. This is why this arrow in the diagram is colored differently – it’s not an actual jump, just a pointer.</li>
+</ul>
+<p>What happens when <tt class="docutils literal">func</tt> is called for the first time is this:</p>
+<ul class="simple">
+<li><tt class="docutils literal">PLT[n]</tt> is called and jumps to the address pointed to in <tt class="docutils literal">GOT[n]</tt>.</li>
+<li>This address points into <tt class="docutils literal">PLT[n]</tt> itself, to the preparation of arguments for the resolver.</li>
+<li>The resolver is then called.</li>
+<li>The resolver performs resolution of the actual address of <tt class="docutils literal">func</tt>, places its actual address into <tt class="docutils literal">GOT[n]</tt> and calls <tt class="docutils literal">func</tt>.</li>
+</ul>
+<p>After the first call, the diagram looks a bit differently:</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/plt_after.png" class="align-center" src="./The Procedure Linkage Table_files/plt_after.png"></p>
+<p>Note that <tt class="docutils literal">GOT[n]</tt> now points to the actual <tt class="docutils literal">func</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id15" id="id7">[7]</a> instead of back into the PLT. So, when <tt class="docutils literal">func</tt> is called again:</p>
+<ul class="simple">
+<li><tt class="docutils literal">PLT[n]</tt> is called and jumps to the address pointed to in <tt class="docutils literal">GOT[n]</tt>.</li>
+<li><tt class="docutils literal">GOT[n]</tt> points to <tt class="docutils literal">func</tt>, so this just transfers control to <tt class="docutils literal">func</tt>.</li>
+</ul>
+<p>In other words, now <tt class="docutils literal">func</tt> is being actually called, without going through the resolver, at the cost of one additional jump. That’s all there is to it, really. This mechanism allows lazy resolution of functions, and no resolution at all for functions that aren’t actually called.</p>
+<p>It also leaves the code/text section of the library completely position independent, since the only place where an absolute address is used is the GOT, which resides in the data section and will be relocated by the dynamic loader. Even the PLT itself is PIC, so it can live in the read-only text section.</p>
+<p>I didn’t get into much details regarding the resolver, but it’s really not important for our purpose here. The resolver is simply a chunk of low-level code in the loader that does symbol resolution. The arguments prepared for it in each PLT entry, along with a suitable relocation entry, help it know about the symbol that needs resolution and about the GOT entry to update.</p>
+</div>
+<div class="section" id="pic-with-function-calls-through-plt-and-got-an-example">
+<h3>PIC with function calls through PLT and GOT – an example</h3>
+<p>Once again, to fortify the hard-learned theory with a practical demonstration, here’s a complete example showing function call resolution using the mechanism described above. I’ll be moving forward a bit faster this time.</p>
+<p>Here’s the code for the shared library:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">int</span> myglob = <span style="color: #007f7f">42</span>;
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">ml_util_func</span>(<span style="color: #00007f; font-weight: bold">int</span> a)
+{
+    <span style="color: #00007f; font-weight: bold">return</span> a + <span style="color: #007f7f">1</span>;
+}
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">ml_func</span>(<span style="color: #00007f; font-weight: bold">int</span> a, <span style="color: #00007f; font-weight: bold">int</span> b)
+{
+    <span style="color: #00007f; font-weight: bold">int</span> c = b + ml_util_func(a);
+    myglob += c;
+    <span style="color: #00007f; font-weight: bold">return</span> b + myglob;
+}
+</pre>
+</div>
+<p>This code will be compiled into <tt class="docutils literal">libmlpic.so</tt>, and the focus is going to be on the call to <tt class="docutils literal">ml_util_func</tt> from <tt class="docutils literal">ml_func</tt>. Let’s first disassemble <tt class="docutils literal">ml_func</tt>:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">00000477 &lt;ml_func&gt;:
+ 477:   55                      push   ebp
+ 478:   89 e5                   mov    ebp,esp
+ 47a:   53                      push   ebx
+ 47b:   83 ec 24                sub    esp,0x24
+ 47e:   e8 e4 ff ff ff          call   467 &lt;__i686.get_pc_thunk.bx&gt;
+ 483:   81 c3 71 1b 00 00       add    ebx,0x1b71
+ 489:   8b 45 08                mov    eax,DWORD PTR [ebp+0x8]
+ 48c:   89 04 24                mov    DWORD PTR [esp],eax
+ 48f:   e8 0c ff ff ff          call   3a0 &lt;ml_util_func@plt&gt;
+ &lt;... snip more code&gt;
+</pre>
+</div>
+<p>The interesting part is the call to <tt class="docutils literal">ml_util_func@plt</tt>. Note also that the address of GOT is in <tt class="docutils literal">ebx</tt>. Here’s what <tt class="docutils literal">ml_util_func@plt</tt> looks like (it’s in an executable section called <tt class="docutils literal">.plt</tt>):</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">000003a0 &lt;ml_util_func@plt&gt;:
+ 3a0:   ff a3 14 00 00 00       jmp    DWORD PTR [ebx+0x14]
+ 3a6:   68 10 00 00 00          push   0x10
+ 3ab:   e9 c0 ff ff ff          jmp    370 &lt;_init+0x30&gt;
+</pre>
+</div>
+<p>Recall that each PLT entry consists of three parts:</p>
+<ul class="simple">
+<li>A jump to an address specified in GOT (this is the jump to <tt class="docutils literal">[ebx+0x14]</tt>)</li>
+<li>Preparation of arguments for the resolver</li>
+<li>Call to the resolver</li>
+</ul>
+<p>The resolver (PLT entry 0) resides at address <tt class="docutils literal">0x370</tt>, but it’s of no interest to us here. What’s more interesting is to see what the GOT contains. For that, we first have to do some math.</p>
+<p>The "get IP" trick in <tt class="docutils literal">ml_func</tt> was done on address <tt class="docutils literal">0x483</tt>, to which <tt class="docutils literal">0x1b71</tt> is added. So the base of the GOT is at <tt class="docutils literal">0x1ff4</tt>. We can take a peek at the GOT contents with <tt class="docutils literal">readelf</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id16" id="id8">[8]</a>:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">&gt; readelf -x .got.plt libmlpic.so
+
+Hex dump of section '.got.plt':
+  0x00001ff4 241f0000 00000000 00000000 86030000 $...............
+  0x00002004 96030000 a6030000                   ........
+</pre>
+</div>
+<p>The GOT entry <tt class="docutils literal">ml_util_func@plt</tt> looks at is at offset <tt class="docutils literal">+0x14</tt>, or <tt class="docutils literal">0x2008</tt>. From above, the word at that location is <tt class="docutils literal">0x3a6</tt>, which is the address of the <tt class="docutils literal">push</tt> instruction in <tt class="docutils literal">ml_util_func@plt</tt>.</p>
+<p>To help the dynamic loader do its job, a relocation entry is also added and specifies which place in the GOT to relocate for <tt class="docutils literal">ml_util_func</tt>:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">&gt; readelf -r libmlpic.so
+[...] snip output
+
+Relocation section '.rel.plt' at offset 0x328 contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00002000  00000107 R_386_JUMP_SLOT   00000000   __cxa_finalize
+00002004  00000207 R_386_JUMP_SLOT   00000000   __gmon_start__
+00002008  00000707 R_386_JUMP_SLOT   0000046c   ml_util_func
+</pre>
+</div>
+<p>The last line means that the dynamic loader should place the value (address) of symbol <tt class="docutils literal">ml_util_func</tt> into <tt class="docutils literal">0x2008</tt> (which, recall, is the GOT entry for this function).</p>
+<p>It would be interesting to see this GOT entry modification actually happen after the first call. Let’s once again use GDB for the inspection.</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">&gt; gdb driver
+[...] skipping output
+(gdb) set environment LD_LIBRARY_PATH=.
+(gdb) break ml_func
+Breakpoint 1 at 0x80483c0
+(gdb) run
+Starting program: /pic_tests/driver
+
+Breakpoint 1, ml_func (a=1, b=1) at ml_main.c:10
+10        int c = b + ml_util_func(a);
+(gdb)
+</pre>
+</div>
+<p>We’re now before the fist call to <tt class="docutils literal">ml_util_func</tt>. Recall that GOT is pointed to by <tt class="docutils literal">ebx</tt> in this code. Let’s see what’s in it:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) i registers ebx
+ebx            0x132ff4
+</pre>
+</div>
+<p>And the offset to the entry we need is at <tt class="docutils literal">[ebx+0x14]</tt>:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) x/w 0x133008
+0x133008:     0x001313a6
+</pre>
+</div>
+<p>Yep, the <tt class="docutils literal">0x3a6</tt> ending, looks right. Now, let’s step until after the call to <tt class="docutils literal">ml_util_func</tt> and check again:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) step
+ml_util_func (a=1) at ml_main.c:5
+5         return a + 1;
+(gdb) x/w 0x133008
+0x133008:     0x0013146c
+</pre>
+</div>
+<p>The value at <tt class="docutils literal">0x133008</tt> was changed. Hence, <tt class="docutils literal">0x0013146c</tt> should be the real address of <tt class="docutils literal">ml_util_func</tt>, placed in there by the dynamic loader:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">(gdb) p &amp;ml_util_func
+$1 = (int (*)(int)) 0x13146c &lt;ml_util_func&gt;
+</pre>
+</div>
+<p>Just as expected.</p>
+</div>
+<div class="section" id="controlling-if-and-when-the-resolution-is-done-by-the-loader">
+<h3>Controlling if and when the resolution is done by the loader</h3>
+<p>This would be a good place to mention that the process of lazy symbol resolution performed by the dynamic loader can be configured with some environment variables (and corresponding flags to <tt class="docutils literal">ld</tt> when linking the shared library). This is sometimes useful for special performance requirements or debugging.</p>
+<p>The <tt class="docutils literal">LD_BIND_NOW</tt> env var, when defined, tells the dynamic loader to always perform the resolution for all symbols at start-up time, and not lazily. You can easily verify this in action by setting this env var and re-running the previous sample with GDB. You’ll see that the GOT entry for <tt class="docutils literal">ml_util_func</tt> contains its real address even before the first call to the function.</p>
+<p>Conversely, the <tt class="docutils literal">LD_BIND_NOT</tt> env var tells the dynamic loader not to update the GOT entry at all. Each call to an external function will then go through the dynamic loader and be resolved anew.</p>
+<p>The dynamic loader is configurable by other flags as well. I encourage you to go over <tt class="docutils literal">man ld.so</tt> – it contains some interesting information.</p>
+</div>
+<div class="section" id="the-costs-of-pic">
+<h3>The costs of PIC</h3>
+<p>This article started by stating the problems of load-time relocation and how the PIC approach fixes them. But PIC is also not without problems. One immediately apparent cost is the extra indirection required for all external references to data and code in PIC. That’s an extra memory load for each reference to a global variable, and for each call to a function. How problematic this is in practice depends on the compiler, the CPU architecture and the particular application.</p>
+<p>Another, less apparent cost, is the increased register usage required to implement PIC. In order to avoid locating the GOT too frequently, it makes sense for the compiler to generate code that keeps its address in a register (usually <tt class="docutils literal">ebx</tt>). But that ties down a whole register just for the sake of GOT. While not a big problem for RISC architectures that tend to have a lot of general purposes registers, it presents a performance problem for architectures like x86, which has a small amount of registers. PIC means having one general purpose register less, which adds up indirect costs since now more memory references have to be made.</p>
+</div>
+<div class="section" id="conclusion">
+<h3>Conclusion</h3>
+<p>This article explained what position independent code is, and how it helps create shared libraries with shareable read-only text sections. There are some tradeoffs when choosing between PIC and its alternative (load-time relocation), and the eventual outcome really depends on a lot of factors, like the CPU architecture on which the program is going to run.</p>
+<p>That said, PIC is becoming more and more popular. Some non-Intel architectures like SPARC64 force PIC-only code for shared libraries, and many others (for example, ARM) include IP-relative addressing modes to make PIC more efficient. Both are true for the successor of x86, the x64 architecture. I will discuss PIC on x64 in a future article.</p>
+<p>The focus of this article, however, has not been on performance considerations or architectural decisions. My aim was to explain, given that PIC is used, <em>how it works</em>. If the explanation wasn’t clear enough – please let me know in the comments and I will try to provide more information.</p>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./The Procedure Linkage Table_files/hline.jpg" style="width: 320px; height: 5px;"></p>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id1">[1]</a></td>
+<td>Unless all applications load this library into the exact same virtual memory address. But this usually isn’t done on Linux.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id2">[2]</a></td>
+<td><tt class="docutils literal">0x444</tt> (and all other addresses mentioned in this computation) is relative to the load address of the shared library, which is unknown until an executable actually loads it at runtime. Note how it doesn’t matter in the code since it only juggles <em>relative</em> addresses.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id3">[3]</a></td>
+<td>The astute reader may wonder why <tt class="docutils literal">.got</tt> is a separate section at all. Didn’t I just show in the diagrams that it’s located in the data section? In practice, it is. I don’t want to get into the distinction between ELF sections and segments here, since that would take use too far away from the point. But briefly, any number of "data" sections can be defined for a library and mapped into a read-write segment. This doesn’t really matter, as long as the ELF file is organized correctly. Separating the data segment into different logical sections provides modularity and makes the linker’s job easier.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id4">[4]</a></td>
+<td>Note that <tt class="docutils literal">gdb</tt> skipped the part where <tt class="docutils literal">ecx</tt> is assigned. That’s because it’s kind-of considered to be part of the function’s prolog (the real reason is in the way <tt class="docutils literal">gcc</tt> structures its debug info, of course). Several references to global data and functions are made inside a function, and a register pointing to GOT can serve all of them.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id5">[5]</a></td>
+<td>Shared library ELF objects actually come with special hash table sections for this purpose.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id6">[6]</a></td>
+<td>The dynamic loader on Linux is just another shared library which gets loaded into the address space of all running processes.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id7">[7]</a></td>
+<td>I placed <tt class="docutils literal">func</tt> in a separate code section, although in theory this could be the same one where the call to <tt class="docutils literal">func</tt> is made (i.e. in the same shared library). The "extra credit" section of <a class="reference external" href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/">this article</a> has information about why a call to an external function in the same shared library needs PIC (or relocation) as well.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#id8">[8]</a></td>
+<td>Recall that in the data reference example I promised to explain why there are apparently two GOT sections in the object: <tt class="docutils literal">.got</tt> and <tt class="docutils literal">.got.plt</tt>. Now it should become obvious that this is just to conveniently split the GOT entries required for global data from GOT entries required for the PLT. This is also why when the GOT offset is computed in functions, it points to <tt class="docutils literal">.got.plt</tt>, which comes right after <tt class="docutils literal">.got</tt>. This way, negative offsets lead us to <tt class="docutils literal">.got</tt>, while positive offsets lead us to <tt class="docutils literal">.got.plt</tt>. While convenient, such an arrangement is by no means compulsory. Both parts could be placed into a single <tt class="docutils literal">.got</tt> section.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2011/11/11/position-independent-code-pic-in-shared-libraries-on-x64/" rel="bookmark" title="Position Independent Code (PIC) in shared libraries on x64">Position Independent Code (PIC) in shared libraries on x64</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/" rel="bookmark" title="Load-time relocation of shared libraries">Load-time relocation of shared libraries</a></li>
+<li><a href="http://eli.thegreenplace.net/2012/01/03/understanding-the-x64-code-models/" rel="bookmark" title="Understanding the x64 code models">Understanding the x64 code models</a></li>
+<li><a href="http://eli.thegreenplace.net/2012/08/13/how-statically-linked-programs-run-on-linux/" rel="bookmark" title="How statically linked programs run on Linux">How statically linked programs run on Linux</a></li>
+<li><a href="http://eli.thegreenplace.net/2012/01/04/shared-counter-with-pythons-multiprocessing/" rel="bookmark" title="Shared counter with Python’s multiprocessing">Shared counter with Python’s multiprocessing</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Thursday, November 3rd, 2011 at 06:14						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/assembly/" title="View all posts in Assembly" rel="category tag">Assembly</a>, <a href="http://eli.thegreenplace.net/category/programming/c-c/" title="View all posts in C / C++" rel="category tag">C / C++</a>, <a href="http://eli.thegreenplace.net/category/programming/linkers-and-loaders/" title="View all posts in Linkers and loaders" rel="category tag">Linkers and loaders</a>, <a href="http://eli.thegreenplace.net/category/linux/" title="View all posts in Linux" rel="category tag">Linux</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">28 Responses to “Position Independent Code (PIC) in shared libraries”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-733244">
+			<cite><a href="http://reborn2266.blogspot.com/" rel="external nofollow">Mars</a><a href="http://reborn2266.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/dd3b711ef11b74e76a05f693a2f3e403" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-733244" title="">November 3rd, 2011 at 10:07</a> </small>
+
+			<p>Awesome!! Traditional Chinese version is translating… <img src="./The Procedure Linkage Table_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-733700">
+			<cite>jhackworth<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/b7a2e391e46845a80bcfef4633557cd9" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-733700" title="">November 3rd, 2011 at 22:14</a> </small>
+
+			<p>Great article, I was coincidentally searching for information on this today.</p>
+<p>I have two things I hope you might be able to clarify for me. My x86 assembler knowledge isn’t the best :/</p>
+<p>1) With regards to calling functions through the procedure linkage table:</p>
+<p>Am I right in saying that under x86, even though the relative distance between the .text and Global Offset Table are known at compile/link time, the save Program Counter hack in “Key insight #2″ is always required to get the absolute address of the GOT? Is this because there is no way *at all* in x86 to mov or jmp or call a value stored in the GOT referenced through a relative offset? I hope that makes sense.</p>
+<p>(plt funcs seem to use “callq  xxx+%RIP” in x86-64 instead and don’t use this mechanism, as you suggest).</p>
+<p>2) Redundancy:<br>
+On my Ubuntu 10.04 system, “objdump -d /usr/lib/libbz2.so” gives me this, which makes sense as its a library.</p>
+<div class="backtick"><pre><code>00000fd0 &lt;fclose@plt&gt;:
+     fd0:       ff a3 4c 00 00 00       jmp    *0x4c(%ebx)
+     fd6:       68 80 00 00 00          push   $0x80
+     fdb:       e9 e0 fe ff ff          jmp    ec0 &lt;_init+0x30&gt;</code></pre></div>
+<p>But these PLT trampolines in “objdump -d /bin/cp” look a little redundant:</p>
+<div class="backtick"><pre><code>08049a0c &lt;mkdir@plt&gt;:
+ 8049a0c:       ff 25 10 00 06 08       jmp    *0x8060010
+ 8049a12:       68 20 00 00 00          push   $0x20
+ 8049a17:       e9 a0 ff ff ff          jmp    80499bc &lt;_init+0x30&gt;
+
+.text:
+...
+ 804a564:       e8 a3 f4 ff ff          call   8049a0c &lt;mkdir@plt&gt;</code></pre></div>
+<p>Why doesn’t the instruction in the text at 0x804a564 just call the GOT pointer directly, with an indirect “call *0×8060010″? This would take care of the initial loading and future invocations.</p>
+<p>Thanks again for the writeup.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-734106">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-734106" title="">November 4th, 2011 at 07:45</a> </small>
+
+			<p><b>jhackworth</b></p>
+<p>1) There is no IP-relative addressing for <code class="backtick">mov</code> on x86 (there is on x64). Regarding <code class="backtick">call</code>, its argument is relative. Note in my sample that <code class="backtick">call   3a0 &lt;ml_util_func@plt&gt;</code> is done directly to the PLT entry, without employing the IP-getting trick. That trick is still used to load the GOT address into <code class="backtick">ebx</code> for the use of the GOT offset inside the PLT entry.</p>
+<p>2) Why do they look redundant? It goes through PLT for the same lazy-loading reason I talked about in the article. The only difference, as I see it, is that the GOT reference no longer has to be IP-relative because <code class="backtick">cp</code> is an executable with known absolute addresses, so when it was linked absolute addresses could be filled in (relocated).</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-734237">
+			<cite>Gregory<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/14f960db36a5288512a6aa757e37b8e3" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-734237" title="">November 4th, 2011 at 11:47</a> </small>
+
+			<p>Nice article.</p>
+<p>Although you may want to fix the typo in the url and the title, it’s “independent”</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-734258">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-734258" title="">November 4th, 2011 at 12:14</a> </small>
+
+			<p><b>Gregory</b>,</p>
+<p>Fixed, thanks for noticing!<br>
+<del datetime="2011-11-05T07:47:15+00:00"><br>
+[leaving the URL as-is since it's already linked from a few places]</del></p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-735204">
+			<cite><a href="http://reborn2266.blogspot.com/" rel="external nofollow">Mars</a><a href="http://reborn2266.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/dd3b711ef11b74e76a05f693a2f3e403" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-735204" title="">November 5th, 2011 at 11:05</a> </small>
+
+			<p>Traditional Chinese version is done. Please check<br>
+<a href="http://reborn2266.blogspot.com/2011/11/position-independent-code-pic-in-shared.html" rel="nofollow">http://reborn2266.blogspot.com/2011/11/position-independent-code-pic-in-shared.html</a></p>
+<p>Happy weekend~  <img src="./The Procedure Linkage Table_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-735244">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-735244" title="">November 5th, 2011 at 11:57</a> </small>
+
+			<p><b>Mars</b>,</p>
+<p>Looks awesome – but why don’t you also translate the footnotes?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-735376">
+			<cite><a href="http://reborn2266.blogspot.com/" rel="external nofollow">Mars</a><a href="http://reborn2266.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/dd3b711ef11b74e76a05f693a2f3e403" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-735376" title="">November 5th, 2011 at 14:42</a> </small>
+
+			<p>Hi Eli</p>
+<p>I was too excited to post the translation when main part was finished… <img src="./The Procedure Linkage Table_files/icon_razz.gif" alt=":P" class="wp-smiley"><br>
+Thanks for reminding me and I got the footnotes translated.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-765153">
+			<cite><a href="http://www.laruence.com/" rel="external nofollow">laruence</a><a href="http://www.laruence.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/1069e488bedd1507ae86a217e5e4d3bd" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-765153" title="">December 3rd, 2011 at 14:47</a> </small>
+
+			<p>great post, thanks, <img src="./The Procedure Linkage Table_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-789831">
+			<cite><a href="http://piyushkansal.wetpaint.com/page/Technical+Stuff" rel="external nofollow">Piyush Kansal</a><a href="http://piyushkansal.wetpaint.com/page/Technical+Stuff" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fe27079e920cd2c0cb770eef908cd844" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-789831" title="">December 27th, 2011 at 20:50</a> </small>
+
+			<p>Excellent post on PIC, was looking for this kind of explanation for some time and finally got it <img src="./The Procedure Linkage Table_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-799698">
+			<cite>chappar<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/2c9cdb6f0cf929d7f72cb623d8ebc018" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-799698" title="">January 9th, 2012 at 08:39</a> </small>
+
+			<p>Very informative. Really enjoyed reading it.</p>
+<p>One thing I don’t understand is, why global variables inside shared library has to be accessed through GOT?</p>
+<p>For instance, in your “ml_func” above, the linker will know the exact offset of myglob from the current instruction as the way it knows the offset of GOT at link time. It can access myglob in the same way as it does for GOT. So, why is this indirection through GOT to access myglob?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-799767">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-799767" title="">January 9th, 2012 at 10:14</a> </small>
+
+			<p><b>chappar</b>,</p>
+<p>Thanks for the feedback. The answer to this question was given in the “extra credit” section of the previous article (<a href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/" rel="nofollow">http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/</a>), and it’s linked here in footnote [7].</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-813342">
+			<cite>hitesh<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/424bef10a488af2c043f2feb60840af6" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-813342" title="">January 26th, 2012 at 23:20</a> </small>
+
+			<p>if multiple programs are running and all of them linked to a common shared library, then does shared library load to address space of all processes?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-813555">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-813555" title="">January 27th, 2012 at 05:52</a> </small>
+
+			<p><b>hitesh</b>,</p>
+<p>Yes, sure. But do distinguish between physical and virtual memory. It doesn’t have to be actually loaded (i.e. read from disk) into physical memory more than once. This chunk in physical memory is then mapped to each user process’s virtual memory.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-813843">
+			<cite>hitesh<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/424bef10a488af2c043f2feb60840af6" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-813843" title="">January 27th, 2012 at 18:38</a> </small>
+
+			<p>Eliben thanks for your reply,<br>
+It means same physical memory is shared by all processes linked to a common shared library? how process synchronization happens among processes accessing same physical memory?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-813849">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-813849" title="">January 27th, 2012 at 18:59</a> </small>
+
+			<p><b>hitesh</b>,</p>
+<p>Sorry, I’m not sure what you mean. Anyhow, it would be best to phrase a detailed question and ask somewhere like StackOverflow, where a lot of people more expert than me can answer authoritatively.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-879875">
+			<cite>Thanesh<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/4327e4b9cf99a8143775fb37d6ecaed2" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-879875" title="">April 7th, 2012 at 21:59</a> </small>
+
+			<p>Excellent job. One of the best articles in this topic. Thanks very much.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-927363">
+			<cite>Shoufu<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/b04f02d608f59c436b09a04e2acc731c" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-927363" title="">June 23rd, 2012 at 07:13</a> </small>
+
+			<p>again! excellent! you are my hero!  One thing, for the entries for PLT in GOT, the default value was the address of second instruction in the ml_util_func@PLT. </p>
+<p>Does that mean the JMP instruction also supports relative address (like call), because when the library is built, the linker can only know the relative address, right?</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-927458">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-927458" title="">June 23rd, 2012 at 12:42</a> </small>
+
+			<p><b>Shoufu</b>,</p>
+<p>The <code class="backtick">JMP</code> in the PLT jumps through GOT, its target depends on <code class="backtick">ebx</code>.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-927539">
+			<cite>Shoufu<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/b04f02d608f59c436b09a04e2acc731c" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-927539" title="">June 23rd, 2012 at 16:11</a> </small>
+
+			<p>It depends on ebx to get the entry in GOT, ‘jmp DWORD PTR [ebx + 0x14]‘, the entry in the GOT table with offset 0×14. Question is what the value is. It should be a relative address (offset from the address of the entry to the address of the second instruction in the  ml_util_func@PLT). Right? I lookup the instruction ‘JMP’, which does support relative jump. so, it is clear now.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-927931">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-927931" title="">June 24th, 2012 at 08:17</a> </small>
+
+			<p><b>Shoufu</b>,</p>
+<p>Actually I think that when <code class="backtick">JMP</code> jumps “through a register”, the value in the register is taken as the absolute address to jump to.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-930461">
+			<cite>Shoufu<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/b04f02d608f59c436b09a04e2acc731c" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-930461" title="">June 28th, 2012 at 01:56</a> </small>
+
+			<p>what’s meaning of ‘JMP jumps ‘through a register”?</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-930547">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-930547" title="">June 28th, 2012 at 05:26</a> </small>
+
+			<p><b>Shoufu</b>,</p>
+<p>It’s an addressing mode in which <code class="backtick">JMP</code> is given a register and it takes the value from the register as an address to jump to.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-931510">
+			<cite>George<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/10350c67987b90150f4ebb1dc78c6aa8" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-931510" title="">June 29th, 2012 at 16:58</a> </small>
+
+			<p>Really greate article! I have a question here.<br>
+Since the only thing unknown at link stage is the place where the shared lib will be loaded,<br>
+and the relative addresses of all global variables should already be known, why does not the compiler just generate code to access data,say, myglob, based on the relative address? I mean something like<br>
+mov eax, DWORD PTR [REGISTERXXX-offset]</p>
+<p>where REGISTERXXX save the load address of the shared library, offset is the myglob’s offset of myglob from the load address.</p>
+<p>This way, we just need to put the actual load address of the shared lib into REGISTERXXX when we load the lib.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-931547">
+			<cite>George<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/10350c67987b90150f4ebb1dc78c6aa8" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-931547" title="">June 29th, 2012 at 17:41</a> </small>
+
+			<p>I do not know how to remove my last comment <img src="./The Procedure Linkage Table_files/icon_sad.gif" alt=":-(" class="wp-smiley">  But I want to say I found the answer in your previous article. Thanks!</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-939015">
+			<cite>Aaron<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/8ce769499ccc8cf0277e8094b49b46b5" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-939015" title="">July 9th, 2012 at 12:59</a> </small>
+
+			<p>Hi.</p>
+<p>I am trying to figure out exactly why the GOT is necessary, at least in some scenarios.<br>
+Since in each compilation unit the .data section has a fixed offset from the .text section, why bother with the additional indirection level and GOT? PIC code can be created by:<br>
+1. Detecting the position in the program<br>
+2. Adding the distance to the .data section<br>
+3. Adding the offset of the global in the .data section.<br>
+The last two values are known at build time. Why use GOT and deference twice while doing the math in execution time? </p>
+<p>Thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-939118">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-939118" title="">July 9th, 2012 at 14:58</a> </small>
+
+			<p><b>Aaron</b>,</p>
+<p>The actual data/code can be found in a different shared library, the offset for which is not known at link time.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-963986">
+			<cite>joe-random<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./The Procedure Linkage Table_files/c59152a77c0bc073fe6f2a3141b99010" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/#comment-963986" title="">August 13th, 2012 at 16:11</a> </small>
+
+			<p>a little nitpicking:<br>
+x64 is a different thing from x86-64 or amd64. More precisely, the architecture is amd64, x86-64 is the abi for linux, although x86-64 is in common usage for both.  x64 is the windows abi — linux systems programmers cringe when they see you write x64 <img src="./The Procedure Linkage Table_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="2704">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e696ee560c"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; position: absolute; top: -1px; left: 0px; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

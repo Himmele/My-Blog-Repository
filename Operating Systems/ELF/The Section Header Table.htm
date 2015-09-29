@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.cs.ucdavis.edu/~haungs/paper/node14.html -->
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><HTML><HEAD><TITLE>The Section Header Table</TITLE>
+<META content="The Section Header Table" name=description>
+<META content=paper name=keywords>
+<META content=document name=resource-type>
+<META content=global name=distribution>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="The Section Header Table-Dateien/paper.css" rel=STYLESHEET><LINK 
+href="node15.html" rel=next><LINK href="node13.html" rel=previous><LINK 
+href="node11.html" rel=up><LINK href="node15.html" rel=next>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node15.html" name=tex2html260><IMG 
+height=24 alt=next src="The Section Header Table-Dateien/next_motif.gif" 
+width=37 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html257><IMG 
+height=24 alt=up src="The Section Header Table-Dateien/up_motif.gif" 
+width=26 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" name=tex2html251><IMG 
+height=24 alt=previous 
+src="The Section Header Table-Dateien/previous_motif.gif" width=63 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html259><IMG 
+height=24 alt=contents 
+src="The Section Header Table-Dateien/contents_motif.gif" width=65 
+align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node15.html" name=tex2html261>ELF 
+Sections</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html" name=tex2html258>The 
+ELF File Format</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" name=tex2html252>The 
+Program Header Table</A> <BR><BR><!--End of Navigation Panel-->
+<H3><A name=SECTION00441300000000000000>The Section Header Table</A> </H3>All 
+sections in object files can be found using the Section header table. The 
+section header, similar to the program header, is an array of structures. Each 
+entry correlates to a section in the file. The entry provides the name, type, 
+memory image starting address (if loadable), file offset, the section’s size in 
+bytes, alignment, and how the information in the section should be interpreted. 
+Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html#shformat">2.8</A> 
+details the specific fields of the structure. The name provided in the structure 
+is actually an index into the string table (a section in the object file) where 
+the actual string representation of the name of the section exists. Sections 
+will be discussed further below. <BR>
+<DIV align=center><A name=sections>&nbsp;</A><A name=511>&nbsp;</A> 
+<TABLE width="50%">
+  <CAPTION><STRONG>Figure:</STRONG> <EM>Special Sections</EM>. A brief 
+  description of sections that can appear in an ELF object file.</CAPTION>
+  <TBODY>
+  <TR>
+    <TD><IMG height=540 
+      alt="\begin{figure}&#10;\begin{tex2html_preform}\begin{verbatim}&#10;Names of sections Desc...&#10;...ctions\end{verbatim}\end{tex2html_preform}&#10;\rule{6.5in}{0.3mm}&#10;\end{figure}" 
+      src="The Section Header Table-Dateien/img11.gif" 
+  width=697></TD></TR></TBODY></TABLE></DIV><BR><BR>
+<HR>
+
+<ADDRESS><I>Michael L. Haungs</I> <BR><I>1998-09-21</I> </ADDRESS></BODY></HTML>

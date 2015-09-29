@@ -1,0 +1,50 @@
+The Binder kernel module is accessed using ioctl - For some examples see frameworks/base/libs/binder/IPCThreadState.cpp and frameworks/base/cmds/servicemanager/binder.c.
+
+The IPC has a thread pool for each process and the onTransact method is invoked in the context of a thread in the IPC thread pool. Parcel is the abstraction of the data the IPC framework is able to serialize and deserialize, you can look at the documentation of the android.os.Parcel object to see, what data types are supported. The most interesting data type is the IBinder itself (readStrongBinder, writeStrongBinder) so it is possible to pass binder endpoints to other processes. The interface mechanism that the aidl tool provides is really simple after that. AIDL takes the interface description and turns it into Java code that serializes and deserializes invocation parameters and return values to and from Parcels.
+
+
+IPCThreadState::talkWithDriver is the interface to the kernel mode Binder driver.
+IPCThreadState has two Parcel objects for input and output data that are used by the talkWithDriver method.
+
+Binder handler loop (receiver threads)
+IPCThreadState::joinThreadPool (IPCThreadState.cpp)
+	IPCThreadState::talkWithDriver (IPCThreadState.cpp) -> blocks waiting for incoming requests
+	IPCThreadState::executeCommand (IPCThreadState.cpp)
+		BBinder::transact (Binder.cpp)
+			e.g. JavaBBinder::onTransact or other native Binder onTransact methods (android_util_Binder.cpp)
+				Binder.execTransact (Binder.java)
+					?.onTransact -> user-specific message handling
+		IPCThreadState::sendReply (IPCThreadState.cpp)
+		IPCThreadState::writeTransactionData (IPCThreadState.cpp)
+		IPCThreadState::waitForResponse (IPCThreadState.cpp)
+			IPCThreadState::talkWithDriver (IPCThreadState.cpp)
+				binder_ioctl function in kernel mode (binder.c)
+	
+
+Binder call (which sends a request message)
+BinderProxy.transact (Binder.java)
+	android_os_BinderProxy_transact (android_util_Binder.cpp)
+		BpBinder::transact (BpBinder.cpp)
+			IPCThreadState::transact (IPCThreadState.cpp)
+				IPCThreadState::writeTransactionData (IPCThreadState.cpp)
+				IPCThreadState::waitForResponse (IPCThreadState.cpp)
+					IPCThreadState::talkWithDriver (IPCThreadState.cpp) -> waits for a reply message if the transaction is not one way
+
+-> Binder proxy objects are created by javaObjectForIBinder (android_util_Binder.cpp)
+
+
+Binder knows three types of objects:
+1. BINDER_TYPE_BINDER and BINDER_TYPE_WEAK_BINDER -> Binder services
+2. BINDER_TYPE_HANDLE and BINDER_TYPE_WEAK_HANDLE -> Binder proxies
+3. BINDER_TYPE_FD -> FDs e.g. to pass ashmem regions over IPC
+
+When transferring a Binder service (BINDER_TYPE_BINDER) IBinder object via IPC to a Binder client, the Binder kernel module will exchange the type during the transfer and change it to a Binder proxy (BINDER_TYPE_HANDLE).
+The Binder proxy gets a handle which connects it to the Binder service. So you always receive BINDER_TYPE_HANDLE handles which are then used at the client side to create a Binder proxy object.
+
+1. Register Binder service at the Binder service manager
+-> send Binder service (BINDER_TYPE_BINDER) -> Binder kernel module changes its type to BINDER_TYPE_HANDLE (see function binder_transaction) -> Binder service manager receives a Binder proxy object (BINDER_TYPE_HANDLE)
+-> if you query the Binder service manager for a specific service you get a copy of the queried Binder proxy (BINDER_TYPE_HANDLE)
+
+2. Transfer a MemoryHeapBase (ashmem) object via IPC
+-> the sender sends its MemoryHeapBase IBinder object (BINDER_TYPE_BINDER) -> the Binder kernel module changes the type during the transfer to BINDER_TYPE_HANDLE -> the receiver receives a Binder proxy handle (BINDER_TYPE_HANDLE) and creates a Binder proxy object using that handle.
+

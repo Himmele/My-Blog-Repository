@@ -1,0 +1,18 @@
+H2 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; BACKGROUND-COLOR: #008080
+}
+A {
+	COLOR: yellow
+}
+A:visited {
+	COLOR: yellow
+}
+A:active {
+	COLOR: yellow
+}
+A:hover {
+	COLOR: red
+}
+BODY {
+	COLOR: white; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: navy
+}

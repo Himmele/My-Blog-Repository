@@ -1,0 +1,7 @@
+Good abstractions are the once that are able to allow software and hardware to evolve over time, independently of each other:
+- CPU instructions <- ISA -> SW
+- OS kernel <- system calls -> user processes
+- services <- IPC (message passing) -> applications
+- hard drives <- file systems -> files/directories
+- Applications <- Image / Texture -> Compositing window manager
+...

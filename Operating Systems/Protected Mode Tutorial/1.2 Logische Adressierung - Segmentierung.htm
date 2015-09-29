@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys2.htm -->
+<HTML><HEAD><TITLE>Logische Adressierung / Segmentierung</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver 
+background="Logische Adressierung - Segmentierung-Dateien/stone.jpg">
+<H1><FONT color=#800000>1.2 Logische Adressierung / Segmentierung</FONT></H1>
+<H2><FONT color=#000080>Einführung</FONT></H2>
+<P>Die logische Adressierung findet auf einer höheren Ebene statt als die 
+physische und ist abhängig vom verwendeten CPU-Typ (bzw. vom CPU-Hersteller). 
+Motorola Prozessoren der 680x0-Reihe unterscheiden zum Beispiel nicht zwischen 
+physischer (linearer) und logischer Adressierung. Dadurch läßt sich der 
+komplette Adressraum durchgängig ansprechen.</P>
+<P>Im Gegensatz dazu verwendet Intel bei seinen zum 8086 Prozessor kompatiblen 
+Modellen eine Aufteilung des Hauptspeichers in abgegrenzte Bereiche, die 
+Segmente. Eine Adresse wird dabei aus einem genau definierten Segmentbeginn und 
+einer "Offsetadresse" von diesem Segmentbeginn aus gebildet. Lineare 
+Adressierung ist dabei nur innerhalb eines Segmentes möglich.</P>
+<P>Bei näherer Betrachtung zeigt sich, daß eine Segmentierung des 
+Arbeitspeichers der Struktur der meisten Anwenderprogramme entgegenkommt.</P>
+<P>Gründe für die Segmentierung sind dabei:</P>
+<UL>
+  <LI>Daten- und Codebereich sind voneinander trennbar. 
+  <LI>Das Laden von Programmen kann an beliebige Stellen (Segmentadressen) in 
+  den Arbeitsspeicher erfolgen. Diese Startadresse kann von einem Betriebssystem 
+  festgelegt werden. 
+  <LI>Programme sind frei verschiebbar. 
+  <LI>Es besteht die Möglichkeit, einzelne Anwendungsprogramme gleichzeitig im 
+  Speicher zu halten und die von ihnen verwendeten Code- und Datenbereiche zu 
+  trennen. Das ist eine Voraussetzung für <A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#multitaskingbs">Multitasking-Betriebssysteme</A> 
+  ! </LI></UL>
+<H2><FONT color=#000080>Funktionsweise der Segmentierung bei 80x86 
+Prozessoren</FONT></H2>
+<P>Bei dem von Intel 1978 vorgestellten 8086 handelt es sich um einen 16 Bit 
+Prozessor mit einem adressierbaren Arbeitsspeicher von 1 MB. Die logische 
+Adressierung des Arbeitsspeichers erfolgt dabei immer über ein Registerpaar, das 
+aus Segment- und Offsetadresse besteht. Bei beiden Adressen handelt es sich um 
+16 Bit Register.</P>
+<P>Wie kann der Prozessor mit diesen zwei 16 Bit Registern einen Adressraum von 
+20Bit (2<SUP>20</SUP>=1048576=1 MB) adressieren?</P>
+<P>Eine einfache Addition der zwei 16 Bit Register würde höchstens eine 17 Bit 
+Adresse ergeben! Deshalb verschiebt der 8086 (intern) die Segmentadresse um 4 
+Bit nach links, das entspricht einer Multiplikation mit 16 oder dem Anhängen 
+einer hexadezimalen "0" am unteren Ende. Anschließend wird die originale 
+Offsetadresse addiert.</P>
+<P>Dadurch ergibt sich eine physische 20 Bit Adresse, mit der der gesamte 
+Adressraum angesprochen werden kann (Vgl. Abb. 1.2).</P>
+<P>
+<CENTER><IMG alt="physische Adressierung" 
+src="Logische Adressierung - Segmentierung-Dateien/r_1_2.gif" border=3> 
+<P></P>
+<P><I><B>Abb. 1.2:</B> Physische Adressierung</I> </CENTER></P>
+<P>Durch die Multiplikation mit 16 hat sich auch die kleinste, durch die 
+Segmentadresse adressierbare Einheit verändert. Sie beträgt nun nicht mehr 1 
+Byte, sondern insgesamt 16 Byte. Diese 16 Byte werden in diesem Zusammenhang 
+auch als "Paragraph" bezeichnet.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Logische Adressierung - Segmentierung-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Die folgenden Segment:Offset-Adressen sollen in ihre jeweilige 
+      physische 20-Bit Adresse umgerechnet werden (alle Angaben hexadezimal, die 
+      <B>fett</B> gedruckte Null entspricht dabei dem (internen) Linksschieben 
+      der Segmentadresse um 4 Stellen).</P><PRE>    <I><B>Segment:Offset    physische (lineare) Adresse</B>
+       0001:000E        0001<B>0</B> + 000E = 0001E
+       0001:000F        0001<B>0</B> + 000F = 0001F
+       0002:0000        0002<B>0</B> + 0000 = 00020
+       0000:0020        0000<B>0</B> + 0020 = 00020</I></PRE>
+      <P>Wie die beiden letzten Beispiele zeigen, kann eine (!) physische 
+      Adresse durch mehrere unterschiedliche Segment:Offset Kombinationen 
+      gebildet werden.</P></TD></TR></TBODY></TABLE></CENTER>
+<H2><FONT color=#000080>Probleme</FONT></H2>
+<P>Das größte Problem in der Realmode Programmierung der 80x86-Prozessorfamilie 
+stellt die Begrenzung eines Segments auf maximal 64 KB dar. War es zur 
+Einführung des 8086 1978 noch eine "riesige" Speichermenge, die zur Verfügung 
+stand (damals wurden die meisten Computer mit 16 KB ausgeliefert!), so stellt 
+diese Begrenzung bei den heutigen Anforderungen nur noch ein unnötiges Hindernis 
+dar.</P>
+<P>Wo aber liegt die Ursache für diese Segmentbegrenzung?</P>
+<P>Da zur Adressierung innerhalb eines Segmentes nur eine 16 Bit Offsetadresse 
+verwendet wird, kann auch nur die maximale Speicherzelle: 
+2<SUP>16</SUP>=65536=64 KB innerhalb eines Segments angesprochen werden. Diese 
+Offsetadresse wird dabei als NEAR-Zeiger bezeichnet. Der eigentliche Nachteil 
+besteht dabei darin, daß es schwierig ist, größere Speicherbereiche direkt 
+anzusprechen bzw. zu bearbeiten.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys1.htm"><IMG 
+alt=Zurück src="Logische Adressierung - Segmentierung-Dateien/arrowl.gif" 
+align=left border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys3.htm"><IMG 
+alt=Weiter src="Logische Adressierung - Segmentierung-Dateien/arrowr.gif" 
+align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Logische Adressierung - Segmentierung-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 28.10.1997, Jens Hohmuth. </ADDRESS></BODY></HTML>

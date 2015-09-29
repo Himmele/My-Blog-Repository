@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm -->
+<HTML><HEAD><TITLE>Begriffserklärungen</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver background=Begriffserklärungen-Dateien/stone.jpg>
+<CENTER>
+<H1><FONT color=#800000>Begriffserklärungen</FONT></H1></CENTER>
+<HR SIZE=2>
+<A name=bcd_code>
+<H2>BCD-Code</H2></A>
+<P>BCD-Code steht für <B>B</B>inär <B>C</B>odierter <B>D</B>ezimal Code und 
+dient der binären Repräsentation einer dezimalen Zahl. Dabei wird eine einzelne 
+dezimale Ziffer in 4 Bit (gepackter BCD-Code) oder in 8 Bit (ungepackter 
+BCD-Code) gespeichert. Demnach stehen die hexadezimalen Werte (ungepackte 
+Darstellung) 00h 02h 09h 04h für die dezimale Zahl 0294. Als gepackter BCD-Code 
+werden die oberen hexadezimalen Zahlen als 00020904 interpretiert.</P>
+<HR SIZE=2>
+<A name=deskriptor>
+<H2>Deskriptoren</H2></A>
+<P>Deskriptoren sind Strukturen, die ein (Speicher-) Segment beschreiben. 
+Deskriptoren halten die Basisadresse, die Segmentgröße sowie 
+Zugriffsberechtigungen für das beschriebene Segment fest. Weiterhin enthalten 
+Deskriptoren Informationen über den Segmenttyp (Daten-, Code- oder 
+Systemsegment) und den aktuellen Status des Segmentes (im Speicher vorhanden, 
+auf Festplatte ausgelagert). Deskriptoren gehören zu den zentralen Strukturen 
+des Protected Mode.</P>
+<HR SIZE=2>
+<A name=exception>
+<H2>Exceptions</H2></A>
+<P>Exceptions sind Interrupts, die vom Prozessor selbst generiert werden. Sie 
+treten immer dann auf, wenn der Prozessor vor oder bei der Ausführung eines 
+Befehls einen Fehler feststellt. Die Interrupts 00..1Fh wurden von Intel für 
+diesen Zweck reserviert.</P>
+<HR SIZE=2>
+<A name=xms>
+<H2>Extended Memory</H2></A>
+<P>Speicher oberhalb der 1 MB Grenze wird im allgemeinen als Extended Memory 
+bezeichnet. Da ein Prozessor im Realmode auf maximal 20 Adressleitungen 
+beschränkt ist, kann das Extended Memory normalerweise nicht genutzt werden (mit 
+20 Adressleitungen können nur 2<SUP>20</SUP> = 1048576d Adressen, also 1MB 
+adressiert werden). Durch Umschalten in den Protected Mode (dort stehen 
+mindestens 24 bzw. ab dem 80386 32 Adressleitungen zur Verfügung) kann ein 
+XMS-Treiber Speicher blockweise aus dem Extended Memory in den Speicher 
+unterhalb der 1 MB Grenze kopieren. Dort kann er auch vom Realmode genutzt 
+werden. Der XMS-Standard für den kontrollierten Zugriff auf das Extended Memory 
+wurde 1988 von den Firmen Lotus, Intel und Microsoft in Zusammenarbeit mit AST 
+Research geschaffen.</P>
+<HR SIZE=2>
+<A name=lim_ems>
+<H2>LIM-Standard / Expanded Memory</H2></A>
+<P>Ursprünglich handelte es sich bei Expanded Memory um Speicher, der mit Hilfe 
+einer Erweiterungskarte bereitgestellt wurde. Der sogenannte 
+<B>LIM</B>-Standard, der von den Firmen <B>L</B>otus, <B>I</B>ntel und 
+<B>M</B>icrosoft 1985 gegründet wurde, dient dem standardisierten Zugriff auf 
+diesen Speicher. Dieser Zugriff erfolgt über 16 KByte große Speicherseiten, die 
+über einen entsprechenden Treiber (z.B. EMM386.EXE) in den Speicherbereich 
+unterhalb der 1 MB Grenze eingeblendet werden können. Ab der Version 4.0 besteht 
+auch die Möglichkeit, Extended Memory als Speicherquelle zu verwenden.</P>
+<HR SIZE=2>
+<A name=multiplex>
+<H2>Multiplexer Interrupt 2Fh</H2></A>
+<P>Bei dem Multiplexer Interrupt 2Fh handelt es sich um einen 
+Software-Interrupt, der es einem Programm erlaubt, mit speicherresidenten 
+Programmen (z.B. SHARE, PRINT oder APPEND) zu kommunizieren. Dabei kontrolliert 
+jedes TSR-Programm den Interrupt 2Fh und reagiert nur auf einen speziellen, zum 
+Programm gehörenden Funktionscode, der beim Aufruf des Interrupt 2Fh im Register 
+AX übergeben werden muß. Stimmt der übergebende Code nicht mit dem 
+programmspezifischen Code überein, übergibt die entsprechende Interruptroutine 
+den Code an das nächste installierte TSR-Programm in der Interrupt 2Fh 
+Treiberkette usw. Das geschieht so lange, bis entweder alle TSR-Programme 
+durchlaufen wurden (das angesprochene Programm ist also nicht installiert) oder 
+ein Programm gefunden wurde, das auf den übergebenen Code reagiert.</P>
+<HR SIZE=2>
+<A name=multitasking>
+<H2>Multitasking</H2></A>
+<P>Die gleichzeitige Ausführung mehrerer Programme (bzw. Programmteile oder 
+Tasks) wird als Multitasking bezeichnet. Da <U>ein</U> Prozessor auch nur 
+jeweils <U>einen</U> Befehlsstrom verarbeiten kann, simuliert er die Ausführung 
+mehrerer Programme, indem er erst einige Befehle des ersten Programms 
+bearbeitet, danach zum zweiten Programm umschaltet, dann zum dritten usw. Da die 
+Bearbeitungs- und Umschaltzeiten gering sind, entsteht der Eindruck einer 
+gleichzeitigen Bearbeitung aller Programme.</P>
+<HR SIZE=2>
+<A name=multitaskingbs>
+<H2>Multitasking-Betriebssysteme</H2></A>
+<P>Ein Betriebssystem, das <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#multitasking">Multitasking</A> 
+unterstützt, wird in der Regel als Multitasking-Betriebssystem bezeichnet. Die 
+Aufgaben eines solchen Betriebssystems gehen dabei meist über das eigentliche 
+Multitasking hinaus. So müssen beispielsweise Funktionen bereitgestellt werden, 
+die für die Kommunikation zwischen einzelnen Prozessen verantwortlich sind. 
+Weiterhin muß ein entsprechendes Dateisystem vorhanden sein, um Datenverluste zu 
+vermeiden (Was geschieht z.B. wenn zwei oder mehrere Prozesse gleichzeitig 
+dieselbe Datei bearbeiten?).</P>
+<HR SIZE=2>
+<A name=neumann>
+<H2>Von-Neumann-Modell</H2></A>
+<P>Das von-Neumann-Computermodell beschreibt den prinzipiellen Aufbau des 
+klassischen Universalrechners. Bei dem von von-Neumann 1944 vorgestellten 
+Prinzip soll ein Computersystem aus einem zentralen Prozessor, einem schnellen 
+Arbeitsspeicher für Programmcode und Daten, sowie einigen Peripheriegeräten 
+bestehen. Alle Komponenten sind dabei über ein Leitungssystem miteinander 
+verbunden. Die meisten der heute eingesetzten Computersysteme sind zum 
+von-Neumann-Modell kompatibel.</P>
+<HR SIZE=2>
+<A name=pmode>
+<H2>Protected Mode</H2></A>
+<P>Der Protected Mode ist der zweite mögliche Modus, in dem Intel Prozessoren 
+der 80x86 Reihe betrieben werden können. Im Gegensatz zum Realmode werden 
+Zugriffe auf den Arbeitsspeicher einer Privilegstufen-Prüfung unterzogen. Diese 
+Prüfung erlaubt es einem Protected Mode Betriebssystem, ständig die Kontrolle 
+über alle laufenden Anwendungsprogramme zu behalten. Der Protected Mode ist aus 
+den Anforderungen an ein stabiles Mulitasking-Betriebssystem entstanden.</P>
+<HR SIZE=2>
+<A name=realmode>
+<H2>Real Mode</H2></A>
+<P>Intel Prozessoren unterscheiden (ab dem 80286) zwischen zwei 
+unterschiedlichen Betriebsmodi, dem Realmode und dem Protected Mode. Nach einer 
+Initialisierung befindet sich der Prozessor standardmäßig im Realmode. In diesem 
+Modus können 16 Bit breite Register verwendet werden, die auch zur 
+Speicheradressierung benutzt werden. Segmente im Realmode sind aus diesem Grund 
+auch auf eine maximale Größe von 64 KByte eingeschränkt. Zugriffe auf den 
+Speicher werden nicht privilegiert, d.h. das Betriebssystem und eventuelle 
+Anwendungsprogramme unterliegen beim Zugriff auf den Arbeitsspeicher keinen 
+Einschränkungen.</P>
+<HR SIZE=2>
+<A name=selektor>
+<H2>Selektor</H2></A>
+<P>Der Selektor ist Teil der virtuellen Adresse, über die im Protected Mode 
+Speicheradressen adressiert werden. Durch den Selektor wird ein Deskriptor aus 
+einer Deskriptor Tabelle ausgewählt (selektiert). Welche Tabelle dabei 
+Verwendung findet (die Globale oder die Lokale Deskriptor Tabelle), wird 
+ebenfalls im Selektor festgehalten. Weiterhin enthält der Selektor Informationen 
+über die Zugriffsrechte auf den gewünschten Deskriptor.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex4.htm"><IMG 
+alt=Zurück src="Begriffserklärungen-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm"><IMG alt=Weiter 
+src="Begriffserklärungen-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="Begriffserklärungen-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<P>
+<HR SIZE=2>
+
+<P></P>
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B></A> <BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html -->
+<HTML lang=en><HEAD><TITLE>C Dialect Options - Using the GNU Compiler Collection (GCC)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="Using the GNU Compiler Collection (GCC)" name=description>
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR><LINK title=Top 
+href="index.html#Top" rel=start><LINK title="Invoking GCC" 
+href="Invoking-GCC.html#Invoking-GCC" rel=up><LINK title="Invoking G++" 
+href="Invoking-G_002b_002b.html#Invoking-G_002b_002b" rel=prev><LINK 
+title="C++ Dialect Options" 
+href="C_002b_002b-Dialect-Options.html#C_002b_002b-Dialect-Options" 
+rel=next><LINK title="Texinfo Homepage" 
+href="http://www.gnu.org/software/texinfo/" rel=generator-home><!--
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``GNU General Public License'' and ``Funding
+Free Software'', the Front-Cover texts being (a) (see below), and with
+the Back-Cover Texts being (b) (see below).  A copy of the license is
+included in the section entitled ``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<META http-equiv=Content-Style-Type content=text/css>
+<STYLE type=text/css>PRE.display {
+	FONT-FAMILY: inherit
+}
+PRE.format {
+	FONT-FAMILY: inherit
+}
+PRE.smalldisplay {
+	FONT-SIZE: smaller; FONT-FAMILY: inherit
+}
+PRE.smallformat {
+	FONT-SIZE: smaller; FONT-FAMILY: inherit
+}
+PRE.smallexample {
+	FONT-SIZE: smaller
+}
+PRE.smalllisp {
+	FONT-SIZE: smaller
+}
+SPAN.sc {
+	FONT-VARIANT: small-caps
+}
+SPAN.roman {
+	FONT-WEIGHT: normal; FONT-FAMILY: serif
+}
+SPAN.sansserif {
+	FONT-WEIGHT: normal; FONT-FAMILY: sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY>
+<DIV class=node>
+<P><A name=C-Dialect-Options></A>Next:&nbsp;<A accessKey=n 
+href="http://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html#C_002b_002b-Dialect-Options" 
+rel=next>C++ Dialect Options</A>, Previous:&nbsp;<A accessKey=p 
+href="http://gcc.gnu.org/onlinedocs/gcc/Invoking-G_002b_002b.html#Invoking-G_002b_002b" 
+rel=previous>Invoking G++</A>, Up:&nbsp;<A accessKey=u 
+href="http://gcc.gnu.org/onlinedocs/gcc/Invoking-GCC.html#Invoking-GCC" 
+rel=up>Invoking GCC</A> 
+<HR>
+</DIV>
+<H3 class=section>3.4 Options Controlling C Dialect</H3>
+<P><A name=index-dialect-options-91></A><A 
+name=index-language-dialect-options-92></A><A 
+name=index-options_002c-dialect-93></A>The following options control the dialect 
+of C (or languages derived from C, such as C++, Objective-C and Objective-C++) 
+that the compiler accepts: <A name=index-ANSI-support-94></A><A 
+name=index-ISO-support-95></A>
+<DL>
+  <DT><CODE>-ansi</CODE>
+  <DD><A name=index-ansi-96></A>In C mode, support all ISO C90 programs. In C++ 
+  mode, remove GNU extensions that conflict with ISO C++. 
+  <P>This turns off certain features of GCC that are incompatible with ISO C90 
+  (when compiling C code), or of standard C++ (when compiling C++ code), such as 
+  the <CODE>asm</CODE> and <CODE>typeof</CODE> keywords, and predefined macros 
+  such as <CODE>unix</CODE> and <CODE>vax</CODE> that identify the type of 
+  system you are using. It also enables the undesirable and rarely used ISO 
+  trigraph feature. For the C compiler, it disables recognition of C++ style 
+  `<SAMP><SPAN class=samp>//</SPAN></SAMP>' comments as well as the 
+  <CODE>inline</CODE> keyword. 
+  <P>The alternate keywords <CODE>__asm__</CODE>, <CODE>__extension__</CODE>, 
+  <CODE>__inline__</CODE> and <CODE>__typeof__</CODE> continue to work despite 
+  <SAMP><SPAN class=option>-ansi</SPAN></SAMP>. You would not want to use them 
+  in an ISO C program, of course, but it is useful to put them in header files 
+  that might be included in compilations done with <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP>. Alternate predefined macros such as 
+  <CODE>__unix__</CODE> and <CODE>__vax__</CODE> are also available, with or 
+  without <SAMP><SPAN class=option>-ansi</SPAN></SAMP>. 
+  <P>The <SAMP><SPAN class=option>-ansi</SPAN></SAMP> option does not cause 
+  non-ISO programs to be rejected gratuitously. For that, <SAMP><SPAN 
+  class=option>-pedantic</SPAN></SAMP> is required in addition to <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP>. See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#Warning-Options">Warning 
+  Options</A>. 
+  <P>The macro <CODE>__STRICT_ANSI__</CODE> is predefined when the <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP> option is used. Some header files may notice 
+  this macro and refrain from declaring certain functions or defining certain 
+  macros that the ISO standard doesn't call for; this is to avoid interfering 
+  with any programs that might use these names for other things. 
+  <P>Functions which would normally be built in but do not have semantics 
+  defined by ISO C (such as <CODE>alloca</CODE> and <CODE>ffs</CODE>) are not 
+  built-in functions with <SAMP><SPAN class=option>-ansi</SPAN></SAMP> is used. 
+  See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html#Other-Builtins">Other 
+  built-in functions provided by GCC</A>, for details of the functions affected. 
+  <BR></P>
+  <DT><CODE>-std=</CODE>
+  <DD><A name=index-std-97></A>Determine the language standard. This option is 
+  currently only supported when compiling C or C++. A value for this option must 
+  be provided; possible values are 
+  <DL>
+    <DT>`<SAMP><SPAN class=samp>c89</SPAN></SAMP>'
+    <DT>`<SAMP><SPAN class=samp>iso9899:1990</SPAN></SAMP>'
+    <DD>ISO C90 (same as <SAMP><SPAN class=option>-ansi</SPAN></SAMP>). <BR>
+    <DT>`<SAMP><SPAN class=samp>iso9899:199409</SPAN></SAMP>'
+    <DD>ISO C90 as modified in amendment 1. <BR>
+    <DT>`<SAMP><SPAN class=samp>c99</SPAN></SAMP>'
+    <DT>`<SAMP><SPAN class=samp>c9x</SPAN></SAMP>'
+    <DT>`<SAMP><SPAN class=samp>iso9899:1999</SPAN></SAMP>'
+    <DT>`<SAMP><SPAN class=samp>iso9899:199x</SPAN></SAMP>'
+    <DD>ISO C99. Note that this standard is not yet fully supported; see <A 
+    href="http://gcc.gnu.org/c99status.html">http://gcc.gnu.org/c99status.html</A><!-- /@w --> 
+    for more information. The names `<SAMP><SPAN class=samp>c9x</SPAN></SAMP>' 
+    and `<SAMP><SPAN class=samp>iso9899:199x</SPAN></SAMP>' are deprecated. <BR>
+    <DT>`<SAMP><SPAN class=samp>gnu89</SPAN></SAMP>'
+    <DD>Default, ISO C90 plus GNU extensions (including some C99 features). <BR>
+    <DT>`<SAMP><SPAN class=samp>gnu99</SPAN></SAMP>'
+    <DT>`<SAMP><SPAN class=samp>gnu9x</SPAN></SAMP>'
+    <DD>ISO C99 plus GNU extensions. When ISO C99 is fully implemented in GCC, 
+    this will become the default. The name `<SAMP><SPAN 
+    class=samp>gnu9x</SPAN></SAMP>' is deprecated. <BR>
+    <DT>`<SAMP><SPAN class=samp>c++98</SPAN></SAMP>'
+    <DD>The 1998 ISO C++ standard plus amendments. <BR>
+    <DT>`<SAMP><SPAN class=samp>gnu++98</SPAN></SAMP>'
+    <DD>The same as <SAMP><SPAN class=option>-std=c++98</SPAN></SAMP> plus GNU 
+    extensions. This is the default for C++ code. </DD></DL>
+  <P>Even when this option is not specified, you can still use some of the 
+  features of newer standards in so far as they do not conflict with previous C 
+  standards. For example, you may use <CODE>__restrict__</CODE> even when 
+  <SAMP><SPAN class=option>-std=c99</SPAN></SAMP> is not specified. 
+  <P>The <SAMP><SPAN class=option>-std</SPAN></SAMP> options specifying some 
+  version of ISO C have the same effects as <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP>, except that features that were not in ISO 
+  C90 but are in the specified version (for example, `<SAMP><SPAN 
+  class=samp>//</SPAN></SAMP>' comments and the <CODE>inline</CODE> keyword in 
+  ISO C99) are not disabled. 
+  <P>See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Standards.html#Standards">Language 
+  Standards Supported by GCC</A>, for details of these standard versions. 
+  <BR></P>
+  <DT><CODE>-aux-info </CODE><VAR>filename</VAR>
+  <DD><A name=index-aux_002dinfo-98></A>Output to the given filename prototyped 
+  declarations for all functions declared and/or defined in a translation unit, 
+  including those in header files. This option is silently ignored in any 
+  language other than C. 
+  <P>Besides declarations, the file indicates, in comments, the origin of each 
+  declaration (source file and line), whether the declaration was implicit, 
+  prototyped or unprototyped (`<SAMP><SPAN class=samp>I</SPAN></SAMP>', 
+  `<SAMP><SPAN class=samp>N</SPAN></SAMP>' for new or `<SAMP><SPAN 
+  class=samp>O</SPAN></SAMP>' for old, respectively, in the first character 
+  after the line number and the colon), and whether it came from a declaration 
+  or a definition (`<SAMP><SPAN class=samp>C</SPAN></SAMP>' or `<SAMP><SPAN 
+  class=samp>F</SPAN></SAMP>', respectively, in the following character). In the 
+  case of function definitions, a K&amp;R-style list of arguments followed by 
+  their declarations is also provided, inside comments, after the declaration. 
+  <BR></P>
+  <DT><CODE>-fno-asm</CODE>
+  <DD><A name=index-fno_002dasm-99></A>Do not recognize <CODE>asm</CODE>, 
+  <CODE>inline</CODE> or <CODE>typeof</CODE> as a keyword, so that code can use 
+  these words as identifiers. You can use the keywords <CODE>__asm__</CODE>, 
+  <CODE>__inline__</CODE> and <CODE>__typeof__</CODE> instead. <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP> implies <SAMP><SPAN 
+  class=option>-fno-asm</SPAN></SAMP>. 
+  <P>In C++, this switch only affects the <CODE>typeof</CODE> keyword, since 
+  <CODE>asm</CODE> and <CODE>inline</CODE> are standard keywords. You may want 
+  to use the <SAMP><SPAN class=option>-fno-gnu-keywords</SPAN></SAMP> flag 
+  instead, which has the same effect. In C99 mode (<SAMP><SPAN 
+  class=option>-std=c99</SPAN></SAMP> or <SAMP><SPAN 
+  class=option>-std=gnu99</SPAN></SAMP>), this switch only affects the 
+  <CODE>asm</CODE> and <CODE>typeof</CODE> keywords, since <CODE>inline</CODE> 
+  is a standard keyword in ISO C99. <BR></P>
+  <DT><CODE>-fno-builtin</CODE>
+  <DT><CODE>-fno-builtin-</CODE><VAR>function</VAR>
+  <DD><A name=index-fno_002dbuiltin-100></A><A 
+  name=index-built_002din-functions-101></A>Don't recognize built-in functions 
+  that do not begin with `<SAMP><SPAN class=samp>__builtin_</SPAN></SAMP>' as 
+  prefix. See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html#Other-Builtins">Other 
+  built-in functions provided by GCC</A>, for details of the functions affected, 
+  including those which are not built-in functions when <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP> or <SAMP><SPAN 
+  class=option>-std</SPAN></SAMP> options for strict ISO C conformance are used 
+  because they do not have an ISO standard meaning. 
+  <P>GCC normally generates special code to handle certain built-in functions 
+  more efficiently; for instance, calls to <CODE>alloca</CODE> may become single 
+  instructions that adjust the stack directly, and calls to <CODE>memcpy</CODE> 
+  may become inline copy loops. The resulting code is often both smaller and 
+  faster, but since the function calls no longer appear as such, you cannot set 
+  a breakpoint on those calls, nor can you change the behavior of the functions 
+  by linking with a different library. In addition, when a function is 
+  recognized as a built-in function, GCC may use information about that function 
+  to warn about problems with calls to that function, or to generate more 
+  efficient code, even if the resulting code still contains calls to that 
+  function. For example, warnings are given with <SAMP><SPAN 
+  class=option>-Wformat</SPAN></SAMP> for bad calls to <CODE>printf</CODE>, when 
+  <CODE>printf</CODE> is built in, and <CODE>strlen</CODE> is known not to 
+  modify global memory. 
+  <P>With the <SAMP><SPAN 
+  class=option>-fno-builtin-</SPAN><VAR>function</VAR></SAMP> option only the 
+  built-in function <VAR>function</VAR> is disabled. <VAR>function</VAR> must 
+  not begin with `<SAMP><SPAN class=samp>__builtin_</SPAN></SAMP>'. If a 
+  function is named this is not built-in in this version of GCC, this option is 
+  ignored. There is no corresponding <SAMP><SPAN 
+  class=option>-fbuiltin-</SPAN><VAR>function</VAR></SAMP> option; if you wish 
+  to enable built-in functions selectively when using <SAMP><SPAN 
+  class=option>-fno-builtin</SPAN></SAMP> or <SAMP><SPAN 
+  class=option>-ffreestanding</SPAN></SAMP>, you may define macros such as: <PRE class=smallexample>          #define abs(n)          __builtin_abs ((n))
+          #define strcpy(d, s)    __builtin_strcpy ((d), (s))
+     </PRE><BR>
+  <DT><CODE>-fhosted</CODE>
+  <DD><A name=index-fhosted-102></A><A 
+  name=index-hosted-environment-103></A>Assert that compilation takes place in a 
+  hosted environment. This implies <SAMP><SPAN 
+  class=option>-fbuiltin</SPAN></SAMP>. A hosted environment is one in which the 
+  entire standard library is available, and in which <CODE>main</CODE> has a 
+  return type of <CODE>int</CODE>. Examples are nearly everything except a 
+  kernel. This is equivalent to <SAMP><SPAN 
+  class=option>-fno-freestanding</SPAN></SAMP>. <BR>
+  <DT><CODE>-ffreestanding</CODE>
+  <DD><A name=index-ffreestanding-104></A><A 
+  name=index-hosted-environment-105></A>Assert that compilation takes place in a 
+  freestanding environment. This implies <SAMP><SPAN 
+  class=option>-fno-builtin</SPAN></SAMP>. A freestanding environment is one in 
+  which the standard library may not exist, and program startup may not 
+  necessarily be at <CODE>main</CODE>. The most obvious example is an OS kernel. 
+  This is equivalent to <SAMP><SPAN class=option>-fno-hosted</SPAN></SAMP>. 
+  <P>See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Standards.html#Standards">Language 
+  Standards Supported by GCC</A>, for details of freestanding and hosted 
+  environments. <BR></P>
+  <DT><CODE>-fms-extensions</CODE>
+  <DD><A name=index-fms_002dextensions-106></A>Accept some non-standard 
+  constructs used in Microsoft header files. 
+  <P>Some cases of unnamed fields in structures and unions are only accepted 
+  with this option. See <A 
+  href="http://gcc.gnu.org/onlinedocs/gcc/Unnamed-Fields.html#Unnamed-Fields">Unnamed 
+  struct/union fields within structs/unions</A>, for details. <BR></P>
+  <DT><CODE>-trigraphs</CODE>
+  <DD><A name=index-trigraphs-107></A>Support ISO C trigraphs. The <SAMP><SPAN 
+  class=option>-ansi</SPAN></SAMP> option (and <SAMP><SPAN 
+  class=option>-std</SPAN></SAMP> options for strict ISO C conformance) implies 
+  <SAMP><SPAN class=option>-trigraphs</SPAN></SAMP>. <BR>
+  <DT><CODE>-no-integrated-cpp</CODE>
+  <DD><A name=index-no_002dintegrated_002dcpp-108></A>Performs a compilation in 
+  two passes: preprocessing and compiling. This option allows a user supplied 
+  "cc1", "cc1plus", or "cc1obj" via the <SAMP><SPAN 
+  class=option>-B</SPAN></SAMP> option. The user supplied compilation step can 
+  then add in an additional preprocessing step after normal preprocessing but 
+  before compiling. The default is to use the integrated cpp (internal cpp) 
+  <P>The semantics of this option will change if "cc1", "cc1plus", and "cc1obj" 
+  are merged. 
+  <P><A name=index-traditional-C-language-109></A><A 
+  name=index-C-language_002c-traditional-110></A><BR></P>
+  <DT><CODE>-traditional</CODE>
+  <DT><CODE>-traditional-cpp</CODE>
+  <DD><A name=index-traditional_002dcpp-111></A><A 
+  name=index-traditional-112></A>Formerly, these options caused GCC to attempt 
+  to emulate a pre-standard C compiler. They are now only supported with the 
+  <SAMP><SPAN class=option>-E</SPAN></SAMP> switch. The preprocessor continues 
+  to support a pre-standard mode. See the GNU CPP manual for details. <BR>
+  <DT><CODE>-fcond-mismatch</CODE>
+  <DD><A name=index-fcond_002dmismatch-113></A>Allow conditional expressions 
+  with mismatched types in the second and third arguments. The value of such an 
+  expression is void. This option is not supported for C++. <BR>
+  <DT><CODE>-funsigned-char</CODE>
+  <DD><A name=index-funsigned_002dchar-114></A>Let the type <CODE>char</CODE> be 
+  unsigned, like <CODE>unsigned char</CODE>. 
+  <P>Each kind of machine has a default for what <CODE>char</CODE> should be. It 
+  is either like <CODE>unsigned char</CODE> by default or like <CODE>signed 
+  char</CODE> by default. 
+  <P>Ideally, a portable program should always use <CODE>signed char</CODE> or 
+  <CODE>unsigned char</CODE> when it depends on the signedness of an object. But 
+  many programs have been written to use plain <CODE>char</CODE> and expect it 
+  to be signed, or expect it to be unsigned, depending on the machines they were 
+  written for. This option, and its inverse, let you make such a program work 
+  with the opposite default. 
+  <P>The type <CODE>char</CODE> is always a distinct type from each of 
+  <CODE>signed char</CODE> or <CODE>unsigned char</CODE>, even though its 
+  behavior is always just like one of those two. <BR></P>
+  <DT><CODE>-fsigned-char</CODE>
+  <DD><A name=index-fsigned_002dchar-115></A>Let the type <CODE>char</CODE> be 
+  signed, like <CODE>signed char</CODE>. 
+  <P>Note that this is equivalent to <SAMP><SPAN 
+  class=option>-fno-unsigned-char</SPAN></SAMP>, which is the negative form of 
+  <SAMP><SPAN class=option>-funsigned-char</SPAN></SAMP>. Likewise, the option 
+  <SAMP><SPAN class=option>-fno-signed-char</SPAN></SAMP> is equivalent to 
+  <SAMP><SPAN class=option>-funsigned-char</SPAN></SAMP>. <BR></P>
+  <DT><CODE>-fsigned-bitfields</CODE>
+  <DT><CODE>-funsigned-bitfields</CODE>
+  <DT><CODE>-fno-signed-bitfields</CODE>
+  <DT><CODE>-fno-unsigned-bitfields</CODE>
+  <DD><A name=index-fsigned_002dbitfields-116></A><A 
+  name=index-funsigned_002dbitfields-117></A><A 
+  name=index-fno_002dsigned_002dbitfields-118></A><A 
+  name=index-fno_002dunsigned_002dbitfields-119></A>These options control 
+  whether a bit-field is signed or unsigned, when the declaration does not use 
+  either <CODE>signed</CODE> or <CODE>unsigned</CODE>. By default, such a 
+  bit-field is signed, because this is consistent: the basic integer types such 
+  as <CODE>int</CODE> are signed types. </DD></DL></BODY></HTML>

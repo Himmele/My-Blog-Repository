@@ -1,0 +1,2407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp -->
+<HTML><HEAD><TITLE>The Code Project - Genetic and Ant Colony Optimization Algorithms - C++ / MFC</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=Reply-to content=mailto:webmaster@codeproject.com>
+<META content="Free source code and tutorials for Windows developers." 
+name=Description>
+<META 
+content="Free source code, C++ / MFC, Visual C++, MFC, Windows, Genetic Ant Colony Optimization" 
+name=keywords>
+<META 
+content="Article content copyright Peter Kohout, 2003, everthing else Copyright © CodeProject, 1999-2004, All Rights Reserved." 
+name=Copyright><LINK href="/favicon.ico" type=image/ico rel=icon><LINK 
+href="/favicon.ico" rel="SHORTCUT ICON"><LINK 
+href="Genetic and Ant Colony Optimization Algorithms-Dateien/global.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY text=black vLink=purple aLink=red link=blue bgColor=white leftMargin=3 
+topMargin=3>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD vAlign=top><A href="http://www.codeproject.com/"><IMG height=72 
+            alt="The Code Project" 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/logo225x72.gif" 
+            width=225 border=0></A></TD>
+          <TD align=right><SPAN id=AdBanner4><A 
+            href="http://www.codeproject.com/script/admentor/ads.asp"><IMG 
+            height=60 alt="View our advertisers" 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/sponsors.gif" 
+            width=20 border=1></A>
+            <SCRIPT language=JavaScript 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/flashad.js"></SCRIPT>
+
+            <SCRIPT language=JavaScript>
+document.write(FlashAdText('/script/admentor/images/InfratgisticsNetAdv_vol2.swf',
+                           'http://www.codeproject.com/specials.asp?id=768',
+                           '/script/admentor/images/InfratgisticsNetAdv_vol2.jpg',
+                           468,60));
+</SCRIPT>
+             <A href="http://www.codeproject.com/info/mediakit"><IMG height=60 
+            alt="Advertise on the CodeProject" 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/advertise.gif" 
+            width=20 border=1></A></SPAN></TD></TR>
+        <TR>
+          <TD bgColor=#fbedbb colSpan=2>
+            <TABLE cellPadding=3 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD width="100%"><FONT style="FONT-SIZE: 8pt"><A 
+                  href="http://www.codeproject.com/?cat=1">All Topics</A>, <A 
+                  href="http://www.codeproject.com/?cat=2">MFC / C++</A> 
+                  &gt;&gt; <A href="http://www.codeproject.com/cpp/">C++ / 
+                  MFC</A> &gt;&gt; <A 
+                  href="http://www.codeproject.com/cpp/#Algorithms">Algorithms</A></FONT><BR><BR><B><FONT 
+                  style="FONT-SIZE: 16pt" size=4>Genetic and Ant Colony 
+                  Optimization Algorithms</FONT></B><BR><B>By <A 
+                  href="http://www.codeproject.com/script/profile/whos_who.asp?id=17557">Peter 
+                  Kohout</A> </B><BR><BR><FONT style="FONT-SIZE: 9pt">Genetic 
+                  and Ant Colony Optimization Algorithms&nbsp;</FONT> </TD>
+                <TD vAlign=top align=right>
+                  <TABLE cellSpacing=0 cellPadding=1 width=200 border=0>
+                    <TBODY>
+                    <TR vAlign=top>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText>C++ (VC6)<BR>Windows<BR>Win32, 
+                        VS<BR>Dev</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText noWrap>Posted 13 Nov 2003</TD></TR>
+                    <TR vAlign=top>
+                      <TD><IMG height=16 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/hlp.gif" 
+                        width=16></TD>
+                      <TD class=SmallText noWrap><A 
+                        href="http://www.codeproject.com/script/Articles/list_articles.asp?userid=17557">Articles 
+                        by this author</A></TD></TR>
+                    <TR vAlign=top>
+                      <TD></TD>
+                      <TD class=SmallText noWrap><B>25,688</B> 
+                    views</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD colSpan=2>
+            <TABLE id=tblSiteToolbar cellSpacing=0 cellPadding=1 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <FORM name=Search action=/info/search.asp method=post>
+                <TD vAlign=top align=left width="100%">
+                  <TABLE cellSpacing=0 cellPadding=1 border=0>
+                    <TBODY>
+                    <TR vAlign=center>
+                      <TD class=smallText><B><FONT 
+                        color=white>Search:</FONT></B></TD>
+                      <TD class=navbar noWrap><INPUT class=smallText 
+                        maxLength=255 size=18 name=target></TD>
+                      <TD vAlign=top><SELECT class=smallText name=st> 
+                          <OPTION value=kw selected>Articles</OPTION> <OPTION 
+                          value=au>Authors</OPTION></SELECT></TD>
+                      <TD><INPUT class=formButton type=submit value=Go></TD></TR></TBODY></TABLE></TD></FORM>
+                <TD>
+                  <DIV id=MenuPos 
+                  style="WIDTH: 380px; POSITION: relative; HEIGHT: 20px"><IMG 
+                  height=20 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif" 
+                  width=375></DIV></TD></TR></TBODY></TABLE>
+            <SCRIPT type=text/javascript>function Go(){return}</SCRIPT>
+
+            <SCRIPT 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/cpmenu_var.js" 
+            type=text/javascript></SCRIPT>
+
+            <SCRIPT 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/menu10_com.js" 
+            type=text/javascript></SCRIPT>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=1 border=0>
+  <TBODY>
+  <TR vAlign=top>
+    <TD vAlign=top bgColor=#fbedbb rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <SCRIPT language=javascript>
+function ErrorHandle() {}
+window.onerror = ErrorHandle;
+
+function OnNLSubmit(option)
+{
+	if (option=="up")
+		document.subForm.action = "/script/profile/modify.asp?ct=%2Fcpp%2FGeneticandAntAlgorithms%2Easp";
+	else if (option=="in")
+		document.subForm.action = "/script/profile/process_logon.asp?ct=%2Fcpp%2FGeneticandAntAlgorithms%2Easp";
+	document.subForm.submit();
+	return true;
+}
+</SCRIPT>
+
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=3 cellPadding=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD class=InfoBarHeader>Toolbox</TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/link.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/script/common/mailform.asp?option=Article&amp;Title=Genetic+and+Ant+Colony+Optimization+Algorithms&amp;URL=http%3A%2F%2Fwww%2Ecodeproject%2Ecom%2Fcpp%2FGeneticandAntAlgorithms%2Easp">Broken 
+                  links?</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/store/"><B>VS.NET 2003 for 
+                  $899</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/store/"><B>MSDN Univ. from 
+                  $1950</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/print.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?print=true" 
+                  target=_print>Print version</A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/mail.gif" 
+                  width=16></TD>
+                <TD class=SmallText><A 
+                  href="http://www.codeproject.com/script/recommend/form.asp?guid=GeneticandAntAlgorithms%2Fcpp11%2F13%2F2003">Send 
+                  to a friend</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD class=InfoBarHeader colSpan=2><BR>Sign in / Sign 
+              up</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText>
+            <FORM id=subForm name=subForm 
+            action=/script/profile/process_logon.asp method=post>
+            <TABLE cellSpacing=0 cellPadding=0 width=125 bgColor=#ffcc99 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Email</TD>
+                <TD class=smallText><INPUT class=smallText id=Email 
+                  style="WIDTH: 60px" name=Email> </TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Password</TD>
+                <TD><INPUT class=smallText id=Password style="WIDTH: 60px" 
+                  type=password name=Password></TD></TR>
+              <TR>
+                <TD class=smallText vAlign=center colSpan=2><INPUT 
+                  type=checkbox CHECKED name=cookie>Remember me</TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD align=middle><A 
+                  href="http://www.codeproject.com/script/profile/modify.asp"><IMG 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/signup.gif" 
+                  border=0></A></TD>
+                <TD align=middle><INPUT type=image 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/signin.gif" 
+                  border=0></TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif"></TD></TR></FORM></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText><A class=smallText 
+            href="http://www.codeproject.com/script/profile/forgot.asp" 
+            name=HLLink>Lost your Password?</A></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <CENTER>
+            <SCRIPT language=JavaScript 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/flashad.js"></SCRIPT>
+
+            <SCRIPT language=JavaScript>
+document.write(FlashAdText('/script/admentor/images/Infragisticsdevcenter_sky.swf',
+                           'http://www.codeproject.com/specials.asp?id=767',
+                           '/script/admentor/images/InfragisticsDevCenter_sky.jpg',
+                           120,600));
+</SCRIPT>
+            <BR></CENTER><BR></TD></TR></TBODY></TABLE></TD>
+    <TD width=5 rowSpan=2><IMG height=1 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif" 
+      width=5> </TD>
+    <TD align=right width="100%" bgColor=white>
+      <TABLE width="100%">
+        <TBODY>
+        <TR>
+          <TD class=smallText vAlign=top noWrap></TD>
+          <TD noWrap align=right><A name=__top></A>
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD class=smallText align=right>42 members have rated this 
+                  article. Result:</TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=2>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/red.gif" 
+                        width=12 border=0><IMG height=5 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/white.gif" 
+                        width=8 border=0></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=smallText align=right colSpan=2><A 
+                  title="Calculated as rating x Log10(# votes)" 
+                  href="http://www.codeproject.com/script/articles/top_articles.asp?st=2">Popularity: 
+                  7.48</A>. Rating: <B>4.61</B> out of 
+        5.</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top width="100%">
+      <DIV id=contentdiv><!-- Article Starts -->
+      <UL class=download>
+        <LI><A 
+        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms/Gentic_and_Ant_Algorithm_demo.zip">Download 
+        demo project - 83 Kb </A>
+        <LI><A 
+        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms/Genetic_and_Ant_Algorithms_src.zip">Download 
+        source - 80 Kb</A> </LI></UL>
+      <P><IMG height=311 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image001.jpg" 
+      width=600 border=0></P>
+      <H2>Introduction</H2>
+      <P>I have recently become very interested in the area of genetic 
+      algorithms and Ant Colony Optimization techniques. I was determined to 
+      write a complete program demonstrating these two techniques. In particular 
+      I wanted to compare the efficiency of these two approaches in the area of 
+      finding solutions to the Traveling Salesman Problem (TSP).</P>
+      <P><B>Traveling Salesman Problem</B></P>
+      <P>Bruckland(2002 pp. 118) succinctly summarizes the problem</P>
+      <P>“Given a collection of cities, the traveling salesman must determine 
+      the shortest route that will enable him to visit each city precisely once 
+      and then return back to his starting point.” </P>
+      <P>He goes on to explain that this is an example of what mathematicians 
+      call NP-Complete problems. As more cities are added, the computational 
+      power required to solve the problem increases exponentially. An algorithm 
+      implemented on a computer that solves the TSP for fifty cities would 
+      require an increase in computer power of a thousand fold just to add an 
+      additional ten cities.</P>
+      <P><B>The following table demonstrated the problem</B></P>
+      <P><IMG height=282 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/table1.gif" 
+      width=492 border=0></P>
+      <P>Clearly a ‘brute force’ way becomes impossible for a large number of 
+      cities and alternate algorithms need to be employed if a solution is to be 
+      found for this problem</P>
+      <H2>Background</H2>
+      <H3>The Algorithms explained</H3>
+      <P><B>(1.) Genetic Algorithm</B>. </P>
+      <P>The algorithm consists of the following fundamental steps</P>
+      <P><B><IMG height=306 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image002.jpg" 
+      width=485 border=0></B></P>
+      <P><B>Initialization</B>: Chromosomes are randomly created. At this point 
+      it is very important that the population is diverse otherwise the 
+      algorithm may not produce good solutions.</P>
+      <P><B>Evaluation</B>: Each chromosome is rated how well the chromosome 
+      solves the problem at hand. A fitness value is assigned to each 
+      chromosome</P>
+      <P><B>Selection</B>: Fittest chromosomes are selected for propagation into 
+      the future generation based on how fit they are.</P>
+      <P><B>Recombination</B>: Individual chromosomes and pairs of chromosomes 
+      are recombined and modified and then put back in the population</P>
+      <P>I am not going to discuss the details of genetic algorithms as these 
+      are better explained elsewhere apart from discussing the mechanisms used 
+      to produce valid crossover operators and Roulette Wheel Selection. Each 
+      chromosome is encoded as a possible tour. For example a tour of five 
+      cities might be encoded as 3,4,0,1,2. A difficulty with the TSP is that a 
+      simple crossover will not work. Consider the following situation where 
+      cross over occurs at position 3.</P>
+      <TABLE cellSpacing=0 cellPadding=0 width=175 border=1>
+        <TBODY>
+        <TR>
+          <TD width=85>Parent 1</TD>
+          <TD width=84>1 2 3 4 5</TD></TR>
+        <TR>
+          <TD width=85>Parent 2</TD>
+          <TD width=84>3 5 2 1 4</TD></TR>
+        <TR>
+          <TD width=85>Child 1</TD>
+          <TD width=84>1 2 3 1 4</TD></TR>
+        <TR>
+          <TD width=85>Child 2</TD>
+          <TD width=84>3 5 2 4 5</TD></TR></TBODY></TABLE>
+      <P>A problem that has occurred here is that Child 1 has visited city 1 two 
+      times which is not allowed and Child 2 has not visited city 1 at all. A 
+      defacement encoding must be used in order to make sure that only valid 
+      tours are produced. A well known and perhaps the simplest to understand 
+      crossover operator is called the Partially Matched Crossover. Buckland 
+      (2002, pp 130-132) explains this technique as follows: </P>
+      <P>A crossing region is picked</P><PRE>Parent <SPAN class=cpp-literal>1</SPAN>: 12x34x5
+
+Parent <SPAN class=cpp-literal>2</SPAN>: 35x21x4</PRE>
+      <P>The following mapping is established</P><PRE><SPAN class=cpp-literal>3</SPAN> -&gt; <SPAN class=cpp-literal>2</SPAN>
+
+<SPAN class=cpp-literal>4</SPAN> -&gt; <SPAN class=cpp-literal>1</SPAN></PRE>
+      <P>Now we cycle through each parent gene and swap the genes wherever a 
+      gene is found that occurs in the above mapping</P>
+      <P>First iteration (mapping 3 with 2)</P><PRE>Child <SPAN class=cpp-literal>1</SPAN>: <SPAN class=cpp-literal>13245</SPAN>
+
+Child <SPAN class=cpp-literal>2</SPAN>: <SPAN class=cpp-literal>25314</SPAN></PRE>
+      <P>Second iteration (mapping 4 with 1)</P><PRE>Child <SPAN class=cpp-literal>1</SPAN>: <SPAN class=cpp-literal>43215</SPAN>
+
+Child <SPAN class=cpp-literal>2</SPAN>: <SPAN class=cpp-literal>25341</SPAN></PRE>
+      <P>The final crossed over genes are valid permutations with no 
+      duplicates.</P>
+      <P>Roulette wheel selection is a technique of choosing members from the 
+      population of chromosomes in a way that is proportional to their 
+      fitness.</P>
+      <P>“Imagine that the population’s total fitness score is represented by a 
+      pie chart, or roulette wheel. Now, you assign a slice of the wheel to each 
+      member of the population. The size of the slice is proportional to that 
+      chromosome’s fitness score- the fitter a member is, the bigger the slice 
+      of pie it gets. Now to choose a chromosome, all you have to do is spin the 
+      wheel, toss in the all and grab the chromosome that the ball stops on.” 
+      Buckland (2002,pp. 100)</P>
+      <P><B>(2.) Ant Algorithm</B></P>
+      <P>This algorithm is inspired by observation on real ants. Individually 
+      each ant is blind, frail and almost insignificant yet by being able to 
+      co-operate with each other the colony of ants demonstrates complex 
+      behaviors. One of these is the ability to find the closest route to a food 
+      source or some other interesting land mark. This is done by laying down 
+      special chemicals called pheromones. As more ants use a particular trail, 
+      the pheromone concentration on it increases hence attracting more ants. 
+      </P>
+      <P>An artificial ant is placed randomly in each city and during each 
+      iteration chooses the next city to go to. This choice is governed by the 
+      following formula:</P>
+      <P>Each ant located at city i hops to a city j selected among the cities 
+      that have not yet been visited according to the probability</P>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P>“</P>
+            <P><IMG height=143 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/image003.gif" 
+            width=280 border=0> </P></TD></TR>
+        <TR>
+          <TD vAlign=top>
+            <P><IMG height=31 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/image005.gif" 
+            width=57 border=0>: Probability that ant k in city i will go to city 
+            j</P>
+            <P><IMG height=27 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/image006.gif" 
+            width=65 border=0>:set of cities that have not yet been visited by 
+            ant k in city i</P>
+            <P><IMG height=13 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/image007.gif" 
+            width=16 border=0> relative importance of pheromone trail</P>
+            <P><IMG height=21 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/image008.gif" 
+            width=16 border=0> relative importance of the distance between 
+            cities”</P>
+            <P>Dorigo (1997)</P></TD></TR></TBODY></TABLE>
+      <P>The probability that a city is chosen therefore a function of how close 
+      the city is and how much pheromone already exists on that trail. It is 
+      further possible to determine which of these two has a larger weight by 
+      tweaking with the <IMG height=13 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image007.gif" 
+      width=16 border=0>and <IMG height=21 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image008.gif" 
+      width=16 border=0> parameters. Once a tour has been completed (i.e. each 
+      city has been visited exactly once by the ant) pheromone evaporation the 
+      edges are calculated and then each ant deposits pheromone on the complete 
+      tour by a quantity which is calculated by the following formula:</P>
+      <P>“<IMG height=45 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image009.gif" 
+      width=203 border=0></P>
+      <P><IMG height=75 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image010.gif" 
+      width=81 border=0>if <IMG height=67 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image011.gif" 
+      width=77 border=0></P>
+      <P>“ (Dorigo 1991)</P>
+      <P><IMG height=21 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image012.gif" 
+      width=56 border=0>: This multiplies the pheromone concentration on the 
+      edge between city I and j by 
+      p(<ST1:CITY><ST1:PLACE>RHO</ST1:PLACE></ST1:CITY>) which is called the 
+      evaporation constant. This value can be set between 0 and 1. The pheromone 
+      evaporates more rapidly for lower values.</P>
+      <P><IMG height=45 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image013.gif" 
+      width=83 border=0>: The amount of pheromone an ant k deposits on an edge 
+      is defined by <IMG height=25 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image014.gif" 
+      width=24 border=0> the length of the tour created by this ant. Intuitively 
+      short tours will result in higher levels of pheromone deposited on the 
+      edges.</P>
+      <H2>Quick User Manual</H2>
+      <P>At the heart of the application lie the two algorithms which are used 
+      to solve the traveling salesman problem. Each algorithm is brought into a 
+      view by selecting it from a toolbar of the main frame. A view is a window 
+      which is presented to the user. The genetic algorithm view is shown 
+      below</P>
+      <P><IMG height=306 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image002.jpg" 
+      width=485 border=0></P>
+      <P>Each view is divided into two horizontal sections. </P>
+      <OL>
+        <LI>The top half shows a graphical view of the current performance of 
+        each algorithm. 
+        <LI>The bottom half shows a graph of current solution charted against 
+        the best know solution. In most demonstrations of the TSP cities are 
+        placed at random. I chose to distribute the cities in a circular 
+        fashion. This allows an easy way to calculate the shortest path among 
+        the cities as well as allowing an easy way to visually assess how far 
+        away the algorithm is from the optimal solution. </LI></OL>
+      <P>A Simulation is controlled by the Control Buttons</P>
+      <P>Each button is self explanatory. The start button is used to start the 
+      application. The Stop button is used to stop the simulation. The Reset 
+      button resets the simulation. The Step button is used to step through the 
+      simulation</P>
+      <P>The text information shows the following information.</P>
+      <P><IMG height=164 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image004.jpg" 
+      width=172 border=0></P>
+      <P><B style="mso-bidi-font-weight: normal">Epoch</B>: Represents the 
+      number of times the simulation has run through each cycle of the 
+      simulation.</P>
+      <P><B style="mso-bidi-font-weight: normal">Best So Far</B>: The shortest 
+      tour so far</P>
+      <P><B>Best Possible</B>: Represents the optimal solution to the current 
+      tour.</P>
+      <P><B>Elapsed Time</B>: The time spent inside the algorithm. This excludes 
+      the time spent ‘drawing’ the solution to the screen. See below for further 
+      information.</P>
+      <P>Graph of the above information</P>
+      <P>. <IMG height=149 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image006.jpg" 
+      width=168 border=0></P>
+      <P>The blue line is a plot of epoch vs. shortest distance found </P>
+      <P>by the algorithm to date. The green line represents the </P>
+      <P>shortest possible tour (optimal solution). When the two </P>
+      <P>lines converge a solution has been found. </P>
+      <H2>Design and Implementation</H2>
+      <P>I choose C++ as the language to program this application in. A compiled 
+      program will always be faster than an interpreted program. Both the 
+      algorithms are computationally quite expensive and so is the process of 
+      visualization. Potentially C would be faster still but by choosing this 
+      language the benefits of object orientation are lost. Other possible 
+      languages were Delphi, Visual Basic and C# but I don’t have enough 
+      experience in either of these languages to attempt a project of this 
+      size.</P>
+      <P>I chose to use the Microsoft Foundation Classes (MFC) application 
+      framework. </P>
+      <P>The benefits of using this are</P>
+      <UL type=disc>
+        <LI>Application framework applications are small and fast 
+        <LI>The visual C++ tools reduce coding drudgery 
+        <LI>The Framework is rich in features </LI></UL>
+      <P>One of the main disadvantages is that it takes a long time to 
+      understand the complexity of the underlying model and once the developer 
+      tries to move away from the wizard generated code it is very easy to get 
+      lost in the code with the debugger. </P>
+      <P>The project was developed and compiled using Visual Studio.NET Academic 
+      Version 7.1.3088. The code used to implement the Genetic Algorithm is 
+      based on the work of Mat Buckland (2002) in his book AI Techniques for 
+      Game Programming. The code for the ACO algorithm is partially based on the 
+      work of M Jones (2003) in his book AI Application Programming. Several 
+      other code sources were used</P>
+      <P><CODE>CMemDC</CODE>: (<A 
+      href="http://www.codeproject.com/gdi/flickerfree.asp">http://www.codeproject.com/gdi/flickerfree.asp</A>). 
+      This class is used for double buffering. This is a technique used in 
+      computer animation to avoid screen flicker, which was a major problem due 
+      to the fact that the screen is updated (repainted) several times each 
+      second. The technique used here is to create an off-screen buffer to which 
+      the image is drawn. The final image is then copied to the screen.</P>
+      <P><CODE>CAutoFont</CODE>: (<A 
+      href="http://www.codeproject.com/gdi/autofont.asp">http://www.codeproject.com/gdi/autofont.asp</A>).This 
+      class is used for font manipulation</P>
+      <P><CODE>CChart</CODE>: (<A 
+      href="http://www.codeguru.com.controls/Waterfall.shtml">http:/www.codeguru.com.controls/Waterfall.shtml</A>).This 
+      class is used for charting</P>
+      <P><CODE>CPerfTimer</CODE> (<A 
+      href="http://www.codeproject.com/datetime/perftimer.asp">http:/www.codeproject.com/datetime/perftimer.asp</A>) 
+      Used for timing.</P>
+      <P><CODE>CSideBannerWnd</CODE>: Used to display the panel on the left hand 
+      side of the window.</P>
+      <P>Initially I thought that the Document would hold information common to 
+      both algorithms including the number of cities, city position, shortest 
+      possible tour. However as the project progressed I realized that each 
+      algorithm is sufficiently different to warrant its own data structure. 
+      What was needed was a way to switch between different views (derived from 
+      a common ancestor). </P>
+      <P>“Sometimes the way a document is being visualized needs to be 
+      significantly changed. For example, in PowerPoint, you can see the slides 
+      in a WYSIWYG form or view only the text in a text edit window. In the MFC 
+      world, one can find an amazingly large quantity of programs that implement 
+      this behavior defining one <CODE>CView</CODE> descendant and making it 
+      responsible for all visualization changes. This path has several 
+      disadvantages: </P>
+      <OL type=a>
+        <LI>Big, difficult to manage class definition file. 
+        <LI>Diminished reusability: you could reuse one big <CODE>CView</CODE> 
+        descendant or nothing. 
+        <LI>Hard to maintain (what if you want to modify or add a new "look" to 
+        the document?). 
+        <LI>Wasted memory: some variables (objects) will exist in memory and 
+        won’t be used.” (Lodos,1999) </LI></OL>
+      <P>The author then goes on to explain how this is possible and gives 
+      example of code which defines different Views and how to switch between 
+      them.</P>
+      <P><IMG height=673 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image015.jpg" 
+      width=585 border=0></P>
+      <P>The following sequence diagram shows the basic interaction between the 
+      <CODE>CACOView</CODE> and <CODE>CAntSystem</CODE> classes.</P>
+      <H2><IMG height=542 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image016.jpg" 
+      width=600 border=0></H2>
+      <P>The following sequence diagram shows the basic interaction between the 
+      <CODE>CGAView</CODE> and <CODE>CGASystem</CODE> classes.</P>
+      <P><IMG height=557 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image017.jpg" 
+      width=576 border=0></P>
+      <H2>Performance</H2>
+      <P><IMG height=305 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image018.gif" 
+      width=522 border=0></P>
+      <P>I next turned my attention to the ACO and looked how certain parameters 
+      in the algorithm affect performance.</P>
+      <P><IMG height=325 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/image019.gif" 
+      width=540 border=0> </P>
+      <P>Parameters used (City No:40,alpha:1,beta:1,rho:0.6)</P>
+      <P>These findings suggest that it might be possible to write a genetic 
+      algorithm which would optimize the parameters and this might make an 
+      interesting project somewhere down the track.</P>
+      <H2>Conclusion</H2>
+      <P>This has been both very rewarding and difficult project. I had 
+      previously very little knowledge of MFC programming and thought that it 
+      would be relatively easy to master. It turns out that I was wrong and it 
+      me a very long time to get the program up and running. Despite the steep 
+      learning curve I was thrilled to actually product a working program and 
+      learned a lot along the way about Genetic Algorithms and Ant Colony 
+      Optimization Algorithms.</P>
+      <P>I am very grateful for all the people who have contributed to this 
+      fantastic site and have found many of the articles very useful in this 
+      project. Keep up all the good work guys.</P>
+      <H2>References</H2>
+      <UL>
+        <LI>Buckland, M., 2002, AI Techniques for Game Developers, Premier 
+        Press, United States of America. 
+        <LI>Dorigo ,M., &amp; Gambardella, L. M (1997) Ant colonies for the 
+        traveling salesman problem. BioSystems, 43 ,73-81 
+        <LI>Jearakul, C.,1999 2D and 3D Watefall Chart Control, [Online], 
+        Available: http:/www.codeguru.com.controls/Waterfall.shtml [Accessed 
+        3/9/2003] 
+        <LI>Jones, M., 2003, AI Application Programming, Publisher: David 
+        Pallali. 
+        <LI>Lodos, J, 1999 Replacing a view in a doc-view application, [Online], 
+        Available: http:/www.codeguru.com/doc_view/ReplacingView.shtml [Accessed 
+        2/9/2003] 
+        <LI>Nordmeyer, J., Automatic Font Handling Class, [Online], 
+        Available:http://www.codeproject.com/gdi/autofont.asp [Accessed 
+        28/10/2003] 
+        <LI>Prosise, J, 1999,Programming Windows with MFC, 2<SUP>nd</SUP> 
+        Edition, Microsoft Press, Redmond Washington 
+        <LI>Rule,K..1999 Flicker Free Drawing in MFC, [Online], 
+        Available:http:/www.codeproject.com/gdi/flickerfree.asp [Accessed 
+        24/9/2003] 
+        <LI>Wyant,D., 2002, CPerfTimer timer class, [Online], 
+        Available:http:/www.codeproject.com/datetime/perftimer.asp [Accessed 
+        24/9/2003] </LI></UL><!-- Article Ends --></DIV>
+      <H2>Peter Kohout</H2>
+      <TABLE width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD class=smallText noWrap><IMG 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/{28753C2C-5DC9-4326-B952-9EE7AE2C7B68}.jpg"><BR></TD>
+          <TD class=smallText width="100%">
+            <P class=smallText>Click <A 
+            href="http://www.codeproject.com/script/profile/whos_who.asp?vt=arts&amp;id=17557">here</A> 
+            to view Peter Kohout's online profile.</P></TD></TR></TBODY></TABLE><BR>
+      <TABLE cellPadding=4 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD width="100%">
+            <H2>Other popular C++ / MFC articles:</H2>
+            <UL>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/exceptionhandler.asp">How a 
+              C++ compiler implements exception handling</A><BR><SPAN 
+              class=smalltext>An indepth discussion of how VC++ implements 
+              exception handling. Source code includes exception handling 
+              library for VC++.</SPAN>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/rtl_scaling.asp">Scaling of 
+              memory intensive multi-threaded applications to SMMP 
+              computers</A><BR><SPAN class=smalltext>This article discusses 
+              impact of the multithreaded run-time library's memory manager on 
+              scaling memory-intensive server applications to Shared Memory 
+              Multiprocessor computers.</SPAN>
+              <LI><A href="http://www.codeproject.com/cpp/htmleditvc6.asp">Using 
+              MSHTML Editing in VC6 Doc/View Applications</A><BR><SPAN 
+              class=smalltext>How to enable MSHTML editing in a view in 
+              VC6</SPAN>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/sseintro.asp">Introduction to 
+              SSE Programming</A><BR><SPAN class=smalltext>An article describes 
+              programming floating-point calculations using Streaming SIMD 
+              Extensions</SPAN></LI></UL></TD>
+          <TD width=360>
+            <SCRIPT language=JavaScript type=text/javascript>
+<!--
+google_ad_client = 'codeproject_300x250';
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = '300x250_pas_abgnc';
+google_ad_type = 'text';
+google_safe = 'high';
+google_color_bg = 'fbedbb';
+google_color_border = 'ff9900';
+// -->
+</SCRIPT>
+
+            <SCRIPT language=JavaScript 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/show_ads.js" 
+            type=text/javascript></SCRIPT>
+            <NOSCRIPT><IMG height=1 src="" width=1 border=0> </NOSCRIPT></TD>
+          <FORM action=/script/rating/code/app/insert_vote.asp 
+          method=post><INPUT type=hidden 
+          value=GeneticandAntAlgorithms/cpp11/13/2003 name=vote_name> <INPUT 
+          type=hidden value=/cpp/GeneticandAntAlgorithms.asp name=goal> 
+        </TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=1 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD width="100%">
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" bgColor=#fbedbb 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD class=smalltext vAlign=center>[<A 
+                  href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp#__top">Top</A>]</TD>
+                <TD vAlign=center noWrap align=right><A 
+                  href="http://www.codeproject.com/script/profile/logon.asp?ct=%2Fcpp%2FGeneticandAntAlgorithms%2Easp"><B>Sign 
+                  in</B></A> to vote for this article:&nbsp;&nbsp;&nbsp;&nbsp; 
+                  <I>Poor</I><INPUT style="disabled: true" type=radio value=1 
+                  name=rate><INPUT style="disabled: true" type=radio value=2 
+                  name=rate><INPUT style="disabled: true" type=radio value=3 
+                  name=rate><INPUT style="disabled: true" type=radio value=4 
+                  name=rate><INPUT style="disabled: true" type=radio value=5 
+                  name=rate><I>Excellent</I>&nbsp;&nbsp;<INPUT class=FormButton style="disabled: true" type=submit value=Vote> 
+                </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top>
+            <CENTER><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=544&amp;way=ban" 
+            target=_blank><IMG height=60 alt="" 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/dundas_bluelogoCP.gif" 
+            width=120 border=0></A><BR><FONT size=1><A 
+            href="http://www.codeproject.com/info/MediaKit/">Premium 
+            Sponsor</A></FONT></CENTER><BR></TD>
+          <TD vAlign=top noWrap align=middle><SPAN id=AdBanner5><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=746&amp;way=ban" 
+            target=_blank><IMG height=60 alt="" 
+            src="Genetic and Ant Colony Optimization Algorithms-Dateien/ironspeed%20banner%20download%20468x60Version16.gif" 
+            width=468 
+border=0></A></SPAN></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><A 
+name=__comments></A>
+<SCRIPT language=JavaScript>
+var Selected = "";
+var AdTime = new Date();
+
+document.writeln("<iframe name=AdFrame width=0 height=0 frameborder=0></IFRAME>");
+
+
+function SwitchMessage(elm)
+{
+
+	var now = new Date();
+	if (Number(now.getTime() - AdTime.getTime()) > Number(5000000))
+	{
+		AdTime = now;
+		var loc = window.frames["AdFrame"];
+		if (loc) loc = loc.document;
+		if (loc) loc = loc.location;
+		if (loc) loc.replace('/script/comments/fetchAd.asp?cat=');
+	}
+	
+	var elmref;
+	if (Selected != "")
+	{
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) elmref.style.display = 'none';
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) elmref.bgColor = '#FEF9E7';
+	}
+	if (Selected != elm.name) 
+	{
+		Selected = elm.name;
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) 
+		{
+			if (elmref.style.display=='none') elmref.style.display='';
+			else elmref.style.display = 'none';
+		}
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) 
+			elmref.bgColor = '#99CCFF';
+	}
+	else
+		Selected="";
+		
+	window.location = "#xx" + Selected + "xx";
+
+	return false;
+}
+
+</SCRIPT>
+
+<SCRIPT language=javascript event=onclick for=DynMessLink>
+return SwitchMessage(this);
+</SCRIPT>
+
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE id=ForumTable cellSpacing=1 cellPadding=0 width="100%" 
+      bgColor=#ff9900 border=0>
+        <FORM 
+        action=/script/comments/app/do_filtermessages.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096 
+        method=post>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=3 width="100%" bgColor=white 
+            border=0>
+              <TBODY>
+              <TR bgColor=#fbedbb>
+                <TD class=smalltext noWrap><A 
+                  href="http://www.codeproject.com/script/comments/faq.asp"><IMG 
+                  height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/info.gif" 
+                  width=16 align=absMiddle border=0> <B>FAQ</B></A>&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>Noise level 
+                  <SELECT class=smalltext size=1 name=noise><OPTION 
+                    value=1>Very High</OPTION> <OPTION value=2>High</OPTION> 
+                    <OPTION value=3 selected>Medium</OPTION> <OPTION 
+                    value=4>Low</OPTION> <OPTION value=5>Very 
+                  low</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=center noWrap align=right 
+                  colSpan=2><A 
+                  href="http://www.codeproject.com/script/comments/search_comments.asp?forumid=26096"><IMG 
+                  height=15 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/search.gif" 
+                  width=16 border=0> Search comments</A> &nbsp;</TD>
+                <TD vAlign=top align=right><INPUT class=FormButton type=submit value="Set Options" name=submit></TD></TR>
+              <TR bgColor=#ff9900>
+                <TD width="100%">&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>View <SELECT 
+                  class=smalltext size=1 name=expand><OPTION value=0>Normal 
+                    (slow)</OPTION> <OPTION value=2>Preview (slow)</OPTION> 
+                    <OPTION value=5 selected>Message View</OPTION> <OPTION 
+                    value=6>Topic View</OPTION> <OPTION value=1>Thread 
+                    View</OPTION> <OPTION value=3>Expanded (Supporters 
+                    only)</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap>Per page <SELECT 
+                  class=smalltext size=1 name=perpage><OPTION 
+                    value=10>10</OPTION> <OPTION value=25 selected>25</OPTION> 
+                    <OPTION value=50>50 (must logon)</OPTION></SELECT></TD>
+                <TD colSpan=2>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></FORM>
+        <TR bgColor=#fbedbb>
+          <TD><A name=xx0xx></A>
+            <TABLE cellPadding=2 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR>
+                <TD class=messagetitle><A class=HoverLink 
+                  title="Add a new message to the discussions" 
+                  href="http://www.codeproject.com/script/comments/user_new.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096" 
+                  target=_top name=HoverNL><B><IMG height=16 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/admin_modify.gif" 
+                  width=16 align=top border=0> New thread</B></A></TD>
+                <TD class=messagetitle>Msgs 1 to 19 of 19 (Total: 18) (<A 
+                  href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096">Refresh</A>)</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <SPAN class=HoverLink>Next</SPAN> <SPAN 
+                  class=HoverLink>Last</SPAN> </FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=white>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=2 bgColor=#fbedbb border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=messagetitle width="100%">Subject&nbsp;</TD>
+                      <TD class=messagetitle noWrap width=140>Author&nbsp;</TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT 
+                    class=messagetitle>Date&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=862212_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx862212xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=862212#xx862212xx" 
+                        name=862212><B>Ants Colony optimization</B></A><IMG 
+                        height=12 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/New.gif"></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1177445"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>charusapra</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>0:39 28 Jun 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=862212_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>hello!<BR>i m doing a 
+                                project on hardware/software partitioning using 
+                                aco.could u please send me a simple algorithm or 
+                                c++ code for the above problem... 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=862212">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=862212">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=862212&amp;forumid=26096&amp;select=862212#xx862212xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=862212#xx862212xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=862212"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=862212"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=822270_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx822270xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=822270#xx822270xx" 
+                        name=822270><B>Ant Colony System</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=715406"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>irinia</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>16:22 14 May 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=822270_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>hello 
+                                I'am student on a university. I work on a 
+                                project with subject 'Ant colony Optimization' . 
+                                I need the (simple) source code for the ACS 
+                                algorithm ( Ant Colony System) . I wander if you 
+                                can help me with the algorithm; Do you have the 
+                                simple algorithm in C++ or other programming 
+                                language;; It's an absolute necessity. 
+                                <BR><BR>thank you 
+<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=822270">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=822270">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=822270&amp;forumid=26096&amp;select=822270#xx822270xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=822270#xx822270xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=822270"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=822270"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=854411_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx854411xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=854411#xx854411xx" 
+                        name=854411>Re: Ant Colony System</A><IMG height=12 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/New.gif"></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1184193"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>jekyll 
+                        hyde&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>9:27 18 Jun 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=854411_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent><IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_cool.gif" 
+                                align=absMiddle>Hi..<BR>I'm also a MSc. student, 
+                                working on ACS.Hope the following link might 
+                                help 
+                                you.<BR>http://www.geocities.com/fastiland/Teaching/acs/acs-tsp.c 
+                                <BR><BR>regards,<BR>jekyll 
+                                hyde<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=854411">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=854411">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=822270&amp;forumid=26096&amp;select=854411#xx854411xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=854411#xx854411xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=854411"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=854411"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=800384_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx800384xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=800384#xx800384xx" 
+                        name=800384><B>mfc71d.dll</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>irawan</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>23:44 22 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=800384_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I have 
+                                same problem with Donald2001. I cannot execute 
+                                the demo because this mfc71.dll was not 
+                                found.<BR>I am running under windows 98SE. 
+                                Should I install VC++ first???? Please Help 
+                                Me!!! <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=800384">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=800384">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=800384&amp;forumid=26096&amp;select=800384#xx800384xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=800384#xx800384xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=800384"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=800384"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=742295_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx742295xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=742295#xx742295xx" 
+                        name=742295><B>a newcomer not familiar with 
+                      VC++7</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=879200"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>j_ant94</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>21:06 17 Feb 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=742295_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT 
+                                class=messagecontent>Hi,<BR>I'm not familiar 
+                                with VC++7, would you like give me a version of 
+                                VC++6.0? <BR>Thanks a lot!<IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_redface.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=742295">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=742295">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=742295&amp;forumid=26096&amp;select=742295#xx742295xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=742295#xx742295xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=742295"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=742295"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=673271_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx673271xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=673271#xx673271xx" 
+                        name=673271><B>better GA</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=429828"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>laoran</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>14:08 22 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=673271_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>With 
+                                small changes, the GA gives a lot better results 
+                                <IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_wink.gif" 
+                                align=absMiddle><BR><BR>1) mutation : replace 
+                                <BR>//swap their positions<BR>swap(chromo[pos1], 
+                                chromo[pos2]);<BR><BR>with<BR>// reverse the 
+                                string between [pos1, pos2]<BR>int posCur1, 
+                                posCur2;<BR>posCur1 = pos1;<BR>posCur2 = 
+                                pos2;<BR>while (1)<BR>{<BR>swap(chromo[posCur1], 
+                                chromo[posCur2]);<BR>if (posCur1 == 
+                                static_cast<INT>(chromo.size()-1))<BR>posCur1 = 
+                                0;<BR>else<BR>posCur1 ++;<BR>if (posCur1 == 
+                                posCur2)<BR>break;<BR><BR>if (posCur2 == 
+                                0)<BR>posCur2 = 
+                                static_cast<INT>(chromo.size()-1);<BR>else<BR>posCur2 
+                                --;<BR>if (posCur1 == 
+                                posCur2)<BR>break;<BR>}<BR><BR>2) crossover : 
+                                replace <BR>//find an end<BR>while (end &lt;= 
+                                beg)<BR>{<BR>end = RandomInteger(0, 
+                                static_cast<INT>(mother.size()-1));<BR>}<BR><BR>with<BR>//find 
+                                an end<BR>end = RandomInteger(0, 
+                                static_cast<INT>(mother.size()-1));<BR><BR>and 
+                                replace :<BR>for (int pos = beg; pos &lt; end+1; 
+                                ++pos)<BR>{<BR><BR>with<BR>// warning : must 
+                                respect circularity<BR>for (int pos = beg; (pos 
+                                &gt;= beg &amp;&amp; beg &gt;= end+1) || pos 
+                                &lt; end+1; ++pos)<BR>{<BR>if (pos &gt;= 
+                                mother.size())<BR>pos = 
+                                0;<BR><BR><BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=673271">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=673271">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=673271&amp;forumid=26096&amp;select=673271#xx673271xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=673271#xx673271xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=673271"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=673271"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=669405_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx669405xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=669405#xx669405xx" 
+                        name=669405><B>good article - broken link</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=31407"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>MattyT</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>18:01 18 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=669405_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Heya 
+                                Peter,<BR><BR>A really interesting article - 
+                                thanks!<BR><BR>A minor niggle - the link to the 
+                                waterfall chart control is broken - there should 
+                                be a '/' where there's a '.'. <BR><BR>And you've 
+                                done a good job coming up to speed with MFC 
+                                quickly, it's quite a dog to use!<BR><BR>Cheers 
+                                and 
+                                thanks!<BR>Matt<BR><BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669405">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669405">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=669405&amp;forumid=26096&amp;select=669405#xx669405xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=669405#xx669405xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669405"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669405"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=668656_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx668656xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=668656#xx668656xx" 
+                        name=668656><B>a Neural Net solution ?!?</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>andré_k</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>1:08 18 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=668656_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Peter, 
+                                very nice work, congratulations! Please, add a 
+                                NN solution. I'm sure you can write it, and 
+                                nicely chart-it... <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=668656">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=668656">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=668656&amp;forumid=26096&amp;select=668656#xx668656xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=668656#xx668656xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=668656"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=668656"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=666686_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx666686xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=666686#xx666686xx" 
+                        name=666686><B>convergence problem</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=52672"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Slowman</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>21:19 14 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=666686_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>It 
+                                seems that the program never stops the 
+                                optimizing process. May it be the convergence 
+                                problem of the optimization method? I think when 
+                                the optimization value has been the best one or 
+                                has been nearing to the best one for some time, 
+                                the process should be terminated. 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666686">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666686">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=666686&amp;forumid=26096&amp;select=666686#xx666686xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=666686#xx666686xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666686"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666686"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=666416_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx666416xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=666416#xx666416xx" 
+                        name=666416><B>VC++ 6 is not VC++ 7.</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=4650"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>WREY</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>14:18 14 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=666416_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Your 
+                                heading at the top of the article states it's a 
+                                VC++ 6 project, but by now we all know that is 
+                                incorrect.<BR><BR>Why don't you call a 'spade', 
+                                a 'spade'?<BR><BR>A tool (found on this website) 
+                                used to convert VC++ 6 to VC++ 7, IMO is, ... 
+                                (well, let me put it this way, there is a saying 
+                                that goes, "If you can't say anything good about 
+                                something, don't say anything at all," which is 
+                                exactly what I'll do, "I won't say 
+                                anything.")<BR><BR><IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_tongue.gif" 
+                                align=absMiddle> <BR><BR>William<BR><BR>Fortes 
+                                in fide et opere!<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666416">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666416">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=666416&amp;forumid=26096&amp;select=666416#xx666416xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=666416#xx666416xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666416"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=666416"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=665947_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665947xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665947#xx665947xx" 
+                        name=665947><B>Great performace of the Ant 
+                      method</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=474393"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>jan.vorlicek</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>7:13 14 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665947_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hi, 
+                                <BR>I am really amazed by the performace of the 
+                                Ant method. I haven't heard about it before, 
+                                could you give me some links to any papers on 
+                                this method?<BR><BR>Regards,<BR><BR>Jan Vorlicek 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665947">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665947">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665947&amp;forumid=26096&amp;select=665947#xx665947xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665947#xx665947xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665947"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665947"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=665949_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665949xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665949#xx665949xx" 
+                        name=665949>Re: Great performace of the Ant 
+method</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=17557"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Peter 
+                        Kohout&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:19 14 Nov 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665949_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hi 
+                                Jan.<BR><BR>Are you Czech? If so then 'dobry 
+                                den'<BR>Here are some 
+                                references<BR><BR>Bonebau,E., Dorigo, M. &amp; 
+                                Theraulaz, G. Inspiration for optimization from 
+                                social insect behavior. Nature 406, 39 - 42 
+                                (2000).<BR>Bonebau, E., Botee, M. Evolving Ant 
+                                Colony Optimization, Advanced Complex Systems 
+                                (1998) 1, 149-159<BR><BR>Buckland, M., 2002, AI 
+                                Techniques for Game Developers, Premier Press, 
+                                United States of America.<BR><BR>Curtis S. &amp; 
+                                Rilee M., Use of Swarm Intelligence in 
+                                Spacecraft constellation for the resource 
+                                exploration of the Asteroid Belt, Third 
+                                International Workshop on Satellite 
+                                Constellations and Formation Flying, Pisa, 
+                                Italy, 24-26, 2003<BR><BR>Dorigo M., V. Maniezzo 
+                                &amp; A. Colorni (1996). The Ant System: 
+                                Optimization by a Colony of Cooperating Agents. 
+                                IEEE Transactions on Systems, Man, and 
+                                Cybernetics-Part B, 26(1):29-41.<BR><BR>Dorigo 
+                                ,M., &amp; Gambardella, L. M (1997) Ant colonies 
+                                for the traveling salesman problem. BioSystems, 
+                                43 ,73-81<BR><BR>Dorigo ,M. &amp; Di Caro, “The 
+                                Ant Colony Optimization Meta-heuristic” in New 
+                                Ideas in Optimization, D. Corne, M. Dorigo, and 
+                                F. Glover, Eds. London: McGraw-Hill,1999,pp. 
+                                11-32<BR><BR>Dorigo M. &amp; Di Caro G., 1999, 
+                                Ant Algorithmm for Discrete Optimization, 
+                                Artificial Life,5(2)<BR><BR>Kawamura ,M &amp; 
+                                Yamamoto, M, Multiple Ant Colonies Algorithm 
+                                Based on Colony Level Interactions, IEIECE 
+                                Trans. Fundamentals Vol. E83-A, No.2 February 
+                                2000,pp. 371 -379<BR><BR>Kendell ,G. 2000, Ant 
+                                Algorithms, [Online], Available: 
+                                www.shu.ac.uk/schools/cms/teaching/gt/topic_reports_2000/ 
+                                ant_colony_modelling.doc [Accessed: 
+                                2/10/2003]<BR><BR>Klugal ,F.,1999, Swarm 
+                                Intelligence: From Natural to Artificial 
+                                Systems, 
+                                http://jasss.soc.surrey.ac.uk/4/1/reviews/kluegl.html<BR><BR>Michel 
+                                R, &amp; Middendorf M.,1999, An ACO algorithm 
+                                for the Shortest Common Super Sequence Problem, 
+                                McGraw-Hill<BR><BR>Melhuish C., Intelligent 
+                                Autonomous Systems Laboratory, [Online], 
+                                Available: 
+                                http://www.ias.uwe.ac.uk/goto.html?c-melhui 
+                                [Accessed 25/9/2003]<BR><BR>Rook, C. 2000, 
+                                Investigation into the use of Ant Algorithms 
+                                from the Travelling Salesman Problem and Game 
+                                Playing, Project Dissertation,[Online], 
+                                Available: 
+                                http://computing.unn.ac.uk/staff/cgcr1/diss.pdf 
+                                [Accessed: 1/10/2003]<BR><BR>Schoonderwoerd, R., 
+                                Holland, O., Bruten, J. &amp; Rothkrantz, L. 
+                                Ant-based load balancing in telecommunications 
+                                networks. Adapt. Behav. 5, 169±207 
+                                (1997).<BR><BR><BR>Shmygleska A., &amp; Hoos H., 
+                                2002, An Imroved Ant Colony Optimisation 
+                                Algorithm for the 2D HP Protein Folding Problem, 
+                                [Online], Available: 
+                                http:/www.cs.ubc.ca/labs/beta 
+                                [Accessed:1/10/2003]<BR><BR>The Quadratic 
+                                Assignment Problem: An Example of Combinatorial 
+                                Optimization,[Online],Availabe: 
+                                http://www-unix.mcs.anl.gov/otc/Guide/Case 
+                                Studies/qap/ 
+                                [Accessed:1/10/2003]<BR><BR>Tzafestas, E., 
+                                2000,Integrating Drawing Tools with Behavioral 
+                                Modeling in Digital Painting”. Proceedings of 
+                                the 1st International Workshop Bridging the gap: 
+                                Bringing together New Media Artists and 
+                                Multimedia Technologists. November 2000, Los 
+                                Angeles, CA<BR><BR>Ward M.,1998, There is an ant 
+                                in my phone, New Scientist 
+                                21118,32-35<BR><BR>White, T. 
+                                http://www.sce.carleton.ca/netmanage/tony/swarm-presentation/sld001.htm]<BR><BR>I 
+                                always find googling a great way to go<BR>just 
+                                type "ACO", "Ant algorithm" and it will give you 
+                                more than you need.<BR><BR>Hope this finds you 
+                                well<BR><BR>Regards<BR><BR>Peter 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665949">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665949">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665947&amp;forumid=26096&amp;select=665949#xx665949xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665949#xx665949xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665949"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665949"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=835182_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx835182xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=835182#xx835182xx" 
+                        name=835182>Re: Great performace of the Ant 
+                        method</A><IMG height=12 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/New.gif"></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>21:28 27 May 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=835182_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent><IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_doh.gif" 
+                                align=absMiddle> Sorry if i may sound funny, am 
+                                just a beginner, n am fully interested in these 
+                                programming language let me know, where i can 
+                                start from..cos right now am a Computer Network 
+                                Engineer(Administrator). 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=835182">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665947&amp;forumid=26096&amp;select=835182#xx835182xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=835182#xx835182xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=835182"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=835182"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=672167_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx672167xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=672167#xx672167xx" 
+                        name=672167>Re: Great performace of the Ant 
+method</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=56998"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ezio&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>5:51 21 Nov 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=672167_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>With 
+                                the graph choosen for the test, the algo "walk 
+                                to the nearest city is even better"! <IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_wink.gif" 
+                                align=absMiddle><BR><BR>With a more generic 
+                                graph it is not so good. <IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_frown.gif" 
+                                align=absMiddle><BR><BR>Anyway is a good 
+                                article. <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=672167">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=672167">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665947&amp;forumid=26096&amp;select=672167#xx672167xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=672167#xx672167xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=672167"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=672167"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=665790_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665790xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665790#xx665790xx" 
+                        name=665790><B>Not working in VC6</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=656874"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>pistarino</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>3:07 14 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665790_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I 
+                                converted the project in VC6 with the tool found 
+                                in this site but the project doesn't compile, 
+                                there are a lots of error given at compile time. 
+                                Also the .exe doesn't run because a .dll missing 
+                                <IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_cry.gif" 
+                                align=absMiddle> Any suggestion? Thanks 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665790">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665790">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665790&amp;forumid=26096&amp;select=665790#xx665790xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665790#xx665790xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665790"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665790"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=665529_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665529xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665529#xx665529xx" 
+                        name=665529><B>MFC71D.dll ???</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=107274"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>donald2001</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>19:15 13 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665529_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>cannot 
+                                execute the demo because this dll was not 
+                                found.<BR>I am running under windows 2000 with 
+                                .net not installed<BR><BR>would you mind compile 
+                                your project in release mode or with static 
+                                linkage ? <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665529">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665529">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665529&amp;forumid=26096&amp;select=665529#xx665529xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665529#xx665529xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665529"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665529"><I>Delete</I></A>]<BR>Score: 
+                                3.4 (5 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=665272_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665272xx></A><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_suss.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle style="COLOR: #aaaaaa" 
+                        width="100%"><A class=messagetitle id=DynMessLink 
+                        style="COLOR: #aaaaaa" 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665272#xx665272xx" 
+                        name=665272><B>Not A Visual 6 Project</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle 
+                        style="COLOR: #aaaaaa"><B>rdalling</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle 
+                        style="COLOR: #aaaaaa"><B>11:28 13 Nov 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665272_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent><IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_frown.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665272">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665272">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665272&amp;forumid=26096&amp;select=665272#xx665272xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665272#xx665272xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665272"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665272"><I>Delete</I></A>]<BR>Score: 
+                                2.1 (3 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=665538_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx665538xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=665538#xx665538xx" 
+                        name=665538>Re: Not A Visual 6 Project</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=248909"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>swandream&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>19:38 13 Nov 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=665538_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>there 
+                                is a project converter on this web site, which 
+                                can convert project 7 to project 6, you can 
+                                search it 
+                                <BR><BR>swandream<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665538">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665538">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665272&amp;forumid=26096&amp;select=665538#xx665538xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=665538#xx665538xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665538"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=665538"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=669760_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx669760xx></A><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;forumid=26096&amp;select=669760#xx669760xx" 
+                        name=669760>Re: Not A Visual 6 Project</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=67490"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>mier&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>5:16 19 Nov 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=669760_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic and Ant Colony Optimization Algorithms-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>the 
+                                project converter can be found at <BR><BR><A 
+                                href="http://www.codeproject.com/tools/prjconverter.asp?target=vc%7Cconvert">http://www.codeproject.com/tools/prjconverter.asp?target=vc%7Cconvert</A>[<A 
+                                title="New Window" 
+                                href="http://www.codeproject.com/tools/prjconverter.asp?target=vc%7Cconvert" 
+                                target=_blank>^</A>]<BR><BR>and most of the 
+                                compile errors can be fixed by just prefixing 
+                                std::<BR>e.g.<BR><BR>vector --&gt; 
+                                std::vector<BR>find --&gt; 
+                                std::find<BR><BR>etc...<IMG 
+                                src="Genetic and Ant Colony Optimization Algorithms-Dateien/smiley_line.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669760">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669760">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?df=100&amp;tid=665272&amp;forumid=26096&amp;select=669760#xx669760xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/GeneticandAntAlgorithms.asp?msg=669760#xx669760xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669760"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/GeneticandAntAlgorithms.asp&amp;df=100&amp;forumid=26096&amp;select=669760"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic and Ant Colony Optimization Algorithms-Dateien/t.gif" 
+                  width=1 border=0></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=#fbedbb>
+          <TD>
+            <TABLE cellPadding=2 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=messagetitle>Last Visit: 9:51 Wednesday 19th May, 
+                  2004</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <SPAN class=HoverLink>Next</SPAN> <SPAN 
+                  class=HoverLink>Last</SPAN> 
+        </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+<TABLE cellSpacing=5 width="100%">
+  <TBODY>
+  <TR vAlign=top>
+    <TD><FONT style="FONT-SIZE: 7pt" size=1><A 
+      href="http://www.codeproject.com/?cat=1">All Topics</A>, <A 
+      href="http://www.codeproject.com/?cat=2">MFC / C++</A> &gt;&gt; <A 
+      href="http://www.codeproject.com/cpp/">C++ / MFC</A> &gt;&gt; <A 
+      href="http://www.codeproject.com/cpp/#Algorithms">Algorithms</A> 
+      <BR>Updated: 13 Nov 2003<BR>Editor: <A 
+      href="http://www.codeproject.com/script/profile/whos_who.asp?id=20248">Nishant 
+      S</A> </FONT></TD>
+    <TD align=right><FONT style="FONT-SIZE: 7pt" size=1>Article content 
+      copyright Peter Kohout, 2003<BR>everything else Copyright © <A 
+      href="mailto:webmaster@codeproject.com">CodeProject</A>, 1999-2004</A>. 
+      <BR><A href="http://www.codeproject.com/info/MediaKit">Advertise on The 
+      Code Project</A> | <A 
+      href="http://www.codeproject.com/info/privacy.asp">Privacy</A> 
+  </FONT></TD></TR></TBODY></TABLE><BR>
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#ff9900 height=1><IMG height=1 
+      src="Genetic and Ant Colony Optimization Algorithms-Dateien/space.gif"></TD></TR>
+  <TR>
+    <TD align=middle><FONT size=1><A 
+      href="http://www.codeproject.com/redir.asp?id=235">MSDN Communities</A> | 
+      <A href="http://aspalliance.com/">ASPAlliance</A> • <A 
+      href="http://www.developerfusion.com/">Developer Fusion</A> • <A 
+      href="http://www.developersdex.com/">DevelopersDex</A> • <A 
+      href="http://www.devguru.com/">DevGuru</A> • <A 
+      href="http://www.programmersheaven.com/">Programmers Heaven</A> • <A 
+      href="http://www.planet-source-code.com/">Planet Source Code</A> • <A 
+      href="http://www.resourceindex.com/">Resource Index</A> • <A 
+      href="http://www.tek-tips.com/">Tek-Tips Forums</A> • <A 
+      href="http://www.topxml.com/">TopXML</A> • <A 
+      href="http://www.visualbuilder.com/">VisualBuilder</A> • <A 
+      href="http://www.zvon.org/">ZVON</A> • <A 
+      href="http://www.codeproject.com/redir.asp?id=169">Search Us!</A> 
+    </FONT></TD></TR></TBODY></TABLE></CENTER></BODY></HTML>

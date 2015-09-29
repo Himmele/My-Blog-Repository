@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.acm.uiuc.edu/sigops/roll_your_own/i386/atomic.html -->
+<HTML><HEAD><TITLE>i386 Atomic Operations</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1>
+<CENTER>i386 Atomic Operations</CENTER></H1>
+<HR>
+
+<P>The i386 provides a couple of ways to perform an atomic test-and-set. Here, 
+I've provided two different (but mostly equivalent) functions to test-and-set, 
+one that uses the BTS (bit test and set) instruction, and another that uses the 
+XCHG (exchange) instruction. 
+<H2>Bit Test-and-Set</H2><PRE><CODE>int testAndSet(unsigned char *b)
+{
+    int result;
+    asm ("bts $1, %1; sbbl %0, %0":"=r" (result):"m" (*b):"memory");
+    return result;
+}
+</CODE></PRE>
+<H2>Exchange</H2><PRE><CODE>int testAndSet(unsigned char *addr)
+{
+   unsigned char result = 1;
+   asm ("xchgb %1, %0":"=m" (*addr),"=r" (result)
+                      :"1" (result) :"memory");
+   return result;
+}
+</CODE></PRE>
+<HR>
+<!--#include virtual="/include/footer.html" --></BODY></HTML>

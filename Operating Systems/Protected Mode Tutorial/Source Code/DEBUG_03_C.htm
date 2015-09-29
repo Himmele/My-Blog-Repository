@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_03.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** DEBUG_03.C - Breakpoint auf Datenadresse und Zugriff auf diese Adresse
+**              INT 1 auslösen lassen
+**
+** Erste Version:     26.08.97
+** Letze Änderungen:  17.09.97
+**
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+*/
+
+#include "pmode.h"
+
+int global_test;
+
+void main (void)
+	{
+    // Debug-Register 3, Datenzugriff auf DWORD Variable global_test!
+    set_drx (3, ACCESS_WRITE, ACCESS_DWORD, (void*)(dslin2rel(&amp;global_test)));
+
+    print (10, 10, "Hallo Welt vom Protected Mode aus BC 4.0 !!!", 0x0a);
+
+    // Folgende Anweisung löst Debug-Interrupt 1 aus.
+    global_test= 1;
+	}
+</PRE></BODY></HTML>

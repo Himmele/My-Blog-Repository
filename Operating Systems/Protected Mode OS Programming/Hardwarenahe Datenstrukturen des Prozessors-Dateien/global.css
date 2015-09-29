@@ -1,0 +1,24 @@
+BODY {
+	BACKGROUND-IMAGE: url(/images/back.gif)
+}
+DIV.navigate {
+	MARGIN-BOTTOM: 1cm
+}
+A.navigate {
+	
+}
+H1 {
+	TEXT-ALIGN: center
+}
+H2 {
+	TEXT-ALIGN: center
+}
+CAPTION {
+	FONT-STYLE: italic; caption-side: bottom
+}
+TD.reserved {
+	COLOR: #c0c0c0
+}
+IMG {
+	BORDER-BOTTOM-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none
+}

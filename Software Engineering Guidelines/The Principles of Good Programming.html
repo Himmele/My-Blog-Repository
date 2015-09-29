@@ -1,0 +1,760 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      Area :: Blogs :: The Principles of Good Programming
+    </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style type='text/css' media='screen'>
+/*<![CDATA[*/
+    @import "/css/ui/ui_area_dark.css";
+    /*]]>*/
+    </style>
+    <script type="text/javascript" src="/js/mootools-1.2.1-core.js">
+</script>
+    <script type="text/javascript" src="/js/mootools-1.2-more.js">
+</script>
+    <script type="text/javascript" src="/js/siteutils.js">
+</script>
+  </head>
+  <body>
+    <table class="main_table_d" cellspacing="0" cellpadding="0" border="0" align="center">
+      <tr>
+        <td>
+          <!-- Top Header Area -->
+          <div class="top_header_d">
+            <div class="top_header_logo_n">
+              <span class="pad_t_25 fl_left"><a href="/"><!-- Button --></a></span> <span class="adsk_logo"><a href="http://www.autodesk.com"><!-- Button --></a></span>
+            </div>
+            <div class="top_header_elements">
+              <div class="top_header_banner_wrap">
+                <div class="top_header_banner_area" id="bannercontent">
+                  <div onclick="location.href='?banner'" style="background: url('/images/banners/b3072k3s4_dark.png') no-repeat;}">
+                    <table border="0" cellspacing="0" cellpadding="0" style="margin-left: 275px;">
+                      <tr>
+                        <td class="lucida_12 pad_t_10 pad_r_10">
+                          <strong>AREA will be down for maintenance</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="lucida_11 pad_r_10">
+                          from 12pm EDT Saturday August 27th, 2011. AREA will gradually be back online starting at 5pm EDT on the 27th
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="top_header_theme_selector">
+                  <span class="top_header_select_text green">Theme color:</span>
+                  <ul style="padding-left: 50px">
+                    <li class="top_header_dce">
+                      <a href="?style=dce"></a>
+                    </li>
+                    <li class="top_header_dark">
+                      <a href="?style=dark"></a>
+                    </li>
+                    <li class="top_header_light">
+                      <a href="?style=light"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="top_header_info_menu">
+                <ul>
+                  <li class="top_header_banner_left">
+                    <a href="#" onclick="return banner(-1)"><!-- Button --></a>
+                  </li>
+                  <li class="top_header_banner_center" id="bannerpager">1/3<script type="text/javascript">
+//<![CDATA[
+                    max=3
+                    //]]>
+                    </script>
+                  </li>
+                  <li class="top_header_banner_right">
+                    <a href="#" onclick="return banner(+1)"><!-- Button --></a>
+                  </li>
+                </ul>
+                <ul class="top_header_info_menu_area green">
+                  <li>Hi, anonymous. Please <a href="/login">log in</a> or <a href="/register">register</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- Main Menu -->
+          <div class="main_menu_d">
+            <ul class="menu_d">
+              <li class="menu_tutorials_d">
+                <a href="/tutorials-tips" title="Tutorials &amp; Tips"><!-- Button --></a>
+              </li>
+              <li class="menu_downloads_d">
+                <a href="/downloads" title="Downloads"><!-- Button --></a>
+              </li>
+              <li class="menu_showcase_d">
+                <a href="/showcase" title="Showcase"><!-- Button --></a>
+              </li>
+              <li class="menu_blogs_d_sel">
+                <a href="/blogs" title="Blogs"><!-- Button --></a>
+              </li>
+              <li class="menu_discussions_d">
+                <a href="/forum" title="Discussion forums"><!-- Button --></a>
+              </li>
+              <li class="menu_inhouse_d">
+                <a href="/inhouse" title="inHouse"><!-- Button --></a>
+              </li>
+              <li class="menu_jobs_d">
+                <a href="/jobs" title="Jobs"><!-- Button --></a>
+              </li>
+              <li class="menu_product">
+                <a href="/products" title="Products"><!-- Button --></a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" width="100%" border="0" align="center" class="content_body_d">
+      <tr>
+        <!-- Breadcrumb -->
+        <td align="center" style="padding-left: 120px">
+          <div class="tut_breadcrumb" align="left">
+            You are here: <span><a href="/">Homepage</a><span class='tut_separator'>&nbsp;/&nbsp;</span> <a href="/blogs">Blogs</a><span class='tut_separator'>&nbsp;/&nbsp;</span> <a href=
+            "/blogs/chris">The 3ds Max SDK Blog</a><span class='tut_separator'>&nbsp;/&nbsp;</span>The Principles of Good Programming</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top">
+          <div class="content_area_d">
+            <!-- Left Block Area -->
+            <div class="left_side_d">
+              <div class="fl_left">
+                <div class="left_side_box">
+                  <div class="left_side_box_header">
+                    <div class="left_side_box_header_title">
+                      Feedback
+                    </div>
+                  </div>
+                  <div class="left_side_box_body">
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="top" align="left">
+                          <p class="green lucida_10">
+                            Tell us what you think of the site.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="blg_rss_feeds" align="left">
+                          <span class="feedback_archive_link"><a href="/feedback">Send Feedback</a></span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="pad_t_6 fl_left">
+                <div class="left_side_box">
+                  <div class="twitter_blok" align="left">
+                    <span><strong style="font-size: 11px">AREA</strong><br />
+                    Digital Entertainment<br />
+                    &amp; Visualization Community</span>
+                    <div>
+                      <a href="http://twitter.com/the_area" target="_blank"><!-- Button --></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pad_t_6 fl_left">
+                <div class="left_side_box">
+                  <div class="left_side_box_header">
+                    <div class="left_side_box_header_title">
+                      Software Trials
+                    </div>
+                    <div class="left_side_box_header_button">
+                      <img src="/img/ui/dark/bloks/l_side_header_plus.png" id="trialbutton" width="16" height="35" alt="" border="0" onclick="mySlide.toggle();" style=
+                      "float: right; padding-right:10px" />
+                    </div>
+                  </div>
+                  <div class="left_side_box_body" id="s_trials">
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/3ds-max/trial/" target="_blank"><img src="/images/soft_trials/max.jpg" width="38" height="38" alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® 3ds Max®
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/3ds-max/trial/" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/maya/trial/" target="_blank"><img src="/images/soft_trials/maya.jpg" width="38" height="38" alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® Maya®
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/maya/trial/" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/pc/index?id=13572885&amp;siteID=123112" target="_blank"><img src="/images/soft_trials/softimage.jpg" width="38" height="38"
+                          alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® Softimage®
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/pc/index?id=13572885&amp;siteID=123112" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/download/item?siteID=123112&amp;id=13581896" target="_blank"><img src="/images/soft_trials/motionbuilder.jpg" width="38"
+                          height="38" alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® MotionBuilder®
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/download/item?siteID=123112&amp;id=13581896" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/download/item?siteID=123112&amp;id=13571415" target="_blank"><img src="/images/soft_trials/mudbox.jpg" width="38" height="38"
+                          alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® Mudbox™
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/download/item?siteID=123112&amp;id=13571415" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center" style="display: none">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/mform?id=11983143&amp;siteID=123112" target="_blank"><img src="/images/soft_trials/imagemodeler.jpg" width="38" height="38"
+                          alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® ImageModeler™
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/mform?id=11983143&amp;siteID=123112" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&amp;id=11895121" target="_blank"><img src="/images/soft_trials/sketchbook.jpg" width="38" height="38"
+                          alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® Sketchbook® Pro
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&amp;id=11895121" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="5" width="170" align="center">
+                      <tr>
+                        <td valign="middle">
+                          <a href="http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&amp;id=12616054" target="_blank"><img src="/images/soft_trials/smokeonmac.jpg" width="38" height="38"
+                          alt="" border="0" /></a>
+                        </td>
+                        <td valign="top" align="left">
+                          <div class="white lucida_11">
+                            Autodesk® Smoke on Mac®
+                          </div>
+                          <div class="green lucida_10">
+                            <a href="http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&amp;id=12616054" target="_blank">Download Trial</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div><script type="text/javascript">
+//<![CDATA[
+                var mySlide = new Fx.Slide('s_trials', { onComplete: function() { 
+                if (mySlide.open) {
+                $('trialbutton').src="/img/ui/dark/bloks/l_side_header_minus.png"; 
+                } else { 
+                $('trialbutton').src="/img/ui/dark/bloks/l_side_header_plus.png";
+                }  } });
+                window.addEvent('domready', function(){
+                mySlide.hide();
+                });
+                //]]>
+                </script>
+              </div>
+              <div class="pad_t_6 fl_left">
+                <div class="left_side_box" align="left">
+                  <div class="left_side_box_header">
+                    <div class="left_side_box_header_title">
+                      Quick Links
+                    </div>
+                    <div class="left_side_box_header_button">
+                      <img src="/img/ui/dark/bloks/l_side_header_plus.png" width="16" height="35" alt="" border="0" onclick="mySlide1.toggle();" id="quickbutton" style=
+                      "float: right; margin-right:10px" />
+                    </div>
+                  </div>
+                  <div class="left_side_box_qlinks_body" id="q_links">
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/smoke"><img src="/images/quick_links/smoke.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="23" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/smoke">Smoke Community Portal</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/fakeorfoto"><img src="/images/quick_links/fof.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="23" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/fakeorfoto">Fake or Foto</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/masters"><img src="/images/quick_links/masters.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="23" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/masters">Autodesk Masters</a>
+                        </td>
+                      </tr>
+                    </table><!--
+                <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                        <tr>
+                                <td height="38"><a href="/masterclasses"><img src="/images/quick_links/mclasses.jpg" width="190" height="38" border="0" /></a>
+                        <tr>    
+                                <td height="23" valign="middle" class="left_side_box_qlinks_title"><a href="/masterclasses">Autodesk MasterClasses</a>                          
+                </table>
+                -->
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/pic"><img src="/images/quick_links/pic.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="34" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/pic">Professional Instructor Community</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/training-tutorials"><img src="/images/quick_links/training_tut.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="30" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/training-tutorials">Creative Finishing Tutorials</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="http://myfirstflame.com"><img src="/images/quick_links/first_flame.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="30" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="http://myfirstflame.com">My First Flame</a>
+                        </td>
+                      </tr>
+                    </table><!--
+                <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                        <tr>
+                                <td height="38"><a href="/maya_anniversary"><img src="/images/quick_links/maya10th.jpg" width="190" height="38" border="0" /></a>
+                        <tr>    
+                                <td height="30" valign="middle" class="left_side_box_qlinks_title"><a href="/maya_anniversary">Maya 10th Anniversary</a>                                
+                </table>
+                -->
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/bonus_tools"><img src="/images/quick_links/bonus_tools.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="30" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/bonus_tools">Autodesk Maya Bonus Tools</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/gamedev"><img src="/images/quick_links/gamedev.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="30" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/gamedev">Game Developer Zone</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="190" border="0" cellspacing="0" cellpadding="0" class="mar_b_10">
+                      <tr>
+                        <td height="38">
+                          <a href="/sketchbook"><img src="/images/quick_links/sketchbook.jpg" width="190" height="38" border="0" /></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="30" valign="middle" class="left_side_box_qlinks_title">
+                          <a href="/sketchbook">Autodesk Sketchbook Pro</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div><script type="text/javascript">
+//<![CDATA[
+                var mySlide1 = new Fx.Slide('q_links', { onComplete: function() { 
+                if (mySlide1.open) {
+                $('quickbutton').src="/img/ui/dark/bloks/l_side_header_minus.png"; 
+                } else { 
+                $('quickbutton').src="/img/ui/dark/bloks/l_side_header_plus.png";
+                }  
+                } 
+                });
+                window.addEvent('domready', function(){
+                mySlide1.hide();
+                });
+                //]]>
+                </script>
+              </div>
+            </div><!-- Content Area -->
+            <div class="content_d" align="left">
+              <table border="0" cellspacing="0" cellpadding="0" class="blg_title_header">
+                <tr>
+                  <td class="font_blogs">
+                    The Principles of Good Programming
+                  </td>
+                </tr>
+              </table>
+              <div class="tut_submit_info">
+                <div class="tut_submit_info_left">
+                  Posted: <span>Jul 22, 2011</span><br />
+                  <!-- Published by: <span>Christopher Diggins</span><br /> -->
+                   Category:
+                </div>
+              </div>
+              <table border="0" cellspacing="0" cellpadding="0" class="show_soc_network">
+                <tr>
+                  <td height="42" valign="middle">
+                    <div class="ui_btn_tellafriend pad_l_10 fl_left">
+                      Social Media:
+                    </div>
+                    <div class="pad_l_6 pad_t_13 fl_left">
+                      <a href="http://www.addthis.com/bookmark.php?v=250" onmouseover=
+                      "return addthis_open(this, '', 'http://area.autodesk.com/blogs/chris/the_principle_of_good_programming', 'The Principles of Good Programming')" onmouseout="addthis_close()"
+                      onclick="return addthis_sendto()"><img src="http://s7.addthis.com/static/btn/sm-share-en.gif" width="83" height="16" alt="Bookmark and Share" style=
+                      "border:0" /></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a23caff2bc51026">
+</script>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellspacing="0" cellpadding="0" class="tut_submit_info_buttons">
+                <tr>
+                  <td>
+                    <!-- <div class="ui_btn_tellafriend pad_l_10 fl_left"><a href="#"><!~~ Button ~~></a></div> -->&nbsp;
+                  </td>
+                </tr>
+              </table>
+              <div class="content_wrapper">
+                <table border="0" cellspacing="0" cellpadding="0" class="blg_fck_area mar_t_10">
+                  <tr>
+                    <td>
+                      <p>
+                        The principles of good programming are closely related to principles of good design and engineering. The following programming principles have helped me over the years become
+                        a better programmer, and I believe&nbsp;can help any developer become more efficient and to produce code which is easier to maintain and that has fewer defects.
+                      </p>
+                      <p>
+                        <strong>DRY - Don’t repeat yourself</strong>. -&nbsp;Probably the single most fundamental tenet in programming is to avoid repetition. Many programming constructs exist solely
+                        for that purpose (e.g. loops, functions, classes, and more). As soon as you start repeating yourself (e.g. a long expression, a series of statements, same concept) create a
+                        new abstraction.<br />
+                        <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">http://en.wikipedia.org/wiki/Don%27t_repeat_yourself</a>
+                      </p>
+                      <p>
+                        <strong>Abstraction Principle</strong> -&nbsp;Related to DRY is the abstraction principle “Each significant piece of functionality in a program should be implemented in just
+                        one place in the source code.”<br />
+                        <a href="http://en.wikipedia.org/wiki/Abstraction_principle_(programming)">http://en.wikipedia.org/wiki/Abstraction_principle_(programming)</a>
+                      </p>
+                      <p>
+                        <strong>KISS (Keep it simple, stupid!)</strong> -&nbsp;Simplicity (and avoiding complexity) should always be a key goal.<br />
+                        <a href="http://en.wikipedia.org/wiki/KISS_principle">http://en.wikipedia.org/wiki/KISS_principle</a>
+                      </p>
+                      <p>
+                        <strong>Avoid Creating a YAGNI (You aren’t going to need it)</strong>&nbsp;-&nbsp;You should try not to add functionality until you need it.<br />
+                        <a href="http://en.wikipedia.org/wiki/YAGNI">http://en.wikipedia.org/wiki/YAGNI</a>
+                      </p>
+                      <p>
+                        <strong>Do the simplest thing that could possibly work</strong> -&nbsp;A good question to ask one’s self when programming is “What is the simplest thing that could possibly
+                        work?” This helps keep us on the path towards simplicity in the design.<br />
+                        <a href="http://c2.com/xp/DoTheSimplestThingThatCouldPossiblyWork.html">http://c2.com/xp/DoTheSimplestThingThatCouldPossiblyWork.html</a>
+                      </p>
+                      <p>
+                        <strong>Don’t make me think</strong> -&nbsp;This is actually the title of a book by Steve Krug on web usability that is also relevant in programming. The point is that code
+                        should be easily read and understood with a minimum of effort required. If code requires too much thinking from an observer to understand, then it can probably stand to be
+                        simplified<br />
+                        <a href="http://www.sensible.com/dmmt.html">http://www.sensible.com/dmmt.html</a>
+                      </p>
+                      <p>
+                        <strong>Open/Closed Principle</strong> -&nbsp;Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification. In other words,
+                        don't write classes that people can modify, write classes that people can extend.<br />
+                        <a href="http://en.wikipedia.org/wiki/Open_Closed_Principle">http://en.wikipedia.org/wiki/Open_Closed_Principle</a>
+                      </p>
+                      <p>
+                        <strong>Write Code for the Maintainer</strong> -&nbsp;Almost any code that is worth writing is worth maintaining in the future, either by you or by someone else. The future
+                        you who has to maintain code often remembers as much of the code, as a complete stranger, so you might as well always write for someone else.<br />
+                        A memorable way to remember this is “Always code as if the person who ends up maintaining your code is a violent psychopath who knows where you live.”<br />
+                        <a href="http://c2.com/cgi/wiki?CodeForTheMaintainer">http://c2.com/cgi/wiki?CodeForTheMaintainer</a>
+                      </p>
+                      <p>
+                        <strong>Principle of least astonishment</strong> -&nbsp;The principle of least astonishment is usually referenced in regards to the user interface, but the same principle
+                        applies to written code. Code should surprise the reader as little as possible. The means following standard conventions, code should do what the comments and name suggest,
+                        and potentially surprising side effects should be avoided as much as possible.<br />
+                        <a href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">http://en.wikipedia.org/wiki/Principle_of_least_astonishment</a>
+                      </p>
+                      <p>
+                        <strong>Single Responsibility Principle</strong> -&nbsp;A component of code (e.g. class or function) should perform a single well defined task.<br />
+                        <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">http://en.wikipedia.org/wiki/Single_responsibility_principle</a>
+                      </p>
+                      <p>
+                        <strong>Minimize Coupling</strong> -&nbsp;Any section of code (code block, function, class, etc) should minimize the dependencies on other areas of code. This is achieved by
+                        using shared variables as little as possible. “Low coupling is often a sign of a well-structured computer system and a good design, and when combined with high cohesion,
+                        supports the general goals of high readability and maintainability”<br />
+                        <a href="http://en.wikipedia.org/wiki/Coupling_(computer_programming)">http://en.wikipedia.org/wiki/Coupling_(computer_programming)</a>
+                      </p>
+                      <p>
+                        <strong>Maximize Cohesion</strong> -&nbsp;Code that has similar functionality should be found within the same component.<br />
+                        <a href="http://en.wikipedia.org/wiki/Cohesion_(computer_science)">http://en.wikipedia.org/wiki/Cohesion_(computer_science)</a>
+                      </p>
+                      <p>
+                        <strong>Hide Implementation Details</strong> -&nbsp;Hiding implementation details allows change to the implementation of a code component while minimally affecting any other
+                        modules that use that component.<br />
+                        <a href="http://en.wikipedia.org/wiki/Information_Hiding">http://en.wikipedia.org/wiki/Information_Hiding</a>
+                      </p>
+                      <p>
+                        <strong>Law of Demeter</strong> -&nbsp;Code components should only communicate with their direct relations (e.g. classes that they inherit from, objects that they contain,
+                        objects passed by argument, etc.)<br />
+                        <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">http://en.wikipedia.org/wiki/Law_of_Demeter</a>
+                      </p>
+                      <p>
+                        <strong>Avoid Premature Optimization</strong> -&nbsp;Don’t even think about optimization unless your code is working, but slower than you want. Only then should you start
+                        thinking about optimizing, and then only with the aid of empirical data.<br />
+                        "We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil" Knuth.<br />
+                        <a href="http://en.wikipedia.org/wiki/Program_optimization">http://en.wikipedia.org/wiki/Program_optimization</a>
+                      </p>
+                      <p>
+                        <strong>Code Reuse is Good</strong> -&nbsp;Not very pithy, but as good a principle as any other. Reusing code improves code reliability and decrease development time.<br />
+                        <a href="http://en.wikipedia.org/wiki/Code_reuse">http://en.wikipedia.org/wiki/Code_reuse</a>
+                      </p>
+                      <p>
+                        <strong>Separation of Concerns</strong> -&nbsp;Different areas of functionality should be managed by distinct and minimally overlapping modules of code.<br />
+                        <a href="http://en.wikipedia.org/wiki/Separation_of_concerns">http://en.wikipedia.org/wiki/Separation_of_concerns</a>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class='cmnt_message mar_t_10 white'>
+                <span style='padding: 10px'>In order to post any comments, you must be logged in!</span>
+              </div><!-- Comments -->
+              <div class="cmnt_title_bar">
+                <span class="fl_left">Newest users comments</span> <span class="fl_right red"><a href="/blogs/chris/the_principle_of_good_programming/comments">View All 5 Comments</a></span>
+              </div>
+              <table border="0" cellspacing="0" cellpadding="0" class="cmnt_message">
+                <tr>
+                  <td width="33" align="right">
+                    <span class="cmnt_baloon"><!-- Image --></span>
+                  </td>
+                  <td width="767" class="red pad_l_10">
+                    Posted by GeorgeR on Aug 15, 2011 at 02:44 AM
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="cmnt_text">
+                    Print this out and stick it on your head/wall:<br />
+                    <br />
+                    <a target="_blank" href="http://www.bbv.ch/images/bbv/pdf/downloads/Clean_Code_Cheat_Sheet_V1.2.pdf">www.bbv.ch/images/bbv/pdf/downloads/Clean_Code_Cheat_Sheet_V1.2.pdf</a>
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellspacing="0" cellpadding="0" class="cmnt_message">
+                <tr>
+                  <td width="33" align="right">
+                    <span class="cmnt_baloon"><!-- Image --></span>
+                  </td>
+                  <td width="767" class="red pad_l_10">
+                    Posted by Bogdan Coroi on Aug 08, 2011 at 06:51 AM
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="cmnt_text">
+                    This is the most unusual (read retarded) place to see "The Principles of Good Programming". Is there no decency left in this world? Coming up with this list on a 3D Max SDK Blog
+                    is an insult to all Max programmers.<br />
+                    <br />
+                    None of this principles apply to 3D Max SDK. I mean, literally NONE. After years of slavering with this crap SDK, I feel the need to kill when I see someone (Christopher Diggins)
+                    from Autodesk that works in the Max SDK area telling people how to program. Christopher please read the Max SDK. Open some random sample files like blizzard.cpp or paramblock2.cpp
+                    and tell me you see your list of quoted applied there. Don't false advertise to Max newcomers that Max has some coding principles behind it and what's worse, this list has
+                    something to do with it.<br />
+                    <br />
+                    Please remove this list from here. Place it in Maya section, that's a SDK wrote by someone who understands programming.
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellspacing="0" cellpadding="0" class="cmnt_message">
+                <tr>
+                  <td width="33" align="right">
+                    <span class="cmnt_baloon"><!-- Image --></span>
+                  </td>
+                  <td width="767" class="red pad_l_10">
+                    Posted by Anubis on Jul 27, 2011 at 01:24 PM
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="cmnt_text">
+                    Thanks for the links 'cause w/o them some of this principles c'd been interpreted incorrectly.
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellspacing="0" cellpadding="0" class="cmnt_message">
+                <tr>
+                  <td width="33" align="right">
+                    <span class="cmnt_baloon"><!-- Image --></span>
+                  </td>
+                  <td width="767" class="red pad_l_10">
+                    Posted by George Westwater on Jul 25, 2011 at 01:36 PM
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="cmnt_text">
+                    What about the SOLID principles? <a target="_blank" href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">en.wikipedia.org/wiki/SOLID_(object-oriented_design)</a>
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellspacing="0" cellpadding="0" class="cmnt_message">
+                <tr>
+                  <td width="33" align="right">
+                    <span class="cmnt_baloon"><!-- Image --></span>
+                  </td>
+                  <td width="767" class="red pad_l_10">
+                    Posted by FalconCrest on Jul 23, 2011 at 10:33 PM
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="cmnt_text">
+                    I've just begun learning programming and this is a good list, thank you.
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="bot_bckg">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+    <table class="footer" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td>
+          <!-- Footer Area -->
+          <div class="footer_table">
+            <table border="0" width="990" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td width="115" align="left" height="81">
+                  <img src="/img/ui/dark/footer/footer_logo_n.png" width="97" height="30" alt="The Area" border="0" />
+                </td>
+                <td width="270" align="left">
+                  <div class="footer_descr">
+                    © Copyright 2011 Autodesk. Inc.<br />
+                    All rights reserved<br />
+                    <a href="/legal">Legal Notices &amp; Trademarks - Privacy Policy</a>
+                  </div>
+                </td>
+                <td align="right">
+                  <a href="http://www.autodesk.com" target="_blank" class="footer_no_border"><img src="/img/ui/dark/footer/autodesk_logo_foot.png" width="76" height="14" alt="Autodesk" border=
+                  "0" /></a>
+                </td>
+              </tr>
+            </table><script type="text/javascript">
+//<![CDATA[
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+            //]]>
+            </script> <script type="text/javascript">
+//<![CDATA[
+            try {
+            var pageTracker = _gat._getTracker("UA-4460969-20");
+            pageTracker._trackPageview();
+            } catch(err) {}
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-75324-4']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+            //]]>
+            </script>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

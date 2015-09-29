@@ -1,0 +1,794 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0066)http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » How debuggers work: Part 1 – Basics</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./How debuggers work  Part 1 – Basics_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » How debuggers work: Part 1 – Basics Comments Feed" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./How debuggers work  Part 1 – Basics_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./How debuggers work  Part 1 – Basics_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./How debuggers work  Part 1 – Basics_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Local execution of Python CGI scripts – with Python 3" href="http://eli.thegreenplace.net/2011/01/14/local-execution-of-python-cgi-scripts-with-python-3/">
+<link rel="next" title="How debuggers work: Part 2 – Breakpoints" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./How debuggers work  Part 1 – Basics_files/How debuggers work  Part 1 – Basics.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=2381">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./How debuggers work  Part 1 – Basics_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./How debuggers work  Part 1 – Basics_files/api" type="text/javascript"></script><script src="./How debuggers work  Part 1 – Basics_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./How debuggers work  Part 1 – Basics_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./How debuggers work  Part 1 – Basics_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./How debuggers work  Part 1 – Basics_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-2381">
+			<h2><a href="./How debuggers work  Part 1 – Basics_files/How debuggers work  Part 1 – Basics.html" rel="bookmark" title="Permanent Link: How debuggers work: Part 1 – Basics">How debuggers work: Part 1 – Basics</a></h2>
+			<small>January 23rd, 2011 at 7:40 am <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>This is the first part in <a class="reference external" href="http://eli.thegreenplace.net/programs-and-code/how-debuggers-work/">a series of articles</a> on how debuggers work. I’m still not sure how many articles the series will contain and what topics it will cover, but I’m going to start with the basics.</p>
+<div class="section" id="in-this-part">
+<h3>In this part</h3>
+<p>I’m going to present the main building block of a debugger’s implementation on Linux – the <tt class="docutils literal">ptrace</tt> system call. All the code in this article is developed on a 32-bit Ubuntu machine. Note that the code is very much platform specific, although porting it to other platforms shouldn’t be too difficult.</p>
+</div>
+<div class="section" id="motivation">
+<h3>Motivation</h3>
+<p>To understand where we’re going, try to imagine what it takes for a debugger to do its work. A debugger can start some process and debug it, or attach itself to an existing process. It can single-step through the code, set breakpoints and run to them, examine variable values and stack traces. Many debuggers have advanced features such as executing expressions and calling functions in the debbugged process’s address space, and even changing the process’s code on-the-fly and watching the effects.</p>
+<p>Although modern debuggers are complex beasts <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id7" id="id1">[1]</a>, it’s surprising how simple is the foundation on which they are built. Debuggers start with only a few basic services provided by the operating system and the compiler/linker, all the rest is just <a class="reference external" href="http://en.wikipedia.org/wiki/Small_matter_of_programming">a simple matter of programming</a>.</p>
+</div>
+<div class="section" id="linux-debugging-ptrace">
+<h3>Linux debugging – <tt class="docutils literal">ptrace</tt></h3>
+<p>The Swiss army knife of Linux debuggers is the <tt class="docutils literal">ptrace</tt> system call <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id8" id="id2">[2]</a>. It’s a versatile and rather complex tool that allows one process to control the execution of another and to peek and poke at its innards <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id9" id="id3">[3]</a>. <tt class="docutils literal">ptrace</tt> can take a mid-sized book to explain fully, which is why I’m just going to focus on some of its practical uses in examples.</p>
+<p>Let’s dive right in.</p>
+</div>
+<div class="section" id="stepping-through-the-code-of-a-process">
+<h3>Stepping through the code of a process</h3>
+<p>I’m now going to develop an example of running a process in "traced" mode in which we’re going to single-step through its code – the machine code (assembly instructions) that’s executed by the CPU. I’ll show the example code in parts, explaining each, and in the end of the article you will find a link to download a complete C file that you can compile, execute and play with.</p>
+<p>The high-level plan is to write code that splits into a child process that will execute a user-supplied command, and a parent process that traces the child. First, the main function:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">main</span>(<span style="color: #00007f; font-weight: bold">int</span> argc, <span style="color: #00007f; font-weight: bold">char</span>** argv)
+{
+    pid_t child_pid;
+
+    <span style="color: #00007f; font-weight: bold">if</span> (argc &lt; <span style="color: #007f7f">2</span>) {
+        fprintf(stderr, <span style="color: #7f007f">"Expected a program name as argument\n"</span>);
+        <span style="color: #00007f; font-weight: bold">return</span> -<span style="color: #007f7f">1</span>;
+    }
+
+    child_pid = fork();
+    <span style="color: #00007f; font-weight: bold">if</span> (child_pid == <span style="color: #007f7f">0</span>)
+        run_target(argv[<span style="color: #007f7f">1</span>]);
+    <span style="color: #00007f; font-weight: bold">else</span> <span style="color: #00007f; font-weight: bold">if</span> (child_pid &gt; <span style="color: #007f7f">0</span>)
+        run_debugger(child_pid);
+    <span style="color: #00007f; font-weight: bold">else</span> {
+        perror(<span style="color: #7f007f">"fork"</span>);
+        <span style="color: #00007f; font-weight: bold">return</span> -<span style="color: #007f7f">1</span>;
+    }
+
+    <span style="color: #00007f; font-weight: bold">return</span> <span style="color: #007f7f">0</span>;
+}
+</pre>
+</div>
+<p>Pretty simple: we start a new child process with <tt class="docutils literal">fork</tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id10" id="id4">[4]</a>. The <tt class="docutils literal">if</tt> branch of the subsequent condition runs the child process (called "target" here), and the <tt class="docutils literal">else if</tt> branch runs the parent process (called "debugger" here).</p>
+<p>Here’s the target process:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">run_target</span>(<span style="color: #00007f; font-weight: bold">const</span> <span style="color: #00007f; font-weight: bold">char</span>* programname)
+{
+    procmsg(<span style="color: #7f007f">"target started. will run '%s'\n"</span>, programname);
+
+    <span style="color: #007f00">/* Allow tracing of this process */</span>
+    <span style="color: #00007f; font-weight: bold">if</span> (ptrace(PTRACE_TRACEME, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>) &lt; <span style="color: #007f7f">0</span>) {
+        perror(<span style="color: #7f007f">"ptrace"</span>);
+        <span style="color: #00007f; font-weight: bold">return</span>;
+    }
+
+    <span style="color: #007f00">/* Replace this process's image with the given program */</span>
+    execl(programname, programname, <span style="color: #007f7f">0</span>);
+}
+</pre>
+</div>
+<p>The most interesting line here is the <tt class="docutils literal">ptrace</tt> call. <tt class="docutils literal">ptrace</tt> is declared thus (in <tt class="docutils literal">sys/ptrace.h</tt>):</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">long</span> ptrace(<span style="color: #00007f; font-weight: bold">enum</span> __ptrace_request request, pid_t pid,
+                 <span style="color: #00007f; font-weight: bold">void</span> *addr, <span style="color: #00007f; font-weight: bold">void</span> *data);
+</pre>
+</div>
+<p>The first argument is a <em>request</em>, which may be one of many predefined <tt class="docutils literal">PTRACE_*</tt> constants. The second argument specifies a process ID for some requests. The third and fourth arguments are address and data pointers, for memory manipulation. The <tt class="docutils literal">ptrace</tt> call in the code snippet above makes the <tt class="docutils literal">PTRACE_TRACEME</tt> request, which means that this child process asks the OS kernel to let its parent trace it. The request description from the man-page is quite clear:</p>
+<blockquote><p>
+Indicates that this process is to be traced by its parent. Any signal (except SIGKILL) delivered to this process will cause it to stop and its parent to be notified via wait(). <strong>Also, all subsequent calls to exec() by this process will cause a SIGTRAP to be sent to it, giving the parent a chance to gain control before the new program begins execution</strong>. A process probably shouldn’t make this request if its parent isn’t expecting to trace it. (pid, addr, and data are ignored.)</p></blockquote>
+<p>I’ve highlighted the part that interests us in this example. Note that the very next thing <tt class="docutils literal">run_target</tt> does after <tt class="docutils literal">ptrace</tt> is invoke the program given to it as an argument with <tt class="docutils literal">execl</tt>. This, as the highlighted part explains, causes the OS kernel to stop the process just before it begins executing the program in <tt class="docutils literal">execl</tt> and send a signal to the parent.</p>
+<p>Thus, time is ripe to see what the parent does:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">run_debugger</span>(pid_t child_pid)
+{
+    <span style="color: #00007f; font-weight: bold">int</span> wait_status;
+    <span style="color: #00007f; font-weight: bold">unsigned</span> icounter = <span style="color: #007f7f">0</span>;
+    procmsg(<span style="color: #7f007f">"debugger started\n"</span>);
+
+    <span style="color: #007f00">/* Wait for child to stop on its first instruction */</span>
+    wait(&amp;wait_status);
+
+    <span style="color: #00007f; font-weight: bold">while</span> (WIFSTOPPED(wait_status)) {
+        icounter++;
+        <span style="color: #007f00">/* Make the child execute another instruction */</span>
+        <span style="color: #00007f; font-weight: bold">if</span> (ptrace(PTRACE_SINGLESTEP, child_pid, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>) &lt; <span style="color: #007f7f">0</span>) {
+            perror(<span style="color: #7f007f">"ptrace"</span>);
+            <span style="color: #00007f; font-weight: bold">return</span>;
+        }
+
+        <span style="color: #007f00">/* Wait for child to stop on its next instruction */</span>
+        wait(&amp;wait_status);
+    }
+
+    procmsg(<span style="color: #7f007f">"the child executed %u instructions\n"</span>, icounter);
+}
+</pre>
+</div>
+<p>Recall from above that once the child starts executing the <tt class="docutils literal">exec</tt> call, it will stop and be sent the <tt class="docutils literal">SIGTRAP</tt> signal. The parent here waits for this to happen with the first <tt class="docutils literal">wait</tt> call. <tt class="docutils literal">wait</tt> will return once something interesting happens, and the parent checks that it was because the child was stopped (<tt class="docutils literal">WIFSTOPPED</tt> returns true if the child process was stopped by delivery of a signal).</p>
+<p>What the parent does next is the most interesting part of this article. It invokes <tt class="docutils literal">ptrace</tt> with the <tt class="docutils literal">PTRACE_SINGLESTEP</tt> request giving it the child process ID. What this does is tell the OS – <em>please restart the child process, but stop it after it executes the next instruction</em>. Again, the parent waits for the child to stop and the loop continues. The loop will terminate when the signal that came out of the <tt class="docutils literal">wait</tt> call wasn’t about the child stopping. During a normal run of the tracer, this will be the signal that tells the parent that the child process exited (<tt class="docutils literal">WIFEXITED</tt> would return true on it).</p>
+<p>Note that <tt class="docutils literal">icounter</tt> counts the amount of instructions executed by the child process. So our simple example actually does something useful – given a program name on the command line, it executes the program and reports the amount of CPU instructions it took to run from start to finish. Let’s see it in action.</p>
+</div>
+<div class="section" id="a-test-run">
+<h3>A test run</h3>
+<p>I compiled the following simple program and ran it under the tracer:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #007f00">#include &lt;stdio.h&gt;</span>
+
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">main</span>()
+{
+    printf(<span style="color: #7f007f">"Hello, world!\n"</span>);
+    <span style="color: #00007f; font-weight: bold">return</span> <span style="color: #007f7f">0</span>;
+}
+</pre>
+</div>
+<p>To my surprise, the tracer took quite long to run and reported that there were more than 100,000 instructions executed. For a simple <tt class="docutils literal">printf</tt> call? What gives? The answer is very interesting <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id11" id="id5">[5]</a>. By default, <tt class="docutils literal">gcc</tt> on Linux links programs to the C runtime libraries dynamically. What this means is  that one of the first things that runs when any program is executed is the dynamic library loader that looks for the required shared libraries. This is quite a lot of code – and remember that our basic tracer here looks at each and every instruction, not of just the <tt class="docutils literal">main</tt> function, but <em>of the whole process</em>.</p>
+<p>So, when I linked the test program with the <tt class="docutils literal"><span class="pre">-static</span></tt> flag (and verified that the executable gained some 500KB in weight, as is logical for a static link of the C runtime), the tracing reported only 7,000 instructions or so. This is still a lot, but makes perfect sense if you recall that <tt class="docutils literal">libc</tt> initialization still has to run before <tt class="docutils literal">main</tt>, and cleanup has to run after <tt class="docutils literal">main</tt>. Besides, <tt class="docutils literal">printf</tt> is a complex function.</p>
+<p>Still not satisfied, I wanted to see something <em>testable</em> – i.e. a whole run in which I could account for every instruction executed. This, of course, can be done with assembly code. So I took this version of "Hello, world!" and assembled it:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">section    .text
+    ; The _start symbol must be declared for the linker (ld)
+    global _start
+
+_start:
+
+    ; Prepare arguments for the sys_write system call:
+    ;   - eax: system call number (sys_write)
+    ;   - ebx: file descriptor (stdout)
+    ;   - ecx: pointer to string
+    ;   - edx: string length
+    mov    edx, len
+    mov    ecx, msg
+    mov    ebx, 1
+    mov    eax, 4
+
+    ; Execute the sys_write system call
+    int    0x80
+
+    ; Execute sys_exit
+    mov    eax, 1
+    int    0x80
+
+section   .data
+msg db    'Hello, world!', 0xa
+len equ    $ - msg
+</pre>
+</div>
+<p>Sure enough. Now the tracer reported that 7 instructions were executed, which is something I can easily verify.</p>
+</div>
+<div class="section" id="deep-into-the-instruction-stream">
+<h3>Deep into the instruction stream</h3>
+<p>The assembly-written program allows me to introduce you to another powerful use of <tt class="docutils literal">ptrace</tt> – closely examining the state of the traced process. Here’s another version of the <tt class="docutils literal">run_debugger</tt> function:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">run_debugger</span>(pid_t child_pid)
+{
+    <span style="color: #00007f; font-weight: bold">int</span> wait_status;
+    <span style="color: #00007f; font-weight: bold">unsigned</span> icounter = <span style="color: #007f7f">0</span>;
+    procmsg(<span style="color: #7f007f">"debugger started\n"</span>);
+
+    <span style="color: #007f00">/* Wait for child to stop on its first instruction */</span>
+    wait(&amp;wait_status);
+
+    <span style="color: #00007f; font-weight: bold">while</span> (WIFSTOPPED(wait_status)) {
+        icounter++;
+        <span style="color: #00007f; font-weight: bold">struct</span> user_regs_struct regs;
+        ptrace(PTRACE_GETREGS, child_pid, <span style="color: #007f7f">0</span>, &amp;regs);
+        <span style="color: #00007f; font-weight: bold">unsigned</span> instr = ptrace(PTRACE_PEEKTEXT, child_pid, regs.eip, <span style="color: #007f7f">0</span>);
+
+        procmsg(<span style="color: #7f007f">"icounter = %u.  EIP = 0x%08x.  instr = 0x%08x\n"</span>,
+                    icounter, regs.eip, instr);
+
+        <span style="color: #007f00">/* Make the child execute another instruction */</span>
+        <span style="color: #00007f; font-weight: bold">if</span> (ptrace(PTRACE_SINGLESTEP, child_pid, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>) &lt; <span style="color: #007f7f">0</span>) {
+            perror(<span style="color: #7f007f">"ptrace"</span>);
+            <span style="color: #00007f; font-weight: bold">return</span>;
+        }
+
+        <span style="color: #007f00">/* Wait for child to stop on its next instruction */</span>
+        wait(&amp;wait_status);
+    }
+
+    procmsg(<span style="color: #7f007f">"the child executed %u instructions\n"</span>, icounter);
+}
+</pre>
+</div>
+<p>The only difference is in the first few lines of the <tt class="docutils literal">while</tt> loop. There are two new <tt class="docutils literal">ptrace</tt> calls. The first one reads the value of the process’s registers into a structure. <tt class="docutils literal">user_regs_struct</tt> is defined in <tt class="docutils literal">sys/user.h</tt>. Now here’s the fun part – if you look at this header file, a comment close to the top says:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%"><span style="color: #007f00">/* The whole purpose of this file is for GDB and GDB only.</span>
+<span style="color: #007f00">   Don't read too much into it. Don't use it for</span>
+<span style="color: #007f00">   anything other than GDB unless know what you are</span>
+<span style="color: #007f00">   doing.  */</span>
+</pre>
+</div>
+<p>Now, I don’t know about you, but it makes <em>me</em> feel we’re on the right track <img src="./How debuggers work  Part 1 – Basics_files/icon_smile.gif" alt=":-)" class="wp-smiley">  Anyway, back to the example. Once we have all the registers in <tt class="docutils literal">regs</tt>, we can peek at the current instruction of the process by calling <tt class="docutils literal">ptrace</tt> with <tt class="docutils literal">PTRACE_PEEKTEXT</tt>, passing it <tt class="docutils literal">regs.eip</tt> (the extended instruction pointer on x86) as the address. What we get back is the instruction <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id12" id="id6">[6]</a>. Let’s see this new tracer run on our assembly-coded snippet:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">$ simple_tracer traced_helloworld
+[5700] debugger started
+[5701] target started. will run 'traced_helloworld'
+[5700] icounter = 1.  EIP = 0x08048080.  instr = 0x00000eba
+[5700] icounter = 2.  EIP = 0x08048085.  instr = 0x0490a0b9
+[5700] icounter = 3.  EIP = 0x0804808a.  instr = 0x000001bb
+[5700] icounter = 4.  EIP = 0x0804808f.  instr = 0x000004b8
+[5700] icounter = 5.  EIP = 0x08048094.  instr = 0x01b880cd
+Hello, world!
+[5700] icounter = 6.  EIP = 0x08048096.  instr = 0x000001b8
+[5700] icounter = 7.  EIP = 0x0804809b.  instr = 0x000080cd
+[5700] the child executed 7 instructions
+</pre>
+</div>
+<p>OK, so now in addition to <tt class="docutils literal">icounter</tt> we also see the instruction pointer and the instruction it points to at each step. How to verify this is correct? By using <tt class="docutils literal">objdump <span class="pre">-d</span></tt> on the executable:</p>
+<div class="highlight" style="background: #ffffff">
+<pre style="line-height: 125%">$ objdump -d traced_helloworld
+
+traced_helloworld:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+08048080 &lt;.text&gt;:
+ 8048080:     ba 0e 00 00 00          mov    $0xe,%edx
+ 8048085:     b9 a0 90 04 08          mov    $0x80490a0,%ecx
+ 804808a:     bb 01 00 00 00          mov    $0x1,%ebx
+ 804808f:     b8 04 00 00 00          mov    $0x4,%eax
+ 8048094:     cd 80                   int    $0x80
+ 8048096:     b8 01 00 00 00          mov    $0x1,%eax
+ 804809b:     cd 80                   int    $0x80
+</pre>
+</div>
+<p>The correspondence between this and our tracing output is easily observed.</p>
+</div>
+<div class="section" id="attaching-to-a-running-process">
+<h3>Attaching to a running process</h3>
+<p>As you know, debuggers can also attach to an already-running process. By now you won’t be surprised to find out that this is also done with <tt class="docutils literal">ptrace</tt>, which can get the <tt class="docutils literal">PTRACE_ATTACH</tt> request. I won’t show a code sample here since it should be very easy to implement given the code we’ve already gone through. For educational purposes, the approach taken here is more convenient (since we can stop the child process right at its start).</p>
+</div>
+<div class="section" id="the-code">
+<h3>The code</h3>
+<p>The complete C source-code of the simple tracer presented in this article (the more advanced, instruction-printing version) is available <a class="reference external" href="http://eli.thegreenplace.net/files/prog_code/articles_code/debugger/simple_tracer.c">here</a>. It compiles cleanly with <tt class="docutils literal"><span class="pre">-Wall</span> <span class="pre">-pedantic</span> <span class="pre">--std=c99</span></tt> on version 4.4 of <tt class="docutils literal">gcc</tt>.</p>
+</div>
+<div class="section" id="conclusion-and-next-steps">
+<h3>Conclusion and next steps</h3>
+<p>Admittedly, this part didn’t cover much – we’re still far from having a real debugger in our hands. However, I hope it has already made the process of debugging at least a little less mysterious. <tt class="docutils literal">ptrace</tt> is truly a versatile system call with many abilities, of which we’ve sampled only a few so far.</p>
+<p>Single-stepping through the code is useful, but only to a certain degree. Take the C "Hello, world!" sample I demonstrated above. To get to <tt class="docutils literal">main</tt> it would probably take a couple of thousands of instructions of C runtime initialization code to step through. This isn’t very convenient. What we’d ideally want to have is the ability to place a breakpoint at the entry to <tt class="docutils literal">main</tt> and step from there. Fair enough, and in the next part of the series I intend to show how breakpoints are implemented.</p>
+</div>
+<div class="section" id="references">
+<h3>References</h3>
+<p>I’ve found the following resources and articles useful in the preparation of this article:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.linuxjournal.com/article/6100?page=0,1">Playing with ptrace, Part I</a></li>
+<li><a class="reference external" href="http://linuxgazette.net/81/sandeep.html">Process tracing using ptrace</a></li>
+<li><a class="reference external" href="http://www.alexonlinux.com/how-debugger-works">How debugger works</a></li>
+</ul>
+<p><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./How debuggers work  Part 1 – Basics_files/hline.jpg" style="width: 320px; height: 5px;"></p>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id1">[1]</a></td>
+<td>I didn’t check but I’m sure the LOC count of <tt class="docutils literal">gdb</tt> is at least in the six-figures range.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id2">[2]</a></td>
+<td>Run <tt class="docutils literal">man 2 ptrace</tt> for complete enlightment.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id3">[3]</a></td>
+<td><em>Peek</em> and <em>poke</em> are well-known system programming <a class="reference external" href="http://www.jargon.net/jargonfile/p/peek.html">jargon</a> for directly reading and writing memory contents.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id4">[4]</a></td>
+<td>This article assumes some basic level of Unix/Linux programming experience. I assume you know (at least conceptually) about <tt class="docutils literal">fork</tt>, the <tt class="docutils literal">exec</tt> family of functions and Unix signals.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id5">[5]</a></td>
+<td>At least if you’re as obsessed with low-level details as I am <img src="./How debuggers work  Part 1 – Basics_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#id6">[6]</a></td>
+<td>A word of warning here: as I noted above, a lot of this is highly platform specific. I’m making some simplifying assumptions – for example, x86 instructions don’t have to fit into 4 bytes (the size of <tt class="docutils literal">unsigned</tt> on my 32-bit Ubuntu machine). In fact, many won’t. Peeking at instructions meaningfully requires us to have a complete disassembler at hand. We don’t have one here, but real debuggers do.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/" rel="bookmark" title="How debuggers work: Part 2 – Breakpoints">How debuggers work: Part 2 – Breakpoints</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/" rel="bookmark" title="How debuggers work: Part 3 – Debugging information">How debuggers work: Part 3 – Debugging information</a></li>
+<li><a href="http://eli.thegreenplace.net/2012/03/23/python-internals-how-callables-work/" rel="bookmark" title="Python internals: how callables work">Python internals: how callables work</a></li>
+<li><a href="http://eli.thegreenplace.net/2008/02/23/sicp-section-52/" rel="bookmark" title="SICP section 5.2">SICP section 5.2</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Sunday, January 23rd, 2011 at 07:40						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/debuggers/" title="View all posts in Debuggers" rel="category tag">Debuggers</a>, <a href="http://eli.thegreenplace.net/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">18 Responses to “How debuggers work: Part 1 – Basics”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-392868">
+			<cite><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow">Nadav</a><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/445d85945658eee0d8e01e88fc5895bc" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-392868" title="">January 23rd, 2011 at 14:54</a> </small>
+
+			<p>Eli, great post!</p>
+<p>I wanted to point out that you can also read symbols from the elf file using libBFD and place breakpoints at places of interest. I wrote some code for that in here:<br>
+<a href="http://rapido.sourceforge.net/" rel="nofollow">http://rapido.sourceforge.net/</a></p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-393032">
+			<cite>Charles<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/0c2de53b1653add71f472e35a12b856c" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-393032" title="">January 23rd, 2011 at 17:44</a> </small>
+
+			<p>Thanks Eli, that was brilliant. Having never looked at how debuggers worked before reading this article, I’ve come away feeling as though I’ve learned a lot about them.</p>
+<p>Looking forward to the next instalment!</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-393108">
+			<cite>Girish<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/f19219afb91277958216577c8451397d" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-393108" title="">January 23rd, 2011 at 19:09</a> </small>
+
+			<p>Very informative! I look forward to part 2. I would also be interested in knowing about the hardware support for implementing a ptrace like system call.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-393277">
+			<cite>brooksbp<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/a6329288ccfde86da2194e1caad69e50" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-393277" title="">January 23rd, 2011 at 21:11</a> </small>
+
+			<p>Great article!</p>
+<p>Here are the main issues for compiling this with GCC 4.2.1 on OS X 10.6.6:</p>
+<p>* Change <code class="backtick">PTRACE_SINGLESTEP</code> to <code class="backtick">PT_STEP</code> and <code class="backtick">PTRACE_TRACEME</code> to <code class="backtick">PT_TRACE_ME</code>.<br>
+* Use <code class="backtick">printf</code> instead of <code class="backtick">procmsg</code> (not completely sure if procmsg is defined for OS X).<br>
+* Pass an extra parameter <code class="backtick">NULL</code> in the call to <code class="backtick">execl(...)</code>.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-393305">
+			<cite>Richard Moore<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/84347626b7ceacf77b9a7c61b8d13045" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-393305" title="">January 23rd, 2011 at 21:23</a> </small>
+
+			<p>Interesting post, thanks. <img src="./How debuggers work  Part 1 – Basics_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-393916">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-393916" title="">January 24th, 2011 at 06:16</a> </small>
+
+			<p><b>Nadav</b>,</p>
+<p>Thanks for the tip – I’ll look into it. I planned to use something like distorm for disassembly, but libBFD may be useful for other purposes. Ultimately I would like to explain how source locations are translated into addresses, so I do want to reduce the question from “how debuggers work” to “how libBFD works” <img src="./How debuggers work  Part 1 – Basics_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+<p><b>brooksbp</b>,</p>
+<p>Thanks for these – I’m sure it will be useful to others trying to run this on a Mac. Regarding <code>procmsg</code> – it’s a function I defined, you can find it in the full source listing for this article.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-394181">
+			<cite><a href="http://blueblog.matan.name/" rel="external nofollow">Adam Matan</a><a href="http://blueblog.matan.name/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/83947327fdbe8fcfd40fc6afb371f6a8" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-394181" title="">January 24th, 2011 at 10:07</a> </small>
+
+			<p>Great article. looking forward for the next parts.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-394340">
+			<cite>Malle<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/d7d821ce4f8a95af040101b4c3902b4d" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-394340" title="">January 24th, 2011 at 12:53</a> </small>
+
+			<p>Great article, very interesting topic. Looking forward to part 2.</p>
+<p>@brooksbp: Thanks for the “Mac translation” as well.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-398872">
+			<cite>Juri Lelli<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/183735b3451784bf4d28f4a859d2c891" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-398872" title="">January 26th, 2011 at 19:54</a> </small>
+
+			<p>Very interesting article, looking forward to part 2 and beyond!</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-400441">
+			<cite><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow">Nadav</a><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/445d85945658eee0d8e01e88fc5895bc" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-400441" title="">January 27th, 2011 at 11:57</a> </small>
+
+			<p>Eli,<br>
+Distorm is an awesome project by an awesome dude (Gil aka Arkon).  One of the advantages of Distorm is its Python bindings. But, as you said, it does not have any elf/pe reading capabilities.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-416789">
+			<cite><a href="http://le-huy.blogspot.com/" rel="external nofollow">huy</a><a href="http://le-huy.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/caa659030d31d683a0f26a1e04bae52c" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-416789" title="">February 12th, 2011 at 22:08</a> </small>
+
+			<p>This is absolutely awesome post, high quality , very educating. I would like to point out that by understanding it we will know more about impact of capturing program back trace using gdb and pstack that is very popular technique used by administrator to watch the program behavior</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-731433">
+			<cite><a href="http://reborn2266.blogspot.com/" rel="external nofollow">Mars</a><a href="http://reborn2266.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/dd3b711ef11b74e76a05f693a2f3e403" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-731433" title="">November 1st, 2011 at 09:14</a> </small>
+
+			<p>Interesting!! I plan to translate this series of articles, “how debuggers work”, into Traditional Chinese. May I?<br>
+I will let you know the result when work is done. <img src="./How debuggers work  Part 1 – Basics_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-731452">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-731452" title="">November 1st, 2011 at 09:52</a> </small>
+
+			<p><b>Mars</b>,</p>
+<p>Sure thing, go ahead.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-889013">
+			<cite><a href="http://www.beautifulcode.pl/" rel="external nofollow">Lukasz Piwko</a><a href="http://www.beautifulcode.pl/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/83dba19fda82ad75ad9751f59e706e1f" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-889013" title="">April 22nd, 2012 at 11:39</a> </small>
+
+			<p>There is a Polish translation of this article at <a href="http://www.beautifulcode.pl/programowanie/c/jak-dzialaja-debugery/jak-dzialaja-debugery-czesc-1/" rel="nofollow">http://www.beautifulcode.pl/programowanie/c/jak-dzialaja-debugery/jak-dzialaja-debugery-czesc-1/</a> .</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-897119">
+			<cite><a href="http://www.bt4.pl/" rel="external nofollow">Lukasz Piwko</a><a href="http://www.bt4.pl/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/83dba19fda82ad75ad9751f59e706e1f" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-897119" title="">May 8th, 2012 at 18:24</a> </small>
+
+			<p>The address of the Polish translation has been changed to <a href="http://www.bt4.pl/programowanie/c/jak-dzialaja-debugery/jak-dzialaja-debugery-czesc-1/" rel="nofollow">http://www.bt4.pl/programowanie/c/jak-dzialaja-debugery/jak-dzialaja-debugery-czesc-1/</a> .</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-991880">
+			<cite>Rainer<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/9ea9ca4cd02d0a650b00efdce029a448" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-991880" title="">October 4th, 2012 at 15:35</a> </small>
+
+			<p>Great tutorial! What assembler did you use in order to build the Hello world example program?<br>
+All I can see is that it’s not as (no AT&amp;T syntax).</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-992010">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-992010" title="">October 4th, 2012 at 23:42</a> </small>
+
+			<p><b>Rainer</b>,</p>
+<p>That’s NASM. I like its clean, readable syntax.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-995285">
+			<cite>Jeet<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 1 – Basics_files/25917de5d1f7daacc5cf3601a650f2ae" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/#comment-995285" title="">October 13th, 2012 at 00:39</a> </small>
+
+			<p>Great article as always, Eli! I truly admire your dedicated effort towards writing such great articles with amazing clarity of thought.</p>
+<p>For other readers, or x86_64 system, in place of eip use rip. And procmsg, I am not sure where it came from. I used it as<br>
+#define procmsg printf</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="2381">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="bc09c4e264"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; position: absolute; top: -1px; left: 0px; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

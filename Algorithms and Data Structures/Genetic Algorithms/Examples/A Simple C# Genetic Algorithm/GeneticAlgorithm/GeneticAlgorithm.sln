@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithm", "GeneticAlgorithm.csproj", "{706521B7-F333-44CD-BCA0-B9675FAB6F2B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GATest", "..\GATest\GATest.csproj", "{B239B372-2960-4B99-ACDE-758E70433AF6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{706521B7-F333-44CD-BCA0-B9675FAB6F2B}.Debug.ActiveCfg = Debug|.NET
+		{706521B7-F333-44CD-BCA0-B9675FAB6F2B}.Debug.Build.0 = Debug|.NET
+		{706521B7-F333-44CD-BCA0-B9675FAB6F2B}.Release.ActiveCfg = Release|.NET
+		{706521B7-F333-44CD-BCA0-B9675FAB6F2B}.Release.Build.0 = Release|.NET
+		{B239B372-2960-4B99-ACDE-758E70433AF6}.Debug.ActiveCfg = Debug|.NET
+		{B239B372-2960-4B99-ACDE-758E70433AF6}.Debug.Build.0 = Debug|.NET
+		{B239B372-2960-4B99-ACDE-758E70433AF6}.Release.ActiveCfg = Release|.NET
+		{B239B372-2960-4B99-ACDE-758E70433AF6}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

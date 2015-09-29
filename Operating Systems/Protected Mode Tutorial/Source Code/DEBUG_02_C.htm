@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_02.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** DEBUG_02.C - Ausführung einer Funktion löst INT 1 aus
+**            - entspricht Zugriff auf CODE-Breakpoint
+**
+** Erste Version:     26.08.97
+** Letze Änderungen:  17.09.97
+**
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+*/
+
+#include "pmode.h"
+
+void main (void)
+	{
+    // Debug-Register 0 auf Funktion print setzen!
+    set_drx (0, ACCESS_READ, ACCESS_BYTE, &amp;print);
+
+    print (10, 10, "Hallo Welt vom Protected Mode aus BC 4.0 !!!", 0x0a);
+	}
+</PRE></BODY></HTML>

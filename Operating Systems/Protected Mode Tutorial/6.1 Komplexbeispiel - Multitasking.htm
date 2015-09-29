@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex1.htm -->
+<HTML><HEAD><TITLE>Komplexbeispiel - Multitasking</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Komplexbeispiel - Multitasking-Dateien/stone.jpg">
+<H1><FONT color=#800000>6 Komplexbeispiel - Multitasking</FONT></H1>
+<P>In diesem Kapitel wird ein Beispielprogramm für die Realisierung von 
+Mutlitasking in Assembler entwickelt. Dabei soll echtes, "pre-emptives" 
+Multitasking verwendet werden, um 4 unabhängig voneinander laufende Tasks zu 
+verwalten. Zu einem Task gehört in diesem Beispiel ein Code-, ein Daten-, ein 
+Stack- sowie ein Taskstate-Segment.</P>
+<H1><FONT color=#800000>6.1 Multitasking - Wie ?</FONT></H1>
+<P>Obwohl die Intel Prozessoren der 80x86-Reihe (ab dem 80286) bereits über die 
+Grundlagen verfügen, Multitasking zu realisieren, muß die eigentliche Logik der 
+Task-Umschaltung von einem Verwaltungsprogramm übernommen werden. Dabei wird der 
+Programmierer insofern unterstützt, daß er sich nicht um die Sicherung bzw. die 
+Wiederherstellung des Prozessorzustandes kümmern muß, denn dafür existiert 
+bereits das TS-Segment (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez2.htm">Vgl. Punkt 3.2 
+Multitasking</A>). Multitasking in der Form für jeden Task festlegen zu können, 
+wann und wie lange er ausgeführt wird, ist jedoch direkt nicht möglich. Denkbar 
+wäre z.B. innerhalb des TSS eine (Prozessorzeit-) Prioritätstufe für den Task 
+und eine minimale Prozessorzeit angeben zu können und das eigentliche 
+Multitasking (also auch die Umschaltung zwischen den Tasks) dem Prozessor zu 
+überlassen. Diese Möglichkeit wird jedoch nicht vom Prozessor unterstützt!</P>
+<P>Der erste Schritt muß es deshalb sein, eine Möglichkeit zu finden, eine 
+periodische Taskumschaltung zu erreichen. Mit anderen Worten: es muß eine 
+Routine existieren, die zum einen periodisch aufgerufen wird und zum anderen die 
+Möglichkeit besitzt, eine Taskumschaltung durchzuführen.</P>
+<P>Um einen Programmteil periodisch aufzurufen, wird hier der Timer-Interrupt 
+verwendet. Hardware-Interrupt 0 wird von einem Timer-Chip (PIT - Programmable 
+Interval Timer) über den Interrupt-Controller im Standardfall 18,2 mal in der 
+Sekunde aktiviert. Das heißt, der Eintrag in der IDT, der mit dem 
+Hardware-Interrupt 0 verbunden ist, wird 18,2 mal in der Sekunde aktiv. Welcher 
+Eintrag der IDT genau und wie die Frequenz des Timers eingestellt wird (18,2 mal 
+pro Sekunde ist zu langsam) wird weiter unten erläutert.</P>
+<P>Zweckmäßig wird der entsprechende Eintrag der IDT als Task-Gate angelegt, um 
+so einen Taskwechsel zur Interrupt-Routine zu erreichen. Diese Routine (bzw. 
+dieser Task, im folgenden auch als Task-Handler bezeichnet) muß nun dafür 
+sorgen, daß der Taskwechsel zwischen mehreren Tasks realisiert wird. Wenn 
+Interrupt 0 aktiviert wird, wird der momentan aktive Task für die Zeit des 
+Interrupt-Tasks unterbrochen und danach wieder fortgesetzt.</P>
+<P>Der Task-Handler muß bei jeder Aktivierung zum nächsten Task umschalten. 
+Dabei kann davon Gebrauch gemacht werden, daß der Task-Handler selbst als Task 
+ausgeführt wird. Gibt er die Task-Ausführung mit JMP FAR weiter, wird der 
+aktuelle Prozessorzustand im Task-Handler-TSS gespeichert, wobei CS:EIP auf den 
+Befehl nach dem JMP FAR zeigen. Wird der Task-Handler ein zweites Mal 
+ausgeführt, zeigt CS:EIP schon auf den nächsten Befehl (der theoretisch den 
+zweiten Task aufrufen kann) und so weiter. Abbildung 6.1 illustriert die 
+prinzipielle Task-Umschaltung zwischen zwei Tasks.</P>
+<CENTER>
+<P><IMG alt=Task-Wechsel src="Komplexbeispiel - Multitasking-Dateien/k_6_1.gif" 
+border=3> <BR><I><B>Abb. 6.1:</B> Taskwechsel im Beispielprogramm</I> 
+</P></CENTER>
+<P>Abb. 6.2 zeigt den Zustandsgraph der im Beispielprogramm durchgeführten 
+Taskwechsel anhand von 3 Tasks. Das Beispielprogramm verwendet insgesamt 5.</P>
+<CENTER>
+<P><IMG alt=Taskwechsel src="Komplexbeispiel - Multitasking-Dateien/k_6_2.gif" 
+border=3> <BR><I><B>Abb. 6.2:</B> Taskwechsel im Beispielprogramm</I> 
+</P></CENTER>
+<P>Dabei bedeuten:<BR>
+<UL>
+  <LI><B>Timer</B>, durch Timer-Interrupt ausgelöster Taskwechsel (Task-Handler 
+  wird aktiv). 
+  <LI><B>No Timer</B>, (noch) kein Timer-Ereignis aufgetreten; "endlose" 
+  Ausführung des entsprechenden Tasks. 
+  <LI><B>JMP</B>, durch JMP FAR ausgelöster Taskwechsel. </LI></UL>
+<P></P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_2.htm"><IMG alt=Zurück 
+src="Komplexbeispiel - Multitasking-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex2.htm"><IMG 
+alt=Weiter src="Komplexbeispiel - Multitasking-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_k"><IMG 
+alt="Zum Index" src="Komplexbeispiel - Multitasking-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

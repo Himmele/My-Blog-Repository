@@ -1,0 +1,21 @@
+/* http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/resources/jquery/jquery.makeCollapsible.css?view=markup&pathrev=78969 */
+/* See also jquery.makeCollapsible.js */
+.mw-collapsible-toggle {
+	float:right;
+}
+.mw-collapsible-toggle-expanded,
+.mw-collapsible-toggle-expanded a {
+	cursor:n-resize;
+}
+.mw-collapsible-toggle-collapsed,
+.mw-collapsible-toggle-collapsed a {
+	cursor:s-resize;
+}
+/* list-items go as wide as their parent element, don't float them inside list items */
+li .mw-collapsible-toggle {
+	float:none;
+}
+/* the added list item should have no list-style */
+.mw-collapsible-toggle-li {
+	list-style:none;
+}

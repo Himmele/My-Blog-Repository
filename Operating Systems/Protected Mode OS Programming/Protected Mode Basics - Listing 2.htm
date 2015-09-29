@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://x86.ddj.com/ftp/source/pmbasics/tspec_a1.l2 -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>; Listing 2 -- Exiting Protected Mode
+;
+;-----------------------------------------------------------------------------
+;
+; TSPEC_A1.L2
+;
+;       Copyright (c) 1991, 1995-Present  Robert Collins
+;
+;       You have my permission to copy and distribute this software for
+;       non-commercial purposes.  Any commercial use of this software or
+;       source code is allowed, so long as the appropriate copyright
+;       attributions (to me) are intact, *AND* my email address is properly
+;       displayed.
+;
+;       Basically, give me credit, where credit is due, and show my email
+;       address.
+;
+;-----------------------------------------------------------------------------
+;
+;       Robert R. Collins               email:  rcollins@x86.org
+;
+;-----------------------------------------------------------------------------
+
+
+;---------------------------------------------------------------;
+;                       BEGIN LISTING 2                         ;
+;---------------------------------------------------------------;
+; Equates &amp; local variables                                     ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;        Shutdown_CMD    equ     0feh    ; Shutdown CMD for KBC ;
+;                                                               ;
+;                                                               ;
+;---------------------------------------------------------------;
+; Macro definitions                                             ;
+;---------------------------------------------------------------;
+;Mfarjmp macro  destination,selector    ;dynamic JMP FAR SEG:OFF;
+;       db      0eah                    ;; jmp instruction      ;
+;       dw      offset destination      ;; offset word          ;
+;       dw      selector                ;; segment selector word;
+;       endm                                                    ;
+;                                                               ;
+;                                                               ;
+;_TEXT  SEGMENT WORD PUBLIC 'CODE'                              ;
+;       ASSUME CS:_TEXT, DS:_DATA, ES:_DATA, SS:NOTHING         ;
+;                                                               ;
+;       RESET_IDTR      label   fword                           ;
+;               dw      400h  - 1       ; Limit portion         ;
+;       HOSE_IDTR       df      0       ; Hosed value &amp; base    ;
+;                                       ;   address for IDTR    ;
+;                                                               ;
+;---------------------------------------------------------------;
+; RESET_CPU:  Resets the CPU by sending a shutdown command to
+;             the keyboard controller.
+;---------------------------------------------------------------
+; Input:   None
+; Output:  None
+; Register(s) modified:  Doesn't matter, the CPU is reset
+;---------------------------------------------------------------
+        mov     al,Shutdown_CMD ; get shutdown command
+        out     KBC_STAT,al     ; send command to shutdown CPU
+        cli                     ; disable interrupts so that
+                                ;  an INT can't come through
+                                ;  before the CPU resets
+        hlt                     ;
+
+
+;---------------------------------------------------------------
+; ELEGANT_RESET:  This is the elegant '286 RESET.  This code can
+;                 be used on both '286, and '386 CPU's.  The
+;                 '286 will be reset more efficiently than using
+;                 the KBC, while the '386 exits protected mode
+;                 in its native manner -- without being reset.
+;
+; !!! WARNING !!! This is NOT a subroutine.  This code should
+;                 be placed in-line with other source code.  It
+;                 should NOT be CALLed as a subroutine.
+;---------------------------------------------------------------
+; Since the 286 doesn't give us a way out of protected mode, we
+; need to reset the CPU.  The standard method for resetting the
+; CPU is issuing a command to the keyboard controller, that
+; yanks on the CPU RESET line.  But this method is very slow.
+; A much faster way to reset the CPU is to load the CPU with an
+; invalid interrupt descriptor table value (one whose LIMIT=0...
+; thus telling the CPU we can't service ANY interrupts), and
+; then generate an interrupt.  If the CPU faultS during the
+; inception of an interrupt routine, the CPU issues a DOUBLE
+; FAULT interrupt (INT08).  If the CPU again faults during the
+; inception of INT08, then the it TRIPLE FAULTS, and enters a
+; shutdown cycle, and RESET itself.  This method is about 33%
+; faster than issuing a command to the KBC.
+;---------------------------------------------------------------
+; Prepare to TRIPLE-FAULT the 286 by setting the limit portion
+; of the IDTR=0.  Then generate an interrupt.  This will cause
+; the 286 to triple-fault, thus resetting itself.  Execution
+; will resume @ F000:FFF0.
+;---------------------------------------------------------------
+        lidt    fword ptr CS:HOSE_IDTR  ; Limit=0 (illegal)
+
+;---------------------------------------------------------------
+; Now, if we are a 286, the next instruction will cause the
+; desired triple-fault -- because we just hosed the IDTR.  If
+; we are a 386, then MOV EAX,CR0 will execute just fine, and we
+; can begin the process of exiting protected mode.
+;---------------------------------------------------------------
+.386P
+        mov     eax,cr0         ; get CPU control register
+                                ; The 286 will resume execution
+                                ;   @ F000:FFF0, but the 386
+                                ;   will fall through.
+
+        lidt    fword ptr CS:Reset_IDTR ; restore w/ real-mode
+                                ;   compatible value.  We MUST
+                                ;   do this because real-mode
+                                ;   interrupts are relocatable
+                                ;   on the 386 via the IDT
+                                ;   register!
+
+        and     al,0feh         ; clear protected mode bit
+        mov     cr0,eax         ; now, we are out of prot mode
+
+        MFarjmp &lt;@RM&gt;,&lt;seg _TEXT&gt;
+
+.286P
+@RM:
+
+;---------------------------------------------------------------
+;                       END LISTING 2
+;---------------------------------------------------------------
+ 
+</PRE></BODY></HTML>

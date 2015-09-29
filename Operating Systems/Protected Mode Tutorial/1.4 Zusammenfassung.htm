@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys7.htm -->
+<HTML><HEAD><TITLE>Zusammenfassung</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#551a8b aLink=#ff0000 link=#0000ee bgColor=#c0c0c0 
+background="Real Mode - Zusammenfassung-Dateien/stone.jpg">
+<H1><FONT color=#800000>1.4 Zusammenfassung</FONT></H1>
+<P>Dieses Kapitel sollte zeigen, daß es auch im Realmode möglich ist, größere 
+Speicherbereiche anzusprechen bzw. Speicher über der 1 MB Grenze zu nutzen. 
+Leider haben alle obengenannten Verfahren und Schnittstellen einen Nachteil, sie 
+sind alle nur "Notlösungen". Aus diesem Grund sind sie nicht besonders schnell 
+und effizient zu nutzen.</P>
+<P>Beispielsweise ist es nicht möglich, in das Expanded oder Extended Memory 
+ausgelagerten Programmcode dort direkt auszuführen. Weiterhin verliert ein 
+Programm wertvolle Laufzeit, wenn es Zeit damit verschwenden muß, 
+Speicherbereiche, z.B. aus dem Extended Memory, kopieren zu müssen. Dieser 
+Nachteil läßt sich zwar durch die Verwendung eines EMM beheben (die Seiten 
+werden dabei direkt, ohne kopiert zu werden, in einen Speicherbereich unter 1 MB 
+eingeblendet), doch läßt sich die Logik der meisten Programme nur sehr schwer 
+oder überhaupt nicht darauf einstellen, mit maximal 16 KB großen Expanded Memory 
+Seiten zu arbeiten. </P>
+<P>Alle hier genannten Probleme lassen sich durch Nutzung des <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#pmode">Protected 
+Mode</A> umgehen, der schon seit der Einführung des 80286 Prozessors 1982 zur 
+Verfügung steht und in den folgenden Kapiteln näher betrachtet werden soll.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys6.htm"><IMG 
+alt=Zurück src="Real Mode - Zusammenfassung-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all1.htm"><IMG alt=Weiter 
+src="Real Mode - Zusammenfassung-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Real Mode - Zusammenfassung-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

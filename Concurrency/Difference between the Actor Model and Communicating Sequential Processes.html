@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<!-- saved from url=(0127)http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>What's the difference between the Actor Model of Concurrency and Communicating Sequential Processes - Theoretical Computer Science</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/cstheory/img/favicon.ico">
+    <link rel="apple-touch-icon" href="http://cdn.sstatic.net/cstheory/img/apple-touch-icon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="Theoretical Computer Science - Stack Exchange" href="http://cstheory.stackexchange.com/opensearch.xml">
+
+    
+    <script type="text/javascript" async="" src="./Difference between the Actor Model and Communicating Sequential Processes_files/ga.js"></script><script type="text/javascript" async="" src="./Difference between the Actor Model and Communicating Sequential Processes_files/quant.js"></script><script type="text/javascript" src="./Difference between the Actor Model and Communicating Sequential Processes_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./Difference between the Actor Model and Communicating Sequential Processes_files/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Difference between the Actor Model and Communicating Sequential Processes_files/all.css">
+    
+    <link rel="canonical" href="./Difference between the Actor Model and Communicating Sequential Processes_files/Difference between the Actor Model and Communicating Sequential Processes.html">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;What&#39;s the difference between the Actor Model of Concurrency and Communicating Sequential Processes&#39;" href="http://cstheory.stackexchange.com/feeds/question/184">
+<script src="./Difference between the Actor Model and Communicating Sequential Processes_files/citation.js" type="text/javascript"></script>    <script type="text/javascript">
+        
+        StackExchange.ready(function () {
+            
+            StackExchange.question.init({showCitation:true,showAnswerHelp:true,totalCommentCount:0,shownCommentCount:0,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:184});
+
+            styleCode();
+
+                StackExchange.realtime.subscribeToQuestion('114', '184');
+            
+                
+        });
+    </script>
+
+<script type="text/x-mathjax-config;executed=true">
+                MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+                                    tex2jax: { inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+                                    TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } } },
+                                    messageStyle: "none"
+                });
+         </script>
+        <script type="text/javascript" src="./Difference between the Actor Model and Communicating Sequential Processes_files/MathJax.js"></script>               
+
+        <script type="text/javascript">
+             StackExchange.ready(function () {
+                 StackExchange.realtime.init('ws://sockets-se.or.stackexchange.com:80,sockets-se.or.stackexchange.com:443');
+                StackExchange.realtime.subscribeToInboxNotifications();
+                                 StackExchange.realtime.subscribeToReputationNotifications('114');            
+                         });
+        </script>
+    <script type="text/javascript">
+        StackExchange.init({"stackAuthUrl":"https://stackauth.com","serverTime":1357117984,"enableUserHovercards":true,"site":{"name":"Theoretical Computer Science","description":"Q&A for theoretical computer scientists and researchers in related fields","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdsB7sSAAAAAAzjgEF_Hd8vXv-C42sa_KyofaGR","enableSocialMediaInSharePopup":true},"user":{"fkey":"cb2961d775ff64e606324c1221c652c6","isAnonymous":true}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"c862bf93b3ec","js/moderator.js":"37bba549a03e","js/full-anon.js":"27033739c1ff","js/full.js":"a75bd3a05af1","js/wmd.js":"0360a509b7c2","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/mobile.js":"6eb68240242f","js/help.js":"fc9fb0517db2","js/tageditor.js":"450c9e8426fc","js/tageditornew.js":"9ac6c13a3a7f","js/inline-tag-editing.js":"30f72b99548b","js/revisions.js":"8c6bcd93b7fe","js/review.js":"3a8e6a0a0dc8"});
+        StackExchange.using.setCacheBreakers({"js/mathjax-editing.js":"6da1b6cfe19f"});
+    </script>
+
+
+    <script type="text/javascript">
+        StackExchange.using(
+            "gps",
+            function () {
+                StackExchange.gps.init(false);
+            }
+        );
+    </script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuTitle {background-color: #CCCCCC; margin: -5px 0 0 0; text-align: center; font-style: italic; font-size: 80%; color: #444444; padding: 2px 0; overflow: hidden}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script async="" type="text/javascript" src="./Difference between the Actor Model and Communicating Sequential Processes_files/full-anon.js"></script></head>
+<body class="question-page"><div id="MathJax_Message" style="display: none; "></div>
+    <noscript>&lt;div id="noscript-padding"&gt;&lt;/div&gt;</noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+                <a class="genu" onclick="StackExchange.ready(function(){genuwine.click();});return false;">Stack Exchange</a>
+            </div>
+            <div id="topbar">
+                <div id="hlinks">
+                    
+
+
+
+
+
+
+
+
+
+<span id="hlinks-user">
+
+</span>
+<span id="hlinks-nav">
+                   <a href="http://cstheory.stackexchange.com/users/login?returnurl=%2fquestions%2f184%2fwhats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s">log in</a>
+
+ <span class="lsep">|</span>
+
+</span>
+<span id="hlinks-custom">
+        <a href="http://chat.stackexchange.com/">chat</a>
+
+ <span class="lsep">|</span>
+                <a href="http://meta.cstheory.stackexchange.com/">meta</a>
+
+ <span class="lsep">|</span>
+        <a href="http://cstheory.stackexchange.com/about">about</a>
+
+ <span class="lsep">|</span>
+    <a href="http://cstheory.stackexchange.com/faq">faq</a>
+
+</span>
+                </div>
+                <div id="hsearch">
+                    <form id="search" action="http://cstheory.stackexchange.com/search" method="get" autocomplete="off">
+                    <div>
+                        <input autocomplete="off" name="q" class="textbox" placeholder="search" tabindex="1" type="text" maxlength="140" size="28" value="">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://cstheory.stackexchange.com/">Theoretical Computer Science</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="http://cstheory.stackexchange.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://cstheory.stackexchange.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://cstheory.stackexchange.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://cstheory.stackexchange.com/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://cstheory.stackexchange.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://cstheory.stackexchange.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-content"><script>
+StackExchange.ready(function () {
+    $.ajax({
+        url: "http://cdn.prom.sstatic.net/WinterBash/js/core.js?v=3",
+        dataType: "script",
+        cache: true
+    }).done(function () {
+        WinterBash.core.init('winterba.sh', 'http://cdn.prom.sstatic.net/WinterBash/');
+    });
+});
+</script></div>
+
+
+
+        <div id="content">
+            
+
+<div itemscope="" itemtype="http://schema.org/Article">
+<link itemprop="image" href="http://cdn.sstatic.net/cstheory/img/apple-touch-icon.png">
+<div id="question-header">
+    <h1 itemprop="name"><a href="./Difference between the Actor Model and Communicating Sequential Processes_files/Difference between the Actor Model and Communicating Sequential Processes.html" class="question-hyperlink">What's the difference between the Actor Model of Concurrency and Communicating Sequential Processes</a></h1>
+</div>
+<div id="mainbar">
+
+
+
+<div class="question" id="question" data-questionid="184">
+    
+    <table>
+    <tbody><tr>
+    <td class="votecell">
+        
+
+<div class="vote">
+    <input type="hidden" value="184">
+    <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+    <span class="vote-count-post ">11</span>
+    <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+    
+    <a class="star-off" href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s#" title="This is a favorite question (click again to undo)">favorite</a>
+    <div class="favoritecount"><b>7</b></div>   
+
+ 
+</div>
+
+    </td>
+    
+<td class="postcell">
+<div>          
+    <div class="post-text" itemprop="description">
+        <p>I'm trying to wrap my head around what the real differences between the Actor Model of concurrency and Communicating Sequential Processes (CSP) model of concurrency.  </p>
+
+<p>So far the best that I have been able to come up with is that the Actor Model allows the number and layout of nodes to change while CSP has a fixed structure of nodes.</p>
+
+    </div>            
+    <div class="post-taglist">
+        <a href="http://cstheory.stackexchange.com/questions/tagged/concurrency" class="post-tag" title="show questions tagged &#39;concurrency&#39;" rel="tag">concurrency</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://cstheory.stackexchange.com/q/184" title="short permalink to this question" class="short-link" id="link-post-184">share</a><span class="lsep">|</span><a href="http://cstheory.stackexchange.com/posts/184/edit" class="suggest-edit-post" title="">improve this question</a></div>
+    </td>
+    <td class="post-signature owner">
+    
+
+    <div class="user-info ">
+        <div class="user-action-time">
+                                    asked
+ <span title="2010-08-17 17:51:24Z" class="relativetime">Aug 17 '10 at 17:51</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://cstheory.stackexchange.com/users/69/twhitlock"><div class=""><img src="./Difference between the Actor Model and Communicating Sequential Processes_files/9071067d7c5534f75a1c42a1a41aa0fd" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://cstheory.stackexchange.com/users/69/twhitlock">twhitlock</a><br>
+            <span class="reputation-score" title="reputation score" dir="ltr">58</span><span title="5 bronze badges"><span class="badge3"></span><span class="badgecount">5</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>    </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-184" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful" style="color: rgb(136, 136, 136); ">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>    
+</div>
+
+
+    
+
+
+<div id="answers">
+
+    <a name="tab-top"></a>
+    <div id="answers-header">
+        <div class="subheader answers-subheader">
+            <h2>
+                    1 Answer
+            </h2>
+            <div id="tabs">
+                <a href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+<a href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+<a class="youarehere" href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+
+            </div>
+        </div>    
+    </div>    
+
+
+
+
+
+  
+    <a name="188"></a>
+    <div id="answer-188" class="answer accepted-answer" data-answerid="188">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+
+<div class="vote">
+    <input type="hidden" value="188">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">8</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+            <span class="vote-accepted-on load-accepted-answer-date" title="The question owner accepted this as the best answer Aug 18 &#39;10 at 18:41">accepted</span>
+ 
+</div>
+
+        </td>
+        
+
+
+<td class="answercell">
+    <div class="post-text"><p>I believe one core difference is that in CSP, processes synchronize when messages are received (i.e. a message cannot be sent from one process unless another process is in a receiving mode), while the Actor model is inherently asynchronous (i.e. messages are immediately sent to other processes' address, irrespective of whether they're actively waiting on a message or not).</p>
+
+<p>There should be another answer that is more well-developed, however.</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://cstheory.stackexchange.com/a/188" title="short permalink to this answer" class="short-link" id="link-post-188">share</a><span class="lsep">|</span><a href="http://cstheory.stackexchange.com/posts/188/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    
+
+    <div class="user-info user-hover">
+        <div class="user-action-time">
+                                    answered
+ <span title="2010-08-17 18:13:34Z" class="relativetime">Aug 17 '10 at 18:13</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://cstheory.stackexchange.com/users/108/daniel-apon"><div class=""><img src="./Difference between the Actor Model and Communicating Sequential Processes_files/88833a588c5932b5fa72f6e6108b7433" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://cstheory.stackexchange.com/users/108/daniel-apon">Daniel Apon</a><br>
+            <span class="reputation-score" title="reputation score" dir="ltr">3,076</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="13 silver badges"><span class="badge2"></span><span class="badgecount">13</span></span><span title="34 bronze badges"><span class="badge3"></span><span class="badgecount">34</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-188" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-215" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">That's pretty much the answer I would have written. In the original actor model (Hewitt, Agha), the receiving process did not even automatically provide access to the name of the sender, though more modern realisations (such as Scala's actors) do.
+
+The other difference is that actors enable the sending of actor ids in the messages, as hinted in the question, whereas this is not possible in CSP. (Also possible in the pi-calculus, but not in CCS.)</span> –&nbsp;<a href="http://cstheory.stackexchange.com/users/77/dave-clarke" title="11809 reputation" class="comment-user">Dave Clarke<span class="mod-flair" title="moderator">♦</span></a> <span class="comment-date" dir="ltr"><a class="comment-link" onclick="StackExchange.question.highlightComment(215, 188)" href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s#comment215_188"><span title="2010-08-17 18:30:54Z" class="relativetime-clean">Aug 17 '10 at 18:30</span></a></span></div></td>
+    </tr>
+            
+    <tr id="comment-1462" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">So, basically, it's all about the mailbox?</span> –&nbsp;<a href="http://cstheory.stackexchange.com/users/846/jorg-w-mittag" title="101 reputation" class="comment-user">Jörg W Mittag</a> <span class="comment-date" dir="ltr"><a class="comment-link" onclick="StackExchange.question.highlightComment(1462, 188)" href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s#comment1462_188"><span title="2010-09-03 22:29:59Z" class="relativetime-clean">Sep 3 '10 at 22:29</span></a></span></div></td>
+    </tr>
+            
+    <tr id="comment-1818" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">What about the differences listed here:
+<a href="http://en.wikipedia.org/wiki/Actor_model_and_process_calculi_history#Early_work" rel="nofollow">en.wikipedia.org/wiki/…</a> and
+<a href="http://en.wikipedia.org/wiki/Actor_model#Contrast_with_other_models_of_message-passing_concurrency" rel="nofollow">en.wikipedia.org/wiki/…</a> ? Another important difference, for earlier versions of CSP, is unbounded nondeterminism (see those links).</span> –&nbsp;<a href="http://cstheory.stackexchange.com/users/989/blaisorblade" title="261 reputation" class="comment-user">Blaisorblade</a> <span class="comment-date" dir="ltr"><a class="comment-link" onclick="StackExchange.question.highlightComment(1818, 188)" href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s#comment1818_188"><span title="2010-09-09 03:24:21Z" class="relativetime-clean">Sep 9 '10 at 3:24</span></a></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful" style="color: rgb(136, 136, 136); ">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>
+</div>
+    <a name="new-answer"></a>
+    <form id="post-form" action="http://cstheory.stackexchange.com/questions/184/answer/submit" method="post" class="post-form">
+        <h2 class="space">Your Answer</h2>
+
+
+        <script type="text/javascript">
+            StackExchange.ifUsing("editor", function () {
+                return StackExchange.using("mathjaxEditing", function () {
+                    StackExchange.MarkdownEditor.creationCallbacks.add(function (editor, postfix) {
+                        StackExchange.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\(","\\\\)"]]);
+                    });
+                });
+            }, "mathjax-editing");
+        </script>
+
+
+<script type="text/javascript">
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+         
+        prepareEditor({
+            heartbeatType: 'answer',
+            bindNavPrevention: true,
+            postfix: "",
+noCode: true,            onDemand: true,
+            discardSelector: ".discard-answer"
+            ,immediatelyShowMarkdownHelp:true
+        });
+        
+
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor">  
+
+    
+    <div class="wmd-container">
+        <div id="wmd-button-bar" class="wmd-button-bar"><ul id="wmd-button-row" class="wmd-button-row"><li id="wmd-bold-button" class="wmd-button" style="left: 0px; "><span style="background-position: 0px -20px; "></span></li><li id="wmd-italic-button" class="wmd-button" style="left: 25px; "><span style="background-position: -20px -20px; "></span></li><li id="wmd-spacer1" class="wmd-spacer" style="left: 50px; "><span style="background-position: -40px -20px; "></span></li><li id="wmd-link-button" class="wmd-button" style="left: 75px; "><span style="background-position: -40px -20px; "></span></li><li id="wmd-quote-button" class="wmd-button" style="left: 100px; "><span style="background-position: -60px -20px; "></span></li><li id="wmd-code-button" class="wmd-button" style="left: 125px; "><span style="background-position: -80px -20px; "></span></li><li id="wmd-image-button" class="wmd-button" style="left: 150px; "><span style="background-position: -100px -20px; "></span></li><li id="wmd-spacer2" class="wmd-spacer" style="left: 175px; "><span style="background-position: -120px -20px; "></span></li><li id="wmd-olist-button" class="wmd-button" style="left: 200px; "><span style="background-position: -120px -20px; "></span></li><li id="wmd-ulist-button" class="wmd-button" style="left: 225px; "><span style="background-position: -140px -20px; "></span></li><li id="wmd-heading-button" class="wmd-button" style="left: 250px; "><span style="background-position: -160px -20px; "></span></li><li id="wmd-hr-button" class="wmd-button" style="left: 275px; "><span style="background-position: -180px -20px; "></span></li><li id="wmd-spacer3" class="wmd-spacer" style="left: 300px; "><span style="background-position: -200px -20px; "></span></li><li id="wmd-undo-button" class="wmd-button" style="left: 325px; "><span style="background-position: -200px -20px; "></span></li><li id="wmd-redo-button" class="wmd-button" style="left: 350px; "><span style="background-position: -220px -20px; "></span></li></ul></div>
+        <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="cb2961d775ff64e606324c1221c652c6">
+        <input id="author" name="author" type="text">
+    </div>
+</div>            <div class="form-item">
+        <table>
+        <tbody><tr>
+            <td class="vm open-id-login">
+                <a id="login-link" style="font-size: 200%; margin-left: 30px;" href="http://cstheory.stackexchange.com/users/login?returnurl=%2fquestions%2f184%2fwhats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s">log in</a>
+                <script type="text/javascript">
+                    StackExchange.ready(function () {
+                        StackExchange.helpers.onClickDraftSave('#login-link');
+                    });
+                </script>
+            </td>
+            <td class="orcell">
+                <div class="orword">or</div>
+                <div class="orline"></div>
+            </td>
+            <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="text" size="40" maxlength="100" value="" tabindex="106">
+                    <span class="edit-field-overlay">required, but never shown</span>
+                </div>
+                <div>
+                    <label for="home-page">Home Page</label>
+                    <input id="home-page" name="home-page" type="text" size="40" maxlength="200" value="" tabindex="107">
+                </div>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+           
+            <div class="form-submit cbt">
+            <input id="submit-button" type="submit" value="Post Your Answer" tabindex="110">
+            <a href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s#" class="discard-answer dno">discard</a>
+    <p class="privacy-policy-agreement">
+        By posting your answer, you agree to the 
+        <a href="http://stackexchange.com/legal/privacy-policy" target="_blank">privacy policy</a> and 
+        <a href="http://stackexchange.com/legal/terms-of-service" target="_blank">terms of service</a>.
+    </p>
+        </div>
+    </form>
+
+
+
+        <h2 class="bottom-notice">
+                Not the answer you're looking for? 
+            Browse other questions tagged <a href="http://cstheory.stackexchange.com/questions/tagged/concurrency" class="post-tag" title="show questions tagged &#39;concurrency&#39;" rel="tag">concurrency</a> 
+                or <a href="http://cstheory.stackexchange.com/questions/ask">ask your own question</a>.
+        </h2>
+</div>
+</div>
+<div id="sidebar">
+
+
+
+     <script type="text/javascript">
+        window.showNewUser = true;
+
+            
+                (function(){
+                    var cs = window.sessionStorage && window.sessionStorage['tNewsletter'];
+                    var m = /:\/\/([^\/]*)/.exec(document.referrer);
+                    var h = {'www.reddit.com':1,'news.ycombinator.com':1};
+                    if(window.sessionStorage && (cs || (m && m.length == 2 && h[m[1]]))){
+                        showNewUser = false;
+                        StackExchange.ready(function(){
+                            StackExchange.newsletterAd.loader(m[1], cs);
+                        });
+                    }
+                    if (window.localStorage && showNewUser){
+                        var c = parseInt(localStorage['nuCounter'],10); 
+                        c = isNaN(c) ? 1 : c+1;
+                        window.localStorage['nuCounter'] = c; 
+                        showNewUser = c < 10;
+                    }
+                })()
+            
+     </script>
+    <div class="module newuser newuser-greeting" id="newuser-box" style="">
+        <h4>Welcome!</h4>
+        <div>
+            <p>This is a collaboratively edited question and answer site for <b>theoretical computer scientists and researchers in related fields</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="http://meta.cstheory.stackexchange.com/">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+            <p class="ar"><a href="http://cstheory.stackexchange.com/about?mnu=1">about »</a>&nbsp;&nbsp;&nbsp;<a href="http://cstheory.stackexchange.com/faq?mnu=1">faq »</a>
+&nbsp; <a href="http://meta.cstheory.stackexchange.com/">meta »</a>            </p>
+        </div>
+    </div>
+     <script type="text/javascript">
+        if (showNewUser) {
+            document.getElementById('newuser-box').style.display = '';
+        }
+     </script>
+        <div class="module question-stats">
+        <p class="label-key">tagged</p>
+        <div class="tagged"><a href="http://cstheory.stackexchange.com/questions/tagged/concurrency" class="post-tag" title="show questions tagged &#39;concurrency&#39;" rel="tag">concurrency</a>&nbsp;<span class="item-multiplier"><span class="item-multiplier-x">×</span>&nbsp;<span class="item-multiplier-count">16</span></span><br>
+</div>
+        <table id="qinfo">
+            <tbody><tr>
+                <td><p class="label-key">asked</p></td>
+                <td style="padding-left:10px"><p class="label-key" title="2010-08-17 17:51:24Z"><b>2 years ago</b></p></td>
+            </tr>
+            <tr>
+                <td><p class="label-key">viewed</p></td>
+
+                <td style="padding-left:10px">
+                    <p class="label-key">
+                        <b>339 times</b>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="label-key">active</p></td>
+                <td style="padding-left:10px"><p class="label-key"><b><a href="http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s?lastactivity" class="lastactivity-link" title="2010-08-17 18:13:34Z">2 years ago</a></b></p></td>
+            </tr>
+        </tbody></table>
+    </div>
+    
+<div class="module community-bulletin" data-tracker="cb=1">
+    <h4>Community Bulletin</h4>
+    <div class="related">
+        <div class="spacer">
+            <div class="bulletin-item-type"><a href="http://meta.cstheory.stackexchange.com/?cb=1" class="event-date" target="_blank">meta</a></div>
+            <div class="bulletin-item-content">
+                <a href="http://meta.cstheory.stackexchange.com/questions/1633/what-are-the-avatars-supplements-hats?cb=1" class="question-hyperlink" target="_blank">What are the avatar's supplements (hats)?</a>
+            </div>
+            <br class="cbt">
+        </div>
+        <div class="spacer">
+            <div class="bulletin-item-type"><a href="http://meta.cstheory.stackexchange.com/?cb=1" class="event-date" target="_blank">meta</a></div>
+            <div class="bulletin-item-content">
+                <a href="http://meta.cstheory.stackexchange.com/questions/1625/why-has-the-automata-enlightment-question-received-so-many-up-votes?cb=1" class="question-hyperlink" target="_blank">Why has the 'Automata-Enlightment' question received so many up-votes?</a>
+            </div>
+            <br class="cbt">
+        </div>
+        <div class="spacer">
+            <div class="bulletin-item-type"><a href="http://meta.cstheory.stackexchange.com/?cb=1" class="event-date" target="_blank">meta</a></div>
+            <div class="bulletin-item-content">
+                <a href="http://meta.cstheory.stackexchange.com/questions/1623/how-can-i-find-reviewers-for-a-complexity-theory-book-i-help-editing?cb=1" class="question-hyperlink" target="_blank">How can I find reviewers for a (complexity theory) book I help editing?</a>
+            </div>
+            <br class="cbt">
+        </div>
+        <div class="spacer">
+            <div class="bulletin-item-type"><a href="http://meta.cstheory.stackexchange.com/?cb=1" class="event-date" target="_blank">meta</a></div>
+            <div class="bulletin-item-content">
+                <a href="http://meta.cstheory.stackexchange.com/questions/1618/tcs-community-on-google-plus?cb=1" class="question-hyperlink" target="_blank">TCS community on Google Plus</a>
+            </div>
+            <br class="cbt">
+        </div>
+    </div>
+</div>    
+    
+
+
+      
+    
+    <div class="module sidebar-related">
+        <h4 id="h-related">Related</h4>
+        <div class="related" data-tracker="rq=1">
+            <div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/6/process-modeling-with-fine-grained-notions-of-location?rq=1" class="question-hyperlink">Process modeling with fine-grained notions of location</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/235/parallel-dynamic-search?rq=1" class="question-hyperlink">Parallel Dynamic Search</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/482/what-is-the-quantum-computational-model?rq=1" class="question-hyperlink">What is the quantum computational model?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/3187/what-is-mathematical-difference-between-random-and-unique?rq=1" class="question-hyperlink">What is mathematical difference between “random” and “unique”?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/3842/whats-the-difference-between-online-and-incremental-optimization?rq=1" class="question-hyperlink">What's the difference between online and incremental optimization?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/4591/limits-on-lock-free-collections?rq=1" class="question-hyperlink">Limits on lock-free collections?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/5937/difference-between-strict-consistency-and-sequential-consistency?rq=1" class="question-hyperlink">Difference between Strict Consistency and Sequential Consistency</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/6735/what-is-the-difference-between-ltl-and-ctl?rq=1" class="question-hyperlink">What is the difference between LTL and CTL?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/6958/definition-of-a-hereditary-relation?rq=1" class="question-hyperlink">Definition of a hereditary relation</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/7083/a-practical-multi-word-compare-and-swap-operation?rq=1" class="question-hyperlink">A practical multi-word compare-and-swap operation</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/7515/are-the-actor-model-and-process-algebra-equivalent?rq=1" class="question-hyperlink">Are the Actor Model and Process Algebra “equivalent”?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/7683/on-the-bakery-mutual-exclusion-algorithm?rq=1" class="question-hyperlink">On the Bakery Mutual exclusion Algorithm</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/8231/what-is-the-equivalence-class-of-a-given-polytree-representing-a-directed-graphi?rq=1" class="question-hyperlink">what is the equivalence class of a given polytree representing a directed graphical model?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/9826/what-is-the-difference-between-propositions-and-judgments?rq=1" class="question-hyperlink">What is the difference between propositions and judgments?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/12070/lock-free-constant-update-time-concurrent-tree-data-structures?rq=1" class="question-hyperlink">Lock-free, constant update-time concurrent tree data-structures?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/12651/what-is-the-real-difference-between-traveling-salesman-problem-tsp-and-vehicle?rq=1" class="question-hyperlink">what is the real difference between traveling salesman problem (TSP) and vehicle routing problem (VRP)?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/13993/question-about-concurrent-zk-paper-by-prabhakaran-sahai?rq=1" class="question-hyperlink">question about concurrent ZK paper by Prabhakaran &amp; Sahai</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14199/what-is-the-difference-between-meaning-and-denotation?rq=1" class="question-hyperlink">What is the difference between meaning and denotation?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14215/semantics-of-concurrent-languages?rq=1" class="question-hyperlink">Semantics of concurrent languages</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14289/how-are-futures-described-in-terms-of-category-theory?rq=1" class="question-hyperlink">How are Futures described in terms of category theory?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14361/difference-between-weak-duality-and-strong-duality?rq=1" class="question-hyperlink">Difference between weak duality and strong duality?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14363/does-mathematical-model-for-conccurent-computations-exist?rq=1" class="question-hyperlink">Does mathematical model for conccurent computations exist?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14642/what-are-the-parts-of-consistency-model-playing-in-hardware-operating-system-a?rq=1" class="question-hyperlink">What are the parts of consistency model playing in hardware, operating system, and programming language?</a>
+</div>
+<div class="spacer">
+<a href="http://cstheory.stackexchange.com/questions/14785/sequential-consistency-cannot-find-a-sufficient-explanation?rq=1" class="question-hyperlink">Sequential Consistency, cannot find a sufficient explanation</a>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<div id="feed-link">
+    <div id="feed-link-text"><a href="http://cstheory.stackexchange.com/feeds/question/184" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+</div>
+<script type="text/javascript">
+StackExchange.ready(function(){$.get('/posts/184/ivc/74fa');});
+</script>
+<noscript>
+    &lt;div&gt;&lt;img src="/posts/184/ivc/74fa" class="dno" alt="" width="0" height="0"&gt;&lt;/div&gt;
+</noscript></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="http://cstheory.stackexchange.com/about">about</a> |
+                <a href="http://cstheory.stackexchange.com/faq">faq</a> |
+                <a href="http://cstheory.blogoverflow.com/?blb=1">blog</a> |
+                    <a href="http://chat.stackexchange.com/">chat</a> |
+                <a href="http://data.stackexchange.com/">data</a> |
+                <a href="http://stackexchange.com/legal">legal</a> |
+                <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a> |
+                <a href="http://stackexchange.com/about/hiring">jobs</a> |
+                <a href="http://stackexchange.com/about/contact">advertising info</a> |
+
+                <a onclick="StackExchange.switchMobile(&#39;on&#39;, &#39;/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s&#39;)">mobile</a> |
+
+                <b><a href="http://cstheory.stackexchange.com/help">contact us</a></b>
+                  | <b><a href="http://meta.cstheory.stackexchange.com/">feedback</a></b>
+                <div id="footer-sites">
+                    
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackoverflow.com/">stackoverflow.com</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackapps.com/">api/apps</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://careers.stackoverflow.com/">careers 2.0</a>&nbsp; 
+                        <span style="color:#E8272C;font-size:140%">■</span>&nbsp;<a href="http://serverfault.com/">serverfault.com</a>&nbsp; 
+                        <span style="color:#00AFEF;font-size:140%">■</span>&nbsp;<a href="http://superuser.com/">superuser.com</a>&nbsp; 
+                        <span style="color:#969696;font-size:140%">■</span>&nbsp;<a href="http://meta.stackoverflow.com/">meta</a>&nbsp; 
+                        <span style="color:#46937D;font-size:140%">■</span>&nbsp;<a href="http://area51.stackexchange.com/">area&nbsp;51</a>&nbsp; 
+                        <span style="color:#C0D0DC;font-size:140%">■</span>&nbsp;<a href="http://webapps.stackexchange.com/">webapps</a>&nbsp; 
+                        <span style="color:#000000;font-size:140%">■</span>&nbsp;<a href="http://gaming.stackexchange.com/">gaming</a>&nbsp; 
+                        <span style="color:#dd4814;font-size:140%">■</span>&nbsp;<a href="http://askubuntu.com/">ubuntu</a>&nbsp; 
+                        <span style="color:#9ce4fe;font-size:140%">■</span>&nbsp;<a href="http://webmasters.stackexchange.com/">webmasters</a>&nbsp; 
+                        <span style="color:#cf4d3f;font-size:140%">■</span>&nbsp;<a href="http://cooking.stackexchange.com/">cooking</a>&nbsp; 
+                        <span style="color:#f4f28d;font-size:140%">■</span>&nbsp;<a href="http://gamedev.stackexchange.com/">game development</a>&nbsp; 
+                        <span style="color:#0f3559;font-size:140%">■</span>&nbsp;<a href="http://math.stackexchange.com/">math</a>&nbsp; 
+                        <span style="color:#f2f2f2;font-size:140%">■</span>&nbsp;<a href="http://photo.stackexchange.com/">photography</a>&nbsp; 
+                        <span style="color:#037187;font-size:140%">■</span>&nbsp;<a href="http://stats.stackexchange.com/">stats</a>&nbsp; 
+                        <span style="color:#f1e7cc;font-size:140%">■</span>&nbsp;<a href="http://tex.stackexchange.com/">tex</a>&nbsp; 
+                        <span style="color:#e1cdae;font-size:140%">■</span>&nbsp;<a href="http://english.stackexchange.com/">english</a>&nbsp; 
+                        <span style="color:#a2d9f6;font-size:140%">■</span>&nbsp;<a href="http://cstheory.stackexchange.com/">theoretical cs</a>&nbsp; 
+                        <span style="color:#1b3e6c;font-size:140%">■</span>&nbsp;<a href="http://programmers.stackexchange.com/">programmers</a>&nbsp; 
+                        <span style="color:#293a5d;font-size:140%">■</span>&nbsp;<a href="http://unix.stackexchange.com/">unix</a>&nbsp;
+                        <span style="color:#bec0cb;font-size:140%">■</span>&nbsp;<a href="http://apple.stackexchange.com/">apple</a>&nbsp;
+                        <span style="color:#939185;font-size:140%">■</span>&nbsp;<a href="http://wordpress.stackexchange.com/">wordpress</a>&nbsp;
+                        <span style="color:#ebf5f5;font-size:140%">■</span>&nbsp;<a href="http://physics.stackexchange.com/">physics</a>&nbsp;
+                        <span style="color:#4176ab;font-size:140%">■</span>&nbsp;<a href="http://diy.stackexchange.com/">home&nbsp;improvement</a>&nbsp;
+                        <span style="color:#d1d8d7;font-size:140%">■</span>&nbsp;<a href="http://gis.stackexchange.com/">gis</a>&nbsp;
+                        <span style="color:#e5e2d3;font-size:140%">■</span>&nbsp;<a href="http://electronics.stackexchange.com/">electrical&nbsp;engineering</a>&nbsp;
+                        <span style="color:#a4c639;font-size:140%">■</span>&nbsp;<a href="http://android.stackexchange.com/">android</a>&nbsp;
+                        <span style="color:#2e4e60;font-size:140%">■</span>&nbsp;<a href="http://security.stackexchange.com/">security</a>&nbsp;
+                        <span style="color:#45bcb5;font-size:140%">■</span>&nbsp;<a href="http://bicycles.stackexchange.com/">bicycles</a>&nbsp;
+                        <span style="color:#00adee;font-size:140%">■</span>&nbsp;<a href="http://dba.stackexchange.com/">dba</a>&nbsp;
+                        <span style="color:#2edaf0;font-size:140%">■</span>&nbsp;<a href="http://drupal.stackexchange.com/">drupal</a>&nbsp;
+                        <span style="color:#213951;font-size:140%">■</span>&nbsp;<a href="http://sharepoint.stackexchange.com/">sharepoint</a>&nbsp;
+                        <span style="color:#73abb3;font-size:140%">■</span>&nbsp;<a href="http://scifi.stackexchange.com/">scifi &amp; fantasy</a>&nbsp;
+                        <span style="color:#23629F;font-size:140%">■</span>&nbsp;<a href="http://ux.stackexchange.com/">user experience</a>&nbsp;
+                        <span style="color:#faff72;font-size:140%">■</span>&nbsp;<a href="http://skeptics.stackexchange.com/">skeptics</a>&nbsp;
+                        <span style="color:#623121;font-size:140%">■</span>&nbsp;<a href="http://rpg.stackexchange.com/">rpg</a>&nbsp;
+                        <span style="color:#e4be88;font-size:140%">■</span>&nbsp;<a href="http://judaism.stackexchange.com/">judaism</a>&nbsp;
+                        <span style="color:#ffecb1;font-size:140%">■</span>&nbsp;<a href="http://mathematica.stackexchange.com/">mathematica</a>&nbsp;
+                </div>
+            </div>
+            <div id="footer-flair">
+                <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
+	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
+                <div id="svnrev">rev 2012.12.31.713</div>
+                        </div>
+            <div id="copyright">
+                site design / logo © 2013 stack exchange inc; 
+                user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            
+
+        </div>
+    <iframe id="global-auth-frame" style="display:none" src="./Difference between the Actor Model and Communicating Sequential Processes_files/read.html"></iframe></div>
+    
+    <noscript>
+        &lt;div id="noscript-warning"&gt;Theoretical Computer Science - Stack Exchange works best with JavaScript enabled&lt;img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"&gt;&lt;/div&gt;
+    </noscript>
+    <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-5620270-24']);
+        _gaq.push(['_setDomainName','.stackexchange.com']);
+        _gaq.push(['_setCustomVar', 1, 'tags', '|concurrency|']); 
+_gaq.push(['_trackPageview']);
+    var _qevents = _qevents || [];
+    (function(){
+        var s=document.getElementsByTagName('script')[0];
+        var ga=document.createElement('script');
+        ga.type='text/javascript';
+        ga.async=true;
+        ga.src='http://www.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(ga,s);
+        var sc=document.createElement('script');
+        sc.type='text/javascript';
+        sc.async=true;
+        sc.src='http://edge.quantserve.com/quant.js'; 
+        s.parentNode.insertBefore(sc,s);
+    })();
+    </script>
+    <script type="text/javascript">
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>    
+    
+
+</body></html>

@@ -1,0 +1,951 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0035)http://www.genetic-programming.com/ -->
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = 
+"urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>genetic-programming.com-Home-Page</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content=Word.Document name=ProgId>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR>
+<META content="Microsoft Word 9" name=Originator><LINK 
+href="./index_files/filelist.xml" rel=File-List><LINK 
+href="./index_files/editdata.mso" rel=Edit-Time-Data><!--[if !mso]>
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>80</w:Zoom>
+ </w:WordDocument>
+</xml><![endif]-->
+<STYLE>@font-face {
+	font-family: Times;
+}
+@font-face {
+	font-family: Arial Unicode MS;
+}
+@font-face {
+	font-family: @Arial Unicode MS;
+}
+@page Section1 {size: 8.5in 11.0in; margin: 1.0in 1.25in 1.0in 1.25in; mso-header-margin: .5in; mso-footer-margin: .5in; mso-paper-source: 0; }
+P.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+LI.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+DIV.MsoNormal {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+P {
+	FONT-SIZE: 12pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto
+}
+CODE {
+	mso-fareast-font-family: "Courier New"; mso-ascii-font-family: "Courier New"; mso-hansi-font-family: "Courier New"; mso-bidi-font-family: "Courier New"
+}
+TT {
+	mso-fareast-font-family: "Courier New"; mso-ascii-font-family: "Courier New"; mso-hansi-font-family: "Courier New"; mso-bidi-font-family: "Courier New"
+}
+P.TableEntry {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Table Entry"; tab-stops: decimal 13.0pt left 225.0pt
+}
+LI.TableEntry {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Table Entry"; tab-stops: decimal 13.0pt left 225.0pt
+}
+DIV.TableEntry {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: "Table Entry"; tab-stops: decimal 13.0pt left 225.0pt
+}
+P.Enumerate {
+	FONT-SIZE: 12pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; tab-stops: 40.0pt; mso-line-height-alt: 1.0pt; mso-bidi-font-size: 10.0pt
+}
+LI.Enumerate {
+	FONT-SIZE: 12pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; tab-stops: 40.0pt; mso-line-height-alt: 1.0pt; mso-bidi-font-size: 10.0pt
+}
+DIV.Enumerate {
+	FONT-SIZE: 12pt; MARGIN: 2pt 0in 2pt 0.9in; TEXT-INDENT: -0.3in; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-style-name: Enumerate; tab-stops: 40.0pt; mso-line-height-alt: 1.0pt; mso-bidi-font-size: 10.0pt
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0in
+}
+UL {
+	MARGIN-BOTTOM: 0in
+}
+</STYLE>
+
+<META content="C:\Program Files\Microsoft Office\OFFICE\html.dot" 
+name=Template></HEAD>
+<BODY lang=EN-US style="tab-interval: .5in" vLink=purple link=blue>
+<DIV class=Section1>
+<P><B><A 
+href="http://www.genetic-programming.com/jobadvertisement.html">Jobs</A></B> for 
+scientific research programmer at Genetic Programming Inc.</P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1 style="TEXT-ALIGN: center" align=center><I>Welcome to<o:p></o:p></I></H1>
+<H1 style="TEXT-ALIGN: center" align=center><SPAN 
+style="FONT-FAMILY: 'Courier New'; mso-fareast-font-family: 'Courier New'">www.genetic-programming.com<o:p></o:p></SPAN></H1>
+<H1 style="TEXT-ALIGN: center" align=center><I>(the home page of Genetic 
+Programming Inc., a privately funded research group that does research in 
+applying genetic programming)<o:p></o:p></I></H1>
+<P style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1100 height=249 
+src="Genetic-Programming Home-Page-Dateien/evolveV2DF2003621.gif" width=529 
+border=0></P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<P><A name=anchor6011481></A>Last updated January 4, 2004</P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<P><B><A href="http://www.genetic-programming.com/#_What_is_Genetic">What is 
+Genetic Programming (GP)?</A> <o:p></o:p></B></P>
+<P><B><A href="http://www.genetic-programming.com/#_How_Genetic_Programming">How 
+Genetic Programming Works</A> <o:p></o:p></B></P>
+<P><B><A 
+href="http://www.genetic-programming.com/#_Sources_of_Information">Sources of 
+Information about the Field of Genetic Programming (GP), Genetic Algorithms 
+(GA), and the Field of Genetic and Evolutionary Computation (GEC)</A> 
+<o:p></o:p></B></P>
+<P><B><A 
+href="http://www.genetic-programming.com/#_Conferences_about_Genetic">Conferences 
+about Genetic Programming (GP) and Genetic and Evolutionary Computation 
+(GEC)</A> <o:p></o:p></B></P>
+<P><B><A 
+href="http://www.genetic-programming.com/#_Application_Areas_for">Application 
+Areas for Genetic Programming</A> <o:p></o:p></B></P>
+<P><B><A href="http://www.genetic-programming.com/#_News_about_Genetic">News 
+about Genetic Programming</A> <o:p></o:p></B></P>
+<P><B><A 
+href="http://www.genetic-programming.com/#_Parallelization_of_Genetic">Parallelization 
+of Genetic Programming</A> <o:p></o:p></B></P>
+<P><B><A 
+href="http://www.genetic-programming.com/#_John_Koza’s_Publications">John Koza’s 
+Publications on Genetic Programming</A> <o:p></o:p></B></P>
+<P><B><A href="http://www.genetic-programming.com/#_Webmaster">Websmaster</A> 
+<o:p></o:p></B></P>
+<P><B><A href="http://www.genetic-programming.com/#_Other_Links">Other Links</A> 
+<o:p></o:p></B></P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1><A name=_What_is_Genetic></A>What is Genetic Programming (GP)?</H1>
+<P>Genetic programming (GP) is an automated method for creating a working 
+computer program from a high-level problem statement of a problem. Genetic 
+programming starts from a high-level statement of “what needs to be done” and 
+automatically creates a computer program to solve the problem. </P>
+<P>There are now <A 
+href="http://www.genetic-programming.com/humancompetitive.html"><B>36 instances 
+where genetic programming has automatically produced a result that is 
+competitive with human performance</B></A>, including<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>15 instances where genetic programming 
+has created an entity that either infringes or duplicates the functionality of a 
+previously patented 20<SUP>th</SUP>-century invention, 6 instances where genetic 
+programming has done the same with respect to a 21<SUP>st</SUP>-centry 
+invention, and 2 instances where genetic programming has created a patentable 
+new invention. </P>
+<P>Given these results, we say that “Genetic programming now routinely delivers 
+high-return human-competitive machine intelligence.” Click here for our 
+definitions of<B> <A 
+href="http://www.genetic-programming.com/humancompetitive.html">“human-competitive,”</A><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN></B><A 
+href="http://www.genetic-programming.com/highreturn.html"><B>the “AI ratio” 
+(“artificial-to-intelligence” ratio) and “high-return,”</B></A><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><B><A 
+href="http://www.genetic-programming.com/routine.html">“routine,”</A></B> and 
+<B><A 
+href="http://www.genetic-programming.com/machineintelligence.html">“machine 
+intelligence.”</A> </B>This statement is the most important point of the 2003 
+book <B><I><A href="http://www.genetic-programming.org/gpbook4toc.html">Genetic 
+Programming IV<SPAN style="FONT-STYLE: normal">: </SPAN>Routine 
+Human-Competitive Machine Intelligence</A></I></B>. Click here to read <B><A 
+href="http://www.genetic-programming.org/gp4chapter1.pdf">chapter 1 of 
+<I>Genetic Programming IV</I> in PDF format.<SPAN style="FONT-WEIGHT: normal"> 
+</SPAN></A></B><SPAN style="mso-spacerun: yes">&nbsp;</SPAN></P>
+<P>The fact that genetic programming can evolve entities that are competitive 
+with human-produced results suggests that <B><A 
+href="http://www.genetic-programming.com/inventionmachine.html">genetic 
+programming can be used as an automated invention machine</A></B> to create new 
+and useful patentable inventions. In acting as an invention machine, 
+evolutionary methods, such as genetic programming, have the advantage of not 
+being encumbered by preconceptions that limit human problem-solving to 
+well-troden paths. Genetic programming has delivered a <B><A 
+href="http://www.genetic-programming.com/progression.html">progression of 
+qualitatively more substantial results</A></B> in synchrony with five 
+approximately order-of-magnitude increases in the expenditure of computer time 
+(over the 15-year period from 1987 to 2002). </P>
+<P>Genetic programming has 16 important attributes that one would reasonably 
+expect of a system for <A 
+href="http://www.genetic-programming.com/attributes.html"><B>automatic 
+programming</B></A><B> </B>(sometimes also called <I>program synthesis</I> or 
+<I>program induction</I>). Genetic programming has <A 
+href="http://www.genetic-programming.com/sevendiffs.html"><B>seven important 
+differences</B></A> from conventional approaches to artificial intelligence (AI) 
+and machine learning (ML). For additional information, click here for <B><A 
+href="http://www.genetic-programming.com/c2003lecture1modified.ppt">PowerPoint 
+(PPT) presentation on genetic programming</A></B> (about 5 Megabytes) similar to 
+that presented at the 2003 Accelerating Change Conference on September 13, 2003 
+and similar to the overview lecture given on September 24, 2003 in John Koza’s 
+course at Stanford University on genetic algorithms (GA) and genetic programming 
+(GP).</P>
+<H1 style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</H1>
+<H1><A name=_How_Genetic_Programming></A>How Genetic Programming Works</H1>
+<P>Genetic programming starts with a primordial ooze of thousands of randomly 
+created computer programs. This population of programs is progressively evolved 
+over a series of generations. The evolutionary search uses the Darwinian 
+principle of natural selection (survival of the fittest) and analogs of various 
+naturally occurring operations, including crossover (sexual recombination), 
+mutation, gene duplication, gene deletion. Genetic programming sometimes also 
+employs developmental processes by which an embryo grows into fully developed 
+organism. Old Chinese saying says “animated gif is worth one mega-word,” so <A 
+href="http://www.genetic-programming.com/gpanimatedtutorial.html"><B>click here 
+for short tutorial of “What is GP?” including about two dozen animated 
+gifs</B></A><B>. </B>This short tutorial contains a discussion of the <B><A 
+href="http://www.genetic-programming.com/gppreparatory.html">preparatory 
+steps</A></B> of a run of genetic programming, the executional steps (that is, 
+the <B><A href="http://www.genetic-programming.com/gpflowchart.html">flowchart 
+of genetic programming</A></B>), an <B><A 
+href="http://www.genetic-programming.com/gpquadraticexample.html">illustrative 
+simple run of genetic programming</A></B> for a problem of symbolic regression 
+of a quadratic polynomial, a discussion of <B><A 
+href="http://www.genetic-programming.com/gpdevelopment.html">developmental 
+genetic programming</A></B> for the automatic synthesis of both the topology and 
+sizing of analog electrical circuits (potentially also including placement and 
+routing), and the use of a <B><A 
+href="http://www.genetic-programming.com/gpturtle.html">turtle<SPAN 
+style="FONT-WEIGHT: normal"> </SPAN></A></B>to draw complex structures (such as 
+antenna). In addition, genetic programming can automatically create, in a single 
+run, a general (parameterized) solution to a problem in the form of a graphical 
+structure whose nodes or edges represent components and where the parameter 
+values of the components are specified by mathematical expressions containing 
+free variables. That is, genetic programming can automatically create a 
+<I>general solution</I> to a problem in the form of a <B><A 
+href="http://www.genetic-programming.com/parameterized.html">parameterized 
+topology</A></B>. </P>
+<H1 style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</H1>
+<H1><A name=_Sources_of_Information></A>Sources of Information about the Field 
+of Genetic Programming (GP), Genetic Algorithms (GA), and the Field of Genetic 
+and Evolutionary Computation (GEC)</H1>
+<P>The technique of genetic programming (GP) is one of the techniques of the 
+field of genetic and evolutionary computation (GEC) which, in turn, includes 
+techniques such as genetic algorithms (GA), evolution strategies (ES), 
+evolutionary programming (EP), grammatical evolution (GE), and machine code 
+(linear genome) genetic programming. </P>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.genetic-programming.org/books.html"><B>16 authored books, 4 
+  videos, and 4 edited books on genetic programming (GP)</B></A>, including 
+  <B><A href="http://www.genetic-programming.org/gpkluwer.html">6 books</A></B> 
+  in the Genetic Programming Book series from Kluwer Academic Publishers (as 
+  part of the bigger list of<A 
+  href="http://www.genetic-programming.org/books.html"> <B>73 authored books, 32 
+  edited books, and 4 videos on genetic and evolutionary computation</B></A>). 
+  <LI class=MsoNormal 
+  style="COLOR: blue; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><SPAN 
+  style="COLOR: windowtext"><A 
+  href="http://www.genetic-programming.org/gpproceedings.html">17 conference 
+  proceedings books on genetic programming (GP)</A>, </SPAN></B><SPAN 
+  style="COLOR: windowtext">including<B> </B>the 3 annual GP conferences, 5 
+  annual GECCO conferences (that now include the annual GP conference), 6 annual 
+  Euro-GP conferences, the 2003 Genetic Programming Theory and Practice workshop 
+  (GPTA), the 1995 AAAI Symposium on Genetic Programming, and the 1995 Workshop 
+  on Genetic Programming (as part of a bigger list of<A 
+  href="http://www.genetic-programming.org/confproceedingbooks.html"> <B>99 
+  conference proceedings books on evolutionary computation)</B>. 
+  </A></SPAN><SPAN class=MsoHyperlink><o:p></o:p></SPAN>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://liinwww.ira.uka.de/bibliography/Ai/genetic.programming.html">3,440 
+  published papers on genetic programming </A></B>(as of November 28, 2003) in a 
+  searchable bibliography (with many on-line versions of papers) by over 880 
+  authors maintained by William Langdon’s and Steven M. Gustafson 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.informatik.uni-stuttgart.de/ifi/fk/evolalg/eabib.html">Over 
+  4,000 published papers on evolutionary computation<SPAN 
+  style="FONT-WEIGHT: normal"> </SPAN></A></B>in a searchable bibliography 
+  maintained by Karsten Weicker and Nicole Weicker containing entries on genetic 
+  and evolutionary computation and related areas (e.g. artificial life). 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.genetic-programming.org/gpotherconfs.html"><B>About two dozen 
+  conferences with Published Proceedings</B></A> that are held regularly in the 
+  field of genetic programming and genetic and evolutionary computation (GEC) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.genetic-programming.org/gpmailinglist.html"><B>E-Mail Mailing 
+  List on Genetic Programming</B></A>, the EC-Digest (formerly the GA-Digest), 
+  and other mailing lists. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><I><A 
+  href="http://www.wkap.nl/journalhome.htm/1389-2576">Genetic Programming and 
+  Evolvable Machines </A></I></B>journal (published by Kluwer Academic 
+  Publishers and edited by Wolfgang Banzhaf) (started January 2000). This 
+  journal is available as part of membership in the <A 
+  href="http://www.isgec.org/"><B>International Society for Genetic and 
+  Evolutionary Computation (ISGEC)</B></A> 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><I><A 
+  href="http://mitpress.mit.edu/catalog/item/default.asp?sid=5B22C334-ACF1-453A-869D-5E46C32B48E0&amp;ttype=4&amp;tid=25">Evolutionary 
+  Computation<SPAN style="FONT-STYLE: normal"> journal 
+  </SPAN></A></I></B>(published by <A href="http://mitpress.mit.edu/"><B>The MIT 
+  Press</B></A> and edited by Marc Schoenauer). This journal is available as 
+  part of membership in <A href="http://www.isgec.org/"><B>International Society 
+  for Genetic and Evolutionary Computation (ISGEC)</B></A> 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><I><A 
+  href="http://www.ieee-nns.org/pubs/tec/">IEEE Transactions on Evolutionary 
+  Computation journal </A></I></B>(published by IEEE Neural Network Society and 
+  edited by Xin Yao) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.genetic-programming.org/gpftpsite.html"><B>Software</B></A> 
+  for genetic programming, genetic algorithms, and other evolutionary 
+  computation techniques, including the <A 
+  href="http://www.genetic-programming.org/gplittlelisp.html"><B>"Little LISP" 
+  Computer Code</B></A> for Genetic Programming as Contained in 1992 book 
+  <I>Genetic Programming</I> (Koza 1992) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpphdtheses.html">37 completed Ph.D. 
+  theses<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>on genetic programming 
+
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpstudents.html">58 students working 
+  on thesis<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>involving genetic 
+  programming 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.cs.ucl.ac.uk/staff/W.Langdon/homepages.html"><B>A partial 
+  list of people</B></A> compiled by Bill Langdon who are active in genetic 
+  programming 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.isgec.org/"><B>International Society for Genetic and 
+  Evolutionary Computation (ISGEC)</B></A>. ISGEC is the only membership 
+  organization in the field of genetic and evolutionary computation. It operates 
+  of the annual GECCO conference (largest conference in the field of genetic and 
+  evolutionary computation) and the biannual FOGA conference. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.dcs.napier.ac.uk/evonet/Coordinator/evonet_f.htm">Evo-Net 
+  </A></B>—The Network of Excellence in Evolutionary Computation (an extensive 
+  clearinghouse of information about the field of genetic and evolutionary 
+  computation and operator of the annual Euro-GP conferences and the Evo-Net 
+  workshops) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3">The 
+  <A href="http://www.aic.nrl.navy.mil/galist/"><B>GA Archives</B></A>, 
+  including back issues of the GA-Digest and EC-Digest, genetic algorithm code 
+  in various programming languages, an extensive list of conference 
+  announcements in the field of genetic and evolutionary computation, etc. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpkluwer.html">Book series of genetic 
+  programming<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>for Kluwer 
+  Academic Publishers book series on genetic programming, edited by John R. Koza 
+
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><SPAN 
+  style="mso-fareast-font-family: 'Arial Unicode MS'"><A 
+  href="http://www.wkap.nl/prod/s/GENA">Book series on genetic algorithms and 
+  evolutionary computation<SPAN 
+  style="FONT-WEIGHT: normal; mso-fareast-font-family: 'Times New Roman'"> 
+  </SPAN></A></SPAN></B><EM><SPAN style="FONT-STYLE: normal">from Kluwer 
+  Academic Publishers, edited by David E. Goldberg.</SPAN></EM> 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpcourses.html">Courses (and short 
+  courses) at various universities on genetic algorithms, genetic programming, 
+  and evolutionary computation</A> <o:p></o:p></B>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3">For 
+  information about John Koza’s <A 
+  href="http://www.genetic-programming.com/coursemainpage.html"><B>course on 
+  genetic algorithms and genetic programming at Stanford University</B></A> 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpstanfordpapers.html">11 Books of 
+  Student Papers<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>from John 
+  Koza's Courses at Stanford University on genetic algorithms and genetic 
+  programming and artificial life 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gpstanfordreaders.html">6 Course 
+  Readers<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>from John Koza's 
+  courses at Stanford University on genetic algorithms and genetic programming 
+  and artificial life 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://smi.stanford.edu/~koza/"><B>John Koza's home page at Stanford 
+  University</B></A> 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3">For 
+  information about the 1992 book <B><I><A 
+  href="http://www.genetic-programming.org/gpbook1toc.html">Genetic Programming: 
+  On the Programming of Computers by Means of Natural Selection</A></I></B>, the 
+  1994 book <A 
+  href="http://www.genetic-programming.org/gpbook2toc.html"><B><I>Genetic 
+  Programming II: Automatic Discovery of Reusable Programs</I></B></A>, the 1999 
+  book <A 
+  href="http://www.genetic-programming.org/gpbook3toc.html"><B><I>Genetic 
+  Programming III: Darwinian Invention and Problem Solving</I></B></A>, and the 
+  2003 book <B><I><A 
+  href="http://www.genetic-programming.org/gpbook4toc.html">Genetic Programming 
+  IV<SPAN style="FONT-STYLE: normal">: </SPAN>Routine Human-Competitive Machine 
+  Intelligence</A></I></B>. Click here to read <B><A 
+  href="http://www.genetic-programming.org/gp4chapter1.pdf">chapter 1 of 
+  <I>Genetic Programming IV</I> book (2003) in PDF format.<SPAN 
+  style="FONT-WEIGHT: normal"> </SPAN></A></B>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.com/humancompetitive.html">36 
+  human-competitive results produced by genetic programming</A></B>, 
+  including<B> </B>21 previously patented inventions replicated by genetic 
+  programming and 2 patentable new inventions generated by genetic programming. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3">Link 
+  to <B><A 
+  href="http://www.genetic-programming.com/">http://www.genetic-programming.com/</A></B> 
+  (“genetic-programming.COM” WITH the hyphen) (Genetic Programming Inc.) 
+  including information about 1,000-Pentium parallel computer for doing genetic 
+  programming research. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.com/jobadvertisement.html">Jobs</A></B> 
+  for scientific research programmer at Genetic Programming Inc. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3">Link 
+  to <B><A href="http://www.geneticprogramming.com/">Jaime Fernandez’s genetic 
+  programming notebook</A></B> site (“geneticprogramming.com” WITHOUT the 
+  hyphen) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.faqs.org/faqs/ai-faq/genetic/">David Beasley’s Frequently 
+  Asked Questions about genetic and evolutionary computation</A></B>. This comes 
+  in 6 parts. Part 2 has a summary of the different types of genetic and 
+  evolutionary computation. </LI></UL>
+<H1 style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</H1>
+<H1><A name=_Conferences_about_Genetic></A>Conferences about Genetic Programming 
+(GP) and Genetic and Evolutionary Computation (GEC)</H1>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.isgec.org/">GECCO-2004 conference </A></B>in Seattle on<B> 
+  </B>June 26–30, 2004 (Saturday-Wednesday) operated by the International 
+  Society for Genetic and Evolutionary Computation (<A 
+  href="http://www.isgec.org/"><B>ISGEC</B></A>). GECCO is the largest 
+  conference in the field of genetic and evolutionary computation. The GECCO 
+  conference is a combination of the 9<SUP>th</SUP> annual Genetic Programming 
+  Conference (GP-2004) and the 13<SUP>th</SUP> International Conference on 
+  Genetic Algorithms (ICGA-2004). </LI></UL>
+<P style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1260 height=253 
+src="Genetic-Programming Home-Page-Dateien/gecco2001smalllogo.gif" width=241 
+border=0></P>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.evonet.info/eurogp2004/">Euro-GP 2004 Conference</A></B> to 
+  be held in April 5-7, 2004 (Monday-Wednesday) at the University of Coimbra in 
+  Coimbra Portugal. </LI></UL>
+<P style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1257 height=240 
+src="Genetic-Programming Home-Page-Dateien/eurogp2004embrace300.jpg" width=240 
+border=0></P>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://ehw.jpl.nasa.gov/events/nasaeh04/">NASA/DoD Conference on 
+  Evolvable Hardware (EH)</A></B> to be held on June 24 – 26 (Thursday – 
+  Saturday), 2004 in Seattle. </LI></UL>
+<P class=MsoNormal style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1255 
+height=174 src="Genetic-Programming Home-Page-Dateien/ehwlogoellipse.jpg" 
+width=434 border=0></P>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://cscs.umich.edu/calendar/conferences/gptp2003/"><B>Genetic 
+  Programming Theory and Practice (GPTP) workshops</B></A> at the University of 
+  Michigan in Ann Arbor in 2003 and 2004 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><SPAN 
+  lang=EN-AU style="mso-ansi-language: EN-AU"><A 
+  href="http://www.cs.adfa.edu.au/~cec_gp/">Asia-Pacific Workshop on Genetic 
+  Programming (ASPGP03)</A></SPAN></B><SPAN lang=EN-AU 
+  style="mso-ansi-language: EN-AU"> held in Canberra, Australia on December 8, 
+  2003 </SPAN>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gppastgpconferences.html">Past GP 
+  conferences<SPAN style="FONT-WEIGHT: normal"> f</SPAN></A></B>or 1996, 1997, 
+  and 1998 (including the SGA-98, the Symposium on Genetic Algorithms) 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gppasteurogpconferences.html">Past 
+  Euro-GP conferences<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B>for 1998, 
+  1999, 2000, 2001, 2002, and 2003 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><B><A 
+  href="http://www.genetic-programming.org/gppastgeccoconferences.html">Past 
+  GECCO conferences </A></B>(Genetic and Evolutionary Computation Conferences) 
+  for 1999, 2000, 2001, 2002, 2003. Starting in 1999, the annual GECCO 
+  conference includes the annual Genetic Programming Conference. 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l1 level1 lfo3"><A 
+  href="http://www.genetic-programming.org/gpotherconfs.html"><B>About two dozen 
+  conferences with Published Proceedings</B></A> that are held regularly in the 
+  field of genetic programming and genetic and evolutionary computation (GEC) 
+  </LI></UL>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1><A name=_Application_Areas_for></A>Application Areas for Genetic 
+Programming</H1>
+<P>There are numerous applications of genetic programming including </P>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l3 level1 lfo10"><B>“Black 
+  Art Problems,”</B> such as the automated synthesis of analog electrical 
+  circuits, controllers, antennas, networks of chemical reactions, and other 
+  areas of design, 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l3 level1 lfo10"><B>“Programming 
+  The Unprogrammable”</B> (PTU) involving the automatic creation of computer 
+  programs for unconventional computing devices such as cellular automata, 
+  multi-agent systems, parallel systems, field-programmable gate arrays, 
+  field-programmable analog arrays, ant colonies, swarm intelligence, 
+  distributed systems, and the like, 
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l3 level1 lfo10"><B>Commercially 
+  Useful New Inventions </B>(CUNI) involving the use of genetic programming as 
+  an automated "invention machine" for creating commercially usable new 
+  inventions, and </LI></UL>
+<P>We are constantly looking for new domain areas in which to apply the 
+techniques of genetic programming to achieve human-competitive machine 
+intelligence.</P>
+<H2 style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</H2>
+<H1><A name=_News_about_Genetic></A>News about Genetic Programming</H1>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For May 2003 <I>IEEE Intelligent Systems</I> article “What’s AI done for me 
+lately? Genetic programming’s human-competitive results”, visit <B><A 
+href="http://computer.org/intelligent">IEEE Intelligent Systems</A>. </B>Click 
+here for <B><A href="http://www.genetic-programming.com/ieeeis2003.pdf">PDF 
+file<SPAN style="FONT-WEIGHT: normal">.</SPAN> </A></B></P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For February 2003 <I>Scientific American</I> article “Evolving inventions” on 
+genetic programming by John Koza, Martin A. Keane, and Matthew J. Streeter, 
+visit <B><A href="http://www.sciam.com/">Scientific 
+American.</A><o:p></o:p></B></P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><A 
+href="http://www.genetic-programming.com/published/Salon081099.html">Salon 
+article on "Software that Writes Software"<SPAN style="FONT-WEIGHT: normal"> 
+b</SPAN></A></B>y Alexis Willihnganz (August 10, 1999)</P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><A 
+href="http://www.genetic-programming.com/published/eetimes060396.html">E. E. 
+Times article on automatic synthesis of analog electrical circuits using genetic 
+programming<SPAN style="FONT-WEIGHT: normal">.</SPAN></A></B> </P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For article in <B><I><A 
+href="http://www.genetic-programming.com/published/computerbits0696.html">Computerbits 
+</A></I></B>on genetic programming<B>.</B> </P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><I><A 
+href="http://www.genetic-programming.com/published/scientificamerican1096.html">Scientific 
+American article by W. Wayt Gibbs </A></I></B>on genetic programming. </P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <I>Business Week</I> <B><A 
+href="http://www.genetic-programming.com/published/bw062397.html">article (June 
+23, 1997) </A></B>entitled "Stanford Eggheads and Entrepreneurs"</P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <I>Business Week</I> <A 
+href="http://www.genetic-programming.com/published/bw082597.html"><B>article 
+(August 25, 1997)</B></A><B> </B>entitled "What Matters is How Smart You 
+Are"</P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><I><A 
+href="http://www.genetic-programming.com/published/usnwr072798.html">U. S. News 
+and World Report </A></I></B>article on evolutionary computation and genetic 
+programming. </P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><I><A 
+href="http://www.genetic-programming.com/published/Slashdot081099.html">Slashdot.org 
+</A></I></B>posting (August 10, 1999). </P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For <B><I><A 
+href="http://www.genetic-programming.com/the451_com2000414.html">the451.com 
+</A></I></B>article entitled "Re-inventing the 'invention machine" (April 14, 
+2000). </P>
+<H1 style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</H1>
+<H1><A name=_Parallelization_of_Genetic></A>Parallelization of Genetic 
+Programming</H1>
+<P>In July 1999, Genetic Programming Inc. started operating a new 1,000-node 
+Beowulf-style parallel cluster computer consisting of 1,000 Pentium II 350 MHz 
+processors and a host computer. Click here for technical discussion of<A 
+href="http://www.genetic-programming.com/parallel.html"><B> parallel genetic 
+programming </B></A>and building the <A 
+href="http://www.genetic-programming.com/machine1000.html"><B>1,000-Pentium 
+Beowulf-style parallel cluster computer</B></A><B>.</B> About half of the <B><A 
+href="http://www.genetic-programming.com/humancompetitive.html">36 
+human-competitive results produced by genetic programming<SPAN 
+style="FONT-WEIGHT: normal"> </SPAN></A></B>were obtained using computing 
+systems that were <I>substantially smaller</I> than the 1,000-Pentium computer 
+mentioned above. Fifteen of these human-competitive results were obtained on a 
+1995-vintage parallel computer system composed of 64 PowerPC 80 MHz processors 
+with a spec95fp rating. This 1995-vintage computer has total computational power 
+equal to only about 1/60 of that of the 1000-Pentium machine mentioned above. 
+Five of these results were obtained on a 70-Alpha machine (whose spec95fp rating 
+is 1/9 of that of the 1,000-Pentium machine mentioned above). One of these human 
+competitive results were obtained with a 1994-vintage machine (whose spec95fp 
+rating is 1/1,320 of that of the 1,000-Pentium machine mentioned above). The 
+individual processors in the1,000-Pentium machine have (as of July 2003) about 
+1/8 the speed of processors contained in commercially available $999 laptops, so 
+that the 1,000-Pentium machine is approximately equivalent to a 125-processor 
+machine with 2003-vintage processors. </P>
+<H2 style="TEXT-ALIGN: center" align=center>1000-Pentium Beowulf-Style Cluster 
+Computer</H2>
+<H2 style="TEXT-ALIGN: center" align=center>(left and right sides) (July 29, 
+1999)</H2>
+<P style="MARGIN-LEFT: 0.5in; TEXT-ALIGN: center" align=center><IMG 
+id=_x0000_i1236 height=378 
+src="Genetic-Programming Home-Page-Dateien/teracotsleft.jpg" width=306 
+border=0>&nbsp; <IMG id=_x0000_i1237 height=378 
+src="Genetic-Programming Home-Page-Dateien/teracotsright.jpg" width=369 
+border=0></P>
+<P>For <B><A href="http://www.genetic-programming.com/upspicture.html">picture 
+of uninterruptable power supply<SPAN style="FONT-WEIGHT: normal"> 
+</SPAN></A></B>(UPS) for new 1000-Pentium computer. Design and contracting of 
+site for 1000-Pentium computer by <A href="http://www.gpdinc.com/"><B>Gordon 
+Prill Inc</B></A>. of Mountain View, California. The 1,000-Pentium machine was 
+assembled by Stan Fox of the COMPAQ Sunnyvale Staging Center. For picture of 
+earlier 70-node parallel computer with <A 
+href="http://www.genetic-programming.com/gpboxergoldberg70.html"><B>Senator 
+Barbara Boxer</B></A> (California), John Koza (back row), Oscar Stiffelman 
+(front row), Forrest H Bennett III, and William Mydlowec. For picture of earlier 
+70-node parallel computer with <A 
+href="http://www.genetic-programming.com/gpboxergoldberg70.html"><B>Ellen 
+Goldberg (President of Santa Fe Institute)</B></A>, John Koza, Forrest H Bennett 
+III, and Oscar Stiffelman. </P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1><A name=_John_Koza’s_Publications></A>John Koza’s Publications on Genetic 
+Programming</H1>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l2 level1 lfo13"><B>1992 
+  book on genetic programming entitled <I><A 
+  href="http://www.genetic-programming.org/gpbook1toc.html">Genetic Programming: 
+  On the Programming of Computers by Means of Natural Selection</A> </I>from The 
+  MIT Press. The MIT Press also publishes a videotape entitled <EM>Genetic 
+  Programming: The Movie </EM>associated with the first book. </B><A 
+  href="http://www.genetic-programming.org/gpvideo1.html"><B>Click here for more 
+  information about this 1992 videotape</B></A><B>. <o:p></o:p></B>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l2 level1 lfo13"><B>1994 
+  book on genetic programming entitled </B><SPAN 
+  style="mso-spacerun: yes">&nbsp;</SPAN><A 
+  href="http://www.genetic-programming.org/gpbook2toc.html"><B><I>Genetic 
+  Programming II: Automatic Discovery of Reusable Programs</I></B></A> <B>from 
+  The MIT Press.<BR>The MIT Press also publishes a videotape entitled 
+  <EM>Genetic Programming II Videotape: The Next Generation.</EM> associated 
+  with this second book. Click here for additional information about this </B><A 
+  href="http://www.genetic-programming.org/gpvideo2.html"><B>1994 
+  videotape</B></A><B>. <o:p></o:p></B>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l2 level1 lfo13"><B>1999 
+  book </B><A 
+  href="http://www.genetic-programming.org/gpbook3toc.html"><B><I>Genetic 
+  Programming III: Darwinian Invention and Problem Solving</I></B></A><B> from 
+  Morgan Kaufmann (by John R. Koza, Forrest H Bennett III, David Andre, and 
+  Martin A. Keane). Morgan Kaufmann also publishes <I>Genetic Programming III 
+  Videotape: Human-Competitive Machine Intelligence </I>(by John R. Koza, 
+  Forrest H Bennett III, David Andre, Martin A. Keane, and Scott Brave). </B><A 
+  href="http://www.genetic-programming.org/gpvideo3.html"><B>Click here for 
+  information about this 1999 videotape</B></A><B>. <o:p></o:p></B></LI></UL>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l0 level1 lfo16"><B>2003 
+  book <I><A href="http://www.genetic-programming.org/gpbook4toc.html">Genetic 
+  Programming IV<SPAN style="FONT-STYLE: normal">: </SPAN>Routine 
+  Human-Competitive Machine Intelligence</A></I></B> <B>from Kluwer Academic 
+  Publishers (by John R. Koza, Martin A. Keane, Matthew J. Streeter, William 
+  Mydlowec, Jessen Yu, and Guido Lanza ) (ISBN 1-4020-7446-8) Kluwer Academic 
+  Publisher also publishes a DVD disk <I>Genetic Programming IV: Video: Routine 
+  Human-Competitive Machine Intelligence</I> (by John R. Koza, Martin A. Keane, 
+  Matthew J. Streeter, William Mydlowec, Jessen Yu, Guido Lanza, and David 
+  Fletcher) that is bound into this 2003 book. <o:p></o:p></B></LI></UL>
+<H2 style="TEXT-ALIGN: center" align=center><IMG id=_x0000_i1239 height=424 
+src="Genetic-Programming Home-Page-Dateien/gp4cover.gif" width=280 
+border=0></H2>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l2 level1 lfo13"><B>Stanford 
+  University technical reports from the Computer Science Department and Stanford 
+  BioMedical Informatics of which I am author or co-author can be obtained on 
+  the web, including <o:p></o:p></B>
+  <UL type=circle>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l2 level2 lfo13"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor484765"><B>STAN-TR-CS 
+    1314</B></A><B> (1990) entitled <I>Genetic Programming: A Paradigm for 
+    Genetically Breeding Populations of Computer Programs to Solve Problems 
+    <o:p></o:p></I></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l2 level2 lfo13"><A 
+    href="http://www.genetic-programming.com/jkpubs94.html#anchor356063"><B>STAN-TR-CS 
+    1528</B></A><B> (1994) entitled <I>Architecture-Altering Operations for 
+    Evolving the Architecture of a Multi-Part Program in Genetic Programming 
+    <o:p></o:p></I></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l2 level2 lfo13"><A 
+    href="http://www.genetic-programming.com/jkpubs95.html#anchor348370"><B>STAN-TR-CS 
+    1542</B></A><B> (1995) entitled <I>Parallel Genetic Programming on a Network 
+    of Transputers <o:p></o:p></I></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l2 level2 lfo13"><A 
+    href="http://smi-web.stanford.edu/pubs/SMI_Abstracts/SMI-95-0586.html"><B>SMI-95-0586</B></A><B> 
+    (1995) entitled <I>A Programming Course in Bioinformatics for Computer and 
+    Information Science Students <o:p></o:p></I></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l2 level2 lfo13"><A 
+    href="http://smi-web.stanford.edu/pubs/SMI_Abstracts/SMI-2000-0851.html"><B>SMI-2000-0851</B></A><B> 
+    (2000) entitled <I>Reverse Engineering and Automatic Synthesis of Metabolic 
+    Pathways from Observed Data Using Genetic Programming<o:p></o:p></I></B> 
+    </LI></UL></LI></UL>
+<UL type=disc>
+  <LI class=MsoNormal 
+  style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list .5in; mso-list: l0 level1 lfo16"><B>Abstracts, 
+  citations, and copies of research papers (almost all available in Post Script 
+  or PDF) by John Koza: <o:p></o:p></B>
+  <UL type=circle>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor275537"><B>1972</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor275537"><B>1988</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor277974"><B>1989</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor278834"><B>1990</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor279881"><B>1991</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor280983"><B>1992</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs72to93.html#anchor282331"><B>1993</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs94.html"><B>1994</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs95.html"><B>1995</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs96.html"><B>1996</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs97.html"><B>1997</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs98.html"><B>1998</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs99.html"><B>1999</B></A><B> 
+    <o:p></o:p></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><B><A 
+    href="http://www.genetic-programming.com/jkpubs2000.html">2000<SPAN 
+    style="FONT-WEIGHT: normal"> </SPAN></A></B>
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><A 
+    href="http://www.genetic-programming.com/jkpubs2001.html"><B>2001</B></A> 
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><B><A 
+    href="http://www.genetic-programming.com/jkpubs2002.html">2002</A></B> 
+    <LI class=MsoNormal 
+    style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto; tab-stops: list 1.0in; mso-list: l0 level2 lfo16"><B><A 
+    href="http://www.genetic-programming.com/jkpubs2003.html">2003</A></B> 
+  </LI></UL></LI></UL>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 0.25in; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><B>Click 
+here for list of </B><A 
+href="http://www.genetic-programming.com/patents.html"><B>patents</B></A><B>. 
+<o:p></o:p></B></P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1><A name=_Webmaster></A>Webmaster</H1>
+<P>Please send corrections or additions to this page to: </P>
+<P class=MsoNormal><A 
+href="http://www.genetic-programming.com/johnkoza.html"><B>John R. Koza</B></A> 
+</P>
+<P class=MsoNormal>Post Office Box K</P>
+<P class=MsoNormal>Los Altos, California 94023 USA</P>
+<P style="MARGIN: 0in 0in 0pt">OFFICE PHONE: 650-960-8180</P>
+<P style="MARGIN: 0in 0in 0pt">FAX: 650-941-9430</P>
+<P class=MsoNormal>E-mail: <B><A 
+href="mailto:koza@stanford.edu">koza@stanford.edu</A></B> </P>
+<P class=MsoNormal>E-mail: <A 
+href="mailto:koza@genetic-programming.com"><B>koza@genetic-programming.com</B></A> 
+</P>
+<P class=MsoNormal>E-mail: <B><A 
+href="mailto:koza@genetic-programming.org">koza@genetic-programming.org</A> 
+</B></P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV>
+<H1><A name=_Other_Links></A>Other Links</H1>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>The home page of Genetic 
+Programming Inc. at <A 
+href="http://www.genetic-programming.com/"><B>www.genetic-programming.com</B></A>. 
+</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information about the 
+field of genetic programming and the field of genetic and evolutionary 
+computation, visit <A 
+href="http://www.genetic-programming.org/"><B>www.genetic-programming.org</B></A> 
+</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>The home page of<B> </B><A 
+href="http://www.genetic-programming.com/johnkoza.html"><B>John R. Koza at 
+Genetic Programming Inc.</B></A> (including online versions of most published 
+papers) and the home page of<B> </B><A 
+href="http://smi.stanford.edu/~koza/"><B>John R. Koza at Stanford University 
+</B></A></P>
+<P><SPAN 
+style="FONT-FAMILY: Symbol; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">·</SPAN></SPAN> 
+For information about John Koza’s <B><A 
+href="http://www.genetic-programming.com/coursemainpage.html">course on genetic 
+algorithms and genetic programming at Stanford University</A></B></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>Information about the 1992 
+book <B><I><A href="http://www.genetic-programming.org/gpbook1toc.html">Genetic 
+Programming: On the Programming of Computers by Means of Natural 
+Selection</A></I></B>, the 1994 book <A 
+href="http://www.genetic-programming.org/gpbook2toc.html"><B><I>Genetic 
+Programming II: Automatic Discovery of Reusable Programs</I></B></A>, the 1999 
+book <A href="http://www.genetic-programming.org/gpbook3toc.html"><B><I>Genetic 
+Programming III: Darwinian Invention and Problem Solving</I></B></A>, and the 
+2003 book <B><I><A 
+href="http://www.genetic-programming.org/gpbook4toc.html">Genetic Programming 
+IV<SPAN style="FONT-STYLE: normal">: </SPAN>Routine Human-Competitive Machine 
+Intelligence</A></I></B>. Click here to read <B><A 
+href="http://www.genetic-programming.org/gp4chapter1.pdf">chapter 1 of 
+<I>Genetic Programming IV</I> book in PDF format.<SPAN 
+style="FONT-WEIGHT: normal"> </SPAN></A></B><SPAN 
+class=MsoHyperlink><o:p></o:p></SPAN></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> <A 
+href="http://liinwww.ira.uka.de/bibliography/Ai/genetic.programming.html">3,440 
+published papers on genetic programming </A></B>(as of November 28, 2003) in a 
+searchable bibliography (with many on-line versions of papers) by over 880 
+authors maintained by William Langdon’s and Steven M. Gustafson. <SPAN 
+style="FONT-FAMILY: Times"><o:p></o:p></SPAN></P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information on the 
+<B><A href="http://www.kluweronline.com/issn/1389-2576">Genetic Programming and 
+Evolvable Machines journal</A> </B>published by Kluwer Academic Publishers</P>
+<P><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For information on the 
+Genetic Programming book series from Kluwer Academic Publishers, see the <B><A 
+href="http://www.genetic-programming.org/gpkluwer.html">Call For Book 
+Proposals<SPAN style="FONT-WEIGHT: normal"> </SPAN></A></B></P>
+<P class=MsoNormal><B><SPAN style="FONT-FAMILY: Symbol">·</SPAN> </B>For 
+information about the annual <B><A 
+href="http://www-illigal.ge.uiuc.edu:8080/GECCO-2004/">Genetic and Evolutionary 
+Computation (GECCO) conference</A></B> (which includes the annual GP conference) 
+to be held on June 26–30, 2004 (Saturday – Wednesday) in Seattle and its 
+sponsoring organization, the International Society for Genetic and Evolutionary 
+Computation (<A href="http://www.isgec.org/"><B>ISGEC</B></A>).<B> </B>For 
+information about the annual <B><A 
+href="http://evonet.dcs.napier.ac.uk/eurogp2004/">Euro-Genetic-Programming 
+Conference</A></B> to be held on April 5-7, 2004 (Monday – Wednesday) at the 
+University of Coimbra in Coimbra Portugal.<B> </B>For information about the 2003 
+and 2004 <B><A 
+href="http://cscs.umich.edu/calendar/conferences/gptp2003/">Genetic Programming 
+Theory and Practice (GPTP) workshops</A></B> held at the University of Michigan 
+in Ann Arbor. For information about <B><SPAN lang=EN-AU 
+style="mso-ansi-language: EN-AU"><A 
+href="http://www.cs.adfa.edu.au/~cec_gp/">Asia-Pacific Workshop on Genetic 
+Programming (ASPGP03)</A></SPAN></B><SPAN lang=EN-AU 
+style="mso-ansi-language: EN-AU"> held in Canberra, Australia on December 8, 
+2003. </SPAN>For information about the annual <B><A 
+href="http://ehw.jpl.nasa.gov/events/nasaeh04/">NASA/DoD Conference on Evolvable 
+Hardware Conference (EH)</A></B> to be held on June 24-26 (Thursday-Saturday), 
+2004 in Seattle.</P>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+<HR align=center width="100%" SIZE=2>
+</DIV></DIV></BODY></HTML>

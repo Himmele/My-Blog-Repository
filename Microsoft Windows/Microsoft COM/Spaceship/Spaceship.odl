@@ -1,0 +1,43 @@
+// Spaceship.odl : Quellcode der Typbibliothek für Spaceship.dll
+
+// Diese Datei wird vom MIDL-Compiler bearbeitet, um die
+// Typbibliothek zu erzeugen (Spaceship.tlb).
+
+[ uuid(A61473F6-A174-468E-B1D4-1235C8BB5480), version(1.0) ]
+library Spaceship
+{
+	importlib("stdole32.tlb");
+	
+
+
+
+	//  Primary dispatch interface for CSpaceship
+	
+	[ uuid(30AF6BAC-BD29-436E-AFFA-950AF483843A) ]
+	dispinterface ISpaceship
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CSpaceship)
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CSpaceship)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CSpaceship
+
+	[ uuid(2CE112F6-7F0A-4A34-BB8D-F32AA4A7D3BA) ]
+	coclass Spaceship
+	{
+		[default] dispinterface ISpaceship;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

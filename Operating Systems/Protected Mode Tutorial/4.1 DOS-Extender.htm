@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos1.htm -->
+<HTML><HEAD><TITLE>DOS-Extender</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=DOS-Extender-Dateien/stone.jpg>
+<H1><FONT color=#800000>4 DOS-Extender</FONT></H1>
+<H1><FONT color=#800000>4.1 Einleitung</FONT></H1>
+<H2><FONT color=#000080>Allgemeines</FONT></H2>
+<P>Die Beispielprogramme der vorherigen Kapitel zeigen den hohen Aufwand, der 
+investiert werden muß, um im Protected Mode zu programmieren. Denn ohne ein 
+geeignetes Protected Mode Betriebssystem, das zum Beispiel Funktionen für die 
+Prozeßverwaltung oder die Arbeit mit Dateien bereitstellt, ist der Protected 
+Mode mit allen seinen Vorzügen nicht effizient einzusetzen.</P>
+<P>Von (MS-) DOS darf dabei keine Unterstützung erwartet werden, da DOS nicht 
+für die Anwendung im Protected Mode entwickelt wurde. Der Aufruf einer 
+DOS-Funktion würde beim ersten Zugriff auf ein Segmentregister (innerhalb der 
+Funktion) eine Exception auslösen, da der Inhalt der Segmentregister im 
+Protected Mode, wie bereits in den vorangegangenen Kapiteln erwähnt, anders 
+interpretiert wird. Da DOS wie die meisten Realmode Programme auf eine direkte 
+Manipulation dieser Adressen angewiesen ist, können die Funktionen nicht direkt 
+genutzt werden.</P>
+<P>DOS und Protected Mode miteinander zu verbinden, ist die Aufgabe eines 
+sogenannten DOS-Extenders. Er gestattet die Ausführung eines Protected Mode 
+Programmes unter Nutzung von DOS-Funktionen. Wird in diesem Zusammenhang von 
+"Ausführung eines DOS-Programmes im Protected Mode" gesprochen, ist der 
+eigentliche Protected Mode gemeint und nicht der V86-Modus (Vgl. vorangegangenes 
+Kapitel).</P>
+<H2><FONT color=#000080>Prinzip des DOS-Extenders</FONT></H2>
+<P>Prinzipiell läßt sich die Funktion eines DOS-Extenders so beschreiben: 
+Ausführen eines Programmes im Protected Mode und zurückschalten in den Realmode 
+vor jedem DOS- bzw. BIOS-Aufruf.</P>
+<P>Die meisten DOS-Extender gehen dabei so vor:</P>
+<UL>
+  <LI>Installieren von neuen Interrupt-Handlern (im Protected Mode) für alle 
+  Software-Interrupts des Realmodes, beispielsweise für die Interrupts 21h und 
+  10h, 
+  <LI>nach Aktivierung eines der installierten Interrupt-Handler (z.B. durch den 
+  Befehl Int 21h), Sichern des aktuellen Zustands (z.B. Register) und 
+  Zurückschalten in den Realmode, 
+  <LI>Ausführen des originalen Interrupt Handlers, 
+  <LI>Zurückschalten in den Protected Mode und Fortsetzen des unterbrochenen 
+  Programms. </LI></UL>
+<P>Mit dieser Methode ist es möglich, die Umschaltung in den Realmode vollkommen 
+transparent durchzuführen. Das heißt, das entsprechende Protected Mode Programm 
+bleibt von der Umschaltung völlig unbeeinflußt und kann DOS-Funktionen wie im 
+Realmode ansprechen. Diese Vorgehensweise ist jedoch nur solange möglich, wie 
+die entsprechenden DOS-Funktionen keine Zeiger in den Registern erwarten.</P>
+<P>Soll beispielsweise einer DOS- oder BIOS-Funktion ein Zeiger auf einen Puffer 
+übergeben werden, so ergibt sich das folgende Problem: DOS erwartet Adressen in 
+der Form Segment:Offset innerhalb des Realmode-Bereiches von 1MB. Adressen im 
+Protected Mode werden hingegen als Selektor:Offset Paar interpretiert und können 
+nicht ohne Umwandlung der entsprechenden DOS-Routine übergeben werden.</P>
+<P>Eine mögliche Lösung, die auch von DOS-Extendern eingesetzt wird, ist das 
+zusätzliche Kopieren zwischen der im Protected Mode angegebenen Adresse und vom 
+Extender angelegten Puffern. Nur die Adresse dieses zusätzlichen Puffers wird 
+der ursprünglichen (DOS-) Interrupt-Routine übergeben. Der umgekehrte Weg (DOS 
+liefert Daten, die in einem Protected Mode Puffer gespeichert werden) 
+funktioniert auf ähnliche Weise, die entsprechenden Daten werden im 
+Extender-Buffer abgelegt, von wo aus sie in den Protected Mode Puffer kopiert 
+werden. </P>
+<H2><FONT color=#000080>Probleme</FONT></H2>
+<P>Auch wenn das Problem der Zeigerübergabe über das obengenannte Prinzip gelöst 
+werden kann, existieren weitere Probleme in der Form von 
+Speicherverwaltungs-Utilities.</P>
+<P>Dabei geht es prinzipiell um zwei Ressourcen: den Zugriff auf den Extended 
+Memory auf der einen und den Protected Mode auf der anderen Seite. Da eine 
+zentrale Kontrolle in Form eines Protected Mode Betriebssystems fehlt, glaubt 
+jedes Utility nach Belieben auf den Extended Memory zugreifen zu können oder den 
+Protected Mode zu nutzen.</P>
+<P>EMS-Emulatoren (z.B. EMM386) betreiben den Prozessor beispielsweise im 
+V86-Modus, bei der ein Teil der Protected Mode Speicherverwaltung ebenso aktiv 
+ist wie der Realmode. Für Programme im V86-Modus ergibt sich dadurch das 
+Problem, daß sie automatisch in der niedrigsten Privilegstufe arbeiten (Stufe 
+3), bei der z.B. der Zugriff auf die Register des Protected Mode (GDTR, LDTR, 
+IDTR) verweigert wird. Ein "normales" Realmode Programm läuft unter diesen 
+Umständen ohne Probleme, ein DOS-Extender hingegen könnte nie in den Protected 
+Mode schalten (der ja in gewisser Weise bereits aktiviert wurde).</P>
+<P>Da auch die beteiligten Software-Hersteller dieses Problem erkannten, 
+entstanden zwei Standards die es erlauben, verschiedene Protected-Mode Utilities 
+in einem System zu verwenden. Das etwas ältere VCPI (Virtual Control Programming 
+Interface), das in Speicherverwaltungen und DOS-Extendern eingesetzt wird, sowie 
+DPMI (DOS Protected Mode Interface), auf das Windows 3.x aufbaut.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez4.htm"><IMG 
+alt=Zurück src="DOS-Extender-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos2.htm"><IMG alt=Weiter 
+src="DOS-Extender-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_d"><IMG 
+alt="Zum Index" src="DOS-Extender-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

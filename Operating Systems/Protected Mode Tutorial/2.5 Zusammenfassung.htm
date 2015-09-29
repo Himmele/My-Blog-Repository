@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all10.htm -->
+<HTML><HEAD><TITLE>Zusammenfassung</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Zusammenfassung-Dateien/stone.jpg>
+<H1><FONT color=#800000>2.5 Zusammenfassung</FONT></H1>
+<P>Kapitel 2 zeigte die grundlegenden Mechanismen des Protected Mode. Dazu 
+gehört vor allem die Adressierung des Arbeitsspeichers durch die Verwendung von 
+Deskriptoren. Dabei sollte die Notwendigkeit der Protected Mode Erweiterungen 
+gegenüber der Adressierung im Realmode erkannt werden. Denn nur durch das 
+Festhalten weiterer Informationen über ein Segment kann ein Protected Mode 
+Betriebssystem flexibel Privilegstufen oder z.B. unterschiedliche Segmentgrößen 
+verwalten. Weiterhin sollte beachtet werden, daß die sich daraus ergebenden 
+Überprüfungen automatisch, also durch den Prozessor ausgeführt werden. Dadurch 
+wird ein entsprechendes Betriebssystem von diesen Kontrollaufgaben 
+entlastet.</P>
+<P>Ein weiterer Schwerpunkt von Kapitel 2 liegt auf der Verwaltung von 
+Exceptions durch den Prozessor. Die Exceptions versetzen den Prozessor in die 
+Lage, auf Störungen bei der Programmausführung zu reagieren. Durch Exceptions 
+wird die Programmausführung an ein Protected Mode Betriebssystem abgegeben, was 
+in der Lage ist, aufgetretene Fehler zu korrigieren bzw. laufende Programme bei 
+schweren Fehlern abzubrechen. Zusammen mit der Privilegstufenprüfung wird mit 
+dem Exceptionhandling die Stabilität von Protected Mode Betriebssystemen 
+erreicht. <!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all9.htm"><IMG alt=Zurück 
+src="Zusammenfassung-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm"><IMG 
+alt=Weiter src="Zusammenfassung-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Zusammenfassung-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 30.06.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

@@ -1,0 +1,1451 @@
+/* used to convert otherCodeCharacters to code, thus saving character space in HTML for smaller file sizes */
+tt {
+    font-size: 11px; font-family: Monaco, Courier, Consolas, monospace; }
+
+/* redefine preformated text and code blocks */
+pre {
+    font-size: 11px; font-family: Monaco, Courier, Consolas, monospace; margin-top: 5px; margin-bottom: 10px;}
+code {
+    font-size: 11px; font-family: Monaco, Courier, Consolas, monospace; }
+
+/*  Work around IE/Win code size bug - courtesy Jesper, waffle.wootest.net  */
+* html code {font-size: 101%;}
+* html pre {font-size: 101%; }
+
+
+img.toplevel { float: left; }
+
+
+/* frameset: H1,H2,H3,H4,H5,Head for code voice */
+
+h1  {
+    margin-top: 1em;
+    margin-bottom: 25px;
+    font: bold 30px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    color: #000;
+    }
+h2  {
+    margin-top: 2.5em;
+    font-size: 24px;
+    color: #000;
+    padding-bottom: 2px; border-bottom: 1px solid #919699;
+    }
+h3  {
+    margin-top: 2em;
+    margin-bottom: .5em;
+    font-size: 17px;
+    color: #000;
+    }
+h3.tight {
+    margin-top: 3em;
+    margin-bottom: -.25em;
+    }
+h3.tasks {
+    margin-top: 8px;
+    margin-bottom: .25em;
+    }
+h3.verytight {
+    margin-top: 1.75em;
+    margin-bottom: -.25em;
+    }
+h4  {
+    margin-top: 2em;
+    margin-bottom: .5em;
+    font-size: 15px;
+    color: #000;
+    }
+h4.toc {
+    padding-top: 7px;
+    margin-bottom: 2em;
+    }
+h5  {
+    margin-top: 20px;
+    margin-bottom: .5em;
+    padding: 0;
+    font-size: 13px;
+    color: #000;
+    }
+.mach4{
+    margin-top: 40px;
+    margin-bottom: 0;
+    padding-top: 0;
+    font: bold 16px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    color: #000;
+    }
+.mach5{
+    margin: 30px 0 -8px 0;
+    font: bold 13px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    color: #000;
+    }
+h5.tight{
+    margin: 9px 0 2px 0;
+    }
+
+li img { 
+    margin-left: 0px;
+}
+
+
+/* frameset: toc frame styles WEB AS. used for any document that uses the static model for TOC topics documents*/
+
+#topicstoc {
+    padding: 0px 0px 0px;
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+}
+
+
+#topicstoc p.download {
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 9px; font-weight: bold;
+    border-bottom: 1px solid #CCC; 
+    padding: 0 0 10px 5px;
+    margin: 0;
+}
+
+#topicstoc h2 { 
+    margin: 0; 
+    padding: 10px 10px 5px 10px; 
+    font-size: 13px; font-weight: bold;
+    border-bottom: 0px solid;
+}
+
+#topicstoc h3 { 
+    margin: 6px 5px 0 10px; 
+    font-size: 12px; font-weight: bold; color: black;
+}
+
+#topicstoc h4 { 
+    font-size: 11px; font-weight: bold; color: black;
+    margin: 2px 0px 0px 14px;
+}
+
+#topicstoc ul { 
+    list-style: none outside; 
+    margin-left: 13px; margin-bottom: -2px;
+    padding: 0px;
+}
+
+
+#topicstoc ul ul{ 
+    list-style: none outside; 
+    margin-left: 10px; margin-bottom: -2px;
+    padding: 0px;
+}
+
+#topicstoc li{
+    font-weight: normal; font-size: 11px; 
+    padding: 0px 5px 2px 10px; 
+    list-style-type: none;
+}
+
+#topicstoc li.intro {
+    font-weight: normal; 
+    padding: 0px 0px; 
+    list-style-type: none; background: none;
+}
+
+#topicstoc li a {
+    display: block; 
+    padding: 0px 5px 0px 0px;
+}
+
+#topicstoc li a.location { 
+    font-weight: bold; color: #000; 
+    text-decoration: none;
+}
+
+#topicstoc li.intro a {
+    margin-left: -5px; 
+    display: block; 
+}
+
+
+
+    
+.code_head{
+    font-size: 18px; font-family: Monaco, Courier, Consolas, monospace; font-weight: bold; margin-top: 50px;
+}
+p {
+    margin-top: 0px; margin-bottom: 10px; font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    }
+p.spaceabove {
+    margin-top: 13px; margin-bottom: 10px; font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    }
+p.spaceabovemethod {
+    font: 11px monaco, courier, monospace; margin-top: 13px; margin-bottom: 10px;       
+}
+p.spaceabovemethod i {
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 11px; font-style: italic;     
+}
+h3.tight + p, h3.verytight + p {
+    margin-top: 13px; margin-bottom: 10px; font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    }
+h3.tight + p.spaceabovemethod {
+    font: 11px monaco, courier, monospace; margin-top: 13px; margin-bottom: 10px;       
+}
+
+
+.content_text{
+    margin-top: 0px;
+    margin-bottom: 10px; font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+}
+
+p.blockquote{
+   padding-left: 50pt;
+   padding-right: 50pt;
+   }
+ul.availability {
+    list-style-type: none;
+    margin: 0 0 -10px 0;
+    }
+.availability li {
+    margin: 2px 0 0 -6px;
+    }
+    
+/* frameset: content frame bold style for text*/
+b{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold;
+}
+
+/* Used for text that is sligtly larger than bold text like lables and captions*/
+.content_text_label{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 12px; 
+}
+
+/* frameset: content frame italic style for text*/   
+i{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic;     
+}
+
+/* make sure the font is set to something that can reflect the italic font style, in AppleScript syntax elements, for example */   
+.force_italic{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 12px; font-style: italic;     
+}
+
+i.mono {
+    font-family: Monaco, Courier, Consolas, monospace; 
+    font-size: 11px;
+    font-weight: normal; 
+    font-style: italic; 
+    clear: both;
+}
+
+pre.bold {
+    font-family: Monaco, Courier, Consolas, monospace; 
+    font-size: 11px;
+    font-weight: bold; 
+}
+
+
+/* Used for reference heads in ProcedualC and AppleScript Language*/
+.content_ref_head{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; 
+        font-size: 16px; font-weight: bold; margin-top: 50px; padding-bottom: 4px; border-bottom: 1px solid #919699;
+
+        }        
+
+.content_ref_head_code{
+    font-family: monaco, courier, monospace; 
+        font-size: 16px; font-weight: bold; margin-top: 50px; padding-bottom: 4px; border-bottom: 1px  solid #919699;
+        }   
+        
+/* frameset: page title */
+.page_title{
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    font-size: 34px;
+    font-weight: bold;
+    color: #000000;  
+    padding-top: 10px;
+    }
+
+/* frameset: Unordered List */
+
+ul.spaceabove   {
+    list-style: square outside;
+    margin: 0 0 0 30px;
+    padding: 7px 0 12px 6px;
+    }
+ul.termdef  {
+    list-style: square outside;
+    margin-left: 16px;
+    padding: 0 0 0 0;
+    }
+li.termdef {
+    margin-left: 0px;
+}
+ul  {
+    list-style: square outside;
+    margin: 0 0 0 30px;
+    padding: 0 0 12px 6px;
+    }
+
+li  {
+    margin-top: 7px;
+    }
+            
+li p    {
+    margin-top: 8px;
+    }
+    
+ul ul {
+    list-style: circle outside;
+    margin: 6px 0 0 30px;
+    padding: 0 0 12px 6px;
+    }
+ul.threeHead    {
+    list-style: square outside;
+    margin: 0 0 0 20px;
+    padding: 0 0 0px 0px;
+    }
+
+
+/* alternate mappings for 2nd level bulleted list that are still in testing phase*/ 
+.nested li  {
+    list-style-image: url(../Images/openbullet.gif);
+    list-style-position: outside;
+    }
+    
+ul.nested {
+    list-style: none;
+    margin: 6px 0 0 30px;
+    }
+            
+ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    margin: 0 0 0 30px;
+    padding: 0 0 12px 6px;
+    }
+    
+ol ol {
+    list-style-type: lower-alpha;
+    list-style-position: outside;
+    margin: 7px 0 0 30px;
+    padding: 0 0 12px 10px;
+    }
+
+ul.simple-spaceabove {
+    list-style-type: none;
+    margin: 5px 0 0 20px;
+    }
+.simple-spaceabove li   {
+    margin-top: 1px;
+    }
+
+ul.simple {
+    list-style-type: none;
+    margin: 0 0 0 30px;
+    }
+.simple li  {
+    margin-top: -1px;
+    }
+    
+ul.simple_termdef {
+    list-style-type: none;
+    margin: 3px 0 -10px 0px;
+    }
+.simple_termdef li  {
+    margin-top: -1px;
+    }
+
+dl.table-display {
+    clear: both;
+    width: auto;
+    margin: 0;
+    padding: 0px;
+    }
+
+.table-display dt  {
+    width: 8em;
+    float: left;
+    margin: 0 0 0 0;
+    padding: .1em;
+    }
+
+/* commented backslash hack for mac-ie5 \*/
+dt { clear: both; }
+
+
+.table-display dd  {
+    float: left;
+    width: 80%;
+    margin: 0 0 0 0;
+    padding: .1em;
+    display: block;
+    }
+
+.clear {
+    clear: both;
+    }
+dl.termdef  {
+        margin-top: 0px;
+        margin-bottom: 10px; }  
+.termdef dt {
+        margin-top: 0px; }
+.termdef dd {
+        margin-left: 15px;
+        margin-top: 1px;
+        margin-bottom: 6px; }   
+.termdef dd p{
+        margin-top: -1px;
+        margin-bottom: 6px; }   
+h3.tight + dl.termdef  {
+        margin-top: 13px;
+        margin-bottom: 10px; }
+h3.verytight + ul  {
+        margin-top: 10px;
+        margin-bottom: 0px; }
+.termdef dd  div.codesample {
+        margin-top: 0px;
+        margin-bottom: 6px; }
+.termdef dd  div.codesample pre {
+        margin: -1px 4px 0px 6px; }
+    
+/* frameset: list items */
+/* Everything in a list item is wrapped in an element now. */
+/* First para in a list item should be inline, others should be block. */
+li>p { display: inline }
+li>p+p { display: block }
+li>a+p { display: block }
+
+
+/* frameset: Index styles for docs */
+/* frameset: Index styles for alpah listing */
+.index_alpa{ 
+    font-size: 18px; padding-bottom: 5px; margin: 25px 0 15px; border-bottom: 1px solid #91969C; }
+
+/* frameset: Index styles for singal and page range entries */
+.libindex{ 
+font-size: 12px; padding: 0 3px; background-color: #FFFFFF; margin: 0 3px; }
+
+
+
+/* frameset: mini navigation style (Hide/Show TOC & next/prev) */
+.mini_nav_text {
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    font-size: 9px;
+    font-weight: normal;
+}
+
+/*  ADC header/footer mappings for Getting Started */
+/* header */
+#adcnavheader td {
+    font: 10px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    }
+
+#adcnavheader input {
+    margin: 0 3px 0 0;
+    padding: 0;
+    }
+
+#adcnavheader .textpadding {
+    padding-top: 2px;
+    vertical-align: middle;
+    }
+    
+#adcnavheader .searchbutton {
+    border: 0;
+    }
+
+#adcnavheader h6 {
+    margin: 0;
+    padding: 0;
+    font: normal 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    color: #000;
+}
+
+#adcnavheader form {
+    margin: 0;
+}
+
+
+/* footer */
+#footer td, #footer p {
+    font-size: 10px;
+    }
+    
+/* Item CSS */
+.item_figure {
+    margin-top: 1em;
+    margin-bottom: 10px;
+    }
+
+
+/* Getting Started styles */
+
+/* font definitions */
+
+/* keep ".gettingstarted pre, code" above ".gettingstarted h1" below otherwise,
+the main h1 tag above will be used instead of".gettingstarted h1" */
+.gettingstarted pre,
+.gettingstarted code  {
+    font: 11px Monaco, Courier, monospace;
+    }
+
+/* Added this style since the ADC template was trying to do this with a graphic (Note: their h2
+attached to the image tag is only used by search engines; their h2 does not function if the
+graphic is missing).--DA  */        
+.gettingstarted h2 {
+    margin: 0;
+    margin-bottom: 15px;
+    padding: 0px;
+    font: bold 32px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+    }        
+
+.gettingstarted h3  {
+    margin: 0 0 5px 0;
+    padding: 0px;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+    }
+    
+.gettingstarted p + .gettingstarted h3 {
+    margin-top: 20px;
+    }
+
+.gettingstarted ol + .gettingstarted h3 {
+    margin-top: 20px;
+    }
+
+.gettingstarted ul + .gettingstarted h3 {
+    margin-top: 20px;
+    }
+
+.gettingstarted h4  {
+    margin: 0px;
+    padding: 0px;
+    font: bold 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+    }
+
+.gettingstarted h4 + .gettingstarted table {
+    margin-top: 10px;
+    }
+
+.gettingstarted p   {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font: 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #000;
+    }
+    
+.gettingstarted th {
+    font-weight: bold;
+    text-align: left;
+    }
+
+
+/* list definitions */
+.gettingstarted ul  {
+    font: 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    padding-left: 10px;
+    margin-top: 0;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    list-style-type: none;
+    }
+
+.gettingstarted li  {
+    margin-top: 3px;
+    }
+        
+        
+.gettingstarted ul li   {
+        list-style: square outside;
+    margin: 0 0 0 30px;
+        padding: 0 0 4px 0;
+    }      
+    
+.gettingstarted ul ul {
+    margin-left: 20px;
+    }
+
+.gettingstarted ol {
+    font: 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 0;
+    margin-left: 1.5em;
+    margin-bottom: 10px;
+    padding-left: 1.5em;
+    }
+
+.gettingstarted ul.inline, .gettingstarted ol.inline, .gettingstarted p.inline {
+    margin-top: -7px;
+    }
+        
+
+/* Headstart styles */
+
+.headstartBoundary  {
+    margin-left: 65px;
+    }
+
+.headstart pre, 
+.headstart code  {
+    font: 11px 'Andale Mono', Monaco, Courier, monospace;
+    color: #666;
+    }
+
+.headstart .content_text {
+    margin-top: 0px;
+    margin-bottom: 10px; 
+    font: 11px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+}
+
+.headstart p b {
+    font: bold 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    }
+
+.headstart h2 {
+    margin: 0;
+    margin-bottom: 27px;
+    margin-top: 50px;
+    padding: 0;
+    font: bold 26px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    border-bottom-style: none;
+    }        
+
+.headstart h3 {
+    margin: 27px 0 5px 0;
+    padding: 0;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+    
+.headstart h4   {
+    margin: 0;
+    padding: 0;
+    font: bold 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+
+.headstart p + .headstart h3 {
+    margin-top: 27px;
+    }
+
+.headstart ol + .headstart h3 {
+    margin-top: 27px;
+    }
+
+.headstart ul + .headstart h3 {
+    margin-top: 27px;
+    }
+
+.headstart p {
+    margin-top: 18px;
+    line-height: 14px;
+    padding: 0;
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #666;
+    }
+
+.headstart .item_figure { 
+    margin-top: 18px;
+    margin-bottom: 10px;
+    }
+
+.aboutheadstart h3 {
+    margin: 27px 0 5px 0;
+    padding: 0px;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+    
+.aboutheadstart p {
+    margin-top: 14px;
+    margin-bottom: 10px;
+    padding: 0;
+    font: bold 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #666;
+    }
+
+.inthisheadstart h3 {
+    margin: 27px 0 5px 0;
+    padding: 0px;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+    
+.inthisheadstart hr {
+    margin-top: 27px;
+    margin-bottom: 18px;
+    border: 0px; 
+    border-top: 1px solid #999;
+    }
+
+.lessonsteps hr {
+    margin-top: 27px;
+    margin-bottom: 18px;
+    border: 0px; 
+    border-top: 1px solid #CCC;
+}
+
+.lessonsteps h4 {
+    margin-top: 18px;
+    padding: 0;
+    font: bold 12px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+
+.additionallearning h3 {
+    margin: 27px 0 5px 0;
+    padding: 0;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+    
+.furtherreading h3 {
+    margin: 27px 0 18px 0;
+    padding: 0;
+    font: bold 16px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }
+    
+.headstart .sourcecodebox {
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    padding: 10px 16px;
+    margin-top: 18px;
+    margin-left: 15px;
+    margin-bottom: 27px;
+    }
+
+.headstart .codesample pre {white-space: pre-wrap;}
+
+.headstart .notebox {
+    border: 1px solid #a1a5a9;
+    background-color: #f7f7f7;
+    margin: 20px 0;
+    padding: 0px 8px 7px 9px;
+    text-align: left;
+    }
+    
+.headstart .notebox p { 
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    }   
+
+/* list definitions */
+
+.headstart ul   {
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    padding-left: 10px;
+    margin-top: 0;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    list-style-type: none;
+    }
+
+.headstart li   {
+    margin-top: 3px;
+    }
+        
+.headstart ul li    {
+    list-style: square outside;
+    margin: 0 0 0 30px;
+    padding: 0 0 4px 0;
+    }      
+    
+.headstart ul ul {
+    margin-left: 20px;
+    }
+
+.headstart ol {
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 18px;
+    margin-left: 15px;
+    margin-bottom: 18px;
+    padding-left: 1.5em;
+    color: #666;
+    }
+
+.headstart ol li    {
+    margin: 3px 0 0 0;
+    padding: 0 0 4px 0;
+    }      
+
+.headstart ul.inline, .headstart ol.inline, .headstart p.inline {
+    margin-top: -7px;
+    }
+
+.inthisheadstart ul {
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    padding-left: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 10px;
+    list-style-type: none;
+    }
+
+.inthisheadstart ul li  {
+    list-style: square inside;
+    margin: 0 0 0 0;
+    padding: 0 0 4px 0;
+    }      
+
+.inthisheadstart ul li p    {
+    font: 11px 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #333;
+    }      
+
+
+.furtherreading ul.simple {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+    }
+
+
+.furtherreading ul.simple li    {
+    list-style: none;
+    margin: 0 0 0 0;
+    padding: 0 0 4px 0;
+    }      
+
+.furtherreading .content_text {
+    margin-top: 0px;
+    margin-bottom: 10px; 
+    font: 11px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+}
+
+/* table styles */
+caption.tablecaption {
+    margin-bottom: 5px;
+    text-align: left;
+}
+.sourcecodebox {
+    border: 1px solid #c7cfd5;
+    background: #f1f5f9;
+    margin: 20px 0;
+    }
+    
+div.tableholder {
+    margin-top:  20px;
+    margin-bottom: 20px; 
+    }
+    
+p.tableholder {
+    margin-bottom: 7px; 
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    } 
+          
+.rowhead p {
+    font-weight:bold;
+    }
+    
+.rowhead {
+    background: #E2E2E2;
+    }
+
+.graybox {
+    border-top: 1px solid #919699;
+    border-left: 1px solid #919699;
+    }
+    
+.graybox th {
+    padding: 4px 8px 4px 8px;
+    background: #E2E2E2;
+    font-size: 12px;
+    border-bottom: 1px solid #919699;
+    border-right: 1px solid #919699;
+    }
+.graybox th p {
+    font-weight: bold;
+    margin-bottom: 0px; 
+    }
+    
+.graybox td {
+    padding: 8px;
+    font-size: 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #919699;
+    border-right: 1px solid #919699;
+    }
+.graybox td p {
+    margin-bottom: 0px; 
+    }
+.graybox td p + p  {
+    margin-top: 5px; 
+    }
+.graybox td p + p + p {
+    margin-top: 5px; 
+    }
+    
+    
+/* footnote definitions */
+.footnote h4, .footnote p {
+    color: #76797C;
+    font-size: 11px;
+    }
+        
+.gettingstarted .footnote {
+    font-size: 11px;
+    color: #76797C;
+    }
+        
+.noteboxdef {
+    border: 1px solid #a1a5a9;
+    background-color: #f7f7f7;
+    margin: 20px 0;
+    padding: 5px 8px 1px 9px;
+    text-align: left;
+    }                              
+.notebox {
+    border: 1px solid #a1a5a9;
+    background-color: #f7f7f7;
+    margin: 20px 0;
+    padding: 0px 8px 7px 9px;
+    text-align: left;
+    }
+.notebox p, .noteboxdef p { 
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    }   
+.importantboxdef{
+    border: 1px solid #111;
+    background-color: #e8e8e8;
+    margin: 20px 0;
+    padding: 5px 8px 1px 9px;
+    text-align: left;
+    }
+.importantbox {
+    border: 1px solid #111;
+    background-color: #e8e8e8;
+    margin: 20px 20px;
+    padding: 0px 8px 1px 9px;
+}
+.importantbox p, .importantboxdef p{ 
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    }   
+.warningboxdef {
+    border: 1px solid #000;
+    background-color: #fff;
+    margin: 20px 0;
+    padding: 6px 8px 1px 9px;
+    text-align: left;
+    }
+.warningbox {
+    border: 1px solid #000;
+    background-color: #fff;
+    margin: 20px 0;
+    padding: 0px 8px 1px 9px;
+    text-align: left;
+    }
+.warningicon { 
+    border-style: none;
+    background-color: transparent;
+    padding-top: 6px; 
+    padding-right: 12px;
+    padding-bottom: 7px;
+    float: left; 
+    }
+.warningicondef { 
+    border-style: none;
+    background-color: transparent;
+    padding-top: 0px; 
+    padding-right: 12px;
+    padding-bottom: 7px;
+    float: left; 
+    }
+.warningbox p, .warningboxdef p { 
+    border-style: none;
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    margin-left: 30px;
+    }               
+                                                                             
+div.codesample {
+    margin: 20px 0;
+    }
+.codesample pre {
+    font-size: 11px; 
+    font-family: Monaco, Courier, Consolas, monospace; 
+    margin: -1px 4px -3px 6px;
+    white-space: pre;
+    line-height: 14px;
+    }
+.codesample span {
+    margin-right: 8px;
+    float: right;
+    }
+p.codesample {
+    margin-top: 20px; margin-bottom: -15px; font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    }
+div.zdeclaration {
+    margin: 20px 0;
+    }
+.zdeclaration pre {
+    font-size: 11px; 
+    font-family: Monaco, Courier, Consolas, monospace; 
+    margin: -1px 4px -3px 6px;
+    white-space: pre;
+    }
+.zdeclaration span {
+    margin-left: 60px;
+    }
+.tooltipicon {
+    display: none;
+    background-color: transparent;
+    margin-bottom: -1px;
+    padding-left: 5px;
+    cursor: pointer;  
+    cursor: hand;   
+    }
+ul.tooltip {
+    list-style-type: none;
+    margin: 0 0 0 30px;
+    }
+ul.tooltip  li {
+    margin: 2px 0 0 0;
+    }
+
+/* Controller Layer Bindings styles */        
+
+.class_binding_block {
+        }
+        
+.binding_category_block {
+    margin-left: 1em
+        }
+        
+.binding_category_name {
+    font-size: 24px; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-weight: bold; line-height: 35px; padding-bottom: 1px; border-top: 2px solid black
+        }
+        
+.binding_block {
+        margin-left: 2em
+        }
+        
+.binding_name {
+    font-size: 18px; font-family: Monaco, Courier, Consolas, monospace; font-weight: 400; margin-top: 10px; margin-bottom: 12px; border-bottom: 1px solid #69f
+        }
+
+.bindings_tablehead { font-size: 14px; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-weight: bold; position: relative; top: -5px; margin-left: -20px
+        }
+        
+.placeholder_options_block {
+        margin-left: 2em
+        }
+        
+.availabilityList {
+        border: none;
+    margin-top: 5px;
+        margin-bottom: 0px;
+        font-size: 12px;
+    text-align: left;
+    }
+        
+.availabilityItem {
+    margin-top: -15px;
+        margin-bottom: 15px;
+        padding-left: 78px;
+    }
+    
+
+.metadata_attributes_name {
+    font-size: 24px; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-weight: bold; padding-top: 5px; margin-bottom: -10px; border-top: 2px solid black
+        }
+        
+.metadata_attribute_name {
+    font-size: 18px; font-family: Monaco, Courier, Consolas, monospace; font-weight: 400; margin-top: 10px; padding-bottom: 2px;
+        }
+         
+.task_api_suffix {font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 11px; font-style: italic; color: #999966;}
+        
+/* Spec Sheet Info Box */
+/* Used in AppKit Obj-C, Appkit Java, Foundation Obj-C, and Foundation Java References */ 
+        
+.spec_sheet_info_box  { margin-left: 1em }
+
+/* This builds a table */        
+.specbox {
+    border-top: 1px solid #919699;
+    border-left: 1px solid #919699;
+    border-right: 1px solid #919699;
+    margin-bottom: 10px;
+    }
+    
+.specbox td {
+    padding: 8px;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #919699;
+    }
+        
+/* This alternates colors in up to six table rows (light blue for odd, white for even)*/      
+        
+.specbox tr {
+        background: #F0F5F9;
+}
+
+.specbox tr + tr {
+        background: #FFFFFF;
+}
+
+.specbox tr + tr + tr {
+        background: #F0F5F9;
+}
+
+.specbox tr + tr + tr + tr {
+        background: #FFFFFF;
+}
+
+.specbox tr + tr + tr +tr + tr {
+        background: #F0F5F9;
+}
+
+.specbox tr + tr + tr + tr + tr + tr {
+        background: #FFFFFF;
+}
+
+.specbox tr + tr + tr + tr + tr + tr + tr {
+        background: #F0F5F9;
+}
+
+/* informal protocol subtitling */
+
+.protocol_subtitle {
+    margin-top: -25px;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+/* HeaderDoc headings */
+
+.hd_tocAccess {
+        margin-left: 16px;
+        margin-top: 3px;
+        display: block;
+        font-weight: bold;
+}
+.hd_tocAccessSpace {
+        display: block;
+        font-size: 8px;
+}
+
+.hd_tocGroup {
+        margin-left: 8px;
+        margin-top: 5px;
+        display: block;
+        font-style: italic;
+}
+.hd_tocGroupSpace {
+        display: block;
+        font-size: 8px;
+}
+
+/* "Collection page" mappings */
+    
+.forums,
+.forums td, 
+.forums b,
+.forums a:link { COLOR: #093d92; TEXT-DECORATION: none; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 11px;  line-height: 15px; margin-bottom: 5px;} 
+.forums a:visited { COLOR: #003366; TEXT-DECORATION: none; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 11px;  line-height: 15px; margin-bottom: 5px;} 
+.forums a:hover { color: #093d92; text-decoration: underline; }  
+.collection { margin-bottom: 5px; }
+.collection h3 { font-size: 13px; color: black; padding-bottom: 3px; border-bottom: 1px solid #a1a5a9; margin-bottom: 1px; margin-right: 25px; margin-top: 0px; text-indent: 0; margin-left: -10px; }
+
+.forums p { COLOR: #093d92; TEXT-DECORATION: none; font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; font-size: 11px; line-height: 15px; margin-bottom: 2px;} 
+
+.collection_title { width: 680px; }
+
+h1.collections {
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font: bold 30px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    color: #000;
+    text-align: left;
+    padding-top: 25px;
+    border-top: 0; }
+    
+.sidebartable {
+    width: 170px;
+    border: 1px solid #a1a5a9;
+    margin-bottom: 10px;
+    padding: 10px;
+    margin-left: 0px;
+    font-family: 'lucida grande', arial; 
+    font-size: 11px;
+    text-align: left;
+    }
+
+.header { 
+    color: #000000;
+    font-size: 12px; font-weight: bold;
+    margin-bottom: 5px;
+    }   
+
+.sidebartable th {
+    padding: 4px 8px 4px 10px;
+    background: #DBDBDB;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+    border-bottom: 1px solid #a1a5a9;
+    }
+    
+.sidebartable td {
+    padding: 0 10px 10px;
+    font-size: 11px;
+    text-align: left;
+    vertical-align: top;
+    }
+    
+.sidebartable p { 
+    color: #017; 
+    font-family: 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif; 
+    font-size: 11px; 
+    font-weight: bold; 
+    line-height: 13px; 
+    margin-bottom: 5px;} 
+
+.sidebartable h2, .sidebartable ul {
+    font-size: 11px;
+    color: #017;
+    margin: 10px 0 2px;
+    padding: 0;
+    }
+    
+.sidebartable table td {
+    border: none;
+    padding: 0;
+    vertical-align: middle;
+    }
+
+/* Legacy watermarking */
+
+#legacyOuterWrapper {
+    width: 100%;
+    position: fixed;
+    margin-left: -110px;
+    }
+* html #legacyOuterWrapper {
+    width: 100%;
+    position: fixed;
+    margin-left: 0px;
+    }
+#watermark {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1500;
+    width: 500px;
+    }
+.legacybox {
+    border: 2px solid #695D54;
+    background: #FFFACD;
+    margin-top: 8px;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding: 2px 5px 2px 8px;
+    text-align: left;
+    position: relative;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 10px;
+    -moz-box-shadow: gray 0px 8px 10px;
+}
+
+.legacybox p {
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    margin-top: 2px;
+    }
+.legacybox h1 {
+    font: 14px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    }
+.closebutton {
+    background-color: transparent;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    bottom: 8px;
+    }
+
+.noWrap {white-space: nowrap;}
+
+.codesample table{
+    width: 100%;
+    background-color: #F1F5F9;
+    border: 1px solid #C9D1D7;
+    border-spacing: 0px;
+}
+
+.codesample table td{
+    padding: 6px;
+}
+
+.KeyPhrases_Name {
+    color: gray;
+    font-weight: bold;
+}
+
+.figure { /* Artwork */
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+/* Devpedia link, popup box, and popup article styles */
+span.pediaLink {
+    color: #093D92;
+    font-style: normal;
+    border-bottom: 1px dashed #093D92;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+span.pediaLink:hover, span.pediaLink a:hover{
+    border-bottom: 1px solid #093D92;
+    text-decoration: none;
+}
+
+span.activePedia, span.activePedia a{
+    border-bottom: none;
+    color: white;
+    background-color: #8697BB;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 20px;
+    -moz-box-shadow: black 0 0 5px;
+    margin: -4px;
+    padding: 1px 4px 1px 4px;
+}
+
+span.activePedia-bottom, span.activePedia-bottom a{
+    border-bottom: none;
+    color: white;
+    background-color: #8697BB;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 20px;
+    -moz-box-shadow: black 0 0 5px;
+    margin: -4px;
+    padding: 1px 4px 1px 4px;
+}
+
+span.activePedia:hover, span.activePedia a:hover, span.activePedia-bottom:hover, span.activePedia-bottom a:hover {
+    border-bottom: none;
+    color: white;
+}
+
+.pediaData, .tooltipAbstract {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
+#pediaWindow{
+    z-index: 300;
+    width: 300px;
+    position: absolute;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 20px;
+    -moz-box-shadow: black 0 0 20px;
+}
+
+#pediaWindow #pediaHeader{
+    background-image: url("../Images/pedia/header_background.png");
+    height: 18px;
+    font: bold 12px "Lucida Grande", Geneva, Helvetica, Arial, sans-serif;
+    padding-left: 13px;
+    padding-top: 3px;
+    border-top: 1px solid #999999;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+}
+#pediaWindow #pediaBody {
+    border: 1px solid #999999;
+    background-color: white;
+    color: #000;
+    padding: 5px 7px 7px 7px;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+}
+
+#pediaWindow #peidaMore {
+    color: #08c;
+    font-style: italic;
+    cursor: pointer;
+}
+
+/* Devpedia QuickLook window syles */
+
+#QuickLookWindow {
+    z-index: 9100;
+    position: fixed;
+    top: 50px;
+    bottom: 50px;
+    width: 755px;
+    left: 5%;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 20px;
+    -moz-box-shadow: black 0 0 5px;
+    background-color: white;
+}
+
+#QuickLookCloseBox {
+    position: fixed;
+    left:5%;
+    margin-left: -15px;
+    top: 35px;
+    z-index: 9150;
+}
+
+#QuickLookBody {
+    overflow: hidden;
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    right: 7px;
+    left: 7px;
+    padding: 3px;
+}
+
+#QuickLookBody object{
+    width: 735px;
+    height: 99%;
+    overflow: auto;
+}
+
+#QuickLookGreyout {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: .75;
+    background-color: black;
+    z-index: 9000;
+}
+
+/* Coding How-To stuff */
+
+.HowToTOC h5 {
+    margin-bottom: 2px; 
+    margin-top: 15px; 
+}
+
+.HowToTOC p {
+    margin-bottom: 5px; 
+    margin-left: 30px; 
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm -->
+<HTML><HEAD><TITLE>Gates, Interrupts und Exceptions (IDT)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Gates, Interrupts und Exceptions (IDT)-Dateien/stone.jpg">
+<H1><FONT color=#800000>2.4 Gates, Interrupts und Exceptions (IDT)</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Intel Prozessoren ab dem 80286 besitzen, wie bereits unter Punkt 2.1 
+erläutert wurde, ein ausgeprägtes Schutzkonzept. Dieses Konzept verbietet unter 
+anderem die Ausführung von Programmcode in anderen Privilegstufen als der gerade 
+aktuellen. Diese Fähigkeit ist für die Stabilität des gesamten Systems von 
+entscheidender Bedeutung. Ein Protected Mode Betriebssystem behält durch das 
+Schutzkonzept, unabhängig von Programmfehlern in weniger privilegierten 
+Programmen, immer die Kontrolle über alle laufenden Tasks.</P>
+<P>Die Eigenschaft des Schutzkonzeptes hat jedoch auch einen großen Nachteil: 
+Denn wie soll ein Anwendungsprogramm, das in Ebene 3 läuft, eine Routine des 
+Betriebssystems (z.B. die Anforderung eines neuen Speicherblocks) nutzen, wenn 
+der Zugriff auf den entsprechenden Programmcode schon durch den Prozessor 
+verweigert wird?</P>
+<P>Die Lösung dieses Problems sind die sogenannten Gates (<I>gate, englisch, 
+Tor</I>), die einen genau definierten Einsprungspunkt in eine höher 
+privilegierte Routine festlegen. Abb. 2.10 illustriert die Funktion eines Gates, 
+der rote Pfeil stellt den direkten, jedoch verbotenen Unterprogrammaufruf 
+dar.</P>
+<CENTER>
+<P><IMG alt=Gates 
+src="Gates, Interrupts und Exceptions (IDT)-Dateien/p_2_10.gif" border=3> 
+<BR><I><B>Abb. 2.10:</B> Gate für die Ausführung höher privilegierter 
+Unterprogramme</I> </P></CENTER>
+<H2><FONT color=#000080>Unterschiedliche Arten von Gates</FONT></H2>
+<P>Prozessoren ab dem 80286 kennen vier verschiedene Arten von Gates, die als 
+<I>Call-,</I> <I>Interrupt-</I>, <I>Trap-</I> und <I>Task-Gate</I> bezeichnet 
+werden. Tabelle 2.2 stellt die Aufgabenbereiche der einzelnen Gates kurz 
+vor.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Gate</TH>
+    <TH align=middle>Aufgabe</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>Call</TD>
+    <TD>Aufruf von Unterprogrammen über CALL-Befehle, mit Wechsel der 
+      Privilegstufe</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>Interrupt</TD>
+    <TD>für Hardware-Interrupts und INT-Befehle</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>Trap</TD>
+    <TD>für Hardware-Interrupts und INT-Befehle</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>Task</TD>
+    <TD>alle Aufrufmöglichkeiten (für die Befehle CALL, JMP, INT und 
+      Hardware-Interrupts) mit Taskwechsel</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 2.2:</B> verfügbare Gates</I> 
+</CAPTION></CENTER>
+<P>Die genaue Funktionsweise der Task und Call Gates soll an dieser Stelle nicht 
+betrachtet werden. Näheres über Task Gates und Multitasking finden Sie unter 
+Punkt: <A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">3 
+Spezielle Protected Mode Funktionen</A>. </P>
+<P>Trap und Interrupt Gates unterscheiden sich voneinander nur durch die 
+Behandlung des IF-Bit ("Interrrupt Enable Flag") des Flagregisters. Interrupt 
+Gates setzen dieses Bit zurück und verhindern damit die Auslösung weiterer 
+Hardware-Interrupts solange, bis die entsprechende Behandlungsroutine das Bit 
+wieder setzt oder über einen IRET-Befehl endet. Trap Gates nehmen keinen Einfluß 
+auf den Zustand des IF-Bits. </P>
+<H2><FONT color=#000080>Gate-Deskriptoren</FONT></H2>
+<P>Gates gehören zur Gruppe der Systemobjekte, d.h. sie besitzen ein eigenes 
+Deskriptorformat. Wie bereits unter Punkt 2.2 kurz dargestellt wurde, existiert 
+im Byte 6 eines Deskriptors das sogenannte "Segment"-Bit. Dieses Bit legt fest, 
+ob der entsprechende Deskriptor ein Speicher- oder ein Systemsegment 
+(einschließlich Gates) beschreibt. Ist dieses Bit zurückgesetzt (also 0), 
+handelt es sich um einen Systemsegment-Deskriptor.</P>
+<P><B>Anmerkung:</B> Unterschiede zwischen Speicher- und 
+Systemsegment-Deskriptoren:</P>
+<UL>
+  <LI>
+  <P>Speichersegment-Deskriptoren beschreiben die Eigenschaften, die Größe und 
+  die Startadresse eines "echten" Segmentes im Speicher. Die auf diese Weise 
+  beschriebenen Segmente können durch Programme oder durch Daten belegt werden. 
+  Dabei spielt es keine Rolle, ob die entsprechenden Segmente von einem 
+  Anwendungsprogramm oder dem Betriebssystem benutzt werden. 
+  Speichersegment-Deskriptoren besitzen ein gesetztes "Segment"-Bit.</P>
+  <LI>
+  <P>Systemsegment-Deskriptoren werden durch ein gelöschtes "Segment"-Bit 
+  identifiziert. Durch den Inhalt ihres TYPE-Feldes werden sie in zwei 
+  unterschiedliche Gruppen aufgeteilt. Zum einen existieren spezielle 
+  Deskriptortypen, die LDTs und TS-Segmente aufnehmen, sie beschreiben ebenfalls 
+  einen Speicherbereich und legen die Basisadresse, sowie die Größe dieses 
+  Bereiches fest. Näheres zu diesen Segmenten finden Sie unter Punkt: <A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">3 Spezielle 
+  Protected Mode Funktionen</A>.</P></LI></UL>
+<P>Auch die "Gates" gehören zur Gruppe der Systemsegment-Deskriptoren. Sie 
+beschreiben jedoch keine Segmente, sondern definieren einen Einsprungspunkt in 
+eine Routine. Dieser Einsprungspunkt muß in der Form einer 
+Selektor:Offset-Kombination innerhalb des Deskriptors definiert werden.</P>
+<H2><FONT color=#000080>Gate-Deskriptorformat</FONT></H2>
+<P>Abbildung 2.11 zeigt den prinzipiellen Aufbau eines Gatedeskriptors.</P>
+<CENTER>
+<P><IMG alt=Gatedeskriptor 
+src="Gates, Interrupts und Exceptions (IDT)-Dateien/p_2_11.gif" border=3> 
+<BR><I><B>Abb. 2.11:</B> Gatedeskriptor (80386 Interrupt Gate)</I> </P></CENTER>
+<P>Die Felder P ("Präsenz"-Bit) und DPL ("Descriptor Privilege Level") besitzen 
+dieselbe Funktion wie die entsprechenden Felder eines Segmentdeskriptors. Ist 
+das P-Bit gesetzt, befindet sich das beschriebene Segment (bzw. das durch das 
+Gate beschriebene Unterprogramm) momentan im Speicher. Der DPL beschränkt den 
+Zugriff auf den Deskriptor durch Programme (bzw. Tasks). Der Zugriff wird nur 
+erlaubt, wenn der DPL des Deskriptors numerisch größer oder gleich dem Current 
+Privilege Level ist ("CPL" = DPL des aktuellen Codesegments), d.h., das 
+entsprechende Gate muß eine geringere oder die gleiche Privilegstufe wie ihr 
+Aufrufer besitzen. Ist das nicht der Fall, reagiert der Prozessor bei dem 
+Versuch, das Gate zu benutzen, mit einer Exception.</P>
+<P>Wie bereits weiter oben erwähnt wurde, kennzeichnet das zurückgesetzte 
+"Segment"-Bit den Deskriptor als Systemsegmentdeskriptor. Über das 4 Bit breite 
+Type-Feld kann dann zwischen Gate-Deskriptoren und speziellen Systemdeskriptoren 
+unterschieden werden. Weiterhin entscheidet der Wert des Type-Feldes darüber, ob 
+es sich bei dem jeweiligen Deskriptor um einen 80286- oder 80386 Gate Deskriptor 
+handelt. Beispielsweise benutzt der 80286 das vierte Wort des Deskriptors 
+(Offsetadresse, Bit 16..31) nicht, da eine 16 Bit Offsetadresse aufgrund der 
+Einschränkung des 80286 auf nur 24 Adressleitungen ausreicht.</P>
+<P>Tabelle 2.3 gibt einen Überblick über alle möglichen Systemsegment-Typen. 
+Alle grau gefärbten Deskriptortypen gehören zur Gruppe der speziellen 
+Systemsegmente, sie werden unter Punkt: <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">3 Spezielle 
+Protected Mode Funktionen</A> näher betrachtet.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="25%">Wert</TH>
+    <TH vAlign=center align=middle width="25%">binär</TH>
+    <TH vAlign=center align=middle width="50%">Beschreibung</TH></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>0</B></TD>
+    <TD vAlign=center align=middle><B>0000b</B></TD>
+    <TD><B>unbenutzt, ungültig</B></TD></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>1</B></TD>
+    <TD vAlign=center align=middle><B>0001b</B></TD>
+    <TD><B>80286-TSS</B></TD></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>2</B></TD>
+    <TD vAlign=center align=middle><B>0010b</B></TD>
+    <TD><B>LDT</B></TD></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>3</B></TD>
+    <TD vAlign=center align=middle><B>0011b</B></TD>
+    <TD><B>aktives 80286-TSS</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>4</TD>
+    <TD vAlign=center align=middle>0100b</TD>
+    <TD>80286 Call Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>5</TD>
+    <TD vAlign=center align=middle>0101b</TD>
+    <TD>Task Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>6</TD>
+    <TD vAlign=center align=middle>0110b</TD>
+    <TD>80286 Interrupt Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>7</TD>
+    <TD vAlign=center align=middle>0111b</TD>
+    <TD>80286 Trap Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>8</TD>
+    <TD vAlign=center align=middle>1000b</TD>
+    <TD>reserviert</TD></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>9</B></TD>
+    <TD vAlign=center align=middle><B>1001b</B></TD>
+    <TD><B>80386-TSS</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10</TD>
+    <TD vAlign=center align=middle>1010b</TD>
+    <TD>reserviert</TD></TR>
+  <TR bgColor=#a0a0a0>
+    <TD vAlign=center align=middle><B>11</B></TD>
+    <TD vAlign=center align=middle><B>1011b</B></TD>
+    <TD><B>aktives 80386-TSS</B></TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>12</TD>
+    <TD vAlign=center align=middle>1100b</TD>
+    <TD>80386 Call Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>13</TD>
+    <TD vAlign=center align=middle>1101b</TD>
+    <TD>reserviert</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>14</TD>
+    <TD vAlign=center align=middle>1110b</TD>
+    <TD>80386 Interrupt Gate</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>15</TD>
+    <TD vAlign=center align=middle>1111b</TD>
+    <TD>80386 Trap Gate</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 2.3:</B> mögliche Systemsegment Typen</I> 
+</CAPTION></CENTER><BR>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Gates, Interrupts und Exceptions (IDT)-Dateien/bred.gif" border=0> 
+</TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Die folgende Struktur stellt einen Gate-Deskriptor dar:</P><PRE><I>gate_deskriptor:
+        dw 0200h        ; Offset, Bit 0..15
+        dw 8            ; Codesegmentselektor
+        db 0            ; wird nicht benutzt
+        db 10101111b    ; "Präsenz"-Bit, DPL und Segmenttyp
+        dw 0            ; Offset, Bit 16..31</I></PRE>
+      <P>Um welchen Gate-Deskriptor-Typ handelt es sich und welche Zieladresse 
+      wird definiert?</P>
+      <P>Die beschriebene Zieladresse (die Adresse des Unterprogramms) ergibt 
+      sich aus den ersten beiden, sowie dem vierten Wort zum Selektor:Offset 
+      Paar 8:00000200h.</P>
+      <P>Aus dem Wert des höherwertigen Bytes des dritten Wortes (10101111b) 
+      ergibt sich:</P>
+      <UL>
+        <LI>
+        <P>Das Segment, in dem sich die angesprochene Routine befindet, ist 
+        momentan im Speicher verfügbar ("Präsenz"-Bit = 1).</P>
+        <LI>
+        <P>Das Feld DPL besitzt einen Wert von 01b, d.h. ein Programm, das 
+        dieses Gate benutzt, braucht mindestens einen CPL von 1 (d.h. die 
+        Privilegstufe 1 oder 0).</P>
+        <LI>
+        <P>Das Type-Feld besitzt den Wert 1111b, es handelt sich also um ein 
+        80386 Trap Gate.</P></LI></UL></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all7.htm"><IMG alt=Zurück 
+src="Gates, Interrupts und Exceptions (IDT)-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all9.htm"><IMG alt=Weiter 
+src="Gates, Interrupts und Exceptions (IDT)-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Gates, Interrupts und Exceptions (IDT)-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

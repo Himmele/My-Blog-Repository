@@ -1,0 +1,3 @@
+nasm ASMCode.asm -f elf
+qcc -ffreestanding -nostdlib -nostdinc -fno-builtin -fno-rtti -fno-exceptions Kernel32.cpp -r -o Kernel32.o
+ld -nostdlib -nostdinc -fno-builtin -fno-exceptions -o Kernel32.bin -e main -oformat binary -Ttext 0x00100000 Kernel32.o ASMCode.o

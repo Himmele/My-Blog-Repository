@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm -->
+<HTML><HEAD><TITLE>Protected Mode Tutorial</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "back",  "../images/bback.gif", "../images/bbackp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=silver background="Protected Mode Tutorial-Dateien/stone.jpg"><A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/updates.htm">
+<H2>Updates</H2></A><A name=realmode>
+<H1><FONT color=#800000>1 Realmode Adressierung, Grundlagen</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys1.htm">
+  <H2>1.1 Physische Adressierung</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys2.htm">
+  <H2>1.2 Logische Adressierung / Segmentierung</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys3.htm">
+  <H2>1.3 Segmentbegrenzung im Realmode umgehen</H2></A>
+  <UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys4.htm">
+    <H3>HUGE-Zeiger</H3></A><A 
+    href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm">
+    <H3>Nutzung von EMS</H3></A><A 
+    href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys6.htm">
+    <H3>Nutzung von XMS</H3></A></UL><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys7.htm">
+  <H2>1.4 Zusammenfassung</H2></A></UL><A name=pmode>
+<H1><FONT color=#800000>2 Protected Mode</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all1.htm">
+  <H2>2.1 Einleitung</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all2.htm">
+  <H2>2.2 Adressierung des Arbeitspeicher</H2></A>
+  <UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all3.htm">
+    <H3>Deskriptoren</H3></A><A 
+    href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all4.htm">
+    <H3>Deskriptorbeispiel</H3></A><A 
+    href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all5.htm">
+    <H3>Deskriptortabellen</H3></A><A 
+    href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all6.htm">
+    <H3>Selektoren</H3></A></UL><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all7.htm">
+  <H2>2.3 Einschalten des Protected Mode</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm">
+  <H2>2.4 Gates, Interrupts und Exceptions (IDT)</H2></A>
+  <UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all9.htm">
+    <H3>Interrupts, Exceptions</H3></A></UL><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all10.htm">
+  <H2>2.5 Zusammenfassung</H2></A></UL><A name=pmode_s>
+<H1><FONT color=#800000>3 Spezielle Protected Mode Funktionen</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">
+  <H2>3.1 Paging</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez2.htm">
+  <H2>3.2 Multitasking</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez3.htm">
+  <H2>3.3 Call- und Task- Gates</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez4.htm">
+  <H2>3.4 Virtueller 8086-Modus (V86)</H2></A></UL><A name=pmode_d>
+<H1><FONT color=#800000>4 DOS-Extender</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos1.htm">
+  <H2>4.1 Einleitung</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos2.htm">
+  <H2>4.2 VCPI</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos3.htm">
+  <H2>4.3 DPMI</H2></A></UL><A name=pmode_w>
+<H1><FONT color=#800000>5 Windows und Protected Mode</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_1.htm">
+  <H2>5.1 Windows 3.x und Protected Mode ?</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_2.htm">
+  <H2>5.2 Windows 95 und Protected Mode</H2></A></UL><A name=pmode_k>
+<H1><FONT color=#800000>6 Komplexbeispiel - Multitasking</FONT></H1></A>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex1.htm">
+  <H2>6.1 Multitasking - Wie ?</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex2.htm">
+  <H2>6.2 Probleme</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex3.htm">
+  <H2>6.3 Interrupt-Controller und Timer-Chip</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex4.htm">
+  <H2>6.4 Gesamtbeispiel</H2></A></UL><A name=anhang>
+<H1><FONT color=#800000>Anhang / Sonstiges</FONT></H1>
+<UL><A href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm">
+  <H2>Begriffserklärungen</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/pmodec.htm">
+  <H2>Protected Mode Programmierung in C</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm">
+  <H2>Die Debug-Register</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm">
+  <H2>Anmerkung: VGA</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/code.htm">
+  <H2>DOS-Extender / Dokumentationsdateien</H2></A><A 
+  href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/info.htm">
+  <H2>Copyright und Hinweise</H2></A></UL>
+<HR>
+
+<CENTER><A onmouseover="touch( 'back' );" onmouseout="release( 'back' );" 
+href="http://www.fh-zwickau.de/doc/prmo/start.htm"><IMG alt=Zurück 
+src="Protected Mode Tutorial-Dateien/bback.gif" border=0 name=back></A> 
+</CENTER></BODY></HTML>

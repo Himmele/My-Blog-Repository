@@ -1,0 +1,117 @@
+P {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+TH {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+TR {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+TD {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+SPAN {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+.header {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: white; FONT-FAMILY: "Times New Roman", "serif"
+}
+.noborder {
+	FONT-SIZE: 14px; MARGIN: 0px; COLOR: white; FONT-FAMILY: "Arial", "sans-serif"; BACKGROUND-COLOR: black
+}
+.footer {
+	FONT-SIZE: 10px; MARGIN: 0px; COLOR: white; FONT-FAMILY: "Arial", "sans-serif"; BACKGROUND-COLOR: black
+}
+.wnoborder {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"; BACKGROUND-COLOR: white
+}
+.whitetext {
+	FONT-SIZE: 14px; COLOR: white; FONT-FAMILY: "Arial", "sans-serif"
+}
+.whitebold {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: white; FONT-FAMILY: "Arial", "sans-serif"
+}
+.altcolor {
+	FONT-WEIGHT: bold; COLOR: #99cccc
+}
+.altcolor2 {
+	FONT-WEIGHT: bold; COLOR: #330066
+}
+.altcolor3 {
+	FONT-SIZE: 18px; COLOR: #3333cc; FONT-FAMILY: "Arial", "sans-serif"
+}
+.bigaltcolor3 {
+	FONT-SIZE: 24px; COLOR: #3333cc; FONT-FAMILY: "Arial", "sans-serif"
+}
+.blacktext {
+	FONT-SIZE: 14px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+.littleblacktext {
+	FONT-SIZE: 10px; COLOR: black; FONT-FAMILY: "Arial", "sans-serif"
+}
+.redbold {
+	FONT-WEIGHT: bold; COLOR: red
+}
+.menu {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; FONT-FAMILY: "Arial", "sans-serif"
+}
+A.menucolor:link {
+	COLOR: #3333cc; TEXT-DECORATION: none
+}
+A.menucolor:visited {
+	COLOR: #3333cc; TEXT-DECORATION: none
+}
+A.menucolor:active {
+	COLOR: #3333cc; TEXT-DECORATION: none
+}
+A.menucolor:hover {
+	COLOR: orange; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #3333cc
+}
+A:visited {
+	COLOR: #330066
+}
+A:active {
+	COLOR: #330066
+}
+A:hover {
+	COLOR: orange
+}
+A.nav:link {
+	COLOR: white
+}
+A.nav:visited {
+	COLOR: white
+}
+A.nav:active {
+	COLOR: white
+}
+A.nav:hover {
+	COLOR: orange
+}
+A.sidelink:link {
+	COLOR: #99cccc; TEXT-DECORATION: underline
+}
+A.sidelink:visited {
+	COLOR: #99cccc; TEXT-DECORATION: underline
+}
+A.sidelink:active {
+	COLOR: #99cccc; TEXT-DECORATION: underline
+}
+A.sidelink:hover {
+	COLOR: orange; TEXT-DECORATION: underline
+}
+A.current:link {
+	COLOR: orange; TEXT-DECORATION: underline
+}
+A.current:visited {
+	COLOR: orange; TEXT-DECORATION: underline
+}
+A.current:active {
+	COLOR: orange; TEXT-DECORATION: underline
+}
+A.current:hover {
+	COLOR: orange; TEXT-DECORATION: underline
+}

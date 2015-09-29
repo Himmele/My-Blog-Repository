@@ -1,0 +1,78 @@
+BODY {
+	BACKGROUND: white; COLOR: black; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.contents {
+	MARGIN-TOP: 0px; PADDING-LEFT: 0.5em; FONT-SIZE: smaller; MARGIN-LEFT: 0.5em
+}
+H1 {
+	TEXT-ALIGN: center; TEXT-DECORATION: underline
+}
+BLOCKQUOTE {
+	FONT-SIZE: smaller; MARGIN-LEFT: 0px; MARGIN-RIGHT: 0px; FONT-STYLE: italic
+}
+PRE {
+	BORDER-RIGHT: #cccccc 2px solid; PADDING-RIGHT: 1ex; BORDER-TOP: #cccccc 2px solid; PADDING-LEFT: 1ex; BACKGROUND: #e7e7e7; PADDING-BOTTOM: 1ex; BORDER-LEFT: #cccccc 2px solid; WIDTH: 640px; COLOR: #000066; PADDING-TOP: 1ex; BORDER-BOTTOM: #cccccc 2px solid
+}
+.bnf {
+	COLOR: #000066; BACKGROUND-COLOR: #fefefe
+}
+.ddoccode {
+	COLOR: #000066; BACKGROUND-COLOR: #dedede
+}
+.console {
+	COLOR: #181818; BACKGROUND-COLOR: #f7f7f7
+}
+.moddeffile {
+	COLOR: #010199; BACKGROUND-COLOR: #efeffe
+}
+.scini {
+	COLOR: #111199; BACKGROUND-COLOR: #feeffe
+}
+.dcode {
+	COLOR: #000066; BACKGROUND-COLOR: #e7e7e7
+}
+.ccode {
+	COLOR: #000066; BACKGROUND-COLOR: #eeddee
+}
+BODY#toc {
+	FONT-SIZE: small; BACKGROUND: #dddddd
+}
+DIV#tocheading {
+	FONT-WEIGHT: bold; FONT-SIZE: larger; MARGIN-BOTTOM: 1ex; PADDING-BOTTOM: 1ex; BORDER-BOTTOM: gray 2px solid; TEXT-ALIGN: center
+}
+DIV#tocheading B {
+	FONT-SIZE: 36pt; COLOR: red; FONT-FAMILY: serif
+}
+BODY#toc UL {
+	MARGIN-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 1ex; MARGIN-LEFT: 0px; BORDER-BOTTOM: gray 2px solid; LIST-STYLE-TYPE: none
+}
+DIV#toccopyright {
+	FONT-SIZE: smaller; MARGIN-BOTTOM: 1ex; PADDING-TOP: 3px
+}
+DIV#heading {
+	PADDING-BOTTOM: 1ex; BORDER-BOTTOM: black 2px solid
+}
+DIV#lastupdate {
+	FONT-SIZE: smaller; FONT-STYLE: italic
+}
+A#dlink {
+	FONT-WEIGHT: bold; COLOR: red
+}
+DIV#copyright {
+	BORDER-TOP: black 2px solid; FONT-SIZE: smaller; MARGIN-BOTTOM: 2ex; PADDING-TOP: 3px
+}
+TD.toc {
+	BORDER-RIGHT: black 1px solid; BORDER-LEFT: black 1px solid; BACKGROUND-COLOR: #eeeeee
+}
+TD.compred {
+	BACKGROUND-COLOR: #ff5555; TEXT-ALIGN: center
+}
+TD.compgreen {
+	BACKGROUND-COLOR: #55ff55; TEXT-ALIGN: center
+}
+TABLE.comp {
+	BACKGROUND-COLOR: #f0f0f0
+}
+DD {
+	PADDING-RIGHT: 1ex; PADDING-LEFT: 1ex; MARGIN-BOTTOM: 1em; PADDING-BOTTOM: 1ex; MARGIN-LEFT: 3em; PADDING-TOP: 1ex
+}

@@ -1,0 +1,46 @@
+// ExchangeData.odl : Quellcode der Typbibliothek für ExchangeData.dll
+
+// Diese Datei wird vom MIDL-Compiler bearbeitet, um die
+// Typbibliothek zu erzeugen (ExchangeData.tlb).
+
+[ uuid(1878C7C5-6F08-4A46-A10C-766C5D47ECEF), version(1.0) ]
+library ExchangeData
+{
+	importlib("stdole32.tlb");
+	
+
+
+
+	//  Primary dispatch interface for CExchangeDataAuto
+	
+	[ uuid(96BD13D6-DC81-49DC-AADD-D290DDC4FC42) ]
+	dispinterface IExchangeDataAuto
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CExchangeDataAuto)
+			[id(1)] long LongData;
+			[id(2)] BSTR TextData;
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CExchangeDataAuto)
+			[id(3)] boolean DisplayDialog();
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CExchangeDataAuto
+
+	[ uuid(2BBC3374-3403-4195-8929-3B66C0B58280) ]
+	coclass ExchangeData
+	{
+		[default] dispinterface IExchangeDataAuto;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

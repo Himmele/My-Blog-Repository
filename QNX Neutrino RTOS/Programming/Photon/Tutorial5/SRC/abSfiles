@@ -1,0 +1,1 @@
+ABSRC = ../AboutDlg_Setup.c ../Color_Change.c ../NewWindow_Close.c ../NewWindow_Setup.c ../Quit.c ../abmain.c 

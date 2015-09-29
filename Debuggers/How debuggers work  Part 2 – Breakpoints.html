@@ -1,0 +1,931 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0078)http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » How debuggers work: Part 2 – Breakpoints</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./How debuggers work  Part 2 – Breakpoints_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » How debuggers work: Part 2 – Breakpoints Comments Feed" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./How debuggers work  Part 2 – Breakpoints_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./How debuggers work  Part 2 – Breakpoints_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./How debuggers work  Part 2 – Breakpoints_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="How debuggers work: Part 1 – Basics" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/">
+<link rel="next" title="On spaces in the paths of programs and files on Windows" href="http://eli.thegreenplace.net/2011/01/28/on-spaces-in-the-paths-of-programs-and-files-on-windows/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./How debuggers work  Part 2 – Breakpoints_files/How debuggers work  Part 2 – Breakpoints.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=2386">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./How debuggers work  Part 2 – Breakpoints_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./How debuggers work  Part 2 – Breakpoints_files/api" type="text/javascript"></script><script src="./How debuggers work  Part 2 – Breakpoints_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./How debuggers work  Part 2 – Breakpoints_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./How debuggers work  Part 2 – Breakpoints_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./How debuggers work  Part 2 – Breakpoints_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-2386">
+			<h2><a href="./How debuggers work  Part 2 – Breakpoints_files/How debuggers work  Part 2 – Breakpoints.html" rel="bookmark" title="Permanent Link: How debuggers work: Part 2 – Breakpoints">How debuggers work: Part 2 – Breakpoints</a></h2>
+			<small>January 27th, 2011 at 6:43 am <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>This is the second part in a series of articles on how debuggers work. Make sure you read <a class="reference external" href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/">the first part</a> before this one.</p>
+<div class="section" id="in-this-part">
+<h3>In this part</h3>
+<p>I’m going to demonstrate how breakpoints are implemented in a debugger. Breakpoints are one of the two main pillars of debugging – the other being able to inspect values in the debugged process’s memory. We’ve already seen a preview of the other pillar in part 1 of the series, but breakpoints still remain mysterious. By the end of this article, they won’t be.</p>
+</div>
+<div class="section" id="software-interrupts">
+<h3>Software interrupts</h3>
+<p>To implement breakpoints on the x86 architecture, software interrupts (also known as "traps") are used. Before we get deep into the details, I want to explain the concept of interrupts and traps in general.</p>
+<p>A CPU has a single stream of execution, working through instructions one by one <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id7" id="id1">[1]</a>. To handle asynchronous events like IO and hardware timers, CPUs use interrupts. A hardware interrupt is usually a dedicated electrical signal to which a special "response circuitry" is attached. This circuitry notices an activation of the interrupt and makes the CPU stop its current execution, save its state, and jump to a predefined  address where a handler routine for the interrupt is located. When the handler finishes its work, the CPU resumes execution from where it stopped.</p>
+<p>Software interrupts are similar in principle but a bit different in practice. CPUs support special instructions that allow the software to simulate an interrupt. When such an instruction is executed, the CPU treats it like an interrupt – stops its normal flow of execution, saves its state and jumps to a handler routine. Such "traps" allow many of the wonders of modern OSes (task scheduling, virtual memory, memory protection, debugging) to be implemented efficiently.</p>
+<p>Some programming errors (such as division by 0) are also treated by the CPU as traps, and are frequently referred to as "exceptions". Here the line between hardware and software blurs, since it’s hard to say whether such exceptions are really hardware interrupts or software interrupts. But I’ve digressed too far away from the main topic, so it’s time to get back to breakpoints.</p>
+</div>
+<div class="section" id="int-3-in-theory">
+<h3>int 3 in theory</h3>
+<p>Having written the previous section, I can now simply say that breakpoints are implemented on the CPU by a special trap called <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt>. <tt class="docutils literal"><span class="pre">int</span></tt> is x86 jargon for "trap instruction" – a call to a predefined interrupt handler. x86 supports the <tt class="docutils literal"><span class="pre">int</span></tt> instruction with a 8-bit operand specifying the number of the interrupt that occurred, so in theory 256 traps are supported. The first 32 are reserved by the CPU for itself, and number 3 is the one we’re interested in here – it’s called "trap to debugger".</p>
+<p>Without further ado, I’ll quote from the bible itself <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id8" id="id2">[2]</a>:</p>
+<blockquote><p>
+The INT 3 instruction generates a special one byte opcode (CC) that is intended for calling the debug exception handler. (This one byte form is valuable because it can be used to replace the first byte of any instruction with a breakpoint, including other one byte instructions, without over-writing other code).</p></blockquote>
+<p>The part in parens is important, but it’s still too early to explain it. We’ll come back to it later in this article.</p>
+</div>
+<div class="section" id="int-3-in-practice">
+<h3>int 3 in practice</h3>
+<p>Yes, knowing the theory behind things is great, OK, but what does this really mean? How do we use <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> to implement breakpoints? Or to paraphrase common programming Q&amp;A jargon – <em>Plz show me the codes!</em></p>
+<p>In practice, this is really very simple. Once your process executes the <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> instruction, the OS stops it <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id9" id="id3">[3]</a>. On Linux (which is what we’re concerned with in this article) it then sends the process a signal – <tt class="docutils literal"><span class="pre">SIGTRAP</span></tt>.</p>
+<p>That’s all there is to it – honest! Now recall from the first part of the series that a tracing (debugger) process gets notified of all the signals its child (or the process it attaches to for debugging) gets, and you can start getting a feel of where we’re going.</p>
+<p>That’s it, no more computer architecture 101 jabber. It’s time for examples and code.</p>
+</div>
+<div class="section" id="setting-breakpoints-manually">
+<h3>Setting breakpoints manually</h3>
+<p>I’m now going to show code that sets a breakpoint in a program. The target program I’m going to use for this demonstration is the following:</p>
+<div class="highlight">
+<pre>section    .text
+    ; The _start symbol must be declared for the linker (ld)
+    global _start
+
+_start:
+
+    ; Prepare arguments for the sys_write system call:
+    ;   - eax: system call number (sys_write)
+    ;   - ebx: file descriptor (stdout)
+    ;   - ecx: pointer to string
+    ;   - edx: string length
+    mov     edx, len1
+    mov     ecx, msg1
+    mov     ebx, 1
+    mov     eax, 4
+
+    ; Execute the sys_write system call
+    int     0x80
+
+    ; Now print the other message
+    mov     edx, len2
+    mov     ecx, msg2
+    mov     ebx, 1
+    mov     eax, 4
+    int     0x80
+
+    ; Execute sys_exit
+    mov     eax, 1
+    int     0x80
+
+section    .data
+
+msg1    db      'Hello,', 0xa
+len1    equ     $ - msg1
+msg2    db      'world!', 0xa
+len2    equ     $ - msg2
+</pre>
+</div>
+<p>I’m using assembly language for now, in order to keep us clear of compilation issues and symbols that come up when we get into C code. What the program listed above does is simply print "Hello," on one line and then "world!" on the next line. It’s very similar to the program demonstrated in the previous article.</p>
+<p>I want to set a breakpoint after the first printout, but before the second one. Let’s say right after the first <tt class="docutils literal"><span class="pre">int</span> <span class="pre">0x80</span></tt> <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id10" id="id4">[4]</a>, on the <tt class="docutils literal"><span class="pre">mov</span> <span class="pre">edx,</span> <span class="pre">len2</span></tt> instruction. First, we need to know what address this instruction maps to. Running <tt class="docutils literal"><span class="pre">objdump</span> <span class="pre">-d</span></tt>:</p>
+<div class="highlight">
+<pre>traced_printer2:     file format elf32-i386
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000033  08048080  08048080  00000080  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000e  080490b4  080490b4  000000b4  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+
+Disassembly of section .text:
+
+08048080 &lt;.text&gt;:
+ 8048080:     ba 07 00 00 00          mov    $0x7,%edx
+ 8048085:     b9 b4 90 04 08          mov    $0x80490b4,%ecx
+ 804808a:     bb 01 00 00 00          mov    $0x1,%ebx
+ 804808f:     b8 04 00 00 00          mov    $0x4,%eax
+ 8048094:     cd 80                   int    $0x80
+ 8048096:     ba 07 00 00 00          mov    $0x7,%edx
+ 804809b:     b9 bb 90 04 08          mov    $0x80490bb,%ecx
+ 80480a0:     bb 01 00 00 00          mov    $0x1,%ebx
+ 80480a5:     b8 04 00 00 00          mov    $0x4,%eax
+ 80480aa:     cd 80                   int    $0x80
+ 80480ac:     b8 01 00 00 00          mov    $0x1,%eax
+ 80480b1:     cd 80                   int    $0x80
+</pre>
+</div>
+<p>So, the address we’re going to set the breakpoint on is 0×8048096. Wait, this is not how real debuggers work, right? Real debuggers set breakpoints on lines of code and on functions, not on some bare memory addresses? Exactly right. But we’re still far from there – to set breakpoints like <em>real</em> debuggers we still have to cover symbols and debugging information first, and it will take another part or two in the series to reach these topics. For now, we’ll have to do with bare memory addresses.</p>
+<p>At this point I really want to digress again, so you have two choices. If it’s really interesting for you to know <em>why</em> the address is 0×8048096 and what does it mean, read the next section. If not, and you just want to get on with the breakpoints, you can safely skip it.</p>
+</div>
+<div class="section" id="digression-process-addresses-and-entry-point">
+<h3>Digression – process addresses and entry point</h3>
+<p>Frankly, 0×8048096 itself doesn’t mean much, it’s just a few bytes away from the beginning of the text section of the executable. If you look carefully at the dump listing above, you’ll see that the text section starts at 0×08048080. This tells the OS to map the text section starting at this address in the virtual address space given to the process. On Linux these addresses can be absolute (i.e. the executable isn’t being relocated when it’s loaded into memory), because with the virtual memory system each process gets its own chunk of memory and sees the whole 32-bit address space as its own (called "linear" address).</p>
+<p>If we examine the ELF <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id11" id="id5">[5]</a> header with <tt class="docutils literal"><span class="pre">readelf</span></tt>, we get:</p>
+<div class="highlight">
+<pre>$ readelf -h traced_printer2
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x8048080
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          220 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         4
+  Section header string table index: 3
+</pre>
+</div>
+<p>Note the "entry point address" section of the header, which also points to 0×8048080. So if we interpret the directions encoded in the ELF file for the OS, it says:</p>
+<ol class="arabic simple">
+<li>Map the text section (with given contents) to address 0×8048080</li>
+<li>Start executing at the entry point – address 0×8048080</li>
+</ol>
+<p>But still, why 0×8048080? For historic reasons, it turns out. Some googling led me to a few sources that claim that the first 128MB of each process’s address space were reserved for the stack. 128MB happens to be 0×8000000, which is where other sections of the executable may start. 0×8048080, in particular, is the default entry point used by the Linux <tt class="docutils literal"><span class="pre">ld</span></tt> linker. This entry point can be modified by passing the <tt class="docutils literal"><span class="pre">-Ttext</span></tt> argument to <tt class="docutils literal"><span class="pre">ld</span></tt>.</p>
+<p>To conclude, there’s nothing really special in this address and we can freely change it. As long as the ELF executable is properly structured and the entry point address in the header matches the real beginning of the program’s code (text section), we’re OK.</p>
+</div>
+<div class="section" id="setting-breakpoints-in-the-debugger-with-int-3">
+<h3>Setting breakpoints in the debugger with int 3</h3>
+<p>To set a breakpoint at some target address in the traced process, the debugger does the following:</p>
+<ol class="arabic simple">
+<li>Remember the data stored at the target address</li>
+<li>Replace the first byte at the target address with the int 3 instruction</li>
+</ol>
+<p>Then, when the debugger asks the OS to run the process (with <tt class="docutils literal"><span class="pre">PTRACE_CONT</span></tt> as we saw in the previous article), the process will run and eventually hit upon the <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt>, where it will stop and the OS will send it a signal. This is where the debugger comes in again, receiving a signal that its child (or traced process) was stopped. It can then:</p>
+<ol class="arabic simple">
+<li>Replace the int 3 instruction at the target address with the original instruction</li>
+<li>Roll the instruction pointer of the traced process back by one. This is needed because the instruction pointer now points <em>after</em> the <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt>, having already executed it.</li>
+<li>Allow the user to interact with the process in some way, since the process is still halted at the desired target address. This is the part where your debugger lets you peek at variable values, the call stack and so on.</li>
+<li>When the user wants to keep running, the debugger will take care of placing the breakpoint back (since it was removed in step 1) at the target address, unless the user asked to cancel the breakpoint.</li>
+</ol>
+<p>Let’s see how some of these steps are translated into real code. We’ll use the debugger "template" presented in part 1 (forking a child process and tracing it). In any case, there’s a link to  the full source code of this example at the end of the article.</p>
+<div class="highlight">
+<pre><span style="color: #007f00">/* Obtain and show child's instruction pointer */</span>
+ptrace(PTRACE_GETREGS, child_pid, <span style="color: #007f7f">0</span>, &amp;regs);
+procmsg(<span style="color: #7f007f">"Child started. EIP = 0x%08x\n"</span>, regs.eip);
+
+<span style="color: #007f00">/* Look at the word at the address we're interested in */</span>
+<span style="color: #00007f; font-weight: bold">unsigned</span> addr = <span style="color: #007f7f">0x8048096</span>;
+<span style="color: #00007f; font-weight: bold">unsigned</span> data = ptrace(PTRACE_PEEKTEXT, child_pid, (<span style="color: #00007f; font-weight: bold">void</span>*)addr, <span style="color: #007f7f">0</span>);
+procmsg(<span style="color: #7f007f">"Original data at 0x%08x: 0x%08x\n"</span>, addr, data);
+</pre>
+</div>
+<p>Here the debugger fetches the instruction pointer from the traced process, as well as examines the word currently present at 0×8048096. When run tracing  the assembly program listed in the beginning of the article, this prints:</p>
+<div class="highlight">
+<pre>[13028] Child started. EIP = 0x08048080
+[13028] Original data at 0x08048096: 0x000007ba
+</pre>
+</div>
+<p>So far, so good. Next:</p>
+<div class="highlight">
+<pre><span style="color: #007f00">/* Write the trap instruction 'int 3' into the address */</span>
+<span style="color: #00007f; font-weight: bold">unsigned</span> data_with_trap = (data &amp; <span style="color: #007f7f">0xFFFFFF00</span>) | <span style="color: #007f7f">0xCC</span>;
+ptrace(PTRACE_POKETEXT, child_pid, (<span style="color: #00007f; font-weight: bold">void</span>*)addr, (<span style="color: #00007f; font-weight: bold">void</span>*)data_with_trap);
+
+<span style="color: #007f00">/* See what's there again... */</span>
+<span style="color: #00007f; font-weight: bold">unsigned</span> readback_data = ptrace(PTRACE_PEEKTEXT, child_pid, (<span style="color: #00007f; font-weight: bold">void</span>*)addr, <span style="color: #007f7f">0</span>);
+procmsg(<span style="color: #7f007f">"After trap, data at 0x%08x: 0x%08x\n"</span>, addr, readback_data);
+</pre>
+</div>
+<p>Note how <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> is inserted at the target address. This prints:</p>
+<div class="highlight">
+<pre>[13028] After trap, data at 0x08048096: 0x000007cc
+</pre>
+</div>
+<p>Again, as expected – <tt class="docutils literal"><span class="pre">0xba</span></tt> was replaced with <tt class="docutils literal"><span class="pre">0xcc</span></tt>. The debugger now runs the child and waits for it to halt on the breakpoint:</p>
+<div class="highlight">
+<pre><span style="color: #007f00">/* Let the child run to the breakpoint and wait for it to</span>
+<span style="color: #007f00">** reach it</span>
+<span style="color: #007f00">*/</span>
+ptrace(PTRACE_CONT, child_pid, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>);
+
+wait(&amp;wait_status);
+<span style="color: #00007f; font-weight: bold">if</span> (WIFSTOPPED(wait_status)) {
+    procmsg(<span style="color: #7f007f">"Child got a signal: %s\n"</span>, strsignal(WSTOPSIG(wait_status)));
+}
+<span style="color: #00007f; font-weight: bold">else</span> {
+    perror(<span style="color: #7f007f">"wait"</span>);
+    <span style="color: #00007f; font-weight: bold">return</span>;
+}
+
+<span style="color: #007f00">/* See where the child is now */</span>
+ptrace(PTRACE_GETREGS, child_pid, <span style="color: #007f7f">0</span>, &amp;regs);
+procmsg(<span style="color: #7f007f">"Child stopped at EIP = 0x%08x\n"</span>, regs.eip);
+</pre>
+</div>
+<p>This prints:</p>
+<div class="highlight">
+<pre>Hello,
+[13028] Child got a signal: Trace/breakpoint trap
+[13028] Child stopped at EIP = 0x08048097
+</pre>
+</div>
+<p>Note the "Hello," that was printed before the breakpoint – exactly as we planned. Also note where the child stopped – just after the single-byte trap instruction.</p>
+<p>Finally, as was explained earlier, to keep the child running we must do some work. We replace the trap with the original instruction and let the process continue running from it.</p>
+<div class="highlight">
+<pre><span style="color: #007f00">/* Remove the breakpoint by restoring the previous data</span>
+<span style="color: #007f00">** at the target address, and unwind the EIP back by 1 to</span>
+<span style="color: #007f00">** let the CPU execute the original instruction that was</span>
+<span style="color: #007f00">** there.</span>
+<span style="color: #007f00">*/</span>
+ptrace(PTRACE_POKETEXT, child_pid, (<span style="color: #00007f; font-weight: bold">void</span>*)addr, (<span style="color: #00007f; font-weight: bold">void</span>*)data);
+regs.eip -= <span style="color: #007f7f">1</span>;
+ptrace(PTRACE_SETREGS, child_pid, <span style="color: #007f7f">0</span>, &amp;regs);
+
+<span style="color: #007f00">/* The child can continue running now */</span>
+ptrace(PTRACE_CONT, child_pid, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>);
+</pre>
+</div>
+<p>This makes the child print "world!" and exit, just as planned.</p>
+<p>Note that we don’t restore the breakpoint here. That can be done by executing the original instruction in single-step mode, then placing the trap back and only then do <tt class="docutils literal"><span class="pre">PTRACE_CONT</span></tt>. The debug library demonstrated later in the article implements this.</p>
+</div>
+<div class="section" id="more-on-int-3">
+<h3>More on int 3</h3>
+<p>Now is a good time to come back and examine <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> and that curious note from Intel’s manual. Here it is again:</p>
+<blockquote><p>
+This one byte form is valuable because it can be used to replace the first byte of any instruction with a breakpoint, including other one byte instructions, without over-writing other code</p></blockquote>
+<p><tt class="docutils literal"><span class="pre">int</span></tt> instructions on x86 occupy two bytes – <tt class="docutils literal"><span class="pre">0xcd</span></tt> followed by the interrupt number <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id12" id="id6">[6]</a>. <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> could’ve been encoded as <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">03</span></tt>, but there’s a special single-byte instruction reserved for it – 0xcc.</p>
+<p>Why so? Because this allows us to insert a breakpoint without ever overwriting more than one instruction. And this is important. Consider this sample code:</p>
+<div class="highlight">
+<pre>    .. some code ..
+    jz    foo
+    dec   eax
+foo:
+    call  bar
+    .. some code ..
+</pre>
+</div>
+<p>Suppose we want to place a breakpoint on <tt class="docutils literal"><span class="pre">dec</span> <span class="pre">eax</span></tt>. This happens to be a single-byte instruction (with the opcode <tt class="docutils literal"><span class="pre">0x48</span></tt>). Had the replacement breakpoint instruction been longer than 1 byte, we’d be forced to overwrite part of the next instruction (<tt class="docutils literal"><span class="pre">call</span></tt>), which would garble it and probably produce something completely invalid. But what is the branch <tt class="docutils literal"><span class="pre">jz</span> <span class="pre">foo</span></tt> was taken? Then, without stopping on <tt class="docutils literal"><span class="pre">dec</span> <span class="pre">eax</span></tt>, the CPU would go straight to execute the invalid instruction after it.</p>
+<p>Having a special 1-byte encoding for <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> solves this problem. Since 1 byte is the shortest an instruction can get on x86, we guarantee than only the instruction we want to break on gets changed.</p>
+</div>
+<div class="section" id="encapsulating-some-gory-details">
+<h3>Encapsulating some gory details</h3>
+<p>Many of the low-level details shown in code samples of the previous section can be easily encapsulated behind a convenient API. I’ve done some encapsulation into a small utility library called <tt class="docutils literal"><span class="pre">debuglib</span></tt> – its code is available for download at the end of the article. Here I just want to demonstrate an example of its usage, but with a twist. We’re going to trace a program written in C.</p>
+</div>
+<div class="section" id="tracing-a-c-program">
+<h3>Tracing a C program</h3>
+<p>So far, for the sake of simplicity, I focused on assembly language targets. It’s time to go one level up and see how we can trace a program written in C.</p>
+<p>It turns out things aren’t very different – it’s just a bit harder to find where to place the breakpoints. Consider this simple program:</p>
+<div class="highlight">
+<pre><span style="color: #007f00">#include &lt;stdio.h&gt;</span>
+
+
+<span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">do_stuff</span>()
+{
+    printf(<span style="color: #7f007f">"Hello, "</span>);
+}
+
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">main</span>()
+{
+    <span style="color: #00007f; font-weight: bold">for</span> (<span style="color: #00007f; font-weight: bold">int</span> i = <span style="color: #007f7f">0</span>; i &lt; <span style="color: #007f7f">4</span>; ++i)
+        do_stuff();
+    printf(<span style="color: #7f007f">"world!\n"</span>);
+    <span style="color: #00007f; font-weight: bold">return</span> <span style="color: #007f7f">0</span>;
+}
+</pre>
+</div>
+<p>Suppose I want to place a breakpoint at the entrance to <tt class="docutils literal"><span class="pre">do_stuff</span></tt>. I’ll use the old friend <tt class="docutils literal"><span class="pre">objdump</span></tt> to disassemble the executable, but there’s a lot in it. In particular, looking at the <tt class="docutils literal"><span class="pre">text</span></tt> section is a bit useless since it contains a lot of C runtime initialization code I’m currently not interested in. So let’s just look for <tt class="docutils literal"><span class="pre">do_stuff</span></tt> in the dump:</p>
+<div class="highlight">
+<pre>080483e4 &lt;do_stuff&gt;:
+ 80483e4:     55                      push   %ebp
+ 80483e5:     89 e5                   mov    %esp,%ebp
+ 80483e7:     83 ec 18                sub    $0x18,%esp
+ 80483ea:     c7 04 24 f0 84 04 08    movl   $0x80484f0,(%esp)
+ 80483f1:     e8 22 ff ff ff          call   8048318 &lt;puts@plt&gt;
+ 80483f6:     c9                      leave
+ 80483f7:     c3                      ret
+</pre>
+</div>
+<p>Alright, so we’ll place the breakpoint at 0x080483e4, which is the first instruction of <tt class="docutils literal"><span class="pre">do_stuff</span></tt>. Moreover, since this function is called in a loop, we want to keep stopping at the breakpoint until the loop ends. We’re going to use the <tt class="docutils literal"><span class="pre">debuglib</span></tt> library to make this simple. Here’s the complete debugger function:</p>
+<div class="highlight">
+<pre><span style="color: #00007f; font-weight: bold">void</span> <span style="color: #00007f">run_debugger</span>(pid_t child_pid)
+{
+    procmsg(<span style="color: #7f007f">"debugger started\n"</span>);
+
+    <span style="color: #007f00">/* Wait for child to stop on its first instruction */</span>
+    wait(<span style="color: #007f7f">0</span>);
+    procmsg(<span style="color: #7f007f">"child now at EIP = 0x%08x\n"</span>, get_child_eip(child_pid));
+
+    <span style="color: #007f00">/* Create breakpoint and run to it*/</span>
+    debug_breakpoint* bp = create_breakpoint(child_pid, (<span style="color: #00007f; font-weight: bold">void</span>*)<span style="color: #007f7f">0x080483e4</span>);
+    procmsg(<span style="color: #7f007f">"breakpoint created\n"</span>);
+    ptrace(PTRACE_CONT, child_pid, <span style="color: #007f7f">0</span>, <span style="color: #007f7f">0</span>);
+    wait(<span style="color: #007f7f">0</span>);
+
+    <span style="color: #007f00">/* Loop as long as the child didn't exit */</span>
+    <span style="color: #00007f; font-weight: bold">while</span> (<span style="color: #007f7f">1</span>) {
+        <span style="color: #007f00">/* The child is stopped at a breakpoint here. Resume its</span>
+<span style="color: #007f00">        ** execution until it either exits or hits the</span>
+<span style="color: #007f00">        ** breakpoint again.</span>
+<span style="color: #007f00">        */</span>
+        procmsg(<span style="color: #7f007f">"child stopped at breakpoint. EIP = 0x%08X\n"</span>, get_child_eip(child_pid));
+        procmsg(<span style="color: #7f007f">"resuming\n"</span>);
+        <span style="color: #00007f; font-weight: bold">int</span> rc = resume_from_breakpoint(child_pid, bp);
+
+        <span style="color: #00007f; font-weight: bold">if</span> (rc == <span style="color: #007f7f">0</span>) {
+            procmsg(<span style="color: #7f007f">"child exited\n"</span>);
+            <span style="color: #00007f; font-weight: bold">break</span>;
+        }
+        <span style="color: #00007f; font-weight: bold">else</span> <span style="color: #00007f; font-weight: bold">if</span> (rc == <span style="color: #007f7f">1</span>) {
+            <span style="color: #00007f; font-weight: bold">continue</span>;
+        }
+        <span style="color: #00007f; font-weight: bold">else</span> {
+            procmsg(<span style="color: #7f007f">"unexpected: %d\n"</span>, rc);
+            <span style="color: #00007f; font-weight: bold">break</span>;
+        }
+    }
+
+
+    cleanup_breakpoint(bp);
+}
+</pre>
+</div>
+<p>Instead of getting our hands dirty modifying EIP and the target process’s memory space, we just use <tt class="docutils literal"><span class="pre">create_breakpoint</span></tt>, <tt class="docutils literal"><span class="pre">resume_from_breakpoint</span></tt> and <tt class="docutils literal"><span class="pre">cleanup_breakpoint</span></tt>. Let’s see what this prints when tracing the simple C code displayed above:</p>
+<div class="highlight">
+<pre>$ bp_use_lib traced_c_loop
+[13363] debugger started
+[13364] target started. will run 'traced_c_loop'
+[13363] child now at EIP = 0x00a37850
+[13363] breakpoint created
+[13363] child stopped at breakpoint. EIP = 0x080483E5
+[13363] resuming
+Hello,
+[13363] child stopped at breakpoint. EIP = 0x080483E5
+[13363] resuming
+Hello,
+[13363] child stopped at breakpoint. EIP = 0x080483E5
+[13363] resuming
+Hello,
+[13363] child stopped at breakpoint. EIP = 0x080483E5
+[13363] resuming
+Hello,
+world!
+[13363] child exited
+</pre>
+</div>
+<p>Just as expected!</p>
+</div>
+<div class="section" id="the-code">
+<h3>The code</h3>
+<p><a class="reference external" href="http://eli.thegreenplace.net/files/prog_code/articles_code/debugger/debuggers_part2_code.tgz">Here are</a> the complete source code files for this part. In the archive you’ll find:</p>
+<ul class="simple">
+<li>debuglib.h and debuglib.c – the simple library for encapsulating some of the inner workings of a debugger</li>
+<li>bp_manual.c – the "manual" way of setting breakpoints presented first in this article. Uses the <tt class="docutils literal"><span class="pre">debuglib</span></tt> library for some boilerplate code.</li>
+<li>bp_use_lib.c – uses <tt class="docutils literal"><span class="pre">debuglib</span></tt> for most of its code, as demonstrated in the second code sample for tracing the loop in a C program.</li>
+</ul>
+</div>
+<div class="section" id="conclusion-and-next-steps">
+<h3>Conclusion and next steps</h3>
+<p>We’ve covered how breakpoints are implemented in debuggers. While implementation details vary between OSes, when you’re on x86 it’s all basically variations on the same theme – substituting <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> for the instruction where we want the process to stop.</p>
+<p>That said, I’m sure some readers, just like me, will be less than excited about specifying raw memory addresses to break on. We’d like to say "break on <tt class="docutils literal"><span class="pre">do_stuff</span></tt>", or even "break on <em>this</em> line in <tt class="docutils literal"><span class="pre">do_stuff</span></tt>" and have the debugger do it. In the next article I’m going to show how it’s done.</p>
+</div>
+<div class="section" id="references">
+<h3>References</h3>
+<p>I’ve found the following resources and articles useful in the preparation of this article:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.alexonlinux.com/how-debugger-works">How debugger works</a></li>
+<li><a class="reference external" href="http://www.linuxforums.org/articles/understanding-elf-using-readelf-and-objdump_125.html">Understanding ELF using readelf and objdump</a></li>
+<li><a class="reference external" href="http://mainisusuallyafunction.blogspot.com/2011/01/implementing-breakpoints-on-x86-linux.html">Implementing breakpoints on x86 Linux</a></li>
+<li><a class="reference external" href="http://www.nasm.us/xdoc/2.09.04/html/nasmdoc0.html">NASM manual</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/2187484/elf-binary-entry-point">SO discussion of the ELF entry point</a></li>
+<li><a class="reference external" href="http://news.ycombinator.net/item?id=2131894">This Hacker News discussion</a> of the first part of the series</li>
+<li><a class="reference external" href="http://www.deansys.com/doc/gdbInternals/gdbint_toc.html">GDB Internals</a></li>
+</ul>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./How debuggers work  Part 2 – Breakpoints_files/hline.jpg" style="width: 320px; height: 5px;"></div>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id1">[1]</a></td>
+<td>On a high-level view this is true. Down in the gory details, many CPUs today execute multiple instructions in parallel, some of them <a class="reference external" href="http://en.wikipedia.org/wiki/Out-of-order_execution">not in their original order</a>.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id2">[2]</a></td>
+<td>The bible in this case being, of course, Intel’s Architecture software developer’s manual, volume 2A.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id3">[3]</a></td>
+<td>How can the OS stop a process just like that? The OS registered its own handler for <tt class="docutils literal"><span class="pre">int</span> <span class="pre">3</span></tt> with the CPU, that’s how!</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id4">[4]</a></td>
+<td>Wait, <tt class="docutils literal"><span class="pre">int</span></tt> again? Yes! Linux uses <tt class="docutils literal"><span class="pre">int</span> <span class="pre">0x80</span></tt> to implement system calls from user processes into the OS kernel. The user places the number of the system call and its arguments into registers and executes <tt class="docutils literal"><span class="pre">int</span> <span class="pre">0x80</span></tt>. The CPU then jumps to the appropriate interrupt handler, where the OS registered a procedure that looks at the registers and decides which system call to execute.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id5">[5]</a></td>
+<td><a class="reference external" href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a> (Executable and Linkable Format) is the file format used by Linux for object files, shared libraries and executables.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#id6">[6]</a></td>
+<td>An observant reader can spot the translation of <tt class="docutils literal"><span class="pre">int</span> <span class="pre">0x80</span></tt> into <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">80</span></tt> in the dumps listed above.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1/" rel="bookmark" title="How debuggers work: Part 1 – Basics">How debuggers work: Part 1 – Basics</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/" rel="bookmark" title="How debuggers work: Part 3 – Debugging information">How debuggers work: Part 3 – Debugging information</a></li>
+<li><a href="http://eli.thegreenplace.net/2004/11/14/pure-delight-mix-byte-code-debugger-and-other-oddities/" rel="bookmark" title="pure delight !! (MIX byte code, debugger and other oddities)">pure delight !! (MIX byte code, debugger and other oddities)</a></li>
+<li><a href="http://eli.thegreenplace.net/2003/11/30/endian-ness-of-bits-and-bytes/" rel="bookmark" title="endian-ness of bits and bytes">endian-ness of bits and bytes</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Thursday, January 27th, 2011 at 06:43						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/debuggers/" title="View all posts in Debuggers" rel="category tag">Debuggers</a>, <a href="http://eli.thegreenplace.net/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">18 Responses to “How debuggers work: Part 2 – Breakpoints”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-400425">
+			<cite><a href="http://codedstructure.blogspot.com/" rel="external nofollow">Ben Bass</a><a href="http://codedstructure.blogspot.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/7bd444abc462755993c9c1a979cd34ae" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-400425" title="">January 27th, 2011 at 11:39</a> </small>
+
+			<p>Thanks for this series – very interested on the Linux angle on debugging. I’ve got fond memories of wading through the Intel Architecture software developer manuals <img src="./How debuggers work  Part 2 – Breakpoints_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+<p>Although it’s annoyingly (to me) Windows-centric, I can recommend <a href="http://www.amazon.co.uk/Gray-Hat-Python-Programming-Engineers/dp/1593271921" rel="nofollow">Gray Hat Python</a> which covers debuggers initially at a very general level, and being able to write a debugger in Python definitely appeals…</p>
+<p>One question – is debugging on x86-64 similar or completely different?</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-400445">
+			<cite><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow">Nadav</a><a href="http://cs.haifa.ac.il/~rotemn/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/445d85945658eee0d8e01e88fc5895bc" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-400445" title="">January 27th, 2011 at 11:58</a> </small>
+
+			<p>Eli, great post! I can’t wait to read the third part.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-400461">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-400461" title="">January 27th, 2011 at 12:31</a> </small>
+
+			<p><b>Ben</b>,</p>
+<p>Thanks for the recommendation – I’ll take a look at that book. Doing that from Python shouldn’t be a problem for Linux as well, <code class="backtick">ptrace</code> can definitely be called using ctypes or some other method (I’m sure one can also find <code class="backtick">ptrace</code> bindings for Python online).</p>
+<p>Debugging on x86-64 is very similar. I focused on 32-bit since portability would just unnecessarily complicate things.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-401396">
+			<cite>roy_hu<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/c648581303b15d5d8d4adad05e610730" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-401396" title="">January 28th, 2011 at 07:52</a> </small>
+
+			<p>Very nice writeup. Would be nicer if the code is on github on somewhere similar.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-401625">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-401625" title="">January 28th, 2011 at 14:45</a> </small>
+
+			<p><strong>roy_hu</strong>,</p>
+<p>If it’s important for you, than indeed the code can be found in an online repository: <a href="http://code.google.com/p/eliben-code/source/browse/#hg%2Fdebugger" rel="nofollow">http://code.google.com/p/eliben-code/source/browse/#hg%2Fdebugger</a></p>
+<p>However, I usually don’t publish links to these sources because I don’t guarantee they won’t change some time from now, and readers may be reading this article in 2015.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-402849">
+			<cite>Sivan R<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/eb76f0ace0a2e8402d430553e1e96c27" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-402849" title="">January 29th, 2011 at 15:22</a> </small>
+
+			<p>Eli,<br>
+Great post. Very interesting!<br>
+Sivan.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-403499">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-403499" title="">January 30th, 2011 at 06:10</a> </small>
+
+			<p><b>Nadav</b> and <b>Sivan</b> – thanks!</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-404331">
+			<cite>Guy<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/4299f1429a28b1930ced6166489a65a8" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-404331" title="">January 30th, 2011 at 22:22</a> </small>
+
+			<p>Hey eli,</p>
+<p>I wonder if there will be more papers regarding this topic, it’s extremely interesting</p>
+<p>I also wonder if you’ll ever touch the subject of anti-anti-debugging (where a program doesn’t wish to be debugged) and silent debugging</p>
+<p>p.s  – I wish to try writing my own simple debugger, could you add extra reading material ? </p>
+<p>Thanks in advance.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-404711">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-404711" title="">January 31st, 2011 at 05:58</a> </small>
+
+			<p><strong>Guy,</strong> I plan to publish more articles in this series, which will be useful to you if you plan to write your own debugger. I will then attach more relevant resources as I move along. Regarding anti-[...]-debugging, this isn’t the direction I’m pursuing, but I’m sure you will find a lot of information in the multitude of “grey/black hat” and hacking books available.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-409511">
+			<cite><a href="http://godorz.info/" rel="external nofollow">Arthur1989</a><a href="http://godorz.info/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/3384e4ac29c17aeafa82e0a6db651bd6" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-409511" title="">February 5th, 2011 at 13:35</a> </small>
+
+			<p>Hi, Eli, thanks for the great post.</p>
+<p>It’s so great a post that I can’t help having translated it into chinese and post it in my blog,  hope I could have your permission. Thx.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-409567">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-409567" title="">February 5th, 2011 at 14:52</a> </small>
+
+			<p><strong>Arthur1989</strong> – you definitely have my permission. Are you going to translate part 1 as well? Also note part 3 is coming out soon <img src="./How debuggers work  Part 2 – Breakpoints_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-409573">
+			<cite><a href="http://godorz.info/" rel="external nofollow">Arthur1989</a><a href="http://godorz.info/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/3384e4ac29c17aeafa82e0a6db651bd6" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-409573" title="">February 5th, 2011 at 14:59</a> </small>
+
+			<p>thx, I will translate part 1, or even this great series. <img src="./How debuggers work  Part 2 – Breakpoints_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-461515">
+			<cite>lemnisk8<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/4b69fe8864002723bc734aa151af8728" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-461515" title="">March 25th, 2011 at 11:38</a> </small>
+
+			<p>Hi Eli…<br>
+very nice article…<br>
+Would you happen to know or advice on how to port this to mac as there the ptrace functionality is quite ltd.<br>
+and also how would you implement a hardware bp instead of the software…<br>
+thanks</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-462670">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-462670" title="">March 26th, 2011 at 08:01</a> </small>
+
+			<p><strong>@lemnisk8</strong>, I don’t really know about Mac. Regarding hardware interrupts, this can be an idea for another article <img src="./How debuggers work  Part 2 – Breakpoints_files/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-505768">
+			<cite>Victor T.<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/800614ed4177a38984ac54611ab50564" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-505768" title="">April 25th, 2011 at 07:19</a> </small>
+
+			<p>Really like the series of debug articles here. There doesn’t seem to be that much info out there on how to program a debugger, though it seems to be slowly changing.</p>
+<p>I do have one quick question though on the address used for setting the trap. In the article, you used objdump to locate which address to set the breakpoint on and then you hard-code that address in the source. But do we need to worry about virtual memory addressing? For example, what if the OS decides to load the program in some other region of memory that isn’t the preferred address? Would this hard-coded address still work as expected? why or why not?</p>
+<p>Thanks</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-505785">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-505785" title="">April 25th, 2011 at 07:44</a> </small>
+
+			<p><b>Victor T.</b></p>
+<p>I addressed this briefly in the “Digression – process addresses and entry point” section – for the simple cases, yes, you can assume the absolute addresses will work <i>because</i> of virtual memory addressing. DLLs (SOs) are harder to handle, and I don’t discuss them here (maybe a topic for a future, more advanced, article).</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-891662">
+			<cite>Val<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/e066cc6f014c66bb9db8447f8dbb81a5" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-891662" title="">April 26th, 2012 at 16:49</a> </small>
+
+			<p>The source code archive file is corrupt <img src="./How debuggers work  Part 2 – Breakpoints_files/icon_sad.gif" alt=":-(" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-891687">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./How debuggers work  Part 2 – Breakpoints_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/01/27/how-debuggers-work-part-2-breakpoints/#comment-891687" title="">April 26th, 2012 at 18:01</a> </small>
+
+			<p><strong>Val,</strong></p>
+<p>1. Download the file<br>
+2. Use <code class="backtick">gunzip</code> followed by <code class="backtick">tar xvf</code>, or directly <code class="backtick">tar zvxf</code> to open the archive</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="2386">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f29effba97"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; position: absolute; top: -1px; left: 0px; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

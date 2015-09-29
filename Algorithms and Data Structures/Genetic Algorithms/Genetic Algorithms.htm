@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0046)http://www.illabirinto.com/science/genalgo.htm -->
+<HTML><HEAD><TITLE>Genetic Algorithms</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META 
+content="Genetic Algorithms, GA, Lorenzo Casaccia, Evolutionary Computation, algoritmi genetici " 
+name=keywords>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY bgColor=#ccffff>
+<P><FONT size=+3><B>A Short Survey of Genetic Algorithms (GAs)</B></FONT> 
+<BR><FONT size=3><BR>© <A href="http://www.illabirinto.com/contatti.htm">Lorenzo 
+Casaccia</A>, 2002</FONT></P>
+<P>&nbsp;</P>
+<UL>
+  <LI><FONT size=+1><A 
+  href="http://www.illabirinto.com/science/genalgo.htm#story">Prelude: Story of 
+  Evolutionary Computation and Birth of GAs</A></FONT> 
+  <LI><A href="http://www.illabirinto.com/science/genalgo.htm#holland"><FONT 
+  size=+1>John Holland's Basic GA</FONT></A> 
+  <LI><FONT size=+1><A 
+  href="http://www.illabirinto.com/science/genalgo.htm#basic">Basic 
+  Principles</A> </FONT>
+  <LI><A href="http://www.illabirinto.com/science/genalgo.htm#adva"><FONT 
+  size=+1>Advanced Principles</FONT></A> 
+  <LI><FONT size=+1><A 
+  href="http://www.illabirinto.com/science/genalgo.htm#app">Variations on the 
+  Theme and Applications</A></FONT> 
+  <LI><A href="http://www.illabirinto.com/science/genalgo.htm#underst"><FONT 
+  size=+1>Understanding the GAs</FONT></A><BR></LI></UL>
+<HR>
+<FONT size=+2><B><BR><A name=story></A>Prelude: Story of Evolutionary 
+Computation and Birth of GAs</B></FONT> 
+<P>1960s<BR>Evolution strategies (Rechenberg): optimize real-time 
+parameters<BR>Evolutionary Programming (Fogel, Owens, Walsh)<BR>Genetic 
+Algorithms (Holland): computational parallelism</P>
+<P>It turns out that Genetic Algorithms are useful for:</P>
+<UL>
+  <LI>Solving difficult problems 
+  <LI>Modeling the natural systems that inspired their design </LI></UL>
+<HR>
+<BR><B><FONT size=+2><A name=holland></A>John Holland's Genetic 
+Algorithm</FONT></B> 
+<P>Move a population of chromosomes to a new one.<BR>A <B>chromosom</B>e is a 
+string of "0" and "1", each of which is an <B>allele</B>.<BR></P>
+<P><B>Tools</B>:<BR>- "Natural-selection" (fitness function)<BR>- Selection, 
+crossover, mutation, inversion</P>
+<P><B>Selection</B> chooses two chromosomes that couple to reproduce. The 
+highest the quality of the chromosomes, the higher the probability they are 
+chosen.</P>
+<P><B>Crossover </B>exchanges two subparts of two chromosomes</P>
+<P><B>Mutation</B> randomnly changes the allele value in some locations</P>
+<P><B>Inversion</B> reverses the order of a contiguous section of the 
+chromosome</P>
+<HR>
+<BR><B><FONT size=+2><A name=basic></A>Basic Principles</FONT></B> 
+<P>A chromosome is a <I>candidate</I> solution.<BR>GAs assume that 
+"high-quality" parents can produce high-quality "offspring"</P>
+<P><B>Quality</B> is measured against a fitness function.<BR></P>
+<OL>
+  <LI>Start with a large, random-like, population of size<I> N</I>. 
+  <LI>Calculate the fitness of each element of the population 
+  <LI>Choose the evolving chromosomes (the probability of being chosen is an 
+  increasing function of fitness) 
+  <LI>Find the crossover point 
+  <LI>Find out whether there is mutation 
+  <LI>Place the offspring in the new population 
+  <LI>Go again to 3 until <I>N</I> offspring have been created (when this 
+  happens you have a new generation) 
+  <LI>Replace the old population with the new population.<BR></LI></OL>
+<P>Several generation must be yielded to converge to a solution (cfr. the 
+example that attempts to find the best strategy for the Prisoner's Dilemma)<BR>A 
+solution is a chromosome of a particular generation that solves the problem</P>
+<HR>
+
+<P><FONT size=+2><B><A name=adva></A>Advanced Principles </B></FONT></P>
+<P><B>Coevolution</B><BR>(Hillis, 1990)<BR>Evolve the fitness function together 
+with the population (<I>host-parasite principle</I>).<BR>This is to avoid that 
+the search gets stuck at local optima (basically it keeps making the search more 
+challenging).</P>
+<P><B>Adaptive Mutation</B><BR>(Kitano, 1990)<BR>The probability of mutation of 
+a offspring depends on the number of mismatches (Hamming distance in case of "1" 
+and "0" between the two parents).</P>
+<P><B>Adaptive Encoding</B><BR>How to encode the chromosomes? To find the best 
+possible encoding is very similar to already know the 
+solution!<BR><I>Linkage</I>: one wants to have functionally related loci in the 
+chromosome to "stay together", i.e. not to get separated upon 
+crossover<BR><I>Variable Length</I>: (Lindgren, 1992)<BR><I>Messy GAs</I>: 
+(Goldberg et al, 1989-1992)</P>
+<HR>
+
+<P><FONT size=+2><B><A name=app></A>Variations on the Theme and 
+Applications</B></FONT> <BR></P>
+<P><B>Genetic programming</B><BR>(Koza, 1992, 1994)<BR>Automatically create a 
+computer program (basically, an algorithm, block by block) that correctly solves 
+a task.<BR>The point is to choose a set of possible functions that the program 
+can use and to start with a random population. Each member of the population has 
+some of the functions connected at random.<BR>The genetic algorithm evolves on 
+two fronts: which functions are present and how they are connected.<BR>Fitness 
+is measured on a number of test cases for which the output must be 
+known.<BR><BR><B>Cellular Automata</B><BR>(Mitchell and others, 1992, 1993, 
+1994)<BR>Genetic Algorithms could be used to better understand how cellular 
+automata evolve.<BR>Some hype on cellular automata has been raised in 2002 by 
+Wolfram's book with a popular science approach.</P>
+<P><B>Data Analysis</B><BR>(Packard 1990)<BR>Find patterns and "rules" within 
+huge amount of datas.</P>
+<P><B>Neural Networks</B><BR>(Montana, Davis, 1989): Evolving the weights in a 
+Neural Network<BR>(Miller, Todd, Hedge, 1989): Evolving the architecture of a NN 
+with Direct Encoding<BR>(Kitano, 1990): Evolving the architecture of a NN with 
+Grammatical Encoding<BR></P>
+<P><B>Study of the Baldwin Effect</B><BR>Baldwin (1896): if learning increases 
+the probability of survival then the organisms best able to learn will have the 
+most offspring thus increasing the frequency of the genes responsible for 
+learning (<I>Baldwin effect</I> or <I>organic selection</I>).<BR>GAs have been 
+used to study the Baldwin effect.<BR>(Ackley and Littman, 1992)<BR>Simulation of 
+a "survival" scenario with many "agents" (characters).<BR>The GA is used to 
+simulate a large number of generations. Performed a study about what matters 
+more: the "ability to learn" something or the "ability to do" something.</P>
+<P><B>Study of Sexual Selection</B><BR>(Kirkpatrick, 1982)<BR>(Collins and 
+Jefferson, 1992)<BR>A GA is used to study how sexual selection interacts with 
+natural selection (for example, if there is a trait which increases the fitness 
+for the sexual selection but reduces the fitness for the natural selection, i.e. 
+it reduces the chances of survival but makes the agent who has the trait more 
+sexually appealing).<BR>The study concludes that the power of sexual selection 
+if stronger than the one of natural selection.</P>
+<P><B>Study of Ecosystems</B><BR>(Holland, 1975, 1994)<BR>Echo</P>
+<P><B>Incorporating various ideas from Genetic and Ecological 
+Interactions</B><BR>It's one the most recent frontiers.</P>
+<HR>
+
+<P><FONT size=+2><B><A name=underst></A>Understanding the GAs</B></FONT></P>
+<P><B>Traditional Mathematical Approach</B><BR>Several examples. Very 
+complicate.</P>
+<P><B>Statistical-Mechanics</B><BR>Study the GA at the macroscopic level ("mean 
+fitness", "degree of symmetry", and so on)<BR>Selection causes the standard 
+deviation of the distribution of the population to be lowered (the population 
+tends to have lower mean energy and to be more converged)</P>
+<HR>
+
+<P>&nbsp;</P>
+<P> </P>
+<P>&nbsp;</P>
+<P>.</P></BODY></HTML>

@@ -1,0 +1,54 @@
+BODY {
+	COLOR: #000000; BACKGROUND-COLOR: #ffffff
+}
+BODY.fifi {
+	FONT-WEIGHT: normal; FONT-SIZE: 12pt; FONT-STYLE: normal; FONT-FAMILY: times, "times new roman", serif; TEXT-ALIGN: justify
+}
+P.fifi-error {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #ff0000; FONT-STYLE: normal; FONT-FAMILY: times, "times new roman", serif; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: center
+}
+P.fifi-success {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #008800; FONT-STYLE: normal; FONT-FAMILY: times, "times new roman", serif; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: center
+}
+P.fifi-formerror {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #ff0000; FONT-STYLE: normal; FONT-FAMILY: times, "times new roman", serif; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: left
+}
+TD.fifi-upbar {
+	VERTICAL-ALIGN: top; TEXT-ALIGN: left
+}
+P.fifi-logo {
+	TEXT-ALIGN: center
+}
+P.fifi-linkbar {
+	FONT-WEIGHT: normal; FONT-SIZE: 12pt; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; TEXT-ALIGN: left
+}
+P.fifi-copyright {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; FONT-STYLE: normal; FONT-FAMILY: times, "times new roman", serif; TEXT-ALIGN: center
+}
+TD.fifi-content {
+	VERTICAL-ALIGN: top
+}
+P.fifi-titlehead {
+	MARGIN-TOP: 2ex; FONT-WEIGHT: bold; FONT-SIZE: 24pt; MARGIN-BOTTOM: 2ex; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; TEXT-ALIGN: center
+}
+TD.fifi-tblreshead {
+	PADDING-RIGHT: 1ex; PADDING-LEFT: 1ex; FONT-WEIGHT: bold; FONT-SIZE: 12pt; PADDING-BOTTOM: 0.5ex; COLOR: #000000; PADDING-TOP: 0.5ex; FONT-STYLE: normal; FONT-FAMILY: arial, helvetica, sans-serif; BACKGROUND-COLOR: #a0a0a0; TEXT-ALIGN: center
+}
+TD.fifi-tblresdata-right {
+	PADDING-RIGHT: 3ex; PADDING-LEFT: 3ex; FONT-WEIGHT: normal; FONT-SIZE: 10pt; PADDING-BOTTOM: 0.5ex; COLOR: #000000; PADDING-TOP: 0.5ex; FONT-STYLE: normal; FONT-FAMILY: courier, fixed, monospace; BACKGROUND-COLOR: #d0d0d0; TEXT-ALIGN: right
+}
+TD.fifi-tblresdata-center {
+	PADDING-RIGHT: 1ex; PADDING-LEFT: 1ex; FONT-WEIGHT: normal; FONT-SIZE: 10pt; PADDING-BOTTOM: 0.5ex; COLOR: #000000; PADDING-TOP: 0.5ex; FONT-STYLE: normal; FONT-FAMILY: courier, fixed, monospace; BACKGROUND-COLOR: #d0d0d0; TEXT-ALIGN: center
+}
+TABLE.fifi-loginfo {
+	BORDER-RIGHT: 0ex; PADDING-RIGHT: 0ex; BORDER-TOP: 0ex; PADDING-LEFT: 0ex; PADDING-BOTTOM: 0ex; MARGIN: 0ex; BORDER-LEFT: 0ex; PADDING-TOP: 0ex; BORDER-BOTTOM: 0ex; BACKGROUND-COLOR: #e0e0e0; TEXT-ALIGN: center
+}
+TD.fifi-loginfo {
+	PADDING-RIGHT: 0.5ex; PADDING-LEFT: 0.5ex; FONT-SIZE: 10pt; PADDING-BOTTOM: 0.5ex; PADDING-TOP: 0.5ex; FONT-FAMILY: arial, helvetica, sans-serif; BACKGROUND-COLOR: #e0e0e0; TEXT-ALIGN: center
+}
+TD.fifi-download-title {
+	PADDING-RIGHT: 3ex; PADDING-LEFT: 3ex; FONT-WEIGHT: bold; TEXT-ALIGN: center
+}
+TD.fifi-download-item {
+	PADDING-RIGHT: 3ex; PADDING-LEFT: 3ex; TEXT-ALIGN: center
+}

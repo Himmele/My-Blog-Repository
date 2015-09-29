@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all4.htm -->
+<HTML><HEAD><TITLE>Deskriptorbeispiel</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Deskriptorbeispiel-Dateien/stone.jpg>
+<H2><FONT color=#800000>Deskriptorbeispiel</FONT></H2>
+<P>Es soll ein Deskriptor angelegt werden, der ein Segment mit den folgenden 
+Eigenschaften beschreibt:</P>
+<UL>
+  <LI>Segmentstart an der physischen Adresse 01F2E3Dh 
+  <LI>eine Länge von 2 MB (2097152d=200000h) 
+  <LI>soll Datensegment sein (lesbar und beschreibar) 
+  <LI>einen DPL von 2 
+  <LI>aufgrund der Segmentlänge ein 80386 Segment ist </LI></UL>
+<H2><FONT color=#000080>Assemblerquelltext:</FONT></H2><PRE><I>mein_deskriptor:
+            dw 0200h            ; Segmentgröße, Bit 0..15
+            dw 2E3Dh            ; Segmentbasisadresse, Bit 0..15
+            db 1Fh              ; Segmentbasisadresse, Bit 16..23
+            db 11010010b        ; Zugriffsberechtigung und Typ
+            db 11000000b        ; Zusatzinformation und Segmentgröße, Bit 16..19
+            db 0                ; Segmentbasisadresse, Bit 24..31</I></PRE>
+<H2><FONT color=#000080>Erläuterungen:</FONT></H2>
+<UL>
+  <LI>Das erste Wort des Deskriptors enthält die Bit 0..15 der Segmentgröße. Da 
+  die Segmentgröße in diesem Beispiel 2 MB betragen soll und damit größer als 
+  eine 20 Bit Adresse ist (2<SUP>20</SUP>=1 MB), muß die Einheit der 
+  Segmentgröße auf 4 KB (4096 Byte) erhöht werden (siehe auch Byte 7). 
+  <P>Die Forderung nach einem 2 MB großen Segment hat drei Konsequenzen:</P>
+  <OL>
+    <LI>Der Deskriptor muß 80386 kompatibel sein (Setzen des B-Bit im Byte 7, 
+    siehe dort). 
+    <LI>Das Granularity-Bit muß gesetzt werden (G-Bit in Byte 7, siehe dort), um 
+    die Segmentgrößeneinheit auf 4096 Byte zu erhöhen. 
+    <LI>Die Segmentlänge muß in ein Format mit der Einheit 4 KB umgewandelt 
+    werden (ganzahlige Division durch 4096). Vergleichen Sie mit obigen 
+    Beispiel: Segmentlänge 2 MB=2097152d / 4096d=512d=200h. </LI></OL><BR>
+  <LI>
+  <P>Das zweite Wort enthält die unteren 16 Bit der 32-Bit breiten 
+  Segmentbasisadresse (im obigen Beispiel also das LOW-Wort der 32 Bit Adresse 
+  001F 2E3Dh, also 2E3Dh)</P>
+  <LI>Das dritte Wort wurde in zwei Byte aufgeteilt. Das niederwertige Byte 
+  enthält die Bit 16..23 der Segmentbasisadresse (im obigen Beispiel also 1Fh). 
+  <P>Das höherwertige Byte enthält die Zugriffsberechtigungen und den Segmentyp 
+  in binärer Form. Vergleichen Sie mit dem obigen Beispiel: 1 10 1 001 0b:</P>
+  <UL>
+    <LI>Das höherwertigste Bit ist gesetzt, es kennzeichnet das Segment als 
+    momentan im Speicher verfügbar. 
+    <LI>Die nächsten zwei Bit stellen die Privilegstufe des Segmentes dar (10b = 
+    Privilegstufe 2). 
+    <LI>Da das folgende Bit (das Segment-Bit) gesetzt ist, handelt es sich bei 
+    dem Deskriptor um einen Speichersegmentdeskriptor. 
+    <LI>Das TYPE-Feld (die nächsten drei Bit) enthalten die Kombination 001b, 
+    sie stehen für den Segmenttyp 1 (Datensegment, lesen und schreiben erlaubt). 
+
+    <LI>Das Access-Bit wird vom Prozessor gesetzt, sollte jedoch auf den Wert 0 
+    initialisiert werden. </LI></UL><BR>
+  <LI>Auch das vierte Wort wurde in zwei Byte aufgeteilt. 
+  <P>Das höherwertige Byte (das letzte des Deskriptors, Byte 8) enthält die Bit 
+  24..31 der Segmentbasisadresse, in unserem Fall (001F 2E3Dh) also 0.</P>
+  <P>Das niederwertige Byte enthält in den unteren 4 Bit die Bit 16..19 der 
+  Segmentlänge (im Beispiel 0000b). In den oberen 4 Bit werden das Bit für die 
+  Auflösung (Granularity) und das B-Bit auf 1 gesetzt, um die 
+  Segmentgrößeneinheit auf 4096 Byte zu erhöhen und um einen 80386 Deskriptor 
+  anzuzeigen. Die beiden letzten Bit werden auf 0 gesetzt.</P></LI></UL><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all3.htm"><IMG alt=Zurück 
+src="Deskriptorbeispiel-Dateien/arrowl.gif" align=left border=0 name=left></A> 
+<A onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all5.htm"><IMG alt=Weiter 
+src="Deskriptorbeispiel-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Deskriptorbeispiel-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 29.06.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

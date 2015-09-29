@@ -1,0 +1,1 @@
+ABOBJ = Command.o Initialization.o Password.o Setup.o Setup_NewWindow.o abmain.o init.o 

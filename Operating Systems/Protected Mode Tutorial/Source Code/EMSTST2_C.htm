@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/emstst2.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE> /*
+ ** EMSTST2.C
+ **
+ ** 2 Beispielprogramm zur Nutzung der EMS-Funktionen.
+ ** reserviert 10 Seiten im Expanded Memory, die dazu dienen den Inhalt von
+ ** 40 Textbildschirmen aufzunehmen ...
+ **
+ ** in einem Speichermodell compilieren, daß mit FAR-Zeigern auf die Daten
+ ** arbeitet (z.B. LARGE)
+ **
+ ** Copyright (c) 1996 by Jens Hohmuth. All Rights Reserved.
+ ** email: Jens.Hohmuth@fh-zwickau.de
+ */
+
+#include &lt;conio.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;dos.h&gt;
+#include &lt;process.h&gt;
+#include "ems.h"
+
+#define EMS_SEITEN	10
+
+/* Ausgabe des aufgetretenen EMM-Fehlers, als Fehlernummer sowie als Fehlertext */
+/* Fehlernummer und Fehlertext werden über die Funktion: ems_errormsg ermittelt */
+void error_quit (void);
+
+/* Füllt den Inhalt vorher reservierter Seiten, mit einem ASCII-Code. Dabei */
+/* werden die 16 KB einer EMS-Seite als Bufferspeicher für 4 Text-          */
+/* bildschirme benutzt.                                                     */
+void fillpages (int handle, int pageframe);
+
+/* Zeigt den Inhalt der reservierten Seiten an, indem ihr Inhalt direkt in */
+/* den Bildschirmspeicher kopiert wird. Da eine (EMS) Seite eine Größe von */
+/* 16 Kbyte besitzt, können darin 4 Bildschirminhalte (je 4000 Byte) ge-   */
+/* speichert werden.                                                       */
+void showpages (int, int);
+
+void main (void)
+    {
+    int version;
+    int pageframe;
+    int allpages;
+    int freepages;
+    int myhandle;
+
+    clrscr ();
+
+    /* EMM überhaupt vorhanden ? */
+    if (ems_check ())
+        {
+        printf ("Expanded Memory Manager (EMM) gefunden !\n");
+        }
+    else
+        {
+        printf ("Expanded Memory Manager nicht verfuegbar !\n\n");
+        exit (1);
+        }
+
+    /* Versionsnummer abfragen und ausgeben */
+    if (! ems_version (&amp;version))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("Version              : %x.%x\n", version &gt;&gt; 8, version &amp; 0xff);
+        }
+
+    /* Pageframe ermitteln */
+    if (! ems_pageframe (&amp;pageframe))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("Pageframe            : %Xh\n", pageframe);
+        }
+
+    /* Gesamtzahl an Seiten ermitteln und ausgeben */
+    if (! ems_allpages (&amp;allpages))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("Gesamtzahl an Seiten : %d (%d kb)\n", allpages, allpages*16);
+        }
+
+    /* Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_freepages (&amp;freepages))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("freie Seiten         : %d (%d kb)\n", freepages, freepages*16);
+        }
+
+    /* Speicher allokieren nach Tastendruck */
+    printf ("\nTaste druecken, um %d EMS-Seiten (%d kb) zu reservieren ...\n", EMS_SEITEN, EMS_SEITEN*16);
+    while (! kbhit ())   ;
+    getch ();
+
+    if (! ems_alloc (&amp;myhandle, EMS_SEITEN))
+        {
+        error_quit ();
+        }
+
+    /* Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_freepages (&amp;freepages))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("freie Seiten         : %d\n", freepages);
+        }
+
+    /* Erfolgsmeldung und Warten auf Tastendruck */
+    printf ("\nTaste druecken, um EMS-Seiten mit Inhalt zu fuellen ...\n");
+    while (! kbhit ())   ;
+    getch ();
+
+    /* Seiten füllen ... */
+    fillpages (myhandle, pageframe);
+
+    /* Warten auf Tastendruck */
+    printf ("\nFertig. Taste druecken, um EMS-Seiten anzuzeigen ...\n\n");
+    while (! kbhit ())   ;
+    getch ();
+
+    /* Seiten anzeigen */
+    showpages (myhandle, pageframe);
+
+    clrscr ();
+    printf ("\nSpeicher freigeben ...\n");
+
+    /* Speicher freigeben */
+    if (! ems_free (myhandle))
+        {
+        error_quit ();
+        }
+
+    /* Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_freepages (&amp;freepages))
+        {
+        error_quit ();
+        }
+    else
+        {
+        printf ("freie Seiten         : %d\n", freepages);
+        }
+    }
+
+/* Ausgabe des aufgetretenen EMM-Fehlers, als Fehlernummer sowie als Fehlertext */
+/* Fehlernummer und Fehlertext werden über die Funktion: ems_errormsg ermittelt */
+void error_quit (void)
+    {
+    char errormsg [80];
+
+    printf ("\nFehler %Xh, bei EMS Aktion,\n%s\n\nPROGRAMMABBRUCH !!!\n", ems_errormsg (errormsg), errormsg);
+    exit (1);
+    }
+
+/* Füllt den Inhalt vorher reservierter Seiten, mit einem ASCII-Code. Dabei */
+/* werden die 16 KB einer EMS-Seite als Bufferspeicher für 4 Text-          */
+/* bildschirme benutzt.                                                     */
+void fillpages (int handle, int pageframe)
+    {
+    int page;
+    int pos;
+    char seite [80];
+    char zahl [10];
+
+    for (page=0; page&lt;EMS_SEITEN; page++)
+        {
+        /* Page in 1 MB Speicherbereich einblenden */
+        ems_setmap (handle, 0, page);
+
+        /* 4 Bildschirm mit konstanten Werten füllen */
+	for (pos=0; pos&lt;2000; pos++)
+            {
+            memset (MK_FP (pageframe, pos*2+0), page*4+'A', 1);   /* Zeichen  */
+            memset (MK_FP (pageframe, pos*2+1), RED, 1);	  /* Attribut */
+            }
+		
+        for (pos=0; pos&lt;2000; pos++)
+            {
+            memset (MK_FP (pageframe, 4000+pos*2+0), page*4+1+'A', 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 4000+pos*2+1), LIGHTGREEN, 1);	  /* Attribut */
+            }
+		
+        for (pos=0; pos&lt;2000; pos++)
+            {
+            memset (MK_FP (pageframe, 8000+pos*2+0), page*4+2+'A', 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 8000+pos*2+1), LIGHTBLUE, 1);	  /* Attribut */
+            }
+
+        for (pos=0; pos&lt;2000; pos++)
+            {
+            memset (MK_FP (pageframe, 12000+pos*2+0), page*4+3+'A', 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 12000+pos*2+1), YELLOW, 1);	  /* Attribut */
+            }
+
+        /* aktuelle Seite in String umwandeln und ebenfalls im EMS speichern */
+        strnset (seite, ' ', 80);
+        itoa (page, zahl, 10);
+        strcpy (seite, "Seite: ");
+        strcat (seite, zahl);
+	
+        for (pos=0; pos&lt;10; pos++)
+            {
+            memset (MK_FP (pageframe, pos*2+0), seite [pos], 1); /* Zeichen  */
+            memset (MK_FP (pageframe, pos*2+1), 15, 1);     /* Attribut */
+
+            memset (MK_FP (pageframe, 4000+pos*2+0), seite [pos], 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 4000+pos*2+1), 15, 1);     /* Attribut */
+
+            memset (MK_FP (pageframe, 8000+pos*2+0), seite [pos], 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 8000+pos*2+1), 15, 1);     /* Attribut */
+
+            memset (MK_FP (pageframe, 12000+pos*2+0), seite [pos], 1); /* Zeichen  */
+            memset (MK_FP (pageframe, 12000+pos*2+1), 15, 1);     /* Attribut */
+            }
+        }
+    }
+
+/* Zeigt den Inhalt der reservierten Seiten an, indem ihr Inhalt direkt in */
+/* den Bildschirmspeicher kopiert wird. Da eine (EMS) Seite eine Größe von */
+/* 16 Kbyte besitzt, können darin 4 Bildschirminhalte (je 4000 Byte) ge-   */
+/* speichert werden.                                                       */
+void showpages (int handle, int pageframe)
+    {
+    int page;
+
+    for (page=0; page&lt;EMS_SEITEN; page++)
+        {
+        ems_setmap (handle, 0, page);
+        memcpy (MK_FP (0xb800, 0), MK_FP (pageframe, 0), 4000);
+        getch ();
+	
+        memcpy (MK_FP (0xb800, 0), MK_FP (pageframe, 4000), 4000);
+        getch ();
+	
+        memcpy (MK_FP (0xb800, 0), MK_FP (pageframe, 8000), 4000);
+        getch ();
+	
+        memcpy (MK_FP (0xb800, 0), MK_FP (pageframe, 12000), 4000);
+        getch ();
+        }
+    }
+
+</PRE></BODY></HTML>

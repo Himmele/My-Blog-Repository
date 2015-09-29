@@ -1,0 +1,1 @@
+ABOBJ = AboutDlg_Setup.o Color_Change.o NewWindow_Close.o NewWindow_Setup.o Quit.o abmain.o 

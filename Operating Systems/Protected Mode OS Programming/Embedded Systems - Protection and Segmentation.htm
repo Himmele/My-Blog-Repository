@@ -1,0 +1,1500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0038)http://www.embedded.com/98/9805fe2.htm -->
+<HTML><HEAD><TITLE>May '98 Feature - Advanced Embedded X86 Programming: Protection and Segmentation</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="embedded systems,conference,development,real-time,programming,emulators,multitasking,debugging,software,optimization,engineer,RTOS,chips,tools,microcontrollers,DSP,operating systems,kernel,microprocessors,object-oriented,single board,ada,C++,visual basic,forth,RISC,compilers,specialty libraries, configuration management,ICE,ROM emulators,logic analyzers,device programmers,oscilloscopes,8-bit,eprom,flash,OEM,boards,Miller Freeman,vendor,magazine,custom publishing,esp,esc,directories,mwmedia,Windows CE, Win CE, CE, Windows, Microsoft, developer,  software, operating system, hand held, wallet, PC, OS, mobile, wireless, portable, driver, ETK, OAL, OAK, Pentium, 486, MIPS, Smartcards, Cellular Phone, Small-Form-Factor, H/PC, Palm, CE, RFA, PDA, PIC" 
+name=keywords>
+<META 
+content="Welcome to Embedded.com, the on-line resource for embedded systems developers. This is the place to come for tutorials, code,  demos, and news, along with information about Embedded Systems Programming Magazine and the Embedded Systems Conferences. " 
+name=description>
+<META 
+content="May '98 Feature - Advanced Embedded X86 Programming: Protection and Segmentation" 
+name=Headline>
+<META content="May 1998" name=issue>
+<META content="Jean Gareau" name=author>
+<SCRIPT language=javascript1.2 type=text/javascript>
+/*
+Dr. Clue's drop-down menu system for 4th generation browsers
+        copyright @ 1998,1999 drclue , www.drclue.net
+license is granted for use of this software by individuals
+in support of personal web-sites. All other rights reserved.
+*/
+//*** Global Variables
+var LIBLOADEDJSmenu=false;
+var     systemLibCnt    =0;
+var     systemIsNS      =(document.layers!=null);       // Is it a Netscape browser
+var     systemMouseDn   =false; // mousemove dragging
+if(document.layers)document.all=document.layers;
+var     systemMaxZ      =0; 
+var     systemNullChk   =((systemIsNS)?((navigator.appVersion.substring(0,4)=="4.05")?"null":"undefined"):"null")
+var menuTimeOut         =null;  // mouseout Cancel menu timer
+var     menuCurrentItem =null;  // currently highlighted object.
+var     menuCurrentPath ="";    // The open menu list.
+var     menuScreenWidth =0;
+//*** General Menu  configuration variables
+var     menuSubAuto     =false;
+var     menuSubSymbol   ="&raquo;";     // html to indicate sub menu
+var     menuRoll        =true;  // Show menu items as built
+var     menuCharHeight  =11;    // Avg Char Height.
+var     menuCharWidth   =5;     // Avg Char Width.
+var     menuYpopoff     =0;
+var     menuXpopoff     =178;
+var     menuBcolor      ="#ABABAB";     // background
+var     menuTcolor      ="#FFFFFF";     // Text
+var     menuHBcolor     ="#FFFFFF";
+var     menuHTcolor     ="#ABABAB";
+var     menuFont        ="verdana,arial";// menu label font
+var     menuFontSize    =1;     // menu font size
+var     menuBold        =false; // Use bold
+var     menuAtimeout    =4500;
+var     Firstpass       =true;
+var     lastEVENT       =null;
+
+var szDuds="Mozilla/4.0 (compatible; MSIE 4.5; Mac_PowerPC)";
+
+esconfoff = new Image;
+esconfoff.src = "http://img.cmpnet.com/embedded/redesign/es_conf.gif";
+esconfon = new Image;
+esconfon.src = "http://img.cmpnet.com/embedded/redesign/es_conf_on.gif";
+
+magoff = new Image;
+magoff.src = "http://img.cmpnet.com/embedded/redesign/esp_mag.gif";
+magon = new Image;
+magon.src = "http://img.cmpnet.com/embedded/redesign/esp_mag_on.gif";
+
+iaoff = new Image;
+iaoff.src = "http://img.cmpnet.com/embedded/redesign/ia.gif";
+iaon = new Image;
+iaon.src = "http://img.cmpnet.com/embedded/redesign/ia_on.gif";
+
+downoff = new Image;
+downoff.src = "http://img.cmpnet.com/embedded/redesign/code.gif";
+downon = new Image;
+downon.src = "http://img.cmpnet.com/embedded/redesign/code_on.gif";
+
+demooff = new Image;
+demooff.src = "http://img.cmpnet.com/embedded/redesign/prod_demos.gif";
+demoon = new Image;
+demoon.src = "http://img.cmpnet.com/embedded/redesign/prod_demos_on.gif";
+
+resoff = new Image;
+resoff.src = "http://img.cmpnet.com/embedded/redesign/resources.gif";
+reson = new Image;
+reson.src = "http://img.cmpnet.com/embedded/redesign/resources_on.gif";
+
+ieoff = new Image;
+ieoff.src = "http://img.cmpnet.com/embedded/redesign/ind_ev.gif";
+ieon = new Image;
+ieon.src = "http://img.cmpnet.com/embedded/redesign/ind_ev_on.gif";
+
+guideoff = new Image;
+guideoff.src = "http://img.cmpnet.com/embedded/redesign/buyers.gif";
+guideon = new Image;
+guideon.src = "http://img.cmpnet.com/embedded/redesign/buyers_on.gif";
+
+siteoff = new Image;
+siteoff.src = "http://img.cmpnet.com/embedded/redesign/sitemap.gif";
+siteon = new Image;
+siteon.src = "http://img.cmpnet.com/embedded/redesign/sitemap_on.gif";
+
+productsoff = new Image;
+productsoff.src = "http://img.cmpnet.com/embedded/redesign/new_prod.gif";
+productson = new Image;
+productson.src = "http://img.cmpnet.com/embedded/redesign/new_prod_on.gif";
+
+directoff = new Image;
+directoff.src = "http://img.cmpnet.com/embedded/redesign/catalogs.gif";
+directon = new Image;
+directon.src = "http://img.cmpnet.com/embedded/redesign/catalogs_on.gif";
+
+cdromoff = new Image;
+cdromoff.src = "http://img.cmpnet.com/embedded/redesign/cdrom.gif";
+cdromon = new Image;
+cdromon.src = "http://img.cmpnet.com/embedded/redesign/cdrom_on.gif";
+
+embeddedbooksoff = new Image;
+embeddedbooksoff.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks.gif";
+embeddedbookson = new Image;
+embeddedbookson.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks_on.gif";
+
+researchoff = new Image;
+researchoff.src = "http://img.cmpnet.com/embedded/redesign/market.gif";
+researchon = new Image;
+researchon.src = "http://img.cmpnet.com/embedded/redesign/market_on.gif";
+
+jobsoff = new Image;
+jobsoff.src = "http://img.cmpnet.com/embedded/redesign/job.gif";
+jobson = new Image;
+jobson.src = "http://img.cmpnet.com/embedded/redesign/job_on.gif";
+
+
+welcomeoff = new Image;
+welcomeoff.src = "http://img.cmpnet.com/embedded/redesign/welcometo.gif";
+welcomeon = new Image;
+welcomeon.src = "http://img.cmpnet.com/embedded/redesign/welcometo_on.gif";
+
+function imgSwap(imgId,imgSrc,restat) {
+   document.images[imgId].src=eval(imgSrc+'.src');
+   if (restat)window.status='';
+}
+
+function PreLoads(treeList)
+        {
+        window.status="["+systemLibCnt+"] menu.js["+LIBLOADEDJSmenu + "] items ["+""+" Loading ...";
+        if(!LIBLOADEDJSmenu)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.onResize="document.location.href=document.location.href";        
+        if(!document.links.length)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.status="initializing";
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             window.status="Loading "+killboy;
+             menuCREATE(killboy,0,0);
+             }
+        window.status="";
+        }
+
+
+/* Called by the jsLAYERclass to create
+a layer if the layer does not already exist.*/
+function jsLAYERcreateLayer(Homeboy,x,y,w,h,bColor)
+        {
+        if(systemIsNS)
+          {
+          var lyr= document.layers[Homeboy.lyrName] = new Layer(w)
+          lyr.left=x;lyr.top=y; lyr.clip.height=h+1;lyr.clip.width=w+1;
+          lyr.bgColor=((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor);
+          lyr.visibility='hidden';lyr.zIndex=1;
+          lyr.isHighlight=false;
+          lyr.border=1;
+          document.layers[Homeboy.lyrName].style=document.layers[Homeboy.lyrName];
+          }else{
+          var str = '\n<DIV id='+Homeboy.lyrName+' style="visibility: hidden; position:absolute; left:'+x+'; top:'+y+'; width:'+w
+          str += '; height:'+(h+1)+'px; clip:rect(0px '+(w+1)+'px '+(h+1)+'px 0px)'
+          str += '; background-color:'+((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor)+';z-Index:5;"> </DIV>';
+          document.body.insertAdjacentHTML("BeforeEnd",str);
+          }
+        Homeboy.jsLAYERobject=document.all[Homeboy.lyrName];
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument  =document.layers[Homeboy.lyrName].document;
+          Homeboy.style            =document.layers[Homeboy.lyrName];
+          }else{
+          Homeboy.jsLAYERdocument  =document.all[Homeboy.lyrName];
+          Homeboy.style            =document.all[Homeboy.lyrName].style;
+          Homeboy.style.zIndex     =systemMaxZ++;
+          }
+        Homeboy.jsLAYERobject.HomeBoy=Homeboy;
+        Homeboy.jsLAYERobject.W =w;
+        Homeboy.jsLAYERobject.X =x;
+        Homeboy.jsLAYERobject.Y =y;
+        Homeboy.jsLAYERobject.H =h;
+        Homeboy.jsLAYERobject.MOUSEHANDLER="MOUSEVECTOR";
+        return Homeboy;
+        }
+function jsLAYERsetHandler(Homeboy,szHANDLER) // named function for events
+        {
+        Homeboy.jsLAYERobject.MOUSEHANDLER=szHANDLER;
+        MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+        }
+function jsLAYERhomeboy(layername){return document.all[layername].HomeBoy;}
+function jsLAYERopen(Homeboy){if(systemIsNS){Homeboy.jsLAYERobject.document.open();  }else{  Homeboy.jsLAYERobject.innerHTML="";}}
+function jsLAYERwrite(Homeboy,Text){if(systemIsNS){Homeboy.jsLAYERdocument.write(Text);}else{Homeboy.jsLAYERobject.innerHTML+=Text;}}
+function jsLAYERclose(Homeboy)
+        {
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument.close();
+          MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+          }
+        }
+function jsLAYERsetContent(Homeboy,text)
+        {
+        jsLAYERopen(Homeboy);
+        jsLAYERwrite(Homeboy,text);
+        jsLAYERclose(Homeboy);return;
+        }
+function jsLAYERshow(Homeboy,vis){Homeboy.style.visibility=((vis)?"visible":"hidden");}
+function jsLAYERgetX(Homeboy){return parseInt(Homeboy.style.left);}
+function jsLAYERgetY(Homeboy){return parseInt(Homeboy.style.top);}
+function jsLAYERxy(Homeboy,x,y,InLayer)
+        {
+        this.InX=x;this.InY=y;
+        if(document.layers)
+          {
+          if(InLayer)
+            {
+            InX+=InLayer.style.left;
+            InY+=InLayer.style.top;
+            }
+          Homeboy.jsLAYERobject.x=this.InX;
+          Homeboy.jsLAYERobject.y=this.InY;
+          }else{
+          if(InLayer)
+            {
+            this.InX+=parseInt(document.all[Homeboy.lyrName].style.left);
+            this.InY+=parseInt(document.all[Homeboy.lyrName].style.top);
+            }
+//alert(document.all[Homeboy.lyrName].style.left+"[]"+this.InX+"[]"+x)
+          document.all[Homeboy.lyrName].style.left=this.InX
+          document.all[Homeboy.lyrName].style.top=this.InY
+
+          }
+
+
+        }
+/*Function      :MEVENT
+**Parameters    :Homeboy        - Layer Class Pointer
+**               Evt            - javascript Browser Event
+**Description   :Noramalizes Netscape/MSIE evnts to 
+**a class containing variables for both, with Netscape names
+**superceding MSIE names. It is this psudeo event class that
+**is passed to all MOUSE... event handler functions.
+*/
+function MEVENT(Homeboy,Evt) //normalizes the differences in NS and MSIE events
+        {
+        this.type=Evt.type;
+        this.screenX=Evt.screenX;
+        this.screenY=Evt.screenY;
+        if(systemIsNS)
+          {
+        this.pageX=Evt.pageX;
+        this.pageY=Evt.pageY;
+        this.locationX=Homeboy.jsLAYERobject.x;
+        this.locationY=Homeboy.jsLAYERobject.y;
+        this.layerX=Evt.layerX;
+        this.layerY=Evt.layerY;
+        this.which=Evt.which;
+        this.target=Evt.target;
+        this.modifiers=Evt.modifiers;
+          }else{
+        this.pageX=Evt.x;
+        this.pageY=Evt.y;
+        if(document.body.scrollTop)this.pageY+=document.body.scrollTop;
+        this.locationX=parseInt(Homeboy.jsLAYERobject.style.left);
+        this.locationY=parseInt(Homeboy.jsLAYERobject.style.top);
+        this.layerX=this.pageX-this.locationX;
+        this.layerY=this.pageY-this.locationY;
+        this.which=Evt.button+1;
+        this.target=Evt.srcElement;
+        this.modifiers=(((Evt.altKey)?1:0)+((Evt.ctrlKey)?2:0)+((Evt.AltKey)?4:0));
+          }
+        }
+function MOUSEVECTOR(layername,Evt)// handles the actuall prep and call of mouse events
+        {
+        Homeboy=document.all[layername].HomeBoy;return false;
+        }
+// Sets up mouse event NOTE: Use of "new Function" is important
+function MOUSECAPTURE(Homeboy,layername)
+        {
+
+var NFD="return "+Homeboy.jsLAYERobject.MOUSEHANDLER+"('"+layername+"',"+((systemIsNS)?"arguments[0]":"window.event")+")"
+Homeboy.jsLAYERobject.onmouseover=new Function(NFD)
+Homeboy.jsLAYERobject.onmouseout=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousemove=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousedown=new Function(NFD)
+Homeboy.jsLAYERdocument.onmouseup=new Function(NFD)
+if(systemIsNS)Homeboy.jsLAYERdocument.captureEvents(  Event.MOUSEUP |   Event.MOUSEDOWN   | Event.MOUSEMOVE);
+        }
+function NSResizePatch(){document.location.href=document.location.href;}
+function jsNULLvector(layername,Evt){return true;}
+var MPTYPE ="",MSTYPE ="";
+function jsMPANELvector(panelName,Evt)  // Vectors mouse messages for the panel
+        {
+        Homeboy=jsLAYERhomeboy(panelName);
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MPTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          }
+        if(Evt.type!="mousemove" )return false;
+        EVENT=new MEVENT(Homeboy,Evt);
+
+        EntryNum=0;
+        EntryNotch=EVENT.layerY;
+        if(EntryNotch)
+          {
+          EntryNotch-=(EntryNotch%(menuCharHeight+1));
+          EntryNum=(EntryNotch/(menuCharHeight+1))
+          }
+        if(Homeboy.mParent.Items.length<=EntryNum)return true;
+        lastEVENT=EVENT;
+        if(Homeboy.mParent.EntryNum==EntryNum)return false;
+
+//if(!systemIsNS)
+//{
+//alert(EntryNum+"[]"+EntryNotch+"[]"+EVENT.layerY)
+//Homeboy.mParent.Items[EntryNum].RENDER)
+//}
+        jsLAYERsetContent(Homeboy.mParent.mSELECT,Homeboy.mParent.Items[EntryNum].RENDER);
+
+        jsLAYERxy(Homeboy.mParent.mSELECT,jsLAYERgetX(Homeboy),jsLAYERgetY(Homeboy)+(EntryNum*(menuCharHeight+1)));
+        Homeboy.mParent.EntryNum=EntryNum;
+        if(!menuSubAuto)return false;
+        if(Homeboy.mParent.Items[EntryNum].ACTION.substring(0,1)=="@")
+          {
+          fakeEvt = new Object();
+          fakeEvt.type="mouseup";
+          jsMSELECTvector(Homeboy.mParent.mSELECT.lyrName,fakeEvt);
+          }
+        return false;
+        }
+/*
+** Vectors mouse messages for the menu selector
+*/
+function jsMSELECTvector(panelName,Evt)
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MSTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          Homeboy=jsLAYERhomeboy(panelName);
+          return false;
+          }
+        if(Evt.type!="mouseup")return false;
+        Homeboy=jsLAYERhomeboy(panelName);
+        var action = Homeboy.mParent.Items[Homeboy.mParent.EntryNum].ACTION;
+
+        if(menuCurrentPath.indexOf(Homeboy.jsLAYERobject.GROUP)>0)
+          {
+          var FindGroup = ":"+Homeboy.jsLAYERobject.GROUP+":";
+          var killList = menuCurrentPath.substring(menuCurrentPath.indexOf(FindGroup)+FindGroup.length-1);
+          menuPOPDN(killList);
+          }
+        if(action.length<1){window.status="[Not Available]";return false;}
+        var isMenu = action.substring(0,1)=="@";
+        var isJavascript = action.substring(0,1)=="!";
+        if(isJavascript)
+          {
+          eval(action.substring(1))
+          return false;
+          }
+        if(isMenu)
+          {
+          menuPOPUP(jsLAYERgetX(Homeboy)+Homeboy.jsLAYERobject.W+2,jsLAYERgetY(Homeboy),action.substring(1));
+          }else{
+          document.location.href=action;
+          }
+        return false;
+        }
+/*
+** This is the menu panel
+*/
+function jsMPANELclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#000000");
+        jsLAYERsetHandler(this,"jsMPANELvector");
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** This is the highlite bar
+*/
+function jsMSELECTclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h);
+        jsLAYERsetHandler(this,"jsMSELECTvector");
+        this.jsLAYERobject.GROUP=group;
+        this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** Create the menu label obeject string for display
+*/
+function menuLABEL(Homeboy,text,isHighlight,isSub)
+        {
+        var fontstart="<FONT FACE='"+menuFont+"' SIZE="+menuFontSize+" COLOR='"+((isHighlight)?menuHTcolor:menuTcolor)+"'>"+((menuBold)?"<B>":"");
+        var CONTENT="&nbsp;";
+        if(text)CONTENT=text.length?"&nbsp;"+text:"&nbsp;";
+        var lyrtxt="<TABLE BORDER=0 CELLPADDING=0 STYLE='cursor:hand' CELLSPACING='0' BGCOLOR='";
+        lyrtxt+=((isHighlight)?menuHBcolor:menuBcolor);
+        lyrtxt+="' WIDTH='"+Homeboy.jsLAYERobject.W+"' HEIGHT='"+menuCharHeight+"'><TR VALIGN=MIDDLE>";
+        twidth=parseInt(Homeboy.jsLAYERobject.W)-parseInt(Homeboy.jsLAYERobject.rtWidth);
+        lyrtxt+="<TD WIDTH='"+twidth.toString();
+        lyrtxt+="'>"+fontstart+CONTENT+((menuBold)?"</B>":"")+"</FONT></TD>";
+        lyrtxt+="<TD WIDTH='10'>"+fontstart+((isSub)?menuSubSymbol:"&nbsp;")+((menuBold)?"</B>":"")+"</FONT></TD></TR></TABLE>";
+        return lyrtxt;
+        }
+function MenuItem(label,action)
+        {
+        this.LABEL      =label  ;
+        this.ACTION     =action ;
+        this.SUB        =this.ACTION.substring(0,1)=="@";
+        this.RENDER     =""     ;
+        }
+function MenuListAPPEND(label,action)   //Appends an item to the menuobject
+        {
+        this.Items[this.Items.length]=new MenuItem(label,action);
+        if(label.length>this.greatestCharWidth)this.greatestCharWidth=label.length;
+        }
+function menuPop(tobj,imgId,imgSrc) //Pops up menu relative to <A> tag location on screen.
+        {
+        if ((imgId)&&(imgSrc))imgSwap(imgId,imgSrc);
+        objectName=tobj.href.substring(tobj.href.lastIndexOf("/")+1);
+        if(objectName.indexOf(".html")>-1)objectName=objectName.substring(0,objectName.indexOf("."))
+//      if(!menuCurrentPath)return;
+        if(menuCurrentPath.indexOf(":"+objectName+":")==0)return false;
+        if(menuCurrentPath.length>0)menuPOPDN();
+if(szDuds.indexOf(navigator.userAgent)>-1)
+{
+if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+return true;
+}
+
+        if(navigator.appVersion.indexOf("MSIE")>-1&&navigator.appVersion.indexOf("Mac")>-1)
+          {// compatible mac
+          if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+          return true;
+          }
+
+        this.MX=((systemIsNS)?(tobj.x):window.event.clientX-window.event.offsetX+tobj.offsetLeft);
+        this.MY=((systemIsNS)?(tobj.y):window.event.clientY-window.event.offsetY+tobj.offsetTop);
+        if(!systemIsNS)MSIEmeasure(tobj,this);    
+        this.MY+=menuYpopoff;
+        this.MX+=menuXpopoff;
+        menuPOPUP(this.MX,this.MY,objectName);
+        menuTimeOut=setTimeout("menuPOPDN()",menuAtimeout);
+        return false;
+        }
+function menuPOPUP(x,y,menulist)        //*** Opens named menu at given location
+        {
+        var DL=eval(menulist);
+        if(!DL){alert("menuPOPUP NULL "+menulist);return;}
+        menuSHOW(menulist,x,y);
+        if(!menuScreenWidth)
+          menuScreenWidth=(systemIsNS)?document.width:document.body.offsetWidth;
+        mkw=(DL.greatestCharWidth*menuCharWidth)+10;
+        var atX = ((x+mkw+20)>=menuScreenWidth)?x-mkw:x;
+        if(jsLAYERgetX(DL.mPANEL)!=atX)menuXY(DL,atX,y);
+        }
+function menuCREATE(szMlist,iLeft,iTop)
+        {
+        Left= 20;Top = 40;
+        if(menuCREATE.arguments.length>1)Left=iLeft;
+        if(menuCREATE.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL ==null)
+          {
+          Mlist.mPANEL=new jsMPANELclass(szMlist,0,"Hello","alert('hi')",Left,Top,((Mlist.greatestCharWidth+10)*menuCharWidth)+1,((menuCharHeight+1)*Mlist.Items.length)+1);
+          Mlist.mPANEL.mParent=Mlist;
+          var menuContent='';
+          menuContent='<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD>';
+          for(x=0;x<Mlist.Items.length;x++)
+           {
+           menuContent+=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,false,Mlist.Items[x].SUB);
+           Mlist.Items[x].RENDER=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,true,Mlist.Items[x].SUB);
+           }
+        menuContent+='</TD><TD BGCOLOR="#000000">&nbsp;</TD>';
+        menuContent+="</TR><TR><TD COLSPAN=2>&nbsp;</TD></TR></TABLE>";
+//alert(menuContent);
+          jsLAYERsetContent(Mlist.mPANEL,menuContent);
+          }
+        if(Mlist.mSELECT==null)
+          {
+          Mlist.mSELECT=new jsMSELECTclass(szMlist,1,"Hello","alert('hi')",Left,Top,(Mlist.greatestCharWidth+10)*menuCharWidth,menuCharHeight);
+          Mlist.mSELECT.mParent=Mlist;
+          jsLAYERsetContent(Mlist.mSELECT,Mlist.Items[0].RENDER);
+          }
+        }
+
+function menuSHOW(szMlist,iLeft,iTop)   // SHOW the menu
+        {
+        Left= 20;Top = 40;
+        if(menuSHOW.arguments.length>1)Left=iLeft;
+        if(menuSHOW.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL==null)menuCREATE(szMlist,iLeft,iTop);
+        if(jsLAYERgetX(Mlist.mPANEL)!=Left || jsLAYERgetY(Mlist.mPANEL)!=Top)
+            {
+            jsLAYERxy(Mlist.mPANEL,Left,Top)   
+            jsLAYERxy(Mlist.mSELECT,Left,Top+(Mlist.EntryNum*(menuCharHeight+1)));
+            }; 
+        if(menuCurrentPath.indexOf(":"+szMlist+":")<0)menuCurrentPath+=((menuCurrentPath.length)?"":":")+szMlist+":";
+
+        if(Mlist.mPANEL.style.clip&&!systemIsNS)
+          {
+          Clips= Mlist.mPANEL.style.clip.split("rect(")[1].split(")")[0].split("px")
+          Clips[2]=Mlist.Items.length * (menuCharHeight+1);
+          Mlist.mPANEL.style.clip = "rect("+Array(0,Clips[1],Clips[2],0).join("px ")+"px)";
+          Mlist.mPANEL.style.zIndex=5;
+          Mlist.mSELECT.style.zIndex=6;
+          }
+        Mlist.mPANEL.style.visiblity='visible';
+//alert(Mlist.Items.length +" Item(s) "+ Mlist.mPANEL.style.clip);
+        jsLAYERshow(Mlist.mPANEL,true);
+        jsLAYERshow(Mlist.mSELECT,true);
+        }
+function menuHIDE(szMlist)      //  Hides the named menu
+        {
+        Mlist=eval(szMlist);
+        jsLAYERshow(Mlist.mSELECT,false);
+        jsLAYERshow(Mlist.mPANEL,false);
+        }
+function menuXY(Mlist,x,y)      // Moves the referenced menu
+        {
+        jsLAYERxy(Mlist.mPANEL,x,y)
+        jsLAYERxy(Mlist.mSELECT,x,y+(Mlist.EntryNum*(menuCharHeight+1)));
+        }
+function menuPOPDN(treeList)    // closes a list of menus
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(menuPOPDN.arguments.length<1)treeList=menuCurrentPath;
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             menuHIDE(killboy);
+             }
+        if(menuPOPDN.arguments.length<1)menuCurrentPath="";
+        };
+/*
+** MAIN MENU OBJECT
+*/
+var mSELECT=null;
+function MenuList(Mlist)
+        {
+        this.mPANEL=null;this.mSELECT=null;
+        this.Items=new Array();this.EntryNum=0;
+        this.APPEND=MenuListAPPEND;
+        this.greatestCharWidth=0;
+        }
+
+/*      Function        :MSIEmeasure
+**      Since I have found no straight forward method of obtaining IE x,y
+**      coords for the clicked link, this function recurses up the object tree
+**      to measure the screen location of the <A> involved
+*/
+function MSIEmeasure(btobj,HB)
+        {
+        var tobj=btobj;
+        HB.MX=tobj.offsetLeft;
+        HB.MY=tobj.offsetTop;
+        while(tobj.parentElement)
+          {
+          if(!tobj.parentElement)break;
+          tobj = tobj.parentElement;
+//        if(tobj.tagName=="TABLE")
+          if(String(":TABLE:TD:DIV:").indexOf(":"+tobj.tagName+":")>-1)
+            {
+            HB.MX+=tobj.offsetLeft;
+            HB.MY+=tobj.offsetTop;
+            }
+          if(!tobj.parentElement)break;
+          if(tobj.parentElement.tagName=="BODY")break;
+          }
+        return ;
+        }
+/****************************************
+** A message window                     *
+*****************************************/
+var StatusMsgWin=null;
+function jsMESSAGEclass(group,entry,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#FFFFCC");
+        jsLAYERsetHandler(this,"jsNULLvector");
+        jsLAYERshow(this,true);
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        }
+/*
+** Set the contents of the message window;
+*/
+function jsStatusMsg(txtMESSAGE)
+        {
+        if(!StatusMsgWin)
+          {
+          StatusMsgWin= new jsMESSAGEclass("E",1,1,1,355,100);
+          jsLAYERshow(StatusMsgWin,true);
+          }
+        jsLAYERsetContent(StatusMsgWin,txtMESSAGE);
+        }
+var LIBLOADEDJSmenu=true;
+//systemLibCnt++; 
+
+</SCRIPT>
+
+<SCRIPT language=JavaScript>
+<!--
+var image1;
+preLoad();
+function preLoad() {
+if (document.images) {
+image1= new Image();
+image1.src = "http://invite.ke2.informative.com/images/invite.gif";
+if (image1.complete){
+InviteUser() ;
+}else{
+setTimeout('everySecond()',1000);
+}
+}
+}
+function everySecond(){
+if (image1.complete){
+InviteUser() ;
+}
+}
+function InviteUser(){
+var strURL ="http://invite.ke2.informative.com/i.dll?s=23803&c=i&i=P&xu=embed&CLOSE=1";
+window.open ( strURL, "", "toolbar=no,toolbar=0,location=no,location=0,status=no,status=0,menubar=no,menubar=0,scrollbars=yes,scrollbars=1,resizable=yes,resizable=1,width=1,height=1,top=3000,left=3000,alwaysRaised=1" ); 
+}
+//-->
+// Copyright 1997-2000 Informative, Inc</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#663399 aLink=#6699cc link=#0000ff bgColor=#ffffff 
+leftMargin=0 topMargin=0 rightMargin=0><FONT 
+face="Verdana, Georgia, Arial, Sans-Serif" size=2><!-- ad width = 468  - ad height = 60 -->
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#666699>
+    <TD vAlign=bottom align=left bgColor=#666699 rowSpan=2><A 
+      href="http://www.embedded.com/"><IMG 
+      src="Embedded Systems - Protection and Segmentation-Dateien/embedded_top.jpg" 
+      width=302 border=0 HIEGHT="119"></A><BR></TD><!-- TOP BANNER -->
+    <TD vAlign=top align=middle bgColor=#666699 colSpan=2><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3362&amp;RunID=38590&amp;AdID=29140&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=178.1831&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=45689&amp;n=1034064490?" 
+      target=_top><IMG alt="Click here!" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/embeded_468x60_13k.gif" 
+      border=0></A><BR></TD></TR>
+  <TR>
+    <TD vAlign=bottom align=right bgColor=#666699><IMG height=50 hspace=0 
+      src="Embedded Systems - Protection and Segmentation-Dateien/blend_top.gif" 
+      width=387 border=0><BR></TD>
+    <TD vAlign=bottom align=right width=91 bgColor=#666699 height=50><IMG 
+      height=50 hspace=0 
+      src="Embedded Systems - Protection and Segmentation-Dateien/edtnlogo.gif" 
+      width=91 border=0><BR></TD></TR></TBODY></TABLE><!-- TOP NAV -->
+<TABLE cellSpacing=1 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#333366>
+    <TD align=middle width=130><A 
+      href="http://www.edtn.com/encyclopedia/"><IMG height=16 
+      alt="EDTN Encyclopedia" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/e_cyclo.gif" 
+      width=94 border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.embedded.com/98/"><IMG 
+      height=16 alt=Home 
+      src="Embedded Systems - Protection and Segmentation-Dateien/home.gif" 
+      width=42 border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.edtn.com/register/"><IMG 
+      height=16 alt="Register for the EDTN Network" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/register.gif" 
+      width=68 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/contact.htm"><IMG height=16 alt=Contact 
+      src="Embedded Systems - Protection and Segmentation-Dateien/about.gif" 
+      width=73 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/advertising.html"><IMG height=16 
+      alt=Advertising 
+      src="Embedded Systems - Protection and Segmentation-Dateien/advert.gif" 
+      width=97 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="mailto:wbiondi@cmp.com?subject=Feedback from Embedded.com"><IMG 
+      height=16 alt=Feedback 
+      src="Embedded Systems - Protection and Segmentation-Dateien/feeback.gif" 
+      width=68 border=0></A></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR><!-- LEFTNAV -->
+    <TD vAlign=top align=left width=205 rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 width=205 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=21 bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=18 bgColor=#ffffcc><IMG height=18 
+            src="Embedded Systems - Protection and Segmentation-Dateien/curve_lav.gif" 
+            width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=166 bgColor=#ffffcc>&nbsp;</TD></TR><!-- LEFTTOC -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=184 bgColor=#ffffcc colSpan=2>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle bgColor=#ffffcc>
+                  <CENTER><A 
+                  href="http://www.cmpnet.com/cgi-bin/goto?SRC=ESCSF_REG&amp;URL=http://www.esconline.com/sf/register.htm"><IMG 
+                  height=42 alt="REGISTER NOW!" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/escsf_sm.gif" 
+                  width=124 border=0></A></CENTER><!-- SEARCH -->
+                  <FORM action=/search method=get><IMG height=21 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/esearch.gif" 
+                  width=184> <INPUT name=queryText><BR><INPUT type=submit value=Search name=Search> 
+                  <BR><FONT face="verdana, georgia, arial" size=1><A 
+                  href="http://www.edtn.com/esearchcenter.html"><B>Search the 
+                  EDTN Network</B></A></FONT> </FORM></TD></TR>
+              <TR>
+                <TD vAlign=top align=left bgColor=#ffffcc><!-- EMBEDDED.COM LINKS --><IMG height=19 
+                  alt="Embedded.com Links" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/embedd_links.gif" 
+                  width=184><BR><A onmouseover="imgSwap('esconf','esconfon',1)" 
+                  onmouseout="imgSwap('esconf','esconfoff',1)" 
+                  href="http://www.esconline.com/"><IMG height=35 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/es_conf.gif" 
+                  width=184 border=0 name=esconf></A><BR><A 
+                  onmouseover="imgSwap('mag','magon',1)" 
+                  onmouseout="imgSwap('mag','magoff',1)" 
+                  href="http://www.embedded.com/mag.htm"><IMG height=35 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/esp_mag.gif" 
+                  width=184 border=0 name=mag></A><BR><A 
+                  onmouseover="imgSwap('ia','iaon',1)" 
+                  onmouseout="imgSwap('ia','iaoff',1)" 
+                  href="http://www.embedded.com/internet/"><IMG height=20 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/ia.gif" 
+                  width=184 border=0 name=ia></A><BR><A 
+                  onmouseover="imgSwap('down','downon',1)" 
+                  onmouseout="imgSwap('down','downoff',1)" 
+                  href="http://www.embedded.com/code.htm"><IMG height=21 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/code.gif" 
+                  width=184 border=0 name=down></A><BR><A 
+                  onmouseover="imgSwap('demo','demoon',1)" 
+                  onmouseout="imgSwap('demo','demooff',1)" 
+                  href="http://www.embedded.com/demos.htm"><IMG height=19 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/prod_demos.gif" 
+                  width=184 border=0 name=demo></A><BR><A 
+                  onmouseover="imgSwap('res','reson',1)" 
+                  onmouseout="imgSwap('res','resoff',1)" 
+                  href="http://www.embedded.com/links.htm"><IMG height=21 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/resources.gif" 
+                  width=184 border=0 name=res></A><BR><A 
+                  onmouseover="imgSwap('ie','ieon',1)" 
+                  onmouseout="imgSwap('ie','ieoff',1)" 
+                  href="http://www.embedded.com/events.htm"><IMG height=19 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/ind_ev.gif" 
+                  width=184 border=0 name=ie></A><BR><A 
+                  onmouseover="imgSwap('guide','guideon',1)" 
+                  onmouseout="imgSwap('guide','guideoff',1)" 
+                  href="http://www.embedded.com/bg/"><IMG height=20 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/buyers.gif" 
+                  width=184 border=0 name=guide></A><BR><A 
+                  onmouseover="imgSwap('site','siteon',1)" 
+                  onmouseout="imgSwap('site','siteoff',1)" 
+                  href="http://www.embedded.com/sitemap.htm"><IMG height=20 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/sitemap.gif" 
+                  width=184 border=0 name=site></A><BR><!--NEW PRODUCTS--><IMG 
+                  height=19 alt="NEW Products" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/new_prodheader.gif" 
+                  width=184> 
+                  <TABLE><FONT face=VERDANA size=1>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Protection and Segmentation-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0071">Atmel 
+                        offers design tool for programmable SoCs</A> 
+                    </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Protection and Segmentation-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0065">Communications 
+                        processor supports by-wire systems</A> </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Protection and Segmentation-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020213S0050">MEN 
+                        Micro board sports I/O options</A> 
+                  </FONT></TD></TR></TBODY></TABLE>
+                  <P align=right><A href="http://www.embedded.com/products">More 
+                  New Products</A> <IMG 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/blackarrow.gif"> 
+                  <BR><BR></FONT><!-- COMPANY STORE PRODUCTS --><IMG height=19 
+                  alt="Company Store" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/companystore_header.gif" 
+                  width=184><BR><A onmouseover="imgSwap('direct','directon',1)" 
+                  onmouseout="imgSwap('direct','directoff',1)" 
+                  href="http://www.embedded.com/directories/"><IMG height=22 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/catalogs.gif" 
+                  width=184 border=0 name=direct></A><BR><A 
+                  onmouseover="imgSwap('cdrom','cdromon',1)" 
+                  onmouseout="imgSwap('cdrom','cdromoff',1)" 
+                  href="http://www.embedded.com/cdrom.htm"><IMG height=22 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/cdrom.gif" 
+                  width=184 border=0 name=cdrom></A><BR><A 
+                  onmouseover="imgSwap('embeddedbooks','embeddedbookson',1)" 
+                  onmouseout="imgSwap('embeddedbooks','embeddedbooksoff',1)" 
+                  href="http://www.embedded.com/books.htm"><IMG height=22 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/embeddedbooks.gif" 
+                  width=184 border=0 name=embeddedbooks></A><BR><A 
+                  onmouseover="imgSwap('jobs','jobson',1)" 
+                  onmouseout="imgSwap('jobs','jobsoff',1)" 
+                  href="http://www.embedded.com/jobs.htm"><IMG height=20 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/job.gif" 
+                  width=184 border=0 name=jobs></A> <!-- SPONSORED MICROSITES --><!--<IMG SRC="http://img.cmpnet.com/embedded/redesign/microsites.gif" ALT="Sponsored Microsites" WIDTH="184" HEIGHT="19"><BR>
+
+
+<A HREF="http://embeddeddsp.embedded.com" 
+onMouseOver="imgSwap('welcome','welcomeon',1)" onMouseOut="imgSwap('welcome','welcomeoff',1)"><IMG SRC="http://img.cmpnet.com/embedded/redesign/welcometo.gif" ALT="Welcome to Embedded DSP by TI" WIDTH="184" HEIGHT="33" BORDER="0" NAME="welcome"></A>--></P></TD></TR></TBODY></TABLE><BR 
+            clear=all><!-- top left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4876&amp;RunID=29943&amp;AdID=23514&amp;GroupID=121&amp;FamilyID=1&amp;TagValues=450.1831&amp;Redirect=http://www.edtn.com/homeauto" 
+            target=_top><IMG alt="Click here!" 
+            src="Embedded Systems - Protection and Segmentation-Dateien/hometoystile125.gif" 
+            border=1></A> </CENTER><!--- end of top left tile ad--><BR><!-- botom left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4877&amp;RunID=27223&amp;AdID=21736&amp;GroupID=122&amp;FamilyID=1&amp;TagValues=453.1831&amp;Redirect=http://www.isdmag.com" 
+            target=_top><IMG height=125 alt="Click here!" 
+            src="Embedded Systems - Protection and Segmentation-Dateien/isd125.gif" 
+            width=125 border=1></A> 
+            </CENTER><!--- end of bottom left tile ad--><BR>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=right bgColor=#ffffcc><!-- AROUND THE NETWORK --><IMG height=11 
+                  alt="From around the network" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/around.gif" 
+                  width=184 vspace=3><BR><!-- GLOBAL PORTALS --><IMG height=19 
+                  alt="Global Portals" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/gb2.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.edtn.com/">EDTN Network</A><BR><A 
+                  href="http://www.edtneurope.com/">EDTN Europe</A><BR><A 
+                  href="http://www.edtnasia.com/">EDTN Asia</A><BR><BR><!-- COMMUNITIES --><IMG height=19 
+                  alt=Communities 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/frontbut-commun.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.eedesign.com/">EEdesign</A><BR><I>Design 
+                  tools and methodologies</I><BR><A 
+                  href="http://www.planetanalog.com/">Planet 
+                  Analog</A><BR><I>The analog/mixed signal resource</I><BR><A 
+                  href="http://www.commsdesign.com/">Comms Design</A><BR><I>The 
+                  analog/mixed signal resource</I><BR><A 
+                  href="http://www.siliconstrategies.com/">Silicon 
+                  Strategies</A><BR><I>Tracking the semiconductor 
+                  foodchain</I><BR><A 
+                  href="http://www.gaas.net/">GaAsNET</A><BR><I>GaAs electronics 
+                  industry resource</I><BR><A 
+                  href="http://www.embedded.com/">Embedded.com</A><BR><I>Embedded 
+                  systems resource</I><BR><A 
+                  href="http://www.theworkcircuit.com/">The Work 
+                  Circuit</A><BR><I>Where Engineers make their own 
+                  connections</I><BR><A 
+                  href="http://www.iapplianceweb.com/">iApplianceWeb</A><BR><I>Information 
+                  appliance resource</I><BR></FONT><!--network jump menu -->
+                  <SCRIPT>
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</SCRIPT>
+
+                  <FORM name=form1><IMG height=19 alt="EDTN sites worldwide" 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/side-wwsites2.gif" 
+                  width=184 vspace=2><BR><FONT 
+                  face="Verdana, Arial, Helvetica, sans-serif" size=1><SELECT 
+                  onchange="MM_jumpMenu('parent',this,1)" size=2 
+                  name="network links"> <OPTION selected>Please select a 
+                    site</OPTION> <OPTION value=http://www.edtn.com/>EDTN 
+                    Network</OPTION> <OPTION 
+                    value=http://www.allembedded.com>Allembedded</OPTION> 
+                    <OPTION value=http://www.chipcenter.com>ChipCenter</OPTION> 
+                    <OPTION value=http://www.circuitsassembly.com>Circuits 
+                    Assembly</OPTION> <OPTION 
+                    value=http://www.commsdesign.com>Comms Design</OPTION> 
+                    <OPTION value=http://www.csdmag.com>Comms Sys 
+                    Design</OPTION> <OPTION 
+                    value=http://www.us.design-reuse.com>Design &amp; 
+                    Reuse</OPTION> <OPTION value=http://www.edtneurope.com>EDTN 
+                    Europe</OPTION> <OPTION 
+                    value=http://www.edtnscandinavia.com>EDTN 
+                    Scandinavia</OPTION> <OPTION 
+                    value=http://www.eedesign.com>EEdesign</OPTION> <OPTION 
+                    value=http://www.eetimes.com>EE Times</OPTION> <OPTION 
+                    value=http://www.ebnonline.com/>Electronic Buyers 
+                    News</OPTION> <OPTION 
+                    value=http://www.electronica-world.com>Electronica 
+                    World</OPTION> <OPTION 
+                    value=http://www.electronicstimes.co.uk>Electronics 
+                    Times</OPTION> <OPTION 
+                    value=http://www.embedded.com>Embedded.com</OPTION> <OPTION 
+                    value=http://www.gaasnet.com>GaAsNET</OPTION> <OPTION 
+                    value=http://www.hdi-online.com>HDI</OPTION> <OPTION 
+                    value=http://www.isdmag.com>Int Sys Design</OPTION> <OPTION 
+                    value=http://www.mwee.com>Microwave Engineering</OPTION> 
+                    <OPTION 
+                    value=http://www.planetanalog.com>PlanetAnalog</OPTION> 
+                    <OPTION value=http://www.pcdmag.com>Printed Circuit 
+                    Design</OPTION> <OPTION value=http://www.pcfab.com>PC 
+                    Fab</OPTION> <OPTION 
+                    value=http://www.pcnalert.com>PCNalert.com</OPTION> <OPTION 
+                    value=http://www.powerdesigners.com>PowerDesigner</OPTION> 
+                    <OPTION value=http://www.semibiznews.com>Semi Business 
+                    News</OPTION> <OPTION 
+                    value=http://www.techcareers.co.uk>Techcareers</OPTION> 
+                    <OPTION value=http://www.wnie.com>What's New in 
+                    Electronics</OPTION></SELECT> </FONT></FORM><BR><!-- encyclopedia link --><A 
+                  href="http://www.edtn.com/encyclopedia/"><IMG height=19 
+                  alt=e-cyclopedia 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/side-elec_ind2.gif" 
+                  width=184 vspace=2 border=0></A><BR><!-- netseminar link --><A 
+                  href="http://www.netseminar.com/"><IMG height=19 
+                  alt=NetSeminar 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/side-netseminar2.gif" 
+                  width=184 vspace=3 border=0></A><BR><!-- alerts link --><A 
+                  href="http://www.edtn.alerts.com/edtn/fs_main.jsp" 
+                  target=new><IMG height=19 alt=Alerts 
+                  src="Embedded Systems - Protection and Segmentation-Dateien/side-alerts2.gif" 
+                  width=184 vspace=3 border=0></A> </FONT><!--
+<P ALIGN="CENTER"><a href="http://www.edtn.com/shared/redirect?url=/howiwork/?site=embedded"><IMG SRC="http://img.cmpnet.com/commsdesign/pics/howiwork_trans.gif" ALT="Howiwork" WIDTH="120" HEIGHT="74" BORDER="0"></A></P>
+--></TD></TR></TBODY></TABLE></TD></TR><!-- Corporate LOGO -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD vAlign=top align=right>
+            <CENTER><IMG height=65 alt="Corporate Logo" 
+            src="Embedded Systems - Protection and Segmentation-Dateien/ubm_white.gif" 
+            width=70></CENTER></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle colSpan=3><FONT face=verdana,arial 
+            size=1>Copyright © 2002 CMP Media LLC<BR><A 
+            href="http://www.cmpnet.com/delivery/privacy.html">Privacy 
+            Statement</A></FONT> </TD></TR></TBODY></TABLE></TD><!-- END LEFT NAV --><!-- BODY -->
+    <TD vAlign=top align=left width=433 bgColor=#ffffff>
+      <TABLE cellSpacing=0 cellPadding=0 width=433 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff><IMG height=18 
+            src="Embedded Systems - Protection and Segmentation-Dateien/curve_yell.gif" 
+            width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff>&nbsp;</TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff><!-- TITLE May '98 Feature - Advanced Embedded X86 Programming: Protection and Segmentation -->
+            <META 
+            content="May '98 Feature - Advanced Embedded X86 Programming: Protection and Segmentation" 
+            name=title>
+            <META content="May 1998" name=issue>
+            <META content="Jean Gareau" name=author><FONT 
+            face="Verdana, Georgia, Sans-Serif" size=2>
+            <CENTER><BR><IMG height=67 
+            src="Embedded Systems - Protection and Segmentation-Dateien/esplogo.gif" 
+            width=329><BR><BR></CENTER>
+            <H3>Advanced Embedded X86 Programming: Protection and Segmentation 
+            </H3><I><B>By Jean Gareau </B></I>
+            <P>
+            <H4>In this second part of a three-part series, the author explains 
+            how protection and segmentation are implemented in protected mode. 
+            </H4>This article is the second in a series of three describing 
+            protected mode features of the 386 up to the Pentium. Because this 
+            family of CPUs is extremely popular and is affecting the embedded 
+            industry, RTOSes and embedded applications can be updated to take 
+            advantage of its 32-bit programming capabilities and larger, simpler 
+            memory models. Development tools also obtain some benefits because 
+            popular memory models, such as the flat memory model, are simpler to 
+            support. The previous article introduced the 32-bit protected mode, 
+            in which each segment register is an index to a table of 
+            descriptors, each descriptor describing a memory segment by its base 
+            address, limit, type, and protection fields. A 32-bit linear address 
+            is produced from a segment/offset logical address by adding the 
+            offset to the base address found in the descriptor that’s pointed to 
+            by the segment. That article also demonstrated how to switch from 
+            real mode to protected mode. 
+            <P>This article explains how protection and segmentation are 
+            implemented in protected mode to design robust and reliable systems. 
+            These qualities are becoming more important as some embedded systems 
+            now include multiple tasks that run concurrently, such as an 
+            embedded Java Virtual Machine that supports concurrent Java applets. 
+            Whereas the lack of protection allows tasks to access, corrupt, and 
+            destroy anything from other tasks’ data to the operating system (OS) 
+            internal structures, protection permits the building of robust and 
+            powerful applications by restricting them to their own code and 
+            data. Another advantage offered by protection is the ability for the 
+            OS to remove a faulty task (such as copying memory outside its 
+            address space—a typical problem with memcpy() in C). For example, 
+            when a task commits a fault, the CPU can notify the OS, which can 
+            then halt the task before any damage is done; the other tasks 
+            continue undisturbed. Protection also simplifies task 
+            development—when an error is detected, protection helps to pinpoint 
+            the exact problem where it happened, so developers don’t have to 
+            search for it. In other words, protection simplifies building and 
+            deploying safe and secure embedded tasks that can work together but 
+            not harm each other. 
+            <P>Complete examples, fully documented and tested, that implement 
+            various kernel designs can be downloaded from 
+            <I>www.embedded.com/code.htm </I>. These examples demonstrate the 
+            concepts I’ve explained in this series, including a port of mC/OS to 
+            the protected mode. <SUP>1 </SUP>The source code is provided as 
+            ready-to-run executables and additional tools. These examples 
+            provide an excellent start to help you improve your applications or 
+            even implement your own system. 
+            <P><B>WHAT PROTECTION? </B>
+            <P>The protection we’re talking about here is three-fold: 1) to 
+            prevent a task from executing privileged instructions, such as 
+            setting or clearing the interrupt flag; 2) to prevent a task from 
+            accessing another task’s code and data; and 3) to prevent tasks from 
+            calling privileged kernel code in an unordered fashion or corrupting 
+            privileged kernel data. This protection doesn’t deal with user 
+            authentication, since this concept is implemented in the OS itself, 
+            not in the CPU. All protection features are implemented in the CPU 
+            and activated by the OS, freeing application developers from having 
+            to worry about protection. 
+            <P>In the x86, protection is a feature associated with segments, and 
+            automatically kicks in when the CPU executes in protected mode. 
+            <P>Whenever a segment register is referred to, the CPU accesses the 
+            related descriptor and analyzes its control bits. If the operation 
+            doesn’t concur with these bits, the processor raises an exception, 
+            which is typically caught by the OS—resulting in the application 
+            being shut down. Examples of this would be to write in a code 
+            segment (code segments cannot normally be altered), jump into a data 
+            segment (data isn’t executable), and so on. 
+            <P>Another protection check involves checking the offset used in the 
+            address calculation against the segment’s limit. If an operation 
+            tries to address beyond the limit, an exception is raised. The most 
+            common example is the use of an incorrect pointer or an invalid 
+            jump. This limit check feature is useful because it constrains a 
+            task to its own segments. Many tasks might be in memory at once, but 
+            if they all have their own separate segments, they can’t see each 
+            other, and therefore can’t alter one another. 
+            <P>Each task typically requires at least two descriptors, one for 
+            code access and one for data access. Code segments are read-only and 
+            can’t be used to modify data—hence the need for a second segment for 
+            data access. The descriptors normally don’t cover the same address 
+            space (i.e., they don’t overlap), in order to maintain the initial 
+            protection (not to overwrite code, and so forth). Through its own 
+            descriptors, a task is restricted to its code and data. The flat 
+            memory model’s segments <I>do </I>overlap, but this model is 
+            normally used in conjunction with paging, the subject of part three 
+            of this series of articles. 
+            <P>The previous article explained that descriptors were kept in 
+            either the global descriptor table (GDT) or local descriptor table 
+            (LDT). Let’s forget for a moment about the LDT and suppose that all 
+            the code and data descriptors of all tasks are kept in the GDT. One 
+            problem that arises at this point is that any task can load another 
+            task’s data descriptor from the GDT and alter this other task’s data 
+            segment. The problem exists because the GDT is unique and a task can 
+            theoretically access any descriptors in it. Providing distinct 
+            address space per task isn’t sufficient in itself; the solution 
+            comes through the use of the LDTs, task state segments (TSSes), 
+            privilege levels, and gate descriptors, all explained in the 
+            following sections. 
+            <P>LDTs, like the GDT and the interrupt descriptor table (IDT), are 
+            built by the OS, not by the task. A given LDT usually contains a 
+            task’s code and data descriptors, and is built when the task is 
+            loaded in memory. If the task is going to be in ROM, the LDT can be 
+            hard-coded and ROMable. Although a system may have more than one 
+            LDT, only one is active at a time (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe3.gif">Figure 
+            1</A>), pointed to by the LDTR register. Note that no LDTs might be 
+            active at all, if none are referred to. 
+            <P>An LDT is described by a descriptor whose base address is the LDT 
+            address in memory. The limit is the LDT size, as it’s useful to 
+            limit the number of entries in it, 
+            <P>In a system where each task has its own LDT, you can keep the LDT 
+            selector in the task control block (or a similar structure) to 
+            identify this LDT as the current one when the task is selected to 
+            run. Such a system also provides a good deal of protection, because 
+            each task sees either the GDT or its LDT, but not the other tasks’ 
+            LDTs. Consequently, a task can’t alter or even look at another 
+            task’s code and data—a must with segmentation. 
+            <P>If a system is designed to provide such isolation among the 
+            tasks, the OS must provide primitives to transfer information among 
+            tasks (to send and receive messages, for instance); this is 
+            something tasks can’t do by themselves because they’re restricted to 
+            their own address space. 
+            <P><B>PRIVILEGE LEVELS </B>
+            <P>Despite the LDTs, a task can still refer to any GDT descriptor 
+            and alter some data. To prevent this from happening, privilege 
+            levels are introduced. The Intel CPUs support four levels: 0 (most 
+            privileged) to 3 (least privileged). Level 0 allows the execution of 
+            privileged instructions (such as set or clear interrupts, accessing 
+            I/O ports, loading the GDT, LDT, or IDT, and the like), whereas this 
+            is strictly forbidden in any other level. Operating systems must run 
+            at level 0 to have no restriction at all, whereas you must decide 
+            whether device drivers, OS extensions, and application tasks run at 
+            either 0, 1, 2, or 3. Using level 0 for all system software and 3 
+            for application software is very common, while simply ignoring 
+            levels 1 and 2. Such tasks can neither execute privilege 
+            instructions nor alter the state of the system. 
+            <P>A privilege level is always associated with current executing 
+            code. When entering the protected mode, the current privilege level 
+            (CPL) is 0 (the highest) because OS code is expected to be running. 
+            All descriptors contain a descriptor privilege level (DPL), which is 
+            a two-bit value (zero to three) identifying the privilege of the 
+            related segment. The DPL has a different meaning depending on the 
+            segment type (code or data). 
+            <P>When the code segment register—the CS register—is loaded with a 
+            valid code selector (via a jump, a call, or returning from a 
+            function or an interrupt), the CPU examines the descriptor and the 
+            DPL becomes the CPL, as seen in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe4.gif">Figure 2</A>. 
+            For instance, once the OS initialization (running at CPL 0) is 
+            completed, the first task is executed by loading CS with a selector 
+            referring to the tasks’ code descriptor with a DPL of 3; 
+            consequently, the task starts running at CPL 3. But there is a 
+            trick: when loading CS, the CPL can never become more privileged; it 
+            has to stay at the same or a lesser privilege. Thus, a CPL 3 task 
+            cannot load CS with a selector referring to a descriptor with a DPL 
+            of 0, 1, or 2—doing so will raise an exception. The OS would 
+            typically catch that exception, analyze it, delete the faulty task, 
+            and reschedule another one. 
+            <P>When a data segment register is referred to, the DPL of the 
+            related descriptor indicates the minimum CPL required to access 
+            it—the CPL must have the same or a higher privilege than the DPL. 
+            Thus, a CPL 2 task cannot refer to a data descriptor carrying a DPL 
+            of 0 or 1; it can only access data descriptors with a DPL of 2 or 3. 
+
+            <P>The OS, by carefully setting the DPL of all GDT and LDT 
+            descriptors, prevents nonauthorized tasks from accessing sensitive 
+            or protected code and data. For instance, all OS descriptors are set 
+            with a DPL of 0, whereas all task descriptors are marked with a DPL 
+            of 3. Consequently, tasks cannot directly access OS code and data. 
+            As far as the applications are concerned, they only see their code 
+            and data, nothing else. 
+            <P><B>TASK STATE SEGMENTS </B>
+            <P>Before we explore privilege levels in detail, we must introduce 
+            task state segments (TSS). A TSS is a placeholder for all the 
+            registers of a task when that task doesn’t run. Like LDTs, only one 
+            TSS is active at all times and it is interpreted at some point by 
+            the CPU. It is also described by a descriptor that indicates the 
+            base address, the size (which may vary because extra data can be 
+            stored in each of them), the protection, and the type, which in this 
+            case is a TSS. The TR register contains the selector of the active 
+            TSS. 
+            <P>Having one TSS per task in a segmented system is common. In this 
+            case, TSS descriptors are usually kept in the GDT, with a DPL of 0 
+            to prevent a task (with a CPL of 1, 2, or 3) from accessing them. A 
+            task’s TSS selector can also be stored in a task control block for 
+            quick reference. The operating system can indicate which TSS is 
+            active by executing the ltr instruction (load task register). 
+            <P>TSSes are special: a far jump to a TSS selector (the offset is 
+            ignored) makes a complete context switch from the current task to 
+            the task referred to by the selected TSS. That switch not only saves 
+            and reloads the task registers, but it manages the segment 
+            registers, the current LDT selector, the current TSS selector, and 
+            so on, all with a single instruction. Keeping all LDT and TSS 
+            descriptors in the GDT is best, to ensure their accessibility during 
+            the switch. 
+            <P><B>MIXING PRIVILEGE LEVELS </B>
+            <P>Maximum protection is achieved by mixing privilege levels: the OS 
+            is given full privileges, while the tasks receive no special 
+            privileges. Luckily, the x86 has much to offer in order to mix 
+            privileges. 
+            <P>If you want to execute higher-privileged code, such as directly 
+            calling an OS function at CPL 0 from a CPL 3 task, you can use call 
+            gates (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe5.gif">Figure 
+            3</A>). Call gates are a special type of descriptor and can reside 
+            in the GDT (making them sharable among all tasks) or a task’s LDT 
+            (making them private to that task). A call gate is no more than an 
+            indirect, controlled call to a more privileged function, typically 
+            an OS service. The call gate contains a code selector and the 
+            address of the function to call within that selector. The code 
+            selector usually has a higher privilege, allowing the system service 
+            to run with adequate privileges. Call gates are initialized and 
+            maintained by the OSes, but used by the tasks. 
+            <P>Call gates are accessed via a far call (a selector/offset 
+            combination), though only the selector is meaningful (the offset is 
+            discarded). Call gates can be hidden in a normal function (such as 
+            open()), making them “invisible” to the application programmers. 
+            <P>The CPU ensures that the current task has enough privilege to use 
+            the call gate. For instance, if the call gate has a DPL of 2, only 
+            tasks executing at CPL 0, 1, or 2 can use it; tasks running at CPL 3 
+            are excluded. But it is common to set all call gates’ DPL to 3, to 
+            make them available to all tasks. Also, the target code segment’s 
+            DPL must have the same or a higher privilege than the CPL. For 
+            example, if a task running at CPL 2 uses a call gate that refers to 
+            a segment at CPL 3, a fault is triggered. Call gates are only used 
+            to increase privilege levels, not to decrease them; otherwise, upon 
+            returning, there would be an uncontrolled privilege increase (which 
+            would be disastrous if the return address would have been altered by 
+            the task). For that same reason, when the system service terminates, 
+            various checks are performed to ensure that the control is returned 
+            to a code segment of the same or lesser privilege. Note that 
+            executing a far call to a less-privileged segment is possible, as 
+            long as it is a conforming segment. A segment is conforming when a 
+            special control bit is set in its descriptor. Such a segment 
+            conforms to its caller in that it executes under the caller’s CPL. 
+            For instance, if the current task runs at a CPL of 2, and calls a 
+            function in a conforming segment of DPL 3, that function will also 
+            run at CPL 2. Thus, calling a conforming segment doesn’t alter the 
+            calling task’s CPL. Conforming segments are a useful way to 
+            implement system libraries callable by any task, regardless of its 
+            privilege. In fact, there is no other way to call less-privileged 
+            segments. However, conforming segements are still quite rare, since 
+            libraries (such as the C library) are usually bound to applications 
+            at link time, not run time. 
+            <P>But a call gate isn’t enough to ensure a successful 
+            execution—enough stack space must be provided for the OS service to 
+            run. Because the calling task may have very little stack space, the 
+            call gate will perform a stack switch if the privilege level is 
+            increased. The TSS is important here because, in addition to the 
+            task’s registers, it holds stack pointers for privilege levels 0, 1, 
+            and 2, all initialized by the OS. Here’s an example of how it works: 
+            a CPL 3 task uses a call gate to execute a system service at DPL 0; 
+            the task’s TSS (the current TSS) is looked up to get the privilege 0 
+            stack pointer (selector/offset), and this value becomes the 
+            effective stack. The original task’s stack pointer (selector/offset) 
+            is pushed on the new stack to have a link back to it, as shown in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe6.gif">Figure 4</A>. 
+            In addition to the stack switch, up to 32 double-word parameters can 
+            be copied from the task’s stack to the new stack, which is a 
+            convenient feature. The number of parameters per call gate is 
+            fixed—call gates do not support a variable number of parameters. 
+            <P>The alternative to using call gates is to use a trap interface, 
+            which consists of calling OS functions by raising software 
+            interrupts. A trap interface involves the interrupt table (IDT), 
+            which can contain three types of descriptors: 
+            <P>
+            <P>* Interrupt gate, which refers to a specific function, usually in 
+            the kernel 
+            <P>* Trap gate, which is similar to an interrupt gate 
+            <P>* Task gate, which points to a TSS descriptor 
+            <P>Like call gates, invoking a method through the IDT is a way to 
+            increase the CPL. Each IDT descriptor, like any other descriptor, 
+            contains a DPL, usually set to 0 by the OS. Such a DPL prevents 
+            unprivileged tasks from directly triggering the interrupt (via the 
+            int instruction). Note that some IDT descriptors may have a lower 
+            DPL, making them callable by the tasks, to implement system calls. 
+            These software interrupts or traps may also be hidden in a library 
+            function (such as close()), to hide them from the application 
+            programmers. 
+            <P>Whenever a hardware interrupt is raised or a valid software 
+            interrupt is encountered, the related descriptor of the IDT is 
+            analyzed and the CPL set to the descriptor’s DPL (as seen in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe7.gif">Figure 
+            5</A>). For an interrupt gate, execution starts in the address found 
+            in the descriptor (typically an interrupt handler in the OS) with 
+            the interrupts disabled; when the handler terminates, extra 
+            protection checks occur to ensure a proper return to the caller. 
+            Trap gates are almost identical—the same processing happens, but 
+            with the interrupts enabled. With a task gate, a context switch 
+            occurs (as described earlier with the TSS). Note that task gates in 
+            the IDT are not a convenient way to implement multitask, because 
+            context switches normally occur under OS conditions (time slice 
+            expired, system calls that makes a higher-privileged task ready, and 
+            the like), rather than raised interrupts. Nevertheless, they can be 
+            a useful way to invoke special tasks, such as a debugger. 
+            <P>The CPU invokes the handlers described by the interrupt or trap 
+            gates in a way similar to call gates: if the privilege is increased, 
+            a stack switch occurs using the TSS to get the new stack pointer. As 
+            opposed to a call gate, though, no parameter can be copied. If 
+            parameters are needed, they can be passed via the registers or they 
+            may be traced back via the task’s stack pointer, which is on the new 
+            stack. 
+            <P>Choosing between call gates vs. interrupt/trap gates to execute 
+            an OS service depends on how many system calls you have and whether 
+            they require some arguments or not. 
+            <P>If you have many system calls, an interrupt/trap gate is better 
+            because it offers a single entry point in the kernel; however, a 
+            register must be set to identify the service called. On the other 
+            hand, because a call gate refers to one function, having many system 
+            calls implies many call gates. Since high-end systems might have 
+            hundreds of calls, call gates might be tough to maintain. Moreover, 
+            if they are placed in the LDT (to prevent some specific tasks from 
+            using it), things can get very complicated. 
+            <P>If the task passes parameters, call gates allow you to transfer 
+            them into the more privileged stack, from where the system call can 
+            access them as local parameters (easy). Via the interrupt/trap 
+            interface, you might have to trace back the calling stack (which is 
+            just annoying). 
+            <P>If you prefer call gates (because of the fixed parameter transfer 
+            facility) and you have hundreds of system calls, only a few gates 
+            with specific numbers of parameters (one, two, four, and so forth) 
+            may be all it takes. All system calls that have one parameter go 
+            through the call gate with one parameter, and so on. Each call 
+            requires a register/parameter to identify the service because many 
+            services converge toward the same call gates. 
+            <P>As I mentioned earlier, call gates can only transfer a fixed 
+            number of parameters. If some services have a variable number of 
+            parameters, an argument count and an argument pointer must be passed 
+            instead. 
+            <P>Call gates require far pointers, whereas traps or interrupts are 
+            simply triggered via one instruction (no pointer nor segment 
+            register at all), which is faster. 
+            <P>A word of caution: whenever privilege checks are involved by the 
+            CPU, execution cycles dramatically increase. Here are some examples 
+            on a 386 (for reference, the fastest instruction, excluding lock, 
+            requires two cycles): 
+            <P>* Operations on descriptors, such as lsl (load segment limit), 
+            lar (load access right byte), and the like usually take more than 10 
+            cycles. Directly accessing the tables where they reside might be a 
+            faster way to get the information 
+            <P>* Loading a segment register in itself takes at least 18 cycles, 
+            compared to two with general registers. (This extra time has to do 
+            with the internal validation of the descriptor.) Remember that 
+            within a task, you should load a segment register only if the new 
+            value is different (the comparison instruction itself only takes two 
+            cycles) 
+            <P>* Loading the current LDT—the lldt instruction—takes 20 cycles 
+            <P>**Loading the task register (setting the current TSS)—the ltr 
+            instruction—takes at least 23 cycles 
+            <P>* A call/interrupt/trap gate to a higher-privilege descriptor 
+            takes a minimum of 90 cycles (and it increases with the number of 
+            parameters for a call gate) 
+            <P>* And the worst case: a task switch through a TSS takes more than 
+            300 cycles! TSS task switches are only useful if all 
+            registers—especially the segment registers—must be reloaded with new 
+            values 
+            <P><B>IMPLEMENTATION EXAMPLES </B>
+            <P>These four features (LDT, TSS, privilege levels, and the variety 
+            of gates) can be used in a multiple of ways to satisfy specific 
+            needs. <SUP>2 </SUP>Following are some examples of implementing 
+            protection in an OS, from the easiest to the hardest. 
+            <P><I>Case 1. </I>The OS and a single task run at privilege 0 (see 
+            <A href="http://img.cmpnet.com/embedded/gifs/9805fe8.gif">Figure 
+            6</A>). This is ideal for a simple, real-time dedicated 32-bit 
+            controller and is easy to achieve, such as with a fuel-air mixture 
+            analyzer that needs 32-bit registers to perform calculations with a 
+            certain precision. 
+            <P>
+            <P>* The OS and the task form one combined image 
+            <P>* Two entries are required in the GDT (in addition to the first 
+            entry): one code descriptor (zero to 4GB, DPL 0), one data 
+            descriptor (zero to 4GB, DPL 0). Segment registers always refer to 
+            these code and data descriptors 
+            <P>* Hardware interrupts are implemented via interrupt gates, all 
+            DPL 0, which call interrupt handlers 
+            <P>* No call gate nor task gate is used; the system services can be 
+            called directly 
+            <P>* A TSS isn’t required because there is only one task and no 
+            privilege transition 
+            <P><I>Case 2. </I>The OS and many tasks run at level 0. This model 
+            would be best for a multitask, real-time kernel, such as mC/OS. This 
+            case is ideal for a breaking system that needs multiple tasks to 
+            simultaneously control hydraulic systems, breaking force, collect 
+            statistical data, and the like. Such a system has a similar 
+            architecture to the previous case. 
+            <P>
+            <P>* Because all tasks have the highest privilege, they can share 
+            one single segment, so there is no need to use LDTs. Thus, only one 
+            code and one data descriptor (CPL 0, zero to 4GB) are required in 
+            the GDT 
+            <P>* Interrupts are implemented via interrupt gates (DPL 0) 
+            <P>* TSSes aren’t required because no privilege transition exists 
+            and segment registers don’t change. Task switches are done by saving 
+            application registers on the stack, switching stack, and restoring 
+            registers from the new stack 
+            <P><I>Case 3. </I>The OS runs at level 0 and many tasks run at level 
+            3 (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9805fe9.gif">Figure 
+            7</A>). This model would be best for a simple system running 
+            untrusted tasks, such as an embedded Java Virtual Machine that 
+            supports unknown Java applets. 
+            <P>
+            <P>* All descriptors in the GDT have a DPL of 0 to prevent tasks 
+            from using them directly 
+            <P>* The GDT has one code and data descriptor (CPL 0, zero to 4GB) 
+            for kernel use only 
+            <P>* Each task runs in its own address space, and needs its private 
+            LDT with two entries: one for the code and one for the data. For a 
+            flat memory model, the code and data segment of a given task may 
+            overlap; for better protection, they may be distinct. In the latter 
+            case, each task must be built apart (not linked with the kernel) 
+            using a small memory model, and loaded in order to be run (a loader 
+            is required). Tasks run at privilege 3 (which prevents accessing 
+            kernel code and data directly). LDTs prevents tasks from seeing each 
+            other. LDT descriptors reside in the GDT 
+            <P>* The IDT contains descriptors referring to interrupt handlers 
+            (to maintain interrupts disabled when the handler is called) in the 
+            kernel, at DPL 0, to ensure that kernel code always runs at 0 
+            <P>* TSSes can’t be avoided because protection transition requires a 
+            stack switch, which is done from the current TSS. TSS descriptors 
+            reside in the GDT 
+            <P>* If a flat memory model is retained, system services may be 
+            callable through interrupts (to avoid the far system calls required 
+            with call gates) 
+            <P>* Message-based systems usually have few system calls (send, 
+            receive), which may equally be called via interrupts or call gates, 
+            passing parameters via registers 
+            <P><I>Case 4. </I>The OS runs at level 0, system libraries at level 
+            1, device drivers at level 2, and many tasks at level 3, each of 
+            them with multiple segments. This case is a complicated variant of 
+            Case 3 (more descriptors, more privilege levels) and it requires 
+            more effort to implement it. This case would be best for a high-end 
+            system rather than an embedded one. Compared to Case 3: 
+            <P>
+            <P>* System libraries are accessed through call gates that reside in 
+            the GDT, making them available to all tasks. Application libraries 
+            may hide these call gates from the tasks 
+            <P>* Devices drivers have their code, and data segments too, at DPL 
+            2 in the GDT (if they are public) or in their own LDT (if they are 
+            accessible by the kernel only) 
+            <P>* Each task has its own TSS, and for this case, switching via 
+            task state segments might be justifiable, since all registers must 
+            be changed 
+            <P>A system such as the one in Case 4 is hardly justifiable, since 
+            it can be simplified and rendered more powerful by using 
+            paging—which is the subject of the next article. 
+            <P><I>Jean Gareau received an M.S. in electrical engineering from 
+            the Polytechnic School of the University of Montreal. Since 1989, he 
+            has been involved in the development of operating systems, system 
+            tools, and large commercial applications. He can be reached at 
+            jeangareau@yahoo. com. </I>
+            <P><B>REFERENCES </B>
+            <P>1. mC/OS is a portable, ROMable, preemptive, real-time, 
+            multitasking kernel for microprocessors, and it’s free! 
+            <P>2. So many possible combinationsactually exist that this extra 
+            flexibility is a difficulty in itself. 
+            <P><B>BIBLIOGRAPHY </B>
+            <P>Intel Corp., <I>80386 Programmer’s Reference Manual </I>. Order 
+            Number 230985-001, 1987. 
+            <P>Labrosse Jean J. m <I>C/OS The Real-Time Kernel </I>, Fourth 
+            Printing. Lawrence, KS: R&amp;D Publications, 1992. <A 
+            href="http://www.embedded.com/98/9806fe2.htm">
+            <H3>Jump to Part 3 </H3></A></FONT></TD></TR></TBODY></TABLE></TD><!-- RIGHT NAV -->
+    <TD vAlign=top align=left width=142 bgColor=#ffffff>
+      <P><NOBR><IMG height=100 alt="" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/spacer.gif" 
+      width=8> <A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4878&amp;RunID=38959&amp;AdID=29386&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=1831.1910.2474&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=48210&amp;n=1035038319?" 
+      target=_top><IMG height=600 alt="Click here!" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/01634a17-15-0-0.gif" 
+      width=125 border=1></A></NOBR> </P></TD></TR><!-- SPONSORED LINK & BOTTOM AD -->
+  <TR>
+    <TD vAlign=top align=middle colSpan=2><BR clear=all>
+      <CENTER>
+      <TABLE borderColor=#000000 cellSpacing=0 cellPadding=0 border=1>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=468>
+            <TABLE cellSpacing=0 cellPadding=5 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><FONT face=verdana,arial size=2><B>Sponsor 
+                  Links</B></FONT> </TD></TR>
+              <TR>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>Wind River</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4907&amp;RunID=38972&amp;AdID=29394&amp;Redirect=http://ad.doubleclick.net/clk;3739644;6834914;w?http://www.windriver.com/products/html/eval_center.html">Free 
+                  Wind River downloads. Tornado Prototyper, Standalone Tools, 
+                  and more!</A> 
+                  <P><B>Microsoft</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4908&amp;RunID=38765&amp;AdID=29263&amp;Redirect=http://www.microsoft.com/redirect.asp?PageID=165&amp;PARAM=WEMBONL&amp;TARGET=/windows/Embedded/trial/evalkit.asp">Order 
+                  your Windows Embedded Evaluation Software today!</A></FONT> 
+                  </P></TD>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>EDTN Mobile News</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4909&amp;RunID=26084&amp;AdID=21164&amp;Redirect=http://www.edtn.com/palm/download.html/" 
+                  target=_TOP>The latest news now available to go. <BR>Palm VII 
+                  users click here</A> 
+                  <P><B>Planet Analog</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;RunID=27017&amp;AdID=21162&amp;ProfileID=4910&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=804.1785.1831.1913&amp;Redirect=http://www.edtn.com/register/newsletters" 
+                  target=_TOP>Sign up for FREE Analog Newsletter 
+                  Now!</A></A></FONT> 
+      </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3543&amp;RunID=19436&amp;AdID=27334&amp;GroupID=1&amp;FamilyID=2882&amp;TagValues=179.1831&amp;Redirect=http://www.planetanalog.com" 
+      target=_top><IMG alt="Click here!" 
+      src="Embedded Systems - Protection and Segmentation-Dateien/lifeonmars_2.gif" 
+      border=0></A><BR></CENTER></TD></TR></TBODY></TABLE><!-- END BODY --></FONT></BODY></HTML>

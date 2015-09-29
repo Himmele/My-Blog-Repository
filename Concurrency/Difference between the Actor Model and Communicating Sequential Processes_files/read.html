@@ -1,0 +1,24 @@
+
+<!-- saved from url=(0196)https://stackauth.com/auth/global/read?request=AatX23rZ0H1Tr1fU%2FkM42PB5pRkp8QBu7la9XMbuGYgmU91x6KhyCxlXtcniftkFuuNN9Iep7N%2F7A5HE4TgL6ys47TcP6CgpRrEUQlrrLNA%3D&nonce=IfrjUAAAAADFyWGFBZ6Uzw%3D%3D -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                  <script type="text/javascript">
+                  var data = {"ReadSession":"https://stackauth.com/auth/global/read-session","Request":"AatX23rZ0H1Tr1fU/kM42PB5pRkp8QBu7la9XMbuGYgmU91x6KhyCxlXtcniftkFuuNN9Iep7N/7A5HE4TgL6ys47TcP6CgpRrEUQlrrLNA=","Nonce":"IfrjUAAAAADFyWGFBZ6Uzw==","Referrer":"http://cstheory.stackexchange.com/questions/184/whats-the-difference-between-the-actor-model-of-concurrency-and-communicating-s","StorageName":"GlobalLogin"};
+
+                  var toMsg = window.parent;
+
+                  var obj = localStorage.getItem(data.StorageName);
+                  if(obj != null) {
+                  var req = new XMLHttpRequest();
+                  req.open('POST', data.ReadSession+'?request='+encodeURIComponent(data.Request)+'&nonce='+encodeURIComponent(data.Nonce)+'&seriesAndToken='+encodeURIComponent(obj), false);
+                  req.send(null);
+                  
+                    if(req.status == 200){
+                      toMsg.postMessage(req.responseText, data.Referrer);
+                    }else{
+                      toMsg.postMessage('No Session', data.Referrer);
+                    }
+                  }else{
+                    toMsg.postMessage('No Local Storage', data.Referrer);
+                  }
+                  </script>
+                  </head><body></body></html>

@@ -1,0 +1,523 @@
+<html lang="de"><head><link title="Microsoft Support-Suche" type="application/opensearchdescription+xml" rel="search" href="http://support.microsoft.com/common/opensearchdescriptor.aspx?ln=de"><meta name="DCSext.sup_cid" content="122675"><meta name="DCSext.sup_cln" content="en-us"><meta name="DCSext.sup_ct" content="kb"><meta name="DCSext.sup_ln" content="de"><meta name="DCSext.sup_sd" content="gn"><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/common.js"></script><script type="text/javascript">setCookie("gssSITE","gn",'',true);</script><script type="text/javascript">setCookie("gssTHEME","gn",'',true);</script><script type="text/javascript">setCookie("gssTOOLBAR","gn",'',true);</script><script type="text/javascript">SaveToFavoritesData.savingMsg='Favoriten werden gespeichert';SaveToFavoritesData.connectionErrorMsg='Keine Verbindung';SaveToFavoritesData.savedMsg='Favoriten wurden gespeichert';SaveToFavoritesData.noSaveErrorMsg='Kann nicht speichern';SaveToFavoritesData.surveyUrl='\x2fcommon\x2fsurvey.aspx\x3fscid\x3dsw\x3bde\x3b1167\x26surveystyle\x3dpopup\x26showpage\x3d1\x26site\x3dgn\x26siteregion\x3dde\x26url\x3d%2fdefault.aspx%2fkb%2f122675%2fen-us\x26p0\x3dkb\x26p1\x3den-us\x26p2\x3d122675';SaveToFavoritesData.noCookieUrl='\x2fgp\x2fnocookies';</script><script type="text/javascript">var g_currentContent='kb\x3ben-us\x3b122675';</script><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/survey.js"></script><meta name="robots" content="nofollow,noarchive"><meta name="Search.Assets" content="3"><meta name="Search.Description" content="When allocating and deleting an object of a class that is exported from a DLL, you may find that the new operator in the EXE is called to allocate the memory but the delete operator in the DLL is called to delete the memory. Therefore, there is a..."><meta name="Search.DateModified" content="2003-12-09T15:27:16"><meta name="Search.scid" content="kb;en-us;122675"><meta name="Search.Title" content="BUG: Wrong Operator Delete Called for Exported Class"><meta name="Search.Products" content="36704 36705 36706 36707 36704 36708 36710 36711 36716 36718 36719 36721 36720 36723"><meta name="Search.KBParents" content="5608 2991 1109 5609 2992 5610 2993 5611 2994 5612 2995 5614 2996 5615 2997 5620 2999 5622 3000 5623 3001 5625 3002 5624 5627"><meta name="KBParents" content="5608 2991 1109 5609 2992 5610 2993 5611 2994 5612 2995 5614 2996 5615 2997 5620 2999 5622 3000 5623 3001 5625 3002 5624 5627"><meta name="Search.Audiences" content=""><meta name="Search.ContentType" content="kb"><meta name="Search.Retire" content="1"><meta name="Search.ContentID" content="122675"><meta name="Search.KeyWords" content="kbbug kbcode kbcompiler KB122675"><meta name="Search.MT" content="0"><meta name="Search.KB3" content="0"><meta name="Keywords" content="kbbug kbcode kbcompiler KB122675"><meta name="Description" content="When allocating and deleting an object of a class that is exported from a DLL, you may find that the new operator in the EXE is called to allocate the memory but the delete operator in the DLL is called to delete the memory. Therefore, there is a..."><meta name="MS.LOCALE" content="en"><meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/search.js"></script><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/ac.js"></script><script type="text/javascript">var gCookieDomain='';</script><title>BUG: Wrong Operator Delete Called for Exported Class</title><xmlreader></xmlreader><link rel="stylesheet" type="text/css" href="Windows%20DLLs%20and%20Heap%20Management-Dateien/default.css"><link rel="stylesheet" type="text/css" href="Windows%20DLLs%20and%20Heap%20Management-Dateien/xmlContent.css"><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/kb.js"></script><link rel="stylesheet" type="text/css" href="Windows%20DLLs%20and%20Heap%20Management-Dateien/LHNSWidthChrome.css"><link rel="stylesheet" type="text/css" href="Windows%20DLLs%20and%20Heap%20Management-Dateien/branding.css">
+<!-- RESG: 12/11/2008 12:53:56 AM - RESX: 1/1/0001 12:00:00 AM -->
+<!-- (c) 2008 Microsoft Corporation. All Rights Reserved -->
+<script type="text/javascript">var PersonalizationInfo='a2IxMjI2NzUIZW4tdXMIQlVHOiBXcm9uZyBPcGVyYXRvciBEZWxldGU_';</script><script type="text/javascript">var enableSiteSurvey = true;</script><link rel="stylesheet" type="text/css" href="Windows%20DLLs%20and%20Heap%20Management-Dateien/surveytrigger.css">
+<script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/surveycookieutil.js"></script><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/surveytrigger.js"></script><script>animationDuration = 0.5;</script><script>var embedSurveyPrompt='nothing';var Exp=90;var Delay=0;var Freq=37;var SurveyStyle='popup';var DisplayIntroPage=1;var EmailStyle=0;var EmailSurveyID='';var ReferringURL='';var TrEvent='onunload';var TriggerId='11999';var IntervalType = 'session';var surveyTrigger = new MS.Support.Fms.Gsfx.SurveyTrigger();</script></head><body onload="thisLoad();" onunload="thisUnload();">
+<style type="text/css">  
+    body 
+    {
+        
+            background:url('/library/images/support/cn/gsfx_brnd_gn_top_bgrd.gif') repeat-x #C8E3F1;
+        
+    }
+
+    
+    
+    #gsfx_brnd_SiteHeaderImage
+    {
+        height:0px;
+    }
+    
+    
+    
+    .gsfx_brnd_NetworkLink, .gsfx_brnd_NetworkLink:visited, .gsfx_brnd_NetworkLink a, .gsfx_brnd_NetworkLink a:visited
+    {
+        color: #cdcbce;
+    }
+    
+    .gsfx_brnd_NetworkLink:hover, .gsfx_brnd_NetworkLink:active, .gsfx_brnd_NetworkLink:focus, 
+    .gsfx_brnd_NetworkLink a:hover, .gsfx_brnd_NetworkLink a:active, .gsfx_brnd_NetworkLink a:focus
+    {
+        color: #f9d060;
+        border-bottom-color: #f9d060;
+    }
+    
+    #gsfx_brnd_NetworkHeader, #gsfx_brnd_NetworkHeaderLinks
+    {
+        color: #ffffff;
+    }
+
+    #gsfx_brnd_SiteHeader, #gsfx_brnd_PageLogoWrapper, #gsfx_brnd_PageTitle, #gsfx_brnd_SearchWrapper a, #gsfx_bsrch_poweredbycell span
+    {
+        color: #ffffff;
+    }
+    
+    #gsfx_bsrch_catsel a, #gsfx_bsrch_catsel span
+    {
+        border-color: #ffffff;
+    }
+
+    #gsfx_brnd_SiteFooter, #gsfx_brnd_SiteFooterWrap
+    {
+        color: #ffffff;
+    }
+
+    #gsfx_brnd_NetworkFooter, #gsfx_brnd_FooterLinkContainer, #gsfx_brnd_FooterLinkContainer span, 
+    #gsfx_brnd_copyright_container, #gsfx_brnd_copyright_container span
+    {
+        color: #ffffff;
+    }
+        
+    
+    </style>
+<!--[if lte IE 6]>
+<style type="text/css">
+    #gsfx_brnd_PageHeaderImage {background:none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='', sizingMethod='image');}
+    #gsfx_brnd_SiteImgWedge {background:none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='', sizingMethod='scale');}    
+    #gsfx_brnd_PageLogo {visibility:hidden;}
+    #gsfx_brnd_legacy_PageLogo {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/gsfx_brnd_ms_logo.png', sizingMethod='image');}
+    #gsfx_brnd_MSLogo {visibility:hidden;}
+    #gsfx_brnd_legacy_MSLogo {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/gsfx_brnd_ms_logo_sml_wht.png', sizingMethod='image');}
+</style>
+<![endif]-->
+
+
+<div id="gsfx_brnd_CenterContent">
+<div id="gsfx_brnd_PageWrapper">
+    <div style="height: 913px;" id="gsfx_brnd_PageContainer">
+        <div id="gsfx_brnd_PageHeaderImage"></div>    
+        <div id="gsfx_brnd_HeaderContainer">
+            <div id="gsfx_brnd_NetworkHeader">
+                <div id="gsfx_brnd_CorpMarketingContainer" class="gsfx_brnd_NetworkLeft">
+                    <div id="gsfx_brnd_CorpMarketingSpace" class="gsfx_brnd_NetworkLeft">
+                        
+                    </div>
+                </div>
+                <!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->
+                <table summary="Network Header Links" id="gsfx_brnd_NetworkHeaderLinks" class="gsfx_brnd_NetworkRight">
+                    <tbody><tr>
+                        <td class="gsfx_brnd_NetworkLinkContainer">
+                            <span id="gsfx_brnd_LocalName">
+                                Deutschland
+                            </span>
+                        </td>
+                        <td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink">
+                            <a href="http://support.microsoft.com/common/international.aspx" id="L_156522">Ändern</a>
+                        </td>
+                        
+                        <td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_HeaderSeperator">|</td>
+                        
+                        <td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink">
+                            <a href="http://www.microsoft.com/library/toolbar/3.0/sitemap/de-de.mspx" id="L_156521">Alle Microsoft-Webseiten</a>
+                        </td>
+                        
+                        
+                    </tr>
+                </tbody></table>
+            </div>
+            <div id="gsfx_brnd_SiteHeader">            
+                <div id="gsfx_brnd_SiteHeaderImageContainer">
+                    <div id="gsfx_brnd_SiteHeaderImage">
+                    
+                    </div>
+                </div>
+                <!--[if lte IE 6]><div id="gsfx_brnd_legacy_PageLogo" class="gsfx_brnd_NetworkLeft"></div><![endif]-->
+                <div id="gsfx_brnd_PageLogoWrapper" class="gsfx_brnd_NetworkLeft">
+                    <a id="gsfx_brnd_PageLogoLink" href="http://www.microsoft.com/"><img id="gsfx_brnd_PageLogo" alt="Microsoft" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/gsfx_brnd_ms_logo.png"></a>
+                    <span id="gsfx_brnd_PageTitle">Hilfe und Support</span>
+                </div>
+                <div id="gsfx_brnd_SearchWrapper" class="gsfx_brnd_NetworkRight">
+                    
+<form id="frmsrch" action="/search/default.aspx" onsubmit="SaveSimpleSearch();" method="get">
+
+    <div id="gsfx_bsrch_catsel">
+    <script type="text/javascript">setACStartChars('4:4:');</script>    
+    
+                    <noscript><input type="hidden" id="catalog" name="catalog" value="LCID=1031" /></noscript>
+    			
+                    <a href="javascript:%20void(0);" class="gsfx_bsrch_highlight" catalog="LCID=1031" onclick="gsfx_bsrch_changeCatSelection(this,'LCID=1031');changeLcidForSelect(this, 'gsfx_bsrch_query', 'LCID=1031', '0');">Deutsche Artikel</a>
+    
+                        <span class="cat_seperator">|</span>
+    			
+                    <a href="javascript:%20void(0);" class="" catalog="LCID=1033" onclick="gsfx_bsrch_changeCatSelection(this,'LCID=1033');changeLcidForSelect(this, 'gsfx_bsrch_query', 'LCID=1033', '1');">Englische Artikel</a>
+    
+    &nbsp;</div>
+    
+    <div id="gsfx_bsrch_divQuery"><input id="gsfx_bsrch_query" name="query" maxlength="200" value="" autocomplete="off" type="text"><span class="gsfx_bsrch_buttonwrap" id="gsfx_bsrch_srch"><input id="gsfx_bsrch_srchbtn" value="Suchen" type="submit"></span>
+    <span class="gsfx_bsrch_buttonwrap" id="gsfx_bsrch_websrch"><input id="gsfx_bsrch_websrchbtn" value="Web" onclick="submitSimpleSearch('http://search.live.com/results.aspx?mkt=de-DE&amp;q=', document.getElementById('gsfx_bsrch_query').value);" type="button"></span><br><div style="position: relative; width: 150px; height: 1px;" id="acListWrappergsfx_bsrch_query"><div style="border: 1px solid rgb(153, 153, 153); margin: -2px 0px 0px; padding: 3px 1px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; overflow: hidden; visibility: hidden; z-index: 99; position: absolute; width: 150px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; font-size: 0.7em; font-family: Verdana,Arial,Helvetica,Sans-Serif;" id="acListDivgsfx_bsrch_query"></div></div></div>
+    <script type="text/javascript">try{MS.Support.AC.MakeAutoComplete({id:'gsfx_bsrch_query', lcid:'1031', acURL:'http://autocomplete.support.microsoft.com', statsObj:StatsDotNet, startChar:'4', bubbleside:'left'});}catch(e){}</script>
+
+    
+        <div id="gsfx_bsrch_poweredbycell" class="gsfx_brnd_NetworkTextRight">
+            <span>bereitgestellt von</span><span id="liveimg"><img alt="" class="gsfx_img_png" style="width: 24px; height: 24px;" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/gsfx_bsrch_live_logo.png"><!--[if lte IE 6]><div alt="" class="gsfx_div_png" style="width:24px;height:24px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/en-US/gsfx_bsrch_live_logo.png', sizingMethod='scale');"></div><![endif]--></span><span>Live Search</span>
+        </div>
+    
+        
+    <div class="hiddenformels">
+        <input name="mode" value="r" type="hidden">
+    </div>
+    <noscript><style type="text/css">#gsfx_bsrch_catsel a {display:none;} #gsfx_bsrch_websrch {display:none;}</style></noscript>
+<span><input value="LCID=1031" id="catalog" name="catalog" type="hidden"></span></form>
+
+
+<script type="text/javascript">
+InitSrch();
+InitAC('gsfx_bsrch_query');MS_AddEvent(window, 'load', function() {gsfx_bsrch_InitCatSelection('gsfx_bsrch_query', '4:4:');});
+</script>
+                </div>
+            </div>
+        </div>
+        <div id="gsfx_brnd_TopCorners" class="gsfx_brnd_CornerContainer">
+            <div class="gsfx_brnd_TBBorders gsfx_brnd_TransBG" id="gsfx_brnd_TopBorder">
+            </div>
+            <div class="gsfx_brnd_Corner" id="gsfx_brnd_LUpperCorner">
+            </div>
+        </div>
+        <div id="gsfx_brnd_LocalToolBar" class="gsfx_brnd_TransBG gsfx_brnd_SideBorder"><ul id="gsfx_brnd_LocalLinks"><li class="gsfx_brnd_LocalLink"><a href="http://support.microsoft.com/" id="L_156527"><span>Startseite</span></a></li><li class="gsfx_brnd_LocalSeperator">&nbsp;</li><li class="gsfx_brnd_LocalLink"><a href="http://support.microsoft.com/gp/hublist" id="L_156528"><span>Produkt auswählen</span></a></li><li class="gsfx_brnd_LocalSeperator">&nbsp;</li><li class="gsfx_brnd_LocalLink"><a href="http://support.microsoft.com/search/?adv=1" id="L_156529"><span>Erweiterte Suche</span></a></li></ul></div>
+        
+        <div id="gsfx_brnd_ToolbarShadow" class="gsfx_brnd_TransBG gsfx_brnd_SideBorder"><div id="gsfx_brnd_shadow"></div></div>
+        
+        <div id="gsfx_brnd_ContentContainer" class="gsfx_brnd_TransBG gsfx_brnd_SideBorder">
+            <div style="height: 726px;" id="contentArea">            
+
+<div id="mainRow"><div class="primaryTable"><table class="primaryTable" cellpadding="0" cellspacing="0"><tbody><tr><td class="primaryMainColumn"><div id="mainColumn" lang="en-us"><div id="kb" class="kb"><div id="kb_default" class="kb_default ltr"><!-- - -KB 3 start- - --><a id="top"></a><div class="articleProperty">Article ID: 122675 - Last Review: December 9, 2003 - Revision: 3.0</div><h1 class="title">BUG: Wrong Operator Delete Called for Exported Class</h1><div class="rtDisclaimerLink"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/Archived-KB_16.png" alt="Retired KB Article"><a href="#rtDisclaimer">Retired KB Content Disclaimer</a></div><div class="kb_meta_divider"></div><div class="appliesToLink"><a href="#appliesto">View products that this article applies to.</a></div><script type="text/javascript">if (!loadTOCNode) {var loadTOCNode = function(){}}</script><div class="notice">This article was previously published under Q122675</div><div id="kb_section" class="section"><h2 class="subTitle kb_tabs_toggle_closed" id="tocTitle"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>On This Page</span><div class="sectionpreview_open"></div></h2><div style="margin-left: 195px; display: none;" class="sbody kb_tabs_toggle_closed" id="tocDiv"><ul style="display: block;"><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">SYMPTOMS</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">CAUSE</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">RESOLUTION</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">STATUS</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">MORE INFORMATION</span></a><ul class="tocLine"><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">1. Sample Code Illustrates the Problem and Workaround #2</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">testdll.h</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">testapp.cpp</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">testdll.cpp</span></a><ul class="tocLine"></ul></li><li><a href="#" onclick="return tocScrollTo(this);"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/downarrow.gif" alt=""><span class="tocTxt">2. Sample Code for Workaround #3</span></a><ul class="tocLine"></ul></li></ul></li></ul></div><script type="text/javascript">
+      var sectionFilter = "type != 'notice' && type != 'securedata' && type != 'querywords'";
+      var tocArrow = "/library/images/support/kbgraphics/public/en-us/downarrow.gif";
+      var depthLimit = 10;
+      var depth3Limit = 10;
+      var depth4Limit = 5;
+      var depth5Limit = 3;
+      var tocEntryMinimum = 1;
+    </script><noscript><style>#tocTitle, #tocDiv{display: none;}</style></noscript><div id="kb_expandcollapseall" class="expandcollapseall_open"><a href="javascript:void(0);" class="expandalltext">Expand all</a> | <a href="javascript:void(0);" class="collapsealltext">Collapse all</a><script type="text/javascript">
+          if (kb_page_object)
+          {
+            kb_page_object.kb_imageExpandHoverText = 'Click to expand this image';
+          }
+        </script></div><h2 class="subTitle" id="tocHeadRef"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>SYMPTOMS</span><div class="sectionpreview_closed">When allocating and deleting an object of a class that is exported from a DLL,...</div></h2><script type="text/javascript">
+              loadTOCNode(1, 'symptoms');
+            </script><div style="margin-left: 195px;" class="sbody">
+When allocating and deleting an object of a class that is exported from a
+DLL, you may find that the new operator in the EXE is called to allocate
+the memory but the delete operator in the DLL is called to delete the
+memory. Therefore, there is a new/delete mismatching problem, which may
+cause run-time errors.
+<div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div><h2 class="subTitle" id="tocHeadRef"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>CAUSE</span><div class="sectionpreview_closed">This problem is a result of the way objects are allocated, constructed, destruc...</div></h2><script type="text/javascript">
+              loadTOCNode(1, 'cause');
+            </script><div style="margin-left: 195px;" class="sbody">
+This problem is a result of the way objects are allocated, constructed,
+destructed and deallocated. The following things occur when allocating
+and deallocating objects that have constructors and destructors:
+<br><br>
+Allocating:
+<div class="indent">
+   A1. The memory that the object will reside in is allocated.<br>
+   A2. The appropriate constructor for that object is called.
+</div>
+
+Deallocating:
+<div class="indent">
+   D1. The destructor for the object is called.<br>
+   D2. If the object is being deallocated via delete, call delete.
+</div>
+Step D2 is where the problem arises for objects created from classes
+exported from a DLL. Steps D1 and D2 are often carried out by a scalar or
+vector deleting destructor, which are a compiler generated helper
+functions. When this helper function is created in the DLL, any calls it
+makes to the delete operator will be in the context of the DLL. Therefore
+the delete operator overridden in the EXE will not be called as expected.
+<br><br>
+Note that the scalar deleting destructor is called when deallocating single
+objects, and the vector deleting destructor is called when deallocating
+arrays of one or more objects.
+<div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div><h2 class="subTitle" id="tocHeadRef"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>RESOLUTION</span><div class="sectionpreview_closed">You can use one of the following workarounds: If your code does not use virtual...</div></h2><script type="text/javascript">
+              loadTOCNode(1, 'resolution');
+            </script><div style="margin-left: 195px;" class="sbody">
+You can use one of the following workarounds:
+<br><br><ol><li>If your code does not use virtual destructors, make the constructor
+   and destructor for the object inline, and put the actual work into
+   your own helper functions. If the destructor is inline, the code
+   and the compiler generated helper functions (if present) are in the
+   EXE and so the proper operator delete is called.
+<br><br>
+   If the destructor is virtual, this work-around won't work. This is
+   because virtual functions can be called through base class
+   pointers, usually known as run-time binding or dynamic binding.
+   Which function is called is determined at runtime through the
+   v-table. Since inlining is generated at compile time, runtime
+   binding is not possible if the functions are actually inlined.
+<br><br>
+   - or -
+</li><li>Override the operators new and delete for the DLL classes so that
+   the new/delete calls usage will be made within the DLL. A class
+   with its own version of new and delete will override any global
+   version of new and delete defined in either the EXE or the DLL.
+   Therefore the proper new and delete will always be called. Please
+   see the sample code below in the MORE INFORMATION section.
+<br><br>
+   - or -
+</li><li>If you are using Visual C++ 2.0 or later, try using a template
+   wrapper class. By using this templated class, you are deriving a
+   class "on the fly" from the imported class. The constructor
+   and the destructor for the new class are in the context of the
+   EXE and not in the context of the DLL and the problem will be
+   avoided. Please see the sample code below in the MORE INFORMATION
+   section.
+<br><br>
+   If you are using Visual C++ 16-bit editions, you can derive a
+   class from the DLL exported class in the EXE file, so the
+   constructor and the destructor for the new class are in the
+   context of the EXE and not in the context of the DLL and the
+   problem also will be avoided.
+<br><br>
+   - or -
+</li><li>If you use Visual C++ 5.0 or later, a new implementation of
+   new/delete is available which is virtually transparent. To invoke
+   this new implementation you must:
+   <br><br><ol><li type="a"> Specify _declspec(dllexport) in the class declaration when
+         you implement the class.</li><li type="a">Specify _declspec(dllimport) in the class declaration when
+         you use the class.</li><li type="a">Use a virtual destructor.</li></ol>
+
+   If these requirements aren't met, the compiler generates code using
+   the same new/delete implementation that was present in the previous
+   version of the product.</li></ol><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div><h2 class="subTitle" id="tocHeadRef"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>STATUS</span><div class="sectionpreview_closed">Microsoft is researching this problem and will post new information here in the...</div></h2><script type="text/javascript">
+              loadTOCNode(1, 'status');
+            </script><div style="margin-left: 195px;" class="sbody">
+Microsoft is researching this problem and will post new information here in
+the Microsoft Knowledge Base as it becomes available.
+<div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div><h2 class="subTitle" id="tocHeadRef"><div class="kb_tabs_toggle kb_tabs_toggle_open"></div><span>MORE INFORMATION</span><div class="sectionpreview_closed">The following sample code demonstrates the problem and provides the workarounds...</div></h2><script type="text/javascript">
+              loadTOCNode(1, 'moreinformation');
+            </script><div style="margin-left: 195px;" class="sbody">
+The following sample code demonstrates the problem and provides the
+workarounds mentioned above in the RESOLUTION section.
+
+<div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><h3 id="tocHeadRef">1. Sample Code Illustrates the Problem and Workaround #2</h3><script type="text/javascript">
+        loadTOCNode(2, 'moreinformation');
+      </script>
+
+Use the following files to build two projects, one for DLL and one
+for EXE. In the DLL project, include file testdll.cpp and define
+preprocessor identifier _DLL. In the EXE project, include file
+testapp.cpp. testdll.h is the shared header file for both DLL
+and EXE.
+<br><br>
+Make sure to define preprocessor identifier _WORKAROUND in both the
+EXE and the DLL projects if you want to work around the problem.
+For example, using the compiler switch /D_WORKAROUND.
+<br><br>
+The problem code produces the following output:
+
+<div class="kb_intextwrapper"><div class="kb_intextbody"><pre class="in_text">   In EXE global new
+   In DLL class constructor
+   In DLL class destructor
+   In DLL global delete
+				</pre></div></div>
+
+The workaround code produces the following output:
+
+<div class="kb_intextwrapper"><div class="kb_intextbody"><pre class="in_text">   In DLL class new
+   In DLL class constructor
+   In DLL class destructor
+   In DLL class delete
+				</pre></div></div><div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">/* Compile options needed:
+ *    testapp - /MD  and default settings for Console application.
+ *    testdll - /MD, /D_DLL, and default setting for DLL project.
+ *    Use /D_WORKAROUND in both the EXE and DLL projects to see the
+ *    work-around.
+ */ 
+				</pre></div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><h3 id="tocHeadRef">testdll.h</h3><script type="text/javascript">
+        loadTOCNode(2, 'moreinformation');
+      </script><div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">   #include &lt;iostream.h&gt;
+   #include &lt;stdlib.h&gt;
+
+
+   #ifdef _DLL
+   #define DLLEXP __declspec(dllexport)
+   #else
+   #define DLLEXP __declspec(dllimport)
+   #endif
+
+   // For use with the 16-bit versions, you need to use the following code
+   // to define DLLEXP. Also start by using a QuickWin application for
+   // testapp and a DLL project for testdll
+
+   //#ifdef _DLL
+   //#define DLLEXP __export
+   //#else
+   //#define DLLEXP
+   //#endif
+
+
+   class DLLEXP testdll
+   {
+     public:
+
+      testdll();
+      virtual ~testdll();
+
+   #ifdef _WORKAROUND
+      void* operator new( size_t tSize );
+      void  operator delete( void* p );
+   #endif
+
+   };
+				</pre></div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><h3 id="tocHeadRef">testapp.cpp</h3><script type="text/javascript">
+        loadTOCNode(2, 'moreinformation');
+      </script><div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">   #include &lt;iostream.h&gt;
+   #include "testdll.h"
+
+   void* operator new(size_t nSize)
+   {
+      void* p=malloc(nSize);
+      cout &lt;&lt; "In EXE global new\n";
+      return p;
+   }
+
+   void operator delete( void *p )
+   {
+      free(p);
+      cout &lt;&lt; "In EXE global delete\n";
+   }
+
+   void main()
+   {
+
+      testdll *p = new testdll;
+      delete p;
+   }
+				</pre></div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><h3 id="tocHeadRef">testdll.cpp</h3><script type="text/javascript">
+        loadTOCNode(2, 'moreinformation');
+      </script><div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">   #include &lt;iostream.h&gt;
+   #include "testdll.h"
+
+   DLLEXP testdll::testdll()
+   {
+     cout &lt;&lt; "In class DLL constructor\n";
+   }
+
+   DLLEXP testdll::~testdll()
+   {
+     cout &lt;&lt; "In class DLL destructor\n";
+   }
+
+
+   void* operator new( size_t tSize )
+   {
+      void* p=malloc(tSize);
+      cout &lt;&lt; "In DLL global new\n";
+      return p;
+   }
+
+   void operator delete( void* p )
+   {
+      free(p);
+      cout &lt;&lt; "In DLL global delete\n";
+   }
+
+
+   #ifdef _WORKAROUND
+   DLLEXP void* testdll :: operator new( size_t tSize )
+   {
+      void* p=malloc(tSize);
+      cout &lt;&lt; "In DLL class new\n";
+      return p;
+   }
+
+   DLLEXP void testdll :: operator delete( void* p )
+   {
+      free(p);
+      cout &lt;&lt; "In DLL class delete\n";
+   }
+   #endif
+				</pre></div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><h3 id="tocHeadRef">2. Sample Code for Workaround #3</h3><script type="text/javascript">
+        loadTOCNode(2, 'moreinformation');
+      </script>
+
+The following code fragment demonstrates how you might implement a
+template wrapper class in the EXE to work around this problem:
+
+<div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">   template &lt;class T&gt;
+   class DLLFix: public T
+   {
+   public:
+       DLLFix();
+       virtual ~DLLFix();
+   };
+				</pre></div></div>
+
+Assuming that ExportedClass is a class that is exported from a DLL,
+make the following change:
+
+<div class="kb_codebody"><div class="kb_codecontent"><code></code><pre class="code">   //Old code
+      ExportedClass * p = new ExportedClass;
+      delete p; // wrong delete may be called here;
+
+
+   //new code
+      DLLFix&lt;ExportedClass&gt; * p = new DLLFix&lt;ExportedClass&gt;;
+      delete p;
+				</pre></div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div></div><div style="margin-left: 195px;" class="sbody norollup"><div class="appliesTo"><hr><a id="appliesto"></a><h5>APPLIES TO</h5><ul><li>Microsoft Visual C++ 1.0 Professional Edition</li><li>Microsoft Visual C++ 1.5 Professional Edition</li><li>Microsoft Visual C++ 1.51</li><li>Microsoft Visual C++ 1.52 Professional Edition</li><li>Microsoft Visual C++ 2.0 Professional Edition</li><li>Microsoft Visual C++ 2.1</li><li>Microsoft Visual C++ 2.2</li><li>Microsoft Visual C++ 4.0 Standard Edition</li><li>Microsoft Visual C++ 4.1 Subscription</li><li>Microsoft Visual C++ 4.2 Enterprise Edition</li><li>Microsoft Visual C++ 5.0 Enterprise Edition</li><li>Microsoft Visual C++ 4.2 Professional Edition</li><li>Microsoft Visual C++ 5.0 Professional Edition</li></ul></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><div class="keywords"><table><tbody><tr><td class="header"><h5>Keywords:&nbsp;
+              </h5></td><td class="text">kbbug kbcode kbcompiler KB122675</td></tr></tbody></table></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div><div class="disclaimer retiredkb"><a id="rtDisclaimer"></a><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/Archived-KB_16.png" alt="Retired KB Article"><span class="label">Retired KB Content Disclaimer</span><div class="text">This
+article was written about products for which Microsoft no longer offers
+support. Therefore, this article is offered "as is" and will no longer
+be updated.</div></div><div class="topOfPage"><a href="#top"><img src="Windows%20DLLs%20and%20Heap%20Management-Dateien/uparrow.gif" alt="">Back to the top</a></div></div><!-- - -KB 3 end- - --></div></div><span class="bookmark"><a id="survey" name="survey">&nbsp;</a></span><div class="wp" id="fmsSurvey" style="display: block;"><div class="fms"><iframe style="display: inline; height: 0px; width: 0px;" border="0" id="submitframe" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/surveysubmit.htm" frameborder="0"></iframe><noscript><div class="SURVEYNOSCRIPT"></div></noscript><input id="surveyname" name="surveyname" value="" type="hidden"><input id="showpage" name="showpage" value="1" type="hidden"><div id="SURVEYSECTIONCONTAINER"><div id="SURVEYSECTION_132" class="SURVEYSECTION" style="display: block;" xmlns:sw="urn:schemas-microsoft-com/PSS/PSS_Survey01"><input name="id" value="132" type="hidden"><input name="CompoundingBranchRules" value="" type="hidden"><input name="NextSectionByTopicRef" value="0" type="hidden"><div id="SURVEYQUESTION_9089" class="QUESTIONCONTAINER"><input name="id" value="9089" type="hidden"><input name="type" value="LABEL" type="hidden"><input name="required" value="0" type="hidden"><div class="QUESTIONTEXT"><h5>Provide feedback on this information</h5></div><div class="QUESTIONINSTRUCTION"><script type="text/javascript"> function _kbfeedback_random_load() {  if(typeof(kbSurvey) != "undefined")  {    var sSurveyId = "1496";    kbSurvey.addSubmitField("SURVEYID", sSurveyId);    kbSurvey.addSubmitField("SURVEYSCID", kbSurvey.submitFields["SURVEYSCID"].replace("1361", sSurveyId));  } } if(window.addEventListener) {  window.addEventListener("load", _kbfeedback_random_load, false); } else if(window.attachEvent) {  window.attachEvent("onload", _kbfeedback_random_load); } </script></div><div class="QUESTIONREQUIRED"></div></div><div id="SURVEYQUESTION_9088" class="QUESTIONCONTAINER"><input name="id" value="9088" type="hidden"><input name="type" value="CHOICE" type="hidden"><input name="required" value="0" type="hidden"><div class="QUESTIONTEXT">Did this information solve your problem?</div><div class="QUESTIONINSTRUCTION"></div><div class="QUESTIONREQUIRED"></div><input name="randomization" value="" type="hidden"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr style="display: table-row;"><td style="display: table-cell;" valign="top"><table border="0" cellpadding="0" cellspacing="2"><tbody><tr><td valign="top"><input name="QUESTION_132_90889088" id="14471" value="0" type="radio"></td><td class="ANSWERTEXT">Yes</td></tr></tbody></table></td></tr><tr style="display: table-row;"><td style="display: table-cell;" valign="top"><table border="0" cellpadding="0" cellspacing="2"><tbody><tr><td valign="top"><input name="QUESTION_132_90889088" id="14472" value="1" type="radio"></td><td class="ANSWERTEXT">No</td></tr></tbody></table></td></tr><tr style="display: table-row;"><td style="display: table-cell;" valign="top"><table border="0" cellpadding="0" cellspacing="2"><tbody><tr><td valign="top"><input name="QUESTION_132_90889088" id="14473" value="2" type="radio"></td><td class="ANSWERTEXT">I don't know</td></tr></tbody></table></td></tr></tbody></table></div><div id="SURVEYQUESTION_9086" class="QUESTIONCONTAINER"><input name="id" value="9086" type="hidden"><input name="type" value="CHOICE" type="hidden"><input name="required" value="0" type="hidden"><div class="QUESTIONTEXT">Was this information relevant?</div><div class="QUESTIONINSTRUCTION"></div><div class="QUESTIONREQUIRED"></div><input name="randomization" value="" type="hidden"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr style="display: table-row;"><td style="display: table-cell;" valign="top"><table border="0" cellpadding="0" cellspacing="2"><tbody><tr><td valign="top"><input name="QUESTION_132_90869086" id="14471" value="0" type="radio"></td><td class="ANSWERTEXT">Yes</td></tr></tbody></table></td></tr><tr style="display: table-row;"><td style="display: table-cell;" valign="top"><table border="0" cellpadding="0" cellspacing="2"><tbody><tr><td valign="top"><input name="QUESTION_132_90869086" id="14472" value="1" type="radio"></td><td class="ANSWERTEXT">No</td></tr></tbody></table></td></tr></tbody></table></div><div id="SURVEYQUESTION_9087" class="QUESTIONCONTAINER"><input name="id" value="9087" type="hidden"><input name="type" value="TEXT-BLOCK" type="hidden"><input name="required" value="0" type="hidden"><div class="QUESTIONTEXT">What can we do to improve this information?</div><div class="QUESTIONINSTRUCTION"></div><div class="QUESTIONREQUIRED"></div><textarea class="ANSWERBOX" name="TEXTBLOCK_9087" rows="6" cols="80" onpaste="enforceMaxLength(this,500,event)" onkeydown="enforceMaxLength(this,500,event)"></textarea></div><div id="SURVEYQUESTION_7813" class="QUESTIONCONTAINER"><input name="id" value="7813" type="hidden"><input name="type" value="LABEL" type="hidden"><input name="required" value="0" type="hidden"><div class="QUESTIONTEXT">To protect your privacy, do not include contact information in your feedback.</div><div class="QUESTIONINSTRUCTION"></div><div class="QUESTIONREQUIRED"></div></div><div class="NAVIGATION"><table class="NAVBUTTONCONTAINER"><tbody><tr><td class="PADDINGCELL"></td><td class="NAVBUTTONCELL"><input class="NAVBUTTON" value="Submit" onclick="kbSurvey.next();this.blur();" type="button"></td><td class="ENDPADDINGCELL"></td></tr></tbody></table></div></div><div id="DIV_CLOSE" style="display: none;" xmlns:sw="urn:schemas-microsoft-com/PSS/PSS_Survey01"><div class="SURVEYTHANKYOUCONTAINER"><div class="SURVEYINTROTEXT">Thank you! Your feedback is used to help us improve our support content. For more assistance options, please visit the <a href="http://support.microsoft.com/">Help and Support Home Page</a>.</div></div><div class="NAVIGATION"><table class="NAVBUTTONCONTAINER" nowrap="yes"><tbody><tr><td class="PADDINGCELL"></td><td class="NAVBUTTONCELL"></td><td class="ENDPADDINGCELL"></td></tr></tbody></table></div></div></div></div></div><script type="text/javascript">
+			var kbSurvey = new MS.Support.Fms.Survey("fmsSurvey");
+			kbSurvey.isKBEmbedded = true;
+			kbSurvey.addSubmitField('REGIONID', 'de');
+			kbSurvey.addSubmitField('SITE', 'gn');
+			kbSurvey.addSubmitField('SURVEYSCID', 'sw;en;1496');
+			kbSurvey.addSubmitField('SURVEYID', '1496');
+			kbSurvey.addSubmitField('SURVEYNAME', '');
+			kbSurvey.addSubmitField('BROWSERLANGCODE', 'de-de,de\x3bq\x3d0.8,en-us\x3bq\x3d0.5,en\x3bq\x3d0.3');
+			kbSurvey.addSubmitField('SURVEYLANGCODE', 'en');
+			kbSurvey.addSubmitField('FMSURL', '%252fdefault.aspx%252fkb%252f122675%252fen-us');
+			kbSurvey.parameters = ['kb','en-us','122675','','','','','','',''];
+			kbSurvey.maxKBsInCookie = '10';
+			kbSurvey.kbvisited = '';
+		</script></div></td><td class="primaryThinColumn"><div id="thinColumn" style="float: none;"><div class="wp getHelp"><table align="center" cellpadding="0" cellspacing="0"><tbody><tr><td class="image"><a href="http://support.microsoft.com/gethelp/default.aspx?content=kb;en-us;122675" id="L_178077"><img alt="" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/Help_support_55.gif"></a></td><td class="text"><h1>Benötigen Sie weitere Hilfe?</h1><a href="http://support.microsoft.com/gethelp/default.aspx?content=kb;en-us;122675" id="L_178077">Supportmitarbeiter via E-Mail, Online oder Telefon kontaktieren.</a></td></tr></tbody></table></div><div class="wp articleTrans"><h1>Article Translations</h1><form name="frmArticleTrans" action="/" onsubmit="return SwitchLanguage(29803);"><div><table cellpadding="0" cellspacing="0"><tbody><tr><td><select name="scid"><option value="kb;ar;122675">Arabic</option><option value="kb;fr;122675">French</option><option value="kb;de;122675" selected="selected">German</option><option value="kb;it;122675">Italian</option><option value="kb;ja;122675">Japanese</option><option value="kb;pt-br;122675">Portuguese (Brazil)</option><option value="kb;pt;122675">Portuguese (Portugal)</option><option value="kb;zh-cn;122675">Simplified Chinese</option><option value="kb;es;122675">Spanish</option><option value="kb;zh-tw;122675">Traditional Chinese</option></select></td><td class="spacer">&nbsp;</td><td><input alt="Translate the article" style="width: 24px; height: 24px;" onmouseover="this.src='/library/images/support/EN-US/go_right_02-over.gif';" onmouseout="this.src='/library/images/support/en-US/GSSSM_rltlngRelatedlanguages.gif';" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/GSSSM_rltlngRelatedlanguages.gif" type="image"><a id="KBLangListRedirect" href=""></a></td></tr></tbody></table></div></form></div><div class="wp" id="SupportTools"><table class="LCT" cellspacing="0"><tbody><tr><td class="textColumn"><h1><span class="linkCon">Diese Seite können Sie...</span><span class="linkConTop"></span></h1><ul><li id="PrintPage_tr"><span><a href="http://support.microsoft.com/gp/noscript" id="PrintPage" title="ausdrucken" onclick="return MS_HandleClick(this,'SupportTools', true);">ausdrucken</a></span></li><li id="EmailPage_tr"><span><a href="mailto:?subject=BUG%3a%20Wrong%20Operator%20Delete%20Called%20for%20Exported%20Class&amp;body=http%3a%2f%2fsupport.microsoft.com%2fdefault.aspx%2fkb%2f122675%2fen-us" id="EmailPage" title="per E-Mail versenden" onclick="return MS_HandleClick(this,'SupportTools', true);">per E-Mail versenden</a></span></li></ul></td></tr></tbody></table></div></div></td></tr></tbody></table></div></div><div id="bottomRow"><div class="wp getHelp"><table align="center" cellpadding="0" cellspacing="0"><tbody><tr><td class="image"><a href="http://support.microsoft.com/gethelp/default.aspx?content=kb;en-us;122675" id="L_178077"><img alt="" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/Help_support_55.gif"></a></td><td class="text"><h1>Benötigen Sie weitere Hilfe?</h1><a href="http://support.microsoft.com/gethelp/default.aspx?content=kb;en-us;122675" id="L_178077">Supportmitarbeiter via E-Mail, Online oder Telefon kontaktieren.</a></td></tr></tbody></table></div></div>
+                        
+            </div>
+        </div>
+        
+        <div id="gsfx_brnd_BottomCorners" class="gsfx_brnd_CornerContainer">
+            <div class="gsfx_brnd_TBBorders gsfx_brnd_TransBG" id="gsfx_brnd_BottomBorder"></div>
+            <div class="gsfx_brnd_Corner" id="gsfx_brnd_LLowerCorner"></div>
+        </div>
+        
+        <div id="gsfx_brnd_WidthFix"></div>
+        
+        <div id="gsfx_brnd_FooterContainer">
+            <div id="gsfx_brnd_SiteFooter" class="gsfx_brnd_NetworkLeft">
+                Hilfe und Support
+            </div>
+
+            <table id="gsfx_brnd_NetworkFooter" class="gsfx_brnd_NetworkRight"><tbody><tr>
+                <td id="gsfx_brnd_FooterLinkContainer">
+                    <!--Table is wrapped in a div tag to facilitate proper alignment and stacking-->
+                    <div class="gsfx_brnd_FooterLinks" id="gsfx_brnd_SiteFooterLinks">
+                        <!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->                        
+                        <table summary="Site Footer Links" class="gsfx_brnd_NetworkRight"><tbody><tr><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><a href="http://support.microsoft.com/gp/csa" id="L_147204"><span>Servicevereinbarung</span></a></td></tr></tbody></table>                        
+                    </div>
+                    
+
+                    <!--Table is wrapped in a div tag to facilitate proper alignment and stacking-->
+                    <div class="gsfx_brnd_FooterLinks" id="gsfx_brnd_NetworkFooterLinks">
+                        <!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->
+                        <table summary="Network Footer Links" class="gsfx_brnd_NetworkRight"><tbody><tr><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><a href="http://support.microsoft.com/contactus/?ws=support" id="L_156523"><span>Kontakt</span></a></td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><a href="http://www.microsoft.com/germany/siteservices/impressum/copyright.mspx" id="L_156524"><span>Nutzungsbedingungen</span></a></td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><a href="http://www.microsoft.com/library/toolbar/3.0/trademarks/de-de.mspx" id="L_156525"><span>Markenzeichen</span></a></td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</td><td class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><a href="http://privacy.microsoft.com/de-de/default.aspx" id="L_156526"><span>Datenschutzbestimmungen</span></a></td></tr></tbody></table>
+                    </div>
+                </td>
+                <td id="gsfx_brnd_copyright_container">
+                    <div id="gsfx_brnd_MSLogoContainer">
+                        <!--[if lte IE 6]><div id="gsfx_brnd_legacy_MSLogo"></div><![endif]-->
+                        <img id="gsfx_brnd_MSLogo" alt="Microsoft" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/gsfx_brnd_ms_logo_sml_wht.png">
+                        <img id="gsfx_brnd_MSLogoPrint" alt="Microsoft" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/gsfx_brnd_ms_logo_sml_blk.png">
+                    </div>
+                    <span id="gsfx_brnd_copyright">©2008 Microsoft</span>
+                </td>
+            </tr></tbody></table>
+        </div>
+    </div>
+</div>
+</div>
+<style type="text/css">   
+    #gsfx_brnd_CenterContent, #gsfx_brnd_PageWrapper
+    {
+        background: url('/library/images/support/cn/gsfx_brnd_gn_bottom_bgrd.png') repeat-x bottom;
+    }    
+</style>
+<script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/branding.js"></script><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/wtInit.js"></script><script type="text/javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/wtCore.js"></script><noscript><img
+alt="" id="DCSIMG" width="1" height="1"
+src="http://m.webtrends.com/dcsxia05c00000s926v0z4tru_3w4l/njs.gif?dcsuri=/nojavascript&WT.js=No"
+/></noscript><img id="webmetriximg" alt="" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/trans_pixel.gif"><noscript><img
+id="StatsDotNetImgNoScript" alt=""
+src="http://support.microsoft.com/LTS/default.aspx?SSID=1&#38;SiteLCID=1031&#38;SsVersion=GSS4.7&#38;SiteCulture=de&#38;ContentCulture=en-us&#38;In404Url=&#38;EventCollectionID=1&#38;URL=%2fdefault.aspx&#38;ContentType=kb&#38;ContentLCID=1033&#38;ContentID=122675&#38;Platform=windows%20nt%205.1&#38;BrandID=1&#38;ContentProperties=6%3d9%7c7%3d3.0%7c"
+/></noscript><img id="StatsDotNetImg" name="StatsDotNetImg" alt="" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/default.gif"><script type="text/javascript">StatsDotNet.disabled=false;StatsDotNet.host='http\x3a\x2f\x2fsupport.microsoft.com\x2fLTS\x2fdefault.aspx';StatsDotNet.ssId='1';StatsDotNet.siteLcId='1031';StatsDotNet.SiteCulture='de';StatsDotNet.SsVersion='GSS4.7';StatsDotNet.url='\x2fdefault.aspx';StatsDotNet.ContentCulture ='en-us';StatsDotNet.contentType='kb';StatsDotNet.contentLn='1033';StatsDotNet.contentId='122675';StatsDotNet.platform='windows nt 5.1';StatsDotNet.eventCollectionId=1;StatsDotNet.siteBrandId='1';StatsDotNet.onUnloadTimeout=300;StatsDotNet.userAgentString='mozilla\x2f5.0 \x28windows\x3b u\x3b windows nt 5.1\x3b de\x3b rv\x3a1.9.0.4\x29 gecko\x2f2008102920 firefox\x2f3.0.4';StatsDotNet.ContentProperties='6\x3d9\x7c7\x3d3.0\x7c';</script><script type="text/javascript">function isDomainTracking(){var entry = fetchcookieval('fmshb');if (entry){try{return entry.split(',')[0] == '1' ? true : false;}catch (e){return false;}}return false;};window.setInterval("document.cookie = 'fmshb=' + (isDomainTracking() ? '1' : '0') + ',' + new Date().getTime() + ';path=/'", 1000);</script><script type="text/javascript">var CookieDef = 'ST_GN_DE';function fmsLastExp(){     var visits = fetchcookieval(CookieDef);     var parts = visits.split('_');     if(null == visits || parts.length != 3 || isNaN(parts[0]))     {         setcookieval(CookieDef, '1_0_0');         return 0;     }     return parseInt(parts[2]);}function fmsSurveyExpired(days){     var MiliDay = 86400000;     var visits = fetchcookieval(CookieDef);     var parts = visits.split('_');     if(null == visits || parts.length != 3 || isNaN(parts[0]))     {         setcookieval(CookieDef, '1_0_0');         return true;     }     var origDate = parseInt(parts[1]);     var curDate = new Date();     return (curDate.getTime()/MiliDay - days) >= origDate;}function activateSiteSurvey(){     if(window.top == window && !isDomainTracking() && enableSiteSurvey && fmsSurveyExpired(fmsLastExp()))     {         document.write('<script language="javascript" src="/library/svy/broker.js"></scr'+'ipt>');     }}</script><script language="javascript">if(surveyTrigger.triggerInit(0)){surveyTrigger.fireTrigger('/common/survey.aspx?scid=sw;de;1365&XSL=','gn','gn','gn','de','http\x253a\x252f\x252fsupport.microsoft.com\x252fdefault.aspx\x252fkb\x252f122675\x252fen-us','kb','en-us','122675','','','','','','','');}else{activateSiteSurvey();}</script><script language="javascript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/broker.js"></script><script language="JavaScript" src="Windows%20DLLs%20and%20Heap%20Management-Dateien/SiteRecruit_PageConfiguration_2944mt.js"></script><script type="text/javascript">function thisLoad(){KBFeedBackShowSurvey();MS_WebMetrix('http\x3a\x2f\x2fc.microsoft.com\x2ftrans_pixel.asp\x3fTYPE\x3dSSPV\x26SOURCE\x3dSUPPORT\x26GUID\x3d1F4FC18C-F71E-47fb-8FC9-612F8EE59C61\x26URI\x3d\x252fgn\x252fde\x252fkb_en-us_122675\x26R\x3d');StatsDotNet.LogPageOnLoad();}function thisUnload(){}</script><script src="Windows%20DLLs%20and%20Heap%20Management-Dateien/gsfxsurvey.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,2868 @@
+<html><head><title>NASM Manual</title></head>
+<body><h1 align=center>The Netwide Assembler: NASM</h1>
+
+<p align=center><a href="nasmdoc0.htm">Contents</a>
+<p><code><nobr>!=</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>$</nobr></code> Here token:
+<a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+<code><nobr>$$</nobr></code> token:
+<a href="nasmdoc3.htm#section-3.5">Section 3.5</a>,
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>%</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>%$</nobr></code> and <code><nobr>%$$</nobr></code> prefixes:
+<a href="nasmdoc4.htm#section-4.6.2">Section 4.6.2</a>
+<br>
+<code><nobr>%%</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>,
+<a href="nasmdoc4.htm#section-4.2.2">Section 4.2.2</a>
+<br>
+<code><nobr>%+1</nobr></code> and <code><nobr>%-1</nobr></code> syntax:
+<a href="nasmdoc4.htm#section-4.2.8">Section 4.2.8</a>
+<br>
+<code><nobr>%0</nobr></code> parameter count:
+<a href="nasmdoc4.htm#section-4.2.4">Section 4.2.4</a>,
+<a href="nasmdoc4.htm#section-4.2.5">Section 4.2.5</a>
+<br>
+<code><nobr>&amp;</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.3">Section 3.5.3</a>
+<br>
+<code><nobr>&amp;&amp;</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>*</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>+</nobr></code> modifier:
+<a href="nasmdoc4.htm#section-4.2.3">Section 4.2.3</a>
+<br>
+<code><nobr>+</nobr></code> operator, binary:
+<a href="nasmdoc3.htm#section-3.5.5">Section 3.5.5</a>
+<br>
+<code><nobr>+</nobr></code> operator, unary:
+<a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>
+<br>
+<code><nobr>-</nobr></code> operator, binary:
+<a href="nasmdoc3.htm#section-3.5.5">Section 3.5.5</a>
+<br>
+<code><nobr>-</nobr></code> operator, unary:
+<a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>
+<br>
+<code><nobr>..@</nobr></code> symbol prefix:
+<a href="nasmdoc3.htm#section-3.8">Section 3.8</a>,
+<a href="nasmdoc4.htm#section-4.2.2">Section 4.2.2</a>
+<br>
+<code><nobr>/</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>//</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>&lt;</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>&lt;&lt;</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.4">Section 3.5.4</a>
+<br>
+<code><nobr>&lt;=</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>&lt;&gt;</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>=</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>==</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>&gt;</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>&gt;=</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>&gt;&gt;</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.4">Section 3.5.4</a>
+<br>
+<code><nobr>?</nobr></code> MASM syntax:
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+<code><nobr>^</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.2">Section 3.5.2</a>
+<br>
+<code><nobr>^^</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>|</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.1">Section 3.5.1</a>
+<br>
+<code><nobr>||</nobr></code> operator:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>~</nobr></code> operator:
+<a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>
+<br>
+<code><nobr>-a</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.11">Section 2.1.11</a>
+<br>
+<code><nobr>a16</nobr></code>:
+<a href="nasmdoc9.htm#section-9.3">Section 9.3</a>,
+<a href="nasmdoca.htm#section-A.24">Section A.24</a>,
+<a href="nasmdoca.htm#section-A.98">Section A.98</a>,
+<a href="nasmdoca.htm#section-A.117">Section A.117</a>,
+<a href="nasmdoca.htm#section-A.137">Section A.137</a>,
+<a href="nasmdoca.htm#section-A.149">Section A.149</a>,
+<a href="nasmdoca.htm#section-A.193">Section A.193</a>,
+<a href="nasmdoca.htm#section-A.206">Section A.206</a>,
+<a href="nasmdoca.htm#section-A.229">Section A.229</a>,
+<a href="nasmdoca.htm#section-A.243">Section A.243</a>,
+<a href="nasmdoca.htm#section-A.269">Section A.269</a>
+<br>
+<code><nobr>a32</nobr></code>:
+<a href="nasmdoc9.htm#section-9.3">Section 9.3</a>,
+<a href="nasmdoca.htm#section-A.24">Section A.24</a>,
+<a href="nasmdoca.htm#section-A.98">Section A.98</a>,
+<a href="nasmdoca.htm#section-A.117">Section A.117</a>,
+<a href="nasmdoca.htm#section-A.137">Section A.137</a>,
+<a href="nasmdoca.htm#section-A.149">Section A.149</a>,
+<a href="nasmdoca.htm#section-A.193">Section A.193</a>,
+<a href="nasmdoca.htm#section-A.206">Section A.206</a>,
+<a href="nasmdoca.htm#section-A.229">Section A.229</a>,
+<a href="nasmdoca.htm#section-A.243">Section A.243</a>,
+<a href="nasmdoca.htm#section-A.269">Section A.269</a>
+<br>
+<code><nobr>a86</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc2.htm#section-2.2">Section 2.2</a>,
+<a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>,
+<a href="nasmdoc2.htm#section-2.2.6">Section 2.2.6</a>
+<br>
+<code><nobr>AAA</nobr></code>:
+<a href="nasmdoca.htm#section-A.4">Section A.4</a>
+<br>
+<code><nobr>AAD</nobr></code>:
+<a href="nasmdoca.htm#section-A.4">Section A.4</a>
+<br>
+<code><nobr>AAM</nobr></code>:
+<a href="nasmdoca.htm#section-A.4">Section A.4</a>
+<br>
+<code><nobr>AAS</nobr></code>:
+<a href="nasmdoca.htm#section-A.4">Section A.4</a>
+<br>
+<code><nobr>ABSOLUTE</nobr></code>:
+<a href="nasmdoc5.htm#section-5.3">Section 5.3</a>,
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>ADC</nobr></code>:
+<a href="nasmdoca.htm#section-A.5">Section A.5</a>
+<br>
+<code><nobr>ADD</nobr></code>:
+<a href="nasmdoca.htm#section-A.6">Section A.6</a>
+<br>
+addition: <a href="nasmdoc3.htm#section-3.5.5">Section 3.5.5</a>
+<br>
+<code><nobr>ADDPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.7">Section A.7</a>
+<br>
+addressing, mixed-size: <a href="nasmdoc9.htm#section-9.2">Section 9.2</a>
+<br>
+address-size prefixes: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+<code><nobr>ADDSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.8">Section A.8</a>
+<br>
+algebra: <a href="nasmdoc3.htm#section-3.3">Section 3.3</a>
+<br>
+<code><nobr>ALIGN</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.5">Section 4.7.5</a>,
+<a href="nasmdoc6.htm#section-6.1.2">Section 6.1.2</a>,
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>ALIGNB</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.5">Section 4.7.5</a>
+<br>
+alignment, in <code><nobr>bin</nobr></code> sections:
+<a href="nasmdoc6.htm#section-6.1.2">Section 6.1.2</a>
+<br>
+alignment, in <code><nobr>elf</nobr></code> sections:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+alignment, in <code><nobr>obj</nobr></code> sections:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+alignment, in <code><nobr>win32</nobr></code> sections:
+<a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>
+<br>
+alignment, of <code><nobr>elf</nobr></code> common variables:
+<a href="nasmdoc6.htm#section-6.5.4">Section 6.5.4</a>
+<br>
+<code><nobr>alloc</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>alt.lang.asm</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+ambiguity: <a href="nasmdoc2.htm#section-2.2.3">Section 2.2.3</a>
+<br>
+<code><nobr>AND</nobr></code>:
+<a href="nasmdoca.htm#section-A.9">Section A.9</a>
+<br>
+<code><nobr>ANDNPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.10">Section A.10</a>
+<br>
+<code><nobr>ANDPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.11">Section A.11</a>
+<br>
+<code><nobr>a.out</nobr></code>, BSD version:
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>
+<br>
+<code><nobr>a.out</nobr></code>, Linux version:
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>
+<br>
+<code><nobr>aout</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>
+<br>
+<code><nobr>aoutb</nobr></code>:
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+<code><nobr>arg</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc8.htm#section-8.1.4">Section 8.1.4</a>
+<br>
+<code><nobr>ARPL</nobr></code>:
+<a href="nasmdoca.htm#section-A.12">Section A.12</a>
+<br>
+<code><nobr>as86</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>
+<br>
+assembler directives: <a href="nasmdoc5.htm">Chapter 5</a>
+<br>
+assembly passes: <a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+assembly-time options:
+<a href="nasmdoc2.htm#section-2.1.8">Section 2.1.8</a>
+<br>
+<code><nobr>%assign</nobr></code>:
+<a href="nasmdoc4.htm#section-4.1.4">Section 4.1.4</a>
+<br>
+<code><nobr>ASSUME</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.4">Section 2.2.4</a>
+<br>
+<code><nobr>AT</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.4">Section 4.7.4</a>
+<br>
+Autoconf: <a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>autoexec.bat</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>bin</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc2.htm#section-2.1.2">Section 2.1.2</a>,
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+binary: <a href="nasmdoc3.htm#section-3.4.1">Section 3.4.1</a>
+<br>
+binary files: <a href="nasmdoc3.htm#section-3.2.3">Section 3.2.3</a>
+<br>
+16-bit mode, versus 32-bit mode:
+<a href="nasmdoc5.htm#section-5.1">Section 5.1</a>
+<br>
+bit shift: <a href="nasmdoc3.htm#section-3.5.4">Section 3.5.4</a>
+<br>
+<code><nobr>BITS</nobr></code>:
+<a href="nasmdoc5.htm#section-5.1">Section 5.1</a>,
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+bitwise AND: <a href="nasmdoc3.htm#section-3.5.3">Section 3.5.3</a>
+<br>
+bitwise OR: <a href="nasmdoc3.htm#section-3.5.1">Section 3.5.1</a>
+<br>
+bitwise XOR: <a href="nasmdoc3.htm#section-3.5.2">Section 3.5.2</a>
+<br>
+block IFs: <a href="nasmdoc4.htm#section-4.6.5">Section 4.6.5</a>
+<br>
+boot loader: <a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+boot sector: <a href="nasmdo10.htm#section-10.1.3">Section 10.1.3</a>
+<br>
+Borland, Pascal: <a href="nasmdoc7.htm#section-7.5">Section 7.5</a>
+<br>
+Borland, Win32 compilers:
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>BOUND</nobr></code>:
+<a href="nasmdoca.htm#section-A.13">Section A.13</a>
+<br>
+braces, after <code><nobr>%</nobr></code> sign:
+<a href="nasmdoc4.htm#section-4.2.7">Section 4.2.7</a>
+<br>
+braces, around macro parameters:
+<a href="nasmdoc4.htm#section-4.2">Section 4.2</a>
+<br>
+BSD: <a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+<code><nobr>BSF</nobr></code>:
+<a href="nasmdoca.htm#section-A.14">Section A.14</a>
+<br>
+<code><nobr>BSR</nobr></code>:
+<a href="nasmdoca.htm#section-A.14">Section A.14</a>
+<br>
+<code><nobr>.bss</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>,
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>BSWAP</nobr></code>:
+<a href="nasmdoca.htm#section-A.15">Section A.15</a>
+<br>
+<code><nobr>BT</nobr></code>:
+<a href="nasmdoca.htm#section-A.16">Section A.16</a>
+<br>
+<code><nobr>BTC</nobr></code>:
+<a href="nasmdoca.htm#section-A.16">Section A.16</a>
+<br>
+<code><nobr>BTR</nobr></code>:
+<a href="nasmdoca.htm#section-A.16">Section A.16</a>
+<br>
+<code><nobr>BTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.16">Section A.16</a>
+<br>
+bugs: <a href="nasmdo10.htm#section-10.2">Section 10.2</a>
+<br>
+<code><nobr>BYTE</nobr></code>:
+<a href="nasmdo10.htm#section-10.1.1">Section 10.1.1</a>
+<br>
+C calling convention:
+<a href="nasmdoc7.htm#section-7.4.3">Section 7.4.3</a>,
+<a href="nasmdoc8.htm#section-8.1.2">Section 8.1.2</a>
+<br>
+C symbol names: <a href="nasmdoc7.htm#section-7.4.1">Section 7.4.1</a>
+<br>
+<code><nobr>CALL</nobr></code>:
+<a href="nasmdoca.htm#section-A.17">Section A.17</a>
+<br>
+<code><nobr>CALL FAR</nobr></code>:
+<a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+case sensitivity: <a href="nasmdoc2.htm#section-2.2.1">Section 2.2.1</a>,
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>,
+<a href="nasmdoc4.htm#section-4.1.4">Section 4.1.4</a>,
+<a href="nasmdoc4.htm#section-4.2">Section 4.2</a>,
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>,
+<a href="nasmdoc6.htm#section-6.2.3">Section 6.2.3</a>
+<br>
+<code><nobr>CBW</nobr></code>:
+<a href="nasmdoca.htm#section-A.18">Section A.18</a>
+<br>
+<code><nobr>CDQ</nobr></code>:
+<a href="nasmdoca.htm#section-A.18">Section A.18</a>
+<br>
+changing sections: <a href="nasmdoc5.htm#section-5.2">Section 5.2</a>
+<br>
+character constant:
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.2">Section 3.4.2</a>
+<br>
+circular references:
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>
+<br>
+<code><nobr>CLASS</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>CLC</nobr></code>:
+<a href="nasmdoca.htm#section-A.19">Section A.19</a>
+<br>
+<code><nobr>CLD</nobr></code>:
+<a href="nasmdoca.htm#section-A.19">Section A.19</a>
+<br>
+<code><nobr>%clear</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7">Section 4.7</a>
+<br>
+<code><nobr>CLI</nobr></code>:
+<a href="nasmdoca.htm#section-A.19">Section A.19</a>
+<br>
+<code><nobr>CLTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.19">Section A.19</a>
+<br>
+<code><nobr>c16.mac</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc7.htm#section-7.5.3">Section 7.5.3</a>
+<br>
+<code><nobr>c32.mac</nobr></code>:
+<a href="nasmdoc8.htm#section-8.1.4">Section 8.1.4</a>
+<br>
+<code><nobr>CMC</nobr></code>:
+<a href="nasmdoca.htm#section-A.20">Section A.20</a>
+<br>
+<code><nobr>CMOVcc</nobr></code>:
+<a href="nasmdoca.htm#section-A.21">Section A.21</a>
+<br>
+<code><nobr>CMP</nobr></code>:
+<a href="nasmdoca.htm#section-A.22">Section A.22</a>
+<br>
+<code><nobr>CMPccPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.23">Section A.23</a>
+<br>
+<code><nobr>CMPccSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.25">Section A.25</a>
+<br>
+<code><nobr>CMPSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.24">Section A.24</a>
+<br>
+<code><nobr>CMPSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.24">Section A.24</a>
+<br>
+<code><nobr>CMPSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.24">Section A.24</a>
+<br>
+<code><nobr>CMPXCHG</nobr></code>:
+<a href="nasmdoca.htm#section-A.26">Section A.26</a>
+<br>
+<code><nobr>CMPXCHG486</nobr></code>:
+<a href="nasmdoca.htm#section-A.26">Section A.26</a>
+<br>
+<code><nobr>CMPXCHG8B</nobr></code>:
+<a href="nasmdoca.htm#section-A.27">Section A.27</a>
+<br>
+<code><nobr>coff</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.4">Section 6.4</a>
+<br>
+colon: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+<code><nobr>.COM</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc7.htm#section-7.2">Section 7.2</a>
+<br>
+<code><nobr>COMISS</nobr></code>:
+<a href="nasmdoca.htm#section-A.28">Section A.28</a>
+<br>
+command-line: <a href="nasmdoc2.htm#section-2.1">Section 2.1</a>,
+<a href="nasmdoc6.htm">Chapter 6</a>
+<br>
+commas in macro parameters:
+<a href="nasmdoc4.htm#section-4.2.3">Section 4.2.3</a>
+<br>
+<code><nobr>COMMON</nobr></code>:
+<a href="nasmdoc5.htm#section-5.6">Section 5.6</a>,
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>COMMON</nobr></code>, <code><nobr>elf</nobr></code> extensions
+to: <a href="nasmdoc6.htm#section-6.5.4">Section 6.5.4</a>
+<br>
+<code><nobr>COMMON</nobr></code>, <code><nobr>obj</nobr></code> extensions
+to: <a href="nasmdoc6.htm#section-6.2.8">Section 6.2.8</a>
+<br>
+Common Object File Format:
+<a href="nasmdoc6.htm#section-6.4">Section 6.4</a>
+<br>
+common variables: <a href="nasmdoc5.htm#section-5.6">Section 5.6</a>
+<br>
+common variables, alignment in <code><nobr>elf</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.4">Section 6.5.4</a>
+<br>
+common variables, element size:
+<a href="nasmdoc6.htm#section-6.2.8">Section 6.2.8</a>
+<br>
+<code><nobr>comp.archives.msdos.announce</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>comp.lang.asm.x86</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>comp.os.linux.announce</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>comp.os.msdos.programmer</nobr></code>:
+<a href="nasmdoc7.htm#section-7.3">Section 7.3</a>
+<br>
+concatenating macro parameters:
+<a href="nasmdoc4.htm#section-4.2.7">Section 4.2.7</a>
+<br>
+condition codes: <a href="nasmdoca.htm#section-A.2.2">Section A.2.2</a>
+<br>
+condition codes as macro parameters:
+<a href="nasmdoc4.htm#section-4.2.8">Section 4.2.8</a>
+<br>
+conditional assembly: <a href="nasmdoc4.htm#section-4.3">Section 4.3</a>
+<br>
+conditional jump: <a href="nasmdoca.htm#section-A.107">Section A.107</a>
+<br>
+conditional jumps:
+<a href="nasmdo10.htm#section-10.1.2">Section 10.1.2</a>
+<br>
+conditional-return macro:
+<a href="nasmdoc4.htm#section-4.2.8">Section 4.2.8</a>
+<br>
+<code><nobr>configure</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+constants: <a href="nasmdoc3.htm#section-3.4">Section 3.4</a>
+<br>
+context stack: <a href="nasmdoc4.htm#section-4.6">Section 4.6</a>,
+<a href="nasmdoc4.htm#section-4.6.5">Section 4.6.5</a>
+<br>
+context-local labels:
+<a href="nasmdoc4.htm#section-4.6.2">Section 4.6.2</a>
+<br>
+context-local single-line macros:
+<a href="nasmdoc4.htm#section-4.6.3">Section 4.6.3</a>
+<br>
+control registers: <a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+counting macro parameters:
+<a href="nasmdoc4.htm#section-4.2.5">Section 4.2.5</a>
+<br>
+<code><nobr>CPUID</nobr></code>:
+<a href="nasmdoc3.htm#section-3.4.2">Section 3.4.2</a>,
+<a href="nasmdoca.htm#section-A.29">Section A.29</a>
+<br>
+creating contexts: <a href="nasmdoc4.htm#section-4.6.1">Section 4.6.1</a>
+<br>
+critical expression:
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>,
+<a href="nasmdoc3.htm#section-3.2.4">Section 3.2.4</a>,
+<a href="nasmdoc3.htm#section-3.7">Section 3.7</a>,
+<a href="nasmdoc4.htm#section-4.1.4">Section 4.1.4</a>,
+<a href="nasmdoc5.htm#section-5.3">Section 5.3</a>
+<br>
+<code><nobr>CVTPI2PS</nobr></code>:
+<a href="nasmdoca.htm#section-A.30">Section A.30</a>
+<br>
+<code><nobr>CVTPS2PI</nobr></code>:
+<a href="nasmdoca.htm#section-A.31">Section A.31</a>
+<br>
+<code><nobr>CVTSI2SS</nobr></code>:
+<a href="nasmdoca.htm#section-A.32">Section A.32</a>
+<br>
+<code><nobr>CVTSS2SI</nobr></code>:
+<a href="nasmdoca.htm#section-A.33">Section A.33</a>
+<br>
+<code><nobr>CVTTPS2PI</nobr></code>:
+<a href="nasmdoca.htm#section-A.31">Section A.31</a>
+<br>
+<code><nobr>CVTTSS2SI</nobr></code>:
+<a href="nasmdoca.htm#section-A.33">Section A.33</a>
+<br>
+<code><nobr>CWD</nobr></code>:
+<a href="nasmdoca.htm#section-A.18">Section A.18</a>
+<br>
+<code><nobr>CWDE</nobr></code>:
+<a href="nasmdoca.htm#section-A.18">Section A.18</a>
+<br>
+<code><nobr>-D</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.8">Section 2.1.8</a>
+<br>
+<code><nobr>-d</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.8">Section 2.1.8</a>
+<br>
+<code><nobr>DAA</nobr></code>:
+<a href="nasmdoca.htm#section-A.34">Section A.34</a>
+<br>
+<code><nobr>DAS</nobr></code>:
+<a href="nasmdoca.htm#section-A.34">Section A.34</a>
+<br>
+<code><nobr>.data</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>,
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>_DATA</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.2">Section 7.4.2</a>
+<br>
+<code><nobr>data</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+data structure: <a href="nasmdoc7.htm#section-7.4.4">Section 7.4.4</a>,
+<a href="nasmdoc8.htm#section-8.1.3">Section 8.1.3</a>
+<br>
+<code><nobr>DB</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>
+<br>
+<code><nobr>dbg</nobr></code>:
+<a href="nasmdoc6.htm#section-6.10">Section 6.10</a>
+<br>
+<code><nobr>DD</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>,
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+debug registers: <a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+<code><nobr>DEC</nobr></code>:
+<a href="nasmdoca.htm#section-A.35">Section A.35</a>
+<br>
+declaring structures:
+<a href="nasmdoc4.htm#section-4.7.3">Section 4.7.3</a>
+<br>
+default macro parameters:
+<a href="nasmdoc4.htm#section-4.2.4">Section 4.2.4</a>
+<br>
+default name: <a href="nasmdoc6.htm">Chapter 6</a>
+<br>
+default-<code><nobr>WRT</nobr></code> mechanism:
+<a href="nasmdoc6.htm#section-6.2.7">Section 6.2.7</a>
+<br>
+<code><nobr>%define</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.8">Section 2.1.8</a>,
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>
+<br>
+defining sections: <a href="nasmdoc5.htm#section-5.2">Section 5.2</a>
+<br>
+design goals: <a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>
+<br>
+DevPac: <a href="nasmdoc3.htm#section-3.2.3">Section 3.2.3</a>,
+<a href="nasmdoc3.htm#section-3.8">Section 3.8</a>
+<br>
+disabling listing expansion:
+<a href="nasmdoc4.htm#section-4.2.9">Section 4.2.9</a>
+<br>
+<code><nobr>DIV</nobr></code>:
+<a href="nasmdoca.htm#section-A.36">Section A.36</a>
+<br>
+division: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>DIVPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.37">Section A.37</a>
+<br>
+<code><nobr>DIVSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.38">Section A.38</a>
+<br>
+DJGPP: <a href="nasmdoc6.htm#section-6.4">Section 6.4</a>,
+<a href="nasmdoc8.htm">Chapter 8</a>
+<br>
+<code><nobr>djlink</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+DLL symbols, exporting:
+<a href="nasmdoc6.htm#section-6.2.5">Section 6.2.5</a>
+<br>
+DLL symbols, importing:
+<a href="nasmdoc6.htm#section-6.2.4">Section 6.2.4</a>
+<br>
+DOS: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>,
+<a href="nasmdoc2.htm#section-2.1.4">Section 2.1.4</a>,
+<a href="nasmdoc2.htm#section-2.1.5">Section 2.1.5</a>
+<br>
+DOS archive: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+DOS source archive: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>DQ</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>,
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+<code><nobr>.drectve</nobr></code>:
+<a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>
+<br>
+<code><nobr>DT</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>,
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+<code><nobr>DUP</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.7">Section 2.2.7</a>,
+<a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>
+<br>
+<code><nobr>DW</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>
+<br>
+<code><nobr>DWORD</nobr></code>:
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+<code><nobr>-E</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.4">Section 2.1.4</a>
+<br>
+<code><nobr>-e</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.10">Section 2.1.10</a>
+<br>
+effective addresses: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>,
+<a href="nasmdoc3.htm#section-3.3">Section 3.3</a>,
+<a href="nasmdoc3.htm#section-3.7">Section 3.7</a>,
+<a href="nasmdoca.htm#section-A.2.3">Section A.2.3</a>
+<br>
+element size, in common variables:
+<a href="nasmdoc6.htm#section-6.2.8">Section 6.2.8</a>
+<br>
+<code><nobr>elf</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.5">Section 6.5</a>
+<br>
+<code><nobr>elf</nobr></code> shared libraries:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>%elif</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3">Section 4.3</a>,
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>%elifctx</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.2">Section 4.3.2</a>
+<br>
+<code><nobr>%elifdef</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.1">Section 4.3.1</a>
+<br>
+<code><nobr>%elifid</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%elifidn</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%elifidni</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%elifnctx</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.2">Section 4.3.2</a>
+<br>
+<code><nobr>%elifndef</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.1">Section 4.3.1</a>
+<br>
+<code><nobr>%elifnid</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%elifnidn</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%elifnidni</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%elifnnum</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%elifnstr</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%elifnum</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%elifstr</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%else</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3">Section 4.3</a>
+<br>
+e-mail: <a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>EMMS</nobr></code>:
+<a href="nasmdoca.htm#section-A.39">Section A.39</a>
+<br>
+<code><nobr>endproc</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc8.htm#section-8.1.4">Section 8.1.4</a>
+<br>
+<code><nobr>%endrep</nobr></code>:
+<a href="nasmdoc4.htm#section-4.4">Section 4.4</a>
+<br>
+<code><nobr>ENDSTRUC</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.3">Section 4.7.3</a>,
+<a href="nasmdoc5.htm#section-5.3">Section 5.3</a>
+<br>
+<code><nobr>ENTER</nobr></code>:
+<a href="nasmdoca.htm#section-A.40">Section A.40</a>
+<br>
+environment: <a href="nasmdoc2.htm#section-2.1.13">Section 2.1.13</a>
+<br>
+<code><nobr>EQU</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.4">Section 3.2.4</a>,
+<a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>%error</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.6">Section 4.3.6</a>
+<br>
+error messages: <a href="nasmdoc2.htm#section-2.1.4">Section 2.1.4</a>,
+<a href="nasmdoc2.htm#section-2.1.5">Section 2.1.5</a>
+<br>
+<code><nobr>EVEN</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.5">Section 4.7.5</a>
+<br>
+<code><nobr>.EXE</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>,
+<a href="nasmdoc7.htm#section-7.1">Section 7.1</a>
+<br>
+<code><nobr>EXE_begin</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.2">Section 7.1.2</a>
+<br>
+<code><nobr>EXE2BIN</nobr></code>:
+<a href="nasmdoc7.htm#section-7.2.2">Section 7.2.2</a>
+<br>
+<code><nobr>exebin.mac</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.2">Section 7.1.2</a>
+<br>
+<code><nobr>exec</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+executable and linkable format:
+<a href="nasmdoc6.htm#section-6.5">Section 6.5</a>
+<br>
+<code><nobr>EXE_end</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.2">Section 7.1.2</a>
+<br>
+<code><nobr>EXE_stack</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.2">Section 7.1.2</a>
+<br>
+<code><nobr>%exitrep</nobr></code>:
+<a href="nasmdoc4.htm#section-4.4">Section 4.4</a>
+<br>
+<code><nobr>EXPORT</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.5">Section 6.2.5</a>
+<br>
+exporting symbols: <a href="nasmdoc5.htm#section-5.5">Section 5.5</a>
+<br>
+expressions: <a href="nasmdoc2.htm#section-2.1.10">Section 2.1.10</a>,
+<a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+extension: <a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm">Chapter 6</a>
+<br>
+<code><nobr>EXTERN</nobr></code>:
+<a href="nasmdoc5.htm#section-5.4">Section 5.4</a>
+<br>
+extern, obj extensions to:
+<a href="nasmdoc6.htm#section-6.2.7">Section 6.2.7</a>
+<br>
+<code><nobr>-f</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.2">Section 2.1.2</a>,
+<a href="nasmdoc6.htm">Chapter 6</a>
+<br>
+<code><nobr>FABS</nobr></code>:
+<a href="nasmdoca.htm#section-A.42">Section A.42</a>
+<br>
+<code><nobr>FADD</nobr></code>:
+<a href="nasmdoca.htm#section-A.43">Section A.43</a>
+<br>
+<code><nobr>FADDP</nobr></code>:
+<a href="nasmdoca.htm#section-A.43">Section A.43</a>
+<br>
+far call: <a href="nasmdoc2.htm#section-2.2.5">Section 2.2.5</a>,
+<a href="nasmdoca.htm#section-A.17">Section A.17</a>
+<br>
+far common variables:
+<a href="nasmdoc6.htm#section-6.2.8">Section 6.2.8</a>
+<br>
+far jump: <a href="nasmdoca.htm#section-A.106">Section A.106</a>
+<br>
+far pointer: <a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+<code><nobr>FARCODE</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc7.htm#section-7.5.3">Section 7.5.3</a>
+<br>
+<code><nobr>FBLD</nobr></code>:
+<a href="nasmdoca.htm#section-A.44">Section A.44</a>
+<br>
+<code><nobr>FBSTP</nobr></code>:
+<a href="nasmdoca.htm#section-A.44">Section A.44</a>
+<br>
+<code><nobr>FCHS</nobr></code>:
+<a href="nasmdoca.htm#section-A.45">Section A.45</a>
+<br>
+<code><nobr>FCLEX</nobr></code>:
+<a href="nasmdoca.htm#section-A.46">Section A.46</a>
+<br>
+<code><nobr>FCMOVcc</nobr></code>:
+<a href="nasmdoca.htm#section-A.47">Section A.47</a>
+<br>
+<code><nobr>FCOM</nobr></code>:
+<a href="nasmdoca.htm#section-A.48">Section A.48</a>
+<br>
+<code><nobr>FCOMI</nobr></code>:
+<a href="nasmdoca.htm#section-A.48">Section A.48</a>
+<br>
+<code><nobr>FCOMIP</nobr></code>:
+<a href="nasmdoca.htm#section-A.48">Section A.48</a>
+<br>
+<code><nobr>FCOMP</nobr></code>:
+<a href="nasmdoca.htm#section-A.48">Section A.48</a>
+<br>
+<code><nobr>FCOMPP</nobr></code>:
+<a href="nasmdoca.htm#section-A.48">Section A.48</a>
+<br>
+<code><nobr>FCOS</nobr></code>:
+<a href="nasmdoca.htm#section-A.49">Section A.49</a>
+<br>
+<code><nobr>FDECSTP</nobr></code>:
+<a href="nasmdoca.htm#section-A.50">Section A.50</a>
+<br>
+<code><nobr>FDIV</nobr></code>:
+<a href="nasmdoca.htm#section-A.52">Section A.52</a>
+<br>
+<code><nobr>FDIVP</nobr></code>:
+<a href="nasmdoca.htm#section-A.52">Section A.52</a>
+<br>
+<code><nobr>FDIVR</nobr></code>:
+<a href="nasmdoca.htm#section-A.52">Section A.52</a>
+<br>
+<code><nobr>FDIVRP</nobr></code>:
+<a href="nasmdoca.htm#section-A.52">Section A.52</a>
+<br>
+<code><nobr>FEMMS</nobr></code>:
+<a href="nasmdoca.htm#section-A.53">Section A.53</a>
+<br>
+<code><nobr>FFREE</nobr></code>:
+<a href="nasmdoca.htm#section-A.54">Section A.54</a>
+<br>
+<code><nobr>FFREEP</nobr></code>:
+<a href="nasmdoca.htm#section-A.55">Section A.55</a>
+<br>
+<code><nobr>FIADD</nobr></code>:
+<a href="nasmdoca.htm#section-A.56">Section A.56</a>
+<br>
+<code><nobr>FICOM</nobr></code>:
+<a href="nasmdoca.htm#section-A.57">Section A.57</a>
+<br>
+<code><nobr>FICOMP</nobr></code>:
+<a href="nasmdoca.htm#section-A.57">Section A.57</a>
+<br>
+<code><nobr>FIDIV</nobr></code>:
+<a href="nasmdoca.htm#section-A.58">Section A.58</a>
+<br>
+<code><nobr>FIDIVR</nobr></code>:
+<a href="nasmdoca.htm#section-A.58">Section A.58</a>
+<br>
+<code><nobr>FILD</nobr></code>:
+<a href="nasmdoca.htm#section-A.59">Section A.59</a>
+<br>
+<code><nobr>__FILE__</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.2">Section 4.7.2</a>
+<br>
+<code><nobr>FIMUL</nobr></code>:
+<a href="nasmdoca.htm#section-A.60">Section A.60</a>
+<br>
+<code><nobr>FINCSTP</nobr></code>:
+<a href="nasmdoca.htm#section-A.61">Section A.61</a>
+<br>
+<code><nobr>FINIT</nobr></code>:
+<a href="nasmdoca.htm#section-A.62">Section A.62</a>
+<br>
+<code><nobr>FIST</nobr></code>:
+<a href="nasmdoca.htm#section-A.59">Section A.59</a>
+<br>
+<code><nobr>FISTP</nobr></code>:
+<a href="nasmdoca.htm#section-A.59">Section A.59</a>
+<br>
+<code><nobr>FISUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.63">Section A.63</a>
+<br>
+<code><nobr>FLAT</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+flat memory model: <a href="nasmdoc8.htm">Chapter 8</a>
+<br>
+flat-form binary: <a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+<code><nobr>FLD</nobr></code>:
+<a href="nasmdoca.htm#section-A.64">Section A.64</a>
+<br>
+<code><nobr>FLDCW</nobr></code>:
+<a href="nasmdoca.htm#section-A.66">Section A.66</a>
+<br>
+<code><nobr>FLDENV</nobr></code>:
+<a href="nasmdoca.htm#section-A.67">Section A.67</a>
+<br>
+<code><nobr>FLDxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.65">Section A.65</a>
+<br>
+floating-point: <a href="nasmdoc2.htm#section-2.2.6">Section 2.2.6</a>,
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>,
+<a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+floating-point, constants:
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+floating-point, registers:
+<a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+<code><nobr>FMUL</nobr></code>:
+<a href="nasmdoca.htm#section-A.68">Section A.68</a>
+<br>
+<code><nobr>FMULP</nobr></code>:
+<a href="nasmdoca.htm#section-A.68">Section A.68</a>
+<br>
+<code><nobr>FNCLEX</nobr></code>:
+<a href="nasmdoca.htm#section-A.46">Section A.46</a>
+<br>
+<code><nobr>FNINIT</nobr></code>:
+<a href="nasmdoca.htm#section-A.62">Section A.62</a>
+<br>
+<code><nobr>FNOP</nobr></code>:
+<a href="nasmdoca.htm#section-A.69">Section A.69</a>
+<br>
+format-specific directives: <a href="nasmdoc5.htm">Chapter 5</a>
+<br>
+forward references: <a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>FPATAN</nobr></code>:
+<a href="nasmdoca.htm#section-A.70">Section A.70</a>
+<br>
+<code><nobr>FPREM</nobr></code>:
+<a href="nasmdoca.htm#section-A.71">Section A.71</a>
+<br>
+<code><nobr>FPREM1</nobr></code>:
+<a href="nasmdoca.htm#section-A.71">Section A.71</a>
+<br>
+<code><nobr>FPTAN</nobr></code>:
+<a href="nasmdoca.htm#section-A.70">Section A.70</a>
+<br>
+frame pointer: <a href="nasmdoc7.htm#section-7.4.3">Section 7.4.3</a>,
+<a href="nasmdoc7.htm#section-7.5.1">Section 7.5.1</a>,
+<a href="nasmdoc8.htm#section-8.1.2">Section 8.1.2</a>
+<br>
+FreeBSD: <a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+FreeLink: <a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>FRNDINT</nobr></code>:
+<a href="nasmdoca.htm#section-A.72">Section A.72</a>
+<br>
+<code><nobr>FRSTOR</nobr></code>:
+<a href="nasmdoca.htm#section-A.73">Section A.73</a>
+<br>
+<code><nobr>FSAVE</nobr></code>:
+<a href="nasmdoca.htm#section-A.73">Section A.73</a>
+<br>
+<code><nobr>FSCALE</nobr></code>:
+<a href="nasmdoca.htm#section-A.74">Section A.74</a>
+<br>
+<code><nobr>FSETPM</nobr></code>:
+<a href="nasmdoca.htm#section-A.75">Section A.75</a>
+<br>
+<code><nobr>FSIN</nobr></code>:
+<a href="nasmdoca.htm#section-A.76">Section A.76</a>
+<br>
+<code><nobr>FSINCOS</nobr></code>:
+<a href="nasmdoca.htm#section-A.76">Section A.76</a>
+<br>
+<code><nobr>FSQRT</nobr></code>:
+<a href="nasmdoca.htm#section-A.77">Section A.77</a>
+<br>
+<code><nobr>FST</nobr></code>:
+<a href="nasmdoca.htm#section-A.78">Section A.78</a>
+<br>
+<code><nobr>FSTCW</nobr></code>:
+<a href="nasmdoca.htm#section-A.79">Section A.79</a>
+<br>
+<code><nobr>FSTENV</nobr></code>:
+<a href="nasmdoca.htm#section-A.80">Section A.80</a>
+<br>
+<code><nobr>FSTP</nobr></code>:
+<a href="nasmdoca.htm#section-A.78">Section A.78</a>
+<br>
+<code><nobr>FSTSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.81">Section A.81</a>
+<br>
+<code><nobr>FSUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.82">Section A.82</a>
+<br>
+<code><nobr>FSUBP</nobr></code>:
+<a href="nasmdoca.htm#section-A.82">Section A.82</a>
+<br>
+<code><nobr>FSUBR</nobr></code>:
+<a href="nasmdoca.htm#section-A.82">Section A.82</a>
+<br>
+<code><nobr>FSUBRP</nobr></code>:
+<a href="nasmdoca.htm#section-A.82">Section A.82</a>
+<br>
+<code><nobr>ftp.coast.net</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>ftp.kernel.org</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>ftp.simtel.net</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>,
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>FTST</nobr></code>:
+<a href="nasmdoca.htm#section-A.83">Section A.83</a>
+<br>
+<code><nobr>FUCOMxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.84">Section A.84</a>
+<br>
+<code><nobr>function</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+functions, C calling convention:
+<a href="nasmdoc7.htm#section-7.4.3">Section 7.4.3</a>,
+<a href="nasmdoc8.htm#section-8.1.2">Section 8.1.2</a>
+<br>
+functions, Pascal calling convention:
+<a href="nasmdoc7.htm#section-7.5.1">Section 7.5.1</a>
+<br>
+<code><nobr>FWAIT</nobr></code>:
+<a href="nasmdoca.htm#section-A.85">Section A.85</a>
+<br>
+<code><nobr>FXAM</nobr></code>:
+<a href="nasmdoca.htm#section-A.86">Section A.86</a>
+<br>
+<code><nobr>FXCH</nobr></code>:
+<a href="nasmdoca.htm#section-A.87">Section A.87</a>
+<br>
+<code><nobr>FxDISI</nobr></code>:
+<a href="nasmdoca.htm#section-A.51">Section A.51</a>
+<br>
+<code><nobr>FxENI</nobr></code>:
+<a href="nasmdoca.htm#section-A.51">Section A.51</a>
+<br>
+<code><nobr>F2XM1</nobr></code>:
+<a href="nasmdoca.htm#section-A.41">Section A.41</a>
+<br>
+<code><nobr>FXRSTOR</nobr></code>:
+<a href="nasmdoca.htm#section-A.88">Section A.88</a>
+<br>
+<code><nobr>FXSAVE</nobr></code>:
+<a href="nasmdoca.htm#section-A.89">Section A.89</a>
+<br>
+<code><nobr>FXTRACT</nobr></code>:
+<a href="nasmdoca.htm#section-A.90">Section A.90</a>
+<br>
+<code><nobr>FYL2X</nobr></code>:
+<a href="nasmdoca.htm#section-A.91">Section A.91</a>
+<br>
+<code><nobr>FYL2XP1</nobr></code>:
+<a href="nasmdoca.htm#section-A.91">Section A.91</a>
+<br>
+<code><nobr>gas</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>
+<br>
+<code><nobr>gcc</nobr></code>:
+<a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>
+<br>
+general purpose register:
+<a href="nasmdoca.htm#section-A.1">Section A.1</a>
+<br>
+<code><nobr>GLOBAL</nobr></code>:
+<a href="nasmdoc5.htm#section-5.5">Section 5.5</a>
+<br>
+<code><nobr>GLOBAL</nobr></code>, <code><nobr>aoutb</nobr></code>
+extensions to: <a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+<code><nobr>GLOBAL</nobr></code>, <code><nobr>elf</nobr></code> extensions
+to: <a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+global offset table: <a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+<code><nobr>_GLOBAL_OFFSET_TABLE_</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>..got</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>GOT</nobr></code> relocations:
+<a href="nasmdoc8.htm#section-8.2.3">Section 8.2.3</a>
+<br>
+GOT: <a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+<code><nobr>..gotoff</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>GOTOFF</nobr></code> relocations:
+<a href="nasmdoc8.htm#section-8.2.2">Section 8.2.2</a>
+<br>
+<code><nobr>..gotpc</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>GOTPC</nobr></code> relocations:
+<a href="nasmdoc8.htm#section-8.2.1">Section 8.2.1</a>
+<br>
+graphics: <a href="nasmdoc3.htm#section-3.2.3">Section 3.2.3</a>
+<br>
+greedy macro parameters:
+<a href="nasmdoc4.htm#section-4.2.3">Section 4.2.3</a>
+<br>
+<code><nobr>GROUP</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.2">Section 6.2.2</a>
+<br>
+groups: <a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+hex: <a href="nasmdoc3.htm#section-3.4.1">Section 3.4.1</a>
+<br>
+<code><nobr>HLT</nobr></code>:
+<a href="nasmdoca.htm#section-A.92">Section A.92</a>
+<br>
+hybrid syntaxes: <a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>
+<br>
+<code><nobr>-I</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>
+<br>
+<code><nobr>-i</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>
+<br>
+<code><nobr>%iassign</nobr></code>:
+<a href="nasmdoc4.htm#section-4.1.4">Section 4.1.4</a>
+<br>
+<code><nobr>IBTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.93">Section A.93</a>
+<br>
+<code><nobr>ICEBP</nobr></code>:
+<a href="nasmdoca.htm#section-A.100">Section A.100</a>
+<br>
+<code><nobr>%idefine</nobr></code>:
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>
+<br>
+<code><nobr>IDIV</nobr></code>:
+<a href="nasmdoca.htm#section-A.94">Section A.94</a>
+<br>
+<code><nobr>IEND</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.4">Section 4.7.4</a>
+<br>
+<code><nobr>%if</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3">Section 4.3</a>,
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>%ifctx</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.2">Section 4.3.2</a>,
+<a href="nasmdoc4.htm#section-4.6.5">Section 4.6.5</a>
+<br>
+<code><nobr>%ifdef</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.1">Section 4.3.1</a>
+<br>
+<code><nobr>%ifid</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%ifidn</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%ifidni</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%ifnctx</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.2">Section 4.3.2</a>
+<br>
+<code><nobr>%ifndef</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.1">Section 4.3.1</a>
+<br>
+<code><nobr>%ifnid</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%ifnidn</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%ifnidni</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+<code><nobr>%ifnnum</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%ifnstr</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%ifnum</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%ifstr</nobr></code>:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>%imacro</nobr></code>:
+<a href="nasmdoc4.htm#section-4.2">Section 4.2</a>
+<br>
+immediate operand: <a href="nasmdoca.htm#section-A.1">Section A.1</a>
+<br>
+immediate single-line macros:
+<a href="nasmdoc4.htm#section-4.1.2">Section 4.1.2</a>
+<br>
+<code><nobr>IMPORT</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.4">Section 6.2.4</a>
+<br>
+import library: <a href="nasmdoc6.htm#section-6.2.4">Section 6.2.4</a>
+<br>
+importing symbols: <a href="nasmdoc5.htm#section-5.4">Section 5.4</a>
+<br>
+<code><nobr>IMUL</nobr></code>:
+<a href="nasmdoca.htm#section-A.95">Section A.95</a>
+<br>
+<code><nobr>IN</nobr></code>:
+<a href="nasmdoca.htm#section-A.96">Section A.96</a>
+<br>
+<code><nobr>INC</nobr></code>:
+<a href="nasmdoca.htm#section-A.97">Section A.97</a>
+<br>
+<code><nobr>INCBIN</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.3">Section 3.2.3</a>,
+<a href="nasmdoc3.htm#section-3.4.3">Section 3.4.3</a>
+<br>
+<code><nobr>%include</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>,
+<a href="nasmdoc2.htm#section-2.1.7">Section 2.1.7</a>,
+<a href="nasmdoc4.htm#section-4.5">Section 4.5</a>
+<br>
+include search path:
+<a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>
+<br>
+including other files: <a href="nasmdoc4.htm#section-4.5">Section 4.5</a>
+<br>
+inefficient code: <a href="nasmdo10.htm#section-10.1.1">Section 10.1.1</a>
+<br>
+infinite loop: <a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+informational section:
+<a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>
+<br>
+<code><nobr>INSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.98">Section A.98</a>
+<br>
+<code><nobr>INSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.98">Section A.98</a>
+<br>
+<code><nobr>INSTALL</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+installing: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+instances of structures:
+<a href="nasmdoc4.htm#section-4.7.4">Section 4.7.4</a>
+<br>
+<code><nobr>INSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.98">Section A.98</a>
+<br>
+<code><nobr>INT</nobr></code>:
+<a href="nasmdoca.htm#section-A.99">Section A.99</a>
+<br>
+<code><nobr>INT01</nobr></code>:
+<a href="nasmdoca.htm#section-A.100">Section A.100</a>
+<br>
+<code><nobr>INT1</nobr></code>:
+<a href="nasmdoca.htm#section-A.100">Section A.100</a>
+<br>
+<code><nobr>INT3</nobr></code>:
+<a href="nasmdoca.htm#section-A.100">Section A.100</a>
+<br>
+integer overflow: <a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+intel number formats:
+<a href="nasmdoc3.htm#section-3.4.4">Section 3.4.4</a>
+<br>
+<code><nobr>INTO</nobr></code>:
+<a href="nasmdoca.htm#section-A.101">Section A.101</a>
+<br>
+<code><nobr>INVD</nobr></code>:
+<a href="nasmdoca.htm#section-A.102">Section A.102</a>
+<br>
+<code><nobr>INVLPG</nobr></code>:
+<a href="nasmdoca.htm#section-A.103">Section A.103</a>
+<br>
+<code><nobr>IRET</nobr></code>:
+<a href="nasmdoca.htm#section-A.104">Section A.104</a>
+<br>
+<code><nobr>IRETD</nobr></code>:
+<a href="nasmdoca.htm#section-A.104">Section A.104</a>
+<br>
+<code><nobr>IRETW</nobr></code>:
+<a href="nasmdoca.htm#section-A.104">Section A.104</a>
+<br>
+<code><nobr>ISTRUC</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.4">Section 4.7.4</a>
+<br>
+iterating over macro parameters:
+<a href="nasmdoc4.htm#section-4.2.6">Section 4.2.6</a>
+<br>
+<code><nobr>Jcc</nobr></code>:
+<a href="nasmdoca.htm#section-A.107">Section A.107</a>
+<br>
+<code><nobr>Jcc NEAR</nobr></code>:
+<a href="nasmdo10.htm#section-10.1.2">Section 10.1.2</a>
+<br>
+<code><nobr>JCXZ</nobr></code>:
+<a href="nasmdoca.htm#section-A.105">Section A.105</a>
+<br>
+<code><nobr>JECXZ</nobr></code>:
+<a href="nasmdoca.htm#section-A.105">Section A.105</a>
+<br>
+<code><nobr>JMP</nobr></code>:
+<a href="nasmdoca.htm#section-A.106">Section A.106</a>
+<br>
+<code><nobr>JMP DWORD</nobr></code>:
+<a href="nasmdoc9.htm#section-9.1">Section 9.1</a>
+<br>
+jumps, mixed-size: <a href="nasmdoc9.htm#section-9.1">Section 9.1</a>
+<br>
+<code><nobr>-l</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.3">Section 2.1.3</a>
+<br>
+label prefix: <a href="nasmdoc3.htm#section-3.8">Section 3.8</a>
+<br>
+<code><nobr>LAHF</nobr></code>:
+<a href="nasmdoca.htm#section-A.108">Section A.108</a>
+<br>
+<code><nobr>LAR</nobr></code>:
+<a href="nasmdoca.htm#section-A.109">Section A.109</a>
+<br>
+<code><nobr>ld86</nobr></code>:
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>
+<br>
+<code><nobr>LDMXCSR</nobr></code>:
+<a href="nasmdoca.htm#section-A.111">Section A.111</a>
+<br>
+<code><nobr>LDS</nobr></code>:
+<a href="nasmdoca.htm#section-A.110">Section A.110</a>
+<br>
+<code><nobr>LEA</nobr></code>:
+<a href="nasmdoca.htm#section-A.112">Section A.112</a>
+<br>
+<code><nobr>LEAVE</nobr></code>:
+<a href="nasmdoca.htm#section-A.113">Section A.113</a>
+<br>
+<code><nobr>LES</nobr></code>:
+<a href="nasmdoca.htm#section-A.110">Section A.110</a>
+<br>
+<code><nobr>LFS</nobr></code>:
+<a href="nasmdoca.htm#section-A.110">Section A.110</a>
+<br>
+<code><nobr>LGDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.114">Section A.114</a>
+<br>
+<code><nobr>LGS</nobr></code>:
+<a href="nasmdoca.htm#section-A.110">Section A.110</a>
+<br>
+<code><nobr>LIBRARY</nobr></code>:
+<a href="nasmdoc6.htm#section-6.9.1">Section 6.9.1</a>
+<br>
+licence: <a href="nasmdoc1.htm#section-1.1.2">Section 1.1.2</a>
+<br>
+<code><nobr>LIDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.114">Section A.114</a>
+<br>
+<code><nobr>__LINE__</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.2">Section 4.7.2</a>
+<br>
+linker, free: <a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+Linux ELF: <a href="nasmdoc6.htm#section-6.5">Section 6.5</a>
+<br>
+listing file: <a href="nasmdoc2.htm#section-2.1.3">Section 2.1.3</a>
+<br>
+little-endian: <a href="nasmdoc3.htm#section-3.4.2">Section 3.4.2</a>
+<br>
+<code><nobr>LLDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.114">Section A.114</a>
+<br>
+<code><nobr>LMSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.115">Section A.115</a>
+<br>
+<code><nobr>LOADALL</nobr></code>:
+<a href="nasmdoca.htm#section-A.116">Section A.116</a>
+<br>
+<code><nobr>LOADALL286</nobr></code>:
+<a href="nasmdoca.htm#section-A.116">Section A.116</a>
+<br>
+local labels: <a href="nasmdoc3.htm#section-3.8">Section 3.8</a>
+<br>
+<code><nobr>LODSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.117">Section A.117</a>
+<br>
+<code><nobr>LODSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.117">Section A.117</a>
+<br>
+<code><nobr>LODSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.117">Section A.117</a>
+<br>
+logical AND: <a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+logical OR: <a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+logical XOR: <a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+<code><nobr>LOOP</nobr></code>:
+<a href="nasmdoca.htm#section-A.118">Section A.118</a>
+<br>
+<code><nobr>LOOPE</nobr></code>:
+<a href="nasmdoca.htm#section-A.118">Section A.118</a>
+<br>
+<code><nobr>LOOPNE</nobr></code>:
+<a href="nasmdoca.htm#section-A.118">Section A.118</a>
+<br>
+<code><nobr>LOOPNZ</nobr></code>:
+<a href="nasmdoca.htm#section-A.118">Section A.118</a>
+<br>
+<code><nobr>LOOPZ</nobr></code>:
+<a href="nasmdoca.htm#section-A.118">Section A.118</a>
+<br>
+<code><nobr>LSL</nobr></code>:
+<a href="nasmdoca.htm#section-A.119">Section A.119</a>
+<br>
+<code><nobr>LSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.110">Section A.110</a>
+<br>
+<code><nobr>LTR</nobr></code>:
+<a href="nasmdoca.htm#section-A.120">Section A.120</a>
+<br>
+<code><nobr>%macro</nobr></code>:
+<a href="nasmdoc4.htm#section-4.2">Section 4.2</a>
+<br>
+macro library: <a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>
+<br>
+macro processor: <a href="nasmdoc4.htm">Chapter 4</a>
+<br>
+macro-local labels: <a href="nasmdoc4.htm#section-4.2.2">Section 4.2.2</a>
+<br>
+<code><nobr>macro-params</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>
+<br>
+macros: <a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>
+<br>
+<code><nobr>make</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+makefiles: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>,
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>Makefile.unx</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+man pages: <a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>MASKMOVQ</nobr></code>:
+<a href="nasmdoca.htm#section-A.121">Section A.121</a>
+<br>
+MASM: <a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc2.htm#section-2.2">Section 2.2</a>,
+<a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>MAXPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.122">Section A.122</a>
+<br>
+<code><nobr>MAXSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.123">Section A.123</a>
+<br>
+memory models: <a href="nasmdoc2.htm#section-2.2.5">Section 2.2.5</a>,
+<a href="nasmdoc7.htm#section-7.4.2">Section 7.4.2</a>
+<br>
+memory operand: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+memory references: <a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>,
+<a href="nasmdoc3.htm#section-3.3">Section 3.3</a>,
+<a href="nasmdoca.htm#section-A.1">Section A.1</a>
+<br>
+Microsoft OMF: <a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>MINPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.124">Section A.124</a>
+<br>
+<code><nobr>MINSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.125">Section A.125</a>
+<br>
+<code><nobr>misc</nobr></code> subdirectory:
+<a href="nasmdoc7.htm#section-7.1.2">Section 7.1.2</a>,
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc8.htm#section-8.1.4">Section 8.1.4</a>
+<br>
+mixed-language program: <a href="nasmdoc7.htm#section-7.4">Section 7.4</a>
+<br>
+mixed-size addressing: <a href="nasmdoc9.htm#section-9.2">Section 9.2</a>
+<br>
+mixed-size instruction: <a href="nasmdoc9.htm#section-9.1">Section 9.1</a>
+<br>
+MMX registers: <a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+ModR/M byte: <a href="nasmdoca.htm#section-A.2">Section A.2</a>,
+<a href="nasmdoca.htm#section-A.2.3">Section A.2.3</a>
+<br>
+modulo operators: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>MOV</nobr></code>:
+<a href="nasmdoca.htm#section-A.126">Section A.126</a>
+<br>
+<code><nobr>MOVAPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.127">Section A.127</a>
+<br>
+<code><nobr>MOVD</nobr></code>:
+<a href="nasmdoca.htm#section-A.128">Section A.128</a>
+<br>
+<code><nobr>MOVHLPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.129">Section A.129</a>
+<br>
+<code><nobr>MOVHPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.130">Section A.130</a>
+<br>
+<code><nobr>MOVLHPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.131">Section A.131</a>
+<br>
+<code><nobr>MOVLPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.132">Section A.132</a>
+<br>
+<code><nobr>MOVMSKPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.133">Section A.133</a>
+<br>
+<code><nobr>MOVNTPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.134">Section A.134</a>
+<br>
+<code><nobr>MOVNTQ</nobr></code>:
+<a href="nasmdoca.htm#section-A.135">Section A.135</a>
+<br>
+<code><nobr>MOVQ</nobr></code>:
+<a href="nasmdoca.htm#section-A.136">Section A.136</a>
+<br>
+<code><nobr>MOVSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.137">Section A.137</a>
+<br>
+<code><nobr>MOVSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.137">Section A.137</a>
+<br>
+<code><nobr>MOVSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.138">Section A.138</a>
+<br>
+<code><nobr>MOVSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.137">Section A.137</a>
+<br>
+<code><nobr>MOVSX</nobr></code>:
+<a href="nasmdoca.htm#section-A.139">Section A.139</a>
+<br>
+<code><nobr>MOVUPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.140">Section A.140</a>
+<br>
+<code><nobr>MOVZX</nobr></code>:
+<a href="nasmdoca.htm#section-A.139">Section A.139</a>
+<br>
+MS-DOS: <a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+MS-DOS device drivers: <a href="nasmdoc7.htm#section-7.3">Section 7.3</a>
+<br>
+<code><nobr>MUL</nobr></code>:
+<a href="nasmdoca.htm#section-A.141">Section A.141</a>
+<br>
+<code><nobr>MULPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.142">Section A.142</a>
+<br>
+<code><nobr>MULSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.143">Section A.143</a>
+<br>
+multi-line macros:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>,
+<a href="nasmdoc4.htm#section-4.2">Section 4.2</a>
+<br>
+multiplication: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>multipush</nobr></code> macro:
+<a href="nasmdoc4.htm#section-4.2.6">Section 4.2.6</a>
+<br>
+<code><nobr>nasm.1</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+NASM version: <a href="nasmdoc4.htm#section-4.7.1">Section 4.7.1</a>
+<br>
+<code><nobr>__NASMDEFSEG</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>nasm.exe</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>nasm -h</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.2">Section 2.1.2</a>
+<br>
+<code><nobr>__NASM_MAJOR__</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.1">Section 4.7.1</a>
+<br>
+<code><nobr>__NASM_MINOR__</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.1">Section 4.7.1</a>
+<br>
+<code><nobr>nasm.out</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>
+<br>
+<code><nobr>nasmw.exe</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>nasmXXXs.zip</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>nasm-X.XX.tar.gz</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>nasmXXX.zip</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>ndisasm.1</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>ndisasm.exe</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>ndisasmw.exe</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+near call: <a href="nasmdoc2.htm#section-2.2.5">Section 2.2.5</a>,
+<a href="nasmdoca.htm#section-A.17">Section A.17</a>
+<br>
+near common variables:
+<a href="nasmdoc6.htm#section-6.2.8">Section 6.2.8</a>
+<br>
+near jump: <a href="nasmdoca.htm#section-A.106">Section A.106</a>
+<br>
+<code><nobr>NEG</nobr></code>:
+<a href="nasmdoca.htm#section-A.144">Section A.144</a>
+<br>
+NetBSD: <a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+new releases: <a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>noalloc</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>nobits</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>noexec</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>.nolist</nobr></code>:
+<a href="nasmdoc4.htm#section-4.2.9">Section 4.2.9</a>
+<br>
+<code><nobr>NOP</nobr></code>:
+<a href="nasmdoca.htm#section-A.145">Section A.145</a>
+<br>
+<code><nobr>NOT</nobr></code>:
+<a href="nasmdoca.htm#section-A.144">Section A.144</a>
+<br>
+`nowait': <a href="nasmdoc2.htm#section-2.2.6">Section 2.2.6</a>
+<br>
+<code><nobr>nowrite</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>number-overflow</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>
+<br>
+numeric constants: <a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>,
+<a href="nasmdoc3.htm#section-3.4.1">Section 3.4.1</a>
+<br>
+<code><nobr>-o</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>
+<br>
+<code><nobr>o16</nobr></code>:
+<a href="nasmdoc9.htm#section-9.3">Section 9.3</a>,
+<a href="nasmdoca.htm#section-A.193">Section A.193</a>,
+<a href="nasmdoca.htm#section-A.206">Section A.206</a>
+<br>
+<code><nobr>o32</nobr></code>:
+<a href="nasmdoc9.htm#section-9.3">Section 9.3</a>,
+<a href="nasmdoca.htm#section-A.193">Section A.193</a>,
+<a href="nasmdoca.htm#section-A.206">Section A.206</a>
+<br>
+<code><nobr>.OBJ</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1">Section 7.1</a>
+<br>
+<code><nobr>obj</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>object</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+octal: <a href="nasmdoc3.htm#section-3.4.1">Section 3.4.1</a>
+<br>
+<code><nobr>OF_DBG</nobr></code>:
+<a href="nasmdoc6.htm#section-6.10">Section 6.10</a>
+<br>
+<code><nobr>OF_DEFAULT</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.2">Section 2.1.2</a>
+<br>
+<code><nobr>OFFSET</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>
+<br>
+OMF: <a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+omitted parameters: <a href="nasmdoc4.htm#section-4.2.4">Section 4.2.4</a>
+<br>
+one's complement: <a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>
+<br>
+OpenBSD: <a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+operands: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+operand-size prefixes: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+operating system, writing:
+<a href="nasmdoc9.htm#section-9.1">Section 9.1</a>
+<br>
+operating system: <a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+operators: <a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+<code><nobr>OR</nobr></code>:
+<a href="nasmdoca.htm#section-A.146">Section A.146</a>
+<br>
+<code><nobr>ORG</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1.1">Section 6.1.1</a>,
+<a href="nasmdoc7.htm#section-7.2.1">Section 7.2.1</a>,
+<a href="nasmdoc7.htm#section-7.2.2">Section 7.2.2</a>,
+<a href="nasmdo10.htm#section-10.1.3">Section 10.1.3</a>
+<br>
+<code><nobr>orphan-labels</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>,
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+<code><nobr>ORPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.147">Section A.147</a>
+<br>
+OS/2: <a href="nasmdoc6.htm#section-6.2">Section 6.2</a>,
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>OUT</nobr></code>:
+<a href="nasmdoca.htm#section-A.148">Section A.148</a>
+<br>
+out of range, jumps:
+<a href="nasmdo10.htm#section-10.1.2">Section 10.1.2</a>
+<br>
+output file format: <a href="nasmdoc2.htm#section-2.1.2">Section 2.1.2</a>
+<br>
+output formats: <a href="nasmdoc6.htm">Chapter 6</a>
+<br>
+<code><nobr>OUTSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.149">Section A.149</a>
+<br>
+<code><nobr>OUTSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.149">Section A.149</a>
+<br>
+<code><nobr>OUTSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.149">Section A.149</a>
+<br>
+overlapping segments: <a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+<code><nobr>OVERLAY</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+overloading multi-line macros:
+<a href="nasmdoc4.htm#section-4.2.1">Section 4.2.1</a>
+<br>
+overloading, single-line macros:
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>
+<br>
+<code><nobr>-P</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.7">Section 2.1.7</a>
+<br>
+<code><nobr>-p</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.7">Section 2.1.7</a>,
+<a href="nasmdoc4.htm#section-4.5">Section 4.5</a>
+<br>
+<code><nobr>PACKSSDW</nobr></code>:
+<a href="nasmdoca.htm#section-A.150">Section A.150</a>
+<br>
+<code><nobr>PACKSSWB</nobr></code>:
+<a href="nasmdoca.htm#section-A.150">Section A.150</a>
+<br>
+<code><nobr>PACKUSWB</nobr></code>:
+<a href="nasmdoca.htm#section-A.150">Section A.150</a>
+<br>
+<code><nobr>PADDSIW</nobr></code>:
+<a href="nasmdoca.htm#section-A.152">Section A.152</a>
+<br>
+<code><nobr>PADDxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.151">Section A.151</a>
+<br>
+<code><nobr>PAND</nobr></code>:
+<a href="nasmdoca.htm#section-A.153">Section A.153</a>
+<br>
+<code><nobr>PANDN</nobr></code>:
+<a href="nasmdoca.htm#section-A.153">Section A.153</a>
+<br>
+paradox: <a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>PASCAL</nobr></code>:
+<a href="nasmdoc7.htm#section-7.5.3">Section 7.5.3</a>
+<br>
+Pascal calling convention:
+<a href="nasmdoc7.htm#section-7.5.1">Section 7.5.1</a>
+<br>
+passes, assembly: <a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>PATH</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>PAVEB</nobr></code>:
+<a href="nasmdoca.htm#section-A.154">Section A.154</a>
+<br>
+<code><nobr>PAVGB</nobr></code>:
+<a href="nasmdoca.htm#section-A.155">Section A.155</a>
+<br>
+<code><nobr>PAVGUSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.156">Section A.156</a>
+<br>
+<code><nobr>PAVGW</nobr></code>:
+<a href="nasmdoca.htm#section-A.155">Section A.155</a>
+<br>
+<code><nobr>PCMPxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.157">Section A.157</a>
+<br>
+<code><nobr>PDISTIB</nobr></code>:
+<a href="nasmdoca.htm#section-A.158">Section A.158</a>
+<br>
+period: <a href="nasmdoc3.htm#section-3.8">Section 3.8</a>
+<br>
+Perl: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+perverse: <a href="nasmdoc2.htm#section-2.1.6">Section 2.1.6</a>
+<br>
+<code><nobr>PEXTRW</nobr></code>:
+<a href="nasmdoca.htm#section-A.159">Section A.159</a>
+<br>
+<code><nobr>PFACC</nobr></code>:
+<a href="nasmdoca.htm#section-A.162">Section A.162</a>
+<br>
+<code><nobr>PFADD</nobr></code>:
+<a href="nasmdoca.htm#section-A.163">Section A.163</a>
+<br>
+<code><nobr>PFCMPEQ</nobr></code>:
+<a href="nasmdoca.htm#section-A.164">Section A.164</a>
+<br>
+<code><nobr>PFCMPGE</nobr></code>:
+<a href="nasmdoca.htm#section-A.164">Section A.164</a>
+<br>
+<code><nobr>PFCMPGT</nobr></code>:
+<a href="nasmdoca.htm#section-A.164">Section A.164</a>
+<br>
+<code><nobr>PF2ID</nobr></code>:
+<a href="nasmdoca.htm#section-A.160">Section A.160</a>
+<br>
+<code><nobr>PF2IW</nobr></code>:
+<a href="nasmdoca.htm#section-A.161">Section A.161</a>
+<br>
+<code><nobr>PFMAX</nobr></code>:
+<a href="nasmdoca.htm#section-A.165">Section A.165</a>
+<br>
+<code><nobr>PFMIN</nobr></code>:
+<a href="nasmdoca.htm#section-A.166">Section A.166</a>
+<br>
+<code><nobr>PFMUL</nobr></code>:
+<a href="nasmdoca.htm#section-A.167">Section A.167</a>
+<br>
+<code><nobr>PFNACC</nobr></code>:
+<a href="nasmdoca.htm#section-A.168">Section A.168</a>
+<br>
+<code><nobr>PFPNACC</nobr></code>:
+<a href="nasmdoca.htm#section-A.169">Section A.169</a>
+<br>
+<code><nobr>PFRCP</nobr></code>:
+<a href="nasmdoca.htm#section-A.170">Section A.170</a>
+<br>
+<code><nobr>PFRCPIT1</nobr></code>:
+<a href="nasmdoca.htm#section-A.171">Section A.171</a>
+<br>
+<code><nobr>PFRCPIT2</nobr></code>:
+<a href="nasmdoca.htm#section-A.172">Section A.172</a>
+<br>
+<code><nobr>PFRSQIT1</nobr></code>:
+<a href="nasmdoca.htm#section-A.173">Section A.173</a>
+<br>
+<code><nobr>PFRSQRT</nobr></code>:
+<a href="nasmdoca.htm#section-A.174">Section A.174</a>
+<br>
+<code><nobr>PFSUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.175">Section A.175</a>
+<br>
+<code><nobr>PFSUBR</nobr></code>:
+<a href="nasmdoca.htm#section-A.176">Section A.176</a>
+<br>
+PharLap: <a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+PIC: <a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+<code><nobr>PI2FD</nobr></code>:
+<a href="nasmdoca.htm#section-A.177">Section A.177</a>
+<br>
+<code><nobr>PI2FW</nobr></code>:
+<a href="nasmdoca.htm#section-A.178">Section A.178</a>
+<br>
+<code><nobr>PINSRW</nobr></code>:
+<a href="nasmdoca.htm#section-A.179">Section A.179</a>
+<br>
+<code><nobr>..plt</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+<code><nobr>PLT</nobr></code> relocations:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc8.htm#section-8.2.4">Section 8.2.4</a>,
+<a href="nasmdoc8.htm#section-8.2.5">Section 8.2.5</a>
+<br>
+plt relocations: <a href="nasmdoc8.htm#section-8.2.5">Section 8.2.5</a>
+<br>
+<code><nobr>PMACHRIW</nobr></code>:
+<a href="nasmdoca.htm#section-A.180">Section A.180</a>
+<br>
+<code><nobr>PMADDWD</nobr></code>:
+<a href="nasmdoca.htm#section-A.181">Section A.181</a>
+<br>
+<code><nobr>PMAGW</nobr></code>:
+<a href="nasmdoca.htm#section-A.182">Section A.182</a>
+<br>
+<code><nobr>PMAXSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.183">Section A.183</a>
+<br>
+<code><nobr>PMAXUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.184">Section A.184</a>
+<br>
+<code><nobr>PMINSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.185">Section A.185</a>
+<br>
+<code><nobr>PMINUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.186">Section A.186</a>
+<br>
+<code><nobr>PMOVMSKB</nobr></code>:
+<a href="nasmdoca.htm#section-A.187">Section A.187</a>
+<br>
+<code><nobr>PMULHRIW</nobr></code>:
+<a href="nasmdoca.htm#section-A.189">Section A.189</a>
+<br>
+<code><nobr>PMULHRWA</nobr></code>:
+<a href="nasmdoca.htm#section-A.188">Section A.188</a>
+<br>
+<code><nobr>PMULHRWC</nobr></code>:
+<a href="nasmdoca.htm#section-A.189">Section A.189</a>
+<br>
+<code><nobr>PMULHUW</nobr></code>:
+<a href="nasmdoca.htm#section-A.190">Section A.190</a>
+<br>
+<code><nobr>PMULHW</nobr></code>:
+<a href="nasmdoca.htm#section-A.191">Section A.191</a>
+<br>
+<code><nobr>PMULLW</nobr></code>:
+<a href="nasmdoca.htm#section-A.191">Section A.191</a>
+<br>
+<code><nobr>PMVccZB</nobr></code>:
+<a href="nasmdoca.htm#section-A.192">Section A.192</a>
+<br>
+<code><nobr>%pop</nobr></code>:
+<a href="nasmdoc4.htm#section-4.6">Section 4.6</a>,
+<a href="nasmdoc4.htm#section-4.6.1">Section 4.6.1</a>
+<br>
+<code><nobr>POP</nobr></code>:
+<a href="nasmdoca.htm#section-A.193">Section A.193</a>
+<br>
+<code><nobr>POPAx</nobr></code>:
+<a href="nasmdoca.htm#section-A.194">Section A.194</a>
+<br>
+<code><nobr>POPFx</nobr></code>:
+<a href="nasmdoca.htm#section-A.195">Section A.195</a>
+<br>
+<code><nobr>POR</nobr></code>:
+<a href="nasmdoca.htm#section-A.196">Section A.196</a>
+<br>
+position-independent code:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+precedence: <a href="nasmdoc3.htm#section-3.5">Section 3.5</a>
+<br>
+pre-defining macros:
+<a href="nasmdoc2.htm#section-2.1.8">Section 2.1.8</a>,
+<a href="nasmdoc4.htm#section-4.1.1">Section 4.1.1</a>
+<br>
+preferred: <a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+<code><nobr>PREFETCH</nobr></code>:
+<a href="nasmdoca.htm#section-A.197">Section A.197</a>
+<br>
+<code><nobr>PREFETCHNTA</nobr></code>:
+<a href="nasmdoca.htm#section-A.198">Section A.198</a>
+<br>
+<code><nobr>PREFETCHT0</nobr></code>:
+<a href="nasmdoca.htm#section-A.198">Section A.198</a>
+<br>
+<code><nobr>PREFETCHT1</nobr></code>:
+<a href="nasmdoca.htm#section-A.198">Section A.198</a>
+<br>
+<code><nobr>PREFETCHT2</nobr></code>:
+<a href="nasmdoca.htm#section-A.198">Section A.198</a>
+<br>
+<code><nobr>PREFETCHW</nobr></code>:
+<a href="nasmdoca.htm#section-A.197">Section A.197</a>
+<br>
+$prefix: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>,
+<a href="nasmdoc3.htm#section-3.4.1">Section 3.4.1</a>
+<br>
+pre-including files:
+<a href="nasmdoc2.htm#section-2.1.7">Section 2.1.7</a>
+<br>
+preprocess-only mode:
+<a href="nasmdoc2.htm#section-2.1.10">Section 2.1.10</a>
+<br>
+preprocessor: <a href="nasmdoc2.htm#section-2.1.10">Section 2.1.10</a>,
+<a href="nasmdoc2.htm#section-2.1.11">Section 2.1.11</a>,
+<a href="nasmdoc3.htm#section-3.2.4">Section 3.2.4</a>,
+<a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>,
+<a href="nasmdoc4.htm">Chapter 4</a>
+<br>
+preprocessor expressions:
+<a href="nasmdoc2.htm#section-2.1.10">Section 2.1.10</a>
+<br>
+preprocessor loops: <a href="nasmdoc4.htm#section-4.4">Section 4.4</a>
+<br>
+preprocessor variables:
+<a href="nasmdoc4.htm#section-4.1.4">Section 4.1.4</a>
+<br>
+primitive directives: <a href="nasmdoc5.htm">Chapter 5</a>
+<br>
+<code><nobr>PRIVATE</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>proc</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.5">Section 7.4.5</a>,
+<a href="nasmdoc8.htm#section-8.1.4">Section 8.1.4</a>
+<br>
+procedure linkage table:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc8.htm#section-8.2.4">Section 8.2.4</a>,
+<a href="nasmdoc8.htm#section-8.2.5">Section 8.2.5</a>
+<br>
+processor mode: <a href="nasmdoc5.htm#section-5.1">Section 5.1</a>
+<br>
+<code><nobr>progbits</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+program entry point:
+<a href="nasmdoc6.htm#section-6.2.6">Section 6.2.6</a>,
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+program origin: <a href="nasmdoc6.htm#section-6.1.1">Section 6.1.1</a>
+<br>
+<code><nobr>PSADBW</nobr></code>:
+<a href="nasmdoca.htm#section-A.199">Section A.199</a>
+<br>
+pseudo-instructions: <a href="nasmdoc3.htm#section-3.2">Section 3.2</a>
+<br>
+<code><nobr>PSHUFW</nobr></code>:
+<a href="nasmdoca.htm#section-A.200">Section A.200</a>
+<br>
+<code><nobr>PSLLx</nobr></code>:
+<a href="nasmdoca.htm#section-A.201">Section A.201</a>
+<br>
+<code><nobr>PSRAx</nobr></code>:
+<a href="nasmdoca.htm#section-A.201">Section A.201</a>
+<br>
+<code><nobr>PSRLx</nobr></code>:
+<a href="nasmdoca.htm#section-A.201">Section A.201</a>
+<br>
+<code><nobr>PSUBSIW</nobr></code>:
+<a href="nasmdoca.htm#section-A.203">Section A.203</a>
+<br>
+<code><nobr>PSUBxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.202">Section A.202</a>
+<br>
+<code><nobr>PSWAPD</nobr></code>:
+<a href="nasmdoca.htm#section-A.204">Section A.204</a>
+<br>
+<code><nobr>PUBLIC</nobr></code>:
+<a href="nasmdoc5.htm#section-5.5">Section 5.5</a>,
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>PUNPCKxxx</nobr></code>:
+<a href="nasmdoca.htm#section-A.205">Section A.205</a>
+<br>
+pure binary: <a href="nasmdoc6.htm#section-6.1">Section 6.1</a>
+<br>
+<code><nobr>%push</nobr></code>:
+<a href="nasmdoc4.htm#section-4.6">Section 4.6</a>,
+<a href="nasmdoc4.htm#section-4.6.1">Section 4.6.1</a>
+<br>
+<code><nobr>PUSH</nobr></code>:
+<a href="nasmdoca.htm#section-A.206">Section A.206</a>
+<br>
+<code><nobr>PUSHAx</nobr></code>:
+<a href="nasmdoca.htm#section-A.207">Section A.207</a>
+<br>
+<code><nobr>PUSHFx</nobr></code>:
+<a href="nasmdoca.htm#section-A.208">Section A.208</a>
+<br>
+<code><nobr>PXOR</nobr></code>:
+<a href="nasmdoca.htm#section-A.209">Section A.209</a>
+<br>
+QBasic:
+<br>
+quick start: <a href="nasmdoc2.htm#section-2.2">Section 2.2</a>
+<br>
+<code><nobr>QWORD</nobr></code>:
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+<code><nobr>RCL</nobr></code>:
+<a href="nasmdoca.htm#section-A.210">Section A.210</a>
+<br>
+<code><nobr>RCPPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.211">Section A.211</a>
+<br>
+<code><nobr>RCPSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.212">Section A.212</a>
+<br>
+<code><nobr>RCR</nobr></code>:
+<a href="nasmdoca.htm#section-A.210">Section A.210</a>
+<br>
+<code><nobr>rdf</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>RDMSR</nobr></code>:
+<a href="nasmdoca.htm#section-A.213">Section A.213</a>
+<br>
+<code><nobr>rdoff</nobr></code> subdirectory:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>RDPMC</nobr></code>:
+<a href="nasmdoca.htm#section-A.214">Section A.214</a>
+<br>
+<code><nobr>RDSHR</nobr></code>:
+<a href="nasmdoca.htm#section-A.215">Section A.215</a>
+<br>
+<code><nobr>RDTSC</nobr></code>:
+<a href="nasmdoca.htm#section-A.216">Section A.216</a>
+<br>
+redirecting errors: <a href="nasmdoc2.htm#section-2.1.4">Section 2.1.4</a>
+<br>
+register push: <a href="nasmdoca.htm#section-A.206">Section A.206</a>
+<br>
+relational operators:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+Relocatable Dynamic Object File Format:
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+relocations, PIC-specific:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+removing contexts: <a href="nasmdoc4.htm#section-4.6.1">Section 4.6.1</a>
+<br>
+renaming contexts: <a href="nasmdoc4.htm#section-4.6.4">Section 4.6.4</a>
+<br>
+<code><nobr>%rep</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>,
+<a href="nasmdoc4.htm#section-4.4">Section 4.4</a>
+<br>
+repeating: <a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>,
+<a href="nasmdoc4.htm#section-4.4">Section 4.4</a>
+<br>
+<code><nobr>%repl</nobr></code>:
+<a href="nasmdoc4.htm#section-4.6.4">Section 4.6.4</a>
+<br>
+reporting bugs: <a href="nasmdo10.htm#section-10.2">Section 10.2</a>
+<br>
+<code><nobr>RESB</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.7">Section 2.2.7</a>,
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>,
+<a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>RESD</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+<code><nobr>RESQ</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+<code><nobr>REST</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+restricted memory references:
+<a href="nasmdoca.htm#section-A.1">Section A.1</a>
+<br>
+<code><nobr>RESW</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+<code><nobr>RET</nobr></code>:
+<a href="nasmdoca.htm#section-A.217">Section A.217</a>
+<br>
+<code><nobr>RETF</nobr></code>:
+<a href="nasmdoca.htm#section-A.217">Section A.217</a>
+<br>
+<code><nobr>RETN</nobr></code>:
+<a href="nasmdoca.htm#section-A.217">Section A.217</a>
+<br>
+<code><nobr>ROL</nobr></code>:
+<a href="nasmdoca.htm#section-A.218">Section A.218</a>
+<br>
+<code><nobr>ROR</nobr></code>:
+<a href="nasmdoca.htm#section-A.218">Section A.218</a>
+<br>
+<code><nobr>%rotate</nobr></code>:
+<a href="nasmdoc4.htm#section-4.2.6">Section 4.2.6</a>
+<br>
+rotating macro parameters:
+<a href="nasmdoc4.htm#section-4.2.6">Section 4.2.6</a>
+<br>
+<code><nobr>RSDC</nobr></code>:
+<a href="nasmdoca.htm#section-A.219">Section A.219</a>
+<br>
+<code><nobr>RSLDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.220">Section A.220</a>
+<br>
+<code><nobr>RSM</nobr></code>:
+<a href="nasmdoca.htm#section-A.221">Section A.221</a>
+<br>
+<code><nobr>RSQRTPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.222">Section A.222</a>
+<br>
+<code><nobr>RSQRTSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.223">Section A.223</a>
+<br>
+<code><nobr>RSTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.224">Section A.224</a>
+<br>
+<code><nobr>-s</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.5">Section 2.1.5</a>
+<br>
+<code><nobr>SAHF</nobr></code>:
+<a href="nasmdoca.htm#section-A.225">Section A.225</a>
+<br>
+<code><nobr>SAL</nobr></code>:
+<a href="nasmdoca.htm#section-A.226">Section A.226</a>
+<br>
+<code><nobr>SALC</nobr></code>:
+<a href="nasmdoca.htm#section-A.227">Section A.227</a>
+<br>
+<code><nobr>SAR</nobr></code>:
+<a href="nasmdoca.htm#section-A.226">Section A.226</a>
+<br>
+<code><nobr>SBB</nobr></code>:
+<a href="nasmdoca.htm#section-A.228">Section A.228</a>
+<br>
+<code><nobr>SCASB</nobr></code>:
+<a href="nasmdoca.htm#section-A.229">Section A.229</a>
+<br>
+<code><nobr>SCASD</nobr></code>:
+<a href="nasmdoca.htm#section-A.229">Section A.229</a>
+<br>
+<code><nobr>SCASW</nobr></code>:
+<a href="nasmdoca.htm#section-A.229">Section A.229</a>
+<br>
+searching for include files:
+<a href="nasmdoc4.htm#section-4.5">Section 4.5</a>
+<br>
+<code><nobr>__SECT__</nobr></code>:
+<a href="nasmdoc5.htm#section-5.2.1">Section 5.2.1</a>,
+<a href="nasmdoc5.htm#section-5.3">Section 5.3</a>
+<br>
+<code><nobr>SECTION</nobr></code>:
+<a href="nasmdoc5.htm#section-5.2">Section 5.2</a>
+<br>
+<code><nobr>SECTION</nobr></code>, <code><nobr>elf</nobr></code> extensions
+to: <a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+<code><nobr>SECTION</nobr></code>, <code><nobr>win32</nobr></code>
+extensions to: <a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>
+<br>
+section alignment, in <code><nobr>bin</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1.2">Section 6.1.2</a>
+<br>
+section alignment, in <code><nobr>elf</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+section alignment, in <code><nobr>obj</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+section alignment, in <code><nobr>win32</nobr></code>:
+<a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>
+<br>
+section, bin extensions to:
+<a href="nasmdoc6.htm#section-6.1.2">Section 6.1.2</a>
+<br>
+<code><nobr>SEG</nobr></code>:
+<a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>,
+<a href="nasmdoc3.htm#section-3.6">Section 3.6</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>SEGMENT</nobr></code>:
+<a href="nasmdoc5.htm#section-5.2">Section 5.2</a>
+<br>
+<code><nobr>SEGMENT</nobr></code>, <code><nobr>elf</nobr></code> extensions
+to: <a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+segment address: <a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>,
+<a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+segment alignment, in <code><nobr>bin</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1.2">Section 6.1.2</a>
+<br>
+segment alignment, in <code><nobr>obj</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+segment names, Borland Pascal:
+<a href="nasmdoc7.htm#section-7.5.2">Section 7.5.2</a>
+<br>
+segment override: <a href="nasmdoc2.htm#section-2.2.4">Section 2.2.4</a>,
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+segment registers: <a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+segments: <a href="nasmdoc3.htm#section-3.6">Section 3.6</a>
+<br>
+segments, groups of:
+<a href="nasmdoc6.htm#section-6.2.2">Section 6.2.2</a>
+<br>
+separator character:
+<a href="nasmdoc2.htm#section-2.1.13">Section 2.1.13</a>
+<br>
+<code><nobr>SETcc</nobr></code>:
+<a href="nasmdoca.htm#section-A.230">Section A.230</a>
+<br>
+<code><nobr>SFENCE</nobr></code>:
+<a href="nasmdoca.htm#section-A.231">Section A.231</a>
+<br>
+<code><nobr>SGDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.232">Section A.232</a>
+<br>
+shared libraries: <a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc8.htm#section-8.2">Section 8.2</a>
+<br>
+shared library: <a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+<code><nobr>shift</nobr></code> command:
+<br>
+shift command: <a href="nasmdoc4.htm#section-4.2.6">Section 4.2.6</a>
+<br>
+<code><nobr>SHL</nobr></code>:
+<a href="nasmdoca.htm#section-A.233">Section A.233</a>
+<br>
+<code><nobr>SHLD</nobr></code>:
+<a href="nasmdoca.htm#section-A.234">Section A.234</a>
+<br>
+<code><nobr>SHR</nobr></code>:
+<a href="nasmdoca.htm#section-A.233">Section A.233</a>
+<br>
+<code><nobr>SHRD</nobr></code>:
+<a href="nasmdoca.htm#section-A.234">Section A.234</a>
+<br>
+<code><nobr>SHUFPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.235">Section A.235</a>
+<br>
+SIB byte: <a href="nasmdoca.htm#section-A.2">Section A.2</a>,
+<a href="nasmdoca.htm#section-A.2.3">Section A.2.3</a>
+<br>
+<code><nobr>SIDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.232">Section A.232</a>
+<br>
+signed division: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+signed modulo: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+single-line macros: <a href="nasmdoc4.htm#section-4.1">Section 4.1</a>
+<br>
+size, of symbols: <a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+<code><nobr>SLDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.232">Section A.232</a>
+<br>
+<code><nobr>SMI</nobr></code>:
+<a href="nasmdoca.htm#section-A.236">Section A.236</a>
+<br>
+<code><nobr>SMINT</nobr></code>:
+<a href="nasmdoca.htm#section-A.237">Section A.237</a>
+<br>
+<code><nobr>SMINTOLD</nobr></code>:
+<a href="nasmdoca.htm#section-A.237">Section A.237</a>
+<br>
+<code><nobr>SMSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.238">Section A.238</a>
+<br>
+<code><nobr>-soname</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.6">Section 8.2.6</a>
+<br>
+sound: <a href="nasmdoc3.htm#section-3.2.3">Section 3.2.3</a>
+<br>
+source code: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+source-listing file:
+<a href="nasmdoc2.htm#section-2.1.3">Section 2.1.3</a>
+<br>
+<code><nobr>SQRTPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.239">Section A.239</a>
+<br>
+<code><nobr>SQRTSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.240">Section A.240</a>
+<br>
+square brackets: <a href="nasmdoc2.htm#section-2.2.2">Section 2.2.2</a>,
+<a href="nasmdoc3.htm#section-3.3">Section 3.3</a>
+<br>
+<code><nobr>STACK</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+standard macros: <a href="nasmdoc4.htm#section-4.7">Section 4.7</a>
+<br>
+standardised section names:
+<a href="nasmdoc5.htm#section-5.2">Section 5.2</a>,
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc6.htm#section-6.3.1">Section 6.3.1</a>,
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>,
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>..start</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.6">Section 6.2.6</a>,
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>STC</nobr></code>:
+<a href="nasmdoca.htm#section-A.241">Section A.241</a>
+<br>
+<code><nobr>STD</nobr></code>:
+<a href="nasmdoca.htm#section-A.241">Section A.241</a>
+<br>
+<code><nobr>stderr</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.4">Section 2.1.4</a>
+<br>
+<code><nobr>stdout</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.5">Section 2.1.5</a>
+<br>
+<code><nobr>STI</nobr></code>:
+<a href="nasmdoca.htm#section-A.241">Section A.241</a>
+<br>
+<code><nobr>STMXCSR</nobr></code>:
+<a href="nasmdoca.htm#section-A.242">Section A.242</a>
+<br>
+<code><nobr>STOSB</nobr></code>:
+<a href="nasmdoca.htm#section-A.243">Section A.243</a>
+<br>
+<code><nobr>STOSD</nobr></code>:
+<a href="nasmdoca.htm#section-A.243">Section A.243</a>
+<br>
+<code><nobr>STOSW</nobr></code>:
+<a href="nasmdoca.htm#section-A.243">Section A.243</a>
+<br>
+<code><nobr>STR</nobr></code>:
+<a href="nasmdoca.htm#section-A.244">Section A.244</a>
+<br>
+string constant: <a href="nasmdoc3.htm#section-3.2.1">Section 3.2.1</a>
+<br>
+<code><nobr>STRUC</nobr></code>:
+<a href="nasmdoc4.htm#section-4.7.3">Section 4.7.3</a>,
+<a href="nasmdoc5.htm#section-5.3">Section 5.3</a>,
+<a href="nasmdoc7.htm#section-7.4.4">Section 7.4.4</a>,
+<a href="nasmdoc8.htm#section-8.1.3">Section 8.1.3</a>
+<br>
+stub preprocessor:
+<a href="nasmdoc2.htm#section-2.1.11">Section 2.1.11</a>
+<br>
+<code><nobr>SUB</nobr></code>:
+<a href="nasmdoca.htm#section-A.245">Section A.245</a>
+<br>
+<code><nobr>SUBPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.246">Section A.246</a>
+<br>
+<code><nobr>SUBSS</nobr></code>:
+<a href="nasmdoca.htm#section-A.247">Section A.247</a>
+<br>
+subtraction: <a href="nasmdoc3.htm#section-3.5.5">Section 3.5.5</a>
+<br>
+<code><nobr>sunsite.unc.edu</nobr></code>:
+<a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+suppressible warning:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>
+<br>
+suppressing preprocessing:
+<a href="nasmdoc2.htm#section-2.1.11">Section 2.1.11</a>
+<br>
+<code><nobr>SVDC</nobr></code>:
+<a href="nasmdoca.htm#section-A.248">Section A.248</a>
+<br>
+<code><nobr>SVLDT</nobr></code>:
+<a href="nasmdoca.htm#section-A.249">Section A.249</a>
+<br>
+<code><nobr>SVTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.250">Section A.250</a>
+<br>
+switching between sections:
+<a href="nasmdoc5.htm#section-5.2">Section 5.2</a>
+<br>
+<code><nobr>..sym</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>
+<br>
+symbol sizes, specifying:
+<a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+symbol types, specifying:
+<a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+symbols, exporting from DLLs:
+<a href="nasmdoc6.htm#section-6.2.5">Section 6.2.5</a>
+<br>
+symbols, importing from DLLs:
+<a href="nasmdoc6.htm#section-6.2.4">Section 6.2.4</a>
+<br>
+<code><nobr>.SYS</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc7.htm#section-7.3">Section 7.3</a>
+<br>
+<code><nobr>SYSCALL</nobr></code>:
+<a href="nasmdoca.htm#section-A.251">Section A.251</a>
+<br>
+<code><nobr>SYSENTER</nobr></code>:
+<a href="nasmdoca.htm#section-A.252">Section A.252</a>
+<br>
+<code><nobr>SYSEXIT</nobr></code>:
+<a href="nasmdoca.htm#section-A.253">Section A.253</a>
+<br>
+<code><nobr>SYSRET</nobr></code>:
+<a href="nasmdoca.htm#section-A.254">Section A.254</a>
+<br>
+TASM: <a href="nasmdoc1.htm#section-1.1.1">Section 1.1.1</a>,
+<a href="nasmdoc2.htm#section-2.2">Section 2.2</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>
+<br>
+<code><nobr>TBYTE</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.7">Section 2.2.7</a>
+<br>
+<code><nobr>TEST</nobr></code>:
+<a href="nasmdoca.htm#section-A.255">Section A.255</a>
+<br>
+<code><nobr>test</nobr></code> subdirectory:
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+test registers: <a href="nasmdoca.htm#section-A.2.1">Section A.2.1</a>
+<br>
+testing arbitrary numeric expressions:
+<a href="nasmdoc4.htm#section-4.3.3">Section 4.3.3</a>
+<br>
+testing exact text identity:
+<a href="nasmdoc4.htm#section-4.3.4">Section 4.3.4</a>
+<br>
+testing single-line macro existence:
+<a href="nasmdoc4.htm#section-4.3.1">Section 4.3.1</a>
+<br>
+testing the context stack:
+<a href="nasmdoc4.htm#section-4.3.2">Section 4.3.2</a>
+<br>
+testing token types:
+<a href="nasmdoc4.htm#section-4.3.5">Section 4.3.5</a>
+<br>
+<code><nobr>.text</nobr></code>:
+<a href="nasmdoc6.htm#section-6.1">Section 6.1</a>,
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>,
+<a href="nasmdoc6.htm#section-6.6">Section 6.6</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>,
+<a href="nasmdoc6.htm#section-6.8">Section 6.8</a>,
+<a href="nasmdoc6.htm#section-6.9">Section 6.9</a>
+<br>
+<code><nobr>_TEXT</nobr></code>:
+<a href="nasmdoc7.htm#section-7.4.2">Section 7.4.2</a>
+<br>
+<code><nobr>TIMES</nobr></code>:
+<a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>,
+<a href="nasmdoc3.htm#section-3.7">Section 3.7</a>,
+<a href="nasmdo10.htm#section-10.1.3">Section 10.1.3</a>,
+<a href="nasmdo10.htm#section-10.1.4">Section 10.1.4</a>
+<br>
+TLINK: <a href="nasmdoc7.htm#section-7.2.2">Section 7.2.2</a>
+<br>
+trailing colon: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+two-pass assembler: <a href="nasmdoc3.htm#section-3.7">Section 3.7</a>
+<br>
+<code><nobr>TWORD</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.7">Section 2.2.7</a>,
+<a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+type, of symbols: <a href="nasmdoc6.htm#section-6.5.3">Section 6.5.3</a>
+<br>
+<code><nobr>-U</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.9">Section 2.1.9</a>
+<br>
+<code><nobr>-u</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.9">Section 2.1.9</a>
+<br>
+<code><nobr>UCOMISS</nobr></code>:
+<a href="nasmdoca.htm#section-A.256">Section A.256</a>
+<br>
+<code><nobr>UD2</nobr></code>:
+<a href="nasmdoca.htm#section-A.257">Section A.257</a>
+<br>
+<code><nobr>UMOV</nobr></code>:
+<a href="nasmdoca.htm#section-A.258">Section A.258</a>
+<br>
+unary operators: <a href="nasmdoc3.htm#section-3.5.7">Section 3.5.7</a>
+<br>
+<code><nobr>%undef</nobr></code>:
+<a href="nasmdoc2.htm#section-2.1.9">Section 2.1.9</a>,
+<a href="nasmdoc4.htm#section-4.1.3">Section 4.1.3</a>
+<br>
+undefining macros: <a href="nasmdoc2.htm#section-2.1.9">Section 2.1.9</a>
+<br>
+underscore, in C symbols:
+<a href="nasmdoc7.htm#section-7.4.1">Section 7.4.1</a>
+<br>
+uninitialised: <a href="nasmdoc3.htm#section-3.2">Section 3.2</a>,
+<a href="nasmdoc3.htm#section-3.2.2">Section 3.2.2</a>
+<br>
+uninitialised storage:
+<a href="nasmdoc2.htm#section-2.2.7">Section 2.2.7</a>
+<br>
+Unix: <a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+Unix source archive:
+<a href="nasmdoc1.htm#section-1.3.2">Section 1.3.2</a>
+<br>
+<code><nobr>UNPCKHPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.259">Section A.259</a>
+<br>
+<code><nobr>UNPCKLPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.260">Section A.260</a>
+<br>
+unrolled loops: <a href="nasmdoc3.htm#section-3.2.5">Section 3.2.5</a>
+<br>
+unsigned division: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+unsigned modulo: <a href="nasmdoc3.htm#section-3.5.6">Section 3.5.6</a>
+<br>
+<code><nobr>UPPERCASE</nobr></code>:
+<a href="nasmdoc2.htm#section-2.2.1">Section 2.2.1</a>,
+<a href="nasmdoc6.htm#section-6.2.3">Section 6.2.3</a>
+<br>
+<code><nobr>USE16</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+<code><nobr>USE32</nobr></code>:
+<a href="nasmdoc6.htm#section-6.2.1">Section 6.2.1</a>
+<br>
+user-defined errors:
+<a href="nasmdoc4.htm#section-4.3.6">Section 4.3.6</a>
+<br>
+user-level assembler directives:
+<a href="nasmdoc4.htm#section-4.7">Section 4.7</a>
+<br>
+user-level directives: <a href="nasmdoc5.htm">Chapter 5</a>
+<br>
+VAL: <a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+valid characters: <a href="nasmdoc3.htm#section-3.1">Section 3.1</a>
+<br>
+variable types: <a href="nasmdoc2.htm#section-2.2.3">Section 2.2.3</a>
+<br>
+<code><nobr>VERR</nobr></code>:
+<a href="nasmdoca.htm#section-A.261">Section A.261</a>
+<br>
+version number of NASM:
+<a href="nasmdoc4.htm#section-4.7.1">Section 4.7.1</a>
+<br>
+<code><nobr>VERW</nobr></code>:
+<a href="nasmdoca.htm#section-A.261">Section A.261</a>
+<br>
+Visual C++: <a href="nasmdoc6.htm#section-6.3">Section 6.3</a>
+<br>
+<code><nobr>-w</nobr></code> option:
+<a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>
+<br>
+<code><nobr>WAIT</nobr></code>:
+<a href="nasmdoca.htm#section-A.262">Section A.262</a>
+<br>
+warnings: <a href="nasmdoc2.htm#section-2.1.12">Section 2.1.12</a>
+<br>
+<code><nobr>WBINVD</nobr></code>:
+<a href="nasmdoca.htm#section-A.263">Section A.263</a>
+<br>
+Win32: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>,
+<a href="nasmdoc2.htm#section-2.1.1">Section 2.1.1</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>,
+<a href="nasmdoc6.htm#section-6.3">Section 6.3</a>,
+<a href="nasmdoc8.htm">Chapter 8</a>
+<br>
+Windows: <a href="nasmdoc7.htm#section-7.1">Section 7.1</a>
+<br>
+Windows 95: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+Windows NT: <a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>write</nobr></code>:
+<a href="nasmdoc6.htm#section-6.5.1">Section 6.5.1</a>
+<br>
+writing operating systems:
+<a href="nasmdoc9.htm#section-9.1">Section 9.1</a>
+<br>
+<code><nobr>WRMSR</nobr></code>:
+<a href="nasmdoca.htm#section-A.264">Section A.264</a>
+<br>
+<code><nobr>WRSHR</nobr></code>:
+<a href="nasmdoca.htm#section-A.265">Section A.265</a>
+<br>
+<code><nobr>WRT</nobr></code>:
+<a href="nasmdoc3.htm#section-3.6">Section 3.6</a>,
+<a href="nasmdoc6.htm#section-6.2">Section 6.2</a>,
+<a href="nasmdoc6.htm#section-6.5.2">Section 6.5.2</a>,
+<a href="nasmdoc6.htm#section-6.7">Section 6.7</a>
+<br>
+<code><nobr>WRT ..got</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.3">Section 8.2.3</a>
+<br>
+<code><nobr>WRT ..gotoff</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.2">Section 8.2.2</a>
+<br>
+<code><nobr>WRT ..gotpc</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.1">Section 8.2.1</a>
+<br>
+<code><nobr>WRT ..plt</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.5">Section 8.2.5</a>
+<br>
+<code><nobr>WRT ..sym</nobr></code>:
+<a href="nasmdoc8.htm#section-8.2.4">Section 8.2.4</a>
+<br>
+WWW page: <a href="nasmdoc1.htm#section-1.2">Section 1.2</a>
+<br>
+<code><nobr>www.cpan.org</nobr></code>:
+<a href="nasmdoc1.htm#section-1.3.1">Section 1.3.1</a>
+<br>
+<code><nobr>www.delorie.com</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>www.pcorner.com</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>XADD</nobr></code>:
+<a href="nasmdoca.htm#section-A.266">Section A.266</a>
+<br>
+<code><nobr>XBTS</nobr></code>:
+<a href="nasmdoca.htm#section-A.267">Section A.267</a>
+<br>
+<code><nobr>XCHG</nobr></code>:
+<a href="nasmdoca.htm#section-A.268">Section A.268</a>
+<br>
+<code><nobr>%xdefine</nobr></code>:
+<a href="nasmdoc4.htm#section-4.1.2">Section 4.1.2</a>
+<br>
+<code><nobr>x2ftp.oulu.fi</nobr></code>:
+<a href="nasmdoc7.htm#section-7.1.1">Section 7.1.1</a>
+<br>
+<code><nobr>XLATB</nobr></code>:
+<a href="nasmdoca.htm#section-A.269">Section A.269</a>
+<br>
+<code><nobr>XOR</nobr></code>:
+<a href="nasmdoca.htm#section-A.270">Section A.270</a>
+<br>
+<code><nobr>XORPS</nobr></code>:
+<a href="nasmdoca.htm#section-A.271">Section A.271</a>
+<br>
+<p align=center><a href="nasmdoc0.htm">Contents</a>
+</body></html>

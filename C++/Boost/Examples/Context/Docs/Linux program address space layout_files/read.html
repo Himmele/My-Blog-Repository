@@ -1,0 +1,24 @@
+
+<!-- saved from url=(0202)https://stackauth.com/auth/global/read?request=dpCPMVuKVkWaCbXutBHE2PAaEQFekmcMB%2BJ%2B7tCY6jZ4Hxhm816IuO8H8L%2B6Q00FyB4qlVw%2BqOSoIaCoBPO0%2FWW4RPC7OVPcaDJGSXqUiJ8%3D&nonce=MNbgUAAAAADMDolXczgRdg%3D%3D -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                  <script type="text/javascript">
+                  var data = {"ReadSession":"https://stackauth.com/auth/global/read-session","Request":"dpCPMVuKVkWaCbXutBHE2PAaEQFekmcMB+J+7tCY6jZ4Hxhm816IuO8H8L+6Q00FyB4qlVw+qOSoIaCoBPO0/WW4RPC7OVPcaDJGSXqUiJ8=","Nonce":"MNbgUAAAAADMDolXczgRdg==","Referrer":"http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation","StorageName":"GlobalLogin"};
+
+                  var toMsg = window.parent;
+
+                  var obj = localStorage.getItem(data.StorageName);
+                  if(obj != null) {
+                  var req = new XMLHttpRequest();
+                  req.open('POST', data.ReadSession+'?request='+encodeURIComponent(data.Request)+'&nonce='+encodeURIComponent(data.Nonce)+'&seriesAndToken='+encodeURIComponent(obj), false);
+                  req.send(null);
+                  
+                    if(req.status == 200){
+                      toMsg.postMessage(req.responseText, data.Referrer);
+                    }else{
+                      toMsg.postMessage('No Session', data.Referrer);
+                    }
+                  }else{
+                    toMsg.postMessage('No Local Storage', data.Referrer);
+                  }
+                  </script>
+                  </head><body></body></html>

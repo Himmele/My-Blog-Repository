@@ -1,0 +1,1523 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0038)http://www.embedded.com/98/9806fe2.htm -->
+<HTML><HEAD><TITLE>Advanced Embedded x86 Programming: Paging</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="embedded systems,conference,development,real-time,programming,emulators,multitasking,debugging,software,optimization,engineer,RTOS,chips,tools,microcontrollers,DSP,operating systems,kernel,microprocessors,object-oriented,single board,ada,C++,visual basic,forth,RISC,compilers,specialty libraries, configuration management,ICE,ROM emulators,logic analyzers,device programmers,oscilloscopes,8-bit,eprom,flash,OEM,boards,Miller Freeman,vendor,magazine,custom publishing,esp,esc,directories,mwmedia,Windows CE, Win CE, CE, Windows, Microsoft, developer,  software, operating system, hand held, wallet, PC, OS, mobile, wireless, portable, driver, ETK, OAL, OAK, Pentium, 486, MIPS, Smartcards, Cellular Phone, Small-Form-Factor, H/PC, Palm, CE, RFA, PDA, PIC" 
+name=keywords>
+<META 
+content="Welcome to Embedded.com, the on-line resource for embedded systems developers. This is the place to come for tutorials, code,  demos, and news, along with information about Embedded Systems Programming Magazine and the Embedded Systems Conferences. " 
+name=description>
+<META content="Advanced Embedded x86 Programming: Paging" name=Headline>
+<META content="June 1998" name=issue>
+<META content="Jean Gareau" name=author>
+<SCRIPT language=javascript1.2 type=text/javascript>
+/*
+Dr. Clue's drop-down menu system for 4th generation browsers
+        copyright @ 1998,1999 drclue , www.drclue.net
+license is granted for use of this software by individuals
+in support of personal web-sites. All other rights reserved.
+*/
+//*** Global Variables
+var LIBLOADEDJSmenu=false;
+var     systemLibCnt    =0;
+var     systemIsNS      =(document.layers!=null);       // Is it a Netscape browser
+var     systemMouseDn   =false; // mousemove dragging
+if(document.layers)document.all=document.layers;
+var     systemMaxZ      =0; 
+var     systemNullChk   =((systemIsNS)?((navigator.appVersion.substring(0,4)=="4.05")?"null":"undefined"):"null")
+var menuTimeOut         =null;  // mouseout Cancel menu timer
+var     menuCurrentItem =null;  // currently highlighted object.
+var     menuCurrentPath ="";    // The open menu list.
+var     menuScreenWidth =0;
+//*** General Menu  configuration variables
+var     menuSubAuto     =false;
+var     menuSubSymbol   ="&raquo;";     // html to indicate sub menu
+var     menuRoll        =true;  // Show menu items as built
+var     menuCharHeight  =11;    // Avg Char Height.
+var     menuCharWidth   =5;     // Avg Char Width.
+var     menuYpopoff     =0;
+var     menuXpopoff     =178;
+var     menuBcolor      ="#ABABAB";     // background
+var     menuTcolor      ="#FFFFFF";     // Text
+var     menuHBcolor     ="#FFFFFF";
+var     menuHTcolor     ="#ABABAB";
+var     menuFont        ="verdana,arial";// menu label font
+var     menuFontSize    =1;     // menu font size
+var     menuBold        =false; // Use bold
+var     menuAtimeout    =4500;
+var     Firstpass       =true;
+var     lastEVENT       =null;
+
+var szDuds="Mozilla/4.0 (compatible; MSIE 4.5; Mac_PowerPC)";
+
+esconfoff = new Image;
+esconfoff.src = "http://img.cmpnet.com/embedded/redesign/es_conf.gif";
+esconfon = new Image;
+esconfon.src = "http://img.cmpnet.com/embedded/redesign/es_conf_on.gif";
+
+magoff = new Image;
+magoff.src = "http://img.cmpnet.com/embedded/redesign/esp_mag.gif";
+magon = new Image;
+magon.src = "http://img.cmpnet.com/embedded/redesign/esp_mag_on.gif";
+
+iaoff = new Image;
+iaoff.src = "http://img.cmpnet.com/embedded/redesign/ia.gif";
+iaon = new Image;
+iaon.src = "http://img.cmpnet.com/embedded/redesign/ia_on.gif";
+
+downoff = new Image;
+downoff.src = "http://img.cmpnet.com/embedded/redesign/code.gif";
+downon = new Image;
+downon.src = "http://img.cmpnet.com/embedded/redesign/code_on.gif";
+
+demooff = new Image;
+demooff.src = "http://img.cmpnet.com/embedded/redesign/prod_demos.gif";
+demoon = new Image;
+demoon.src = "http://img.cmpnet.com/embedded/redesign/prod_demos_on.gif";
+
+resoff = new Image;
+resoff.src = "http://img.cmpnet.com/embedded/redesign/resources.gif";
+reson = new Image;
+reson.src = "http://img.cmpnet.com/embedded/redesign/resources_on.gif";
+
+ieoff = new Image;
+ieoff.src = "http://img.cmpnet.com/embedded/redesign/ind_ev.gif";
+ieon = new Image;
+ieon.src = "http://img.cmpnet.com/embedded/redesign/ind_ev_on.gif";
+
+guideoff = new Image;
+guideoff.src = "http://img.cmpnet.com/embedded/redesign/buyers.gif";
+guideon = new Image;
+guideon.src = "http://img.cmpnet.com/embedded/redesign/buyers_on.gif";
+
+siteoff = new Image;
+siteoff.src = "http://img.cmpnet.com/embedded/redesign/sitemap.gif";
+siteon = new Image;
+siteon.src = "http://img.cmpnet.com/embedded/redesign/sitemap_on.gif";
+
+productsoff = new Image;
+productsoff.src = "http://img.cmpnet.com/embedded/redesign/new_prod.gif";
+productson = new Image;
+productson.src = "http://img.cmpnet.com/embedded/redesign/new_prod_on.gif";
+
+directoff = new Image;
+directoff.src = "http://img.cmpnet.com/embedded/redesign/catalogs.gif";
+directon = new Image;
+directon.src = "http://img.cmpnet.com/embedded/redesign/catalogs_on.gif";
+
+cdromoff = new Image;
+cdromoff.src = "http://img.cmpnet.com/embedded/redesign/cdrom.gif";
+cdromon = new Image;
+cdromon.src = "http://img.cmpnet.com/embedded/redesign/cdrom_on.gif";
+
+embeddedbooksoff = new Image;
+embeddedbooksoff.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks.gif";
+embeddedbookson = new Image;
+embeddedbookson.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks_on.gif";
+
+researchoff = new Image;
+researchoff.src = "http://img.cmpnet.com/embedded/redesign/market.gif";
+researchon = new Image;
+researchon.src = "http://img.cmpnet.com/embedded/redesign/market_on.gif";
+
+jobsoff = new Image;
+jobsoff.src = "http://img.cmpnet.com/embedded/redesign/job.gif";
+jobson = new Image;
+jobson.src = "http://img.cmpnet.com/embedded/redesign/job_on.gif";
+
+
+welcomeoff = new Image;
+welcomeoff.src = "http://img.cmpnet.com/embedded/redesign/welcometo.gif";
+welcomeon = new Image;
+welcomeon.src = "http://img.cmpnet.com/embedded/redesign/welcometo_on.gif";
+
+function imgSwap(imgId,imgSrc,restat) {
+   document.images[imgId].src=eval(imgSrc+'.src');
+   if (restat)window.status='';
+}
+
+function PreLoads(treeList)
+        {
+        window.status="["+systemLibCnt+"] menu.js["+LIBLOADEDJSmenu + "] items ["+""+" Loading ...";
+        if(!LIBLOADEDJSmenu)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.onResize="document.location.href=document.location.href";        
+        if(!document.links.length)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.status="initializing";
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             window.status="Loading "+killboy;
+             menuCREATE(killboy,0,0);
+             }
+        window.status="";
+        }
+
+
+/* Called by the jsLAYERclass to create
+a layer if the layer does not already exist.*/
+function jsLAYERcreateLayer(Homeboy,x,y,w,h,bColor)
+        {
+        if(systemIsNS)
+          {
+          var lyr= document.layers[Homeboy.lyrName] = new Layer(w)
+          lyr.left=x;lyr.top=y; lyr.clip.height=h+1;lyr.clip.width=w+1;
+          lyr.bgColor=((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor);
+          lyr.visibility='hidden';lyr.zIndex=1;
+          lyr.isHighlight=false;
+          lyr.border=1;
+          document.layers[Homeboy.lyrName].style=document.layers[Homeboy.lyrName];
+          }else{
+          var str = '\n<DIV id='+Homeboy.lyrName+' style="visibility: hidden; position:absolute; left:'+x+'; top:'+y+'; width:'+w
+          str += '; height:'+(h+1)+'px; clip:rect(0px '+(w+1)+'px '+(h+1)+'px 0px)'
+          str += '; background-color:'+((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor)+';z-Index:5;"> </DIV>';
+          document.body.insertAdjacentHTML("BeforeEnd",str);
+          }
+        Homeboy.jsLAYERobject=document.all[Homeboy.lyrName];
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument  =document.layers[Homeboy.lyrName].document;
+          Homeboy.style            =document.layers[Homeboy.lyrName];
+          }else{
+          Homeboy.jsLAYERdocument  =document.all[Homeboy.lyrName];
+          Homeboy.style            =document.all[Homeboy.lyrName].style;
+          Homeboy.style.zIndex     =systemMaxZ++;
+          }
+        Homeboy.jsLAYERobject.HomeBoy=Homeboy;
+        Homeboy.jsLAYERobject.W =w;
+        Homeboy.jsLAYERobject.X =x;
+        Homeboy.jsLAYERobject.Y =y;
+        Homeboy.jsLAYERobject.H =h;
+        Homeboy.jsLAYERobject.MOUSEHANDLER="MOUSEVECTOR";
+        return Homeboy;
+        }
+function jsLAYERsetHandler(Homeboy,szHANDLER) // named function for events
+        {
+        Homeboy.jsLAYERobject.MOUSEHANDLER=szHANDLER;
+        MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+        }
+function jsLAYERhomeboy(layername){return document.all[layername].HomeBoy;}
+function jsLAYERopen(Homeboy){if(systemIsNS){Homeboy.jsLAYERobject.document.open();  }else{  Homeboy.jsLAYERobject.innerHTML="";}}
+function jsLAYERwrite(Homeboy,Text){if(systemIsNS){Homeboy.jsLAYERdocument.write(Text);}else{Homeboy.jsLAYERobject.innerHTML+=Text;}}
+function jsLAYERclose(Homeboy)
+        {
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument.close();
+          MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+          }
+        }
+function jsLAYERsetContent(Homeboy,text)
+        {
+        jsLAYERopen(Homeboy);
+        jsLAYERwrite(Homeboy,text);
+        jsLAYERclose(Homeboy);return;
+        }
+function jsLAYERshow(Homeboy,vis){Homeboy.style.visibility=((vis)?"visible":"hidden");}
+function jsLAYERgetX(Homeboy){return parseInt(Homeboy.style.left);}
+function jsLAYERgetY(Homeboy){return parseInt(Homeboy.style.top);}
+function jsLAYERxy(Homeboy,x,y,InLayer)
+        {
+        this.InX=x;this.InY=y;
+        if(document.layers)
+          {
+          if(InLayer)
+            {
+            InX+=InLayer.style.left;
+            InY+=InLayer.style.top;
+            }
+          Homeboy.jsLAYERobject.x=this.InX;
+          Homeboy.jsLAYERobject.y=this.InY;
+          }else{
+          if(InLayer)
+            {
+            this.InX+=parseInt(document.all[Homeboy.lyrName].style.left);
+            this.InY+=parseInt(document.all[Homeboy.lyrName].style.top);
+            }
+//alert(document.all[Homeboy.lyrName].style.left+"[]"+this.InX+"[]"+x)
+          document.all[Homeboy.lyrName].style.left=this.InX
+          document.all[Homeboy.lyrName].style.top=this.InY
+
+          }
+
+
+        }
+/*Function      :MEVENT
+**Parameters    :Homeboy        - Layer Class Pointer
+**               Evt            - javascript Browser Event
+**Description   :Noramalizes Netscape/MSIE evnts to 
+**a class containing variables for both, with Netscape names
+**superceding MSIE names. It is this psudeo event class that
+**is passed to all MOUSE... event handler functions.
+*/
+function MEVENT(Homeboy,Evt) //normalizes the differences in NS and MSIE events
+        {
+        this.type=Evt.type;
+        this.screenX=Evt.screenX;
+        this.screenY=Evt.screenY;
+        if(systemIsNS)
+          {
+        this.pageX=Evt.pageX;
+        this.pageY=Evt.pageY;
+        this.locationX=Homeboy.jsLAYERobject.x;
+        this.locationY=Homeboy.jsLAYERobject.y;
+        this.layerX=Evt.layerX;
+        this.layerY=Evt.layerY;
+        this.which=Evt.which;
+        this.target=Evt.target;
+        this.modifiers=Evt.modifiers;
+          }else{
+        this.pageX=Evt.x;
+        this.pageY=Evt.y;
+        if(document.body.scrollTop)this.pageY+=document.body.scrollTop;
+        this.locationX=parseInt(Homeboy.jsLAYERobject.style.left);
+        this.locationY=parseInt(Homeboy.jsLAYERobject.style.top);
+        this.layerX=this.pageX-this.locationX;
+        this.layerY=this.pageY-this.locationY;
+        this.which=Evt.button+1;
+        this.target=Evt.srcElement;
+        this.modifiers=(((Evt.altKey)?1:0)+((Evt.ctrlKey)?2:0)+((Evt.AltKey)?4:0));
+          }
+        }
+function MOUSEVECTOR(layername,Evt)// handles the actuall prep and call of mouse events
+        {
+        Homeboy=document.all[layername].HomeBoy;return false;
+        }
+// Sets up mouse event NOTE: Use of "new Function" is important
+function MOUSECAPTURE(Homeboy,layername)
+        {
+
+var NFD="return "+Homeboy.jsLAYERobject.MOUSEHANDLER+"('"+layername+"',"+((systemIsNS)?"arguments[0]":"window.event")+")"
+Homeboy.jsLAYERobject.onmouseover=new Function(NFD)
+Homeboy.jsLAYERobject.onmouseout=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousemove=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousedown=new Function(NFD)
+Homeboy.jsLAYERdocument.onmouseup=new Function(NFD)
+if(systemIsNS)Homeboy.jsLAYERdocument.captureEvents(  Event.MOUSEUP |   Event.MOUSEDOWN   | Event.MOUSEMOVE);
+        }
+function NSResizePatch(){document.location.href=document.location.href;}
+function jsNULLvector(layername,Evt){return true;}
+var MPTYPE ="",MSTYPE ="";
+function jsMPANELvector(panelName,Evt)  // Vectors mouse messages for the panel
+        {
+        Homeboy=jsLAYERhomeboy(panelName);
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MPTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          }
+        if(Evt.type!="mousemove" )return false;
+        EVENT=new MEVENT(Homeboy,Evt);
+
+        EntryNum=0;
+        EntryNotch=EVENT.layerY;
+        if(EntryNotch)
+          {
+          EntryNotch-=(EntryNotch%(menuCharHeight+1));
+          EntryNum=(EntryNotch/(menuCharHeight+1))
+          }
+        if(Homeboy.mParent.Items.length<=EntryNum)return true;
+        lastEVENT=EVENT;
+        if(Homeboy.mParent.EntryNum==EntryNum)return false;
+
+//if(!systemIsNS)
+//{
+//alert(EntryNum+"[]"+EntryNotch+"[]"+EVENT.layerY)
+//Homeboy.mParent.Items[EntryNum].RENDER)
+//}
+        jsLAYERsetContent(Homeboy.mParent.mSELECT,Homeboy.mParent.Items[EntryNum].RENDER);
+
+        jsLAYERxy(Homeboy.mParent.mSELECT,jsLAYERgetX(Homeboy),jsLAYERgetY(Homeboy)+(EntryNum*(menuCharHeight+1)));
+        Homeboy.mParent.EntryNum=EntryNum;
+        if(!menuSubAuto)return false;
+        if(Homeboy.mParent.Items[EntryNum].ACTION.substring(0,1)=="@")
+          {
+          fakeEvt = new Object();
+          fakeEvt.type="mouseup";
+          jsMSELECTvector(Homeboy.mParent.mSELECT.lyrName,fakeEvt);
+          }
+        return false;
+        }
+/*
+** Vectors mouse messages for the menu selector
+*/
+function jsMSELECTvector(panelName,Evt)
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MSTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          Homeboy=jsLAYERhomeboy(panelName);
+          return false;
+          }
+        if(Evt.type!="mouseup")return false;
+        Homeboy=jsLAYERhomeboy(panelName);
+        var action = Homeboy.mParent.Items[Homeboy.mParent.EntryNum].ACTION;
+
+        if(menuCurrentPath.indexOf(Homeboy.jsLAYERobject.GROUP)>0)
+          {
+          var FindGroup = ":"+Homeboy.jsLAYERobject.GROUP+":";
+          var killList = menuCurrentPath.substring(menuCurrentPath.indexOf(FindGroup)+FindGroup.length-1);
+          menuPOPDN(killList);
+          }
+        if(action.length<1){window.status="[Not Available]";return false;}
+        var isMenu = action.substring(0,1)=="@";
+        var isJavascript = action.substring(0,1)=="!";
+        if(isJavascript)
+          {
+          eval(action.substring(1))
+          return false;
+          }
+        if(isMenu)
+          {
+          menuPOPUP(jsLAYERgetX(Homeboy)+Homeboy.jsLAYERobject.W+2,jsLAYERgetY(Homeboy),action.substring(1));
+          }else{
+          document.location.href=action;
+          }
+        return false;
+        }
+/*
+** This is the menu panel
+*/
+function jsMPANELclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#000000");
+        jsLAYERsetHandler(this,"jsMPANELvector");
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** This is the highlite bar
+*/
+function jsMSELECTclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h);
+        jsLAYERsetHandler(this,"jsMSELECTvector");
+        this.jsLAYERobject.GROUP=group;
+        this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** Create the menu label obeject string for display
+*/
+function menuLABEL(Homeboy,text,isHighlight,isSub)
+        {
+        var fontstart="<FONT FACE='"+menuFont+"' SIZE="+menuFontSize+" COLOR='"+((isHighlight)?menuHTcolor:menuTcolor)+"'>"+((menuBold)?"<B>":"");
+        var CONTENT="&nbsp;";
+        if(text)CONTENT=text.length?"&nbsp;"+text:"&nbsp;";
+        var lyrtxt="<TABLE BORDER=0 CELLPADDING=0 STYLE='cursor:hand' CELLSPACING='0' BGCOLOR='";
+        lyrtxt+=((isHighlight)?menuHBcolor:menuBcolor);
+        lyrtxt+="' WIDTH='"+Homeboy.jsLAYERobject.W+"' HEIGHT='"+menuCharHeight+"'><TR VALIGN=MIDDLE>";
+        twidth=parseInt(Homeboy.jsLAYERobject.W)-parseInt(Homeboy.jsLAYERobject.rtWidth);
+        lyrtxt+="<TD WIDTH='"+twidth.toString();
+        lyrtxt+="'>"+fontstart+CONTENT+((menuBold)?"</B>":"")+"</FONT></TD>";
+        lyrtxt+="<TD WIDTH='10'>"+fontstart+((isSub)?menuSubSymbol:"&nbsp;")+((menuBold)?"</B>":"")+"</FONT></TD></TR></TABLE>";
+        return lyrtxt;
+        }
+function MenuItem(label,action)
+        {
+        this.LABEL      =label  ;
+        this.ACTION     =action ;
+        this.SUB        =this.ACTION.substring(0,1)=="@";
+        this.RENDER     =""     ;
+        }
+function MenuListAPPEND(label,action)   //Appends an item to the menuobject
+        {
+        this.Items[this.Items.length]=new MenuItem(label,action);
+        if(label.length>this.greatestCharWidth)this.greatestCharWidth=label.length;
+        }
+function menuPop(tobj,imgId,imgSrc) //Pops up menu relative to <A> tag location on screen.
+        {
+        if ((imgId)&&(imgSrc))imgSwap(imgId,imgSrc);
+        objectName=tobj.href.substring(tobj.href.lastIndexOf("/")+1);
+        if(objectName.indexOf(".html")>-1)objectName=objectName.substring(0,objectName.indexOf("."))
+//      if(!menuCurrentPath)return;
+        if(menuCurrentPath.indexOf(":"+objectName+":")==0)return false;
+        if(menuCurrentPath.length>0)menuPOPDN();
+if(szDuds.indexOf(navigator.userAgent)>-1)
+{
+if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+return true;
+}
+
+        if(navigator.appVersion.indexOf("MSIE")>-1&&navigator.appVersion.indexOf("Mac")>-1)
+          {// compatible mac
+          if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+          return true;
+          }
+
+        this.MX=((systemIsNS)?(tobj.x):window.event.clientX-window.event.offsetX+tobj.offsetLeft);
+        this.MY=((systemIsNS)?(tobj.y):window.event.clientY-window.event.offsetY+tobj.offsetTop);
+        if(!systemIsNS)MSIEmeasure(tobj,this);    
+        this.MY+=menuYpopoff;
+        this.MX+=menuXpopoff;
+        menuPOPUP(this.MX,this.MY,objectName);
+        menuTimeOut=setTimeout("menuPOPDN()",menuAtimeout);
+        return false;
+        }
+function menuPOPUP(x,y,menulist)        //*** Opens named menu at given location
+        {
+        var DL=eval(menulist);
+        if(!DL){alert("menuPOPUP NULL "+menulist);return;}
+        menuSHOW(menulist,x,y);
+        if(!menuScreenWidth)
+          menuScreenWidth=(systemIsNS)?document.width:document.body.offsetWidth;
+        mkw=(DL.greatestCharWidth*menuCharWidth)+10;
+        var atX = ((x+mkw+20)>=menuScreenWidth)?x-mkw:x;
+        if(jsLAYERgetX(DL.mPANEL)!=atX)menuXY(DL,atX,y);
+        }
+function menuCREATE(szMlist,iLeft,iTop)
+        {
+        Left= 20;Top = 40;
+        if(menuCREATE.arguments.length>1)Left=iLeft;
+        if(menuCREATE.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL ==null)
+          {
+          Mlist.mPANEL=new jsMPANELclass(szMlist,0,"Hello","alert('hi')",Left,Top,((Mlist.greatestCharWidth+10)*menuCharWidth)+1,((menuCharHeight+1)*Mlist.Items.length)+1);
+          Mlist.mPANEL.mParent=Mlist;
+          var menuContent='';
+          menuContent='<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD>';
+          for(x=0;x<Mlist.Items.length;x++)
+           {
+           menuContent+=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,false,Mlist.Items[x].SUB);
+           Mlist.Items[x].RENDER=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,true,Mlist.Items[x].SUB);
+           }
+        menuContent+='</TD><TD BGCOLOR="#000000">&nbsp;</TD>';
+        menuContent+="</TR><TR><TD COLSPAN=2>&nbsp;</TD></TR></TABLE>";
+//alert(menuContent);
+          jsLAYERsetContent(Mlist.mPANEL,menuContent);
+          }
+        if(Mlist.mSELECT==null)
+          {
+          Mlist.mSELECT=new jsMSELECTclass(szMlist,1,"Hello","alert('hi')",Left,Top,(Mlist.greatestCharWidth+10)*menuCharWidth,menuCharHeight);
+          Mlist.mSELECT.mParent=Mlist;
+          jsLAYERsetContent(Mlist.mSELECT,Mlist.Items[0].RENDER);
+          }
+        }
+
+function menuSHOW(szMlist,iLeft,iTop)   // SHOW the menu
+        {
+        Left= 20;Top = 40;
+        if(menuSHOW.arguments.length>1)Left=iLeft;
+        if(menuSHOW.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL==null)menuCREATE(szMlist,iLeft,iTop);
+        if(jsLAYERgetX(Mlist.mPANEL)!=Left || jsLAYERgetY(Mlist.mPANEL)!=Top)
+            {
+            jsLAYERxy(Mlist.mPANEL,Left,Top)   
+            jsLAYERxy(Mlist.mSELECT,Left,Top+(Mlist.EntryNum*(menuCharHeight+1)));
+            }; 
+        if(menuCurrentPath.indexOf(":"+szMlist+":")<0)menuCurrentPath+=((menuCurrentPath.length)?"":":")+szMlist+":";
+
+        if(Mlist.mPANEL.style.clip&&!systemIsNS)
+          {
+          Clips= Mlist.mPANEL.style.clip.split("rect(")[1].split(")")[0].split("px")
+          Clips[2]=Mlist.Items.length * (menuCharHeight+1);
+          Mlist.mPANEL.style.clip = "rect("+Array(0,Clips[1],Clips[2],0).join("px ")+"px)";
+          Mlist.mPANEL.style.zIndex=5;
+          Mlist.mSELECT.style.zIndex=6;
+          }
+        Mlist.mPANEL.style.visiblity='visible';
+//alert(Mlist.Items.length +" Item(s) "+ Mlist.mPANEL.style.clip);
+        jsLAYERshow(Mlist.mPANEL,true);
+        jsLAYERshow(Mlist.mSELECT,true);
+        }
+function menuHIDE(szMlist)      //  Hides the named menu
+        {
+        Mlist=eval(szMlist);
+        jsLAYERshow(Mlist.mSELECT,false);
+        jsLAYERshow(Mlist.mPANEL,false);
+        }
+function menuXY(Mlist,x,y)      // Moves the referenced menu
+        {
+        jsLAYERxy(Mlist.mPANEL,x,y)
+        jsLAYERxy(Mlist.mSELECT,x,y+(Mlist.EntryNum*(menuCharHeight+1)));
+        }
+function menuPOPDN(treeList)    // closes a list of menus
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(menuPOPDN.arguments.length<1)treeList=menuCurrentPath;
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             menuHIDE(killboy);
+             }
+        if(menuPOPDN.arguments.length<1)menuCurrentPath="";
+        };
+/*
+** MAIN MENU OBJECT
+*/
+var mSELECT=null;
+function MenuList(Mlist)
+        {
+        this.mPANEL=null;this.mSELECT=null;
+        this.Items=new Array();this.EntryNum=0;
+        this.APPEND=MenuListAPPEND;
+        this.greatestCharWidth=0;
+        }
+
+/*      Function        :MSIEmeasure
+**      Since I have found no straight forward method of obtaining IE x,y
+**      coords for the clicked link, this function recurses up the object tree
+**      to measure the screen location of the <A> involved
+*/
+function MSIEmeasure(btobj,HB)
+        {
+        var tobj=btobj;
+        HB.MX=tobj.offsetLeft;
+        HB.MY=tobj.offsetTop;
+        while(tobj.parentElement)
+          {
+          if(!tobj.parentElement)break;
+          tobj = tobj.parentElement;
+//        if(tobj.tagName=="TABLE")
+          if(String(":TABLE:TD:DIV:").indexOf(":"+tobj.tagName+":")>-1)
+            {
+            HB.MX+=tobj.offsetLeft;
+            HB.MY+=tobj.offsetTop;
+            }
+          if(!tobj.parentElement)break;
+          if(tobj.parentElement.tagName=="BODY")break;
+          }
+        return ;
+        }
+/****************************************
+** A message window                     *
+*****************************************/
+var StatusMsgWin=null;
+function jsMESSAGEclass(group,entry,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#FFFFCC");
+        jsLAYERsetHandler(this,"jsNULLvector");
+        jsLAYERshow(this,true);
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        }
+/*
+** Set the contents of the message window;
+*/
+function jsStatusMsg(txtMESSAGE)
+        {
+        if(!StatusMsgWin)
+          {
+          StatusMsgWin= new jsMESSAGEclass("E",1,1,1,355,100);
+          jsLAYERshow(StatusMsgWin,true);
+          }
+        jsLAYERsetContent(StatusMsgWin,txtMESSAGE);
+        }
+var LIBLOADEDJSmenu=true;
+//systemLibCnt++; 
+
+</SCRIPT>
+
+<SCRIPT language=JavaScript>
+<!--
+var image1;
+preLoad();
+function preLoad() {
+if (document.images) {
+image1= new Image();
+image1.src = "http://invite.ke2.informative.com/images/invite.gif";
+if (image1.complete){
+InviteUser() ;
+}else{
+setTimeout('everySecond()',1000);
+}
+}
+}
+function everySecond(){
+if (image1.complete){
+InviteUser() ;
+}
+}
+function InviteUser(){
+var strURL ="http://invite.ke2.informative.com/i.dll?s=23803&c=i&i=P&xu=embed&CLOSE=1";
+window.open ( strURL, "", "toolbar=no,toolbar=0,location=no,location=0,status=no,status=0,menubar=no,menubar=0,scrollbars=yes,scrollbars=1,resizable=yes,resizable=1,width=1,height=1,top=3000,left=3000,alwaysRaised=1" ); 
+}
+//-->
+// Copyright 1997-2000 Informative, Inc</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#663399 aLink=#6699cc link=#0000ff bgColor=#ffffff 
+leftMargin=0 topMargin=0 rightMargin=0><FONT 
+face="Verdana, Georgia, Arial, Sans-Serif" size=2><!-- ad width = 468  - ad height = 60 -->
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#666699>
+    <TD vAlign=bottom align=left bgColor=#666699 rowSpan=2><A 
+      href="http://www.embedded.com/"><IMG 
+      src="Embedded Systems - Paging-Dateien/embedded_top.jpg" 
+      width=302 border=0 HIEGHT="119"></A><BR></TD><!-- TOP BANNER -->
+    <TD vAlign=top align=middle bgColor=#666699 colSpan=2><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3362&amp;RunID=39729&amp;AdID=29384&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=178.1831&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=48215&amp;n=1034066279?" 
+      target=_top><IMG height=60 alt="Click here!" 
+      src="Embedded Systems - Paging-Dateien/dsp-getstarted-468.gif" 
+      width=468 border=0></A><BR></TD></TR>
+  <TR>
+    <TD vAlign=bottom align=right bgColor=#666699><IMG height=50 hspace=0 
+      src="Embedded Systems - Paging-Dateien/blend_top.gif" 
+      width=387 border=0><BR></TD>
+    <TD vAlign=bottom align=right width=91 bgColor=#666699 height=50><IMG 
+      height=50 hspace=0 
+      src="Embedded Systems - Paging-Dateien/edtnlogo.gif" 
+      width=91 border=0><BR></TD></TR></TBODY></TABLE><!-- TOP NAV -->
+<TABLE cellSpacing=1 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#333366>
+    <TD align=middle width=130><A 
+      href="http://www.edtn.com/encyclopedia/"><IMG height=16 
+      alt="EDTN Encyclopedia" 
+      src="Embedded Systems - Paging-Dateien/e_cyclo.gif" 
+      width=94 border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.embedded.com/98/"><IMG 
+      height=16 alt=Home 
+      src="Embedded Systems - Paging-Dateien/home.gif" 
+      width=42 border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.edtn.com/register/"><IMG 
+      height=16 alt="Register for the EDTN Network" 
+      src="Embedded Systems - Paging-Dateien/register.gif" 
+      width=68 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/contact.htm"><IMG height=16 alt=Contact 
+      src="Embedded Systems - Paging-Dateien/about.gif" 
+      width=73 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/advertising.html"><IMG height=16 
+      alt=Advertising 
+      src="Embedded Systems - Paging-Dateien/advert.gif" 
+      width=97 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="mailto:wbiondi@cmp.com?subject=Feedback from Embedded.com"><IMG 
+      height=16 alt=Feedback 
+      src="Embedded Systems - Paging-Dateien/feeback.gif" 
+      width=68 border=0></A></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR><!-- LEFTNAV -->
+    <TD vAlign=top align=left width=205 rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 width=205 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=21 bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=18 bgColor=#ffffcc><IMG height=18 
+            src="Embedded Systems - Paging-Dateien/curve_lav.gif" 
+            width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=166 bgColor=#ffffcc>&nbsp;</TD></TR><!-- LEFTTOC -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=184 bgColor=#ffffcc colSpan=2>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle bgColor=#ffffcc>
+                  <CENTER><A 
+                  href="http://www.cmpnet.com/cgi-bin/goto?SRC=ESCSF_REG&amp;URL=http://www.esconline.com/sf/register.htm"><IMG 
+                  height=42 alt="REGISTER NOW!" 
+                  src="Embedded Systems - Paging-Dateien/escsf_sm.gif" 
+                  width=124 border=0></A></CENTER><!-- SEARCH -->
+                  <FORM action=/search method=get><IMG height=21 
+                  src="Embedded Systems - Paging-Dateien/esearch.gif" 
+                  width=184> <INPUT name=queryText><BR><INPUT type=submit value=Search name=Search> 
+                  <BR><FONT face="verdana, georgia, arial" size=1><A 
+                  href="http://www.edtn.com/esearchcenter.html"><B>Search the 
+                  EDTN Network</B></A></FONT> </FORM></TD></TR>
+              <TR>
+                <TD vAlign=top align=left bgColor=#ffffcc><!-- EMBEDDED.COM LINKS --><IMG height=19 
+                  alt="Embedded.com Links" 
+                  src="Embedded Systems - Paging-Dateien/embedd_links.gif" 
+                  width=184><BR><A onmouseover="imgSwap('esconf','esconfon',1)" 
+                  onmouseout="imgSwap('esconf','esconfoff',1)" 
+                  href="http://www.esconline.com/"><IMG height=35 
+                  src="Embedded Systems - Paging-Dateien/es_conf.gif" 
+                  width=184 border=0 name=esconf></A><BR><A 
+                  onmouseover="imgSwap('mag','magon',1)" 
+                  onmouseout="imgSwap('mag','magoff',1)" 
+                  href="http://www.embedded.com/mag.htm"><IMG height=35 
+                  src="Embedded Systems - Paging-Dateien/esp_mag.gif" 
+                  width=184 border=0 name=mag></A><BR><A 
+                  onmouseover="imgSwap('ia','iaon',1)" 
+                  onmouseout="imgSwap('ia','iaoff',1)" 
+                  href="http://www.embedded.com/internet/"><IMG height=20 
+                  src="Embedded Systems - Paging-Dateien/ia.gif" 
+                  width=184 border=0 name=ia></A><BR><A 
+                  onmouseover="imgSwap('down','downon',1)" 
+                  onmouseout="imgSwap('down','downoff',1)" 
+                  href="http://www.embedded.com/code.htm"><IMG height=21 
+                  src="Embedded Systems - Paging-Dateien/code.gif" 
+                  width=184 border=0 name=down></A><BR><A 
+                  onmouseover="imgSwap('demo','demoon',1)" 
+                  onmouseout="imgSwap('demo','demooff',1)" 
+                  href="http://www.embedded.com/demos.htm"><IMG height=19 
+                  src="Embedded Systems - Paging-Dateien/prod_demos.gif" 
+                  width=184 border=0 name=demo></A><BR><A 
+                  onmouseover="imgSwap('res','reson',1)" 
+                  onmouseout="imgSwap('res','resoff',1)" 
+                  href="http://www.embedded.com/links.htm"><IMG height=21 
+                  src="Embedded Systems - Paging-Dateien/resources.gif" 
+                  width=184 border=0 name=res></A><BR><A 
+                  onmouseover="imgSwap('ie','ieon',1)" 
+                  onmouseout="imgSwap('ie','ieoff',1)" 
+                  href="http://www.embedded.com/events.htm"><IMG height=19 
+                  src="Embedded Systems - Paging-Dateien/ind_ev.gif" 
+                  width=184 border=0 name=ie></A><BR><A 
+                  onmouseover="imgSwap('guide','guideon',1)" 
+                  onmouseout="imgSwap('guide','guideoff',1)" 
+                  href="http://www.embedded.com/bg/"><IMG height=20 
+                  src="Embedded Systems - Paging-Dateien/buyers.gif" 
+                  width=184 border=0 name=guide></A><BR><A 
+                  onmouseover="imgSwap('site','siteon',1)" 
+                  onmouseout="imgSwap('site','siteoff',1)" 
+                  href="http://www.embedded.com/sitemap.htm"><IMG height=20 
+                  src="Embedded Systems - Paging-Dateien/sitemap.gif" 
+                  width=184 border=0 name=site></A><BR><!--NEW PRODUCTS--><IMG 
+                  height=19 alt="NEW Products" 
+                  src="Embedded Systems - Paging-Dateien/new_prodheader.gif" 
+                  width=184> 
+                  <TABLE><FONT face=VERDANA size=1>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Paging-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0071">Atmel 
+                        offers design tool for programmable SoCs</A> 
+                    </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Paging-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0065">Communications 
+                        processor supports by-wire systems</A> </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Paging-Dateien/blackarrow_lg.gif"> 
+                      </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020213S0050">MEN 
+                        Micro board sports I/O options</A> 
+                  </FONT></TD></TR></TBODY></TABLE>
+                  <P align=right><A href="http://www.embedded.com/products">More 
+                  New Products</A> <IMG 
+                  src="Embedded Systems - Paging-Dateien/blackarrow.gif"> 
+                  <BR><BR></FONT><!-- COMPANY STORE PRODUCTS --><IMG height=19 
+                  alt="Company Store" 
+                  src="Embedded Systems - Paging-Dateien/companystore_header.gif" 
+                  width=184><BR><A onmouseover="imgSwap('direct','directon',1)" 
+                  onmouseout="imgSwap('direct','directoff',1)" 
+                  href="http://www.embedded.com/directories/"><IMG height=22 
+                  src="Embedded Systems - Paging-Dateien/catalogs.gif" 
+                  width=184 border=0 name=direct></A><BR><A 
+                  onmouseover="imgSwap('cdrom','cdromon',1)" 
+                  onmouseout="imgSwap('cdrom','cdromoff',1)" 
+                  href="http://www.embedded.com/cdrom.htm"><IMG height=22 
+                  src="Embedded Systems - Paging-Dateien/cdrom.gif" 
+                  width=184 border=0 name=cdrom></A><BR><A 
+                  onmouseover="imgSwap('embeddedbooks','embeddedbookson',1)" 
+                  onmouseout="imgSwap('embeddedbooks','embeddedbooksoff',1)" 
+                  href="http://www.embedded.com/books.htm"><IMG height=22 
+                  src="Embedded Systems - Paging-Dateien/embeddedbooks.gif" 
+                  width=184 border=0 name=embeddedbooks></A><BR><A 
+                  onmouseover="imgSwap('jobs','jobson',1)" 
+                  onmouseout="imgSwap('jobs','jobsoff',1)" 
+                  href="http://www.embedded.com/jobs.htm"><IMG height=20 
+                  src="Embedded Systems - Paging-Dateien/job.gif" 
+                  width=184 border=0 name=jobs></A> <!-- SPONSORED MICROSITES --><!--<IMG SRC="http://img.cmpnet.com/embedded/redesign/microsites.gif" ALT="Sponsored Microsites" WIDTH="184" HEIGHT="19"><BR>
+
+
+<A HREF="http://embeddeddsp.embedded.com" 
+onMouseOver="imgSwap('welcome','welcomeon',1)" onMouseOut="imgSwap('welcome','welcomeoff',1)"><IMG SRC="http://img.cmpnet.com/embedded/redesign/welcometo.gif" ALT="Welcome to Embedded DSP by TI" WIDTH="184" HEIGHT="33" BORDER="0" NAME="welcome"></A>--></P></TD></TR></TBODY></TABLE><BR 
+            clear=all><!-- top left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4876&amp;RunID=29943&amp;AdID=23514&amp;GroupID=121&amp;FamilyID=1&amp;TagValues=450.1831&amp;Redirect=http://www.edtn.com/homeauto" 
+            target=_top><IMG alt="Click here!" 
+            src="Embedded Systems - Paging-Dateien/hometoystile125.gif" 
+            border=1></A> </CENTER><!--- end of top left tile ad--><BR><!-- botom left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4882&amp;RunID=25781&amp;AdID=16823&amp;GroupID=1&amp;FamilyID=340&amp;TagValues=453.1831&amp;Redirect=http://www.planetanalog.com" 
+            target=_top><IMG alt="Click here!" 
+            src="Embedded Systems - Paging-Dateien/pa125.gif" 
+            border=1></A> </CENTER><!--- end of bottom left tile ad--><BR>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=right bgColor=#ffffcc><!-- AROUND THE NETWORK --><IMG height=11 
+                  alt="From around the network" 
+                  src="Embedded Systems - Paging-Dateien/around.gif" 
+                  width=184 vspace=3><BR><!-- GLOBAL PORTALS --><IMG height=19 
+                  alt="Global Portals" 
+                  src="Embedded Systems - Paging-Dateien/gb2.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.edtn.com/">EDTN Network</A><BR><A 
+                  href="http://www.edtneurope.com/">EDTN Europe</A><BR><A 
+                  href="http://www.edtnasia.com/">EDTN Asia</A><BR><BR><!-- COMMUNITIES --><IMG height=19 
+                  alt=Communities 
+                  src="Embedded Systems - Paging-Dateien/frontbut-commun.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.eedesign.com/">EEdesign</A><BR><I>Design 
+                  tools and methodologies</I><BR><A 
+                  href="http://www.planetanalog.com/">Planet 
+                  Analog</A><BR><I>The analog/mixed signal resource</I><BR><A 
+                  href="http://www.commsdesign.com/">Comms Design</A><BR><I>The 
+                  analog/mixed signal resource</I><BR><A 
+                  href="http://www.siliconstrategies.com/">Silicon 
+                  Strategies</A><BR><I>Tracking the semiconductor 
+                  foodchain</I><BR><A 
+                  href="http://www.gaas.net/">GaAsNET</A><BR><I>GaAs electronics 
+                  industry resource</I><BR><A 
+                  href="http://www.embedded.com/">Embedded.com</A><BR><I>Embedded 
+                  systems resource</I><BR><A 
+                  href="http://www.theworkcircuit.com/">The Work 
+                  Circuit</A><BR><I>Where Engineers make their own 
+                  connections</I><BR><A 
+                  href="http://www.iapplianceweb.com/">iApplianceWeb</A><BR><I>Information 
+                  appliance resource</I><BR></FONT><!--network jump menu -->
+                  <SCRIPT>
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</SCRIPT>
+
+                  <FORM name=form1><IMG height=19 alt="EDTN sites worldwide" 
+                  src="Embedded Systems - Paging-Dateien/side-wwsites2.gif" 
+                  width=184 vspace=2><BR><FONT 
+                  face="Verdana, Arial, Helvetica, sans-serif" size=1><SELECT 
+                  onchange="MM_jumpMenu('parent',this,1)" size=2 
+                  name="network links"> <OPTION selected>Please select a 
+                    site</OPTION> <OPTION value=http://www.edtn.com/>EDTN 
+                    Network</OPTION> <OPTION 
+                    value=http://www.allembedded.com>Allembedded</OPTION> 
+                    <OPTION value=http://www.chipcenter.com>ChipCenter</OPTION> 
+                    <OPTION value=http://www.circuitsassembly.com>Circuits 
+                    Assembly</OPTION> <OPTION 
+                    value=http://www.commsdesign.com>Comms Design</OPTION> 
+                    <OPTION value=http://www.csdmag.com>Comms Sys 
+                    Design</OPTION> <OPTION 
+                    value=http://www.us.design-reuse.com>Design &amp; 
+                    Reuse</OPTION> <OPTION value=http://www.edtneurope.com>EDTN 
+                    Europe</OPTION> <OPTION 
+                    value=http://www.edtnscandinavia.com>EDTN 
+                    Scandinavia</OPTION> <OPTION 
+                    value=http://www.eedesign.com>EEdesign</OPTION> <OPTION 
+                    value=http://www.eetimes.com>EE Times</OPTION> <OPTION 
+                    value=http://www.ebnonline.com/>Electronic Buyers 
+                    News</OPTION> <OPTION 
+                    value=http://www.electronica-world.com>Electronica 
+                    World</OPTION> <OPTION 
+                    value=http://www.electronicstimes.co.uk>Electronics 
+                    Times</OPTION> <OPTION 
+                    value=http://www.embedded.com>Embedded.com</OPTION> <OPTION 
+                    value=http://www.gaasnet.com>GaAsNET</OPTION> <OPTION 
+                    value=http://www.hdi-online.com>HDI</OPTION> <OPTION 
+                    value=http://www.isdmag.com>Int Sys Design</OPTION> <OPTION 
+                    value=http://www.mwee.com>Microwave Engineering</OPTION> 
+                    <OPTION 
+                    value=http://www.planetanalog.com>PlanetAnalog</OPTION> 
+                    <OPTION value=http://www.pcdmag.com>Printed Circuit 
+                    Design</OPTION> <OPTION value=http://www.pcfab.com>PC 
+                    Fab</OPTION> <OPTION 
+                    value=http://www.pcnalert.com>PCNalert.com</OPTION> <OPTION 
+                    value=http://www.powerdesigners.com>PowerDesigner</OPTION> 
+                    <OPTION value=http://www.semibiznews.com>Semi Business 
+                    News</OPTION> <OPTION 
+                    value=http://www.techcareers.co.uk>Techcareers</OPTION> 
+                    <OPTION value=http://www.wnie.com>What's New in 
+                    Electronics</OPTION></SELECT> </FONT></FORM><BR><!-- encyclopedia link --><A 
+                  href="http://www.edtn.com/encyclopedia/"><IMG height=19 
+                  alt=e-cyclopedia 
+                  src="Embedded Systems - Paging-Dateien/side-elec_ind2.gif" 
+                  width=184 vspace=2 border=0></A><BR><!-- netseminar link --><A 
+                  href="http://www.netseminar.com/"><IMG height=19 
+                  alt=NetSeminar 
+                  src="Embedded Systems - Paging-Dateien/side-netseminar2.gif" 
+                  width=184 vspace=3 border=0></A><BR><!-- alerts link --><A 
+                  href="http://www.edtn.alerts.com/edtn/fs_main.jsp" 
+                  target=new><IMG height=19 alt=Alerts 
+                  src="Embedded Systems - Paging-Dateien/side-alerts2.gif" 
+                  width=184 vspace=3 border=0></A> </FONT><!--
+<P ALIGN="CENTER"><a href="http://www.edtn.com/shared/redirect?url=/howiwork/?site=embedded"><IMG SRC="http://img.cmpnet.com/commsdesign/pics/howiwork_trans.gif" ALT="Howiwork" WIDTH="120" HEIGHT="74" BORDER="0"></A></P>
+--></TD></TR></TBODY></TABLE></TD></TR><!-- Corporate LOGO -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD vAlign=top align=right>
+            <CENTER><IMG height=65 alt="Corporate Logo" 
+            src="Embedded Systems - Paging-Dateien/ubm_white.gif" 
+            width=70></CENTER></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle colSpan=3><FONT face=verdana,arial 
+            size=1>Copyright © 2002 CMP Media LLC<BR><A 
+            href="http://www.cmpnet.com/delivery/privacy.html">Privacy 
+            Statement</A></FONT> </TD></TR></TBODY></TABLE></TD><!-- END LEFT NAV --><!-- BODY -->
+    <TD vAlign=top align=left width=433 bgColor=#ffffff>
+      <TABLE cellSpacing=0 cellPadding=0 width=433 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff><IMG height=18 
+            src="Embedded Systems - Paging-Dateien/curve_yell.gif" 
+            width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff>&nbsp;</TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff><!-- TITLE Advanced Embedded x86 Programming: Paging -->
+            <META content="Advanced Embedded x86 Programming: Paging" 
+name=title>
+            <META content="June 1998" name=issue>
+            <META content="Jean Gareau" name=author><FONT 
+            face="Verdana, Georgia, Sans-Serif" size=2>
+            <CENTER><BR><IMG height=67 
+            src="Embedded Systems - Paging-Dateien/esplogo.gif" 
+            width=329><BR><BR></CENTER><B>
+            <H3>Advanced Embedded x86 Programming: Paging </H3><I>by JEAN GAREAU 
+            </I></B>
+            <P>This article is the third and final in a series describing 
+            protected-mode features of the Intel x86 family, from the 80386 
+            through the Pentium. RTOSes, embedded applications, and development 
+            tools can be updated to take advantage of the x86's 32-bit 
+            programming capabilities and larger, simpler memory models. 
+            <P>The first two articles in this series introduced 32-bit 
+            programming on the 80386 and its successors, switching into 
+            protected mode, and implementing protection and segmentation in 
+            protected mode. Let's quickly review these features. 
+            <P>Each segment register is an index to a table of descriptors, each 
+            of which describes a segment of memory by a base address, a limit, a 
+            type, and some protection fields. A linear address is produced from 
+            a segment/offset register combination by adding the offset to the 
+            base address found in the descriptor (which is pointed to by a 
+            segment register). Among the descriptor's protection fields is the 
+            descriptor privilege level (DPL), which sets the current task's 
+            current privilege level (CPL). Only a CPL of 0 (the highest level) 
+            gives full privileges to execute protected instructions (set or 
+            clear the interrupts, and so forth). Applications usually have a CPL 
+            of 3 (the lowest level), which gives them no privilege. 
+            <P>Segmentation offers flexibility and protection but it presents 
+            various constraints: it can seriously increase the complexity when 
+            many memory segments are used; switching segment registers increases 
+            execution time; each segment has a limited, static address space; 
+            and development tools must also support segmented memory models. An 
+            alternative is to preserve the segmentation's main advantages 
+            (virtual memory and protection), but replace all segments by a 
+            per-task flat and flexible address space. Paging, the feature that 
+            allows just that, is the subject of this article. 
+            <P>Paging is ideal for a multitasking embedded application whose 
+            tasks may require a very large address space or share a lot of data. 
+            It better fits systems with a few megabytes of ROM and RAM. Some 
+            recent high-end embedded devices fall into that category; for 
+            instance, a Web appliance (such as a TV Web device) may run many 
+            instances of the same browser. Paging allows the code of all these 
+            browsers to be shared instead of being uselessly duplicated, freeing 
+            precious memory. These browsers may temporarily need large address 
+            space to load pages with a lot of text, images, and sound. Paging 
+            allows you to store and access these megabytes of data easily 
+            through a flat address space. 
+            <P>You can download examples that implement various kernel designs 
+            from www.embedded.com/code.htm. These examples demonstrate the 
+            concepts explained in this series, including a port of mC/OS to 
+            protected mode. The source code is provided as well as ready-to-run 
+            executables and additional tools. 
+            <P><B>A QUICK TOUR OF PAGING </B><BR>A system that implements paging 
+            breaks a task into a multitude of small pages, as illustrated in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe03.gif">Figure 
+            1</A>. The size of a page typically ranges from 512 bytes to 8K, and 
+            is CPU-dependent. Each task is under the illusion that it has a huge 
+            flat address space, composed of hundreds of thousands of pages; 
+            however, only the pages in use have to be in physical memory. The 
+            other pages reside on disks or can even remain compressed 
+            elsewhere-in flash memory, for instance. As an application requires 
+            more stack or data memory, physical pages are dynamically and 
+            transparently allocated in RAM by the operating system (OS). 
+            <P>Paging offers many advantages, the first of which is a simple 
+            memory model. Each task has a large and uniform address space (no 
+            more segmented memory model, such as small, large, and so on). 
+            Segmentation can be ignored, simplifying application development. 
+            Development tools are also simplified because a flat memory model is 
+            much easier to handle than a segmented one. 
+            <P>Paging also offers a smaller task footprint. The physical space 
+            that must be committed for a task is directly proportional to the 
+            number of pages it needs, unlike segments that require a fixed 
+            amount of memory. Pages can reside anywhere in memory and do not 
+            need to be contiguous, optimizing the use of the physical memory and 
+            rendering the tasks' physical location irrelevant. Only the OS has 
+            to keep an eye on their physical location. 
+            <P>Another advantage offered by paging is efficient memory 
+            allocation. Pages can be allocated and deallocated on the fly, 
+            quickly expanding or shrinking task stacks or heaps. Pages can also 
+            be shared among tasks, and then can be replaced on the fly. For 
+            instance, a task in ROM can be partially or totally updated by 
+            adding new pages in flash memory and reorganizing the task's address 
+            space to use the new pages. 
+            <P>To summarize, paging is ideal to support large applications with 
+            multiple tasks. On the other hand, it imposes significant memory 
+            overhead on small systems and isn't trivial to implement. 
+            <P><B>A CLOSER LOOK </B><BR>Under paging, each task is broken up 
+            into a series of fixed-size pages (See <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe03.gif">Figure 
+            1</A>). These pages can reside anywhere in memory and do not have to 
+            be contiguous.1 Only the pages that are accessed have to be in 
+            memory. For instance, if an application executes just a few 
+            functions, only the pages containing these functions need to be 
+            loaded in memory; the other pages may stay on a disk. 
+            <P>In a simple paging system, an address is broken in two: the left 
+            portion is a number that indicates a page in memory, whereas the 
+            right portion is considered an offset within the page (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe04.gif">Figure 
+            2a</A>). The OS uses internal tables to map the page number to its 
+            physical location. Under that scheme, pages may reside anywhere in 
+            memory. A simple paging system such as the one I just described 
+            requires a huge page table for a 32-bit system, since the page table 
+            has to cover the entire address space of 4GB for each task. Such a 
+            huge page table would span many contiguous pages itself. To prevent 
+            this situation, this huge page table is fragmented in smaller page 
+            tables, resulting in a three-level page table hierarchy, as seen in 
+            <A href="http://img.cmpnet.com/embedded/gifs/9806fe04.gif">Figure 
+            2b</A>. Large systems typically use a three- or four-level 
+            hierarchy, and accordingly split any address into three or four 
+            indexes. These systems are more complex, but they allow anything to 
+            be split into fixed-size pages. 
+            <P>Pages and page tables are constructed by the OS as applications 
+            are loaded in memory. The code and data are loaded into pages called 
+            page frames, whose addresses are stored into page tables by the OS. 
+            Because a task sees the page frames through its page tables, it 
+            cannot see (or alter) another task's page frames. As a task requires 
+            memory, more pages are transparently allocated by the system; at the 
+            end, a task only uses the pages it needs, and no more. Tasks are 
+            never involved in page management; it's the operating system's 
+            business. 
+            <P>Paging can be implemented only if the underlying CPU supports it. 
+            Alternatively, a CPU may rely on an external memory management unit 
+            (MMU) instead. The hardware is involved because each address must be 
+            translated into a page whenever code or data is accessed. Needless 
+            to say, the translation logic must be optimized, given all the 
+            translations that occur when tasks run. Caching is extremely 
+            important at that level for performance considerations. 
+            <P><B>PAGING ON THE x86 </B><BR>The x86 uses a three-level 
+            hierarchy, as shown in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe04.gif">Figure 
+            2b</A>. As I've explained, any logical address (segment/offset pair 
+            used in the task) is translated into a 32-bit linear address through 
+            segmentation. When paging is enabled, the linear address is broken 
+            up into three components: a 10-bit directory index, a 10-bit page 
+            index and a 12-bit offset (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe05.gif">Figure 
+            3</A>). 
+            <P>The OS must create and initialize, for each task, a page 
+            directory (PD) and at least one page table (PT). Only one page 
+            directory may be active at a time, indicated by the CR3 register. 
+            The 4K page directory contains 1,024 (210) four-byte entries, called 
+            page directory entries (PDEs). The linear address' 10-bit directory 
+            index is an index to this table, to a specific PDE. This PDE in turn 
+            contains the address of a page table, which is very similar to a 
+            page directory: it contains 1,024 four-byte entries, called page 
+            table entries (PTEs). The linear address' 10-bit page index is an 
+            index into this page table, to a specific PTE. This PTE points to a 
+            page frame (PF), also 4K, which contains task code or data. The 
+            linear address' 12-bit offset is an offset into this page. At the 
+            end, a 32-bit address points to a byte in a specific page. 
+            <P>Note that a page size on an x86 is always 4K and a page entry is 
+            always 32 bits wide (20 for the page address and 12 control bits). A 
+            page address is obtained by taking the 20 address bits in the page 
+            entry and adding 12 zero bits. Consequently, the pages are always 
+            aligned on a 4K (212) boundary. 
+            <P>Let's see how a hypothetical OS could create and manage those 
+            pages on an x86. We'll start with an over-simplified example: a 
+            paged system with one task. This example isn't realistic because 
+            paging would add more memory overhead than if we didn't use it, but 
+            explaining paging concepts will be easier. 
+            <P>Let's assume the OS is running and that a 32K task is ready to be 
+            loaded and executed. The OS starts by creating the page directory. 
+            Even if in this case one entry will be used, an entire page (4K) 
+            must be allocated. The address of that page is stored in the CR3 
+            register. Then the OS identifies the first page of code that will be 
+            executed, based on the task's entry point (usually written somewhere 
+            in the executable image-the .EXE). The OS also creates a page table 
+            that points to that page of code, and stores the address of that 
+            page table in the proper page directory entry (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe06.gif">Figure 
+            4</A>). 
+            <P>Then control is given to the task, which sends the address of the 
+            first instruction to execute on the address bus. The CPU translates 
+            this address by splitting it into the page directory index, page 
+            table index, and page frame offset. Because the OS carefully 
+            prepared the page directory and the proper page table, the 
+            instruction is located, fetched, and executed. The execution 
+            continues with the next instruction and so on. Not that magic, huh? 
+            <P>You may wonder what happens when execution goes beyond that 
+            unique page of code in memory. After all, the task has a size of 
+            32K, so it has more code than a single page. Each entry in the page 
+            directory and page tables contains a present bit, managed by the OS, 
+            initially set to zero. The bit is set to one if the entry contains a 
+            valid address of a page in memory; it contains zero if the entry 
+            hasn't been initialized or is no longer valid. Let's say the task 
+            jumps 8K ahead (for example, two pages ahead). The target 
+            instruction's address is decoded by the CPU, but this time either 
+            the page directory entry or the page table entry will have its 
+            present bit set to zero, since the target code is not already 
+            loaded. That condition automatically raises a page fault exception. 
+            The OS reacts by analyzing the address, only to realize that it's 
+            valid but the page isn't in memory. Fair enough, the proper code 
+            page is loaded in memory, the page table and page directory are 
+            updated, and the instruction is restarted; this time, it succeeds. 
+            The same scenario is repeated for other pages of code or data 
+            access. This method is called demand paging, because pages are 
+            loaded as the task requires it-on demand. 
+            <P>Now let's execute another task. Again the OS prepares a page 
+            directory and a page table, different from those allocated for the 
+            first task. A page of code is loaded in memory and the second task 
+            starts executing its own code. The OS here makes sure that the page 
+            directory and page tables of that second task only point to code and 
+            data pages of that task. By doing so, the second task only sees its 
+            own code and data, and never sees (or alters) the first task's code 
+            and data. 
+            <P>As tasks' pages are allocated, the OS eventually runs out of 
+            physical memory. What happens when a page fault is triggered because 
+            a task wants to execute unloaded code? The OS needs to discard 
+            unused pages. As a task executes, some of the executed code will in 
+            fact never be executed again. The OS can't predict if some pages of 
+            code will ever be used again or not, but it can guess which pages 
+            are least likely to be required again. These pages are 
+            deallocated-the present bit of the page table entries pointing to 
+            them is reset to zero. The locations of these pages become available 
+            in order to load other pages that are in demand. The OS tries to 
+            reduce page faults, which can incur a significant source of 
+            overhead. Imagine if an interrupt is triggered and the handler isn't 
+            already paged in memory-the delay for loading the page could simply 
+            be unacceptable. A solution in this case is to make sure that 
+            interrupt handlers are always in memory and never deallocated. But 
+            invariably, numerous page faults are to be expected, as execution is 
+            unpredictable. 
+            <P>By carefully allocating and deallocating pages, the OS can keep 
+            in memory the pages required by the tasks. By keeping a few pages of 
+            each task, the OS is able to run many tasks, even if the total size 
+            of these tasks far exceeds the available physical memory. Paging 
+            gives each task 4GB of private virtual memory, although only a 
+            fraction of that address space is resident in memory at any moment. 
+            But from each task's standpoint, there is 4GB of memory to play with 
+            (although I've yet to see any embedded task taking advantage of all 
+            that virtual space). 
+            <P>Quite interestingly, for a given task, only one register is 
+            involved in the address translation: CR3, which points to the page 
+            directory. When a task switch occurs, only CR3 needs to be reloaded 
+            with the next task's page directory address, and here it goes in its 
+            own, private address space. Segmentation isn't disabled under 
+            paging, but by always using descriptors with a base address of zero 
+            and a limit of 4GB, one can safely forget about it, as segments 
+            never have to be changed. 
+            <P>Another plus for paging is the possibility of easily sharing 
+            pages. Let's say the same task is run twice (two instances). A good 
+            example is a task that monitors an analog device; in a system with 
+            two analog devices, two tasks may be required (one per device). 
+            Since the code is the same, the two tasks may share the code. This 
+            sharing is simply achieved by loading the code once in memory, and 
+            having both tasks' page tables pointing to the same pages (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe07.gif">Figure 
+            5</A>). The larger the shared code, the bigger the gain. Shared 
+            libraries are also good candidates for code sharing. Writable data 
+            is not sharable (although it can be shared until it is modified). 
+            <P>All in all, despite the features directly implemented in the CPU, 
+            the challenge is in designing how the system will manage pages, 
+            which pages should be deallocated, how many pages a single task 
+            could be allowed in memory at once, which pages could be anticipated 
+            and pre-allocated to speed task execution, and so forth. The CPU 
+            gives you the tools, but you really have to prepare a good system 
+            design beforehand. 
+            <P><B>TASK ADDRESS SPACE LAYOUT </B><BR>Although each task has a 
+            virtual address space of 4GB, partitioning this memory for various 
+            uses is important. The OS must reserve some of that space for 
+            itself-we'll see why in a moment-and 2GB (the upper portion of each 
+            address space) is commonly reserved for the system, leaving 2GB for 
+            the task. The task's code usually starts at the bottom of the 
+            address space, followed by the data. The stack usually starts at the 
+            end of the 2GB (below the space reserved by the OS) and grows 
+            downward. The heap (for dynamically allocated data) sits between the 
+            data and the stack. Other combinations are acceptable, depending on 
+            the system's needs. The important concept is that all that space is 
+            virtual; when the task starts to execute or access data, physical 
+            pages are allocated one by one, as required. Address space layout is 
+            a concern for OSes, compilers, and linkers, but not for application 
+            developers. 
+            <P>Because each application only sees its own 4GB, kernel services 
+            (invoked by the application or an interrupt) must be mapped within 
+            that range as well. In fact, the kernel must be mapped in all tasks 
+            to be equally accessible. System calls can be implemented as call or 
+            interrupt gates, as long as they point to the proper handler in the 
+            address space of each task. 
+            <P>When a system call is invoked, the kernel begins executing within 
+            the context of the task being interrupted or making the call. If 
+            some arguments are passed in the call (even pointers), they can be 
+            used as is to access task's data. 
+            <P><B>MAPPING THE OPERATING SYSTEM </B><BR>Upon initialization, the 
+            OS must build an initial page directory and page table to activate 
+            the paging. These could actually belong to a permanent monitor, 
+            debugger, or simply the idle loop. The operating system's code and 
+            data are the page frames (if the OS is entirely loaded). The OS can 
+            map itself from linear address 0, but also from, say, address 
+            F0000000h (see <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe08.gif">Figure 
+            6</A>). All call gates and interrupt handlers are set to addresses 
+            above F0000000h, which lead to their real locations in physical 
+            memory. 
+            <P>When the first task is built, the upper part of its page 
+            directory is mapped to all system page tables, mapping the OS into 
+            its address space, as shown in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe09.gif">Figure 
+            7</A>. When that task executes, an interrupt or a call gate will 
+            jump somewhere into the OS. 
+            <P>There is no rule regarding whether the OS should be mapped in the 
+            bottom or the top of the task address space. However, many OSes map 
+            themselves at the high end of all address spaces, leaving the 
+            application at the bottom (smaller addresses are more 
+            human-readable). But you may well implement an alternate design, 
+            depending on your needs. Following are certain issues to consider. 
+            <P>Use flat segments (base address of zero, limit of 4GB). Unless 
+            you have extraordinary constraints, you can forget about 
+            segmentation by keeping it that way. 
+            <P>The OS must be able to access all physical memory while paging is 
+            enabled. Because the kernel executes in the context of the 
+            interrupted task (whichever it is), the entire physical memory must 
+            be mapped in all tasks. In the previous example, mapping the kernel 
+            from F0000000h gives access up to 256MB of RAM. In order to support, 
+            say 512MB of RAM, the OS would have to be mapped at E0000000h. 
+            <P>Shared libraries, if you intend to support them, can be mapped in 
+            the kernel. Since the kernel is mapped into all tasks, the shared 
+            libraries will be too. Dynamic linking is easier if each library 
+            resides at the same address in each task. In the previous example, 
+            the space between C0000000h and F0000000 (768MB) is a good 
+            placeholder. 
+            <P>Reserving address space for system usage reduces the address 
+            space of all tasks. Some systems keep 2GB of address space (the 
+            upper half) for themselves, no matter what, to give OS designers 
+            ample room to implement features in future releases without changing 
+            the architecture. 
+            <P><B>PROTECTION REVISITED </B><BR>Protection also exists at the 
+            paging level, in addition to the protection already present in the 
+            segmentation (which is always enabled). Page directory and page 
+            table entries have two protection bits: read-only, and privilege 
+            required to access the page; either CPL 0 (supervisor mode) or above 
+            zero (user mode). The operating system's page entries are always 
+            marked supervisor mode, whereas task's page entries are marked user 
+            mode. If a task with a CPL of one, two, or three tries to access any 
+            pages marked supervisor, even to read only, an exception will be 
+            raised (and the OS may destroy that task). 
+            <P>The CPL of each task is still dictated by the code segment's DPL. 
+            A simple yet efficient design involves using a DPL of three with 
+            task's descriptors and zero with the OS. Thus, combining protection 
+            features from segmentation and paging provides an effective shield 
+            over the system resources. 
+            <P><B>ACTIVATING PAGING </B><BR>Let's review a code example that 
+            demonstrates how to activate paging on an x86. Paging is activated 
+            once the CPU executes in protected mode with full privileges (CPL 
+            0). If the protected mode is turned off, so will be the paging. The 
+            next example starts in real mode, with the interrupts disabled. It 
+            then enables protected mode and switches into 32-bit (as presented 
+            in the first article of this series). It then activates paging and 
+            maps the kernel at the end of its address space (F000xxxx). 
+            <P>The example starts its execution at a low physical address 
+            (0000xxxx) and will end up somewhere above F000xxxx. An address 
+            issue exists here, regarding a single application running at 
+            0000xxxx and F000xxxx: if a directive such as ORG F000xxxx appears 
+            in the program, most linkers will try to fill the gap between the 
+            instruction before the directive and the instruction that follows 
+            (in this case, almost 4GB). Such a directive can obviously not be 
+            used. The only way to resolve the problem is to set the application 
+            base address to F0000000h using a linker option (most recent linkers 
+            have such an option), and to bring all "pre-paging" instructions 
+            into low addresses by subtracting F0000000h from them, or using 
+            relative addressing. This action affects only a few instructions. 
+            <P>One page directory and one page table are required before 
+            activating paging. Both are pre-allocated in the example (the page 
+            directory is at line 49 and the page table at line 51); they could 
+            have been allocated dynamically if dynamic location were available. 
+            The only requirement is that the pages must be aligned on a 4K 
+            boundary; their physical location isn't important. 
+            <P>The example is loaded at physical address 0, so the page table is 
+            initialized to cover the physical page frames from physical address 
+            0. The entire page table is initialized, covering up to 4MB of 
+            physical memory (lines 108-116), although only a few entries will be 
+            required in the example. The page table address is stored in the 
+            first page directory entry (lines 101-103), making virtual address 
+            equal to physical address when paging is enabled.4 
+            <P>Addresses that start with F000 result in a page directory index 
+            of 960. In order to map the code at address F0000000h, the page 
+            table address is also stored in page directory entry 960 (lines 
+            105-106). The page directory has two entries referring to the same 
+            page table, as shown in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe08.gif">Figure 
+            6</A>. Finally, the CR3 register is set to the address of the page 
+            directory (lines 121-122). The kernel could be mapped at another 
+            location simply by properly initializing the page directory. For 
+            instance, if the kernel is to be mapped at E0000000h, PDE 896 
+            instead of 960 must point to the first page table. The program would 
+            also have to be linked with a base address of E0000000h. 
+            <P>Paging is then enabled by setting bit 31 in CR0 (lines 126-128). 
+            From that point, all instructions are decoded using the paging 
+            translation. The translation then maps virtual addresses to physical 
+            addresses. The instruction queue must be flushed in order to prevent 
+            any problems with the pre-fetched, pre-paging instructions (line 
+            129). 
+            <P>The next step is to switch into the high end of the address 
+            space. A jump is simulated by PUSHing the address (as is) of the 
+            next instruction and RETurning to it (lines 133 to 134). A relative 
+            jump cannot be used because the assembler doesn't know that half of 
+            this code is running at 0000xxxx and the other half at F000xxxx. 
+            <P>From that point, the rest of the OS is initialized. All trap, 
+            interrupt, and call gates must point to functions in the high 
+            address space (F000xxxx). Finally, if a task was created, its page 
+            directory's entry 960 would have to be mapped to the system page 
+            table. Thus, any reference by any gates to the addresses in that 
+            range would properly end up in the OS. 
+            <P><B>AN IMPLEMENTATION EXAMPLE </B><BR>The real issue that arises 
+            when implementing paging has to do with the task address space 
+            layout, and finding the proper balance between system space and task 
+            space, where the various components (task, system services, shared 
+            libraries, and the like) will be mapped, what kind of protection is 
+            required, and so forth. If swapping is supported, you'll have to 
+            identify the task working set (how many pages at once in memory), 
+            the page replacement strategy (what page to remove if there is some 
+            memory contingency), and so on. 
+            <P>Here is an implementation of a multithreaded, multitasking OS 
+            (such as an embedded Java Virtual Machine running large applets, an 
+            embedded Web server, or a TV Web device), illustrated in <A 
+            href="http://img.cmpnet.com/embedded/gifs/9806fe10.gif">Figure 
+            8</A>. Some tasks are considered untrusted and use their own flat 
+            address space. All threads of a task share the same address space. 
+            <P>Segmentation: 
+            <P>
+            <UL>
+              <LI>The GDT contains one code and data descriptor for the OS (DPL 
+              0, 0GB to 4GB) and one code and data descriptor for the tasks (DPL 
+              3, 0GB to 4GB). Without privileges, tasks cannot execute 
+              privileged instructions 
+              <LI>System calls are provided by either call or trap gates, both 
+              of them using the kernel code selector and relevant service 
+              addresses. Interrupt descriptors also use the kernel code 
+              selector. The kernel selector allows them to run at CPL 0 
+              <LI>No LDT is required because isolation is obtained through 
+              paging 
+              <LI>One TSS is required because of the privilege transition. Task 
+              switches can be done by saving registers on the stack and 
+              switching the stack, instead of using the TSS, because segment 
+              registers never change. The TSS descriptor is in the GDT </LI></UL>
+            <P>Paging: 
+            <P>
+            <UL>
+              <LI>Each task has its own page directory, which is shared among 
+              all its threads (hence all threads of a task share the very same 
+              address space) 
+              <LI>Code and data use different page tables, to potentially share 
+              code page tables with other instances; the stack pointer is set at 
+              80000000h and grows downward 
+              <LI>The task's upper-half page directory entries are all marked 
+              "supervisor." The tasks cannot access any operating system's code 
+              or data. This 2GB area is reserved for the OS, the shared 
+              libraries, and hardware maps (the video buffer, for instance) 
+            </LI></UL>
+            <P>This series of articles has demonstrated the multiple features of 
+            the x86: native 32-bit programming, virtual memory with segmentation 
+            and paging, multitask support, and protection. These features exist 
+            to provide maximum flexibility to embedded developers, allowing them 
+            to design and implement a myriad of OS types, ranging from a simple 
+            segmented kernel with no overhead to an advanced page-demand, 
+            multitasking, and multithreaded system with full-task protection and 
+            shared-memory capabilities. 
+            <P>If you intend to develop your own OS, I would recommend as the 
+            most important step getting the proper documentation (such as the 
+            x86 programming manuals) for your processor. A few books about OS 
+            implementation on the x86 are also available. You'll be able to find 
+            enough examples and ideas to start building your customized embedded 
+            OS. 
+            <P><A href="http://www.embedded.com/98/9806list.htm">Listing 1</A> 
+            <P><B><I>Jean Gareau received an M.S. in electrical engineering from 
+            the Polytechnic School of the University of Montreal. Since 1989, he 
+            has been involved in the development of operating systems, system 
+            tools, and large commercial applications. He can be reached at 
+            jeangareau@yahoo.com. </I></B>
+            <P><B>REFERENCES </B><BR>1. In some cases, pages must be contiguous. 
+            DMA devices, for instance, require contiguous memory. 
+            <P>2. Page directory can be shared if tasks can share the same 
+            address space. This solution is ideal for threads. Whereas distinct 
+            tasks have their own address space, multiple threads of a given task 
+            all use the same page directory and consequently, the same address 
+            space. 
+            <P>3. Microsoft's MS-LINK 5.0 generates code that always starts at 
+            1000h above the base address. 
+            <P>4. This is called identity-mapping, where virtual and physical 
+            addresses are the same. 
+            <P><B>BIBLIOGRAPHY </B><BR>80386 Programmer's Reference Manual. 
+            Intel Corp., 1987. Order Number 230985-001. 
+            <P>Labrosse, Jean J., mC/OS The Real-Time Kernel, Fourth Printing. 
+            Lawrence, KS: R&amp;D Publications, 1992. 
+            <P>McKusick, et al. The Design and Implementation of the 4.4BSD Unix 
+            Operating System. Reading, MA: Addison Wesley, 1996. 
+            <P>Reference: Microsoft MASM 6.11. Redmond, WA: Microsoft Corp., 
+            1992, Document No. DB35749-1292. 
+            <P>Silberschatz, A., et al. Operating System Concepts, Fifth 
+            Edition. Reading, MA: Addison Wesley, 1997. 
+            <P>Tanenbaum, A. Modern Operating Systems. Englewood Cliffs, NJ: 
+            Prentice-Hall, 1992. 
+            <P>Tanenbaum, A. Operating Systems: Design and Implementation. 
+            Englewood Cliffs, NJ: Prentice-Hall, 1997. 
+            <P>Turley, Jim. Advanced 80386 Programming Techniques. New York: 
+            McGraw-Hill, 1988. </P></FONT></TD></TR></TBODY></TABLE></TD><!-- RIGHT NAV -->
+    <TD vAlign=top align=left width=142 bgColor=#ffffff>
+      <P><NOBR><IMG height=100 alt="" 
+      src="Embedded Systems - Paging-Dateien/spacer.gif" 
+      width=8> <A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4878&amp;RunID=39727&amp;AdID=29386&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=1831.1910.2474&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=48210&amp;n=1035042696?" 
+      target=_top><IMG height=600 alt="Click here!" 
+      src="Embedded Systems - Paging-Dateien/01634a17-15-0-0.gif" 
+      width=125 border=1></A></NOBR> </P></TD></TR><!-- SPONSORED LINK & BOTTOM AD -->
+  <TR>
+    <TD vAlign=top align=middle colSpan=2><BR clear=all>
+      <CENTER>
+      <TABLE borderColor=#000000 cellSpacing=0 cellPadding=0 border=1>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=468>
+            <TABLE cellSpacing=0 cellPadding=5 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><FONT face=verdana,arial size=2><B>Sponsor 
+                  Links</B></FONT> </TD></TR>
+              <TR>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>Wind River</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4907&amp;RunID=38972&amp;AdID=29394&amp;Redirect=http://ad.doubleclick.net/clk;3739644;6834914;w?http://www.windriver.com/products/html/eval_center.html">Free 
+                  Wind River downloads. Tornado Prototyper, Standalone Tools, 
+                  and more!</A> 
+                  <P><B>Microsoft</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4908&amp;RunID=38765&amp;AdID=29263&amp;Redirect=http://www.microsoft.com/redirect.asp?PageID=165&amp;PARAM=WEMBONL&amp;TARGET=/windows/Embedded/trial/evalkit.asp">Order 
+                  your Windows Embedded Evaluation Software today!</A></FONT> 
+                  </P></TD>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>EDTN Mobile News</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4909&amp;RunID=26084&amp;AdID=21164&amp;Redirect=http://www.edtn.com/palm/download.html/" 
+                  target=_TOP>The latest news now available to go. <BR>Palm VII 
+                  users click here</A> 
+                  <P><B>Planet Analog</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;RunID=27017&amp;AdID=21162&amp;ProfileID=4910&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=804.1785.1831.1913&amp;Redirect=http://www.edtn.com/register/newsletters" 
+                  target=_TOP>Sign up for FREE Analog Newsletter 
+                  Now!</A></A></FONT> 
+      </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3543&amp;RunID=19436&amp;AdID=27335&amp;GroupID=1&amp;FamilyID=2882&amp;TagValues=179.1831&amp;Redirect=http://www.siliconstrategies.com" 
+      target=_top><IMG alt="Click here!" 
+      src="Embedded Systems - Paging-Dateien/siliconbanREV.gif" 
+      border=0></A><BR></CENTER></TD></TR></TBODY></TABLE><!-- END BODY --></FONT></BODY></HTML>

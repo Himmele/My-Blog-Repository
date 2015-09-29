@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)http://www.linuxgazette.com/issue79/krishnakumar.html -->
+<!--startcut  ==============================================--><!-- *** BEGIN HTML header *** --><HTML><HEAD><TITLE>Writing Your Own Toy OS (PART II) LG #79</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#0000af aLink=#ff0000 link=#0000ff bgColor=#ffffff><!-- *** END HTML header *** -->
+<CENTER><A href="http://www.linuxgazette.com/"><IMG height=124 
+alt="LINUX GAZETTE" src="Writing Your Own Toy OS - Part 2-Dateien/lglogo.png" 
+width=600 border=0></A> <BR><!-- *** BEGIN navbar *** --><IMG height=45 alt="" 
+src="Writing Your Own Toy OS - Part 2-Dateien/left.jpg" width=14 align=bottom 
+border=0><A href="http://www.linuxgazette.com/issue79/fraile.html"><IMG 
+height=45 alt="[ Prev ]" src="Writing Your Own Toy OS - Part 2-Dateien/prev.jpg" 
+width=16 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue79/lg_toc79.html"><IMG height=45 
+alt="[ Table of Contents ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/toc.jpg" width=220 align=bottom 
+border=0></A><A href="http://www.linuxgazette.com/index.html"><IMG height=45 
+alt="[ Front Page ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/frontpage.jpg" width=137 
+align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/cgi-bin/talkback/all.py?site=LG&amp;article=http://www.linuxgazette.com/issue79/krishnakumar.html"><IMG 
+height=45 alt="[ Talkback ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/talkback.jpg" width=121 
+align=bottom border=0></A><A href="http://www.linuxgazette.com/lg_faq.html"><IMG 
+height=45 alt="[ FAQ ]" src="Writing Your Own Toy OS - Part 2-Dateien/faq.jpg" 
+width=62 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue79/orr.html"><IMG height=45 
+alt="[ Next ]" src="Writing Your Own Toy OS - Part 2-Dateien/next.jpg" width=15 
+align=bottom border=0></A><IMG height=45 alt="" 
+src="Writing Your Own Toy OS - Part 2-Dateien/right.jpg" width=15 align=bottom> <!-- *** END navbar *** -->
+<P></CENTER><!--endcut ============================================================-->
+<H4 align=center>"Linux Gazette...<I>making Linux just a little more fun!</I>" 
+</H4>
+<P>
+<HR>
+
+<P><!--===================================================================-->
+<CENTER>
+<H1><FONT color=maroon>Writing Your Own Toy OS (PART II)</FONT></H1>
+<H4>By <A href="mailto:krishnakumar_r@bharatmail.com">Krishnakumar 
+R.</A></H4></CENTER>
+<P>
+<HR>
+
+<P><!-- END header --><EM><A 
+href="http://www.linuxgazette.com/issue77/krishnakumar.html">Part I</A> was 
+published in April. </EM>
+<P><EM>The next thing that any one should know after learning to make a boot 
+sector and before switching to protected mode is, how to use the BIOS 
+interrupts. BIOS interrupts are the low level routines provided by the BIOS to 
+make the work of the Operating System creator easy. This part of the article 
+would deal with BIOS interrupts.</EM> 
+<H2><A name=s1>1. Theory</A></H2>
+<H2>1.1 Why BIOS ?</H2>
+<P>BIOS does the copying of the boot sector to the RAM and execution of code 
+there. Besides this there are lot of things that the BIOS does. When an 
+operating system boots up it does not have a video driver or a floppy driver or 
+any other driver as such. To include any such driver in the boot sector is next 
+to impossible. So some other way should be there. The BIOS comes to our help 
+here. BIOS contains various routines we can use. For example there are ready 
+made routines available for various purposes like, checking the equipments 
+installed, controlling the printer, finding out memory size etc. These routines 
+are what we call BIOS interrupts. 
+<H2>1.2 How do we invoke BIOS interrupts ?</H2>
+<P>In ordinary programming languages we invoke a routine by making a call to the 
+routine. For example in a C program, if there is a routine by name 
+<CODE>display</CODE> having parameters <CODE>noofchar</CODE> - number of 
+characters to be displayed, <CODE>attr</CODE> - attribute of characters 
+displayed is to just to call the routine that is just write the name of the 
+routine. Here we make use of interrupts. That is we make use of assembly 
+instruction <CODE>int</CODE>. 
+<P>For example for printing something on the screen we call the C function like 
+this : 
+<BLOCKQUOTE><CODE><PRE>display(noofchar, attr); 
+</PRE></CODE></BLOCKQUOTE>
+<P>Equivalent to this, when we use BIOS, we write : 
+<BLOCKQUOTE><CODE><PRE>int 0x10
+</PRE></CODE></BLOCKQUOTE>
+<H2>1.3 Now, how do we pass the parameters ?</H2>
+<P>Before calling the BIOS interrupt, we need to load certain values in 
+prespecified format in the registers. Suppose we are using BIOS interrupt 13h, 
+which is for transferring the data from the floppy to the memory. Before calling 
+interrupt 13h we have to specify the segment address to which the data would be 
+copied. Also we need to pass as parameters the drive number, track number, 
+sector number, number of sectors to be transferred etc. This we do by loading 
+the prespecified registers with the needed values. The idea will be clear after 
+you read the explanation on the boot sector we are going to construct. 
+<P>One important thing is that the same interrupt can be used for a variety of 
+purposes. The purpose for which a particular interrupt is used depends upon the 
+function number selected. The choice of the function is made depending on the 
+value present in the <CODE>ah</CODE> register. For example interrupt 
+<CODE>13h</CODE> can be used for displaying a string as well as for getting the 
+cursor position. If we move value <CODE>3</CODE> to register <CODE>ah</CODE> 
+then the function number <CODE>3</CODE> is selected which is the function used 
+for getting the cursor position. For displaying the string we move 
+<CODE>13h</CODE> to register <CODE>ah</CODE> which corresponds to displaying a 
+string on screen. 
+<H2><A name=s2>2. What are we going to do ?</A></H2>
+<P>This time our source code consists of two assembly language programs and one 
+C program. First assembly file is the boot sector code. In the boot sector we 
+have written the code to copy the second sector of the floppy to the memory 
+segment <CODE>0x500</CODE> ( the address location is 0x5000). This we do using 
+BIOS interrupt <CODE>13h</CODE>. The code in the boot sector then transfers 
+control to offset 0 of segment <CODE>0x500</CODE>. The code in the second 
+assembly file is for displaying a message on screen using BIOS interrupt 
+<CODE>10h</CODE>. The C program is for transferring the executable code produced 
+from assembly file 1 to boot sector and the executable code produced from the 
+assembly file 2 to the second sector of the floppy. 
+<H2><A name=s3>3. The boot sector </A></H2>
+<P>Using interrupt 13h, the boot sector loads the second sector of the floppy 
+into memory location 0x5000 (segment address 0x500). Given below is the source 
+code used for this purpose. Save the code to file <CODE>bsect.s</CODE>. 
+<BLOCKQUOTE><CODE><PRE>
+LOC1=0x500
+
+entry start
+start:
+        mov ax,#LOC1
+        mov es,ax
+        mov bx,#0 
+
+        mov dl,#0 
+        mov dh,#0 
+        mov ch,#0 
+        mov cl,#2 
+        mov al,#1 
+
+        mov ah,#2 
+
+        int 0x13
+
+        jmpi 0,#LOC1
+</PRE></CODE></BLOCKQUOTE>
+<P>The first line is similar to a macro. The next two statements might be 
+familiar to you by now. Then we load the value 0x500 into the <CODE>es</CODE> 
+register. This is the address location to which the code in the second sector of 
+the floppy (the first sector is the boot sector) is moved to. Now we specify the 
+offset within the segment as zero. 
+<P>Next we load drive number into <CODE>dl</CODE> register, head number into 
+<CODE>dh</CODE> register, track number into <CODE>ch</CODE> register, sector 
+number into <CODE>cl</CODE> register and the number of sectors to be transferred 
+to register<CODE>al</CODE>. So we are going to load the sector 2, of track 
+number 0, drive number 0 to segment <CODE>0x500</CODE>. All this corresponds to 
+1.44Mb floppy. 
+<P>Moving value 2 into register <CODE>ah</CODE> is corresponds to choosing a 
+function number. This is to choose from the functions provided by the interrupt 
+13h. We choose function number 2 which is the function used for transferring 
+data from floppy. 
+<P>Now we call interrupt 13h and finally jump to 0th offset in the segment 
+<CODE>0x500</CODE>. 
+<H2><A name=s4>4. The second sector</A></H2>
+<P>The code in the second sector will as given below : 
+<BLOCKQUOTE><CODE><PRE>entry start
+start:
+        mov     ah,#0x03                
+        xor     bh,bh
+        int     0x10
+
+        mov     cx,#26                  
+        mov     bx,#0x0007              
+        mov     bp,#mymsg
+        mov     ax,#0x1301              
+        int     0x10
+
+loop1:  jmp     loop1
+
+mymsg:
+        .byte  13,10
+        .ascii "Handling BIOS interrupts"
+</PRE></CODE></BLOCKQUOTE>This code will be loaded to segment <CODE>0x500</CODE> 
+and executed. The code here uses interrupt <CODE>10h</CODE> to get the current 
+cursor position and then to print a message. 
+<P>The first three lines of code (starting from the 3rd line) are used to get 
+the current cursor position. Here function number 3 of interrupt 
+<CODE>13h</CODE> is selected. Then we clear the value in <CODE>bh</CODE> 
+register. We move the number of characters in the string to register 
+<CODE>ch</CODE>. To <CODE>bx</CODE> we move the page number and the attribute 
+that is to be set while displaying. Here we are planning to display white 
+characters on black background. Then address of the message to be be printed in 
+moved to register <CODE>bp</CODE>. The message consists of two bytes having 
+values 13 and 10 which correspond to an <CODE>enter</CODE> which is the Carriage 
+Return (CR) and the Line Feed (LF) together. Then there is a 24 character 
+string. Then we select the function which corresponds to printing the string and 
+then moving the cursor. Then comes the call to interrupt. At the end comes the 
+usual loop. 
+<H2><A name=s5>5. The C program</A></H2>
+<P>The source code of the C program is given below. Save it into file 
+<CODE>write.c</CODE>. 
+<BLOCKQUOTE><CODE><PRE>#include &lt;sys/types.h&gt; /* unistd.h needs this */
+#include &lt;unistd.h&gt;    /* contains read/write */
+#include &lt;fcntl.h&gt;
+
+int main()
+{
+                char boot_buf[512];
+                int floppy_desc, file_desc;
+
+                file_desc = open("./bsect", O_RDONLY);
+
+                read(file_desc, boot_buf, 510);
+                close(file_desc);
+
+                boot_buf[510] = 0x55;
+                boot_buf[511] = 0xaa;
+
+                floppy_desc = open("/dev/fd0", O_RDWR);
+
+                lseek(floppy_desc, 0, SEEK_SET);
+                write(floppy_desc, boot_buf, 512);
+
+                file_desc = open("./sect2", O_RDONLY);
+                read(file_desc, boot_buf, 510);
+                close(file_desc);
+
+                lseek(floppy_desc, 512, SEEK_SET);
+                write(floppy_desc, boot_buf, 512);
+
+                close(floppy_desc);
+}
+</PRE></CODE></BLOCKQUOTE>In PART I of this article I had given the description 
+about making the boot floppy. Here there are slight differences. We first copy 
+the file <CODE>bsect</CODE>, the executable code produced from 
+<CODE>bsect.s</CODE> to the boot sector. Then we copy the <CODE>sect2</CODE> the 
+executable corresponding to <CODE>sect2.s</CODE> the second sector of the 
+floppy. Also the changes to be made to make the floppy bootable have also been 
+performed. 
+<H2><A name=s6>6. Downloads</A></H2>
+<P>You can download the sources from 
+<OL>
+  <LI><A 
+  href="http://www.linuxgazette.com/issue79/misc/krishnakumar/bsect.s.txt">bsect.s</A> 
+
+  <LI><A 
+  href="http://www.linuxgazette.com/issue79/misc/krishnakumar/sect2.s.txt">sect2.s</A> 
+
+  <LI><A 
+  href="http://www.linuxgazette.com/issue79/misc/krishnakumar/write.c.txt">write.c</A> 
+
+  <LI><A 
+  href="http://www.linuxgazette.com/issue79/misc/krishnakumar/Makefile.txt">Makefile</A> 
+  </LI></OL>Remove the txt extension of the files, and type 
+<BLOCKQUOTE><CODE><PRE>make
+</PRE></CODE></BLOCKQUOTE>at the shell prompt or you can compile everything 
+separately. Type 
+<BLOCKQUOTE><CODE><PRE>as86 bsect.s -o bsect.o
+
+ld86 -d bsect.o -o bsect
+</PRE></CODE></BLOCKQUOTE>and repeat the same for <CODE>sect2.s</CODE> giving 
+<CODE>sect2</CODE>. Compile write.c and execute it after putting the boot floppy 
+in to drive by typing : 
+<BLOCKQUOTE><CODE><PRE>cc write.c -o write
+./write
+</PRE></CODE></BLOCKQUOTE>
+<H2><A name=s7>7. What Next?</A></H2>
+<P>After booting with the floppy you can see the string being displayed. Thus we 
+will have used the BIOS interrupts. In the next part of this series I hope to 
+write about how we can switch the processor to protected mode. Till then, bye ! <!-- *** BEGIN bio *** --><SPACER SIZE="30" TYPE="vertical">
+<P>
+<H4><IMG alt="" src="Writing Your Own Toy OS - Part 2-Dateien/note.gif" 
+align=bottom>Krishnakumar R.</H4><EM>Krishnakumar is a final year B.Tech student 
+at Govt. Engg. College Thrissur, Kerala, India. His journey into the land of 
+Operating systems started with module programming in linux . He has built a 
+routing operating system by name GROS.(Details available at his home page: <A 
+href="http://www.askus.way.to/">http://www.askus.way.to/</A> ) His other 
+interests include Networking, Device drivers, Compiler Porting and Embedded 
+systems.</EM> <!-- *** END bio *** --><!-- *** BEGIN copyright *** -->
+<P>
+<HR>
+<!-- P -->
+<H5 align=center>Copyright © 2002, Krishnakumar R..<BR>Copying license <A 
+href="http://www.linuxgazette.com/copying.html">http://www.linuxgazette.com/copying.html</A><BR>Published 
+in Issue 79 of <I>Linux Gazette</I>, June 2002</H5><!-- *** END copyright *** --><!--startcut ==========================================================-->
+<HR>
+
+<P>
+<CENTER><!-- *** BEGIN navbar *** --><IMG height=45 alt="" 
+src="Writing Your Own Toy OS - Part 2-Dateien/left.jpg" width=14 align=bottom 
+border=0><A href="http://www.linuxgazette.com/issue79/fraile.html"><IMG 
+height=45 alt="[ Prev ]" src="Writing Your Own Toy OS - Part 2-Dateien/prev.jpg" 
+width=16 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue79/lg_toc79.html"><IMG height=45 
+alt="[ Table of Contents ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/toc.jpg" width=220 align=bottom 
+border=0></A><A href="http://www.linuxgazette.com/index.html"><IMG height=45 
+alt="[ Front Page ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/frontpage.jpg" width=137 
+align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/cgi-bin/talkback/all.py?site=LG&amp;article=http://www.linuxgazette.com/issue79/krishnakumar.html"><IMG 
+height=45 alt="[ Talkback ]" 
+src="Writing Your Own Toy OS - Part 2-Dateien/talkback.jpg" width=121 
+align=bottom border=0></A><A href="http://www.linuxgazette.com/lg_faq.html"><IMG 
+height=45 alt="[ FAQ ]" src="Writing Your Own Toy OS - Part 2-Dateien/faq.jpg" 
+width=62 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue79/orr.html"><IMG height=45 
+alt="[ Next ]" src="Writing Your Own Toy OS - Part 2-Dateien/next.jpg" width=15 
+align=bottom border=0></A><IMG height=45 alt="" 
+src="Writing Your Own Toy OS - Part 2-Dateien/right.jpg" width=15 align=bottom> <!-- *** END navbar *** --></CENTER><!--endcut ============================================================--></BODY></HTML>

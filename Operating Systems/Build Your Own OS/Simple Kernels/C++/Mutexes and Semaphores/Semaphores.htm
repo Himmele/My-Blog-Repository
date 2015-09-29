@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)http://www.acm.uiuc.edu/sigops/roll_your_own/6.a.html -->
+<HTML><HEAD><TITLE>Semaphores</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1>
+<CENTER>Semaphores</CENTER></H1>
+<H3>
+<CENTER>the first part of the sixth chapter in our series on <I>How to Write an 
+Operating System</I></CENTER></H3>
+<HR>
+
+<P>Dijkstra defined two operations that can be performed on semaphores: 
+<UL>
+  <LI>P(semaphore): increments the value of the semaphore, preventing the 
+  associated resource from being used by too many processes. If the value of the 
+  semaphore is already too high, this operation typically blocks. 
+  <LI>V(semaphore): decrements the value of the semaphore, releasing the 
+  resource for another process to use. </LI></UL>
+<P>An important thing to remember is that these operations are <B>atomic</B>, 
+meaning that they either run to completion or they will not change the state of 
+the machine. For example, a process might want to guarantee that it is the only 
+one using a disk drive (otherwise confusion would result). So it would try to 
+P() the drive's mutex (mutual-exclusion) semaphore: <PRE><CODE>void P(char *sem) {
+   while (*sem &gt; 0)
+       wait();              // release control to another application
+
+   *sem = 1;
+}
+</CODE></PRE>
+<P>This would work fine in an environment with no interruptions. However, in an 
+environment with preemptive multitasking, the process could get interrupted 
+after the while() loop exits (the semaphore is zero) but before it sets the 
+semaphore, and another process could P() the semaphore and start using the disk 
+drive. Then, when this process is resumed, it sets the semaphore and returns, 
+thinking that it has exclusive use of the drive. Now both processes are using 
+the drive. </P>
+<P>So how do we avoid this? By using an atomic operation designed for such a 
+purpose. If the kernel is non-interruptable, a system call will suffice to 
+ensure that P() reliably blocks and waits on the semaphore. However, system 
+calls are expensive, and this method may not even be good enough if the kernel 
+itself needs to be preemptible (for instance, in a real-time system). </P>
+<P>All modern computers have some method of ensuring atomicity; the basic 
+building block for ensuring atomicity is the <B>test-and-set</B> or 
+<B>exchange</B> operation that atomically reads and writes to a location in 
+memory. Then, the code to P() a mutex semaphore looks like: <PRE><CODE>void P(char *sem) {
+   while (!testAndSet(sem))
+       wait();       // relinquish control to another process
+}
+</CODE></PRE>Of course, this only works for mutex semaphores. A semaphore that 
+allowed several processes access to the same resource would most likely wrapper 
+its P() and V() operations in a mutex semaphore of its own. 
+<H2>Processor Implementations</H2>
+<UL>
+  <LI><A 
+  href="http://www.acm.uiuc.edu/sigops/roll_your_own/i386/atomic.html">i386</A> 
+  </LI></UL>
+<HR>
+<!--#include virtual="/include/footer.html" --></BODY></HTML>

@@ -1,0 +1,668 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><title>Anatomy of Linux loadable kernel modules</title><meta http-equiv="PICS-Label" content="(PICS-1.1 &quot;http://www.icra.org/ratingsv02.html&quot; l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true r (n 0 s 0 v 0 l 0) &quot;http://www.classify.org/safesurf/&quot; l gen true r (SS~~000 1))">
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
+<link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico">
+<meta name="Owner" content="dW Information/Raleigh/IBM">
+<meta name="DC.Language" scheme="rfc1766" content="en">
+<meta name="IBM.Country" content="ZZ">
+<meta name="Security" content="Public">
+<meta name="IBM.SpecialPurpose" content="SP001">
+<meta name="IBM.PageAttributes" content="sid=1003">
+<meta name="Source" content="Based on v15 Template Generator, Template 15"><meta name="Abstract" content="Linux loadable kernel modules, introduced in version 1.2 of the kernel, are one of the most important innovations in the Linux kernel. They provide a kernel that is both scalable and dynamic. Discover the ideas behind loadable modules, and learn how these independent objects dynamically become part of the Linux kernel."><meta name="Description" content="Linux loadable kernel modules, introduced in version 1.2 of the kernel, are one of the most important innovations in the Linux kernel. They provide a kernel that is both scalable and dynamic. Discover the ideas behind loadable modules, and learn how these independent objects dynamically become part of the Linux kernel."><meta name="Keywords" content="File system, JFS, JFS2, XFS, Reiser, ReiserFS, ext2, ext3, ext4,              journaling, journaled, M. Tim Jones, tttlca"><meta name="DC.Date" scheme="iso8601" content="2008-07-16"><meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT316"><meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="SWGC0"><meta name="DC.Rights" content="Copyright (c) 2008 by IBM Corporation"> <meta name="Robots" content="index,follow"><meta name="IBM.Effective" scheme="W3CDTF" content="2008-07-16"><meta name="Last update" content="20072008gemoore@us.ibm.com"><!-- STYLESHEETS/SCRIPTS -->
+<!-- for tables -->
+<link rel="stylesheet" type="text/css" media="screen,print" href="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/table.css"> 
+<!-- end for tables -->
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/dwcss14.js" type="text/javascript"></script><link rel="stylesheet" href="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/r1v14.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/main.css">
+<link rel="stylesheet" type="text/css" media="all" href="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/print.css">
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/detection.js" type="text/javascript"></script>
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/ibmcommon.js" type="text/javascript">//</script><link title="IBM Search" href="http://www.ibm.com/search/opensearch/description.xml" type="application/opensearchdescription+xml" rel="search">
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/dynamicnav.js" type="text/javascript">//</script>
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/dropdown.js" type="text/javascript"></script>
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/grabtitle.js" type="text/javascript"></script>
+<script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/emailfriend2.js" type="text/javascript"></script><script language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/urltactic.js" type="text/javascript"></script><script language="JavaScript" type="text/javascript">
+ <!--
+ setDefaultQuery('linuxart');
+ //-->
+</script>
+<!--START RESERVED FOR FUTURE USE INCLUDE FILES--><script language="javascript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/ajax1.js" type="text/javascript"></script><script language="javascript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/search_counter.js" type="text/javascript"></script><script language="javascript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/request_referer_capture.js" type="text/javascript"></script><script language="javascript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/summaries_switcher.js" type="text/javascript"></script><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><script language="JavaScript" type="text/javascript">var emailAbstract = "Linux loadable kernel modules, introduced in version 1.2 of the kernel, are one of the most important innovations in the Linux kernel. They provide a kernel that is both scalable and dynamic. Discover the ideas behind loadable modules, and learn how these independent objects dynamically become part of the Linux kernel."; </script><script charset="UTF-8" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/usen-utf8.js" type="text/javascript" id="mhMenu"></script><script charset="UTF-8" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/Controller_002" type="text/javascript" id="dynavEA"></script><script charset="UTF-8" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/Controller" type="text/javascript" id="wiBundle"></script></head><body><!--MASTHEAD_BEGIN--><div id="ibm-top" class="ibm-liquid">
+<div class="ibm-access"><a href="#main">Skip to main content</a></div>
+
+<div id="ibm-masthead">
+<div id="ibm-logo"><a href="http://www.ibm.com/"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/ibm-logo.gif" alt="IBM®" width="110" height="50"></a></div>
+
+<ul id="ibm-geo">
+<li class="ibm-first" id="ibm-country">Country/region</li>
+<li id="ibm-change-country">[ <a href="http://www.ibm.com/developerworks/country/">select</a> ]</li>
+</ul>
+
+<form id="ibm-search-form" action="//www.ibm.com/developerworks/search/searchResults.jsp" method="get" name="form1"><input name="searchType" value="1" type="hidden"><input name="searchSite" value="dW" type="hidden"><p>
+<span id="ibm-search-scope">
+<label for="sn"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="Search in:" width="1" height="1"></label>
+<select class="input-local" name="searchScope" id="sn" size="1">
+<option value="dW" selected="selected">All of dW</option>
+<option value="dW">-----------------</option>
+<option value="aixunix">&nbsp;&nbsp;AIX and UNIX</option>
+<option value="db2">&nbsp;&nbsp;Information Mgmt</option>
+<option value="lotus">&nbsp;&nbsp;Lotus</option>
+<option value="rdd">&nbsp;&nbsp;Rational</option>
+<option value="tivoli">&nbsp;&nbsp;Tivoli</option>  
+<option value="WSDD">&nbsp;&nbsp;WebSphere</option>
+<option value="dW">-----------------</option> 
+<option value="archZ">&nbsp;&nbsp;Architecture</option>
+<option value="acZ">&nbsp;&nbsp;Autonomic computing</option>
+<option value="javaZ">&nbsp;&nbsp;Java technology</option> 
+<option value="linuxZ">&nbsp;&nbsp;Linux</option> 
+<option value="paZ">&nbsp;&nbsp;Multicore acceleration</option>
+<option value="opensrcZ">&nbsp;&nbsp;Open source</option>
+<option value="webservZ">&nbsp;&nbsp;SOA &amp; Web services</option>
+<option value="webarchZ">&nbsp;&nbsp;Web development</option>  
+<option value="xmlZ">&nbsp;&nbsp;XML</option>
+<option value="dW">-----------------</option>
+<option value="forums">&nbsp;&nbsp;dW forums</option> 
+<option value="dW">-----------------</option>
+<option value="aW">alphaWorks</option>
+<option value="dW">-----------------</option>
+<option value="all">All of IBM</option>
+</select>
+</span>
+
+<label for="q"><img alt="Search for:" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="1" height="1"></label><input name="query" maxlength="100" id="q" type="text"><input id="ibm-search" class="ibm-btn-search" name="Search" value="Search" type="submit"></p></form>
+
+<div id="ibm-site-name">
+<!-- IBM site name container -->
+</div>
+
+<div id="ibm-universal-nav">
+<ul>
+<li class="ibm-first" id="ibm-unav-home"><a href="http://www.ibm.com/us/en/">Home</a></li>
+<li id="ibm-unav-solutions"><a class="ibm-unav-has-child" href="http://www.ibm.com/solutions/us/en/">Solutions</a><div id="gi-45b83a0b" class="ibm-unav-menu"><span id="gi-45b83a0b-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li class="ibm-place-holder"><a id="gi-6ea2ea3c-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">By industry</a><div id="gi-6ea2ea3c" class="ibm-unav-menu ibm-place-holder"><span id="gi-6ea2ea3c-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/industries/aerodefense/?cm_re=masthead-_-business-_-ind-aerodef">Aerospace and defense</a></li><li><a href="http://www.ibm.com/industries/automotive/?cm_re=masthead-_-business-_-ind-auto">Automotive</a></li><li><a href="http://www.ibm.com/industries/financialservices/banking/?cm_re=masthead-_-business-_-ind-banking">Banking</a></li><li><a href="http://www.ibm.com/industries/chemicalspetroleum/?cm_re=masthead-_-business-_-ind-chem">Chemicals and petroleum</a></li><li><a href="http://www.ibm.com/industries/consumerproducts/?cm_re=masthead-_-business-_-ind-consumer">Consumer products</a></li><li><a href="http://www.ibm.com/industries/education/?cm_re=masthead-_-business-_-ind-edu">Education</a></li><li><a href="http://www.ibm.com/industries/electronics/?cm_re=masthead-_-business-_-ind-elec">Electronics</a></li><li><a href="http://www.ibm.com/industries/utilities/?cm_re=masthead-_-business-_-ind-energy">Energy and utilities</a></li><li><a href="http://www.ibm.com/industries/financialservices/financialmarkets/?cm_re=masthead-_-business-_-ind-finance">Financial markets</a></li><li><a href="http://www.ibm.com/industries/government/?cm_re=masthead-_-business-_-ind-gov">Government</a></li><li><a href="http://www.ibm.com/industries/healthcare/?cm_re=masthead-_-business-_-ind-health">Healthcare and life sciences</a></li><li><a href="http://www.ibm.com/industries/industrialproducts/index.jsp?cm_re=masthead-_-business-_-ind-ind_prods">Industrial products</a></li><li><a href="http://www.ibm.com/industries/financialservices/insurance/?cm_re=masthead-_-business-_-ind-ins">Insurance</a></li><li><a href="http://www.ibm.com/industries/media/?cm_re=masthead-_-business-_-ind-media">Media and entertainment</a></li><li><a href="http://www.ibm.com/industries/retail/?cm_re=masthead-_-business-_-ind-retail">Retail</a></li><li><a href="http://www.ibm.com/industries/telecom/?cm_re=masthead-_-business-_-ind-tele">Telecommunications</a></li><li><a href="http://www.ibm.com/industries/travel/?cm_re=masthead-_-business-_-ind-travel">Travel and transportation</a></li><li><a href="http://www.ibm.com/wholesaledistribution/?cm_re=masthead-_-business-_-ind-wholesale">Wholesale distribution</a></li><li><a href="http://www.ibm.com/businesscenter/smb/us/en/industries?cm_re=masthead-_-business-_-ind-medbus">Medium business industries</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-97c73acc-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">By business need</a><div id="gi-97c73acc" class="ibm-unav-menu ibm-place-holder"><span id="gi-97c73acc-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/software/data/db2bi/?cm_re=masthead-_-business-_-bzn-busint">Business intelligence</a></li><li><a href="http://www.ibm.com/services/crm/?cm_re=masthead-_-business-_-bzn-crm">Customer relationship management</a></li><li><a href="http://www.ibm.com/solutions/erp/?cm_re=masthead-_-business-_-bzn-erp">Enterprise resource planning</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_financialmgmt.html?re=bcs_home&amp;cm_re=masthead-_-business-_-bzn-finmgmt">Financial management</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_humancapitalmgmt.html?re=bcs_home&amp;cm_re=masthead-_-business-_-bzn-humancap">Human capital management</a></li><li><a href="http://www.ibm.com/software/plm/?cm_re=masthead-_-business-_-bzn-plm">Product lifecycle management</a></li><li><a href="http://www.ibm.com/security/index.shtml?cm_re=masthead-_-business-_-bzn-sec">Security</a></li><li><a href="http://www.ibm.com/solutions/businesssolutions/sensors/index.jsp?cm_re=masthead-_-business-_-bzn-sensors">Sensors and actuators</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_strategyplanning.html?re=bcs_home&amp;cm_re=masthead-_-business-_-bzn-strat">Strategy and change</a></li><li><a href="http://www.ibm.com/services/scm/?cm_re=masthead-_-business-_-bzn-scm">Supply chain management</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-cc39a504-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">By IT issue</a><div id="gi-cc39a504" class="ibm-unav-menu ibm-place-holder"><span id="gi-cc39a504-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/itsolutions/business-process-management/?cm_re=masthead-_-business-_-bzn-bpm">Business process management</a></li><li><a href="http://www.ibm.com/itsolutions/collaboration/?cm_re=masthead-_-business-_-bzn-collab">Collaboration</a></li><li><a href="http://www.ibm.com/itsolutions/content-management//?cm_re=masthead-_-business-_-bzn-content">Content management</a></li><li><a href="http://www.ibm.com/itsolutions/it-cost/?cm_re=masthead-_-business-_-bzn-cost">Cost management</a></li><li><a href="http://www.ibm.com/itsolutions/data/?cm_re=masthead-_-business-_-bzn-data">Data management</a></li><li><a href="http://www.ibm.com/itsolutions/disaster-recovery/?cm_re=masthead-_-business-_-bzn-recovery">Disaster recovery</a></li><li><a href="http://www.ibm.com/itsolutions/distribution-management/?cm_re=masthead-_-business-_-bzn-disman">Distribution management</a></li><li><a href="http://www.ibm.com/itsolutions/energy-efficiency/?cm_re=masthead-_-business-_-bzn-energy">Energy efficiency</a></li><li><a href="http://www.ibm.com/itsolutions/eai/?cm_re=masthead-_-business-_-bzn-eai">Enterprise application integration</a></li><li><a href="http://www.ibm.com/itsolutions/enterprisearchitecture/">Enterprise architecture</a></li><li><a href="http://www.ibm.com/itsolutions/compliance/?cm_re=masthead-_-business-_-bzn-compliance">Regulatory compliance</a></li><li><a href="http://www.ibm.com/security?cm_re=masthead-_-business-_-bzn-security">Security</a></li><li><a href="http://www.ibm.com/itsolutions/systems-management/?cm_re=masthead-_-business-_-bzn-sysman">Systems management</a></li><li><a href="http://www.ibm.com/itsolutions/virtualization/?cm_re=masthead-_-business-_-bzn-virtual">Virtualization</a></li><li><a href="http://www.ibm.com/itsolutions/portals/?cm_re=masthead-_-business-_-bzn-wrkforce">Workforce productivity</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-648228a3-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">By top Business Partner</a><div id="gi-648228a3" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-648228a3-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/solutions/cisco/?cm_re=masthead-_-business-_-bp-cisco">IBM and Cisco</a></li><li><a href="http://www.ibm.com/solutions/businesssolutions/oracle/?cm_re=masthead-_-business-_-bp-oracle">IBM and Oracle</a></li><li><a href="http://www.ibm.com/solutions/sap/?cm_re=masthead-_-business-_-bp-sap">IBM and SAP</a></li><li><a href="http://www.ibm.com/solutions/businesssolutions/">More alliance partners</a></li></ul></div></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_index.html?cm_re=masthead-_-business-_-busconsult">Business consulting</a></li><li><a href="http://www.ibm.com/financing/us/?cm_re=masthead-_-business-_-financing">Financing</a></li><li class="ibm-mhdyn-rule"><a id="gi-4f3547cc-trigger" href="http://www.ibm.com/soa?pgel=ibmhzn&amp;cm_re=masthead-_-business-_-soa">Service oriented architecture (SOA)</a><div id="gi-4f3547cc" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-4f3547cc-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li><a href="http://www.ibm.com/businesscenter/smallbusiness/us/en?cm_re=masthead-_-business-_-sol4sb">Small business solutions</a></li><li class="ibm-mhdyn-rule"><a id="gi-cb7341b1-trigger" href="http://www.ibm.com/businesscenter/smb/us/en/solutionareas?cm_re=masthead-_-business-_-sol4mb">Medium business solutions</a><div id="gi-cb7341b1" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-cb7341b1-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li><a href="http://www.ibm.com/businesssolutions/us/en/?cm_re=masthead-_-business-_-more">More</a></li></ul></div></li>
+<li class="ibm-is-active ibm-is-active ibm-is-active ibm-is-active ibm-is-active ibm-is-active ibm-is-active ibm-is-active ibm-is-active" id="ibm-unav-services"><a class="ibm-unav-has-child" href="http://www.ibm.com/technologyservices/us/en/">Services</a><div style="left: 144px; display: none;" id="gi-f2809769" class="ibm-unav-menu"><span style="display: none; height: 205px;" id="gi-f2809769-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li class="ibm-mhdyn-rule"><a id="gi-583f22c6-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">IT services</a><div style="top: -1px; left: 199px; display: none;" id="gi-583f22c6" class="ibm-unav-menu ibm-mhdyn-rule"><span style="display: none; height: 314px;" id="gi-583f22c6-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/services/us/index.wss">All IT services</a></li><li><a href="http://www.ibm.com/services/continuity/?cm_re=masthead-_-itservices-_-buscont">Business continuity and resiliency services</a></li><li><a href="http://www.ibm.com/services/enduser/?cm_re=masthead-_-itservices-_-enduser">End-user services</a></li><li><a href="http://www.ibm.com/services/integratedcommunications/?cm_re=masthead-_-itservices-_-communications">Integrated communications services</a></li><li><a href="http://www.ibm.com/services/itsaconsulting/?cm_re=masthead-_-itservices-_-strategy">IT strategy and architecture services</a></li><li><a href="http://www.ibm.com/services/maintenance/?cm_re=masthead-_-itservices-_-maint">Maintenance and technical support services</a></li><li><a href="http://www.ibm.com/services/middleware/?cm_re=masthead-_-itservices-_-middleware">Middleware services</a></li><li><a href="http://www.ibm.com/services/security/?cm_re=masthead-_-itservices-_-security">Security and privacy services</a></li><li><a href="http://www.ibm.com/services/server/?cm_re=masthead-_-itservices-_-server">Server services</a></li><li><a href="http://www.ibm.com/services/siteandfacilities/?cm_re=masthead-_-itservices-_-site">Site and facilities services</a></li><li><a href="http://www.ibm.com/services/storage/?cm_re=masthead-_-itservices-_-storage">Storage and data services</a></li><li><a href="http://www.ibm.com/services/us/index.wss/allservices">IT services A-Z</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-22a5f8ca-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Business consulting</a><div style="top: 20px; left: 199px; display: none;" id="gi-22a5f8ca" class="ibm-unav-menu ibm-mhdyn-rule"><span style="display: none; height: 152px;" id="gi-22a5f8ca-ehb" class="ibm-unav-menu-ehb ibm-is-active ibm-is-active"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_index.html?cm_re=masthead-_-itservices-_-busconsult">All business consulting</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_salesmrktingservices.html?re=bcs_home">Customer relationship management</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_financialmgmt.html?re=bcs_home">Financial management</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_humancapitalmgmt.html?re=bcs_home">Human capital management</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_strategyplanning.html?re=bcs_home">Strategy and change</a></li><li><a href="http://www.ibm.com/services/us/gbs/bus/html/bcs_supplychainprocurement.html?re=bcs_home">Supply chain management</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-321cc22f-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Application services</a><div id="gi-321cc22f" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-321cc22f-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/services/applications?cm_re=masthead-_-business-_-apps-allappserv">All application services</a></li><li><a href="http://www.ibm.com/services/us/gbs/app/html/gbs_app_custom_appdev_sysinteg.html?cm_re=masthead-_-business-_-apps-appdev">Custom application development and system integration</a></li><li><a href="http://www.ibm.com/services/us/gbs/app/html/gbs_app_appmanagement.html?cm_re=masthead-_-business-_-apps-appmgmt">Application management</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-ff3c22a4-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Outsourcing services</a><div id="gi-ff3c22a4" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-ff3c22a4-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/services/us/index.wss/offerfamily/aod/a1028600">Applications outsourcing</a></li><li><a href="http://www.ibm.com/services/us/index.wss/itservice/igs/a1026220">Business process outsourcing</a></li><li><a href="http://www.ibm.com/services/us/index.wss/itservice/so/a1000414">IT outsourcing and hosting</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-a5cdac48-trigger" href="http://www.ibm.com/training">Training</a><div id="gi-a5cdac48" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-a5cdac48-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li><a href="http://www.ibm.com/businesscenter/smallbusiness/us/en/service?cm_re=masthead-_-itservices-_-smallbus">Small business services</a></li><li class="ibm-mhdyn-rule"><a id="gi-d5c2ed43-trigger" href="http://www.ibm.com/businesscenter/smb/us/en/service?cm_re=masthead-_-itservices-_-medbus">Medium business services</a><div id="gi-d5c2ed43" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-d5c2ed43-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-77ead647-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Other services</a><div id="gi-77ead647" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-77ead647-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/financing/us/recovery/?cm_re=masthead-_-itservices-_-asset">Asset recovery</a></li><li><a href="http://www.ibm.com/software/sw-services/?cm_re=masthead-_-itservices-_-software">Software services</a></li></ul></div></li><li><a href="http://www.ibm.com/technologyservices/us/en/?cm_re=masthead-_-itservices-_-more">More</a></li></ul></div></li>
+<li class="ibm-is-active" id="ibm-unav-products"><a class="ibm-unav-has-child" href="http://www.ibm.com/products/us/en/">Products</a><div style="left: 224px; display: none;" id="gi-aca82e8e" class="ibm-unav-menu"><span style="display: none; height: 303px;" id="gi-aca82e8e-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li class="ibm-place-holder"><a id="gi-bfda77b0-trigger" href="http://www.ibm.com/products/specialoffers/us/en/index.html?cm_re=masthead-_-products-_-promo">Special offers</a><div id="gi-bfda77b0" class="ibm-unav-menu ibm-place-holder"><span id="gi-bfda77b0-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-8e46bad8-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Software</a><div id="gi-8e46bad8" class="ibm-unav-menu ibm-place-holder"><span id="gi-8e46bad8-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/software?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-allsoftware">Software overview</a></li><li><a href="http://www.ibm.com/software/sw-products/?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-swbyall">All software products</a></li><li><a href="http://www.ibm.com/software/sw-businessneed/?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-swbybizneed">By business need</a></li><li><a href="http://www.ibm.com/software/sw-bycategory?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-bycat">By category</a></li><li><a href="http://www.ibm.com/software/sw-atoz?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-softwarea2z">A to Z</a></li><li><a href="http://www.ibm.com/software/sw-keyword/?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-swbykeyword">By keyword search</a></li><li><a href="http://www14.software.ibm.com/webapp/download/byproduct.jsp?pgel=ibmhzn1&amp;cm_re=masthead-_-supdl-_-dl-trials">Trials and demos</a></li><li><a href="http://www.ibm.com/software/data?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-infomgmt">Information Management</a></li><li><a href="http://www.ibm.com/software/lotus?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-lotus">Lotus</a></li><li><a href="http://www.ibm.com/software/rational?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-rational">Rational</a></li><li><a href="http://www.ibm.com/software/tivoli?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-tivoli">Tivoli</a></li><li><a href="http://www.ibm.com/software/websphere?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-websphere">WebSphere</a></li><li><a href="http://www.ibm.com/software/os/zseries?pgel=ibmhzn&amp;cm_re=masthead-_-products-_-sw-sysz">System z software</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-1e07bcd8-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Storage</a><div id="gi-1e07bcd8" class="ibm-unav-menu ibm-place-holder"><span id="gi-1e07bcd8-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/storage/?cm_re=masthead-_-products-_-stg-allstorage">All storage</a></li><li><a href="http://www.ibm.com/storage/disk/?cm_re=masthead-_-products-_-stg-disk">Disk systems</a></li><li><a href="http://www.ibm.com/storage/tape/?cm_re=masthead-_-products-_-stg-tape">Tape systems</a></li><li><a href="http://www.ibm.com/storage/snetwork/?cm_re=masthead-_-products-_-stg-san">Storage area networks</a></li><li><a href="http://www.ibm.com/totalstorage/nas/?cm_re=masthead-_-products-_-stg-nas">Network attached storage</a></li><li><a href="http://www.ibm.com/storage/software/?cm_re=masthead-_-products-_-stg-storagesoft">Storage software</a></li><li><a href="http://www.ibm.com/pc/ww/hdd/hddredirect.html?cm_re=masthead-_-products-_-stg-hdd">Hard drives/microdrives</a></li><li><a href="http://www.ibm.com/systems/storage/product/?cm_re=masthead-_-products-_-stg-storagea2z">Storage A to Z</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-6c2ff705-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Systems &amp; servers</a><div id="gi-6c2ff705" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-6c2ff705-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/systems/?cm_re=masthead-_-products-_-sys-allsystems">All systems and servers</a></li><li><a href="http://www.ibm.com/systems/power/?cm_re=masthead-_-products-_-sys-power">Power Systems</a></li><li><a href="http://www.ibm.com/systems/i/?cm_re=masthead-_-products-_-sys-iseries">System i (iSeries)</a></li><li><a href="http://www.ibm.com/systems/p/?cm_re=masthead-_-products-_-sys-pseries">System p (pSeries)</a></li><li><a href="http://www.ibm.com/systems/z/?cm_re=masthead-_-products-_-sys-zseries">System z (Mainframe)</a></li><li><a href="http://www.ibm.com/systems/x/?cm_re=masthead-_-products-_-sys-xseries">System x (xSeries)</a></li><li><a href="http://www.ibm.com/servers/eserver/bladecenter/?cm_re=masthead-_-products-_-sys-blade">BladeCenter</a></li><li><a href="http://www.ibm.com/systems/clusters/?cm_re=masthead-_-products-_-sys-cluster">Cluster systems</a></li><li><a href="http://www.ibm.com/systems/hardware/browse/unix/?cm_re=masthead-_-products-_-sys-unix">UNIX servers</a></li><li><a href="http://www.ibm.com/servers/eserver/linux/?cm_re=masthead-_-products-_-sys-linux">Linux servers</a></li><li><a href="http://www.ibm.com/servers/jump_intel.html?cm_re=masthead-_-products-_-sys-intel">Intel processor-based servers</a></li><li><a href="http://www.ibm.com/servers/eserver/opteron/?cm_re=masthead-_-products-_-sys-amd">AMD processor-based servers</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-aa3d52bc-trigger" href="http://www.ibm.com/products/retail/?cm_re=masthead-_-products-_-pos">Point of sale</a><div id="gi-aa3d52bc" class="ibm-unav-menu ibm-place-holder"><span id="gi-aa3d52bc-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-fd329cd5-trigger" href="http://www.infoprint.com/us">Printing systems from InfoPrint</a><div id="gi-fd329cd5" class="ibm-unav-menu ibm-place-holder"><span id="gi-fd329cd5-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-f5900b47-trigger" href="http://www.ibm.com/technology/?cm_re=masthead-_-products-_-chips">Semiconductors</a><div id="gi-f5900b47" class="ibm-unav-menu ibm-place-holder"><span id="gi-f5900b47-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-da979315-trigger" href="http://www.ibm.com/shop/americas/content/home/store_IBMPublicUSA/en_US/Upgrades.html?cm_re=masthead-_-products-_-upgrades">Upgrades, accessories &amp; parts</a><div id="gi-da979315" class="ibm-unav-menu ibm-place-holder"><span id="gi-da979315-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-6e5724ce-trigger" href="http://www.ibm.com/systems/intellistation/?cm_re=masthead-_-products-_-workstations">Workstations</a><div id="gi-6e5724ce" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-6e5724ce-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-753803db-trigger" href="http://www.ibm.com/shop/americas/webapp/wcs/stores/servlet/HelpDisplay?storeId=1&amp;catalogId=-840&amp;langId=-1&amp;subject=2576394&amp;cm_re=masthead-_-products-_-ibmcue">Certified used PCs &amp; systems</a><div id="gi-753803db" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-753803db-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-a083f4f8-trigger" href="http://www.ibm.com/community/?cm_re=masthead-_-products-_-promo">Communities</a><div id="gi-a083f4f8" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-a083f4f8-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-bf9e0dc1-trigger" href="http://www.ibm.com/businesscenter/smallbusiness/us/en/product?cm_re=masthead-_-products-_-smallbus">Small business products</a><div id="gi-bf9e0dc1" class="ibm-unav-menu ibm-place-holder"><span id="gi-bf9e0dc1-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-7982fa83-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Medium business products</a><div id="gi-7982fa83" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-7982fa83-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/businesscenter/smb/us/en/product?cm_re=masthead-_-products-_-med-hardware">Hardware</a></li><li><a href="http://www.ibm.com/businesscenter/smb/us/en/software?cm_re=masthead-_-products-_-med-software">Software</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-c193b8ae-trigger" href="http://www.ibm.com/products/us/?cm_re=masthead-_-products-_-more">More</a><div id="gi-c193b8ae" class="ibm-unav-menu ibm-place-holder"><span id="gi-c193b8ae-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li></ul></div></li>
+<li id="ibm-unav-support"><a class="ibm-unav-has-child" href="http://www.ibm.com/support/us/en/">Support &amp; downloads</a><div id="gi-70ec9e21" class="ibm-unav-menu"><span id="gi-70ec9e21-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li class="ibm-place-holder"><a id="gi-b99a1002-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Download</a><div id="gi-b99a1002" class="ibm-unav-menu ibm-place-holder"><span id="gi-b99a1002-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/products/finder/us/finders?pg=ddfinder&amp;cm_re=other-_-suprcn-_-download">Fixes, updates and drivers</a></li><li><a href="http://www14.software.ibm.com/webapp/download/byproduct.jsp?pgel=ibmhzn1&amp;cm_re=masthead-_-supdl-_-dl-trials">Trials and demos</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-4eec20c7-trigger" href="http://www.ibm.com/support/troubleshooting/en_US?cm_re=other-_-suprcn-_-troubleshoot">Troubleshoot</a><div id="gi-4eec20c7" class="ibm-unav-menu ibm-place-holder"><span id="gi-4eec20c7-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-23fc898f-trigger" href="http://www.ibm.com/support/advsrch.wss?rs=0&amp;loc=en_US&amp;cm_re=masthead-_-supdl-_-search">Search</a><div id="gi-23fc898f" class="ibm-unav-menu ibm-place-holder"><span id="gi-23fc898f-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-12a780c1-trigger" href="http://www.ibm.com/support/documentation/en_US?cm_re=other-_-suprcn-_-documentation">Documentation</a><div id="gi-12a780c1" class="ibm-unav-menu ibm-place-holder"><span id="gi-12a780c1-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-83d3175d-trigger" href="http://www.ibm.com/support/forums/en_US?cm_re=other-_-suprcn-_-forums">Forums &amp; communities</a><div id="gi-83d3175d" class="ibm-unav-menu ibm-place-holder"><span id="gi-83d3175d-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-e5b53c8-trigger" href="http://www.ibm.com/support/plan/en_US?cm_re=other-_-suprcn-_-plan">Plan</a><div id="gi-e5b53c8" class="ibm-unav-menu ibm-place-holder"><span id="gi-e5b53c8-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-52878d9b-trigger" href="http://www.ibm.com/support/install/en_US?cm_re=other-_-suprcn-_-install">Install</a><div id="gi-52878d9b" class="ibm-unav-menu ibm-place-holder"><span id="gi-52878d9b-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-c889e166-trigger" href="http://www.ibm.com/support/use/en_US?cm_re=other-_-suprcn-_-use">Use</a><div id="gi-c889e166" class="ibm-unav-menu ibm-place-holder"><span id="gi-c889e166-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-1c993f79-trigger" href="http://www.ibm.com/support/electronic/uprtransition.wss?category=2&amp;locale=en_us&amp;cm_re=other-_-suprcn-_-request">Open a service request</a><div id="gi-1c993f79" class="ibm-unav-menu ibm-place-holder"><span id="gi-1c993f79-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-31ccf954-trigger" href="http://www.ibm.com/support/operations/us/en?cm_re=masthead-_-supdl-_-getadmin">Get administrative support</a><div id="gi-31ccf954" class="ibm-unav-menu ibm-place-holder"><span id="gi-31ccf954-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-c8a3f3cf-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0);">Support by product</a><div id="gi-c8a3f3cf" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-c8a3f3cf-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="http://www.ibm.com/software/support/?cm_re=masthead-_-supdl-_-sbp-software">Software</a></li><li><a href="http://www.ibm.com/systems/support?cm_re=masthead-_-supdl-_-sbp-systems">Systems and servers</a></li><li><a href="http://www.ibm.com/systems/support/supportsite.wss/brandmain?brandind=5345868&amp;cm_re=masthead-_-supdl-_-sbp-storage">System storage</a></li><li><a href="http://www.infoprintsolutionscompany.com/internet/wwsites.nsf/vwwebpublished/supportoverview_ww">Printing systems from InfoPrint</a></li><li><a href="http://www.lenovo.com/support/?cm_re=masthead-_-supdl-_-sbp-lenovo">Lenovo ThinkPads and ThinkCentres</a></li></ul></div></li><li class="ibm-place-holder"><a id="gi-a9ce52a7-trigger" href="http://www.ibm.com/support/us/en/?cm_re=masthead-_-supdl-_-more">More</a><div id="gi-a9ce52a7" class="ibm-unav-menu ibm-place-holder"><span id="gi-a9ce52a7-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li></ul></div></li>
+<li id="ibm-unav-myibm"><a class="ibm-unav-has-child" href="http://www.ibm.com/account/us/en/">My IBM</a><div id="gi-ee5d9a9f" class="ibm-unav-menu"><span id="gi-ee5d9a9f-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li class="ibm-place-holder"><a id="gi-8be26e80-trigger" href="http://www.ibm.com/account/myaccounts/us/en/?cm_re=masthead-_-myibm-_-myacct">My accounts</a><div id="gi-8be26e80" class="ibm-unav-menu ibm-place-holder"><span id="gi-8be26e80-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-4090634c-trigger" href="https://www.ibm.com/account/myibm/profile.do?cc=us&amp;lc=&amp;cm_re=masthead-_-myibm-_-myprofile">My profile</a><div id="gi-4090634c" class="ibm-unav-menu ibm-place-holder"><span id="gi-4090634c-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-myinterest"><a id="gi-38fe4b5b-trigger" href="https://www.ibm.com/account/myibm/myinterestView.do?cc=us&amp;lc=en&amp;cm_re=masthead-_-myibm-_-myinterests">My interests</a><div id="gi-38fe4b5b" class="ibm-unav-menu ibm-myinterest"><span id="gi-38fe4b5b-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-854d19ae-trigger" href="http://www.ibm.com/account/mycommunity/us/en/">My community spaces</a><div id="gi-854d19ae" class="ibm-unav-menu ibm-place-holder"><span id="gi-854d19ae-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-1806452-trigger" href="http://www.ibm.com/support/mynotifications">My support</a><div id="gi-1806452" class="ibm-unav-menu ibm-place-holder"><span id="gi-1806452-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-b4ebecfd-trigger" class="ibm-unav-menu-has-child" href="javascript:void(0)">My customer support</a><div id="gi-b4ebecfd" class="ibm-unav-menu ibm-place-holder"><span id="gi-b4ebecfd-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul><li><a href="https://www-132.ibm.com/webapp/wcs/stores/servlet/OrderItemDisplay?langId=-1&amp;storeId=1&amp;catalogId=-840&amp;krypto=g3mOZ2uZQalqnkMCJkVJ1Q%3D%3D&amp;ddkey=OrderItemDisplay&amp;cm_re=masthead-_-myibm-_-cs-cart">Shopping cart</a></li><li><a href="http://www.ibm.com/support/operations/us/en/contracts?cm_re=masthead-_-myibm-_-cs-contracts">Contracts</a></li><li><a href="http://www.ibm.com/support/operations/us/en/orderdelivery?cm_re=masthead-_-myibm-_-cs-orders">Orders and delivery</a></li><li><a href="http://www.ibm.com/support/operations/us/en/inventory?cm_re=masthead-_-myibm-_-cs-inventory">Inventory and maintenance</a></li><li><a href="http://www.ibm.com/support/operations/us/en/invoicespayments?cm_re=masthead-_-myibm-_-cs-invoices">Invoices and payments</a></li><li><a href="http://www.ibm.com/support/operations/us/en/learnmore3a?cm_re=masthead-_-myibm-_-cs-self">Self-service tools</a></li><li><a href="http://www.ibm.com/support/operations/us?cm_re=masthead-_-myibm-_-cs-more">More customer support</a></li></ul></div></li><li class="ibm-mhdyn-rule"><a id="gi-e1c9c917-trigger" href="http://www-931.ibm.com/bin/subscriptions/welcome.cgi?cl=usen&amp;cm_re=masthead-_-myibm-_-subscriptions">Subscriptions</a><div id="gi-e1c9c917" class="ibm-unav-menu ibm-mhdyn-rule"><span id="gi-e1c9c917-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li><li class="ibm-place-holder"><a id="gi-493004db-trigger" href="http://www.ibm.com/account/us/en/?cm_re=masthead-_-myibm-_-more">More</a><div id="gi-493004db" class="ibm-unav-menu ibm-place-holder"><span id="gi-493004db-ehb" class="ibm-unav-menu-ehb"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt=""></span><a class="ibm-access"></a><ul></ul></div></li></ul></div></li>
+</ul>
+</div>
+
+<a name="main"></a></div>
+
+<script type="text/javascript" language="JavaScript" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/pmh.js">
+</script><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/print-header.gif" alt="" id="print-masthead" width="510" height="32">
+
+<!--MASTHEAD_END--><!-- CMA ID: 321213 --> <!-- Site ID: 1 --><table id="v14-body-table" border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><!--LEFTNAV_BEGIN--><td id="navigation" width="150"><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td class="left-nav-spacer"><a href="http://www.ibm.com/developerworks" class="left-nav-overview">&nbsp;</a></td></tr></tbody></table><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="2" class="left-nav-overview"><a href="http://www.ibm.com/developerworks" class="left-nav-overview">developerWorks</a></td></tr></tbody></table><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="2" class="left-nav-highlight"><a href="#" class="left-nav">In this article:</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N100FB" class="left-nav-child">Anatomy of a
+                kernel module</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N1013E" class="left-nav-child">Anatomy of a
+                kernel module object</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N10174" class="left-nav-child">Life cycle of an
+                LKM</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N101D6" class="left-nav-child">Module loading
+                details</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N10225" class="left-nav-child">Module unloading
+                details</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N10277" class="left-nav-child">Optimizing the
+                kernel for module management </a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#N10284" class="left-nav-child">Going further</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#resources" class="left-nav-child">Resources</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#author" class="left-nav-child">About the author</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/cl-bullet.gif" width="2" height="8"></td><td><a href="#rate" class="left-nav-child">Rate this page</a></td></tr><tr class="left-nav-last"><td width="14"><img class="display-img" alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="14" height="1"></td><td width="136"><img class="display-img" alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/left-nav-corner.gif" width="136" height="19"></td></tr></tbody></table><br><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td class="related" colspan="2"><b class="related">Related links</b></td></tr><tr class="rlinks"><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/rl-bullet.gif" width="2" height="8"></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/views/linux/library.jsp">Linux technical library</a></td></tr><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- No content currently --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><tr><td width="14"><img class="display-img" alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="14" height="1"></td><td width="136"><img class="display-img" alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="136" height="19"></td></tr></tbody></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- Next Steps Area:  Start -->
+<!-- Commented out the include call in the dwmaster version of this file to prevent ajax calls
+     being made during article previews and testing.  Live site has uncommented copy of this file (jpp) -->
+<!-- Call Next Steps Servlet -->
+<script language="JavaScript" type="text/javascript">
+<!--
+/*
+ * ajaxInclude makes a call to the url and render the results in the div tag specified in divId
+ */
+function ajaxInclude(url, divId) { 
+ var req = newXMLHttpRequest(); 
+ if (req) { 
+   req.onreadystatechange = getReadyStateHandler(req, 
+	function (result) {  
+           var contents = document.getElementById(divId);  
+           if (result != null && result.length > 0 && contents != null) {
+	     contents.innerHTML = result;  
+           }
+        }); 
+   req.open("GET", url, true);
+   req.send("");
+ }
+}
+//-->
+</script>
+
+<!-- Display Next Steps Result -->
+<div id="nextsteps">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table border="0" width="70%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="1" height="1"></td></tr></tbody></table>
+</div>
+
+<!-- Initiate Next Steps Call -->
+<script language="JavaScript" type="text/javascript">
+<!-- 
+ ajaxInclude("/developerworks/niagara/jsp/getNiagaraContent.jsp?url="+window.location.href,"nextsteps");
+//-->
+</script>
+<!-- Next Steps Area:  End --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--></td><!--LEFTNAV_END--><td width="100%"><table id="content-table" border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td width="100%"><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><a name="main"><img alt="skip to main content" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" border="0" width="592" height="1"></a></td></tr></tbody></table><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td width="10" height="18"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="10" height="18"></td><td width="100%"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="1" height="6"><br><a href="http://www.ibm.com/developerworks/" class="bctl">developerWorks</a><span class="bct">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span><a class="bctl" href="http://www.ibm.com/developerworks/linux/">Linux</a><span class="bct">&nbsp;&nbsp;&gt;</span><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="1" height="1"><br><h1>Anatomy of Linux loadable kernel modules</h1><p id="subtitle"><em>A 2.6 kernel perspective</em></p><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" class="display-img" width="1" height="6"></td><td class="no-print" width="192"><a href="http://www.ibm.com/developerworks/"><img alt="developerWorks" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/dw.gif" border="0" width="192" height="18"></a></td></tr></tbody></table></td></tr></tbody></table><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td width="10"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="10" height="1"></td><td width="100%"><table class="no-print" align="right" border="0" width="160" cellpadding="0" cellspacing="0"><tbody><tr><td width="10"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="10" height="1"></td><td><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td class="v14-header-1-small">Document options</td></tr></tbody></table><table class="v14-gray-table-border" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="no-padding" width="150"><noscript></noscript><noscript><tr
+valign="top"><td width="8"><img alt="" height="1" width="8"
+src="//www.ibm.com/i/c.gif"/></td><td width="16"><img alt="" width="16"
+height="16" src="//www.ibm.com/i/c.gif"/></td><td class="small"
+width="122"><p><span class="ast">Document options requiring JavaScript
+are not displayed</span></p></td></tr></noscript><table border="0" width="143" cellpadding="0" cellspacing="0"><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img alt="Set printer orientation to landscape mode" height="16" src="//www.ibm.com/i/v14/icons/printer.gif" width="16" vspace="3" /></td><td width="122"><p><b><a class="smallplainlink" href="javascript:print()">Print this page</a></b></p></td></tr>');
+//-->
+</script><tbody><tr valign="top"><td width="8"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="8" height="1"></td><td width="16"><img alt="Set printer orientation to landscape mode" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/printer.gif" vspace="3" width="16" height="16"></td><td width="122"><p><b><a class="smallplainlink" href="javascript:print()">Print this page</a></b></p></td></tr>
+<tr valign="top"><td width="8"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="1"></td><td width="16"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/pdf.gif" alt="PDF format - Fits A4 and Letter" vspace="5" width="16" height="16"></td><td width="122"><p><a href="http://download.boulder.ibm.com/ibmdl/pub/software/dw/linux/l-lkm/l-lkm-pdf.pdf" onkeypress="sa_onclick(this.href)" onclick="sa_onclick(this.href)" class="smallplainlink"><b>PDF - Fits A4 and Letter</b></a><br><span class="small">258KB (11 pages)</span></p></td></tr><tr valign="top"><td width="8"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="1"></td><td width="16"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/sout.gif" vspace="5" width="16" height="16"></td><td width="122"><p><a href="http://www.adobe.com/products/acrobat/readstep2.html" class="smallplainlink"><b>Get Adobe® Reader®</b></a></p></td></tr><script language="JavaScript" type="text/javascript">
+<!-- 5.6 10/24 llk: added cdata around the subdirectory path of email gif-->
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img src="//www.ibm.com/i/v14/icons/em.gif" height="16" width="16" vspace="3" alt="Email this page" /></td><td width="122"><p><a class="smallplainlink" href="javascript:void newWindow()"><b>E-mail this page</b></a></p></td></tr>');
+//-->
+</script><tr valign="top"><td width="8"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="8" height="1"></td><td width="16"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/em.gif" alt="Email this page" vspace="3" width="16" height="16"></td><td width="122"><p><a class="smallplainlink" href="javascript:void%20newWindow()"><b>E-mail this page</b></a></p></td></tr></tbody></table></td></tr></tbody></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!--Updated 12/04/08 by gem-->
+<br><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td class="v14-header-2-small">Hey there! developerWorks is using Twitter</td></tr></tbody></table><table class="v14-gray-table-border" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="no-padding" width="150"><table border="0" width="143" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td width="8"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="8" height="1"></td><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/fw_bold.gif" alt="" border="0" vspace="3" width="16" height="16"></td><td width="125"><p><a href="http://www.twitter.com/developerworks/?S_TACT=105AGX01&amp;S_CMP=nsf" class="smallplainlink">Follow  us</a></p></td></tr></tbody></table></td></tr></tbody></table><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br><table border="0" width="150" cellpadding="0" cellspacing="0"><tbody><tr><td class="v14-header-2-small">Rate this page</td></tr></tbody></table><table class="v14-gray-table-border" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="no-padding" width="150"><table border="0" width="143" cellpadding="0" cellspacing="0"><tbody><tr valign="top"><td width="8"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="1"></td><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/d_bold.gif" border="0" vspace="3" width="16" height="16"></td><td width="125"><p><a href="#rate" class="smallplainlink"><b>Help us improve this content</b></a></p></td></tr></tbody></table></td></tr></tbody></table><br></td></tr></tbody></table><p>Level: Intermediate</p><p><a href="#author">M. Tim Jones</a> (<a href="mailto:mtj@mtjones.com?subject=Anatomy%20of%20Linux%20loadable%20kernel%20modules&amp;cc=tomyoung@us.ibm.com">mtj@mtjones.com</a>), Consultant Engineer, Emulex Corp.<br></p><p> 16 Jul  2008</p><blockquote>Linux® loadable kernel modules, introduced in version 1.2
+            of the kernel, are one of the most important innovations in the Linux kernel.
+            They provide a kernel that is both scalable and dynamic. Discover the ideas
+            behind loadable modules, and learn how these independent objects dynamically
+            become part of the Linux kernel. </blockquote><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><script type="text/javascript" language="javascript">
+	     // <![CDATA[
+			capture_referrer();
+		 // ]]>
+</script>
+
+<!--  START : HTML FOR SEARCH REFERRER -->
+  <div id="search_referrer_results" style="display: none;">
+
+
+<!--  START : HTML FOR ARTICLE SEARCH -->
+  <div id="article_results" style="display: block;"></div>
+<!--  END : HTML FOR ARTICLE SEARCH -->
+
+<!--  START : HTML FOR CODE SEARCH -->
+   <div id="code_results" style="display: block;"></div>
+<!--  END : HTML FOR CODE SEARCH -->
+
+
+   <br>
+   <br>
+   </div>
+<!--  END : HTML FOR SEARCH REFERRER --><!--END RESERVED FOR FUTURE USE INCLUDE FILES-->
+            <p>The Linux kernel is what's known as a <i>monolithic kernel,</i> which means
+                that the majority of the operating system functionality is called the
+                    <i>kernel</i> and runs in a privileged mode. This differs from a
+                    <i>micro-kernel,</i> which runs only basic functionality as the kernel
+                (inter-process communication [IPC], scheduling, basic input/output [I/O],
+                memory management) and pushes other functionality outside the privileged
+                space (drivers, network stack, file systems). You'd think that Linux is
+                then a very static kernel, but in fact it's quite the opposite. Linux can
+                be dynamically altered at run time through the use of Linux kernel modules
+                (LKMs). </p>
+            <table align="right" border="0" width="40%" cellpadding="0" cellspacing="0"><tbody><tr><td width="10"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="10" height="1"></td><td><table border="1" width="100%" cellpadding="5" cellspacing="0"><tbody><tr><td bgcolor="#eeeeee">
+                <a name="N10084"><b>More in Tim's <i>Anatomy of...</i> series on
+          developerWorks</b></a><br>
+                <ul>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-flash-filesystems/" onmouseover="linkQueryAppend(this)">
+Anatomy of Linux flash file systems</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-selinux/" onmouseover="linkQueryAppend(this)">
+Anatomy of Security-Enhanced Linux (SELinux)</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-real-time-linux/" onmouseover="linkQueryAppend(this)">
+Anatomy of real-time Linux architectures</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-scsi-subsystem/" onmouseover="linkQueryAppend(this)">
+Anatomy of the Linux SCSI subsystem</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-linux-filesystem/" onmouseover="linkQueryAppend(this)">
+Anatomy of the Linux file system</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-linux-networking-stack/" onmouseover="linkQueryAppend(this)">
+        Anatomy of the Linux networking stack</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-linux-kernel/" onmouseover="linkQueryAppend(this)">
+            Anatomy of the Linux kernel</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-linux-slab-allocator" onmouseover="linkQueryAppend(this)">
+Anatomy of the Linux slab allocator</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/linux/library/l-linux-synchronization.html"> 
+Anatomy of Linux synchronization methods</a>
+                        <br>
+                        <br>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?topic_by=All+topics+and+related+products&amp;sort_order=desc&amp;lcl_sort_order=desc&amp;search_by=anatomy&amp;search_flag=true&amp;type_by=Articles&amp;show_abstract=true&amp;start_no=1&amp;sort_by=Date&amp;end_no=100&amp;show_all=false" onmouseover="linkQueryAppend(this)">All
+of Tim's <i>Anatomy of...</i> articles</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?topic_by=All+topics+and+related+products&amp;sort_order=desc&amp;lcl_sort_order=desc&amp;search_by=tim+jones&amp;search_flag=true&amp;type_by=Articles&amp;show_abstract=false&amp;sort_by=Date&amp;end_no=100&amp;show_all=false" onmouseover="linkQueryAppend(this)">All
+of Tim's  articles on developerWorks</a>
+                    </li>
+                </ul>
+            </td></tr></tbody></table></td></tr></tbody></table>
+            <p>
+                <i>Dynamically alterable</i> means that you can load new functionality into
+                the kernel, unload functionality from the kernel, and even add new LKMs
+                that use other LKMs. The advantage to LKMs is that you can minimize the
+                memory footprint for a kernel, loading only those elements that are needed
+                (which can be an important feature in embedded systems). </p>
+            <p>Linux is not the only monolithic kernel that can be dynamically altered
+                (and it wasn't the first). You'll find loadable module support in Berkeley
+                Software Distribution (BSD) variants, Sun Solaris, in older kernels such
+                as OpenVMS, and other popular operating systems such as Microsoft®
+                Windows® and Apple Mac OS X. </p>
+            <p><a name="N100FB"><span class="atitle">Anatomy of a
+                kernel module</span></a></p>
+
+            <p>An LKM has some fundamental differences from elements that compile directly
+                into the kernel and also typical programs. A typical program has a main,
+                where an LKM has a module entry and exit function (in version 2.6, you can
+                name these functions anything you wish). The entry function is called when
+                the module is inserted into the kernel, and the exit function called when
+                it's removed. Because the entry and exit functions are user-defined, a
+                <code>module_init</code> and
+                <code>module_exit</code> macro exist to define which
+                functions these are. An LKM also includes a required and optional set of
+                module macros. These define the license of the module, the module's
+                author, a description of the module, and more.
+                Figure 1 provides view of a very simple LKM. </p>
+            
+                <br><a name="figure1"><b>Figure 1. Source view
+                    of a simple LKM </b></a><br>
+                <img alt="Source view of a simple LKM" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/figure1.jpg" width="385" height="245">
+            <br>
+
+            <p>The version 2.6 Linux kernel provides a new (simpler) method for building
+                LKMs. When built, you can use the typical user tools for managing modules
+                (though the internals have changed): the standard
+                <code>insmod</code> (installing an LKM),
+                <code>rmmod</code> (removing an LKM),
+                <code>modprobe</code> (wrapper for
+                <code>insmod</code> and <code>rmmod</code>),
+                <code>depmod</code> (to create module dependencies), and
+                <code>modinfo</code> (to find the values for module macros).
+                For more information on building LKMs for the version 2.6 kernel, check
+                out <a href="#resources">Resources</a>. </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N1013E"><span class="atitle">Anatomy of a
+                kernel module object</span></a></p>
+
+            <p>An LKM is nothing more than a special Executable and Linkable Format (ELF)
+                object file. Typically, object files are linked to resolve their symbols
+                and result in an executable. But because an LKM can't resolve its symbols
+                until it's loaded into the kernel, the LKM remains an ELF object. You can
+                use standard object tools on LKMs (which for version 2.6 have the suffix
+                    <i>.ko,</i> for kernel object). For example, if you used the
+                <code>objdump</code> utility on an LKM, you'd find several
+                familiar sections, such as <i>.text</i> (instructions), <i>.data</i>
+                (initialized data), and <i>.bss</i> (Block Started Symbol, or
+                uninitialized data). </p>
+
+            <p>You'll also find additional sections in a module to support its dynamic
+                nature. The .init.text section contains the
+                <code>module_init</code> code, and the .exit.text contains
+                the <code>module_exit</code> code (see
+                Figure 2). The .modinfo section contains the various
+                macro text indicating module license, author, description, and so on. </p>
+            
+                <br><a name="figure2"><b>Figure 2. An example of an
+                    LKM with various ELF sections </b></a><br>
+                <img alt="Example of an LKM with various ELF sections" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/figure2.jpg" width="360" height="313">
+            <br>
+            <p>So, with that introduction to the basics of LKMs, let's dig in to see how
+                modules get into the kernel and are managed internally. </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N10174"><span class="atitle">Life cycle of an
+                LKM</span></a></p>
+
+            <p>The process of module loading begins in user space with
+                <code>insmod</code> (insert module). The
+                <code>insmod</code> command defines the module to load and
+                invokes the <code>init_module</code> user-space system call
+                to begin the loading process. The <code>insmod</code>
+                command for the version 2.6 kernel has become extremely simple (70 lines
+                of code) based on a change to do more work in the kernel. Rather than
+                <code>insmod</code> doing any of the symbol resolution
+                that's necessary (working with <code>kerneld</code>), the
+                <code>insmod</code> command simply copies the module binary
+                into the kernel through the <code>init_module</code>
+                function, where the kernel takes care of the rest. </p>
+            <p>The <code>init_module</code> function works through the
+                system call layer and into the kernel to a kernel function called
+                <code>sys_init_module</code> (see
+                Figure 3). This is the main function for module
+                loading, making use of numerous other functions to do the difficult work.
+                Similarly, the <code>rmmod</code> command results in a
+                <code>system call</code> for
+                <code>delete_module</code>, which eventually finds its way
+                into the kernel with a call to
+                <code>sys_delete_module</code> to remove the module from the
+                kernel. </p>
+            
+                <br><a name="figure3"><b>Figure 3. Primary commands
+                    and functions involved in module loading and unloading </b></a><br>
+                <img alt="Primary commands and functions involved in module loading and unloading" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/figure3.jpg" width="368" height="194">
+            <br>
+
+            <p>During module load and unload, the module subsystem maintains a simple set
+                of state variables to indicate the operation of a module. If the module is
+                being loaded, then the state is
+                <code>MODULE_STATE_COMING</code>. If the module has been
+                loaded and is available, it is
+                <code>MODULE_STATE_LIVE</code>. Otherwise, if the module is
+                being unloaded, then the state is
+                <code>MODULE_STATE_GOING</code>. </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N101D6"><span class="atitle">Module loading
+                details</span></a></p>
+
+            <p>Let's now look at the internal functions for module loading (see
+                Figure 4). When the kernel function
+                <code>sys_init_module</code> is called, it begins with a
+                permissions check to see whether the caller can actually perform this
+                operation (through the <code>capable</code> function). Then,
+                the <code>load_module</code> function is called, which takes
+                care of the mechanical work to bring the module into the kernel and
+                perform the necessary plumbing (I review this shortly). The
+                <code>load_module</code> function returns a module reference
+                that refers to the newly loaded module. This module is loaded onto a
+                doubly linked list of all modules in the system, and any threads currently
+                waiting for module state change are notified through the notifier list.
+                Finally, the module's <code>init()</code> function is
+                called, and the module's state is updated to indicate that it is loaded
+                and live. </p>
+            
+                <br><a name="figure4"><b>Figure 4. The internal
+                    (simplified) module loading process </b></a><br>
+                <img alt="The internal (simplified) module loading process" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/figure4.jpg" width="395" height="462">
+            <br>
+
+            <p>The internal details of module loading are ELF module parsing and
+                manipulation. The <code>load_module</code> function (which
+                resides in ./linux/kernel/module.c) begins by allocating a block of
+                temporary memory to hold the entire ELF module. The ELF module is then
+                read from user space into the temporary memory using
+                <code>copy_from_user</code>. As an ELF object, this file has
+                a very specific structure that can be easily parsed and validated. </p>
+            <p>The next step is to perform a set of sanity checks on the loaded image (is
+                it a valid ELF file? is it defined for the current architecture? and so
+                on). When these sanity checks are passed, the ELF image is parsed and a
+                set of convenience variables are created for each section header to
+                simplify their access later. Because the ELF objects are based at offset 0
+                (until relocation), the convenience variables include the relative offset
+                into the temporary memory block. During the process of creating the
+                convenience variables, the ELF section headers are also validated to
+                ensure that a valid module is being loaded. </p>
+
+            <p>Any optional module arguments are loaded from user space into another
+                allocated block of kernel memory (step 4), and the module state is updated
+                to indicate that it's being loaded
+                (<code>MODULE_STATE_COMING</code>). If per-CPU data is
+                needed (as determined in the section header checks), a per-CPU block is
+                allocated. </p>
+
+            <p>In the prior steps, the module sections are loaded into kernel (temporary)
+                memory, and you also know which are persistent and which can be removed.
+                The next step (7) is to allocate the final location for the module in
+                memory and move the necessary sections (indicated in the ELF headers by
+                <code>SHF_ALLOC</code>, or the sections that occupy memory
+                during execution). Another allocation is then performed of the size needed
+                for the required sections of the module. Each section in the temporary ELF
+                block is iterated, and those that need to be around for execution are
+                copied into the new block. This is followed by some additional
+                housekeeping. Symbol resolution also occurs, which can resolve to symbols
+                that are resident in the kernel (compiled into the kernel image) or
+                symbols that are transient (exported from other modules). </p>
+
+            <p>The new module is then iterated for each remaining section and relocations
+                performed. This step is architecture dependent and therefore relies on
+                helper functions defined for that architecture
+                (./linux/arch/&lt;arch&gt;/kernel/module.c). Finally, the
+                instruction cache is flushed (because the temporary .text sections were
+                used), a bit more housekeeping is performed (free temporary module memory,
+                setup the sysfs), and the module is finally returned to
+                <code>load_module</code>. </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N10225"><span class="atitle">Module unloading
+                details</span></a></p>
+
+            <p>Unloading the module is essentially a mirror of the load process, except
+                that several sanity checks must occur to ensure safe removal of the
+                module. Unloading a module begins in user space with the invocation of the
+                <code>rmmod</code> (remove module) command. Inside the
+                <code>rmmod</code> command, a system call is made to
+                <code>delete_module</code>, which eventually results in a
+                call to <code>sys_delete_module</code> inside the kernel
+                (recall from <a href="#fig3">Figure 3</a>). Figure 5
+                illustrates the basic operation of the module removal process. </p>
+            
+                <br><a name="figure5"><b>Figure 5. The internal
+                    (simplified) module unloading process </b></a><br>
+                <img alt="The internal (simplified) module unloading process" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/figure5.jpg" width="397" height="404">
+            <br>
+            <p>When the kernel function <code>sys_delete_module</code> is
+                invoked (with the name of the module to be removed, passed in as the
+                argument), the first step is to ensure that the caller has permissions.
+                Next, a list is checked to see whether any other modules depend on this
+                module. There exists a list called
+                <code>modules_which_use_me</code> that contains an element
+                per dependent module. If this list is empty, no module dependencies exist
+                and the module is a candidate for removal (otherwise, an error is
+                returned). The next test is to see if the module is loaded. Nothing
+                prohibits a user calling <code>rmmod</code> on a module
+                that's currently being installed, so this check ensures that the module is
+                live. After a few more housekeeping checks, the penultimate step is to
+                call the module's exit function (provided within the module itself).
+                Finally, the <code>free_module</code> function is called. </p>
+            <p>When <code>free_module</code> is called, the module has been
+                found to be safely removable. No dependencies exist now for the module,
+                and the process of cleaning up the kernel can begin for this module. This
+                process begins by removing the module from the various lists that it was
+                placed on during installation (sysfs, module list, and so on). Next, an
+                architecture-specific cleanup routine is invoked (which can be found in
+                ./linux/arch/&lt;arch&gt;/kernel/module.c). You then iterate the
+                modules that depended on you and remove this module from their lists.
+                Finally, with the cleanup complete—from the kernel's
+                perspective—the various memory that was allocated for the module
+                is freed, including the argument memory, per-CPU memory, and the module
+                ELF memory (<code>core</code> and
+                <code>init</code>). </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N10277"><span class="atitle">Optimizing the
+                kernel for module management </span></a></p>
+
+            <p>In many applications, the need for dynamic loading of modules is important,
+                but when loaded, it's not necessary for the modules to be unloaded. This
+                allows the kernel to be dynamic at startup (load modules based on the
+                devices that are found) but not dynamic throughout operation. If it's not
+                required to unload a module after it's loaded, you can make several
+                optimizations to reduce the amount of code needed for module management.
+                You can "unset" the kernel configuration option
+                <code>CONFIG_MODULE_UNLOAD</code> to remove a considerable
+                amount of kernel functionality related to module unloads. </p>
+            <br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/blue_rule.gif" alt="" width="100%" height="1"></td></tr></tbody></table><table class="no-print" align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br><p><a name="N10284"><span class="atitle">Going further</span></a></p>
+
+            <p>This has been a high-level view of the module-management process in the
+                kernel. For the gory details of module management, the best documentation
+                is the source itself. For the main functions involved in module
+                management, see ./linux/kernel/module.c (and the associated header file in
+                ./linux/include/linux/module.h). You can find several
+                architecture-specific functions in
+                ./linux/arch/&lt;arch&gt;/kernel/module.c. Finally, you can see
+                the kernel auto-load function (which automatically loads a module from the
+                kernel based on need) in ./linux/kernel/kmod.c. This feature is enabled
+                through the <code>CONFIG_KMOD</code> configuration option.
+            </p>
+        <br><br><p><a name="resources"><span class="atitle">Resources</span></a></p><b>Learn</b><br><ul><li> 
+                Follow Rusty Russell's "<a href="http://ozlabs.org/%7Erusty/">Bleeding Edge</a>" blog on 
+               his current Linux kernel developments.  Rusty is the lead developer of the
+                new Linux module architecture. <br><br></li><li> The
+                <a href="http://tldp.org/LDP/lkmpg/2.6/html/lkmpg.html">Linux
+			Kernel Module Programming Guide</a>, though a bit dated,
+                provides a great amount of detailed information on LKMs and their
+                development. <br><br></li><li> Check out
+                "<a href="http://www.ibm.com/developerworks/linux/library/l-proc.html" onmouseover="linkQueryAppend(this)">Access the
+			Linux Kernel using the /proc filesystem</a>"
+                (developerWorks, March 2006) for a detailed look at LKM programming
+                with the /proc file system. <br><br></li><li> I
+
+                
+                Learn more about the details behind system calls in
+                "<a href="http://www.ibm.com/developerworks/linux/library/l-system-calls/" onmouseover="linkQueryAppend(this)">Kernel command using
+			Linux system calls"</a>
+                (developerWorks, March 2007). <br><br></li><li> To learn more about the Linux kernel,
+                Read Tim's "<a href="http://www.ibm.com/developerworks/linux/library/l-linux-kernel/" onmouseover="linkQueryAppend(this)">Anatomy
+                of the Linux Kernel</a> (developerWorks, June 2007), the first article in 
+                this series, to get a high-level overview
+                of the Linux kernel along with some of its more interesting points. <br><br></li><li> Read a great
+                introduction to ELF in
+                "<a href="http://www.ibm.com/developerworks/power/library/pa-spec12/index.html" onmouseover="linkQueryAppend(this)">Standards
+			and specs: An unsung hero: the hardworking ELF</a>"
+                (developerWorks, December 2005). The ELF is the standard object format for
+                Linux. ELF is a flexible file format that covers executable images,
+                objects, shared libraries, and even core dumps. You can also find more detailed
+                information in this
+                <a href="http://www.skyfree.org/linux/references/ELF_Format.pdf">format
+reference</a> (PDF document) 
+                and detailed
+                <a href="http://www.linuxfoundation.org/spec/book/ELF-generic/ELF-generic/book1.html">book
+			on ELF formats</a>. <br><br></li><li>  The
+                <a href="http://www.captain.at/programming/kernel-2.6/">Captain's Universe</a>
+                provides a great introduction to LKM building with sample makefiles. The process for building LKMs changed
+                with the version 2.6 kernel (for the better).<br><br></li><li> There is a small number of module
+                utilities for inserting, removing, and managing modules. Modules are
+                inserted into the kernel with the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=insmod">
+                    <code>insmod</code>
+
+                </a>
+                command, and removed with the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=rmmod">
+                    <code>rmmod</code>
+
+                </a>
+                command. To query the modules currently in the kernel, use the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=lsmod">
+                    <code>lsmod</code>
+
+                </a>
+                command. Because modules can depend on the presence of other modules, the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=depmod">
+                    <code>depmod</code>
+
+                </a>
+                command is available to build a dependency file. To automatically load the
+                dependent modules before the module of interest, you can use the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=modprobe">
+                    <code>modprobe</code>
+                </a>
+                command (a wrapper over <code>insmod</code>). Finally, you
+                can read the module information for an LKM using the
+                <a href="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=modinfo">
+                    <code>modinfo</code>
+                </a>
+                command. <br><br></li><li> The <i>Linux Journal</i> article,
+                "<a href="http://www.linuxjournal.com/article/6463">Linkers and Loaders</a>"
+                (November 2002) provides a great introduction to the purpose behind
+                linkers and loaders using ELF files (including symbol resolution and
+                relocation ). <br><br></li><li> 
+                In the
+                <a href="http://www.ibm.com/developerworks/linux/" onmouseover="linkQueryAppend(this)">developerWorks Linux zone</a>,
+                find more resources for Linux developers, and scan our
+                <a href="http://www.ibm.com/developerworks/linux/library/l-top-10.html" onmouseover="linkQueryAppend(this)">most popular articles and
+tutorials</a>. 
+            <br><br></li><li> 
+                See all
+                <a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?topic_by=All+topics+and+related+products&amp;sort_order=desc&amp;lcl_sort_order=desc&amp;search_by=linux+tip%3A&amp;search_flag=true&amp;type_by=All+Types&amp;show_abstract=true&amp;start_no=1&amp;sort_by=Date&amp;end_no=100&amp;show_all=false" onmouseover="linkQueryAppend(this)">
+Linux tips</a> and
+                <a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?topic_by=All+topics+and+related+products&amp;sort_order=desc&amp;lcl_sort_order=desc&amp;search_by=&amp;search_flag=&amp;type_by=Tutorials&amp;show_abstract=true&amp;sort_by=Date&amp;end_no=100&amp;show_all=false" onmouseover="linkQueryAppend(this)">
+Linux tutorials</a> on developerWorks. 
+            <br><br></li><li> 
+                Stay current with
+                <a href="http://www.ibm.com/developerworks/offers/techbriefings/" onmouseover="linkQueryAppend(this)">developerWorks technical events and Webcasts</a>. 
+            <br><br></li></ul><br><b>Get products and technologies</b><br><ul><li>
+                <a href="http://www.ibm.com/developerworks/offers/sek/" onmouseover="linkQueryAppend(this)">Order the SEK for Linux</a>,
+                a two-DVD set containing the latest IBM trial software for Linux from DB2®,
+                Lotus®, Rational®, Tivoli®, and WebSphere®. 
+            <br><br></li><li> 
+                With
+                <a href="http://www.ibm.com/developerworks/downloads/" onmouseover="linkQueryAppend(this)">IBM trial software</a>,
+                available for download directly from developerWorks, build your next development
+                project on Linux. 
+            <br><br></li></ul><br><b>Discuss</b><br><ul><li> 
+                Get involved in the
+                <a href="http://www.ibm.com/developerworks/community" onmouseover="linkQueryAppend(this)">
+developerWorks community</a> through blogs, forums, podcasts, and spaces. 
+            </li></ul><br><br><p><a name="author"><span class="atitle">About the author</span></a></p><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="3"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="100%" height="5"></td></tr><tr align="left" valign="top"><td><p><img alt="M. Tim Jones" name="M. Tim Jones" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/p-mjones.jpg" valign="top" align="left" border="0" width="64" height="80"></p></td><td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="4" height="5"></td><td width="100%"><p>M. Tim Jones is an embedded firmware architect and the author of <i>Artificial
+          Intelligence: A Systems Approach, GNU/Linux Application Programming</i> (now in
+        its second edition), <i>AI Application Programming</i> (in its second edition),
+        and <i>BSD Sockets Programming from a Multilanguage Perspective.</i> His
+        engineering background ranges from the development of kernels for geosynchronous
+        spacecraft to embedded systems architecture and networking protocols development.
+        Tim is a Consultant Engineer for Emulex Corp. in Longmont, Colorado.</p></td></tr></tbody></table><br><br><br><p class="no-print"><span class="atitle"><a name="rate">Rate this page</a></span></p><span class="no-print"><form action="http://www-128.ibm.com/developerworks/utils/RatingsHandler" method="post"><input value="1" name="SITE_ID" type="hidden"><input value="Anatomy of Linux loadable kernel modules" name="ArticleTitle" type="hidden"><input value="Linux" name="Zone" type="hidden"><input value="http://www.ibm.com/developerworks/thankyou/feedback-thankyou.html" name="RedirectURL" type="hidden"><input value="321213" name="ArticleID" type="hidden"><input value="07162008" name="publish-date" type="hidden"><input name="author1-email" value="mtj@mtjones.com" type="hidden"><input name="author1-email-cc" value="tomyoung@us.ibm.com" type="hidden"><script language="javascript" type="text/javascript">document.write('<input type="hidden" name="url" value="'+location.href+'" />');</script><input name="url" value="http://www.ibm.com/developerworks/linux/library/l-lkm/index.html?ca=dgr-lnxw07LinuxLKM&amp;S_TACT=105AGX59&amp;S_CMP=GR" type="hidden"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/gray_rule.gif" alt="" width="100%" height="1"><br><table class="v14-gray-table-border" border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td width="100%"><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="3"><p>Please take a moment to complete this form to help us better serve you.</p></td></tr><tr valign="top"><td width="140"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="140" height="1"><br><p><label for="Goal">Did the information help you to achieve your goal?</label></p></td><td width="303"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="303" height="6"><br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><input value="Yes" id="goal-yes" name="goal" type="radio"><label for="goal-yes">Yes</label></td><td><input value="No" id="goal-no" name="goal" type="radio"><label for="goal-no">No</label></td><td><input value="Don't know" id="goal-undecided" name="goal" type="radio"><label for="goal-undecided">Don't know</label></td></tr></tbody></table></td><td width="100%">&nbsp;</td></tr><tr><td colspan="3"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="12"></td></tr><tr valign="top"><td width="140"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="140" height="1"><br><p><label for="Comments">Please provide us with comments to help improve this page:</label></p></td><td width="303"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="303" height="6"><br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td><textarea class="iform" cols="35" rows="5" wrap="virtual" id="Comments" name="Comments">&nbsp;</textarea></td></tr></tbody></table></td><td width="100%">&nbsp;</td></tr><tr><td colspan="3"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="12"></td></tr><tr valign="top"><td width="140"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="140" height="1"><br><p><label for="Rating">How useful is the information?</label></p></td><td width="303"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="303" height="6"><br><table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td align="left" width="58"><input value="1" id="Rating1" name="Rating" type="radio"><label for="Rating1">1</label></td><td align="left" width="58"><input value="2" id="Rating2" name="Rating" type="radio"><label for="Rating2">2</label></td><td align="left" width="58"><input value="3" id="Rating3" name="Rating" type="radio"><label for="Rating3">3</label></td><td align="left" width="58"><input value="4" id="Rating4" name="Rating" type="radio"><label for="Rating4">4</label></td><td align="left" width="61"><input value="5" id="Rating5" name="Rating" type="radio"><label for="Rating5">5</label></td></tr><tr><td align="left" width="60"><span class="greytext">Not</span><br><span class="greytext">useful</span></td><td align="left" width="60"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="1" height="1"></td><td align="left" width="60"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="1" height="1"></td><td align="left" width="60"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" alt="" width="1" height="1"></td><td align="left" width="63"><span class="greytext">Extremely<br>useful</span></td></tr></tbody></table></td><td width="100%">&nbsp;</td></tr></tbody></table></td></tr></tbody></table><table class="v14-gray-table-border" border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="3"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="8"></td></tr><tr><td width="8"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="1"></td><td colspan="3"><input alt="Submit" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/submit.gif" border="0" type="image" width="120" height="21"></td></tr><tr><td colspan="3"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="8"></td></tr></tbody></table></form><br></span><br><p></p><table border="0" width="100%" cellpadding="5" cellspacing="0">
+<tbody><tr><td><span class="atitle">Share this.... </span><p>
+</p><table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tbody><tr align="left" valign="top">
+<td width="21">
+	<a href="javascript:location.href='http://digg.com/submit?phase=2&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+<img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/10x10-digg-thumb.gif" alt="digg" border="0" width="10" height="10"></a></td>
+	<td width="120">
+             <a href="javascript:location.href='http://digg.com/submit?phase=2&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)"><span style="">Digg this story</span></a></td>
+
+<!--<td width="8"><img alt="" height="1" width="8" src="//www.ibm.com/i/c.gif"/></td>-->
+<td width="21"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/icon_delicious.gif" alt="del.icio.us" border="0" width="16" height="16"> </td>
+<td width="100"><a class="fbox" href="http://del.icio.us/post" onclick="window.open('http://del.icio.us/post?v=4&amp;noui&amp;jump=close&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'delicious','toolbar=no,width=700,height=400'); return false;"><span style="">del.icio.us</span></a></td>
+
+<!--<td width="8"><img alt="" height="1" width="8" src="//www.ibm.com/i/c.gif"/></td>-->
+<td width="21">
+	<!-- start Slashdot it link -->
+	<a href="javascript:location.href='http://slashdot.org/bookmark.pl?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+									<img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/slashdot-favicon.gif" alt="Slashdot" border="0" width="16" height="16"></a></td>
+	<td width="120"><a href="javascript:location.href='http://slashdot.org/bookmark.pl?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">Slashdot it!</a></td>
+<!--<td width="8"><img alt="" height="1" width="8" src="//www.ibm.com/i/c.gif"/></td>-->
+<td><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="8" height="5"></td>
+</tr>
+
+</tbody></table>
+</td></tr></tbody></table>
+<!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- NO RESERVED CONTENT --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br><span class="no-print"><table align="right" cellpadding="0" cellspacing="0"><tbody><tr align="right"><td><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="middle"><img src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/u_bold.gif" alt="" border="0" width="16" height="16"><br></td><td align="right" valign="top"><a href="#main" class="fbox"><b>Back to top</b></a></td></tr></tbody></table></td></tr></tbody></table><br><br></span></td><td width="10"><img alt="" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/c.gif" width="10" height="1"></td></tr></tbody></table><p class="greytext">IBM, the IBM logo, ibm.com, DB2, developerWorks, Lotus, Rational,
+                Tivoli, and WebSphere are trademarks or registered trademarks of
+                International Business Machines Corporation in the United States, other
+                countries, or both. These and other IBM trademarked terms are marked on
+                their first occurrence in this information with the appropriate symbol
+                (® or ™), indicating US registered or common law trademarks
+                owned by IBM at the time this information was published. Such trademarks
+                may also be registered or common law trademarks in other countries. See
+                the current list of
+                <a href="http://www.ibm.com/legal/copytrade.shtml">IBM trademarks</a>.  Linux is a trademark of Linus Torvalds in the United States, other
+                countries, or both.  Other company, product, or service names may be 
+  trademarks or service marks of others.</p></td></tr></tbody></table><!--FOOTER_BEGIN--><div id="ibm-page-tools">
+<!-- IBM page tools -->
+<ul class="ibm-link-list"><li class="ibm-first"><a href="javascript:void(0);" id="etplnk" class="ibm-email-link" onclick="displayFormLayer(event, 2);">E-mail this page</a></li><li><a href="javascript:print();" id="ptplnk" class="ibm-print-link">Print this page</a></li><li><a href="javascript:void(0);" onclick="ibmCommonDynamicNavBookmarkRun('http://digg.com/submit?phase=2&amp;', 'url', 'title');return false" id="ibmCommonDynamicNavDiggLink" hreflang="en" class="ibm-digg-link">Digg this</a></li><li><a href="javascript:void(0);" onclick="ibmCommonDynamicNavBookmarkRun('http://del.icio.us/post?', 'url', 'title');return false" id="ibmCommonDynamicNavDeliciousLink" hreflang="en" class="ibm-delicious-link">Save to del.icio.us</a></li></ul></div>
+<div id="ibm-footer">
+<ul>
+<li class="ibm-first"><a href="http://www.ibm.com/ibm/us/en/">About IBM</a></li>
+<li><a href="http://www.ibm.com/privacy/us/en/">Privacy</a></li>
+<li><a href="http://www.ibm.com/contact/us/en/">Contact</a></li>
+<li><a href="http://www.ibm.com/legal/us/en/">Terms of use</a></li>
+<li><a href="http://www.ibm.com/ibm/syndication/us/en/?cm_re=footer-_-ibmfeeds-_-top_level">IBM Feeds</a></li></ul>
+</div>
+
+<div id="ibm-overlay-top"></div></div>
+
+<script type="text/javascript" language="JavaScript1.2" src="Anatomy%20of%20Linux%20loadable%20Kernel%20Modules-Dateien/stats.js"></script>
+<noscript><img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript><!--FOOTER_END--><!--XSLT stylesheet used to transform this file:  dw-document-html-5.10.xsl--></body></html>

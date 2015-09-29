@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0051)http://www.cs.ucdavis.edu/~haungs/paper/node11.html -->
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><HTML><HEAD><TITLE>The ELF File Format</TITLE>
+<META content="The ELF File Format" name=description>
+<META content=paper name=keywords>
+<META content=document name=resource-type>
+<META content=global name=distribution>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="The ELF File Format-Dateien/paper.css" rel=STYLESHEET><LINK 
+href="node17.html" rel=next><LINK href="node10.html" rel=previous><LINK 
+href="node10.html" rel=up><LINK href="node12.html" rel=next>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html222><IMG 
+height=24 alt=next src="The ELF File Format-Dateien/next_motif.gif" width=37 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html219><IMG 
+height=24 alt=up src="The ELF File Format-Dateien/up_motif.gif" width=26 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html213><IMG 
+height=24 alt=previous src="The ELF File Format-Dateien/previous_motif.gif" 
+width=63 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html221><IMG 
+height=24 alt=contents src="The ELF File Format-Dateien/contents_motif.gif" 
+width=65 align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html223>The 
+ELF Header</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html220>The 
+Executable and Linking</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html214>The 
+Executable and Linking</A> <BR><BR><!--End of Navigation Panel-->
+<H2><A name=SECTION00441000000000000000>&nbsp;</A> <A 
+name=elfformatsection>&nbsp;</A> <BR>The ELF File Format </H2><BR>
+<DIV align=center><A name=elfformat>&nbsp;</A><A name=507>&nbsp;</A> 
+<TABLE width="50%">
+  <CAPTION><STRONG>Figure:</STRONG> <EM>Linking and Execution Views</EM>: This 
+  figure illustrates the format of an ELF object file. </CAPTION>
+  <TBODY>
+  <TR>
+    <TD><IMG height=348 
+      alt="\begin{figure*}&#10;\centerline{\protect&#10;\mbox{\psfig{figure=Figs/elfformat.eps,height=0.30\textheight}}}&#10;\rule{6.5in}{0.3mm}\\&#10;\end{figure*}" 
+      src="The ELF File Format-Dateien/img7.gif" 
+width=748></TD></TR></TBODY></TABLE></DIV><BR><BR>
+<DIV align=center><A name=ehformat>&nbsp;</A><A name=508>&nbsp;</A> 
+<TABLE width="50%">
+  <CAPTION><STRONG>Figure:</STRONG> <EM>The ELF Header</EM></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><IMG height=447 
+      alt="\begin{figure}&#10;\begin{tex2html_preform}\begin{verbatim} ..." 
+      src="The ELF File Format-Dateien/img8.gif" 
+width=697></TD></TR></TBODY></TABLE></DIV><BR>
+<P>
+<P>There are two views for each of the three file types described in the 
+previous section. These views support both the linking and execution of a 
+program. The two views are summarized in Figure <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node11.html#elfformat">2.5</A> 
+where the view on the left of the figure is the link view and the view on the 
+right of the figure is the execution view. The link view of the ELF object file 
+is partitioned by <EM>sections</EM> and the execution view of the ELF object 
+file is partitioned by <EM>segments</EM>. Thus, the programmer interested in 
+obtaining section information about the program items such as symbol tables, 
+relocation, specific executable code or dynamic linking information will use the 
+link view; the programmer interested in obtaining segment information such as 
+the location of the <TT>text</TT> segment or <TT>data</TT> segment will use the 
+execution view. The ELF access library, <EM>libelf</EM>, provides a programmer 
+with tools to extract and manipulate ELF object file contents for either view. 
+The ELF header describes the layout of the rest of the object file. It provides 
+information on where and how to access the other sections. The Section Header 
+Table gives the location and description of the sections and is mostly used in 
+linking. The Program Header Table provides the location and description of 
+segments and is mostly used in creating a programs' process image. Both sections 
+and segments hold the majority of data in an object file including: 
+instructions, data, symbol table, relocation information, and dynamic linking 
+information. 
+<P><BR>
+<HR>
+<!--Table of Child-Links--><A name=CHILD_LINKS>&nbsp;</A> 
+<UL>
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" 
+  name=tex2html224>The ELF Header</A> 
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node13.html" 
+  name=tex2html225>The Program Header Table</A> 
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node14.html" 
+  name=tex2html226>The Section Header Table</A> 
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node15.html" 
+  name=tex2html227>ELF Sections</A> 
+  <LI><A href="http://www.cs.ucdavis.edu/~haungs/paper/node16.html" 
+  name=tex2html228>ELF Segments</A> </LI></UL><!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel--><A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html222><IMG 
+height=24 alt=next src="The ELF File Format-Dateien/next_motif.gif" width=37 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html219><IMG 
+height=24 alt=up src="The ELF File Format-Dateien/up_motif.gif" width=26 
+align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html213><IMG 
+height=24 alt=previous src="The ELF File Format-Dateien/previous_motif.gif" 
+width=63 align=bottom border=0></A> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node1.html" name=tex2html221><IMG 
+height=24 alt=contents src="The ELF File Format-Dateien/contents_motif.gif" 
+width=65 align=bottom border=0></A> <BR><B>Next:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node12.html" name=tex2html223>The 
+ELF Header</A> <B>Up:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html220>The 
+Executable and Linking</A> <B>Previous:</B> <A 
+href="http://www.cs.ucdavis.edu/~haungs/paper/node10.html" name=tex2html214>The 
+Executable and Linking</A> <!--End of Navigation Panel-->
+<ADDRESS><I>Michael L. Haungs</I> <BR><I>1998-09-21</I> </ADDRESS></BODY></HTML>

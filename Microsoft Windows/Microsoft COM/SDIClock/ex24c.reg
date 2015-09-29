@@ -1,0 +1,13 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+
+HKEY_CLASSES_ROOT\ex24c.Document = ex24c Document
+HKEY_CLASSES_ROOT\ex24c.Document\CLSID = {0389DA63-CBDD-11CE-B337-88EA36DE9E4E}
+
+HKEY_CLASSES_ROOT\CLSID\{0389DA63-CBDD-11CE-B337-88EA36DE9E4E} = ex24c Document
+HKEY_CLASSES_ROOT\CLSID\{0389DA63-CBDD-11CE-B337-88EA36DE9E4E}\ProgId = ex24c.Document
+HKEY_CLASSES_ROOT\CLSID\{0389DA63-CBDD-11CE-B337-88EA36DE9E4E}\LocalServer32 = EX24C.EXE

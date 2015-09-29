@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/emstst1.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE> /*
+ ** EMSTST1.C
+ **
+ ** Beispielprogramm zur Nutzung der EMS-Funktionen mit Hilfe der im
+ ** Modul "ems.asm" bereitgestellten Funktionen.
+ **
+ ** in einem Speichermodell compilieren, daß mit FAR-Zeigern auf die Daten
+ ** arbeitet (z.B. LARGE)
+ **
+ ** Copyright (c) 1996 by Jens Hohmuth. All Rights Reserved.
+ ** email: Jens.Hohmuth@fh-zwickau.de
+ */
+
+#include &lt;conio.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;process.h&gt;
+#include "ems.h"
+
+/* Ausgabe des aufgetretenen EMM-Fehlers, als Fehlernummer sowie als Fehlertext */
+/* Fehlernummer und Fehlertext werden über die Funktion: ems_errormsg ermittelt */
+void error_quit (void);
+
+void main (void)
+    {
+    int version;
+    int pageframe;
+    int allpages;
+    int freepages;
+    int myhandle;
+
+    clrscr ();
+
+    /* EMM überhaupt vorhanden ? */
+    if (ems_check ())
+	{
+	printf ("Expanded Memory Manager (EMM) gefunden !\n");
+	}
+    else
+	{
+	printf ("Expanded Memory Manager nicht verfuegbar !\n\n");
+	exit (1);
+	}
+
+    /* Versionsnummer abfragen und ausgeben */
+    if (! ems_version (&amp;version))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("Version              : %x.%x\n", version &gt;&gt; 8, version &amp; 0xff);
+	}
+
+    /* Pageframe ermitteln */
+    if (! ems_pageframe (&amp;pageframe))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("Pageframe            : %Xh\n", pageframe);
+	}
+
+    /* Gesamtzahl an Seiten und Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_allpages (&amp;allpages))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("Gesamtzahl an Seiten : %d (%d kb)\n", allpages, allpages*16);
+	}
+
+    if (! ems_freepages (&amp;freepages))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("freie Seiten         : %d (%d kb)\n", freepages, freepages*16);
+	}
+
+    /* Speicher allokieren nach Tastendruck */
+    printf ("\nTaste druecken, um %d EMS-Seiten (%d kb) zu reservieren ...\n", 4, 4*16);
+    while (! kbhit ())   ;
+    getch ();
+
+    if (! ems_alloc (&amp;myhandle, 4))
+	{
+	error_quit ();
+	}
+
+    /* Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_freepages (&amp;freepages))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("freie Seiten         : %d\n", freepages);
+	}
+
+    /* Erfolgsmeldung und Warten auf Tastendruck */
+    printf ("\nTaste druecken, um Speicher wieder freizugeben ...\n");
+    while (! kbhit ())   ;
+    getch ();
+
+    /* Speicher freigeben */
+    if (! ems_free (myhandle))
+	{
+	error_quit ();
+	}
+
+    /* Gesamtzahl an Seiten und Anzahl freier Seiten ermitteln und ausgeben */
+    if (! ems_freepages (&amp;freepages))
+	{
+	error_quit ();
+	}
+    else
+	{
+	printf ("freie Seiten         : %d\n", freepages);
+	}
+    }
+
+/* Ausgabe des aufgetretenen EMM-Fehlers, als Fehlernummer sowie als Fehlertext */
+/* Fehlernummer und Fehlertext werden über die Funktion: ems_errormsg ermittelt */
+void error_quit (void)
+    {
+    char errormsg [80];
+
+    printf ("\nFehler %Xh, bei EMS Aktion,\n%s\n\nPROGRAMMABBRUCH !!!\n", ems_errormsg (errormsg), errormsg);
+    exit (1);
+    }
+</PRE></BODY></HTML>

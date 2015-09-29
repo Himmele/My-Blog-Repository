@@ -1,0 +1,150 @@
+
+@media Print, Screen    
+{
+A {
+	COLOR: #00007f; FONT-STYLE: normal; BACKGROUND-COLOR: transparent
+}
+A:hover {
+	COLOR: red; BACKGROUND-COLOR: transparent; TEXT-DECORATION: underline
+}
+A:visited {
+	TEXT-DECORATION: none
+}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #00006f; LETTER-SPACING: 0.1em; BACKGROUND-COLOR: transparent
+}
+H2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; MARGIN-BOTTOM: 0.2em; BORDER-BOTTOM: black 0.1em solid; FONT-FAMILY: Tahoma, Sans-serif
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; MARGIN-BOTTOM: 0.2em; FONT-FAMILY: Tahoma, Sans-serif
+}
+H5 {
+	FONT-WEIGHT: bold; MARGIN-BOTTOM: 0.2em; BORDER-BOTTOM: black 0.1em solid; FONT-FAMILY: Tahoma, Sans-serif
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: Tahoma, Sans-serif
+}
+TABLE.Bdr {
+	BORDER-RIGHT: black thin solid; BORDER-TOP: black thin solid; BORDER-LEFT: black thin solid; BORDER-BOTTOM: black thin solid
+}
+TABLE.BdrArticle {
+	BORDER-RIGHT: #aaaaaa thin solid; BORDER-TOP: #efefef thin solid; BORDER-LEFT: #efefef thin solid; BORDER-BOTTOM: #aaaaaa thin solid
+}
+TABLE.Glsy {
+	BORDER-RIGHT: #000000 thin solid; BORDER-TOP: #7f7f7f thin solid; BORDER-LEFT: #7f7f7f thin solid; BORDER-BOTTOM: #000000 thin solid
+}
+TABLE.Glsy A {
+	
+}
+BODY {
+	FONT-SIZE: 10pt; MARGIN: 0px; FONT-FAMILY: Tahoma, Sans-serif
+}
+IMG {
+	BORDER-LEFT-COLOR: black; BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BORDER-RIGHT-COLOR: black
+}
+TABLE I {
+	FONT-FAMILY: Verdana
+}
+.SmallText {
+	FONT-SIZE: 8pt; FONT-FAMILY: Tahoma, Sans-serif
+}
+.SmallText2 {
+	FONT-SIZE: 8pt; LINE-HEIGHT: 14pt; FONT-FAMILY: Tahoma, Sans-serif
+}
+.NewsHeader {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; FONT-FAMILY: Tahoma, Sans-serif
+}
+.NewsSubmit {
+	FONT-SIZE: 8pt; COLOR: #6f6f6f; FONT-FAMILY: Tahoma, Sans-serif; BACKGROUND-COLOR: transparent
+}
+.ArticleHdr {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Tahoma, Sans-serif
+}
+.Heading {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #00006f; LETTER-SPACING: 0.1em; BACKGROUND-COLOR: transparent
+}
+.IntQuote {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; MARGIN-LEFT: 10px; COLOR: #00006f; BACKGROUND-COLOR: white
+}
+.SmallPrint {
+	FONT-SIZE: 8pt; COLOR: #888888; FONT-FAMILY: Verdana, Sans-serif; BACKGROUND-COLOR: transparent; TEXT-ALIGN: center
+}
+A.ReviewScore {
+	FONT-SIZE: 250%; COLOR: #7f0000; BACKGROUND-COLOR: transparent
+}
+A.ReviewScore:hover {
+	COLOR: #7f0000; BACKGROUND-COLOR: transparent; TEXT-DECORATION: underline
+}
+.BoxMain {
+	FONT-SIZE: 8pt; COLOR: black; FONT-FAMILY: Tahoma, Sans-serif; BACKGROUND-COLOR: #ffffff
+}
+.FeaturedLink {
+	COLOR: black; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none
+}
+.FeaturedLink:hover {
+	COLOR: black; BACKGROUND-COLOR: transparent; TEXT-DECORATION: underline
+}
+.FpFeature {
+	FONT-WEIGHT: bold; COLOR: black; BACKGROUND-COLOR: transparent
+}
+.FpFeature:hover {
+	COLOR: #7f7f7f; BACKGROUND-COLOR: transparent
+}
+.BoxHeader {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: white; FONT-FAMILY: Tahoma, Sans-serif; BACKGROUND-COLOR: #306090
+}
+A.BoxHeader {
+	COLOR: white; BACKGROUND-COLOR: #306090; TEXT-DECORATION: none
+}
+A.BoxHeader:hover {
+	COLOR: white; BACKGROUND-COLOR: #306090; TEXT-DECORATION: underline
+}
+A.GreyLegal:hover {
+	COLOR: black; BACKGROUND-COLOR: transparent; TEXT-DECORATION: underline
+}
+.GreyLegal {
+	FONT-SIZE: 7pt; COLOR: #7f7f7f; FONT-FAMILY: Verdana, Sans-serif; BACKGROUND-COLOR: transparent
+}
+.LaRating {
+	DISPLAY: inline; FONT-WEIGHT: bold; COLOR: #7f0000; BACKGROUND-COLOR: transparent
+}
+.WhatNewFP {
+	FONT-WEIGHT: bold; COLOR: white; BACKGROUND-COLOR: #306090; TEXT-DECORATION: none
+}
+.WhatNewFP:hover {
+	FONT-WEIGHT: bold; COLOR: white; BACKGROUND-COLOR: #306090; TEXT-DECORATION: underline
+}
+.Silent {
+	COLOR: black; TEXT-DECORATION: none
+}
+.Silent:hover {
+	COLOR: black; TEXT-DECORATION: underline
+}
+.NewsStd {
+	BACKGROUND-COLOR: #f0f0f0
+}
+.NewsNew {
+	BACKGROUND-COLOR: #d0d0d0
+}
+
+}
+
+@media Screen    
+{
+.GlPopup {
+	CURSOR: help; BACKGROUND-COLOR: transparent
+}
+
+}
+
+@media Print    
+{
+.NoPrint {
+	DISPLAY: none
+}
+TABLE.Glsy {
+	DISPLAY: none
+}
+
+}

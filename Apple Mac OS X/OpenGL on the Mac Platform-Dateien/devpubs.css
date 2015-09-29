@@ -1,0 +1,152 @@
+html {
+    height:100%;
+    max-height:100%;
+    padding:0px;
+    margin:0px;
+    border:0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    height: 100%;
+    max-height: 100%;
+    color: #000;
+    background-color: #FFF;
+    font: 12px 'Lucida Grande', Geneva, Helvetica, Arial, sans-serif;
+}
+
+/* link classes */
+a          { color:  rgb(51, 102, 204); text-decoration: none; }
+a:hover    { color:  rgb(51, 102, 204); text-decoration: underline; }
+a:active   { color:  rgb(51, 102, 204); text-decoration: none; }
+
+/* apple.com site does not explicitly define visited link properties, but we do here */ 
+a:visited       { color: #003366; text-decoration: none; }
+a:visited:hover { color: #003366; text-decoration: underline; }
+
+
+
+.showInXcode { /* Anything with this tag should not be displayed on the website, to hide in Xcode, use .hideInXcode */
+    visibility: collapse;
+}
+
+#tooltip {
+    font-size: 11px;
+    border: 1px solid #AAA;
+    padding: 3px;
+    background-color: #FDFEC8;
+    z-index: 901;
+    position: fixed;
+    opacity: 0; display: none;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 0.3s;
+}
+
+#tooltip.isVisible {
+    opacity: 1;
+    -webkit-box-shadow: rgba(0, 0, 0, .5) 0px 8px 20px;
+}
+
+#feedbackForm {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 37em;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333333;
+    background: #d9d9d9;
+    padding: 5px 10px 5px 10px;
+    height: 15px;
+    text-align: center;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    vertical-align: middle;
+}
+
+#feedbackForm a:visited       { color:  rgb(51, 102, 204); text-decoration: none; }
+#feedbackForm a:visited:hover { color:  rgb(51, 102, 204); text-decoration: underline; }
+
+#feedbackForm span.tooltip {
+    font-style: normal;
+    border-left: 2px solid white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    margin-left: 5px;
+}
+
+
+#breadcrumbs {
+    background-image: url("../Images/header_toc/breadcrumb_background.png");
+    bottom: 0px;
+    font-size: 10px;
+    height: 15px;
+    left: 0px;
+    right: 0px;
+    padding: 3px 10px 0px 10px;
+    position: fixed;
+    z-index:901;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-top: 1px solid #2B334F;
+}
+
+#breadcrumbs a{
+    color: black;
+    text-decoration: none;
+}
+
+#breadcrumbs a:hover{
+    color: black;
+    text-decoration: underline;
+}
+
+/* PRETTY SEARCH */
+input.prettysearch { width:200px; height: 16px; background: url(http://images.apple.com/global/elements/prettysearch/searchfield_repeat.png) center top repeat-x; border: 0px; margin: 0; padding: 3px 0 0 0; font: 11px "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; }
+.search-wrapper { width: 200px; }
+.search-wrapper input.prettysearch { width: 171px; margin-left: 20px; *margin-top:-1px; *margin-right:-2px; *margin-left:10px; }
+.search-wrapper .left, 
+.search-wrapper .right { behavior:url(/global/scripts/lib/iepngfix.htc); }
+.search-wrapper .left { display: block; position: absolute; right: 250px; top: 31px; width: 20px; height: 19px; background: url(http://images.apple.com/global/elements/prettysearch/searchfield_leftcap.png) left top no-repeat; }
+.search-wrapper .right { display: block; position: absolute; right: 18px; top: 31px; width: 10px; height: 19px; background: url(http://images.apple.com/global/elements/prettysearch/searchfield_rightcap.png) right top no-repeat; }
+.search-wrapper.empty.blurred input { color: #7e7e7e; }
+.search-wrapper .reset { position: absolute; width: 11px; height: 11px; overflow:hidden; z-index: 1; right:22px; top:35px; background: url(http://images.apple.com/global/elements/prettysearch/close.gif); display: block; cursor: pointer; _cursor:hand; }
+.search-wrapper.empty .reset { display: none; }
+label .prettyplaceholder { display: block; overflow: hidden; text-indent: -9999px; height: 0; width: 0;}
+
+/* PIPED LINKS */
+.piped { display: block; zoom: 1; }
+.piped:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.piped li { float: left; display: inline; font-size: 10px;}
+.piped a { border-left: 1px solid #797c80; padding: 0 0 0 0.75em; margin-left: 0.75em; }
+.piped a.first { border-left: 0 !important; padding-left: 0; margin-left: 0 !important; }
+
+#globalfooter * { margin: 0px; padding: 0px;}
+#globalfooter ul { list-style: none outside; }
+
+/*--- Global Footer (legacy) ---*/
+#globalfooter .gf-buy { float: left; width: 60%; margin: 18px 0 9px; }
+#globalfooter .gf-links { float: right; margin: 18px 0 9px; }
+#globalfooter .gf-links a { padding: 0 10px; white-space: nowrap; }
+#globalfooter .gf-links a.last { padding-right: 0; _float: none !important; width: auto !important; }
+ 
+/*--- Global Footer ---*/
+#globalfooter {color: #888; font-size: 10px; margin: 18px auto; padding-bottom: 36px; text-align: left !important; }
+#globalfooter p { margin-bottom: 1em; font-size: 10px; }
+#globalfooter p.gf-buy { float: left; width: 52%; margin: 18px 0 9px 3px; }
+#globalfooter ul.piped a { padding: 0 0 0 1.5em; margin-left: 1.5em; border-left: 1px solid #d0d0d0; }
+#globalfooter .gf-links { float: right; margin: 18px 3px 9px 0; }
+#globalfooter .gf-sosumi { clear: both; width: 100%; border-top: 1px solid #ddd; padding-top: 9px; }
+#globalfooter .gf-sosumi a { padding: 0 10px; }
+#globalfooter .gf-sosumi p { float: left; margin-left: 3px; }
+#globalfooter form { margin: 18px 10px; }
+#globalfooter .search-wrapper { margin: 0 auto; }
+#globalfooter .search-wrapper input.prettysearch { margin-left: 10px; }
+#globalfooter ul.piped a.contact_us { padding-right: 1.5em; border-right: 1px solid #d0d0d0; }
+#globalfooter ul.piped a.choose { margin-left: 0; border: 0; }
+#globalfooter ul.piped a.choose img { vertical-align: middle; margin-top: -5px; position: relative; }

@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all2.htm -->
+<HTML><HEAD><TITLE>Adressierung des Arbeitsspeichers</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Adressierung des Arbeitsspeichers-Dateien/stone.jpg">
+<H1><FONT color=#800000>2.2 Adressierung des Arbeitsspeichers</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Der Schlüssel zum Verständnis der neuen, durch den Protected-Mode zur 
+Verfügung gestellten Möglichkeiten ist die Speicheradressierung. Auf ihr bauen 
+fast alle erweiterten Möglichkeiten des Prozessors auf. Zu diesen Möglichkeiten 
+gehören Multitasking, die Privilegierung von Betriebssystemroutinen sowie bis zu 
+4 GB große Segmente.</P>
+<P><B>Anmerkung:</B> Aufgrund seiner Einschränkungen auf nur 24 Adressleitungen 
+und 16 Bit Register stehen 4 GB Segmente beim 80286 nicht zur Verfügung. Erst ab 
+dem 80386 (Intels erstem, wirklichen 32 Bit Prozessor) konnten 32 Bit breite 
+Register und max. 4 GB große Segmente benutzt werden. Aus diesen Gründen soll 
+hier auch nur der 80386 Prozessor besprochen werden.</P>
+<H2><FONT color=#000080>Virtuelle Adressierung</FONT></H2>
+<P>Wie im Realmode, existieren auch im Protected-Mode Segmente, die den Speicher 
+in Code- und Datensegmente unterteilen. Im Gegensatz zur Realmode-Adressierung 
+betrachtet der Prozessor den Speicher dabei als virtuell, das heißt, der 
+tatsächlich angesprochene physische Speicherbereich ist dem Programm unbekannt. 
+Dadurch wird verhindert, daß physische Speicheradressen direkt angesprochen 
+werden können.</P>
+<P>Dieses Vorgehen bildet die Grundlage für den Einsatz einer virtuellen 
+Speicherverwaltung, bei der bei Bedarf ganze Programm- oder Datenbereiche auf 
+die Festplatte ausgelagert werden können. Obwohl es letztendlich "in der Hand" 
+des Betriebssystems liegt, eine konkrete Speicherverwaltung zu implementieren, 
+ist die Hardware in Form der CPU durch die virtuelle Adressierung bereits darauf 
+vorbereitet.</P>
+<P>Unter einer virtuellen Adresse ist dabei ein 16 Bit Wert (der sogenannte <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#selektor">Selektor</A>) 
+und eine 32 Bit-Offsetadresse zu verstehen. Wie im Realmode muß der 16 Bit Wert 
+(Selektor) zunächst in eines der Segmentregister (CS, DS, ES, FS oder GS) 
+geladen werden, damit mit der Offsetadresse linear vom Segmentbeginn aus auf den 
+Arbeitsspeicher zugegriffen werden kann. Der Selektor enthält dabei jedoch nicht 
+die Adresse des Segmentes im Arbeitsspeicher (wie es im Realmode der Fall ist), 
+sondern die Nummer eines Segmentbeschreibers (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#deskriptor">Deskriptor</A>). 
+Ein Deskriptor hält dabei den physischen Segmentstart sowie die Länge des 
+Segmentes fest. </P>
+<P>Der Prozessor verwendet den Selektor als Index auf eine Tabelle mit 
+Segmentbeschreibern (Deskriptortabelle), um die Startadresse und die Größe des 
+Segmentes zu ermitteln, auf das über die Offsetadresse zugegriffen werden soll 
+(Vgl. Abb. 2.2).</P>
+<CENTER>
+<P><IMG alt="virtuelle Adressierung" 
+src="Adressierung des Arbeitsspeichers-Dateien/p_2_2.gif" border=2> 
+<BR><I><B>Abb. 2.2:</B> Vereinfachtes Prinzip der virtuellen Adressierung</I> 
+</P></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all1.htm"><IMG alt=Zurück 
+src="Adressierung des Arbeitsspeichers-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all3.htm"><IMG alt=Weiter 
+src="Adressierung des Arbeitsspeichers-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Adressierung des Arbeitsspeichers-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

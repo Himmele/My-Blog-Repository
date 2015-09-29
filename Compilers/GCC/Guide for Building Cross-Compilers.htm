@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0048)http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html -->
+<HTML><HEAD><TITLE>Tips for building cross compiler</TITLE>
+<META http-equiv=content-type content="text/html; charset=iso-8859-1">
+<META content="Cross compiler guide" name=description>
+<META content="Munehiro Nakazato, Cross Compiler, gcc, x-gcc, MIPS, Power PC" 
+name=keywords><LINK 
+href="Guide for Building Cross-Compilers-Dateien/tipstyle.css" type=text/css 
+rel=stylesheet><LINK href="../images/muneicon.ico" rel="SHORTCUT ICON">
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR></HEAD>
+<BODY vLink=#ed181e link=#ed181e><A name=top></A>
+<H1>Very Simple Guide for Building Cross Compilers Tips</H1>
+<P>The following is steps to build cross compilers. So far, I tried only for 
+PowerPC and MIPS.</P>
+<P>Basically, all you have to do is to follow the following 9 steps.</P>
+<OL>
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#pre">Download 
+  sources</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#env">Set 
+  environment variables</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#binutil">Build 
+  binutils</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#boostrap">Build 
+  bootstrap gcc</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#newlib">Build 
+  newlib</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#gccagain">Build 
+  gcc again with newlib</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#GDB">GDB with 
+  PSIM</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#compile">Compile 
+  your code</A> 
+  <LI><A href="http://www.ifp.uiuc.edu/~nakazato/tips/xgcc.html#run">Run</A> 
+  </LI></OL>
+<HR>
+
+<H2><A name=pre></A>1. What do you need?</H2>
+<P>First, you have to obtain the following source codes</P>
+<UL>
+  <LI>binutils <A 
+  href="http://www.gnu.org/software/binutils/">http://www.gnu.org/software/binutils/</A>
+  <LI>GCC <A 
+  href="http://www.gnu.org/software/gcc/gcc.html">http://www.gnu.org/software/gcc/gcc.html</A> 
+
+  <LI>newlib <A 
+  href="http://sources.redhat.com/newlib/">http://sources.redhat.com/newlib/</A> 
+
+  <LI>GDB <A 
+  href="http://www.gnu.org/software/gdb/gdb.html">http://www.gnu.org/software/gdb/gdb.html</A> 
+  </LI></UL>
+<H2><A name=env></A>2. Set environment variables</H2>
+<P>First, choose your taget such as <CODE>powerpc-eabi, powerpc-elf, 
+mips-elf</CODE>, and so on</P>
+<P>For bash simply type</P><PRE>% export TARGET=powerpc-eabi
+% export PREFIX=/usr/local/$TARGET
+% export PATH=$PATH:$PREFIX/bin
+</PRE>
+<H2><A name=binutil></A>3. Build binutils</H2><PRE>% tar xjfv binutils-2.16.tar.bz2
+% mkdir build-binutils
+% cd build-binutils
+% ../binutils-2.16/configure --target=$TARGET --prefix=$PREFIX
+% make all
+% make install
+</PRE>
+<H2><A name=boostrap></A>4. Build bootstrap GCC</H2><PRE>% tar xjfv gcc-3.4.4.tar.bz2
+% mkdir build-gcc
+% cd build-gcc
+% ../gcc-3.4.4/configure --target=$TARGET --prefix=$PREFIX --without-headers --with-newlib  --with-gnu-as --with-gnu-ld
+% make all-gcc
+% make install-gcc
+</PRE>
+<P><CODE>--with-gnu-as --with-gnu-ld</CODE> prevents native assembler on certain 
+architectures. (for others, these do not have any effects)</P>
+<H2><A name=newlib></A>5. Build newlib </H2>
+<P>Newlib provides standard C library for embedded systems</P><PRE>% tar xzfv newlib-1.13.0.tar.gz 
+% mkdir build-newlib
+% cd build-newlib
+% ../newlib-1.13.0/configure --target=$TARGET --prefix=$PREFIX
+% make all
+% make install
+</PRE>
+<H2><A name=gccagain></A>6. Build GCC again with newlib</H2><PRE>% cd build-gcc
+% ../gcc-3.4.4/configure --target=$TARGET --prefix=$PREFIX --with-newlib --with-gnu-as --with-gnu-ld
+% make all
+% make install
+</PRE>
+<H2><A name=GDB></A>7. GDB with PSIM</H2><PRE>% tar xjfv gdb-6.3.tar.bz2  
+% mkdir build-gdb
+% cd build-gdb
+% ../gdb-6.3/configure --target=$TARGET --prefix=$PREFIX --enable-sim-powerpc
+--enable-sim-stdio
+% make all
+% make install
+</PRE>
+<P>Congratulations! You build your tool chain</P>
+<H2><A name=compile></A>8. Compile your code</H2>
+<P>Now, it's time to compile your code.</P><PRE>% powerpc-eabi-gcc -mcpu=405 hello.c -o hello -msim
+% mips-elf-gcc -Tidt.ld -mips4 hello.c -o hello
+</PRE>
+<P><CODE>-T</CODE> option specifies libraries that include start code.</P>
+<P>To Compile with specific Memory map </P><PRE>% powerpc-eabi-gcc -Wl,-Ttext,0x4000,-Tdata,0xf000 hello.c -msim
+(-Wl,-Ttext,0x4000,-Tdata,0x10000)
+</PRE>
+<H2><A name=run></A>9. Run</H2><PRE>% powerpc-eabi-run hello
+% mips-elf-run hello
+</PRE>
+<HR>
+
+<P align=center><A href="http://www.ifp.uiuc.edu/~nakazato/">Home</A></P>
+<P align=center><FONT size=-1>Copyright © 2005 Munehiro Nakazato. All rights 
+reserved.</FONT></P></BODY></HTML>

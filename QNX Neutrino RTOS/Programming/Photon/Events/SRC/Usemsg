@@ -1,0 +1,26 @@
+%C - This is a QNX/Photon Application.
+%C [options]
+
+Options:
+  -s server     Server node or device name
+  -x x[%][r]	Initial x position in pixels, or as a percentage of
+                screen width if % is specified. If r is specified, the
+                the coordinate is relative to the current console. 
+  -y y[%][r]    Initial y position in pixels, or as a percentage of
+                screen height if % is specified. If r is specified, the
+                the coordinate is relative to the current console.
+  -h h[%]       Initial h dimension in pixels, or as a percentage of the
+                screen width if % is specified.
+  -w w[%]       Initial w dimension in pixels, or as a percentage of the
+                screen height if % is specified. 
+  -S i|m|n      Initial window state: i=iconified, m=maximized, n=normal
+
+Examples:
+%C -s4
+  Run using Photon server on node 4
+
+%C -s//4/dev/photon
+  Same as above
+
+%C -x10 -y10 -h200 -w300
+  Run at initial position 10,10 with initial dimension of 200x300.

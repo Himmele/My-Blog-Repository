@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.c-sharpcorner.com/Code/2002/July/GeneticAlgorithm.asp -->
+<HTML><HEAD><TITLE>Implementing  a Genetic Algorithm in C# and .NET</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META http-equiv=Content-Language content=en-us>
+<STYLE>.NavCell {
+	FONT-SIZE: 10px; COLOR: #ffffff; FONT-FAMILY: Verdana
+}
+.NavCell A {
+	FONT-SIZE: 10px; COLOR: #ffffff; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+.NavCell A:hover {
+	FONT-SIZE: 10px; COLOR: #ffff99; FONT-FAMILY: Verdana
+}
+</STYLE>
+
+<META 
+content="Genetic Algorithm, C#, .NET, Genome, Implementing  a Genetic Algorithm in C# and .NET" 
+name=keywords>
+<META content="Different ways to write Hello World in C#" name=description>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY vLink=#003366 link=#003366 bgColor=#ffffff leftMargin=0 topMargin=0>
+<TABLE height=71 cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%" height=71>
+      <TABLE height=102 cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle width="100%" bgColor=#003366 height=21>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffffff><A 
+                  href="http://www.c-sharpcorner.com/mrsharp.asp"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cscLogo4.gif" 
+                  border=0></A> 
+                <TD align=middle bgColor=#ffffff>
+                  <TABLE height=20 cellSpacing=0 cellPadding=0 width="66%" 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="86%" height=74><A 
+                        href="http://www.red-gate.com/sql/summary.htm" 
+                        target=_blank><IMG 
+                        alt="SQL Compare, SQL Data Compare, SQL Toolkit" 
+                        src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/SQLtext468x60.gif" 
+                        border=0></A> </TD></TR></TBODY></TABLE></TD></TD>
+                <TD width=161 bgColor=#ffffff>&nbsp;</TD></TR>
+              <TR>
+                <TD bgColor=#000000><B><FONT face=Verdana color=#ffff66 
+                  size=2>Welcome Guest </FONT></B></TD>
+                <TD bgColor=#000000><A 
+                  href="http://www.c-sharpcorner.com/"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_HomeIcon.gif" 
+                  border=0></A>&nbsp; <A 
+                  href="http://www.c-sharpcorner.com/adv.asp"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_AdvIcon.gif" 
+                  border=0></A> <A 
+                  href="http://216.26.160.137/forums/AspNetForums20/"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_ForumIcon.gif" 
+                  border=0></A>&nbsp; <A 
+                  href="http://lb.bcentral.com/ex/manage/subscriberprefs?customerid=17228"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_NewsIcongif.gif" 
+                  border=0></A> <A 
+                  href="http://www.c-sharpcorner.com/Services/"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_ConsultIcon.gif" 
+                  border=0></A> <A 
+                  href="http://www.c-sharpcorner.com/CareerCenter.asp"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_JobsIcon.gif" 
+                  border=0></A> <A 
+                  href="http://www.c-sharpcorner.com/store/"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_StoreIcon.gif" 
+                  border=0></A> <A 
+                  href="http://www.c-sharpcorner.com/siteSearch.asp"><IMG 
+                  src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/cs_SearchIcon.gif" 
+                  border=0></A></TD>
+                <TD align=right width=161 
+            bgColor=#000000>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD width="100%" height=1>
+            <DIV align=left>
+            <TABLE height=54 cellSpacing=0 cellPadding=0 width="100%" align=left 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=left width="5%" bgColor=#003366 
+                  height=52><STYLE>.NavCell {
+	FONT-SIZE: 10px; COLOR: #ffffff; FONT-FAMILY: Verdana
+}
+.NavCell A {
+	FONT-SIZE: 10px; COLOR: #ffffff; FONT-FAMILY: Verdana; TEXT-DECORATION: none
+}
+.NavCell A:hover {
+	FONT-SIZE: 10px; COLOR: #ffff99; FONT-FAMILY: Verdana
+}
+</STYLE>
+
+                  <TABLE height=649 cellSpacing=0 cellPadding=0 width=113 
+                  border=0><!-- fwtable fwsrc="last.png" fwbase="newexpo.gif" fwstyle="Dreamweaver" fwdocid = "742308039" fwnested="0" -->
+                    <TBODY>
+                    <TR>
+                      <TD class=NavCell vAlign=top width=74 
+                      background="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/newexpo_r2_c2.gif" 
+                      height=649>
+                        <TABLE width="100%" border=0>
+                          <TBODY>
+                          <TR>
+                            <TD width="100%">
+                              <TABLE height=96 cellSpacing=0 width="138%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="100%" height=14><IMG height=13 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/LeftNavImg1.gif" 
+                                width=125 border=0></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><B><A 
+                                href="http://www.c-sharpcorner.com/">C# 
+                                (C-Sharp)</A></B></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><B><A 
+                                href="http://www.aspdotnetheaven.com/" 
+                                target=_blank>ASP.NET</A></B></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><B><A 
+                                href="http://www.vbdotnetheaven.com/" 
+                                target=_blank>Visual Basic 
+.NET</A></B></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><B><A 
+                                href="http://www.mindcracker.com/" 
+                                target=_blank>Visual C++ .NET</A></B></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><A 
+                                href="http://www.c-sharpcorner.com/Longhorn/"><B>Windows 
+                                Longhorn</B></A></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14><B><A 
+                                href="http://www.c-sharpcorner.com/longhorn/Yukon.asp">SQL 
+                                Server Yukon</A></B></TD></TR>
+                                <TR>
+                                <TD width="100%" height=14></TD></TR>
+                                <TR>
+                                <TD width="100%" height=20></TD></TR>
+                                <TR>
+                                <TD width="100%" height=20>
+                                <TABLE width="16%" border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="33%" bgColor=#ffffff><A 
+                                href="http://www.discountasp.net/go/go.aspx?i=754" 
+                                target=_blank><IMG 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/aspnetpro_anim_120x600.gif" 
+                                border=0></A> 
+                                </A></TD></TR></TBODY></TABLE></TD></TR>
+                                <TR>
+                                <TD width="100%" height=20>&nbsp;</TD></TR>
+                                <TR>
+                                <TD width="100%" height=20>
+                                <TABLE width="16%" border=0>
+                                <TBODY>
+                                <TR><A 
+                                href="http://www.red-gate.com/SQL_Compare.htm" 
+                                target=_blank><IMG 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/SQLtext140x140.gif" 
+                                border=0> 
+                                </A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+                        <P></P>
+                        <P> </P></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top align=left width="76%" height=52>
+                  <TABLE style="BORDER-COLLAPSE: collapse" borderColor=#c0c0c0 
+                  height=53 cellSpacing=0 borderColorDark=#ffffff cellPadding=0 
+                  width="100%" borderColorLight=#666666 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD width="100%" bgColor=#ffffff height=19 rowSpan=4>
+                        <TABLE width="100%" border=0>
+                          <TBODY>
+                          <TR>
+                            <TD align=middle width="100%"><B><FONT 
+                              face=Verdana size=4>Implementing a Genetic 
+                              Algorithms in C# and .NET</FONT></B></TD></TR>
+                          <TR>
+                            <TD align=middle width="100%">
+                              <TABLE borderColorDark=#ffffff width="100%" 
+                              bgColor=#333333 borderColorLight=#ffffff 
+                                border=1><TBODY>
+                                <TR>
+                                <TD width="33%"><FONT face=Verdana color=#ffffff 
+                                size=2>Author</FONT></TD>
+                                <TD width="33%"><FONT face=Verdana color=#ffffff 
+                                size=2>Date Of Submission</FONT></TD>
+                                <TD width="34%"><FONT face=Verdana color=#ffffff 
+                                size=2>User Level</FONT></TD></TR>
+                                <TR>
+                                <TD width="33%"><FONT face=Verdana color=#ffffff 
+                                size=2>Michael Gold</FONT></TD>
+                                <TD width="33%"><FONT face=Verdana color=#ffffff 
+                                size=2>04</FONT><FONT face=Verdana color=#ffffff 
+                                size=2>/14/2002</FONT></TD>
+                                <TD width="34%"><FONT face=Verdana color=#ffffff 
+                                size=2>Intermediate</FONT></TD></TR></TBODY></TABLE><!-- Author and contact details --><SYSTEM.WEB></TD></TR>
+                          <TR>
+                            <TD align=left width="100%"><SYSTEM.WEB>
+                              <P align=center><FONT face=Verdana size=2><BR><IMG 
+                              src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/GeneticAlgorithm.gif" 
+                              border=0> </FONT>
+                              <P align=center><FONT face=Verdana size=2>Figure 1 
+                              - Biological Chromosomes were the incentive for 
+                              Genetic Algorithms</FONT>
+                              <P><FONT face=Verdana size=2>&nbsp;Source 
+                              Code:&nbsp;&nbsp;<A 
+                              href="http://www.c-sharpcorner.com/Download.asp?file=/Code/2002/July/GeneticAlgorithm.zip">GeneticAlgorithm.zip</A></FONT></P>
+                              <P><FONT face=Verdana size=2>One of the more 
+                              interesting developments that has come out of the 
+                              Artificial Intelligence world is the invention of 
+                              Genetic Algorithms.&nbsp; Surprisingly enough 
+                              Genetic Algorithms have been around before the 
+                              dawn of man.&nbsp; The idea of using Genetic 
+                              Algorithms has emerged from&nbsp; the observation 
+                              of life and evolution. Life reproduces and evolves 
+                              by exchanging DNA information to produce a mixture 
+                              of traits.&nbsp; Those organisms possessing the 
+                              traits geared for survival in the given 
+                              environment&nbsp; produce the next 
+                              generation.&nbsp; This generation will contain 
+                              some organisms that may be better geared for 
+                              survival in the given environment.&nbsp; After 
+                              many generations, the newer generations will be 
+                              the most equipped to survive. Mutations in every 
+                              generation may also help or hinder an organism in 
+                              its survival in the environment.&nbsp;&nbsp; 
+                              </FONT></P>
+                              <P><FONT face=Verdana size=2>Although this 
+                              discussion sounds like it has nothing to do with 
+                              Computer Science, it actually is exactly how 
+                              Genetic Algorithms work.&nbsp; Genetic Algorithms 
+                              have&nbsp; a few main components described below: 
+                              </FONT></P>
+                              <TABLE cellSpacing=1 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="17%"><B><FONT face=Verdana 
+                                size=2>Genome&nbsp;</FONT></B></TD>
+                                <TD width="83%"><FONT face=Verdana size=2>A 
+                                sequence of values (could be characters, floats, 
+                                ints, structures, or even 
+                                classes)</FONT></TD></TR>
+                                <TR>
+                                <TD width="17%"><B><FONT face=Verdana 
+                                size=2>Generation&nbsp;</FONT></B></TD>
+                                <TD width="83%"><FONT face=Verdana 
+                                size=2>Genomes existing at a specific point in 
+                                time during&nbsp; the algorithm</FONT></TD></TR>
+                                <TR>
+                                <TD width="17%"><B><FONT face=Verdana 
+                                size=2>Population&nbsp;</FONT></B></TD>
+                                <TD width="83%"><FONT face=Verdana size=2>A 
+                                group of Genomes in the current 
+                                Generation</FONT></TD></TR></TBODY></TABLE>
+                              <P><FONT face=Verdana size=2><BR>A set of Genomes 
+                              in a population undergo a series of steps to 
+                              produce the next generation.&nbsp; Below are some 
+                              terms used to describe these steps: </FONT></P>
+                              <TABLE cellSpacing=1 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="14%"><B><FONT face=Verdana 
+                                size=2>Fitness</FONT></B></TD>
+                                <TD width="86%"><FONT face=Verdana size=2>A 
+                                number describing the probability for a Genome 
+                                to survive and reproduce</FONT></TD></TR>
+                                <TR>
+                                <TD width="14%"><B><FONT face=Verdana 
+                                size=2>Crossover</FONT></B></TD>
+                                <TD width="86%"><FONT face=Verdana size=2>When 
+                                two Genomes exchange pieces of their data with 
+                                one another</FONT></TD></TR>
+                                <TR>
+                                <TD width="14%"><B><FONT face=Verdana 
+                                size=2>Mutation</FONT></B></TD>
+                                <TD width="86%"><FONT face=Verdana size=2>When a 
+                                piece of data in a Genome is altered 
+                                randomly</FONT></TD></TR>
+                                <TR>
+                                <TD width="14%"><B><FONT face=Verdana 
+                                size=2>Reproduce</FONT></B></TD>
+                                <TD width="86%"><FONT face=Verdana size=2>When a 
+                                Genome copies itself into the next 
+                                generation</FONT></TD></TR></TBODY></TABLE>
+                              <P><FONT face=Verdana size=2>There are actually 
+                              many variations of Genetic Algorithms.&nbsp; The 
+                              one we will talk about is known as the Simple 
+                              Genetic Algorithm and this one is fairly 
+                              straightforward.&nbsp; The steps of the algorithm 
+                              are as follows: </FONT></P>
+                              <P><FONT face=Verdana size=2>1.&nbsp; Produce an 
+                              initial generation of Genomes using a random 
+                              number generator.&nbsp;<BR>2.&nbsp; Determine the 
+                              fitness of all of the Genomes<BR>3.&nbsp; 
+                              Determine which Genomes are allowed to 
+                              reproduce<BR>4.&nbsp; Crossover&nbsp; the Genome 
+                              pairs&nbsp; in the allowable 
+                              population.&nbsp;<BR>5.&nbsp; Pick the 2 fittest 
+                              Genomes of the 2 parents and 2 children resulting 
+                              from the crossover and add 
+                              them<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                              to the next generation<BR>6.&nbsp; Produce random 
+                              mutations through the next generation 
+                              population<BR>7.&nbsp; Calculate the next 
+                              generations fitness and loop back to step 
+                              3.<BR><BR>In creating our Genetic Algorithm class 
+                              design we tried to make it somewhat 
+                              generalized.&nbsp; Below is the UML class diagram 
+                              describing the Genetic Algorithm classes. The two 
+                              main Genetic Algorithm classes (<B>Population</B> 
+                              and <B>Genome</B>)&nbsp; consist of the terms we 
+                              described above in the algorithm.&nbsp; Genome has 
+                              methods such as <B>Crossover</B>, 
+                              <B>CalculateFitness</B>, and <B>Mutate</B> to 
+                              execute the main events occuring in the life of a 
+                              Genome.&nbsp; Population has functions 
+                              <B>NextGeneration</B> to produce the next 
+                              generation and <B>WriteNextGeneration</B> to write 
+                              the next generation to the Console. </FONT></P>
+                              <P><FONT face=Verdana size=2><IMG 
+                              src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/GeneticAlgorithmUml.gif" 
+                              border=0> </FONT></P>
+                              <P align=center><FONT face=Verdana size=2>Figure 2 
+                              - Genetic Algorithm UML Design reverse engineered 
+                              using the <A 
+                              href="http://www.microgold.com/">WithClass 
+                              2000</A> UML Tool </FONT></P>
+                              <P align=left><FONT face=Verdana size=2>Note that 
+                              the Genome class is abstract.&nbsp; This way you 
+                              can inherit other Genome types from it that suit 
+                              the needs of your problem.&nbsp; The ListGenome 
+                              subclass is an array of 5 integers because the 
+                              problem we chose to solve in our fitness function 
+                              is to find a specific set of 5 integers. 
+                              </FONT></P>
+                              <P align=left><FONT face=Verdana size=2>Here is 
+                              the Problem we want to solve: </FONT></P>
+                              <P><FONT face=Verdana color=#000080 size=2>What 5 
+                              numbers with values 1-10&nbsp; will produce a 
+                              product equal to its sum? (Numbers are allowed to 
+                              repeat.)</FONT><FONT face=Verdana size=2> 
+                              </FONT></P>
+                              <P><FONT face=Verdana size=2>The hardest part of 
+                              executing a genetic algorithm is coming up with a 
+                              fitness function once the appropriate classes are 
+                              in place.&nbsp; Also you sometimes need to adjust 
+                              some of the population constants such as initial 
+                              population size, mutation frequency, and crossover 
+                              fitness to help in balancing convergence and 
+                              diversity in the solution population. </FONT></P>
+                              <P><FONT face=Verdana size=2>Below is the main 
+                              function executing the algorithm through 100 
+                              generations and writing them to the console. 
+                              </FONT></P>
+                              <P><U><B><FONT face=Verdana size=2>Listing 1 - 
+                              Executing the Genetic Algorithm from the Main 
+                              method</FONT></B></U><FONT face=Verdana size=2> 
+                              </FONT></P>
+                              <TABLE cellSpacing=1 cellPadding=0 width="100%" 
+                              bgColor=#cccccc border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="100%"><FONT face=Verdana size=2><FONT 
+                                color=#0000ff>static</FONT> <FONT color=#0000ff 
+                                size=2>void</FONT> Main(<FONT color=#0000ff 
+                                size=2>string</FONT>[] args)<BR>{<BR>&nbsp; 
+                                Population TestPopulation = <FONT color=#0000ff 
+                                size=2>new</FONT> Population();<BR>&nbsp; 
+                                TestPopulation.WriteNextGeneration();<FONT 
+                                color=#0000ff size=2><BR></FONT>&nbsp; <FONT 
+                                color=#0000ff size=2>for</FONT> (<FONT 
+                                color=#0000ff size=2>int</FONT> i = 0; i &lt; 
+                                100; i++)<BR>&nbsp;&nbsp; 
+                                {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                TestPopulation.NextGeneration();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                TestPopulation.WriteNextGeneration();<BR>&nbsp;&nbsp; 
+                                } </FONT><FONT size=2>
+                                <P><FONT 
+                                face=Verdana>Console.ReadLine();<BR>}</FONT></FONT></P></TD></TR></TBODY></TABLE>
+                              <P><FONT face=Verdana size=2>The constructor of 
+                              the Population automatically creates the initial 
+                              set of Genomes.&nbsp; By repeatedly calling the 
+                              NextGeneration method, you execute the algorithm 
+                              to produce the next generation.&nbsp; Eventually 
+                              the population converges to the highest fitness 
+                              scores.&nbsp; Below is the method used to 
+                              calculate the fitness of the Genome in the 
+                              ListGenome class.&nbsp; Note that if the product 
+                              of the sequence of 5 numbers in the Genome equals 
+                              the sum of the 5 numbers in the Genome, then the 
+                              fitness is automatically 1.0 (100%), otherwise we 
+                              need to come up with a way to assign a fitness if 
+                              this is not true.&nbsp; The numbers that have 
+                              products and sums that <I>almost<B> </B></I>match 
+                              should have greater fitnesses than those with 
+                              products and sums far apart.&nbsp; We do this by 
+                              taking the reciprocal of the difference between 
+                              the product and sum of the numbers in the 
+                              genome.&nbsp; Then we make sure the fitness is a 
+                              positive value by taking the absolute value of the 
+                              fitness.&nbsp; For products and sums that are only 
+                              one apart, this produces a fitness of 1.0, so we 
+                              needed to subtract a little offset to show that 
+                              this isn't a perfect fitness.&nbsp; Below is the 
+                              listing for calculating the fitness of the Genome 
+                              for our problem.</FONT></P>
+                              <P><U><B><FONT face=Verdana size=2>Listing 2 - 
+                              Calculating the Fitness of a Genome for the 
+                              product-sum equivalency 
+                              problem</FONT></B></U><FONT face=Verdana size=2> 
+                              </FONT></P>
+                              <TABLE cellSpacing=1 cellPadding=0 width="100%" 
+                              bgColor=#cccccc border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="100%"><FONT face=Verdana size=2><FONT 
+                                color=#008000>// This fitness function 
+                                calculates the closest product 
+                                sum<BR></FONT><FONT color=#0000ff 
+                                size=2>private</FONT> <FONT color=#0000ff 
+                                size=2>float</FONT> 
+                                CalculateClosestProductSum()<BR>{<BR>&nbsp;<FONT 
+                                color=#008000 size=2>// fitness for a perfect 
+                                number<BR></FONT>&nbsp; <FONT color=#0000ff 
+                                size=2>float</FONT> sum = 0.0f;<BR>&nbsp; <FONT 
+                                color=#0000ff size=2>float</FONT> product = 
+                                1.0f;<BR>&nbsp; <FONT color=#0000ff 
+                                size=2>for</FONT> (<FONT color=#0000ff 
+                                size=2>int</FONT> i = 0; i &lt; Length; 
+                                i++)<BR>&nbsp;&nbsp; {<BR>&nbsp;&nbsp;&nbsp; sum 
+                                += (<FONT color=#0000ff 
+                                size=2>int</FONT>)TheArray[i];<BR>&nbsp;&nbsp;&nbsp; 
+                                product *= (<FONT color=#0000ff 
+                                size=2>int</FONT>)TheArray[i];<BR>&nbsp;&nbsp; } 
+                                </FONT>
+                                <P><FONT face=Verdana size=2><FONT 
+                                color=#0000ff>if</FONT> (product == 
+                                sum)<BR>&nbsp; {<BR>&nbsp;&nbsp; CurrentFitness 
+                                = 1;<BR>&nbsp; }<FONT color=#0000ff 
+                                size=2><BR>else</FONT><BR>&nbsp;{<BR>&nbsp; 
+                                CurrentFitness = Math.Abs(Math.Abs(1.0f/(product 
+                                - sum)) - 0.02f);<BR>&nbsp;}</FONT></P>
+                                <P><FONT face=Verdana size=2><FONT 
+                                color=#0000ff>&nbsp; return</FONT> 
+                                CurrentFitness;<BR>}</FONT></P></TD></TR></TBODY></TABLE>
+                              <P><FONT face=Verdana size=2>The output by the 
+                              20th&nbsp; generation looks like the code 
+                              below.&nbsp; Note that sequences 1 2 2 1 2&nbsp; 
+                              and 2 5 1 1 1 have products and sums of 8 and 10 
+                              respectively.&nbsp; The reason you are seeing some 
+                              genes with low fitnesses is because 10% of all 
+                              genes are mutated in each generation by changing a 
+                              single number in the sequence.&nbsp; The mutation 
+                              frequency can be lowered or raised in order to 
+                              tweak the performance.</FONT></P>
+                              <P align=center><FONT face=Verdana size=2><IMG 
+                              src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/GeneticAlgorithmOut.jpg" 
+                              border=0></FONT></P>
+                              <P align=center><FONT face=Verdana size=2>Figure 3 
+                              - Output from the 20th generation of the Genetic 
+                              Algorithm</FONT></P>
+                              <P><B><FONT face=Verdana 
+                              size=2>Conclusion</FONT></B></P>
+                              <P><FONT face=Verdana size=2>Genetic algorithms 
+                              are a great way to solve problems through a trial 
+                              an error process that progresses very 
+                              quickly.&nbsp; The success of converging upon a 
+                              solution depends upon how good your fitness 
+                              function is, and how well you've tweaked your 
+                              parameters.&nbsp; Starting with larger populations 
+                              tends to give you more diversity but takes 
+                              longer.&nbsp; Increasing mutations helps you find 
+                              possibilities that may not have occurred in the 
+                              initial population, but if its too high, its 
+                              harder for the set to converge.&nbsp; Crossover 
+                              fitness also can be adjusted to increase or 
+                              decrease how fast you get to a solution. (It is 
+                              initially set here at 100%).&nbsp; There are also 
+                              many other Genetic Algorithms available besides 
+                              the one we discussed here.&nbsp; Some of them 
+                              produce subpopulations that grow in tandem.&nbsp; 
+                              If you find that you are fascinated by the world 
+                              of GA, a good reference for learning about Genetic 
+                              Algorithms (at least this is what I've 
+                              heard)&nbsp; is a book written by David E. 
+                              Goldberg called&nbsp; <U><A 
+                              href="http://www.amazon.com/exec/obidos/ASIN/0201157675/qid=1026668886/sr=8-1/ref=sr_8_1/103-2933554-5431013">Genetic 
+                              Algorithms in Search, Optimization and Machine 
+                              Learning</A></U>.&nbsp; Enjoy manipulating genes 
+                              in the world of .NET!<BR></FONT></P><SYSTEM.WEB>
+                              <HR>
+
+                              <P><FONT face=verdana size=2><B>Mike Gold 
+                              </B><BR>Mike Gold is President of Microgold 
+                              Software Inc. and Creator of <A 
+                              href="http://www.microgold.com/">WithClass 
+                              2000</A> a UML Design Tool for C#. In the last few 
+                              years Mike has consulted for companies such as 
+                              Merrill Lynch and Chase Manhattan Bank in New 
+                              York. He is been active in developing Visual C++ 
+                              Applications for 10 years and looks forward to the 
+                              possibilities in C#. You can reach him at <A 
+                              href="mailto:techsupport@microgold.com">techsupport@microgold.com</A> 
+                              </FONT></P><SPAN 
+                              style="FONT-SIZE: 10pt; mso-bidi-font-size: 12.0pt"><FONT 
+                              face=Verdana size=2>
+                              <HR>
+                              </FONT></SPAN></TD></TR>
+                          <TR>
+                            <TD align=left width="100%" bgColor=#99ccff><FONT 
+                              face=verdana size=2><B><A 
+                              href="http://216.26.160.137/forums/AspNetForums20/">Discussion 
+                              Forums</A></B><BR>Got a programming related 
+                              question? Want to chat with <B>C# Corner 
+                              authors</B>? Want to know what experts are talking 
+                              about cutting-edge technologies? Want to help out 
+                              other developers? <I>Visit our discussion forums 
+                              <A 
+                              href="http://216.26.160.137/forums/AspNetForums20/">here</A>. 
+                              </I></FONT></TD></TR></TBODY></TABLE><SYSTEM.WEB><SYSTEM.WEB></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top align=left width=40 bgColor=#666666 height=52>
+                  <TABLE height=164 cellSpacing=0 cellPadding=0 width=182 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=left width=201 bgColor=#666666 
+                      height=102>
+                        <TABLE width="100%" border=0>
+                          <TBODY>
+                          <TR>
+                            <TD align=middle width="100%" 
+                              bgColor=#666666><FONT face=Verdana size=1><SPAN 
+                              style="FONT-WEIGHT: 700">Premium 
+                              Sponsors</SPAN></FONT></TD></TR>
+                          <TR>
+                            <TD width="100%" bgColor=#ffffff>
+                              <TABLE height=61 cellSpacing=0 cellPadding=0 
+                              width="100%" border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="83%" height=17><FONT face=Verdana 
+                                color=#003366 
+                                size=1><B>TallComponents</B></FONT></TD>
+                                <TD width="17%" height=17><A 
+                                href="http://www.tallcomponents.com/banner3.asp" 
+                                target=_blank><IMG alt="TallComponents Homepage" 
+                                hspace=6 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/icon_homepage.gif" 
+                                align=absMiddle border=0></A></TD></TR>
+                                <TR>
+                                <TD width="83%" height=17><FONT face=Verdana 
+                                color=#003366 
+                                size=1><B>Red-Gate&nbsp;</B></FONT></TD>
+                                <TD width="17%" height=17><A 
+                                href="http://www.red-gate.com/code_profiling.htm" 
+                                target=_blank><IMG 
+                                alt="Visit Red-Gate's Homepage" hspace=6 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/icon_homepage.gif" 
+                                align=absMiddle border=0></A></TD></TR>
+                                <TR>
+                                <TD width="83%" height=17><FONT face=Verdana 
+                                color=#003366 
+                                size=1><B>.netECOMMERCE&nbsp;</B></FONT></TD>
+                                <TD width="17%" height=17><A 
+                                href="http://www.dotnetecommerce.com/products.htm" 
+                                target=_blank><IMG height=15 
+                                alt="Visit .netCOMMERCE Homepage" hspace=6 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/icon_homepage.gif" 
+                                width=15 align=absMiddle border=0></A></TD></TR>
+                                <TR>
+                                <TD vAlign=bottom align=right width="100%" 
+                                colSpan=2 height=14><FONT face=Verdana 
+                                color=#ff0000 size=1><B><A 
+                                href="http://www.c-sharpcorner.com/Sponsors.asp">visit 
+                                sponsors</A>&nbsp;&nbsp;</B></FONT></TD></TR></TBODY></TABLE></TD></TR>
+                          <TR>
+                            <TD align=middle width="100%" bgColor=#666666 
+                            height=34>
+                              <TABLE width="16%" border=0>
+                                <TBODY>
+                                <TR>
+                                <TD width="33%" bgColor=#ffffff><A 
+                                href="http://www.dundas.com/products/chart/index.aspx?Section=Chart&amp;Campaign=CSharpCorner" 
+                                target=_blank><IMG 
+                                src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/120x600.gif" 
+                                border=0> 
+                          </A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left width=201 bgColor=#666666 
+                      height=19>&nbsp; </TD></TR>
+                    <TR>
+                      <TD vAlign=top align=middle width=201 bgColor=#666666 
+                      height=19>
+                        <TABLE width="16%" border=0>
+                          <TBODY>
+                          <TR><A 
+                            href="http://www.tallcomponents.com/banner3.asp" 
+                            target=_blank><IMG 
+                            src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/PDFKit-140x140.gif" 
+                            border=0> 
+                    </A></TD></TR></TBODY></TABLE></TD></TD></TR></TBODY></TABLE></TD>
+              <TR>
+                <TD vAlign=top align=left width="5%" bgColor=#003366 
+                height=2>&nbsp;</TD>
+                <TD vAlign=top align=left width="76%" bgColor=#003366 
+                height=2>&nbsp;</TD>
+                <TD vAlign=top align=left width="19%" bgColor=#666666 
+                height=2>&nbsp;</TD></TR></TBODY></TABLE></DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE height=20 cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="28%" bgColor=#000000 height=25><FONT face=Verdana color=#ffffff 
+      size=1>&nbsp;</FONT></TD>
+    <TD align=right width="72%" bgColor=#000000 colSpan=3 
+  height=25>&nbsp;</TD></TR>
+  <TR>
+    <TD vAlign=top align=middle width="28%" bgColor=#666666 height=74>
+      <TABLE style="BORDER-COLLAPSE: collapse" cellPadding=0 width="93%" 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD>
+    <TD align=left width="72%" bgColor=#666666 colSpan=3 height=74>
+      <TABLE height=20 cellSpacing=0 cellPadding=0 width="66%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle width="86%" height=74><A 
+            href="http://www.red-gate.com/sql/summary.htm" target=_blank><IMG 
+            alt="SQL Compare, SQL Data Compare, SQL Toolkit" 
+            src="Implementing&nbsp;a Genetic Algorithm in C# and .NET-Dateien/SQLtext468x60.gif" 
+            border=0></A> </TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD width="28%" bgColor=#000000 height=17><SPAN class=newsDate><FONT 
+      face=Verdana color=#ffffff size=1><B>&nbsp;</B>Hosted by </FONT><FONT 
+      face=Verdana color=#000000 size=1><A 
+      href="http://www.maximumasp.com/"><FONT 
+      color=#ffffff>MaximumASP</FONT></A></FONT><FONT face=Verdana color=#ffffff 
+      size=1>. </FONT></SPAN></TD>
+    <TD align=middle width="18%" bgColor=#000000 height=17><A 
+      href="mailto:webmaster@c-sharpcorner.com"><FONT face=Verdana color=#ffffff 
+      size=1>Found a broken link? </FONT></A></TD>
+    <TD align=middle width="18%" bgColor=#000000 height=17><SPAN 
+      class=newsDate><A href="http://www.c-sharpcorner.com/terms.asp"><FONT 
+      face=Verdana color=#ffffff size=1>Terms and 
+conditions</FONT></A></SPAN></TD>
+    <TD align=right width="36%" bgColor=#000000 height=17><FONT face=Verdana 
+      color=#ffffff size=1>© 2000-2004 C# Corner. All Rights Reserved.&nbsp; 
+      </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

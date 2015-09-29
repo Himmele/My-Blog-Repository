@@ -1,0 +1,66 @@
+table.data-table-1 td,
+table.data-table-1 th{ border-top:#ccc solid 1px; padding-left:5px; padding-right:4px; padding-top:4px; vertical-align:top; }
+table.data-table-1 th{ background:#efefef; }
+table.data-table-2{ margin-top:1px; }
+table.data-table-2 td,
+table.data-table-2 th.tb-row{ border-bottom:#ccc solid 1px; }
+table.data-table-2 td,
+table.data-table-2 th{ padding-left:5px; padding-right:5px; padding-top:4px; vertical-align:top; }
+table.data-table-2 th{ background:#c8d7e3; }
+table th.tb-row{ background:#fff; font-weight:normal; }
+table.data-table-1{ border:1px solid #ccc; border-top:0px; }
+table.data-table-1 caption,
+table.data-table-2 caption,
+table.data-table-3 caption{ text-align:left; background:#3c5f84; padding-top:3px; padding-bottom:4px; padding-left:6px; }
+table.data-table-2 caption{ border-bottom:#fff solid 1px; }
+table.data-table-1 caption em,
+table.data-table-2 caption em,
+table.data-table-3 caption em{ color:#fff; }
+table.v14-gray-table-border table.data-table-1{ border:0px solid #ccc; border-top:0px; }
+table.data-table-1 td.no-padding{ padding-left:0; padding-right:0; }
+table.data-table-1 td.ntb{ border-top:0; }
+table tr.alt-row td,
+table tr.alt-row th.tb-row {background:#eee;}
+
+table.data-table-3 td,
+table.data-table-3 th{ padding-left:6px; padding-right:0px; padding-top:4px; vertical-align:top; }
+table.data-table-3 th{ font-weight:bold; }
+table.data-table-3 td{ padding-right:5px; }
+table.data-table-3{ border:1px solid #ccc; border-top:0px; }
+table.data-table-1 .imgleft{ padding-left:5px; margin-right:5px; }
+p.dtnf{ font-family:verdana,arial,sans-serif; font-size:11px; }
+th.numeric, td.numeric{ text-align:right; }
+
+table.data-table-1 caption.header-1,
+table.data-table-2 caption.header-1,
+table.data-table-3 caption.header-1{ background:#98b1c4; }
+table.data-table-1 caption.header-2,
+table.data-table-2 caption.header-2{ background:#eee; border-left:1px solid #ccc; border-top:1px solid #ccc; border-right:1px solid #ccc; }
+table.data-table-1 caption.header-2 em,
+table.data-table-2 caption.header-2 em,
+table.data-table-3 caption.header-2 em{ color:#000; }
+
+a.dtable-alink {
+font-weight:bold;
+background:url(//www.ibm.com/i/v14/icons/fw_bold.gif) 
+no-repeat 0px 4px;
+margin:0px;
+padding:5px 5px 5px 15px;
+}
+
+a.dtable-alink:link,
+a.dtable-alink:visited {text-decoration:none;}
+a.dtable-alink:hover {text-decoration:underline;}
+
+div.dtable-bullet-list ul{
+	padding-right:10px;
+	padding-left:0px;
+	margin:0px;
+}
+
+div.dtable-bullet-list li{
+list-style-type: none;
+	padding:0px 0px 0px 7px;
+	background:url("//www.ibm.com/i/v14/bullets/bk-bullet.gif") 
+		no-repeat 0% 0%; 
+}

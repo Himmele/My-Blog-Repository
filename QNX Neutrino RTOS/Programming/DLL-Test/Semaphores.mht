@@ -1,0 +1,1744 @@
+From: <Mit Microsoft Internet Explorer 7 gespeichert>
+Subject: Semaphores
+Date: Tue, 10 Jul 2007 21:13:36 +0200
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_000B_01C7C337.2DE44260"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3138
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/DOCU_010.HTM
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Semaphores</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1">
+<META content=3DNOFOLLOW name=3DROBOTS>
+<META=20
+content=3D"Guide to Realtime Programming: DIGITAL UNIX Version 4.0B =
+documentation set"=20
+name=3DDESCRIPTION>
+<META=20
+content=3D"Copyright (c) Digital Equipment Corporation 1996. =
+All&#10;Rights Reserved."=20
+name=3DAUTHOR>
+<META content=3D"MSHTML 6.00.6000.16481" name=3DGENERATOR></HEAD>
+<BODY><A name=3Dsem-chap></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_009.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <IMG height=3D32=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/BLANK.GIF"=20
+width=3D56> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#count-sem-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H1>9&nbsp;&nbsp;&nbsp;&nbsp;Semaphores</H1>
+<P><A name=3Danchor_0766></A><A name=3Danchor_0767></A>POSIX 1003.1b =
+semaphores=20
+provide an efficient form of interprocess communication. Cooperating =
+processes=20
+can use semaphores to synchronize access to resources, most commonly, =
+shared=20
+memory. Semaphores can also protect the following resources available to =
+
+multiple processes from uncontrolled access: <A name=3Danchor_0768></A>
+<UL>
+  <P>
+  <LI>
+  <P>Global variables, such as file variables, pointers, counters, and =
+data=20
+  structures. Protecting these variables prevents simultaneous access by =
+more=20
+  than one process, such as reading information as it is being written =
+by=20
+  another process.=20
+  <P></P>
+  <LI>
+  <P>Hardware resources, such as disk and tape drives. Hardware =
+resources=20
+  require controlled access because simultaneous access can result in =
+corrupted=20
+  data. </P></LI></UL>
+<P>This chapter includes the following sections:=20
+<UL>
+  <P>
+  <LI>
+  <P>Overview of Semaphores, <A=20
+  =
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#count-sem-sec">Section=20
+  9.1</A>=20
+  <P></P>
+  <LI>
+  <P>The Semaphore Interface, <A=20
+  =
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-interface-sec">Section=20
+  9.2</A>=20
+  <P></P>
+  <LI>
+  <P>Semaphore Example, <A=20
+  =
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-with-shm-sec">Section=20
+  9.3</A> </P></LI></UL><A name=3Dcount-sem-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <IMG height=3D32=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/BLANK.GIF"=20
+width=3D56> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-interface-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H2>9.1&nbsp;&nbsp;&nbsp;&nbsp;Overview of Semaphores</H2>
+<P><A name=3Danchor_0769></A>Semaphores are used to control access to =
+shared=20
+resources by processes. Counting semaphores have a positive integral =
+value=20
+representing the number of processes that can concurrently lock the =
+semaphore.=20
+<P><A name=3Danchor_0770></A><A name=3Danchor_0771></A>There are named =
+and unnamed=20
+semaphores. Named semaphores provide access to a resource between =
+multiple=20
+processes. Unnamed semaphores provide multiple accesses to a resource =
+within a=20
+single process or between related processes. Some semaphore functions =
+are=20
+specifically designed to perform operations on named or unnamed =
+semaphores.=20
+<P><A name=3Danchor_0772></A><A name=3Danchor_0773></A>The semaphore =
+lock operation=20
+checks to see if the resource is available or is locked by another =
+process. If=20
+the semaphore's value is a positive number, the lock is made, the =
+semaphore=20
+value is decremented, and the process continues execution. If the =
+semaphore's=20
+value is zero or a negative number, the process requesting the lock =
+waits (is=20
+blocked) until another process unlocks the resource. Several processes =
+may be=20
+blocked waiting for a resource to become available.=20
+<P><A name=3Danchor_0774></A>The semaphore unlock operation increments =
+the=20
+semaphore value to indicate that the resource is not locked. A waiting =
+process,=20
+if there is one, is unblocked and it accesses the resource. Each =
+semaphore keeps=20
+count of the number of processes waiting for access to the resource.=20
+<P>Semaphores are global entities and are not associated with any =
+particular=20
+process. In this sense, semaphores have no owners making it impossible =
+to track=20
+semaphore ownership for any purpose, for example, error recovery.=20
+<P>Semaphore protection works only if all the processes using the shared =
+
+resource cooperate by waiting for the semaphore when it is unavailable =
+and=20
+incrementing the semaphore value when relinquishing the resource. Since=20
+semaphores lack owners, there is no way to determine whether one of the=20
+cooperating processes has become uncooperative. Applications using =
+semaphores=20
+must carefully detail cooperative tasks. All of the processes that share =
+a=20
+resource must agree on which semaphore controls the resource.=20
+<P><A name=3Danchor_0775></A><A name=3Danchor_0776></A>POSIX 1003.1b =
+semaphores are=20
+persistent. The value of the individual semaphore is preserved after the =
+
+semaphore is no longer open. For example, a semaphore may have a value =
+of 3 when=20
+the last process using the semaphore closes it. The next time a process =
+opens=20
+that semaphore, it will find the semaphore has a value of 3. For this =
+reason,=20
+cleanup operations are advised when using semaphores.=20
+<P><A name=3Danchor_0777></A>Note that because semaphores are =
+persistent, you=20
+should call the <CODE>sem_unlink</CODE> function after a system reboot. =
+After=20
+calling <CODE>sem_unlink</CODE>, you should call the =
+<CODE>sem_open</CODE>=20
+function to establish new semaphores.=20
+<P>The semaphore descriptor is inherited across a <CODE>fork</CODE>. A =
+parent=20
+process can create a semaphore, open it, and fork. The child process =
+does not=20
+need to open the semaphore and can close the semaphore if the =
+application is=20
+finished with it. <A name=3Dsem-interface-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#count-sem-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#create-sem-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H2>9.2&nbsp;&nbsp;&nbsp;&nbsp;The Semaphore Interface</H2>
+<P><A name=3Danchor_0778></A>The following functions allow you to create =
+and=20
+control P1003.1b semaphores: <A name=3Danchor_0779></A><A =
+name=3Danchor_0780></A><A=20
+name=3Danchor_0781></A><A name=3Danchor_0782></A><A =
+name=3Danchor_0783></A><A=20
+name=3Danchor_0784></A><A name=3Danchor_0785></A><A =
+name=3Danchor_0786></A><A=20
+name=3Danchor_0787></A><A name=3Danchor_0788></A><A =
+name=3Danchor_0789></A>
+<P>
+<CENTER>
+<TABLE cellSpacing=3D2 cellPadding=3D4 border=3D4>
+  <COLGROUP>
+  <COL width=3D"23%">
+  <COL width=3D"77%">
+  <THEAD>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><STRONG>Function</STRONG></TD>
+    <TD vAlign=3Dtop =
+align=3Dleft><STRONG>Description</STRONG></TD></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_close</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Deallocates the specified named =
+semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_destroy</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Destroys an unnamed =
+semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_getvalue</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Gets the value of a specified =
+semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_init</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Initializes an unnamed =
+semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_open</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Opens/creates a named semaphore for =
+use by a=20
+      process</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_post</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Unlocks a locked semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_trywait</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Performs a semaphore lock on a =
+semaphore only if=20
+      it can lock the semaphore without waiting for another process to =
+unlock=20
+    it</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_unlink</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Removes a specified named =
+semaphore</TD></TR>
+  <TR>
+    <TD vAlign=3Dtop align=3Dleft><CODE>sem_wait</CODE></TD>
+    <TD vAlign=3Dtop align=3Dleft>Performs a semaphore lock on a=20
+  semaphore</TD></TR></TBODY></TABLE></CENTER>
+<P>
+<P>You create an unnamed semaphore with a call to the =
+<CODE>sem_init</CODE>=20
+function, which initializes a counting semaphore with a specific value. =
+To=20
+create a named semaphore, call <CODE>sem_open</CODE> with the O_CREAT =
+flag=20
+specified. The <CODE>sem_open</CODE> function establishes a connection =
+between=20
+the named semaphore and a process.=20
+<P>Semaphore locking and unlocking operations are accomplished with =
+calls to the=20
+<CODE>sem_wait</CODE>, <CODE>sem_trywait</CODE>, and =
+<CODE>sem_post</CODE>=20
+functions. You use these functions for named and unnamed semaphores. To =
+retrieve=20
+the value of a counting semaphore, use the <CODE>sem_getvalue</CODE> =
+function.=20
+<P>When the application is finished with an unnamed semaphore, the =
+semaphore=20
+name is destroyed with a call to <CODE>sem_destroy</CODE>. To deallocate =
+a named=20
+semaphore, call the <CODE>sem_close</CODE> function. The =
+<CODE>sem_unlink</CODE>=20
+function removes a named semaphore. The semaphore is removed only when =
+all=20
+processes using the semaphore have deallocated it using the=20
+<CODE>sem_close</CODE> function. <A name=3Dcreate-sem-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-interface-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#lock-unlock-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H3>9.2.1&nbsp;&nbsp;&nbsp;&nbsp;Creating and Opening a Semaphore</H3>
+<P><A name=3Danchor_0790></A><A name=3Danchor_0791></A><A =
+name=3Danchor_0792></A><A=20
+name=3Danchor_0793></A><A name=3Danchor_0794></A><A =
+name=3Danchor_0795></A>A call to=20
+the <CODE>sem_init</CODE> function creates an unnamed counting semaphore =
+with a=20
+specific value. If you specify a non-zero value for the pshared =
+argument, the=20
+semaphore can be shared between processes. If you specify the value =
+zero, the=20
+semaphore can be shared among threads of the same process.=20
+<P>The <CODE>sem_open</CODE> function establishes a connection between a =
+named=20
+semaphore and the calling process. Two flags control whether the =
+semaphore is=20
+created or only accessed by the call. Set the O_CREAT flag to create a =
+semaphore=20
+if it does not already exist. Set the O_EXCL flag along with the O_CREAT =
+flag to=20
+indicate that the call to <CODE>sem_open</CODE> should fail if the =
+semaphore=20
+already exists.=20
+<P>Subsequent to creating a semaphore with either <CODE>sem_init</CODE> =
+or=20
+<CODE>sem_open</CODE>, the calling process can reference the semaphore =
+by using=20
+the semaphore descriptor address returned from the call. The semaphore =
+is=20
+available in subsequent calls to the <CODE>sem_wait</CODE>,=20
+<CODE>sem_trywait</CODE>, and <CODE>sem_post</CODE> functions, which =
+control=20
+access to the shared resource. You can also retrieve the semaphore value =
+by=20
+calls to <CODE>sem_getvalue</CODE>.=20
+<P>If your application consists of multiple processes that will use =
+semaphores=20
+to synchronize access to a shared resource, each of these processes must =
+first=20
+open the semaphore by a call to the <CODE>sem_open</CODE> function. =
+After the=20
+initial call to the <CODE>sem_init</CODE> or <CODE>sem_open</CODE> =
+function to=20
+establish the semaphore, each cooperating function must also call the=20
+<CODE>sem_open</CODE> function. If all cooperating processes are in the =
+same=20
+working directory, just the name is sufficient. If the processes are =
+contained=20
+in different working directories, the full pathname must be used. It is =
+strongly=20
+recommended that the full pathname be used, such as =
+<CODE>/tmp/mysem1</CODE>.=20
+The directory must exist for the call to succeed.=20
+<P>On the first call to the <CODE>sem_init</CODE> or =
+<CODE>sem_open</CODE>=20
+function, the semaphore is initialized to the value specified in the =
+call.=20
+<P><A name=3Danchor_0796></A>The following example initializes an =
+unnamed=20
+semaphore with a value of 5, which can be shared among related =
+processes:=20
+<P><PRE>#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;semaphore.h&gt;
+<BR>.<BR>.<BR>.<BR>sem_t   mysem;
+int     pshared =3D TRUE;
+unsigned int value =3D 5;
+int     sts;
+<BR>.<BR>.<BR>.<BR>sts =3D sem_init(&amp;mysem, pshared, value);
+if (sts) {
+  perror("sem_init() failed");
+}
+</PRE>
+<P>
+<P><A name=3Danchor_0797></A>The following example creates a semaphore =
+named=20
+<CODE>/tmp/mysem</CODE> with a value of 3:=20
+<P><PRE>#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;semaphore.h&gt;
+#include &lt;sys/stat.h&gt;
+<BR>.<BR>.<BR>.<BR>sem_t   *mysemp;
+int     oflag =3D O_CREAT;
+mode_t  mode =3D 0644;
+const char semname[] =3D "/tmp/mysem"
+unsigned int value =3D 3;
+int     sts;
+<BR>.<BR>.<BR>.<BR>mysemp =3D sem_open(semname, oflag, mode, value);
+if (mysemp =3D=3D (void *)-1) {
+  perror(sem_open() failed ");
+}
+</PRE>
+<P>
+<P>To access a previously created semaphore, a process must call the=20
+<CODE>sem_open</CODE> function using the name of the semaphore.=20
+<P><A name=3Danchor_0798></A>To determine the value of a previously =
+created=20
+semaphore, use the <CODE>sem_getvalue</CODE> function. Pass the =
+semaphore and=20
+the location for storing the value to the function; it returns the value =
+of the=20
+semaphore specified when the <CODE>sem_init</CODE> or =
+<CODE>sem_open</CODE>=20
+function was called.=20
+<P>The name of the semaphore remains valid until the semaphore is =
+removed with a=20
+call to the <CODE>sem_unlink</CODE> function. <A =
+name=3Dlock-unlock-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#create-sem-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#prio-inversion-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H3>9.2.2&nbsp;&nbsp;&nbsp;&nbsp;Locking and Unlocking Semaphores</H3>
+<P><A name=3Danchor_0799></A><A name=3Danchor_0800></A><A =
+name=3Danchor_0801></A><A=20
+name=3Danchor_0802></A><A name=3Danchor_0803></A>After you create the =
+semaphore with=20
+a call to the <CODE>sem_init</CODE> or <CODE>sem_open</CODE> function, =
+you can=20
+use the <CODE>sem_wait</CODE>, <CODE>sem_trywait</CODE>, and=20
+<CODE>sem_post</CODE> functions to lock and unlock the semaphore.=20
+<P>Using semaphores to share resources among processes works only if =
+processes=20
+unlock a resource immediately after they finish using it. As you code =
+your=20
+application, do not attempt to unlock a semaphore you did not previously =
+lock.=20
+<P><A name=3Danchor_0804></A>To lock a semaphore, you can use either the =
+
+<CODE>sem_wait</CODE> or <CODE>sem_trywait</CODE> function. If the =
+semaphore=20
+value is greater than zero, the <CODE>sem_wait</CODE> function locks the =
+
+specified semaphore. If the semaphore value is less than or equal to =
+zero, the=20
+process is blocked (sleeps) and must wait for another process to release =
+the=20
+semaphore and increment the semaphore value.=20
+<P>To be certain that the process is not blocked while waiting for a =
+semaphore=20
+to become available, use the <CODE>sem_trywait</CODE> function. The=20
+<CODE>sem_trywait</CODE> function will lock the specified semaphore if, =
+and only=20
+if, it can do so without waiting. That is, the specified semaphore must =
+be=20
+available at the time of the call to the <CODE>sem_trywait</CODE> =
+function. If=20
+not, the <CODE>sem_trywait</CODE> function returns a -1 and =
+<CODE>errno</CODE>=20
+is set to EAGAIN.=20
+<P><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#reserve-bin-sem-art">Example=20
+9-1</A> locks a semaphore by using the <CODE>sem_trywait</CODE> =
+function. <A=20
+name=3Danchor_0805></A><A name=3Dreserve-bin-sem-art></A>
+<H3>Example 9-1:&nbsp;&nbsp;Locking a Semaphore</H3>
+<P><PRE><BR>.<BR>.<BR>.<BR>int  oflag =3D 0;  /* open an existing =
+semaphore;
+                    do not create a new one */
+<BR>.<BR>.<BR>.<BR>mysemp =3D sem_open(semname, oflag, mode, value);
+if (mysemp =3D=3D (void *)-1) {
+  perror(sem_open() failed ");
+}
+
+sts =3D sem_trywait(mysemp);
+
+if (sts =3D=3D 0)
+     printf("sem_trywait() succeeded!\n");
+else if (errno =3D=3D EAGAIN)
+     printf("semaphore is locked\n");
+else
+  perror("sem_trywait() failure");
+</PRE>
+<P>
+<P><A name=3Danchor_0806></A>The <CODE>sem_post</CODE> function unlocks =
+the=20
+specified semaphore. Any process with access to the semaphore can call =
+the=20
+<CODE>sem_post</CODE> function and unlock a semaphore. If more than one =
+process=20
+is waiting for the semaphore, the highest priority process is allowed =
+access to=20
+the semaphore first. <A name=3Dprio-inversion-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#lock-unlock-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#rem-sem-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H3>9.2.3&nbsp;&nbsp;&nbsp;&nbsp;Priority Inversion with =
+Semaphores</H3><A=20
+name=3Danchor_0807></A><A name=3Danchor_0808></A>
+<P>Process priority inversion can occur when using semaphores to lock a =
+resource=20
+shared by processes of different priorities. If a low-priority process =
+locks a=20
+semaphore to control access to a resource and a higher-priority process =
+is=20
+waiting for the same resources, the higher-priority process is delayed =
+if the=20
+semaphore value is equal to or less than zero. If the lower-priority =
+process is=20
+then preempted by a medium-priority process, the higher-priority process =
+is=20
+further delayed. In this situation, the higher-priority process is =
+delayed while=20
+waiting for a resource locked by lower-priority processes, and the =
+result is=20
+priority inversion.=20
+<P>Since semaphores are global in nature and lack owners, there is no =
+mechanism=20
+for priority inheritance with semaphores. Therefore, semaphore locks are =
+
+separate from process priorities. Be careful when designing the use of=20
+semaphores in your application. <A name=3Drem-sem-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#prio-inversion-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-with-shm-sec"><IMG=20
+height=3D32 alt=3D"[Next Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/NEXT.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H3>9.2.4&nbsp;&nbsp;&nbsp;&nbsp;Closing a Semaphore</H3>
+<P><A name=3Danchor_0809></A><A name=3Danchor_0810></A><A =
+name=3Danchor_0811></A><A=20
+name=3Danchor_0812></A><A name=3Danchor_0813></A>When an application is =
+finished=20
+using an unnamed semaphore, it should destroy the semaphore with a call =
+to the=20
+<CODE>sem_destroy</CODE> function. For named semaphores, the application =
+should=20
+deallocate the semaphore with a call to the <CODE>sem_close</CODE> =
+function. The=20
+semaphore name is disassociated from the process. A named semaphore is =
+removed=20
+using the <CODE>sem_unlink</CODE> function, which takes effect once all=20
+processes using the semaphore have deallocated the semaphore with calls =
+to=20
+<CODE>sem_close</CODE>. If needed, the semaphore can be reopened for use =
+through=20
+a call to the <CODE>sem_open</CODE> function. Since semaphores are =
+persistent,=20
+the state of the semaphore is preserved, even though the semaphore is =
+closed.=20
+When you reopen the semaphore, it will be in the state it was when it =
+was=20
+closed, unless altered by another process.=20
+<P>As with other interprocess communication methods, you can set up a =
+signal=20
+handler to remove the semaphore as one of the tasks performed by the =
+last=20
+process in your application.=20
+<P><A name=3Danchor_0814></A>When the controlling process is finished =
+using an=20
+unnamed semaphore, remove the semaphore from memory as follows:=20
+<P><PRE>/*
+ * Removing unnamed semaphore
+ */
+<BR>.<BR>.<BR>.<BR>sts =3D sem_destroy(&amp;mysem);
+</PRE>
+<P>
+<P><A name=3Danchor_0815></A>When the controlling process is finished =
+using a=20
+named semaphore, close and unlink the semaphore as follows:=20
+<P><PRE>/*
+ * Closing named semaphore and then unlinking it
+ */
+<BR>.<BR>.<BR>.<BR>sts =3D sem_close(mysemp);
+sts =3D sem_unlink(semname);
+</PRE>
+<P><A name=3Dsem-with-shm-sec></A>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#rem-sem-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <IMG height=3D32=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/BLANK.GIF"=20
+width=3D56> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER>
+<H2>9.3&nbsp;&nbsp;&nbsp;&nbsp;Semaphore Example</H2>
+<P><A name=3Danchor_0816></A><A name=3Danchor_0817></A>It is important =
+that two=20
+processes not write to the same area of shared memory at the same time.=20
+Semaphores protect access to resources such as shared memory. Before =
+writing to=20
+a shared memory region, a process can lock the semaphore to prevent =
+another=20
+process from accessing the region until the write operation is =
+completed. When=20
+the process is finished with the shared memory region, the process =
+unlocks the=20
+semaphore and frees the shared memory region for use by another process. =
+
+<P><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-shm-ex">Example=20
+9-2</A> consists of two programs, both of which open the shared-memory =
+object.=20
+The two processes, writer and reader, use semaphores to ensure that they =
+have=20
+exclusive, alternating access to a shared memory region.=20
+<P>The <CODE>writer.c</CODE> program creates the semaphore with a call =
+to the=20
+<CODE>sem_open</CODE> function. The <CODE>reader.c</CODE> program opens =
+the=20
+semaphore previously created by the <CODE>writer.c</CODE> program. =
+Because the=20
+<CODE>writer.c</CODE> program creates the semaphore, =
+<CODE>writer.c</CODE> needs=20
+to be executed before <CODE>reader.c</CODE>. <A name=3Dsem-shm-ex></A>
+<H3>Example 9-2:&nbsp;&nbsp;Using Semaphores and Shared Memory</H3>
+<P><PRE>/*
+** These examples use semaphores to ensure that writer and reader
+** processes have exclusive, alternating access to the shared-memory =
+region.
+*/
+
+/**********  writer.c  ***********/
+
+#include &lt;unistd.h&gt;
+#include &lt;semaphore.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/fcntl.h&gt;
+
+char shm_fn[] =3D "my_shm";
+char sem_fn[] =3D "my_sem";
+
+/**** WRITER ****/
+
+main(){
+  caddr_t shmptr;
+  unsigned int mode;
+  int shmdes, index;
+  sem_t *semdes;
+  int SHM_SIZE;
+
+  mode =3D S_IRWXU|S_IRWXG;
+
+  /* Open the shared memory object */
+
+  if ( (shmdes =3D shm_open(shm_fn,O_CREAT|O_RDWR|O_TRUNC, mode)) =3D=3D =
+-1 ) {
+     perror("shm_open failure");
+     exit();
+   }
+
+  /* Preallocate a shared memory area */
+
+  SHM_SIZE =3D sysconf(_SC_PAGE_SIZE);
+
+  if(ftruncate(shmdes, SHM_SIZE) =3D=3D -1){
+    perror("ftruncate failure");
+    exit();
+  }
+
+  if((shmptr =3D mmap(0, SHM_SIZE, PROT_WRITE|PROT_READ, MAP_SHARED,
+                shmdes,0)) =3D=3D (caddr_t) -1){
+    perror("mmap failure");
+    exit();
+  }
+
+  /* Create a semaphore in locked state */
+
+ sem_des =3D sem_open(sem_fn, O_CREAT, 0644, 0);
+
+ if(sem_des =3D=3D (void*)-1){
+   perror("sem_open failure");
+   exit();
+ }
+
+    /* Access to the shared memory area */
+
+    for(index =3D 0; index &lt; 100; index++){
+       printf("write %d into the shared memory shmptr[%d]\n", index*2, =
+index);
+       shmptr[index]=3Dindex*2;
+       }
+
+  /* Release the semaphore lock */
+
+  sem_post(semdes);
+  munmap(shmptr, SHM_SIZE);
+
+  /* Close the shared memory object */
+
+  close(shmdes);
+
+  /* Close the Semaphore */
+
+  sem_close(semdes);
+
+  /* Delete the shared memory object */
+
+  shm_unlink(shm_fn);
+}
+
+/*******************************************************************
+*******************************************************************/
+
+/**********  reader.c  ***********/
+
+#include &lt;sys/types.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;semaphore.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/fcntl.h&gt;
+
+char shm_fn[] =3D "my_shm";
+char sem_fn[] =3D "my_sem";
+
+/**** READER ****/
+
+main(){
+  caddr_t shmptr;
+  int shmdes, index;
+  sem_t *semdes;
+  int SHM_SIZE;
+
+  /* Open the shared memory object */
+
+  SHM_SIZE =3D sysconf(_SC_PAGE_SIZE);
+
+  if ( (shmdes =3D shm_open(shm_fn, O_RDWR, 0)) =3D=3D -1 ) {
+     perror("shm_open failure");
+     exit();
+   }
+
+  if((shmptr =3D mmap(0, SHM_SIZE, PROT_WRITE|PROT_READ, MAP_SHARED,
+               shmdes,0)) =3D=3D (caddr_t) -1){
+     perror("mmap failure");
+    exit();
+  }
+
+ /* Open the Semaphore */
+
+ semdes =3D sem_open(sem_fn, 0, 0644, 0);
+
+ if(semdes =3D=3D (void*) -1){
+   perror("sem_open failure");
+   exit();
+ }
+
+ /* Lock the semaphore */
+
+ if(!sem_wait(semdes)){
+
+  /* Access to the shared memory area */
+
+   for(index =3D 0; index &lt; 100; index++)
+        printf("The shared memory shmptr[%d] =3D %d\n", =
+index,shmptr[index]);
+
+  /* Release the semaphore lock */
+
+   sem_post(semdes);
+  }
+
+  munmap(shmptr, SHM_SIZE);
+
+  /* Close the shared memory object */
+
+  close(shmdes);
+
+  /* Close the Semaphore */
+
+  sem_close(semdes);
+  sem_unlink(sem_fn);
+}
+</PRE>
+<P>
+<P>
+<HR>
+
+<CENTER><A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/TOC.HTM"><IMG=20
+height=3D32 alt=3D[Contents]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/TOC.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM"><IMG=20
+height=3D32 alt=3D"[Prev. Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/REW.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_010.HTM#sem-with-shm-sec"><IMG=20
+height=3D32 alt=3D"[Prev. Section]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/PREV.GIF"=20
+width=3D56 border=3D0></A> <IMG height=3D32=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/BLANK.GIF"=20
+width=3D56> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/DOCU_011.HTM"><IMG=20
+height=3D32 alt=3D"[Next Chapter]"=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/FF.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33D=
+TE_html/INDEX.HTM"><IMG=20
+height=3D32 alt=3D[Index]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/INDEX.GIF"=20
+width=3D56 border=3D0></A> <A=20
+href=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/HELP.H=
+TM#nav_in_book"=20
+target=3Dhelp_window><IMG height=3D32 alt=3D[Help]=20
+src=3D"http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DT=
+E_html/HELP.GIF"=20
+width=3D56 border=3D0></A> </CENTER><!--Metrics Tag --><!-- Updated =
+April 22, 2003 --><!-- SiteCatalyst code version: G.0. w/dev site =
+filtering
+Copyright 1997-2003 Omniture, Inc. More info available at
+http://www.omniture.com -->
+<SCRIPT language=3DJavaScript><!--
+/* Specify the Report Suite ID(s) to track here */
+var s_account=3D"HPHQGlobal,hphqWWesg,hphqbcs,hphqtru64"
+/* Dynamic Report Suite ID Selection Config */
+var s_dynamicAccountSelection =3D true
+var s_dynamicAccountList =3D =
+"hphqwwtrash=3Ddec.com,cpqcorp.net,hpqcorp.net"
+/* You may give each page an identifying user friendly name in place of =
+urls. */
+var s_pageName=3D"Tru64-" + document.title;
+if ( location.pathname.indexOf('/docs' ) !=3D -1 )         { s_pageName =
+=3D "Tru64-docs-" + document.title; }
+
+/* Regionally assigned variables. */
+var s_server=3D""
+var s_channel=3D""
+var s_pageType=3D""
+var s_prop1=3D"Tru64 UNIX"
+if ( location.pathname.indexOf('/docs' ) !=3D -1 )         { s_prop1 =3D =
+"Tru64 documentation"; }
+var s_prop2 =3D "";
+
+   if ( location.search.indexOf('?jumpid=3D' ) !=3D -1 )
+        {
+        =
+s_prop2=3Dlocation.search.substring((location.search.indexOf('?jumpid=3D'=
+ )+8),(location.search.length));
+        }
+			else
+		{=20
+		if (location.search.toUpperCase().indexOf('?' ) !=3D -1 )        {
+		=
+s_prop2=3Dlocation.search.toUpperCase().substring((location.search.toUppe=
+rCase().indexOf('?' )+1),(location.search.length));
+		}
+		}
+var s_prop6=3D""
+var s_prop7=3D"w1"
+var s_prop8=3D"en-us"
+var s_prop9=3D"enterprise"
+var s_prop10=3D"w1|en-us|enterprise"
+var s_prop13=3D"HPHQGlobal,hphqWWesg,hphqbcs,hphqtru64"
+        if ( location.pathname.toUpperCase().indexOf('/TAF' ) !=3D -1 )
+                {
+                        var s_prop4 =3D "taf-(none)".toLowerCase()
+                        var s_prop5 =3D "taf-(none)" + " (" + =
+document.location + ")".toLowerCase()
+                        s_account=3D"hphqtru64"
+                }
+
+
+/************************ ADDITIONAL FEATURES ************************
+     Plugins
+*/
+/************************** CONFIG SECTION **************************/
+/* You may add or alter any code config here.                       */
+var s_charSet=3D""
+// Netscape 4.X on Unix uses EUC-JP instead of SHIFT-JIS
+if ((navigator.appName.indexOf('Netscape')>=3D0)&&
+    (parseInt(navigator.appVersion)<=3D4)&&
+    (navigator.userAgent.toLowerCase().indexOf('win')<0)&&
+    (navigator.userAgent.toLowerCase().indexOf('mac')<0)) {
+	s_charSet=3D"EUC-JP"
+}
+/* E-commerce Config */
+var s_eVarCFG=3D""
+
+/* Link Tracking Config */
+var s_trackDownloadLinks=3Dtrue
+var s_trackExternalLinks=3Dtrue
+var s_trackInlineStats=3Dtrue
+var =
+s_linkDownloadFileTypes=3D"exe,zip,wav,mp3,mov,mpg,avi,doc,pdf,xls,cgi,do=
+t,pot,ppt,wmv,cgi,asx,tar,rpm,gz,crypt,sh"
+var s_linkInternalFilters=3D"hp,compaq,javascript:"
+var s_linkLeaveQueryString=3Dtrue
+
+
+/********* INSERT THE DOMAIN AND PATH TO YOUR CODE BELOW ************/
+//--></SCRIPT>
+
+<SCRIPT language=3DJavaScript=20
+src=3D"http://h30097.www3.hp.com/includes/s_code.js"></SCRIPT>
+<!-- End SiteCatalyst code version: G.0. --><!--End Tag =
+--></BODY></HTML>
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/TOC.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////9///9///9///9///9///9///
+9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e3t7e
+3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O
+zs7OzsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29vb29tb29
+tb29tb29tb29tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1rbW1
+rbW1rbW1ra2tra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpaWlpaWl
+paWlpaWlpaWlpaWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJycnJyc
+nJycnJycnJycnJyclJyclJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSU
+jJSUjJSUjJSUjJSUjJSUjJSUjIyMhIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SEe4SEe4SE
+e4SEe4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nza3Nza2tr
+Y2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpaUlpa
+UlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpKQkJC
+OUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhTogk8XOg67SPRB8Z8PAD5caHSxUOHGjC4o+ugy8prADxJJkhTpYyAAAB9cfJj5AYLN
+mzZpztQY82PIkSNT8vkmEMJKkSE1EnxZE2dOCDplfgRJUWVQiXyyvmOY1WFEoAIvJgW5U2ZTp1Ch
+Ru05FqjJfygjWq04cGNMnWjVRpU6VaTKLm9Rzs0IkqfZmmed6izrs+pfrF22/oPAMinPDy9fOs3M
+ubPnzH+zdunKR3JD0SknAi1sdyfNvDcXb+zr4+3p0alFWsRoV+rMtIlzumZrmSVgrnJXruRsGPPn
+5501sqxKkSjcr3NdvOzyT/vhpsFll/+l6vdql3MnVVf+J3Hg3Q/sU8ufnxoj9asOJRtdPVYg08Np
+4YTYXbP99BN1qXWF3mQrjaUUXBxhdlNHCT02GmmlCaSJJpNMwuEkWdEhIh1dWGEFSVb4kKKJD402
+iYh8dOjhhpqoIoooqqgSy47B5NJjMMgg4x90RBZpJJHQINdVSmBZRBhr3wUnHE2GNUZRkt2Jltxq
+YkEZZYACUsnXk9RheZpcjrXkXWEE/iblgD0RNx1JZnrF5EphScdTfPT1mRIAxQUVlG1bqqenbwDC
+ppeYgQIlUWBoHjVkb1/mJSZbFB34mHUuTDRYUkO+h5hiU/IlHZmOSmSdYIJmOiRMh1FtiNCTFkq0
+4AdpZpqRZ68d+ZxxQXl166cgESQqbGsVSKtjdvJxK5eEabQdXDCBGeZwypYXGlbPHmWZTEzhhVay
+hwIrH2kL7qfrbOyFahOffvaJUa1dSYbrulXiJeWi49H2mFekSSbrwAQnBNC/gAA7
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/REW.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////9///9///9///9///9///9///
+9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e3t7e
+3t7e3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7Ozs7O
+zs7Ozs7OzsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29vb29
+tb29tb29tb29tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1rbW1
+rbW1rbW1ra2tra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpa2tpaWl
+paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJyc
+nJycnJycnJycnJyclJyclJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSU
+jJSUjJSUjJSUjJSUjJSUjJSUjIyMhIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SEe4SEe4SE
+e4SEe4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nza3Nza2tr
+Y2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpaUlpa
+UlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpKQkJC
+OUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhT4ok+XOg67SPzRReCPFxdfaHzxoWPHfxBCigzpkeO/jRh/qKRI8ZrADxInrlT5rwsA
+ijFz5ryps6fNlCy74OzzTSAEoSs1ZuTI0eOHkSKdMt14ceZEnX2yvmOY1WFElUgzLtXo9ClUkhA6
+Mv2gVCnYHy7/wYwoVGbNmxsH9gQwUq9OABiB1pUYFybOpBfvsnUKgWdMviU7OpZ4kyVOiQ63gkT8
+g+1aj2dJSvXsdublLl679tHcMGvPt2M3ljUbejbK0nC5er1qOrDsph1Dp418WyzYLnFbxzz+467v
+xS/88o06XHrgqkF/FJVLt67K6Db9+v8ML3A85etvY557yRuxYsmnd4qc/Ffw6T7rQXr/nlFxU7Tz
+/QCZWqRhdFNlg2GWVX5HJeXbZ8HVNtxabQl2FWqodaWZJqJooskkH/ZRx4gO1WGFFV1Y8YOKLD70
+EEQQTQIiiB6KYqMqOOYSSy48BhMMMsgIBMCQRBZp5JFIJqlkktDo1lVOlvGXkVr/pXXWUyVNlRJQ
+TZ7kWnftVfUbcBGOVNZU2JnWZWvdRXkdWRBaaSaWVHpm3Ftr7rYcTTaJCedHQkIV2UCAoecdclwt
+J1NzP/0pnk3UQfAoXmkGVRhdUTJa6KPySVqeT5SmF9N2MMkUFngVmZdTTar2aV9OpJp/6qBz9O3V
+WHx/MZeTQ/kZFpaYzi32Qa02lUVsZYdhhlqvmfoWLHABUkbcRo7xdNlu+L2UqZ9DkknbSABMW6GA
+omK4rLZIbfkntHJaSSeFbZl2X1cM/voghGWiRSCauCG1a4araesnSsJiKehw0KFk3IUKqqbZQhBH
+LDFBAP0LCAA7
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/BLANK.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////9///9///9///9///9///9///
+9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e3t7e
+3t7e3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7Ozs7O
+zs7Ozs7OzsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29vb29
+tb29tb29tb29tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1rbW1
+rbW1rbW1ra2tra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpa2tpaWl
+paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJycnJyc
+nJycnJycnJycnJyclJyclJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUjJSU
+jJSUjJSUjJSUjJSUjJSUjJSUjIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SEe4SEe4SEe4SE
+e4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nza2trY2tr
+Y2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpaUlpa
+UlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpKQkJC
+OUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhT4gk+XOg67SPzR5YfFFz9eaNT4oaNHCCBDgvT4ouNGjBYtVuxyTeAHiRUppsR48gPH
+jhA+iMyZk6TNjSlVypTI55tACBMvZtxo0yPOnSNNlgSKUihMmHyyvmOY1WFEoRdp1nQKdWTPqT+X
+pqzY8t/LiBNjZgyL9qPOnU6bnpxrVWLbl3KV1rx5F29Pkz818pVJEWuXrf8gBBXLseRHqE6n7g06
+FGtXrVyzXk0a8yTTvGWjZjYdtG1Dr3E5U677FLNP1opVsgx9lbHgyk0LG86ceC7KlT+Muv2a9Ldl
+yzpri7ydlubaxl3OuSQteCniy5jPJv+2XnUlVu2Rmys2HZxneMSsF5snmhU90u7ALecE8B7++vLY
+0dcVZKFoIsmBB/JRx4ILdmHFgz9YEWGED9bRhYIQScKHJAZq4mEqqYQCYiqxxAIMLigiAwwyAgHg
+4oswxijjjDTWSOMzoXXVW2Ao3XSTWcNJVdxiOP7z2oWjIefcT6jhRdx6nFlU5GtwKWmcd7S5FxJO
+JGmm1nVTwsYdfsCBN91tex03lGtV+mZcflwK556QVC22pktwgfXmYGZu+SR5112l3Atx8biUZnaV
+FZ1e1VXVmUTKAdbYTHtCF12QaKUZqGPofaAbmUwmiqlegH5K1IWdxsQjU5ZqadafV/ZJhaRXnerJ
+F5yXTieeZmJteiqqR8lFXqZkFbbod5peh91ntZZ2aJm5bnkYr1/6GtGAR1HKp6jSEldcbo969Rlk
+C5Vr7rkEAfQvIAA7
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/NEXT.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////9///9///9///9///9///9///
+9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e3t7e3t7e
+3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O
+zsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29tb29tb29tb29
+tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1rbW1rbW1rbW1ra2t
+ra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpaWlpaWlpaWlpaWlpaWl
+paWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJycnJycnJycnJycnJyclJyc
+lJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUjJSUjJSUjJSUjJSUjJSU
+jJSUjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SE
+e4SEe4SEe4SEe4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nz
+a2trY2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpa
+UlpaUlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpK
+QkJCOUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhToAo8WOA61SOyhpYdFFz1caNTooaNHCCBDgvToouNGjBYtVtSCTaAHiStTZsy40cM/
+mDhzVroJwEPJkzNVUqSoBQ84gRAqpsR48qdHACJDevTpAQAAjUGF5pSIB887hl0dRhR6kenJqR6i
+SoVgkipWrEJb/nsZcaLSmRtvwtypFgJPkj43Zl0pUe7LoUtp1nShF6dVqB55Ns06FGZXLV//QVhq
+1ulHtWh/CkapknBRsWEzN7yck2xTjmj7jgw9OaXc1UXtysS7eKrsqaJHky4Mtm7Mi4r/7aSaVi1P
+tm4D49Xa4+jcsRPLKma8VSJfkH/djv+WaRqdS5iI3y5u3P2x5MBMd5sual7zcfWebUp8LDJtx79v
+DUYUV13Vl1RiNTHnH2jQtTUeStlxdVpXmVVCiiOVOKJhV3BA9NAUWkzRwxQikggiHA9BBIcjeGCI
+ISkwshLjLDQKo4uNyQgTjUCP9ejjj0AGKeSQAOz4z2ph4YQYcjSZVFJzzfXXIEeCZWUkbsbphtxi
+T37WH3DSkSbTlUmid1d8VCrIVlQdTSkaTeT1QGZuEcrE1JH5RQneXIBNBmFltxm3JJrcabEcdFGF
+51SAYq5kWF1kcaYRe95pJhKA8DGpFUzWuWDXmWVxRKlOmr33ZnybSmTdS8fZ2WSh3cFyBMB+8AWY
+am71HZZeqE6Nup9VbCmKJnU44ZFrZXaeVRJ7/Pn3nxZXDXtrRMa6tCSTVC7LH2jPRmtrZZaJdaxS
+hOa5ppRgAiUmuBNWa5+rTanZV5/qypdTWF5ZG1RvTyLKbXTCkWdZu/kuZPDBCBcE0L+AADs=
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/FF.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////9///9///9///9///9///9///
+9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e3t7e3t7e
+3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O
+zsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29tb29tb29tb29
+tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1rbW1rbW1rbW1ra2t
+ra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpa2tpaWlpaWlpaWlpaWlpaWl
+paWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJycnJycnJycnJycnJyclJyc
+lJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUjJSUjJSUjJSUjJSUjJSU
+jJSUjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMhIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SE
+e4SEe4SEe4SEe4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nz
+a3Nza2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpa
+UlpaUlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpK
+QkJCOUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhToAo+WOA61SOyh5V+PHi4wutjowoNHD/8giBw58qMLhhwvqtRCMZtADxInqrz4L6bN
+mwAA3NypRWfPjBdZCtWCB5xACCxVbtS40UNHjxA8kBT50WPHlECDDo2Jp+s7hl0dRgyqNCPHplWn
+lozqtO3SpWRd/oMZcSjNnZXmVq15M2/Vkz8xrqQoUS5Mwkox8pWYE4BUqSIX98zpNGVNAGQJS3T4
+NWTiHpWvfow6tarbs4IzcyUaFk/nhl13Zj7L0TRktWz/0p4pFzbRiUkTn207Gvff0G+zFgZbV2sP
+vnmbipYKPSTpv5fNphbaw+jcutwV8/+MmReCZLxzs6emqBndS+AzM56P2Tjy+MYb1ZO1icd9yPCC
+5ddYcbeZN6BboT3X035cdeUfUmVpZFVaaj123FvbAfdba51VUkollTgSoiNxQFSiFlOgOEUPK07h
+4kNElYiHIzOK6GElrJSiIyuzzLLLj7sII4wyygjU2JFIJqnkkkw2CUA0zIVlE3ufoYUWVRXmJh1c
+WUH5j2/gwXeRWVuaVuGF2s10kZewgUdlgBJO91hpFlZWmUYzscSmWFPSlFeA0n30T3kkHZddmtxp
+0VtzMilI3pfEUWcToVZ1dBmcgyn6EqMzzSeRX/bx5Fd+CyqnmRbewSRTcICN96irr2KGZqpNqa5a
+lqf05YQrY7ouiBh/Wvh3WHABzlffSMZSxtGlzm1GlLBvAsrXgQWax6tjyImH2VZ89vdStIBi+xRU
+UwHAlmhYuZATg789+21SQA03LrmFUnUahllptVlYDxJLZplznmknvnmeKpZX3wJa27ikGWdSpXiu
+dFNrCC9k8cUYFwTQv4AAOw==
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/INDEX.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////////9///9///9///9///9///
+9///9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e
+3t7e3t7e3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7O
+zs7Ozs7Ozs7OzsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29
+vb29tb29tb29tb29tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1
+rbW1rbW1rbW1ra2tra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpaWl
+paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJycnJyc
+nJycnJycnJycnJyclJyclJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUjJSU
+jJSUjJSUjJSUjJSUjJSUjJSUjIyMhIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SEe4SEe4SE
+e4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nza3Nza2tr
+Y2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpa
+UlpaUlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpK
+QkJCOUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhQIwwsfLxAhAvHyzwsAADCAYIQBYqFCEDBCZsw4cSI2gSAkegHCkmXFixxDgpgJIoLN
+mzZpgtwpEgjJiSsjekEnMMLKliNh/AMBYGfNmjifRpgZE+RInyyDAuXDlSvRfzC4OnyoUiDLkD5l
+OpWKc+pUnTF7/jy5lKyXKy2BFBRZlW1UnVT5Xs0KlG7KvGfTVuXoty1gq3IJB43I5x3Ks0mrXrzY
+drPnz6A3A4XYtatlsKWFEsac9DHUtjcBC0bLkm7Yrir1WqSoUSTVmW5fx/4NOS1iL7YdSizJEiaM
+i1aZhp7+OankieBQRlytdDdYjDTdwv9+SjMu1p+TIWZfWvLoyIoU/0GfCV+o/fsRAeRN7/CrUaTn
+CTQfeeO99RtfWElmn1dFJZbZUk0VdZNHCbVHWWmniaKJJpJwyIckddTBR4h3XWEiEHilCFGIItYh
+CR8bcrihKKmIQmMqscQSTC48JpNLMgJSJ+SQRAoZDUMvimXXSmYhNVt4wuUEV1yDsXQkamLZF+R5
+gjkFA2xSBlZcgitdeduSTELEkH4y9QVmcGL2lGBJZj5kV0kvKfWcTPXh5ydEGyXWHhC2oamVoGox
+FqVjxEXWklbJqXbUSxsxpihwYB5Y3E8WerEeCGQB1RJ8Qa4lXmwG8uToo1l5ypBWR/l39BJFz9FE
+IUK0HUXZUNqJ6uBnTkVQ5HSsTvbQVyD4yiVBl75ZnqrnFXshH8hyl9Z3HMH0ZqpUVjnotP7F+mCt
+Op2a01uLXUUSrMqRRm1R4iq2U6k29fknfgCkZ6dpDarr26WLSqnobKsJtS9Xmpx268IMJwTQv4AA
+Ow==
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/HELP.GIF
+
+R0lGODlhOAAgAPQAAP///+/v797e3s7Ozr29vbW1ra2traWlpaWlnJycnJSUjIyMhISEe3t7c3Nz
+a2trY2NjWlpaUlJSSkpKQkJCOTk5MTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAA
+OAAgAEQF/+AljmRpnmiqikNiIK4hEwZhD8QgyrwBCIFLT3YQCAbGgRJns9UME5GA52zilsIhDxAI
+arfKZvVpSFBEgdkttzwa34fvFwDIicm9hN7C0rtiVTdXS0gnXYdASW5hYVVRF1MxMzVrBDtymERH
+S3ZjMo9TlFZsSkdZWlwCp0MAV02UeQZ8FwFig6VIb4e7b4uEYp4yfn6zLXpagYRtvUC7vMzKTDaP
+xmWTwLcjmQeQb0jKbK9QfZJPtjmXWtpaRd+MneZnkIBqa0qrW3Rc+D2trtJ4KkhRQ+lfIUxcvMip
+4ypYGYG06jEi5AafvgBAAKBiApAGDz8Q09hjs8gIxoQBAP/EYUVn4iuPH4fNYrBAgU2bCRDo1Gmg
+gE8CBYAC9YmgjM4ECpDWXMC0QQMGThs4cADhgdUIECKI0Me1q9evYMOKBSCBnJ8eNM6R3GQSozO3
+3txxbFL2QrVy1+zdS8eDG6Je7joBq2usXNqROizSYYcxSeBGVQj/oXLYDg5+PrpgbrWJExNz4+wa
+FmVZR6ZMPzwLThtagKRApTHnQ/3vZQ95AyaRziaHlmaEg+7ANCAvlMdRg2RnVjinIeuPBiAKcFKw
+9KaVqH7PaSVY9x/psGy1yYW9H5DNDG0Ls5ZAOuxOuNyUN3CiH8OOsR6iEWWwpC6VqLXk3GEx6eFe
+dcq4YVIjM4d85Zk0wcRADBrIjdeLW7w0pkhn4URYhkwrhCjiiCaAcIUAOw==
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/HTML/APS33DTE_html/PREV.GIF
+
+R0lGODlhOAAgAPcAAP//////////////////////////////////////9///9///9///9///9///
+9///9///9+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+fn5+fn5+fn5+fn5+fn5+fn5+fn597e3t7e
+3t7e3t7e3t7e3t7e3t7e3t7e3tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1s7Ozs7Ozs7Ozs7Ozs7O
+zs7Ozs7Ozs7OzsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxr29vb29vb29vb29vb29vb29vb29vb29
+vb29tb29tb29tb29tb29tb29tb29tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1rbW1rbW1rbW1
+rbW1rbW1rbW1ra2tra2tra2tra2tra2tra2tra2tra2tra2tpa2tpa2tpa2tpa2tpa2tpa2tpaWl
+paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlnKWlnKWlnKWlnKWlnKWlnKWlnKWlnJycnJycnJycnJyc
+nJycnJycnJycnJyclJyclJyclJyclJyclJyclJyclJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSU
+jJSUjJSUjJSUjJSUjJSUjJSUjIyMhIyMhIyMhIyMhIyMhIyMhIyMhIyMhISEe4SEe4SEe4SEe4SE
+e4SEe4SEe4SEe3t7c3t7c3t7c3t7c3t7c3t7c3t7c3Nza3Nza3Nza3Nza3Nza3Nza3Nza3Nza2tr
+Y2trY2trY2trY2trY2trY2trY2trY2NjWmNjWmNjWmNjWmNjWmNjWmNjWlpaUlpaUlpaUlpaUlpa
+UlpaUlpaUlpaUlJSSlJSSlJSSlJSSlJSSlJSSlJSSkpKQkpKQkpKQkpKQkpKQkpKQkpKQkpKQkJC
+OUJCOUJCOUJCOUJCOUJCOUJCOUJCOTk5MTk5MTk5MTk5MTk5MTk5MTk5MTk5MTExKTExKTExKTEx
+KTExKTExKTExKTExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAOAAgAEcI/wD/CRxI
+sKDBgwgTKhQIo4+XOg69SATiBYhFGEBgaNQIoqPHCCBDgvQIo+NGjBYtVvRyTSAIiStTZsy4EcQ/
+iTdh6tQJAETJkzNVUqTopc83gREqpsR48qdHAABEjiTpE4DGoEJ3SuzT5x1Drg4jCr3I9KTHjlJD
+gohg0qfPsikrtvz3MuJEpTM33uz5McJAnlSBohwKc+7LoUtp1oSxl21IAEQBC5a5cqtDr/8iLC3L
+sSTatVLP/pyssnLRsGAxN+SqdWxTjmdBp2Ub+7XMuauL3pWZd/HZ2bTbNqUZl+VXuzEvKt7rVnbI
+gVGFv82bFchRumInklXM2Avfv1q9C//fiJWwxHMuYSK+arZ7VMjhYVp9y5S36aLoMydn39kjc+Dw
+icceVveBlV9SidXU3FrOqUVbZwOipN1Wp3GFmSYYTqLhJH3U4aGHMF1xBRAjlvjQQxDVwaGGGGoi
+iiiqvKhKLDQGk4uNyAQDjUBQ9ejjj0AGKeSQQ+74z2pg6YSYcjSZ5NlIaTHoJH1MAmFkbsjtptxi
+nvUlUm3TDSbTlUmqh1d9/XXp2JdSvhWmmBWRqduEMjHF0IIN+iUafQMSRhFuyC2JpntPouWXQBLx
+5VSElP3pkl1jbabRXk+CJxmV5d13HQx3nUkWR3tZGt58o1GXFUzXvZRcnU26F1l8ApJvZh6F+R22
+3qdO/RdBgFqRimZ1OvVRq5+S9tdYWrx6x+ipFOLn0pJMQmiTd7OdBZlV5A1WYFjDKjWoUx85x2Bw
+o/UZV2RgCYsUXr3151O15DppanHBpvZsUO2FG2W8pV5FGUyo2bvQwAQXXBBA/wICADs=
+
+------=_NextPart_000_000B_01C7C337.2DE44260
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://h30097.www3.hp.com/includes/s_code.js
+
+/************************** PLUGINS SECTION *************************/
+/* You may insert any plugins you wish to use here.                 */
+/*
+ * Plugin: Get Query String CGI Variable Value
+ */
+function s_vp_getCGI(vs,k)
+	{var v=3D'';if(k&&s_wd.location.search){var q=3Ds_wd.location.search,
+	qq=3Dq.indexOf('?');q=3Dqq<0?q:q.substring(qq+1);v=3Ds_pt(q,'&',s_cgif,
+	k)}s_vpr(vs,v)}function s_cgif(t,k){if(t){var te=3Dt.indexOf('=3D'),
+	sk=3Dte<0?t:t.substring(0,te),sv=3Dte<0?'True':t.substring(te+1);if(
+	sk=3D=3Dk)return s_epa(sv)}return ''}
+/*
+ * Plugin: Get Plugin Modified Value
+ */
+function s_vp_getValue(vs)
+	{var k=3Dvs.substring(0,2)=3D=3D's_'?vs.substring(2):vs;return s_wd[
+	's_vpm_'+k]?s_wd['s_vpv_'+k]:s_wd[vs]}
+/*
+ * Plugin Utilities v2.0 (Required For All Plugins)
+ */
+function s_vpr(vs,v){if(s_wd[vs])s_wd[vs]=3Ds_wd[vs];else s_wd[vs]=3D''
+if(vs.substring(0,2) =3D=3D =
+'s_')vs=3Dvs.substring(2);s_wd['s_vpv_'+vs]=3Dv
+s_wd['s_vpm_'+vs]=3D1}function s_dt(tz,t){var d=3Dnew =
+Date;if(t)d.setTime(
+t);d=3Dnew Date(d.getTime()+(d.getTimezoneOffset()*60*1000))
+return new Date(Math.floor(d.getTime()+(tz*60*60*1000)))}
+function s_vh_gt(k,v){var =
+vh=3D'|'+s_c_r('s_vh_'+k),vi=3Dvh.indexOf('|'+v
++'=3D'),ti=3Dvi<0?vi:vi+2+v.length,pi=3Dvh.indexOf('|',ti),t=3Dti<0?'':
+vh.substring(ti,pi<0?vh.length:pi);return t}function s_vh_gl(k){var
+vh=3Ds_c_r('s_vh_'+k),e=3Dvh?vh.indexOf('=3D'):0;return =
+vh?(vh.substring(0,
+e?e:vh.length)):''}function s_vh_s(k,v){if(k&&v){var e=3Dnew Date,st=3D
+e.getTime(),y=3De.getYear(),c=3D's_vh_'+k,vh=3D'|'+s_c_r(c)+'|',t=3Ds_vh_=
+gt(k,
+v);e.setYear((y<1900?y+1900:y)+5);if(t)vh=3Ds_rep(vh,'|'+v+'=3D'+t+'|','|=
+'
+);if(vh.substring(0,1)=3D=3D'|')vh=3Dvh.substring(1);if(vh.substring(
+vh.length-1,vh.length)=3D=3D'|')vh=3Dvh.substring(0,vh.length-1);vh=3Dv
++'=3D[PCC]'+(vh?'|'+vh:'');s_c_w(c,vh,e);if(s_vh_gt(k,v)!=3D'[PCC]')
+return 0;vh=3Ds_rep(vh,'[PCC]',st);s_c_w(c,vh,e)}return 1}
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var =
+s_un,s_ios=3D0,s_csss=3D0,s_q=3D'',s_code=3D'',code=3D'',s_bcr=3D0,s_lnk=3D=
+'',
+s_eo=3D'',s_vb,s_tfs=3D0,s_etfs=3D0,s_wd=3Dwindow,s_ssl=3D(
+s_wd.location.protocol.toLowerCase().indexOf('https')>=3D0),s_d=3D
+s_wd.document,s_n=3Dnavigator,s_u=3Ds_n.userAgent,s_apn=3Ds_n.appName,s_v=
+=3D
+s_n.appVersion,s_apv,s_i,s_ie=3Ds_v.indexOf('MSIE =
+'),s_ns6=3Ds_u.indexOf(
+'Netscape6/');if(s_v.indexOf('Opera')>=3D0||s_u.indexOf('Opera')>=3D0)
+s_apn=3D'Opera';var s_isie=3D(s_apn=3D=3D'Microsoft Internet Explorer'),
+s_isns=3D(s_apn=3D=3D'Netscape'),s_isopera=3D(s_apn=3D=3D'Opera'),s_ismac=
+=3D(
+s_u.indexOf('Mac')>=3D0);if(s_ie>0){s_apv=3DparseInt(s_i=3Ds_v.substring(=
+
+s_ie+5));if(s_apv>3)s_apv=3DparseFloat(s_i)}else if(s_ns6>0)s_apv=3D
+parseFloat(s_u.substring(s_ns6+10));else s_apv=3DparseFloat(s_v)
+function s_co(o){if(!o) return o;var n=3Dnew Object;for(x in =
+o)n[x]=3Do[x]
+return n}function s_num(x){var s=3Dx.toString(),g=3D'0123456789',p,d
+for(p=3D0;p<s.length;p++){d=3Ds.substring(p,p+1);if(g.indexOf(d)<0)
+return 0}return 1}function s_rep(s,o,n){var c=3Ds.indexOf(o);while(s&&
+c>=3D0){s=3Ds.substring(0,c)+n+s.substring(c+o.length,s.length);c=3D
+s.indexOf(o)}return s}function s_ape(s){return s_rep(escape(s),'+',
+'%2B')}function s_epa(s){return unescape(s_rep(s,'+',' '))}
+function s_pt(s,d,f,a){var =
+t=3Ds,x=3D0,y,r;while(t){y=3Dt.indexOf(d);y=3Dy<0?
+t.length:y;t=3Dt.substring(0,y);r=3Df(t,a);if(r)return =
+r;x+=3Dy+d.length;t=3D
+s.substring(x,s.length);t=3Dx<s.length?t:''}return ''}function s_fl(s,l)
+{return (s+'').substring(0,l)}var s_c_d=3D'';function s_c_gdf(t,a){if(
+!s_num(t))return 1;return 0}function s_c_gd(){var d=3D
+s_wd.location.hostname,p;if(d&&!s_c_d){p=3Dd.indexOf('.');while(p>=3D0&&
+d.substring(p+1).indexOf('.')>=3D0){d=3Dd.substring(p+1);p=3Dd.indexOf('.=
+')}
+s_c_d=3Dd.indexOf('.')>=3D0&&s_pt(d,'.',s_c_gdf,0)?'.'+d:''}return =
+s_c_d}
+function s_c_r(k){k=3Ds_ape(k);var c=3D' '+s_d.cookie,s=3Dc.indexOf(' =
+'+k
++'=3D'),e=3Ds<0?s:c.indexOf(';',s),v=3Ds<0?'':s_epa(c.substring(s+2
++k.length,e<0?c.length:e));return v}function s_c_w(k,v,e){var d=3D
+s_c_gd();if(k)s_d.cookie=3Dk+'=3D'+s_ape(v)+'; path=3D/;'+(e?' =
+expires=3D'
++e.toGMTString()+';':'')+(d?' domain=3D'+d+';':'');return =
+s_c_r(k)=3D=3Dv}
+function s_cet(f,a,et,oe,fb){var r,d=3D0
+/*@cc_on@if(@_jscript_version>=3D5){try{return f(a)}catch(e){return =
+et(e)}d=3D1}@end@*/
+if(!d){if(s_ismac&&s_u.indexOf('MSIE 4')>=3D0)return fb(a);else{
+s_wd.s_oe=3Ds_wd.onerror;s_wd.onerror=3Doe;r=3Df(a);s_wd.onerror=3Ds_wd.s=
+_oe
+return r}}}function s_gtfset(e){return s_tfs}function s_gtfsoe(e){
+s_wd.onerror=3Ds_wd.s_oe;s_etfs=3D1;var =
+code=3Ds_gs(s_un);if(code)s_d.write(
+code);s_etfs=3D0;return true}function s_gtfsfb(a){return s_wd}
+function s_gtfsf(w){var p=3Dw.parent,l=3Dw.location;s_tfs=3Dw;if(p&&
+p.location!=3Dl&&p.location.host=3D=3Dl.host){s_tfs=3Dp;return =
+s_gtfsf(s_tfs)}
+return s_tfs}function =
+s_gtfs(){if(!s_tfs){s_tfs=3Ds_wd;if(!s_etfs)s_tfs=3D
+s_cet(s_gtfsf,s_tfs,s_gtfset,s_gtfsoe,s_gtfsfb)}return s_tfs}
+function s_ca(un){un=3Dun.toLowerCase()
+var =
+ci=3Dun.indexOf(','),fun=3Dci<0?un:un.substring(0,ci),imn=3D's_i_'+fun
+if(!s_ios&&s_d.images&&s_apv>=3D3&&!s_isopera&&(s_ns6<0||s_apv>=3D6.1))
+s_ios=3D1;if(!s_csss&&s_ios&&!s_d.images[imn]){s_d.write('<im'
++'g name=3D"'+imn+'" height=3D1 width=3D1 =
+border=3D0>');if(!s_d.images[imn])
+s_ios=3D0}}function s_it(un){s_ca(un)}function s_mr(un,sess,q){un=3D
+un.toLowerCase();var =
+ci=3Dun.indexOf(','),fun=3Dci<0?un:un.substring(0,ci
+),imn=3D's_i_'+fun,unc=3Ds_rep(fun,'_','-'),rs=3D'http'+(s_ssl?'s':'')
++'://'+(s_ssl?'102':unc)+'.112.2O7.net/b/ss/'+un+'/'+(s_csss?0:1)+'/G.0-x=
+P-R/'
++sess+'?'+'[AQB]&ndh=3D1'+(q?q:'')+(s_q?s_q:'')+'&[AQE]'
+if(s_ios)s_d.images[imn].src=3Drs;if(s_csss||s_ios){if(rs.indexOf('&pe=3D=
+'
+)>=3D0){var b=3Dnew Date,e=3Dnew =
+Date;while(e.getTime()-b.getTime()<500)e=3D
+new Date}return ''}return '<im'+'g sr'+'c=3D"'+rs
++'" width=3D1 height=3D1 border=3D0>'}function s_gg(v){return =
+s_wd['s_'+v]}
+var s_qav=3D'';function s_havf(t,a){var
+b=3Dt.substring(0,4),s=3Dt.substring(4),n=3DparseInt(s),k=3D's_g_'+t,m=3D=
+
+'s_vpm_'+t,q=3Dt;if(!s_wd['s_'+t])s_wd['s_'+t]=3D'';s_wd[k]=3Ds_wd[m]?s_w=
+d[
+'s_vpv_'+t]:s_gg(t);s_wd[m]=3D0;if(t=3D=3D'charSet')q=3D'ce';else =
+if(t=3D=3D
+'cookieDomainPeriods')q=3D'cdp';else if(t=3D=3D'channel')q=3D'ch';else =
+if(t=3D=3D
+'campaign')q=3D'v0';else if(s_num(s)){if(b=3D=3D'prop')q=3D'c'+n;else =
+if(b=3D=3D
+'eVar')q=3D'v'+n}if(s_wd[k]&&t!=3D'linkName'&&t!=3D'linkType')s_qav+=3D'&=
+'+q
++'=3D'+s_ape(s_wd[k]);return ''}function s_hav(){var =
+n,av=3D'charSet,cook'
++'ieDomainPeriods,pageName,channel,server,pageType,campaign,state,zip'
++',events,products,purchaseID,eVarCFG,linkName,linkType'
+for(n=3D1;n<26;n++)av+=3D',prop'+n+',eVar'+n;s_qav=3D'';s_pt(av,',',s_hav=
+f,0
+);return s_qav}function s_lnf(t,h){t=3Dt?t.toLowerCase():'';h=3Dh?
+h.toLowerCase():'';var te=3Dt.indexOf('=3D');if(t&&te>0&&h.indexOf(
+t.substring(te+1))>=3D0)return t.substring(0,te);return ''}
+function s_ln(h){if(s_gg('linkNames'))return s_pt(s_gg('linkNames'),
+',',s_lnf,h);return ''}function =
+s_ltdf(t,h){t=3Dt?t.toLowerCase():'';h=3D
+h?h.toLowerCase():'';var =
+qi=3Dh.indexOf('?');h=3Dqi>=3D0?h.substring(0,qi):h
+if(t&&h.substring(h.length-(t.length+1))=3D=3D'.'+t)return 1;return 0}
+function =
+s_ltef(t,h){t=3Dt?t.toLowerCase():'';h=3Dh?h.toLowerCase():'';if(
+t&&h.indexOf(t)>=3D0)return 1;return 0}function s_lt(h){var lft=3Ds_gg(
+'linkDownloadFileTypes'),lif=3Ds_gg('linkInternalFilters')?s_gg(
+'linkInternalFilters'):s_wd.location.hostname;h=3Dh.toLowerCase();if(
+s_gg('trackDownloadLinks')&&lft&&s_pt(lft,',',s_ltdf,h))return 'd';if(
+s_gg('trackExternalLinks')&&lif&&!s_pt(lif.toLowerCase(),',',s_ltef,h)
+)return 'e';return ''}function s_lc(e){s_lnk=3Ds_co(this);s_gs('')
+s_lnk=3D'';if(this.s_oc)return this.s_oc(e);return true}function s_ls(){
+var l,ln,oc;for(ln=3D0;ln<s_d.links.length;ln++){l=3Ds_d.links[ln];oc=3D
+l.onclick?l.onclick.toString():'';if(oc.indexOf("s_gs(")<0&&
+oc.indexOf("s_lc(")<0){l.s_oc=3Dl.onclick;l.onclick=3Ds_lc}}}
+function s_bc(e){s_eo=3De.srcElement?e.srcElement:e.target;s_gs('')
+s_eo=3D''}function s_ot(o){var x=3Do.type,y=3Do.tagName;return (x&&
+x.toUpperCase?x:y&&y.toUpperCase?y:o.href?'A':'').toUpperCase()}
+function s_oid(o){var t=3Ds_ot(o),p=3D
+o.protocol,c=3Do.onclick,n=3D'',x=3D0;if(!o.s_oid){if(o.href&&(t=3D=3D'A'=
+||t=3D=3D
+'AREA')&&(!c||!p||p.toLowerCase().indexOf('javascript')<0))n=3Do.href
+else if(c){n=3Ds_rep(s_rep(s_rep(s_rep(c.toString(),"\r",''),"\n",''),
+"\t",''),' ','');x=3D2}else =
+if(o.value&&(t=3D=3D'INPUT'||t=3D=3D'SUBMIT')){n=3D
+o.value;x=3D3}else =
+if(o.src&&t=3D=3D'IMAGE')n=3Do.src;if(n){o.s_oid=3Ds_fl(n,
+100);o.s_oidt=3Dx}}return o.s_oid}
+function s_rqf(t,un){var e=3Dt.indexOf('=3D'),u=3De>=3D0?','
++t.substring(0,e)+',':'';return u&&u.indexOf(','+un+',')>=3D0?s_epa(
+t.substring(e+1)):''}function s_rq(un){var =
+c=3Dun.indexOf(','),v=3Ds_c_r(
+'s_sq'),q=3D'';if(c<0)return s_pt(v,'&',s_rqf,un);return s_pt(un,',',
+s_rq,0)}var s_sqq,s_squ;function s_sqp(t,a){var =
+e=3Dt.indexOf('=3D'),q=3De<
+0?'':s_epa(t.substring(e+1));s_sqq[q]=3D'';if(e>=3D0)s_pt(t.substring(0,e=
+
+),',',s_sqs,q);return 0}function s_sqs(un,q){s_squ[un]=3Dq;return 0}
+function s_sq(un,q){s_sqq=3Dnew Object;s_squ=3Dnew =
+Object;s_sqq[q]=3D'';var
+k=3D's_sq',v=3Ds_c_r(k),x,c=3D0;s_pt(v,'&',s_sqp,0);s_pt(un,',',s_sqs,q);=
+v=3D
+'';for(x in s_squ)s_sqq[s_squ[x]]+=3D(s_sqq[s_squ[x]]?',':'')+x
+for(x in =
+s_sqq)if(x&&s_sqq[x]&&(x=3D=3Dq||c<2)){v+=3D(v?'&':'')+s_sqq[x]+'=3D'
++s_ape(x);c++}return s_c_w(k,v,0)}function s_wdl(e){s_wd.s_wd_l=3D1;var
+r=3Dtrue;if(s_wd.s_ol)r=3Ds_wd.s_ol(e);if(s_wd.s_ls)s_wd.s_ls();return =
+r}
+function s_wds(un){un=3Dun.toLowerCase();s_wd.s_wd_l=3D1;if(s_apv>3&&(
+!s_isie||!s_ismac||s_apv>=3D5)){s_wd.s_wd_l=3D0;if(!s_wd.s_unl)s_wd.s_unl=
+=3D
+new Array;s_wd.s_unl[s_wd.s_unl.length]=3Dun;if(s_d.body&&
+s_d.body.attachEvent){if(!s_wd.s_bcr&&s_d.body.attachEvent('onclick',
+s_bc))s_wd.s_bcr=3D1}else if(s_d.body&&s_d.body.addEventListener){if(
+!s_wd.s_bcr&&s_d.body.addEventListener('click',s_bc,false))s_wd.s_bcr=3D
+1}else{var ol=3Ds_wd.onload?s_wd.onload.toString():'';if(ol.indexOf(
+"s_wdl(")<0){s_wd.s_ol=3Ds_wd.onload;s_wd.onload=3Ds_wdl}}}}function =
+s_vs(
+un,x){var =
+s=3Ds_gg('visitorSampling'),g=3Ds_gg('visitorSamplingGroup'),k=3D
+'s_vsn_'+un+(g?'_'+g:''),n=3Ds_c_r(k),e=3Dnew Date,y=3De.getYear()
+e.setYear(y+10+(y<1900?1900:0));if(s){s*=3D100;if(!n){if(!s_c_w(k,x,e))
+return 0;n=3Dx}if(n%10000>s)return 0}return 1}
+function s_dyasmf(t,m){if(t&&m&&m.indexOf(t)>=3D0)return 1;return 0}
+function s_dyasf(t,m){var =
+i=3Dt?t.indexOf('=3D'):-1,un,s;if(i>=3D0&&m){var
+un=3Dt.substring(0,i),s=3Dt.substring(i+1);if(s_pt(s,',',s_dyasmf,m))
+return un}return 0}function s_dyas(un,l,m){if(!m)m=3Ds_wd.location.host
+if(!m.toLowerCase)m=3Dm.toString();l=3Dl.toLowerCase();m=3Dm.toLowerCase(=
+)
+var nun=3Ds_pt(l,';',s_dyasf,m);if(nun)return nun;return un}
+function s_gs(un){un=3Dun.toLowerCase();
+var dyas=3Ds_gg('dynamicAccountSelection'),dyal=3Ds_gg(
+'dynamicAccountList'),dyam=3Ds_gg('dynamicAccountMatch');if(dyas&&dyal)
+un=3Ds_dyas(un,dyal,dyam);
+s_un=3Dun;var trk=3D1,tm=3Dnew Date,sed=3DMath&&Math.random?
+Math.floor(Math.random()*10000000000000):tm.getTime(),sess=3D's'
++Math.floor(tm.getTime()/10800000)%10+sed,yr=3Dtm.getYear(),t,q=3D'',qs=3D=
+''
+yr=3Dyr<1900?yr+1900:yr;t=3Dtm.getDate()+'/'+tm.getMonth()+'/'+yr+' '
++tm.getHours()+':'+tm.getMinutes()+':'+tm.getSeconds()+' '+tm.getDay()
++' '+tm.getTimezoneOffset();if(!s_q){s_d.cookie=3D's_cc=3Dtrue; =
+path=3D/'
+var =
+tfs=3Ds_gtfs(),tl=3Dtfs.location,r=3Dtfs.document.referrer,s=3D'',c=3D'',=
+v=3D
+'',p=3D'',bw=3D'',bh=3D'',j=3D'1.0',vb=3Ds_vb?s_vb:'',g=3Ds_wd.location,k=
+=3D
+s_d.cookie.indexOf('s_cc=3D')>=3D0?'Y':'N',hp=3D'',ct=3D'';if(s_apv>=3D4)=
+s=3D
+screen.width+'x'+screen.height;if(s_isns||s_isopera){if(s_apv>=3D3){j=3D
+'1.1';var =
+i1=3D0,i2=3D0,sta;while(i2<30&&i1<navigator.plugins.length){sta=3D
+navigator.plugins[i1].name;if(sta.length>100)sta=3Dsta.substring(0,100)
+sta+=3D';';if(p.indexOf(sta)<0)p+=3Dsta;i1++;i2++}v=3Dnavigator.javaEnabl=
+ed(
+)?'Y':'N'}if(s_apv>=3D4){j=3D'1.2';c=3Dscreen.pixelDepth;bw=3Ds_wd.innerW=
+idth
+bh=3Ds_wd.innerHeight}if(s_apv>=3D4.06)j=3D'1.3'}else =
+if(s_isie){if(s_apv<4)
+r=3D'';if(s_apv>=3D4){v=3Dnavigator.javaEnabled()?'Y':'N';j=3D'1.2';c=3D
+screen.colorDepth}if(s_apv>=3D5){bw=3Ds_d.documentElement.offsetWidth;bh=3D=
+
+s_d.documentElement.offsetHeight;j=3D'1.3';if(!s_ismac&&s_d.body){
+s_d.body.addBehavior("#default#homePage");hp=3Ds_d.body.isHomePage(tl)?
+"Y":"N";s_d.body.addBehavior("#default#clientCaps");ct=3D
+s_d.body.connectionType}}}s_q=3D(g?'&g=3D'+s_ape(s_fl(g,255)):'')+(r?'&r=3D=
+'
++s_ape(s_fl(r,255)):'')+(s?'&s=3D'+s_ape(s):'')+(c?'&c=3D'+s_ape(c):'')+(=
+
+j?'&j=3D'+j:'')+(v?'&v=3D'+v:'')+(k?'&k=3D'+k:'')+(bw?'&bw=3D'+bw:'')+(bh=
+?
+'&bh=3D'+bh:'')+(vb?'&vb=3D'+vb:'')+(ct?'&ct=3D'+s_ape(ct):'')+(hp?'&hp=3D=
+'
++hp:'')+(p?'&p=3D'+s_ape(p):'')}if(s_gg('usePlugins'))s_wd.s_doPlugins()
+q+=3D(t?'&t=3D'+s_ape(t):'')+s_hav();if(s_lnk||s_eo){var o=3D(s_eo?s_eo:
+s_lnk),p=3Ds_wd.s_g_pageName,w=3D1,t=3Ds_ot(o),n=3Ds_oid(o),x=3Do.s_oidt,=
+h,l,i,
+oc;if(s_eo&&o=3D=3Ds_eo){while(o&&!n&&t!=3D'BODY'){o=3Do.parentElement?
+o.parentElement:o.parentNode;t=3Ds_ot(o);n=3Ds_oid(o);x=3Do.s_oidt}oc=3D
+o.onclick?o.onclick.toString():'';if(oc.indexOf("s_gs(")>=3D0)return ''}
+h=3Do.href?o.href:'';i=3Dh.indexOf('?');h=3Ds_gg('linkLeaveQueryString')|=
+|i<
+0?h:h.substring(0,i);l=3Ds_gg('linkName')?s_gg('linkName'):s_ln(h);t=3D
+s_gg('linkType')?s_gg('linkType').toLowerCase():s_lt(h);if(t&&(h||l))
+q+=3D'&pe=3Dlnk_'+(t=3D=3D'd'||t=3D=3D'e'?s_ape(t):'o')+(h?'&pev1=3D'+s_a=
+pe(h):'')+(
+l?'&pev2=3D'+s_ape(l):'');else =
+trk=3D0;if(s_gg('trackInlineStats')){if(!p)
+{p=3Ds_wd.location.href;w=3D0}p=3Dp?s_fl(p,255):'';if(s_gg('objectID')){n=
+=3D
+s_gg('objectID');x=3D1}t=3Ds_ot(o);i=3Do.sourceIndex;if(p&&n&&t)qs=3D'&pi=
+d=3D'
++s_ape(p)+(w?'&pidt=3D'+w:'')+'&oid=3D'+s_ape(n)+(x?'&oidt=3D'+x:'')+'&ot=
+=3D'
++s_ape(t)+(i?'&oi=3D'+i:'')}s_wd.linkName=3Ds_wd.s_linkName=3Ds_wd.linkTy=
+pe=3D
+s_wd.s_linkType=3Ds_wd.objectID=3Ds_wd.s_objectID=3Ds_lnk=3Ds_eo=3D''}if(=
+!trk&&
+!qs)return '';var code=3D'';if(un){if(trk&&s_vs(un,sed))code+=3Ds_mr(un,
+sess,q+(qs?qs:s_rq(un)));s_sq(un,trk?'':qs)}else if(s_wd.s_unl)
+for(var =
+unn=3D0;unn<s_wd.s_unl.length;unn++){un=3Ds_wd.s_unl[unn];if(trk&&
+s_vs(un,sed))code+=3Ds_mr(un,sess,q+(qs?qs:s_rq(un)));s_sq(un,trk?'':qs)
+}return code}function s_dc(un){un=3Dun.toLowerCase();
+var dyas=3Ds_gg('dynamicAccountSelection'),dyal=3Ds_gg(
+'dynamicAccountList'),dyam=3Ds_gg('dynamicAccountMatch');if(dyas&&dyal)
+un=3Ds_dyas(un,dyal,dyam);
+s_wds(un);s_ca(un);return s_gs(un)}
+s_code=3Ds_dc(s_account);if(s_code)s_d.write(s_code)
+
+------=_NextPart_000_000B_01C7C337.2DE44260--

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?fileVersion 3.1.0?>
+
+<ManagedProjectBuildInfo>
+<project id="Boost.cdt.managedbuild.target.gnu.exe.1573155847" name="Executable (Gnu)" projectType="cdt.managedbuild.target.gnu.exe">
+<configuration artifactName="Boost" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.1432206263" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
+<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.1315321296" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
+<tool command="ntox86-g++-3.3.5" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1442272459" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+<option id="gnu.cpp.compiler.option.include.paths.1715223853" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="&quot;C:\Programme\Boost\boost_1_34_0&quot;"/>
+</option>
+</tool>
+<tool command="ntox86-gcc-3.3.5" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1164352549" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1038025197" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
+<tool command="ntox86-g++-3.3.5" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.666337993" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug"/>
+<tool command="ntox86-as" id="cdt.managedbuild.tool.gnu.assembler.exe.debug.2028451731" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug"/>
+<macros/>
+</toolChain>
+</configuration>
+<configuration artifactName="Boost" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.exe.release.361689353" name="Release" parent="cdt.managedbuild.config.gnu.exe.release">
+<toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.1544998303" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
+<builder arguments="-k -j 4" id="cdt.managedbuild.target.gnu.builder.exe.release.901516746" name="Gnu Make.Release" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
+<tool command="ntox86-g++-3.3.5" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.2004107821" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
+<option id="gnu.cpp.compiler.option.include.paths.92727560" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="&quot;C:\Programme\Boost\boost_1_34_0&quot;"/>
+</option>
+</tool>
+<tool command="ntox86-gcc-3.3.5" id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.249667350" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release"/>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1788192609" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
+<tool command="ntox86-g++-3.3.5" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1274754012" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release"/>
+<tool command="ntox86-as" id="cdt.managedbuild.tool.gnu.assembler.exe.release.2030051324" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release"/>
+<macros/>
+</toolChain>
+</configuration>
+</project>
+</ManagedProjectBuildInfo>

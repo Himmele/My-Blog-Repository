@@ -1,0 +1,2 @@
+Introduction to Information Retrieval:
+http://nlp.stanford.edu/IR-book/information-retrieval-book.html

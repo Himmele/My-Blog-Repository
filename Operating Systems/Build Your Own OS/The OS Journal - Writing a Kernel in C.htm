@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0081)http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=viewfile&file=3 -->
+<HTML><HEAD><TITLE>The OS Journal - Writing a Kernel in C</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<STYLE type=text/css>BODY {
+	FONT: 10pt Verdana, Arial
+}
+TD {
+	FONT: 10pt Verdana, Arial
+}
+A {
+	COLOR: #000099; TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff topMargin=10 MARGINHEIGHT="10" MARGINWIDTH="10">
+<TABLE 
+style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" 
+cellSpacing=0 cellPadding=3 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD style="BORDER-RIGHT: #ffffff 1px solid" vAlign=top align=middle 
+    width=150 bgColor=#12546e><BR><IMG title="" height=50 alt="The OS Journal" 
+      src="The OS Journal - Writing a Kernel in C-Dateien/logo.gif" 
+      width=138><BR><BR><SMALL><A style="COLOR: #ffffff" 
+      href="http://www.osjournal.hopto.org/">http://www.osjournal.hopto.org/</A></SMALL><BR><BR>
+      <TABLE 
+      style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" 
+      cellSpacing=0 cellPadding=2 width=135 border=0>
+        <TBODY>
+        <TR>
+          <TD style="BORDER-BOTTOM: 1px solid" bgColor=#0080c0>
+            <CENTER><B><FONT color=#ffffff>General</FONT></B></CENTER></TD></TR>
+        <TR bgColor=#c7d0dc>
+          <TD><A accessKey=h 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=home"><U>H</U>ome</A><BR><A 
+            accessKey=l 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=links"><U>L</U>inks</A><BR><A 
+            accessKey=n 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=usenet"><U>N</U>ewsgroup</A><BR><A 
+            accessKey=m 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=mailinglist"><U>M</U>ailing 
+            list</A><BR><A accessKey=w 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=news"><U>W</U>hat's 
+            New</A><BR><A accessKey=r 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=request"><U>R</U>equest/Comment</A><BR></TD></TR></TBODY></TABLE><BR>
+      <TABLE 
+      style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" 
+      cellSpacing=0 cellPadding=2 width=135 border=0>
+        <TBODY>
+        <TR>
+          <TD style="BORDER-BOTTOM: 1px solid" bgColor=#0080c0>
+            <CENTER><B><FONT color=#ffffff>Topics</FONT></B></CENTER></TD></TR>
+        <TR bgColor=#c7d0dc>
+          <TD><!--80X86--><A accessKey=x 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=1">80<U>X</U>86</A><BR><!--Design issues--><A 
+            accessKey=e 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=6">D<U>e</U>sign 
+            issues</A><BR><!--Devices--><A accessKey=d 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=4"><U>D</U>evices</A><BR><!--Kernel--><A 
+            accessKey=k 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=7"><U>K</U>ernel</A><BR><!--Memory--><A 
+            accessKey=m 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=2"><U>M</U>emory</A><BR><!--Programming--><A 
+            accessKey=p 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=8"><U>P</U>rogramming</A><BR><!--Scheduling--><A 
+            accessKey=c 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=3">S<U>c</U>heduling</A><BR><!--User interface--><A 
+            accessKey=u 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=listtopic&amp;topic=5"><U>U</U>ser 
+            interface</A><BR></TD></TR></TBODY></TABLE><BR>
+      <TABLE 
+      style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" 
+      cellSpacing=0 cellPadding=2 width=135 border=0>
+        <TBODY>
+        <TR>
+          <TD style="BORDER-BOTTOM: 1px solid" bgColor=#0080c0>
+            <CENTER><B><FONT 
+        color=#ffffff><U>S</U>earch</FONT></B></CENTER></TD></TR>
+        <TR bgColor=#c7d0dc>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0>
+              <FORM name=frmSearch action=index.pl method=get><INPUT type=hidden 
+              value=search name=action> 
+              <TBODY>
+              <TR>
+                <TD><INPUT 
+                  style="BORDER-RIGHT: #a5b4c7 1px solid; BORDER-TOP: #a5b4c7 1px solid; BORDER-LEFT: #a5b4c7 1px solid; WIDTH: 129px; BORDER-BOTTOM: #a5b4c7 1px solid" 
+                  accessKey=s name=query><BR><INPUT id=sArticles type=checkbox 
+                  CHECKED value=1 name=sArticles><LABEL 
+                  for=sArticles>Articles</LABEL><BR><INPUT id=sLinks 
+                  type=checkbox value=1 name=sLinks><LABEL 
+                  for=sLinks>Links</LABEL><BR><INPUT id=sNewsgroup type=checkbox 
+                  value=1 name=sNewsgroup><LABEL 
+                  for=sNewsgroup>Newsgroup</LABEL><BR><BR></TD></TR>
+              <TR>
+                <TD align=right><INPUT type=image 
+                  src="The OS Journal - Writing a Kernel in C-Dateien/btn_search.gif" 
+                  value=Search><BR></TD></TR></FORM></TBODY></TABLE></TD></TR></TBODY></TABLE><BR></TD>
+    <TD style="BORDER-LEFT: #000000 1px solid" width=1 
+    bgColor=#f5f5f5>&nbsp;</TD>
+    <TD vAlign=top bgColor=#f5f5f5><FONT color=#333333><BR>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=5>Writing a Kernel in C </FONT><BR><SMALL>by <A 
+            href="mailto:timothy.robinson@ic.ac.uk">Tim Robinson</A>, <A 
+            href="http://www.themoebius.org.uk/" 
+          target=new>Homepage</A></SMALL></TD>
+          <TD style="BORDER-LEFT: #000000 1px solid" vAlign=top 
+            width=120><SMALL>&nbsp;<A 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=comments&amp;file=3">Comments</A>(0)<BR>&nbsp;<A 
+            href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=printview&amp;file=3">Print 
+            Version</A> <BR>&nbsp;<A 
+            href="http://www.osjournal.n3.net/!3">Direct 
+        Link</A></SMALL></TD></TR></TBODY></TABLE><BR><BR><FONT 
+      size=3><B><BIG>Introduction </BIG></B></FONT><BR>So far, your only 
+      experience in operating system writing might have been writing a boot 
+      loader in assembly. If you wrote it from scratch it might have taken you 
+      several weeks (at least), and you might be wishing there was an easier 
+      way. Well: there is, particularly if you are already familiar with the C 
+      programming language. Even if you’re not familiar with C (and you already 
+      know some other high-level language), it’s well worth learning it, because 
+      it’s trivial to start coding your kernel in C. It’s a matter of getting a 
+      few details correct and having the right tools. <BR><BR><BR><FONT 
+      size=3><B><BIG>The C Programming Language </BIG></B></FONT><BR>C was 
+      originally designed as a low-level HLL (Unix kernels have traditionally 
+      been written in C) and its main advantages are its portability and its 
+      closeness to the machine. It’s easy to write non-portable programs in C, 
+      but given some knowledge of the language, it’s possible to code with 
+      portability in mind. There’s nothing special about compiled C code that 
+      makes it different to assembly – in fact, your assembler is nothing more 
+      than a low-level compiler, one in which statements translate directly into 
+      machine opcodes. Like any other high-level language, C makes the code more 
+      abstract and separates you from the machine more; however, C doesn’t place 
+      too many restrictions on the code you write. <BR><BR><BR><FONT 
+      size=3><B><BIG>Tools </BIG></B></FONT><BR>There are two main software 
+      components involved in generating machine-executable code from C source 
+      code: a compiler and a linker. The compiler does most of the work, and is 
+      responsible for turning C source code into object files; that is, files 
+      which contain machine code and data, but don’t constitute a full program 
+      on their own. Many C compilers have an option where they generate an 
+      executable file directly from the source code, but in this case the 
+      compiler probably just invokes the linker internally. <BR><BR>The linker 
+      bundles all the object files together, patches the references they make to 
+      each other and moves them about (relocation), and generates an executable 
+      file. Most linkers will work with source files from any compiler, as long 
+      as the compiler produces compatible object files. This allows you to, for 
+      example, code most of your kernel in C but write some of the 
+      machine-specific parts in assembly. <BR><BR>I’d recommend any package that 
+      contains the GNU gcc compiler and ld linker, because: <BR>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=10>*</TD>
+          <TD>They’re free and open-source </TD></TR></TBODY></TABLE><BR>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=10>*</TD>
+          <TD>ld supports virtually any executable format known to man 
+        </TD></TR></TBODY></TABLE><BR>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=10>*</TD>
+          <TD>Versions of gcc are available for virtually any processor known 
+            to man </TD></TR></TBODY></TABLE><BR><BR>GNU packages are available for 
+      various operating systems; the MS-DOS port is called DJGPP, and one good 
+      Windows port is Cygwin. All Linux distributions should include the GNU 
+      tools. Note that each port generally only supports the generation of code 
+      for the platform on which it runs (unless you recompile the compiler and 
+      linker), and the bundled run-time libraries are generally of little use to 
+      the OS writer: stock DJGPP programs require DOS to be present, and stock 
+      Cygwin programs rely on cygwin1.dll, which in turn uses the Win32 API. 
+      However it is possible to ignore the default RTL and write your own, which 
+      is what we’ll be doing. If you’re writing code on Windows, I’d recommend 
+      that you use Cygwin (patch/rebuild it to support ELF if desired) because 
+      it’s a lot faster than DJGPP and allows use of long command lines and file 
+      names natively. Note that, at the time of writing, Cygwin’s flat-binary 
+      output is broken. <BR><BR>Various other tools come in useful in OS 
+      development. The GNU binutils package (bundled with gcc and ld) includes 
+      the handy objdump program, which allows you to inspect the internal 
+      structure of your executables and to disassemble them – vital when you’re 
+      writing loaders and trying a tricky bit of assembly code. <BR><BR>One 
+      possible disadvantage of using a generic linker is that it won’t support 
+      some custom executable format that you invent yourself. However, there’s 
+      seldom any need to invent a new executable format: there are already a lot 
+      of them out there. Unix ELF and Windows PE tend to be most popular among 
+      OS writers, mainly because they’re both well supported among existing 
+      linkers. ELF seems to be used more in amateur kernels, mainly because of 
+      its simplicity, although PE is more capable (and hence more complex). Both 
+      are well documented. COFF is also in use in some projects, although it 
+      lacks native support for features such as dynamic linking. An alternative 
+      for simple kernels is the flat binary format (i.e. no format at all). 
+      Here, the linker writes raw code and data to the output file, and the 
+      result is similar to MS-DOS’s .COM format, although the resulting file can 
+      be larger than 64KB in length and can use 32-bit opcodes (assuming the 
+      loader enables protected mode first). <BR><BR>A disadvantage of all the 
+      mainstream IA-32 compilers is that they assume a flat 32-bit address 
+      space, with CS, DS, ES and SS each having the same base address. Because 
+      they don’t use far (48-bit seg16:ofs32) pointers they make it a lot harder 
+      to write code for a segmented OS. Programs on a segmented OS written in C 
+      would have to rely on a lot of assembly code and would be a lot less 
+      efficient than programs written for a flat OS. However, at the time of 
+      writing, Watcom are still promising to release their OpenWatcom compiler, 
+      which will supposedly support far pointers in 32-bit protected mode. 
+      <BR><BR>Here’s another couple of warnings about using gcc and ld (although 
+      these could potentially apply to any compiler linker). Firstly, gcc likes 
+      to put the literal strings used by functions just before the function’s 
+      code. Normally this isn’t a problem, but it’s caught out a few people who 
+      try to get their kernels to write “Hello, world” straight off. Consider 
+      this example: <BR><BR><BR><SMALL>[<A 
+      href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=viewcode&amp;file=3&amp;codenr=1" 
+      target=top>view code in window</A>]</SMALL><CODE style="COLOR: #666699"> 
+      <BR>int main(void) <BR>{ <BR>&nbsp; char *str = "Hello, world", *ch; 
+      <BR>&nbsp; unsigned short *vidmem = (unsigned short*) 0xb8000; <BR>&nbsp; 
+      unsigned i; <BR><BR>&nbsp; for (ch = str, i = 0; *ch; ch++, i++) 
+      <BR>&nbsp; &nbsp; vidmem[i] = (unsigned char) *ch | 0x0700; <BR>&nbsp; for 
+      (;;) <BR>&nbsp; &nbsp; ; <BR>} <BR></CODE><BR><BR>This code is intended to 
+      write the string “Hello, world” into video memory, in white-on-black text, 
+      at the top-left corner of the screen. However, when it is compiled, gcc 
+      will put the literal "Hello, world" string just before the code for main. 
+      If this is linked to the flat binary format and run, execution will start 
+      where the string is, and the machine is likely to crash. There are a 
+      couple of alternative ways around this: <BR>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=10>*</TD>
+          <TD>Write a short function which just calls main() and halts. This 
+            way, the first function in the program doesn’t contain any literal 
+            strings. </TD></TR></TBODY></TABLE><BR>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=10>*</TD>
+          <TD>Use the gcc option -fwritable-strings. This will cause gcc to 
+            put literal strings in the data section of the executable, away from 
+            any code. </TD></TR></TBODY></TABLE><BR><BR>Of these, the first option is 
+      probably preferable. I like to write my entry point function in assembly, 
+      where it can set up the stack and zero the bss before calling main. You’ll 
+      find that normal user-mode programs do this, too: the real entry point is 
+      a small routine in the C library which sets up the environment before 
+      calling main(). This is commonly known as the crt0 function. <BR><BR>The 
+      other main snag concerns object-file formats. There are two variants of 
+      the 32-bit COFF format: one used by Microsoft Win32 tools, and one by the 
+      rest of the world. They are only subtly different, and linkers which 
+      expect one format will happily link the other. The difference comes in the 
+      relocations: if you write code in, say, NASM, and link it using the 
+      Microsoft linker along with some modules compiled using Visual C++, the 
+      addresses in the final output will come out wrongly. There’s no real 
+      workaround for this, but luckily most tools that work with the PE format 
+      will allow you to emit files in the Win32 format: NASM has its -f win32 
+      option, and Cygwin has the pei-i386 output format. <BR><BR><BR><FONT 
+      size=3><B><BIG>The Run-Time Library </BIG></B></FONT><BR>A major part of 
+      writing code for your OS is rewriting the run-time library, also known as 
+      libc. This is because the RTL is the most OS-dependent part of the 
+      compiler package: the C RTL provides enough functionality to allow you to 
+      write portable programs, but the inner workings of the RTL are dependent 
+      on the OS in use. In fact, compiler vendors often use different RTLs for 
+      the same OS: Microsoft Visual C++ provides different libraries for the 
+      various combinations of debug/multi-threaded/DLL, and the older MS-DOS 
+      compilers offered run-time libraries for up to 6 different memory models. 
+      <BR><BR>For the time being, though, it should be sufficient to write only 
+      one run-time library (although writing a makefile which offers a choice of 
+      static or dynamic linking is often useful). You should aim to replicate 
+      the library defined by the ISO C standard because this will make porting 
+      programs to your OS easier. If you write a non-standard library you’ll 
+      have to re-write any applications you want to port; the more standard 
+      library functions you define, the easier it will be to port open-source 
+      applications straight across. <BR><BR>It makes it a lot easier to write 
+      library code if you can get hold of the source code for an existing 
+      implementation, particularly if that library’s environment is similar to 
+      the one you’re developing in. There are a lot of C functions which are OS- 
+      and platform-independent: for example, most of &lt;string.h&gt; and 
+      &lt;wchar.h&gt; can be copied straight across. Conversely, there are a lot 
+      of functions that your compiler might offer which won’t make sense for 
+      your OS: a lot of DOS compilers offer &lt;bios.h&gt; header file which 
+      allows access to the PC BIOS. Unless you write a VM86 monitor in your 
+      kernel, you won’t be able to call BIOS functions directly. However, such 
+      functions will be extensions to the C standard library, and, as such, will 
+      have names beginning with an underscore (e.g. _biosdisk()). You are under 
+      no obligation to implement these extensions, and you’re free to define 
+      your own extensions if you wish, as long as you give them a name starting 
+      with an underscore. <BR><BR>Other C library functions are dependent on 
+      kernel support: most of &lt;stdio.h&gt; relies upon there being some sort 
+      of file system present, and even printf() needs some destination for its 
+      output. On the subject of printf(): most open-source C library 
+      implementations will define a generic printf() engine because the same 
+      functionality is needed in so many different places (printf(), fprintf(), 
+      sprintf(), and the v, w and vw versions of these functions). You should be 
+      able to extract this common engine and use it for your own, or at least 
+      try to emulate it: write a function which accepts a format string and a 
+      list of arguments and which sends its output to some abstract interface 
+      (either a function or a buffered stream). <BR><BR>Although a full run-time 
+      library is most useful when it comes to writing and porting user 
+      applications, it is also convenient to have good RTL support in the 
+      kernel. Including commonly-used routines (such as strcpy() and malloc()) 
+      will make it quicker and easier to write kernel code, and it will make the 
+      resulting kernel smaller, since common routines are only included once. It 
+      is also good practice to make such routines available to driver writers, 
+      to save them from having to include common routines in their driver 
+      binaries. <BR><BR><BR><FONT size=3><B><BIG>OS-Specific Support 
+      </BIG></B></FONT><BR>As a kernel language, C isn’t perfect: obviously, 
+      there’s no standard way of allowing access to a particular machine’s 
+      features. This means that it’s often necessary to either drop into inline 
+      assembly when it is needed, or to code portions in assembly and link them 
+      with the compiler’s output at link time. Inline assembly allows you to 
+      write parts of a C function in assembly, and to access the C function’s 
+      variables as normal: the code you write is inserted among the code the 
+      compiler generates. Support for inline assembly varies among compilers; if 
+      you can stand the AT&amp;T syntax, gcc’s is best among PC compilers. 
+      Although Visual C++ and Borland C++ both use the more familiar Intel 
+      syntax, their inline assemblers aren’t as fully-integrated with the rest 
+      of the compiler. gcc forces you to use more esoteric syntax but it allows 
+      you to use any C expression as an input to an assembler block and it 
+      allows you to place the outputs anywhere. The resulting assembly is also 
+      better integrated with the optimizer than in Borland’s and Microsoft’s 
+      compilers: for example, gcc allows you to specify exactly which registers 
+      are modified as the result of an assembly block. <BR><BR>Some assembly 
+      code will also be required in user mode if you use software interrupts to 
+      invoke kernel syscalls. You might place the interrupt calls directly into 
+      the C library code (as MS-DOS libraries do), or generate a separate 
+      library with a function for each call and link normally to that (as 
+      Windows NT does with ntdll.dll). It may also make sense to put the 
+      OS-dependent interface in a language-independent library, so that programs 
+      written in different languages can use the same OS library. This will 
+      allow people to write programs for your OS in languages other than C, or 
+      in languages which don’t allow C bindings. <BR><BR><BR><FONT 
+      size=3><B><BIG>C++ in the Kernel </BIG></B></FONT><BR>Opinions vary widely 
+      over the use of C++ in a kernel: most Linux kernel coders stay well away 
+      from it, whereas some people have entire operating systems in C++. I’d 
+      personally stick with C, although I see no real reason why you shouldn’t 
+      use C++, as long as you know what you’re doing. One thing you should 
+      realize is that to write a C++ kernel you’ll need to write a bit more code 
+      for the framework, and that some C++ features are off-limits to you 
+      (unless you can write the necessary support code). <BR><BR>First off, 
+      you’ll need to code the new and delete operators. This is easy if you’ve 
+      already coded malloc() and free(): new and delete can be single-line 
+      functions which call each of these. If you want to have global instances 
+      of classes you’ll need to put some code in your startup routine to call 
+      each of their constructors. The way this is done will differ between 
+      compilers, so the best thing to do is to browse through your compiler’s 
+      run-time library to see how the vendor did it; try looking in files with 
+      names like crt0.c. You’ll probably also need to implement atexit(), 
+      because the compiler is likely to emit code which uses atexit() to call 
+      global object’s destructors when the program ends. If you want to use 
+      try/catch in your kernel you’ll have to implement whatever mechanism your 
+      compile uses to implement them. Again, this will depend on the compiler 
+      you use, and whatever operating system that compiler targets. <BR><BR>In 
+      general, I’d steer clear of both exception handling and huge virtual 
+      classes in your kernel. Exception handling usually adds unneeded bloat, 
+      and calling masses of virtual functions add unnecessary indirection and 
+      defeats the optimizer somewhat. Remember, your kernel should be as 
+      efficient as possible, even to the detriment of a beautiful design where 
+      necessary. <BR><BR><BR><FONT size=3><B><BIG>Overview 
+      </BIG></B></FONT><BR>Writing an OS in a high-level language such as C can 
+      be a lot more productive than coding one entirely in assembly, 
+      particularly if you’re willing to forego the slight speed increase that 
+      assembly offers. There are compilers freely available, such as gcc, which 
+      make writing kernel code relatively easy, and using C will probably prove 
+      beneficial in the long run. <BR><BR><BR>
+      <HR SIZE=1>
+
+      <CENTER><A 
+      href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=comments&amp;file=3">Comments</A>(0) 
+      | <A 
+      href="http://www.cyberscriptorium.com/osjournal/cgi-bin/index.pl?action=printview&amp;file=3">Print 
+      Version</A> <BR><A 
+      href="http://www.osjournal.n3.net/!3">http://www.osjournal.n3.net/!3</A></CENTER></FONT></TD></TR></TBODY></TABLE></BODY></HTML>

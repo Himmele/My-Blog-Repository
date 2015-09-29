@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all7.htm -->
+<HTML><HEAD><TITLE>Einschalten des Protected Mode</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Einschalten des Protected Mode-Dateien/stone.jpg">
+<H1><FONT color=#800000>2.3 Einschalten des Protected Mode</FONT></H1>
+<P>Intel Prozessoren ab dem 80386 befinden sich nach einem Reset standardmäßig 
+im bekannten Realmode. Der Protected Mode muß erst durch das Setzen des PE-Bits 
+im Steuerregister CR0 aktiviert werden. Dabei ist zu beachten, daß auf das 
+CR0-Register nur über MOV-Befehle zugegriffen werden kann, eine direkte 
+Manipulation des CR0-Registers ist nicht möglich.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Einschalten des Protected Mode-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%"><PRE><I>; Setzen des PE-Bits und damit aktivieren des Protected Mode
+
+		mov eax,cr0
+		or eax,1		; setzt PE-Bit (Bit 0)
+		mov cr0,eax</I></PRE></TD></TR></TBODY></TABLE></CENTER>
+<UL>
+  <LI>Bevor über die obige Befehlsequenz der Prozessor in den Protected Mode 
+  geschaltet werden kann, muß dafür gesorgt werden, daß eine gültige GDT 
+  eingerichtet wird, die Deskriptoren für Segmente einschließlich eines 
+  Codesegmentdeskriptors enthalten muß. Die Adresse dieser GDT muß in das GDTR- 
+  Register geladen werden. 
+  <LI>Neben der GDT muß auch eine entsprechende IDT eingerichtet werden, die auf 
+  eventuell auftretende Exceptions und Hardwareinterrupts reagieren kann. 
+  <LI>Nachdem diese beiden Voraussetzungen erfüllt sind, kann über die oben 
+  genannte Befehlsequenz der Protected Mode aktiviert werden. Direkt nach dem 
+  Einschalten des Protected Mode muß jedoch ein FAR-JMP ausgeführt werden, der 
+  die Warteschlange leert (da sich wahrscheinlich noch Realmode-Befehle in der 
+  Warteschlange befinden, die ein Prozessor im Protected Mode nicht korrekt 
+  ausführen kann). Zusätzlich zum Leeren der Warteschlange wird durch den 
+  JMP-Befehl das CS-Cache-Register mit dem Deskriptor des Codesegmentes 
+  initialisiert. </LI></UL>
+<P>Obwohl der Befehlsatz der Intel-Prozessoren einen direkten FAR-JMP erlaubt 
+(z.B. JMP 02FB:0000), wird ein entsprechender Befehl nicht vom Assembler 
+akzeptiert. Deshalb muß der FAR-JMP Befehl in den Protected Mode "per Hand" als 
+Opcode codiert werden:</P><PRE><I>             DB 0EAh
+		DW (entsprechender OFFSET)
+		DW (entsprechender SELECTOR)</I>
+</PRE>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Einschalten des Protected Mode-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das Assemblerbeispiel <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_01.asm">pm_01.asm</A> 
+      benutzt den hier beschriebenen Weg, um in den Protected Mode zu schalten. 
+      Dabei legt das Beispielprogramm eine GDT an, verzichtet jedoch aus Gründen 
+      der Einfachheit darauf, eine IDT anzulegen. Nachdem sich der Prozessor im 
+      Protected Mode befindet, gibt das Programm eine kurze Nachricht aus und 
+      kehrt in den Realmode zurück.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all6.htm"><IMG alt=Zurück 
+src="Einschalten des Protected Mode-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_all8.htm"><IMG alt=Weiter 
+src="Einschalten des Protected Mode-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode"><IMG 
+alt="Zum Index" src="Einschalten des Protected Mode-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

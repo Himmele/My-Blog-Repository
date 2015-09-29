@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://gcc.gnu.org/onlinedocs/gccint/Collect2.html -->
+<HTML 
+lang=en><HEAD><TITLE>Collect2 - GNU Compiler Collection (GCC) Internals</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="GNU Compiler Collection (GCC) Internals" name=description>
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR><LINK title=Top 
+href="index.html#Top" rel=start><LINK title=Fragments 
+href="Fragments.html#Fragments" rel=prev><LINK title="Header Dirs" 
+href="Header-Dirs.html#Header-Dirs" rel=next><LINK title="Texinfo Homepage" 
+href="http://www.gnu.org/software/texinfo/" rel=generator-home><!--
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``GNU General Public License'' and ``Funding
+Free Software'', the Front-Cover texts being (a) (see below), and with
+the Back-Cover Texts being (b) (see below).  A copy of the license is
+included in the section entitled ``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<META http-equiv=Content-Style-Type content=text/css>
+<STYLE type=text/css>PRE.display {
+	FONT-FAMILY: inherit
+}
+PRE.format {
+	FONT-FAMILY: inherit
+}
+PRE.smalldisplay {
+	FONT-SIZE: smaller; FONT-FAMILY: inherit
+}
+PRE.smallformat {
+	FONT-SIZE: smaller; FONT-FAMILY: inherit
+}
+PRE.smallexample {
+	FONT-SIZE: smaller
+}
+PRE.smalllisp {
+	FONT-SIZE: smaller
+}
+SPAN.sc {
+	FONT-VARIANT: small-caps
+}
+SPAN.roman {
+	FONT-WEIGHT: normal; FONT-FAMILY: serif
+}
+SPAN.sansserif {
+	FONT-WEIGHT: normal; FONT-FAMILY: sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY>
+<DIV class=node>
+<P><A name=Collect2></A>Next:&nbsp;<A accessKey=n 
+href="http://gcc.gnu.org/onlinedocs/gccint/Header-Dirs.html#Header-Dirs" 
+rel=next>Header Dirs</A>, Previous:&nbsp;<A accessKey=p 
+href="http://gcc.gnu.org/onlinedocs/gccint/Fragments.html#Fragments" 
+rel=previous>Fragments</A>, Up:&nbsp;<A accessKey=u 
+href="http://gcc.gnu.org/onlinedocs/gccint/index.html#Top" rel=up>Top</A> 
+<HR>
+</DIV>
+<H2 class=chapter>17 <CODE>collect2</CODE></H2>
+<P>GCC uses a utility called <CODE>collect2</CODE> on nearly all systems to 
+arrange to call various initialization functions at start time. 
+<P>The program <CODE>collect2</CODE> works by linking the program once and 
+looking through the linker output file for symbols with particular names 
+indicating they are constructor functions. If it finds any, it creates a new 
+temporary `<SAMP><SPAN class=samp>.c</SPAN></SAMP>' file containing a table of 
+them, compiles it, and links the program a second time including that file. 
+<P><A name=index-g_t_005f_005fmain-2795></A><A 
+name=index-constructors_002c-automatic-calls-2796></A>The actual calls to the 
+constructors are carried out by a subroutine called <CODE>__main</CODE>, which 
+is called (automatically) at the beginning of the body of <CODE>main</CODE> 
+(provided <CODE>main</CODE> was compiled with GNU CC). Calling 
+<CODE>__main</CODE> is necessary, even when compiling C code, to allow linking C 
+and C++ object code together. (If you use <SAMP><SPAN 
+class=option>-nostdlib</SPAN></SAMP>, you get an unresolved reference to 
+<CODE>__main</CODE>, since it's defined in the standard GCC library. Include 
+<SAMP><SPAN class=option>-lgcc</SPAN></SAMP> at the end of your compiler command 
+line to resolve this reference.) 
+<P>The program <CODE>collect2</CODE> is installed as <CODE>ld</CODE> in the 
+directory where the passes of the compiler are installed. When 
+<CODE>collect2</CODE> needs to find the <EM>real</EM> <CODE>ld</CODE>, it tries 
+the following file names: 
+<UL>
+  <LI><SAMP><SPAN class=file>real-ld</SPAN></SAMP> in the directories listed in 
+  the compiler's search directories. 
+  <LI><SAMP><SPAN class=file>real-ld</SPAN></SAMP> in the directories listed in 
+  the environment variable <CODE>PATH</CODE>. 
+  <LI>The file specified in the <CODE>REAL_LD_FILE_NAME</CODE> configuration 
+  macro, if specified. 
+  <LI><SAMP><SPAN class=file>ld</SPAN></SAMP> in the compiler's search 
+  directories, except that <CODE>collect2</CODE> will not execute itself 
+  recursively. 
+  <LI><SAMP><SPAN class=file>ld</SPAN></SAMP> in <CODE>PATH</CODE>. </LI></UL>
+<P>“The compiler's search directories” means all the directories where 
+<SAMP><SPAN class=command>gcc</SPAN></SAMP> searches for passes of the compiler. 
+This includes directories that you specify with <SAMP><SPAN 
+class=option>-B</SPAN></SAMP>. 
+<P>Cross-compilers search a little differently: 
+<UL>
+  <LI><SAMP><SPAN class=file>real-ld</SPAN></SAMP> in the compiler's search 
+  directories. 
+  <LI><SAMP><VAR>target</VAR><SPAN class=file>-real-ld</SPAN></SAMP> in 
+  <CODE>PATH</CODE>. 
+  <LI>The file specified in the <CODE>REAL_LD_FILE_NAME</CODE> configuration 
+  macro, if specified. 
+  <LI><SAMP><SPAN class=file>ld</SPAN></SAMP> in the compiler's search 
+  directories. 
+  <LI><SAMP><VAR>target</VAR><SPAN class=file>-ld</SPAN></SAMP> in 
+  <CODE>PATH</CODE>. </LI></UL>
+<P><CODE>collect2</CODE> explicitly avoids running <CODE>ld</CODE> using the 
+file name under which <CODE>collect2</CODE> itself was invoked. In fact, it 
+remembers up a list of such names—in case one copy of <CODE>collect2</CODE> 
+finds another copy (or version) of <CODE>collect2</CODE> installed as 
+<CODE>ld</CODE> in a second place in the search path. 
+<P><CODE>collect2</CODE> searches for the utilities <CODE>nm</CODE> and 
+<CODE>strip</CODE> using the same algorithm as above for <CODE>ld</CODE>. <!-- Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001 Free Software Foundation, Inc. --><!-- This is part of the GCC manual. --><!-- For copying conditions, see the file gcc.texi. --></P></BODY></HTML>

@@ -1,0 +1,801 @@
+From: <Mit Microsoft Internet Explorer 7 gespeichert>
+Subject: Squawks of the Parrot: Registers vs stacks for interpreter design
+Date: Wed, 28 Nov 2007 23:07:58 +0100
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0039_01C83213.841894B0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0039_01C83213.841894B0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.sidhe.org/~dan/blog/archives/000189.html
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" =
+"http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML xmlns=3D"http://www.w3.org/1999/xhtml"><HEAD><TITLE>Squawks of the =
+Parrot: Registers vs stacks for interpreter design</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3DUTF-8"><LINK=20
+href=3D"http://www.sidhe.org/~dan/blog/styles-site.css" type=3Dtext/css=20
+rel=3Dstylesheet><LINK title=3DRSS =
+href=3D"http://www.sidhe.org/~dan/blog/index.rdf"=20
+type=3Dapplication/rss+xml rel=3Dalternate><LINK title=3DHome=20
+href=3D"http://www.sidhe.org/~dan/blog/" rel=3Dstart><LINK=20
+title=3D"'Twas a lime weekend"=20
+href=3D"http://www.sidhe.org/~dan/blog/archives/000188.html" =
+rel=3Dprev><LINK=20
+title=3D"API suckitude of the first order: Perl's magic from C code"=20
+href=3D"http://www.sidhe.org/~dan/blog/archives/000190.html" rel=3Dnext>
+<SCRIPT language=3Djavascript type=3Dtext/javascript>=0A=
+<!--=0A=
+=0A=
+function OpenTrackback (c) {=0A=
+    window.open(c,=0A=
+                    'trackback',=0A=
+                    =
+'width=3D480,height=3D480,scrollbars=3Dyes,status=3Dyes');=0A=
+}=0A=
+=0A=
+var HOST =3D 'www.sidhe.org';=0A=
+=0A=
+// Copyright (c) 1996-1997 Athenia Associates.=0A=
+// http://www.webreference.com/js/=0A=
+// License is granted if and only if this entire=0A=
+// copyright notice is included. By Tomer Shiran.=0A=
+=0A=
+function setCookie (name, value, expires, path, domain, secure) {=0A=
+    var curCookie =3D name + "=3D" + escape(value) + ((expires) ? "; =
+expires=3D" + expires.toGMTString() : "") + ((path) ? "; path=3D" + path =
+: "") + ((domain) ? "; domain=3D" + domain : "") + ((secure) ? "; =
+secure" : "");=0A=
+    document.cookie =3D curCookie;=0A=
+}=0A=
+=0A=
+function getCookie (name) {=0A=
+    var prefix =3D name + '=3D';=0A=
+    var c =3D document.cookie;=0A=
+    var nullstring =3D '';=0A=
+    var cookieStartIndex =3D c.indexOf(prefix);=0A=
+    if (cookieStartIndex =3D=3D -1)=0A=
+        return nullstring;=0A=
+    var cookieEndIndex =3D c.indexOf(";", cookieStartIndex + =
+prefix.length);=0A=
+    if (cookieEndIndex =3D=3D -1)=0A=
+        cookieEndIndex =3D c.length;=0A=
+    return unescape(c.substring(cookieStartIndex + prefix.length, =
+cookieEndIndex));=0A=
+}=0A=
+=0A=
+function deleteCookie (name, path, domain) {=0A=
+    if (getCookie(name))=0A=
+        document.cookie =3D name + "=3D" + ((path) ? "; path=3D" + path =
+: "") + ((domain) ? "; domain=3D" + domain : "") + "; expires=3DThu, =
+01-Jan-70 00:00:01 GMT";=0A=
+}=0A=
+=0A=
+function fixDate (date) {=0A=
+    var base =3D new Date(0);=0A=
+    var skew =3D base.getTime();=0A=
+    if (skew > 0)=0A=
+        date.setTime(date.getTime() - skew);=0A=
+}=0A=
+=0A=
+function rememberMe (f) {=0A=
+    var now =3D new Date();=0A=
+    fixDate(now);=0A=
+    now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000);=0A=
+    setCookie('mtcmtauth', f.author.value, now, '', HOST, '');=0A=
+    setCookie('mtcmtmail', f.email.value, now, '', HOST, '');=0A=
+    setCookie('mtcmthome', f.url.value, now, '', HOST, '');=0A=
+}=0A=
+=0A=
+function forgetMe (f) {=0A=
+    deleteCookie('mtcmtmail', '', HOST);=0A=
+    deleteCookie('mtcmthome', '', HOST);=0A=
+    deleteCookie('mtcmtauth', '', HOST);=0A=
+    f.email.value =3D '';=0A=
+    f.author.value =3D '';=0A=
+    f.url.value =3D '';=0A=
+}=0A=
+=0A=
+//-->=0A=
+</SCRIPT>
+<!--=0A=
+<rdf:RDF xmlns:rdf=3D"http://www.w3.org/1999/02/22-rdf-syntax-ns#"=0A=
+         =
+xmlns:trackback=3D"http://madskills.com/public/xml/rss/module/trackback/"=0A=
+         xmlns:dc=3D"http://purl.org/dc/elements/1.1/">=0A=
+<rdf:Description=0A=
+    rdf:about=3D"http://www.sidhe.org/~dan/blog/archives/000189.html"=0A=
+    trackback:ping=3D"http://www.sidhe.org/~dan/blog/mt-tb.cgi/106"=0A=
+    dc:title=3D"Registers vs stacks for interpreter design"=0A=
+    dc:identifier=3D"http://www.sidhe.org/~dan/blog/archives/000189.html"=0A=
+    dc:subject=3D""=0A=
+    dc:description=3D"I was pointed at the mono list (something I =
+generally avoid through sheer lack of time, and the rise in blood =
+pressure it usually evokes) the other day and went reading through some =
+of the discussion on getting ruby ported over to .NET. There&apos;s a =
+whole lot of that discussion that I&apos;m going to skip, but one of the =
+things that came up was the eternal &quot;register vs stack =
+machine-which is better&quot; question. Now, for Mono, of course, there =
+was no question. It&apos;s a stack machine and they had absolutely no =
+choice in that. Doesn&apos;t make any difference what they..."=0A=
+    dc:creator=3D"Dan"=0A=
+    dc:date=3D"2003-05-14T09:01:26-05:00" />=0A=
+</rdf:RDF>=0A=
+-->
+<META content=3D"MSHTML 6.00.6000.16544" name=3DGENERATOR></HEAD>
+<BODY>
+<DIV id=3Dbanner>
+<H1><A accessKey=3D1 href=3D"http://www.sidhe.org/~dan/blog/">Squawks of =
+the=20
+Parrot</A></H1><SPAN class=3Ddescription>Dan natters on about, well, =
+stuff.</SPAN>=20
+</DIV>
+<DIV id=3Dcontainer>
+<DIV class=3Dblog>
+<DIV id=3Dmenu><A =
+href=3D"http://www.sidhe.org/~dan/blog/archives/000188.html">=C2=AB=20
+'Twas a lime weekend</A> | <A =
+href=3D"http://www.sidhe.org/~dan/blog/">Main</A> |=20
+<A href=3D"http://www.sidhe.org/~dan/blog/archives/000190.html">API =
+suckitude of=20
+the first order: Perl's magic from C code =C2=BB</A> </DIV></DIV>
+<DIV class=3Dblog>
+<H2 class=3Ddate>May 14, 2003</H2>
+<DIV class=3Dblogbody>
+<H3 class=3Dtitle>Registers vs stacks for interpreter design</H3>
+<P>I was pointed at the mono list (something I generally avoid through =
+sheer=20
+lack of time, and the rise in blood pressure it usually evokes) the =
+other day=20
+and went reading through some of the discussion on getting ruby ported =
+over to=20
+.NET. There's a <I>whole</I> lot of that discussion that I'm going to =
+skip, but=20
+one of the things that came up was the eternal "register vs stack =
+machine--which=20
+is better" question.</P>
+<P>Now, for Mono, of course, there <I>was</I> no question. It's a stack =
+machine=20
+and they had absolutely no choice in that. Doesn't make any difference =
+what they=20
+wanted, they were copying .NET, and .NET is a stack machine. Which =
+doesn't=20
+change the validity of the question, though it does shift who you should =
+really=20
+ask about it.</P>
+<P>There is no real doubt, it's easier to generate code for a stack =
+machine.=20
+Most freshman compiler students can do that. Generating code for a =
+register=20
+machine is a bit tougher, unless you're treating it as a stack machine =
+with an=20
+accumulator. (Which is doable, albeit somewhat less than ideal from a=20
+performance standpoint) Simplicity of targeting isn't that big a deal, =
+at least=20
+not for me, in part because so few people are actually going to directly =
+target=20
+it--I mean, come on, how many people do you know who actually <I>try</I> =
+to=20
+write a compiler for something anyone would ever care about? The numbers =
+are=20
+small. The other issue there is that many of the folks with compiler =
+knowledge=20
+<I>already</I> are comfortable targeting register machines, as that's =
+what all=20
+hardware CPUs in common use are.</P>
+<P>But lets, for a moment, consider the two main cases of execution. =
+First,=20
+there's interpretation. This requires very little in the way of =
+knowledge of the=20
+target machine, and something that Parrot <I>must</I> do. (We have a =
+very wide=20
+range of machines we must run on and, no offense, we're probably never =
+going to=20
+write a JIT for the Cray Y-MP) There's no real runtime cheating that one =
+can do,=20
+as almost all the runtime cheating requires generating native machine =
+code, and=20
+for this case we're not doing that.</P>
+<P>In both the stack and register case, accessing a register requires an =
+
+indirect memory access and at least one math operation, either addition =
+or=20
+subtraction. For a register machine you're adding the register number to =
+the=20
+register file base address to get an effective memory address, and for =
+the stack=20
+machine you're loading indirectly from the stack pointer address, then=20
+incrementing or decrementing that pointer and storing the difference. =
+The=20
+register case saves in memory activity a bit, as there's no need to =
+store the=20
+result, while the stack machine has to store the result, but on the =
+other hand=20
+the register machine needs more bandwidth to get the register numbers =
+into it,=20
+something that's implicit for the stack machine. Whether the additional=20
+bandwidth offsets the write is up in the air and system dependent, as it =
+depends=20
+on cache access size (the registers and register pointer for the RM, and =
+the=20
+stack pointer and top few stack entries for the SM, will be in L1 cache) =
+and=20
+sync time--memory writes, in an SMP system, require a bit of cache =
+coherence=20
+maintenance, which will sometimes burn a nanosecond or two.</P>
+<P>The interpreted case isn't one that .NET really cares about, which is =
+fine,=20
+as .NET bytecode is very obviously designed to be JITted. It's the only =
+way to=20
+get anything close to adequate performance from it. This isn't a dig at =
+the .NET=20
+folks--I actually think it's a very sensible design decision, given the =
+very=20
+limited range of machines (x86 and maybe Itanium) they personally were =
+going to=20
+care about. Parrot does need to consider it, which arguably hampers us =
+some, but=20
+on the other hand it means we don't need a team of Highly Paid =
+Professionals to=20
+get us up and running at reasonable speed on some random processor. (And =
+on the=20
+third hand, there just<I>aren't</I> that many different processors any =
+more.=20
+Unfortunately)</P>
+<P>In the JITted case, things are a little different. And better for =
+parrot,=20
+oddly enough. (Surprised me) Now, when we JIT (and I should do a WTHI =
+entry on=20
+JITting) we turn the interpreter's bytecode into native machine code. =
+With=20
+JITting, we need to consider both the naive case, where we're doing a =
+mechanical=20
+translation, and the clever case, where we're doing some analysis of the =
+
+incoming bytecode.</P>
+<P>There is, first and foremost, a general win with JITting. Just =
+inlining the=20
+code for the different machine ops buys a fair amount, as you cut out =
+the=20
+function pre- and post-ambles on the called op, and the parameter setup =
+and=20
+teardown on the function call. If you have small opcode bodies this can =
+be a=20
+<I>considerable</I> win. (Factor of 10 type win, which is a =
+<I>lot</I>)</P>
+<P>In the naive case, the stack machine still twiddles its stack pointer =
+and=20
+accesses all its data indirectly. It has no real option, as we're being =
+naive.=20
+That pointer's probably moved from the interpreter structure to a =
+register,=20
+which is good, though it might've been in one already. (Probably was) It =
+does=20
+get the general JIT win, which is a Good Thing, and quite the speedup. =
+Still,=20
+indirect memory access takes a bit of time, though far less than it used =
+to.=20
+(These days it might put a stall entry in the pipeline, which may be =
+used by=20
+other ops in the stream, where in the old days an indirect memory access =
+might=20
+cost you an extra cycle or two)</P>
+<P>The register machine, though... The register machine has suddenly =
+gone from=20
+indirect access to direct access to the memory, and the instruction =
+stream has=20
+gotten denser. Remember, the register number is a constant. Also =
+remember that=20
+the registers themselves don't move. And consider that in the common =
+case you=20
+have only one interpreter, so there's no reason to not JIT the code just =
+for it.=20
+Which adds up to turning register numbers into absolute memory =
+addresses. Not=20
+even indirect ones--no "base pointer plus 4" or anything, but direct =
+"load or=20
+store from absolute address X". The register file doesn't move for an=20
+interpreter, so we know when JITting where each register is, so we just =
+encode=20
+it in the instruction stream. Yeah, it does mean that we need to re-JIT =
+for each=20
+interpreter, but as I said the non-threaded case is the common one for =
+us.=20
+Still, it's all memory access.</P>
+<P>In the clever case the overhead for a stack machine is lessened some. =
+The=20
+incoming instruction stream can be analyzed, so a sequence like:</P>
+<P><CODE><BR>push a<BR>push b<BR>add<BR></CODE></P>
+<P>can be turned into "put a in a native register, b in a native =
+register, add=20
+'em, and put the result back on the stack". Which is what a basic =
+optimizing=20
+compiler does, and what a JIT in the clever case is--an optimizing =
+compiler.=20
+There's less stack pointer twiddlidge in this case, as you can skip =
+twiddling it=20
+for everything but the final push, and if that intermediate result is =
+used=20
+somewhere else and not stored you might be able to dodge that stack =
+access=20
+too.</P>
+<P>There's a good win for the clever case for register machines, though. =
+
+(Unfortunately we lack the personnel to do it for Parrot--we have the =
+people who=20
+can, just not the cash to actually let them do it and still eat) to get =
+that win=20
+for the stack machine you need to analyze the instruction stream and =
+pick out=20
+what the temporaries are. In the register machine case, those =
+temporaries are=20
+explicit--that's what the registers <I>are</I>, a set of temporary =
+values. More=20
+to the point it's easier to track register usage in the common cases =
+than it is=20
+intermediate stack results. (Not, mind, that either is tough, but since =
+JITting=20
+is done at runtime, every millisecond counts)</P>
+<P>Finally, some of the compile-time optimizations can be done at =
+bytecode=20
+generation time for the register machine, where they have to be done at =
+JIT time=20
+for the stack machine. Consider this:</P>
+<P><CODE><BR>c =3D a + b<BR>d =3D a + 4;<BR>e =3D b * 3;<BR></CODE></P>
+<P>Five variables, three statements. We'll assume, for the moment, that =
+all the=20
+variables are 'objects' of some sort, and not just plain ints. What's =
+the stack=20
+machine instruction stream?</P>
+<P><CODE><BR>push 'a'<BR>getvar<BR>push b'<BR>getvar<BR>add<BR>push=20
+'c'<BR>storevar<BR>push 'a'<BR>getvar<BR>push 4<BR>add<BR>push=20
+'d'<BR>storevar<BR>push 'b'<BR>getvar<BR>push 3<BR>multiply<BR>push=20
+'e'<BR>storevar<BR></CODE></P>
+<P>19 ops, 9 parameters. And for the register stream?</P>
+<P><CODE><BR>getvar R1, "a"<BR>getvar R2, "b"<BR>getvar R3, =
+"c"<BR>getvar R4,=20
+"d"<BR>getvar R5, "e"<BR>add R3, R1, R2<BR>add R4, R1, 4<BR>mul R5, R2,=20
+3<BR></CODE></P>
+<P>8 ops, 19 parameters. (oddly enough, one fewer total thing in the =
+instruction=20
+stream than in the stack machine case, though not a win as such for =
+parrot as=20
+each think for us is 32 bits, where each op for .NET is 8 bits, so we're =
+using=20
+108 bytes to .NET's 55 (assuming parameters are 32 bits, which may be =
+inaccurate=20
+for .NET--the small ints might be smaller, but we can make them all 2 =
+million to=20
+make sure they're 32 bits if you really want)) And note that we only =
+fetch the=20
+pointers for a, b, and c once, <I>and</I> don't have to do an explicit =
+"put the=20
+stack top into variable" op that a stack machine does. (Though you could =
+
+certainly put the address to store the result on the stack as part of =
+the add,=20
+rather than putting the result of the add on the stack. .NET doesn't do =
+that,=20
+though)</P>
+<P>In the naive case, we JIT and execute less than half the ops that the =
+stack=20
+machine does, and have a denser instruction stream for it. In the clever =
+case,=20
+the JIT for the stack machine can figure out that a, b, and c are used =
+multiple=20
+times and skip the multiple fetches, certainly, but that figuring needs =
+to be=20
+done at runtime, every time the program is run, where in the register =
+machine=20
+it's done at compile time, and every time the program is compiled. =
+Generally we=20
+don't compile more often than we run, and usually less. (Often much =
+less)</P>
+<P>Now, there are some vagaries of Parrot and .NET specifically to =
+contend=20
+with--with enough effort the fairly obvious inadequacies of either =
+system can be=20
+dealt with, and I'm sure someone "Hi, Miguel!) will chime in with =
+specifics.=20
+Parrot's got a good win over .NET for interpretation, as that's what =
+we're=20
+designed for, while .NET's got a simplicity win of sorts in the JIT =
+case, and,=20
+on Windows at least, has a huge personnel win over parrot. (Rag on =
+Microsoft all=20
+you want, their compiler guys are first rate) Mono's got a smaller win, =
+though=20
+still a win there.</P>
+<P>Still, it ought to be fairly obvious that register machines aren't =
+the vile=20
+and horrible things people make them out to be.</P><A =
+name=3Dmore></A><SPAN=20
+class=3Dposted>Posted by Dan at May 14, 2003 09:01 AM | <A=20
+onclick=3D"OpenTrackback(this.href); return false"=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-tb.cgi?__mode=3Dview&amp;entry_=
+id=3D189">TrackBack=20
+(4)</A> <BR></SPAN></DIV>
+<DIV class=3Dcomments-head><A name=3Dcomments></A>Comments</DIV>
+<DIV class=3Dcomments-body>
+<P>A paper from the Inferno folks about the design of their virtual =
+machine=20
+touches on the stack vs. registers topic.</P>
+<P>http://www.cs.bell-labs.com/who/rob/hotchips.html</P><SPAN=20
+class=3Dcomments-post>Posted by: <A =
+href=3D"mailto:daniel@zuster.org">Daniel=20
+Dunbar</A> at May 14, 2003 10:18 AM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P>
+<P>Some systems do both :-)</P>
+<P></P>
+<P>
+<P><A href=3D"http://www.poplog.org/">Poplog</A> has a high-level =
+language=20
+independent stack based VM (the Poplog Virtual Machine - PVM). This is =
+then=20
+compiled down to a low-level platform independent VM (Poplog =
+Implementation=20
+Machine - PIM) that's more register minded (kind of VAXish CISC =
+machine). The=20
+PIM is than compiled down to machine code.</P>
+<P></P>
+<P>
+<P>Poplog uses this scheme to implement CLOS, ML, Prolog and Pop-11 =
+(with=20
+incremental compilation to boot).</P>
+<P></P><SPAN class=3Dcomments-post>Posted by: <A=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-despamcomments.cgi?__mode=3Dred=
+&amp;id=3D192">Adrian=20
+Howard</A> at May 14, 2003 10:35 AM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P>"What The Heck Is: the Stack vs. Register Holy War"</P>
+<P>Interesting points... I'd like to read more about the state of the =
+art in=20
+register-allocation algorithms versus the work done in stack-machine=20
+architectures (peephole optimizations, top-N-of-stack caching tactics, =
+inlining,=20
+control-flow joining). Any suggestions?</P><SPAN =
+class=3Dcomments-post>Posted by:=20
+<A=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-despamcomments.cgi?__mode=3Dred=
+&amp;id=3D193">Gnomon</A>=20
+at May 14, 2003 12:13 PM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P>Well, the bell labs report above's a good place. Beyond that the =
+problem is=20
+that most compiler literature and research targets register machines =
+since=20
+that's what the hardware is, and any stack stuff is generally dealt with =
+as part=20
+of the HIR or AST the parser builds. That'll probably change as time =
+goes on,=20
+what with the emphasis on the JVM and .NET that's happening, but...</P>
+<P>If someone else has some good references I'd love to have them as =
+well, for=20
+the next time I have to do this.</P><SPAN class=3Dcomments-post>Posted =
+by: <A=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-despamcomments.cgi?__mode=3Dred=
+&amp;id=3D194">Dan</A>=20
+at May 14, 2003 12:24 PM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P><B>I mean, come on, how many people do you know who actually try to =
+write a=20
+compiler for something anyone would ever care about? </B><BR>Well, there =
+are=20
+hundreds of languages out there that just need a VM to run on:-) =
+Seriously, .net=20
+allows the creation of code at runtime, so it's not just compiler =
+writers, but=20
+any people that want to have a specialized version of a function for =
+example.=20
+Regular expressions can be compiled to IL code, as well as the code =
+needed to=20
+serialize/deserialize objects.<BR><B>...very limited range of machines =
+(x86 and=20
+maybe Itanium)..</B><BR>The MS people have a version of the CLR that =
+runs on=20
+more processors than that. We at mono will have a complete jit for ppc =
+soon and=20
+one for ARM has been started as well (and more are talked =
+about:-).<BR><B>More=20
+to the point it's easier to track register usage in the common cases =
+than it is=20
+intermediate stack results.</B><BR>Well, an intermediate stack result =
+can be=20
+though as a register that can be assigned just once, while in the =
+register=20
+machine you have to scan all the code in the method to check if the =
+value in the=20
+register is overwritten...<BR>Anyway, as I also wrote in the mail, if =
+you're=20
+designing an interpreter, a register machine makes sense for execution =
+speed=20
+reasons (code generation for it is still an issue, though, as well as =
+the=20
+compatibility issues that may arise with time with the call =
+conventions).<BR>But=20
+if you decide that the primary execution engine is a JIT (with x86, ppc =
+and=20
+sparc covering 99% of the market) the more compact and simpler stack =
+bytecode is=20
+a big win, because you consider it just as an intermediate language. =
+When you=20
+have the JIT, there is no evaluation stack to care about =
+anymore:-)<BR>The=20
+inferno paper is interesting, but it focuses mostly on interpretation. =
+The only=20
+argument it gives against a JIT for a SM is the need to track the types =
+(the JVM=20
+has untype local variables). On the CLR the locals are typed, so there =
+is no=20
+such issue. And what it doesn't address is the issue of mapping the VM =
+registers=20
+to hardware registers: most of the time the latter are scarce (think of =
+the ugly=20
+x86 platform that dominates 90% of the market...). Since that issue is =
+the=20
+common case, there is little difference between a SM and a MM: both have =
+to do=20
+the same kind of complex register allocation to perform =
+well.<BR></P><SPAN=20
+class=3Dcomments-post>Posted by: <A =
+href=3D"mailto:lupus@debian.org">lupus</A> at=20
+May 14, 2003 02:28 PM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P>For pure, non-JIT interpretation, if your register decoding is =
+simple, the=20
+decrease in opcodes is in my experience a huge win on any=20
+significantly-pipelined processor, because of the high cost of =
+mispredicted=20
+branches on instruction dispatch (which are extremely common even if =
+every=20
+instruction has its own dispatch point). </P>
+<P>I believe I first saw this pointed out by John Carmack when he was =
+talking=20
+about his implementation of Quake C, which was a little C-like language =
+for=20
+"scripting" in the game Quake back in 1996 or so.</P><SPAN=20
+class=3Dcomments-post>Posted by: <A=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-despamcomments.cgi?__mode=3Dred=
+&amp;id=3D196">Sean=20
+B</A> at May 15, 2003 04:23 AM</SPAN> </DIV>
+<DIV class=3Dcomments-body>
+<P>There are very few people who ever write compilers to target any =
+machine--to=20
+a good first approximation that number is zero. (Which, I suppose, makes =
+both=20
+you and I imaginary, Paolo... :) Even factoring in the 'toy language' =
+designers,=20
+the number is very, very small. The number of people who <I>use</I> =
+compilers or=20
+the output of compilers, though, is very large. Folks writing =
+serializers or=20
+regexes don't touch the underlying code. And, for those people who are =
+actually=20
+writing bits of bytecode assembly, well, it's been my experience that a =
+register=20
+system's much easier to handle when writing manual code. YMMV, of =
+course.</P>
+<P>As for .NET's targets, well.... Microsoft is, first and foremost, =
+interested=20
+in the x86. Period. Their .NET runs under Windows, and Windows runs on =
+the x86.=20
+(And yes, I am aware of the late, lamented NT ports to MIPS and Alpha, =
+may they=20
+rest in peace) Maybe on the Itanium. Some day. I am aware of the =
+interest and=20
+engine on some of the handheld devices, but the performance of most (if =
+not all)=20
+handhelds is just too damn slow to be a viable target. That doesn't mean =
+that=20
+they haven't ported the .NET engine to other platforms (and certainly =
+doesn't=20
+take away from your impressive effort to get a .NET engine running in =
+many=20
+places) just that the other platforms aren't important enough to demand =
+any sort=20
+of attention be paid to them in the design process. And it's the design =
+process=20
+for the core of .NET in the first place that's important here, something =
+that's=20
+long over.</P>
+<P>JITting for a register-rich machine is, with a register-rich IL =
+(Which one=20
+could consider a register based VM, the same way that a stack-based VM =
+is a=20
+stack IL), is relatively easy, in part because a lot of the optimization =
+
+decisions have been made, and in part because less information has been =
+lost.=20
+While it's certainly possible to reconstruct that information by code =
+analysis,=20
+or annotate the bytecode with it (not that you can necessarily trust the =
+
+annotations in a secure environment, as people both make mistakes and =
+lie)=20
+that's a non-trivial task and one that takes a good amount of JIT time =
+and=20
+effort. While it takes a similar amount of time in a register machine, =
+it gets=20
+done at <I>compile</I> time, and thus once, rather than at <I>run</I> =
+time, and=20
+thus every time the JIT runs over the bytecode. (OTOH, you may generally =
+feel=20
+that Moore's law makes the time irrelevant, and that's fine. I'd =
+disagree, but=20
+that's also fine)</P>
+<P>You are right, though--when translating to the register starved x86 =
+there's=20
+often not a huge amount of difference in speed in the post-JITted code,=20
+regardless of whether it's from a stack or register VM. It's pretty much =
+a wash.=20
+On the other hand, on a register rich machine the register VM has a =
+decided=20
+advantage. (And even the x86 world is, slowly and painfully, moving to a =
+
+register rich, or at least not pathetically under-endowed, model)</P>
+<P>So another way of looking at it is that there's no win either way on =
+the x86,=20
+but a register win on the non-x86, so why <I>not</I> go register based? =
+A win=20
+is, after all, a win.</P><SPAN class=3Dcomments-post>Posted by: <A=20
+href=3D"http://www.sidhe.org/~dan/blog/mt-despamcomments.cgi?__mode=3Dred=
+&amp;id=3D197">Dan</A>=20
+at May 15, 2003 02:12 PM</SPAN> </DIV></DIV></DIV></BODY></HTML>
+
+------=_NextPart_000_0039_01C83213.841894B0
+Content-Type: text/css;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.sidhe.org/~dan/blog/styles-site.css
+
+BODY {
+	BACKGROUND: #333; MARGIN: 0px 0px 10px
+}
+A {
+	COLOR: #99ccff; FONT-FAMILY: verdana, arial, sans-serif; =
+TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #99ccff; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #99ccff; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #99cc66
+}
+A:hover {
+	COLOR: #99cc66
+}
+#banner {
+	PADDING-RIGHT: 15px; BORDER-TOP: #999 3px dotted; PADDING-LEFT: 15px; =
+FONT-WEIGHT: normal; FONT-SIZE: 15px; BACKGROUND: #000; PADDING-BOTTOM: =
+15px; TEXT-TRANSFORM: uppercase; COLOR: #fff; PADDING-TOP: 15px; =
+BORDER-BOTTOM: #999 1px dotted; FONT-FAMILY: verdana, arial, sans-serif; =
+LETTER-SPACING: 0.2em
+}
+.description {
+	FONT-WEIGHT: bold; FONT-SIZE: 1em; BACKGROUND: #000; TEXT-TRANSFORM: =
+none; COLOR: #999; FONT-FAMILY: verdana, arial, sans-serif; =
+LETTER-SPACING: normal
+}
+#content {
+	BORDER-RIGHT: #999 1px dotted; BACKGROUND: #333; FLOAT: left; =
+PADDING-BOTTOM: 20px; WIDTH: 65%; MARGIN-RIGHT: 15px
+}
+#links {
+	PADDING-RIGHT: 15px
+}
+.blog {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-TOP: 15px
+}
+.blogbody {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: normal; =
+FONT-SIZE: 0.8em; BACKGROUND: #333; COLOR: #ccc; LINE-HEIGHT: 125%; =
+FONT-FAMILY: verdana, arial, sans-serif
+}
+.title {
+	FONT-WEIGHT: bold; TEXT-TRANSFORM: uppercase; COLOR: #ccc; FONT-FAMILY: =
+verdana, arial
+}
+#menu {
+	BACKGROUND: #333; MARGIN-BOTTOM: 15px
+}
+.date {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 1px =
+solid; MARGIN-TOP: 1em; PADDING-LEFT: 5px; FONT-WEIGHT: normal; =
+MARGIN-BOTTOM: 1em; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; =
+COLOR: #ccc; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid; =
+FONT-FAMILY: verdana, arial, sans-serif
+}
+.posted {
+	MARGIN-BOTTOM: 2em; COLOR: #ccc; FONT-FAMILY: verdana, arial, =
+sans-serif
+}
+.calendar {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; FONT-WEIGHT: normal; FONT-SIZE: =
+80%; BACKGROUND: #333; PADDING-BOTTOM: 2px; COLOR: #666; PADDING-TOP: =
+2px; FONT-FAMILY: verdana, arial, sans-serif; TEXT-ALIGN: center
+}
+.calendarhead {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; FONT-WEIGHT: bold; FONT-SIZE: =
+80%; BACKGROUND: #333; PADDING-BOTTOM: 2px; COLOR: #ccc; PADDING-TOP: =
+2px; FONT-FAMILY: verdana, arial, sans-serif
+}
+.side {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; FONT-WEIGHT: normal; FONT-SIZE: =
+80%; BACKGROUND: #333; PADDING-BOTTOM: 2px; COLOR: #d0d0d0; PADDING-TOP: =
+2px; FONT-FAMILY: verdana, arial, sans-serif
+}
+.sidetitle {
+	PADDING-RIGHT: 2px; MARGIN-TOP: 10px; PADDING-LEFT: 2px; FONT-WEIGHT: =
+bold; PADDING-BOTTOM: 2px; TEXT-TRANSFORM: uppercase; COLOR: #999; =
+PADDING-TOP: 2px; FONT-FAMILY: verdana, arial, sans-serif; =
+LETTER-SPACING: 0.2em; TEXT-ALIGN: left
+}
+.syndicate {
+	PADDING-RIGHT: 2px; MARGIN-TOP: 10px; PADDING-LEFT: 2px; FONT-SIZE: =
+80%; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; FONT-FAMILY: verdana, arial, =
+sans-serif; TEXT-ALIGN: center
+}
+.thingies {
+	PADDING-RIGHT: 2px; MARGIN-TOP: 10px; PADDING-LEFT: 2px; FONT-SIZE: =
+80%; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; FONT-FAMILY: verdana, arial, =
+sans-serif; TEXT-ALIGN: center
+}
+.powered {
+	PADDING-RIGHT: 2px; BORDER-TOP: #ccc 1px solid; MARGIN-TOP: 10px; =
+PADDING-LEFT: 2px; FONT-WEIGHT: bold; FONT-SIZE: 90%; PADDING-BOTTOM: =
+2px; TEXT-TRANSFORM: uppercase; COLOR: #ccc; PADDING-TOP: 2px; =
+BORDER-BOTTOM: #ccc 1px solid; FONT-FAMILY: verdana, arial, sans-serif; =
+LETTER-SPACING: 0.2em; TEXT-ALIGN: center
+}
+.comments-body {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: normal; =
+FONT-SIZE: 90%; BACKGROUND: #333; COLOR: #ccc; FONT-FAMILY: verdana, =
+arial, sans-serif
+}
+.comments-post {
+	FONT-WEIGHT: normal; FONT-SIZE: 90%; BACKGROUND: #333; COLOR: #666; =
+FONT-FAMILY: verdana, arial, sans-serif
+}
+.comments-head {
+	BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px =
+solid; MARGIN-TOP: 10px; PADDING-LEFT: 5px; FONT-WEIGHT: normal; =
+FONT-SIZE: 90%; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px solid; COLOR: =
+#ccc; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px solid; FONT-FAMILY: =
+verdana, arial, sans-serif
+}
+#banner-commentspop {
+	PADDING-RIGHT: 15px; BORDER-TOP: #999 3px dotted; PADDING-LEFT: 15px; =
+FONT-WEIGHT: bold; FONT-SIZE: 120%; BACKGROUND: #000; PADDING-BOTTOM: =
+15px; TEXT-TRANSFORM: uppercase; COLOR: #fff; PADDING-TOP: 15px; =
+BORDER-BOTTOM: #999 1px dotted; FONT-FAMILY: verdana, arial, sans-serif; =
+LETTER-SPACING: 0.2em
+}
+.trackback-body {
+	FONT-WEIGHT: normal; FONT-SIZE: small; BACKGROUND: #333; COLOR: #666; =
+PADDING-TOP: 15px; FONT-FAMILY: verdana, arial, sans-serif
+}
+.trackback-url {
+	BORDER-RIGHT: #999 1px dashed; PADDING-RIGHT: 5px; BORDER-TOP: #999 1px =
+dashed; PADDING-LEFT: 5px; FONT-WEIGHT: normal; FONT-SIZE: small; =
+BACKGROUND: #333; PADDING-BOTTOM: 5px; BORDER-LEFT: #999 1px dashed; =
+COLOR: #999; PADDING-TOP: 5px; BORDER-BOTTOM: #999 1px dashed; =
+FONT-FAMILY: verdana, arial, sans-serif
+}
+.trackback-post {
+	FONT-WEIGHT: normal; FONT-SIZE: x-small; BACKGROUND: #333; =
+MARGIN-BOTTOM: 20px; COLOR: #999; FONT-FAMILY: verdana, arial, =
+sans-serif
+}
+
+------=_NextPart_000_0039_01C83213.841894B0--

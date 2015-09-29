@@ -1,0 +1,30 @@
+.bottomline {
+	BORDER-TOP: 1px solid; BORDER-LEFT-WIDTH: 1px; FONT-SIZE: 10pt; BORDER-BOTTOM-WIDTH: 1px; FONT-STYLE: italic; FONT-FAMILY: 'Trebuchet MS', Arial; BORDER-RIGHT-WIDTH: 1px
+}
+.listing1 {
+	FONT-FAMILY: 'Trebuchet MS', Arial; BACKGROUND-COLOR: #c0c0c0
+}
+.listing2 {
+	FONT-FAMILY: 'Trebuchet MS', Arial; BACKGROUND-COLOR: #ffff79
+}
+.listing1a {
+	FONT-FAMILY: 'Trebuchet MS', Arial; BACKGROUND-COLOR: #e0e0e0
+}
+.listing2a {
+	FONT-FAMILY: 'Trebuchet MS', Arial; BACKGROUND-COLOR: #ffffb9
+}
+.popup {
+	
+}
+.popup_ie {
+	CURSOR: hand; COLOR: #008000; TEXT-DECORATION: underline
+}
+BODY {
+	
+}
+H1 {
+	BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid; FONT-FAMILY: 'Trebuchet MS', Arial; BACKGROUND-COLOR: #ffff00
+}
+H2 {
+	BORDER-TOP-WIDTH: 2px; BORDER-LEFT-WIDTH: 2px; BORDER-BOTTOM: 2px solid; BORDER-RIGHT-WIDTH: 2px
+}

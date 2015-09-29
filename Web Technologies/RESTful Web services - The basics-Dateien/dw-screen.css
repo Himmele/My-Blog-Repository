@@ -1,0 +1,759 @@
+/* developerWorks v16 css - no left nav */
+
+/* masthead styles begin ======================================================= */
+/* Maverick 60 070608 egd: Made 5 pixels wider b/c having a problem with the ftl include in IE */
+#ibm-search-form {
+	 width:445px; 
+} 
+/* masthead styles end ========================================================= */
+
+/* page container styles begin ======================================================= */
+div.ibm-landing-page #ibm-pcon {  
+	background:url(//dw1.s81c.com/i/v16/t/sprites-t1.gif) repeat-x 0px -810px; 
+	margin:0px;
+	padding:10px 0px 0px 0px;
+} 
+/* page container styles end ========================================================= */
+
+/* navigation trail and wordmark area styles begin ======================================== */
+div.ibm-landing-page #ibm-content {
+	background:url("//dw1.s81c.com/i/c.gif") no-repeat 99% 0px;
+}
+div.ibm-landing-page #ibm-content-head {min-height:20px;}
+div.ibm-landing-page #ibm-content-head ul#ibm-navigation-trail {
+	padding:0px 10px 5px;
+	margin-top: 4px;
+}
+*:first-child+html div.ibm-landing-page #ibm-content-head ul#ibm-navigation-trail {margin-top: 6px;}
+/* navigation trail and wordmark area styles end ========================================= */
+
+/* article summary area styles begin =================================================== */
+#dw-summary-article {
+	width:930px;
+	background-color: #ececec;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#ececec');
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#ececec));
+	background: -moz-linear-gradient(top,  #FFFFFF,  #ececec);
+    margin-top:3px;
+	border-bottom:#ccc solid 1px;
+}
+#dw-summary-article .dw-content-head {
+	padding:10px 10px 0px;
+}
+#dw-summary-article .dw-content-head h1 {
+	height:1%;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+#dw-summary-article .dw-content-head p {
+	padding-left:4px;
+}
+#dw-summary-article .dw-content-head em {
+	font-family:verdana,sans-serif;
+	font-weight:bold;
+	font-size:1.1em;
+	font-style:normal;
+	color:#666;
+}
+#dw-summary-article .ibm-two-column .ibm-column.ibm-first {
+	width:500px;
+	float:left;
+	padding-left:14px;
+	margin-bottom:10px;
+}
+#dw-summary-article .ibm-two-column .ibm-column.ibm-second {
+	width:380px;
+	float:right;
+	padding-right:10px;
+}
+#dw-summary-article div.author {font-size:0.76em;font-family:arial,sans-serif;}
+#dw-summary-article p {font-size:0.76em;}
+#dw-summary-article p {
+	margin:0em;
+	padding:0em 0em 1em;
+}
+#dw-summary-article p.leading {line-height: 150%;}
+
+#dw-summary-article a.ibm-external-link {
+    background:url("//dw1.s81c.com/i/v16/icons/sout.gif") no-repeat 0px -1px;
+	padding:0px 0px 0px 18px;
+    margin-left:12px;
+}
+#rateTxt {
+	font-family:arial,sans-serif;
+	font-size:0.76em;
+	vertical-align:5px;
+}
+#art-rating-widget {
+    margin:-5px 0px 6px 0px;
+    width:370px;
+	height:20px;
+}
+* html #art-rating-widget {margin-bottom:0px;}
+/* article summary area styles end ==================================================== */
+
+
+/* beta feedback area styles begin ==================================================== */
+#dw-summary-article .ibm-two-column .ibm-column.ibm-first .feedback {
+	width:450px;
+	background-color:#fff;
+    border:1px solid #ccc;
+	padding:6px 0px 0px 0px;
+    margin-top:0px;
+}
+#dw-summary-article .ibm-two-column .ibm-column.ibm-first .feedback p {
+	margin-bottom:-3px;
+}
+p.dw-feedback-icon {background:url("//dw1.s81c.com/developerworks/i/feedback.gif") no-repeat 2px 0px;}
+.dw-feedback-text {
+	padding:0px 0px 0px 20px;
+	color:#cf0000;
+	font-weight:bold;
+}
+/* beta feedback area styles end ====================================================== */
+
+
+/* related searches styles begin ======================================================= */
+#dw-related-searches-article {
+    padding:0px 3px 0px 3px;
+	font-size:1.0em;
+	font-family:arial,sans-serif;
+}
+#dw-related-searches-article .ibm-container.ibm-alternate-two {border-top:#ccc solid 1px;}
+#dw-related-searches-article .ibm-container .ibm-container-body {
+	border-bottom:#ccc solid 1px;
+	border-left:#ccc solid 1px;
+	border-right:#ccc solid 1px;
+}
+/* Remove border around interior show/hide table */
+#dw-related-searches-article .ibm-simple-show-hide .ibm-container-body {
+	border-bottom:#fff solid 1px;
+	border-left:#fff solid 1px;
+	border-right:#fff solid 1px;
+}
+/* Set correct font size and positioning for interior show/hide table links */
+#dw-related-searches-article .ibm-simple-show-hide h3 a.ibm-show-hide-link {
+	font-family:arial,sans-serif;
+	font-size:1.3em;
+	font-weight:bold;
+    margin-left:-5px;
+}
+/* Set width of search abstracts */
+#dw-related-searches-article .ibm-hideable {
+    width:660px;
+}
+/* FIx IE7 problem with twisty head moving to the next line */
+#dw-related-searches-article ul.ibm-twisty li .ibm-twisty-head {
+	display:inline;
+	margin-left:0px;
+}
+/* Set code sample width and hide overflow */
+#dw-related-searches-article .ibm-code-sample {
+    width:660px;
+	overflow:auto;
+    padding:2px 2px 2px 2px;
+}
+/* related searches styles end ======================================================== */
+
+
+/* center and right column positioning styles begin ========================================= */
+div.ibm-landing-page #ibm-content-body {
+	background:#fff;
+	padding:15px 0px 15px 0px;
+}
+div.ibm-landing-page #ibm-content-main {
+	width:710px;
+	padding-left:10px;
+}
+div.ibm-landing-page #ibm-content-sidebar {
+	width:190px;
+	margin:0px 0px 0px 730px;
+}
+/* IE6 hack to correctly position right column */
+* html div.ibm-landing-page #ibm-content-sidebar {
+    margin:0px 0px 0px 727px;
+}
+/* Fix for page tools background until sprites gif is updated */
+#ibm-top.ibm-landing-page div#ibm-page-tools {
+    background:url("//dw1.s81c.com/i/v16/t/pagetools-gradient.gif") repeat-x 0% 100%;
+	/* background:#CCC url(//dw1.s81c.com/i/v16/t/sprites-t1.gif) repeat-x 0px -480px;  */
+}
+/* center and right column positioning styles end =========================================== */
+
+
+/* center column styles begin ========================================================== */
+.smalltitle  {
+	font-size:1.2em;
+    font-weight: bold;
+}
+.atitle  {
+	font-size:1.5em;
+    font-weight: bold;
+}
+/* 6.0 Maverick IU1 jpp 03-24-09:  Fix font for code inside smalltitle and atitle headings */
+a span.smalltitle code,
+a span.smalltitle b code {
+	font-size:1.1em !important;
+    font-weight: bold;
+}
+a span.atitle code,
+a span.atitle b code {
+	font-size:1.1em !important;
+    font-weight: bold;
+}
+/* 6.0 Maverick R3 jpp 02-02-10:  Fix font for small tags inside smalltitle and atitle headings */
+a span.smalltitle strong code {font-size:1.2em !important;} 
+* html a span.smalltitle strong code {font-size:1.1em !important;} 
+a span.atitle strong code {font-size:1.2em !important;} 
+* html a span.atitle strong code {font-size:1.1em !important;} 
+b { 
+	font-size: 1.0em;
+	font-weight: bold; }
+/* 6.0 Maverick R3 jpp 02-02-10:  Fixes bold and strong headings outside of paragraph tags */
+#ibm-content-main .ibm-container a strong,
+#ibm-content-main .ibm-container a b {
+	padding:0.3em 5px 0.7em;
+	font-size:0.76em;
+	font-family:arial,sans-serif;
+}
+/* 6.0 Maverick R3 jpp 02-02-10:  Fixes bold and strong headings outside of paragraph tags, including figure captions */
+#ibm-content-main .ibm-container strong a,
+#ibm-content-main .ibm-container b a {
+	padding:0.3em 5px 0.7em;
+	font-size:0.76em;
+	font-family:arial,sans-serif;
+}
+/* Fixes bold and strong headings outside of paragraph tags */
+/* 6.0 Maverick R3 jpp 02-02-10:  Updated fix for b and strong tags with anchor tags */
+#ibm-content-main .ibm-container p strong a,
+#ibm-content-main .ibm-container p a strong,
+#ibm-content-main .ibm-container p b a,
+#ibm-content-main .ibm-container p a b {
+	padding:0em 0px 0em;
+	font-size:1.0em;
+	font-family:arial,sans-serif;
+}
+/* Fixes image tags outside of paragraph tags */
+#ibm-content-main .ibm-container img {
+	padding:0.3em 5px 0.7em;
+}
+/* Correctly positions image tags inside paragraph tags */
+#ibm-content-main .ibm-container p img {
+	padding:0.3em 5px 0.7em 0px;
+}
+/* Sets font size for unordered and ordered lists within #ibm-container  */
+#ibm-content-main .ibm-container ul.ibm-bullet-list {font-size:0.76em;}
+#ibm-content-main .ibm-container ul {font-size:0.76em;}
+/* 06-26-08 egd: Updated to account for nested lists and paragraphs and b nested within lists */
+#ibm-content-main .ibm-container ul ul {font-size:1.0em;}
+/* 6.0 Maverick R2 jpp 06-24-09:  Fixes padding for p tags in unordered lists */
+#ibm-content-main .ibm-container ul p {font-size:1.0em;padding-left:0px;padding-bottom:0px;}
+/* 6.0 Maverick R3 jpp 02-02-10:  Updated fix for b and strong tags around anchor tags in unordered lists */
+#ibm-content-main .ibm-container ul li a strong,
+#ibm-content-main .ibm-container ul li strong a,
+#ibm-content-main .ibm-container ul li b a,
+#ibm-content-main .ibm-container ul li b {font-size:1.0em;}
+#ibm-content-main .ibm-container ul ol {font-size:1.0em;}
+/* 6.0 Maverick IU1 jpp 05-12-09:  Fixes definition lists in unordered lists */
+#ibm-content-main .ibm-container ul dl {font-size:1.0em;}
+/* 6.0 Maverick R2 jpp 06-11-09:  Fixes sidebar fonts in unordered lists */
+#ibm-content-main .ibm-container ul div.dw-container-sidebar h2 {font-size:1.0em;font-weight:bold;}
+#ibm-content-main .ibm-container ul div.dw-container-sidebar div.ibm-container-body {font-size:1.0em;}
+#ibm-content-main .ibm-container ol {font-size:0.76em;}
+/* 06-26-08 egd: Updated to account for nested lists and paragraphs nested within lists */
+#ibm-content-main .ibm-container ol ol {font-size:1.0em;}
+/* 6.0 Maverick R2 jpp 06-24-09:  Fixes padding for p tags in ordered lists */
+#ibm-content-main .ibm-container ol p {font-size:1.0em;padding-left:0px;padding-bottom:0px;}
+/* 6.0 Maverick R3 jpp 02-02-10:  Updated font fix for b and strong tags around anchor tags in ordered lists */
+#ibm-content-main .ibm-container ol li a strong,
+#ibm-content-main .ibm-container ol li strong a,
+#ibm-content-main .ibm-container ol li b a,
+#ibm-content-main .ibm-container ol li b {font-size:1.0em;}
+#ibm-content-main .ibm-container ol ul {font-size:1.0em;}
+/* 6.0 Maverick IU1 jpp 05-12-09:  Fixes definition lists in ordered lists */
+#ibm-content-main .ibm-container ol dl {font-size:1.0em;}
+/* 6.0 Maverick R2 jpp 06-11-09:  Fixes sidebar fonts in unordered lists */
+#ibm-content-main .ibm-container ol div.dw-container-sidebar h2 {font-size:1.0em;font-weight:bold;}
+#ibm-content-main .ibm-container ol div.dw-container-sidebar div.ibm-container-body {font-size:1.0em;}
+/*06-30-08 egd: Updated to account for dl, dt, dd in docbody */
+#ibm-content-main .ibm-container dl {font-size:0.76em;}
+/* 6.0 Maverick IU1 jpp 03-06-09:  Updated to account for nested lists and paragraphs nested within definition lists */
+#ibm-content-main .ibm-container dl dd ol {font-size:1.0em;margin-top:4px;}
+#ibm-content-main .ibm-container dl dd p {font-size:1.0em;margin-top:4px;padding-left:0px;padding-bottom:0px;}
+#ibm-content-main .ibm-container dl dd ul {font-size:1.0em;margin-top:4px;}
+/* 6.0 Maverick R3 jpp 02-02-10:  Update fixes font for b and strong tags around anchor tags in definition lists */
+#ibm-content-main .ibm-container dl dd strong a,
+#ibm-content-main .ibm-container dl dd a strong,
+#ibm-content-main .ibm-container dl dd b a,
+#ibm-content-main .ibm-container dl dd a b {
+	padding:0.3em 5px 0.7em;
+	font-size:1.0em;
+	font-family:arial,sans-serif;
+}
+/* 6.0 Maverick R2 jpp 06-11-09:  Fixes sidebar fonts in definition lists */
+#ibm-content-main .ibm-container dl div.dw-container-sidebar h2 {font-size:1.0em;font-weight:bold;}
+#ibm-content-main .ibm-container dl div.dw-container-sidebar div.ibm-container-body {font-size:1.0em;}
+/* 07-16-08 egd: Updated to account for blockquote tag */
+/* 05-21-09 jpp: Updated blockquote tag CSS to handle as classic block quote */
+#ibm-content-main .ibm-container blockquote {
+    font-weight:normal;  
+    font-size:0.76em;
+    padding:0.3em 20px 0.7em;
+} 
+/*06-30-08 egd: Updated to account for tables without the ibm table class that contain html tags like p in the 0211-yip3 article, but seems then to cause problems with comment section 
+#ibm-content-main .ibm-container table td p {font-size:1.0em;} */
+
+/* 6.0 Maverick jpp 07-14-08:  Support legacy table class */
+table.data-table-1 caption {
+	background:#FFF url(//dw1.s81c.com/i/v16/t/sprites-t1.gif) repeat-x 0px -545px;
+	border:#CCC solid 1px;
+	margin:0px;
+	padding:3px 5px;
+	height:1%;
+}
+table.data-table-1 caption {
+	border-bottom:0px none;
+	text-align:left;
+}
+table.data-table-1 td,
+table.data-table-1 th {
+	border-top:#CCC solid 1px;
+	padding:3px 5px;
+	vertical-align:top;
+}
+table.data-table-1 td,
+table.data-table-1 tbody th {
+	padding:8px 5px;
+}
+table.data-table-1 th {
+	background:#F7F8FC url(//dw1.s81c.com/i/v16/t/text-tabs-bg.gif) repeat-x;
+	text-align:left;
+}
+table.data-table-1 {
+	border:1px solid #CCC;
+	border-top:0px;
+/* 6.0 Maverick IU1 jpp-egd 03-06-09:  Added space after bottom of table for readability */
+    margin-bottom:8px;
+	width:100%;
+}
+#ibm-content-main table.data-table-1 caption {font-size:0.75em;}
+#ibm-content-main table.data-table-1 th,
+#ibm-content-main table.data-table-1 td {font-size:0.7em;}
+#ibm-content-main table.data-table-1 th table th,
+#ibm-content-main table.data-table-1 th table td,
+#ibm-content-main table.data-table-1 td table th,
+#ibm-content-main table.data-table-1 td table td {font-size:1em;}
+#ibm-content-main table.data-table-1 caption em {font-weight:bold;font-style:normal;}
+#ibm-content-main table.data-table-1 th p,
+#ibm-content-main table.data-table-1 td p,
+/* 6.0 Maverick 2 jpp 12-02-09:  Fix font for lists within v16 table cells */
+#ibm-content-main table.ibm-data-table td ul,
+#ibm-content-main table.ibm-data-table td ol,
+#ibm-content-main table.ibm-data-table td dl,
+#ibm-content-main table.data-table-1 td ul,
+#ibm-content-main table.data-table-1 td ol,
+#ibm-content-main table.data-table-1 td dl,
+#ibm-content-main table.data-table-1 th ul.ibm-link-list,
+#ibm-content-main table.data-table-1 td ul.ibm-link-list {font-size:1em;}
+/* 6.0 Maverick jpp 07-17-08: Fix legacy table row class format */
+#ibm-content-main table.data-table-1 th.tb-row {background:#FFF;font-weight:normal;}
+/* 6.0 Maverick IU1 jpp 03-16-09:  Fix font for tables inside of li elements */
+#ibm-content-main .ibm-container dl dd table.data-table-1 th,
+#ibm-content-main .ibm-container dl dd table.data-table-1 td,
+#ibm-content-main .ibm-container ul li table.data-table-1 th,
+#ibm-content-main .ibm-container ul li table.data-table-1 td,
+#ibm-content-main .ibm-container ol li table.data-table-1 th,
+#ibm-content-main .ibm-container ol li table.data-table-1 td {font-size:0.9em;}
+/* 6.0 Maverick R2 jpp 06-23-09:  Fix font for tables inside of li elements -- supports schema update */
+#ibm-content-main .ibm-container dl dd table.ibm-data-table th,
+#ibm-content-main .ibm-container dl dd table.ibm-data-table td,
+#ibm-content-main .ibm-container ul li table.ibm-data-table th,
+#ibm-content-main .ibm-container ul li table.ibm-data-table td,
+#ibm-content-main .ibm-container ol li table.ibm-data-table th,
+#ibm-content-main .ibm-container ol li table.ibm-data-table td {font-size:0.9em;}
+/* 6.0 Maverick R3 jpp 02-02-10:  Fix fonts for b and strong tags used with anchor tags in table cells */
+#ibm-content-main .ibm-container table.ibm-data-table td strong a,
+#ibm-content-main .ibm-container table.ibm-data-table td a strong,
+#ibm-content-main .ibm-container table.ibm-data-table td b a,
+#ibm-content-main .ibm-container table.ibm-data-table td a b {font-size:1.0em;padding-left:0px;}
+/* 6.0 Maverick egd 06-30-08: Fix spacing for ul lists */
+.ibm-container ul {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:0px;
+	padding-right:5px;
+	padding-bottom:5px;
+}
+
+.ibm-container ul li {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:0px;
+	padding-right:5px;
+	padding-bottom:3px;
+}
+
+/* 6.0 Maverick egd 06-30-08: Fix spacing for ol lists */
+.ibm-container ol {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:0px;
+	padding-right:5px;
+	padding-bottom:5px;
+}
+
+.ibm-container ol li {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:5px;
+	padding-right:5px;
+	padding-bottom:3px;
+}
+
+/* 6.0 Maverick IU1 jpp 03-24-09:  Fix spacing for dl lists */
+.ibm-container dl {
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:10px;
+	padding-top:0px;
+	padding-right:5px;
+	padding-bottom:0px;
+}
+.ibm-container dl dt {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:0px;
+	padding-right:5px;
+	padding-bottom:0px;
+}
+
+/* Allows links with arrow in ibm-content-main container */
+#ibm-content-main .ibm-container p a.ibm-forward-link {
+	background:url("//dw1.s81c.com/i/v16/icons/fw.gif") no-repeat 0px 1px;
+	display:inline;
+	margin:0px;
+	padding:0px 0px 0px 18px; 
+	text-decoration:none;
+}
+/* Allows links with arrow in ibm-content-main container */
+#ibm-content-main .ibm-container p a.ibm-external-link {
+	background:url("//dw1.s81c.com/i/v16/icons/sout.gif") no-repeat 0px 1px;
+	display:inline;
+	margin:0px;
+	padding:0px 0px 0px 18px; 
+	text-decoration:none;
+}
+
+/* Code section css deleted by ibmcom in v16 css */
+.displaycode {
+	width:694px;
+	margin-top: 0; 
+	margin-bottom: 0; 
+	font-family: Andale Mono, Lucida Console, Monaco, Liberation, fixed, monospace; 
+	font-size: 11px; 
+	overflow:auto;    
+	background:#F7F7F7 !important; 
+	color:#000;
+}
+/* 6.0 Maverick jpp 052809: Update for liquid code sections */
+.displaycodeliquid {
+	margin-top: 0; 
+	margin-bottom: 0; 
+	font-family: Andale Mono, Lucida Console, Monaco, Liberation, fixed, monospace; 
+	font-size: 11px; 
+	overflow:auto;    
+	background:#F7F7F7 !important; 
+	color:#000;
+}
+/* 6.0 Maverick beta egd 070508: Fix for embedded code sections that overlay right column */
+#ibm-content-main .ibm-container ol li pre.displaycode {
+	width:635px;
+
+}
+#ibm-content-main .ibm-container ul li pre.displaycode {
+	width:635px;
+}
+
+#ibm-content-main .ibm-container ul li ol li pre.displaycode {
+	width:600px;
+}
+#ibm-content-main .ibm-container ul li ul li pre.displaycode {
+	width:600px;
+}
+
+/* 6.0 Maverick beta egd 070608:: Fix for embedded code sections within sidebars */
+/* with sidebar heading */
+.dw-container-sidebar .displaycode {
+	width:290px;
+	}
+/* with no sidebar heading */
+.dw-container-sidebar-noheading .displaycode  {
+	width:290px;
+}
+
+.boldcode {font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 11px; font-weight: bold}
+.code-outline {background-color:#F7F7F7 !important; border: 1px solid #ccc; padding: 2px 2px 5px 2px;}
+code  {	
+	font-family:monospace;
+	font-size:small !important;
+}
+
+/* SWG white subhead class . this was the original comment before the original sidebar coding, leaving until talk to Jack */
+/* Sidebars: SEE displaycode for fixing code sections within sidebars */
+/* Sidebars with or without heading and when sidebar text enclosed within p tags */
+.ibm-container.ibm-alt-header h2 {background-image:none;background-color:#f7f8fc;}
+.dw-container-sidebar  {
+/* egd made smaller and then made fixed pixel 
+	width:55%; 
+	width:45%; */
+	width:320px;
+	margin-left:10px;
+	float: right;
+}
+
+/* Maverick 60 071808 jpp: added base font/spacing for sidebar text and reset paragraph font/spacing */
+.dw-container-sidebar .ibm-container-body {
+   font-size:0.76em;	
+   font-family:arial,sans-serif;
+   padding:5px 5px;
+}
+.dw-container-sidebar .ibm-container-body p {
+	font-size:1.0em !important;
+	padding-left:0px !important;
+}
+/* 6.0 Maverick IU1 jpp 03-23-09:  Added font for ol and dl within sidebar */
+.dw-container-sidebar .ibm-container-body ol,
+.dw-container-sidebar .ibm-container-body dl,
+/* Maverick 6.0 egd 072008: added font for ul within sidebar */
+.dw-container-sidebar .ibm-container-body ul {
+	font-size:1.0em !important;
+}
+/* xM R2 (R2.3) jpp 08/02/11: Support for custom sidebars */
+.dw-sidebar-custom { background:#F7F7F7 !important; }
+/* 6.0 Maverick tdc 11-18-09: Some elements should not have a background (like nested th's used for row headings in complex tables) */
+.dw-no-background {
+    background:none !important;
+}
+/* center column styles end =========================================================== */
+
+
+/* inline commenting styles begin ======================================================= */
+.dw-icomment-container {
+	background-color:#fff; 
+	margin-bottom:10px;
+	width:710px;
+	overflow:auto;
+}
+.dw-icomment-body {
+   background-color:#e7eef4;
+   border-bottom:#CCC solid 1px;
+   width:710px;
+}
+/* Set font and padding to fix Jive format bug that occurs when comment contains more than two empty carriage returns */ 
+.dw-icomment-body td {
+   font-size:0.76em;	
+   font-family:arial,sans-serif;
+   padding-left:5px;
+} 
+table.dw-icomment-body td p {
+	font-size:1.0em !important;
+	padding-left:0px !important;
+}
+table.dw-icomment-body td p.ibm-item-note-alternate a {font-size:1.0em !important;}
+table.dw-icomment-body td p.ibm-item-note-alternate {
+	font-size:0.9em !important;
+	padding-left:0px !important;
+}
+.dw-icomment-link {
+	text-decoration:underline;
+	color:#4c6e94;
+    cursor:pointer;
+}
+.dw-icomment-report {
+	margin-left:135px;
+}
+textarea#newCmt {
+	max-width:90%;
+}
+.dw-bar {
+	color:#999 !important;
+	margin:0px 3px;
+}
+/* inline commenting styles end ======================================================== */
+
+
+/* right column styles begin =========================================================== */
+/* Correctly position show/hide icons in wider right-hand column */
+#ibm-content-sidebar .ibm-show-hide h2 a {width:162px;}
+
+#ibm-content-sidebar .ibm-container-body p.dw-special-offers {
+padding-bottom:0px;
+}
+/* right column styles end ============================================================= */
+
+/* incremental profiling begin =========================================================== */
+/* Double buffering of image below prevents flickering in IE 6 */
+#dw-summary-article #dw-tag-this {background:url(//dw1.s81c.com/developerworks/i/dwtag_icon_maverick.gif) no-repeat 2px 0px;font-size:0.76em;font-family:arial,sans-serif;display:inline;}
+#dw-summary-article #dw-tag-this a.ibm-external-link {
+	background:url(//dw1.s81c.com/developerworks/i/dwtag_icon_maverick.gif) no-repeat 0px 0px;
+	background-position:0px 0px;
+	margin-left:2px;
+	margin-right:18px;
+	padding-left:19px;
+	font-weight:bold !important;
+}
+#dw-summary-article #interestShow {display:inline;}
+/* Double buffering of image below prevents flickering in IE 6 */
+#dw-summary-article #interestShow div#dw-interest-anon {background:url(//dw1.s81c.com/developerworks/i/updateinterests.gif) no-repeat 2px 0px;font-size:0.76em;font-family:arial,sans-serif;display:inline;}
+#dw-summary-article #interestShow div#dw-interest-anon a.ibm-external-link {
+	background:url(//dw1.s81c.com/developerworks/i/updateinterests.gif) no-repeat 0px 0px;
+	margin-left:2px;
+	margin-right:4px;
+	padding-left:20px;
+	font-weight:bold !important;
+	color:#4C6E94;
+}
+#dw-summary-article #interestShow div#dw-interest-add {background:url(//dw1.s81c.com/developerworks/i/addinterests.gif) no-repeat 2px 0px;font-size:0.76em;font-family:arial,sans-serif;display:inline;}
+#dw-summary-article #interestShow div#dw-interest-add a.ibm-external-link {
+	background:url(//dw1.s81c.com/developerworks/i/addinterests.gif) no-repeat 0px 0px;
+	margin-left:2px;
+	margin-right:4px;
+	padding-left:20px;
+	font-weight:bold !important;
+	color:#4C6E94;
+}
+#dw-summary-article #interestShow div#dw-interest-remove {
+	background:url(//dw1.s81c.com/developerworks/i/addedtointerest-mav.gif) no-repeat 0px 0px;
+	font-size:0.76em;
+	font-family:arial,sans-serif;
+	display:inline;
+	padding-left:18px;
+}
+#dw-summary-article #interestShow a.dw-interest:link {text-decoration:none;font-size:0.9em;}
+#dw-summary-article #interestShow a.dw-interest:visited {text-decoration:none;color:#4C6E94;font-size:0.9em;}
+#dw-summary-article #interestShow a.dw-interest:hover {text-decoration:underline;font-size:0.9em;}
+/* incremental profiling end ============================================================= */
+
+/* Fix to offset screen.css setting */
+#ibm-top.ibm-landing-page #ibm-social-tools-sidebar {padding-bottom:0px !important;margin-bottom:12px !important;}
+
+/* tagging styles begin =========================================================== */
+/* Tagging module */
+#dw-tag-select a:link {text-decoration:none;}
+#dw-tag-select a:visited {text-decoration:none;color:#4C6E94;}
+#dw-tag-select a:hover {text-decoration:underline;}
+.dw-hidetag {display:none;}
+#dw-tag-help {float:right; margin-top:-18px;padding-right:7px;}
+#dw-tag-cloud li a.lotusF1 {font-size: 0.7em;}
+#dw-tag-cloud li a.lotusF2 {font-size: 0.7em;font-weight:bold;}
+#dw-tag-cloud li a.lotusF3 {font-size: 0.8em;}
+#dw-tag-cloud li a.lotusF4 {font-size: 0.8em;font-weight:bold;}
+#dw-tag-cloud li a.lotusF5 {font-size: 0.9em;font-weight:bold;}
+#dw-tag-cloud a:link {text-decoration:none;}
+#dw-tag-cloud a:visited {text-decoration:none;color:#4C6E94;}
+#dw-tag-cloud a:hover {text-decoration:underline;}
+#dogearTagList .lotusList,
+#dogearTagCloud #cloud-container {
+	overflow:auto;
+	height:auto;
+}
+* html #dogearTagList .lotusList {
+	width:168px;
+    overflow-x:auto;
+	overflow-y:hidden;
+}
+* html #dogearTagCloud #cloud-container {
+	width:170px;
+    overflow-x:auto;
+	overflow-y:hidden;
+}
+#dw-tag-cloud li a.lotusLeft {font-size: 0.7em;}
+#dw-tag-cloud center {font-size: 0.7em;font-family:arial,sans-serif;color:#ff6600;font-weight:bold;}
+#content-slider {
+    width: 165px; 
+    height: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+    margin-left: 5px;
+    background: #bbb;
+    position: relative;
+	border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+}
+.ui-slider-horizontal .ui-slider-handle {
+	margin-left:-0.1em;
+	top:-0.3em;
+	background:url(//dw1.s81c.com/i/v16/ibmlc/tagsliderhandle.gif) no-repeat;
+}
+.ui-slider .ui-slider-handle {
+	cursor:default;
+	height:1.2em;
+	position:absolute;
+	width:1.2em;
+	z-index:2;
+	outline:none;
+}
+#dogearTagCloud .content-slider-more {font-size:0.9em;margin-left:5px;}
+#dogearTagCloud .content-slider-less {font-size:0.9em;margin-left:122px;}
+#dogearTagCloud #ui-slider-scale p {margin:0px 0px;padding:0px 0px;}
+#dogearTagCloud #cloud-container {padding:5px 5px 18px;}
+#dogearTagCloud #cloud-container ul,
+#dogearTagCloud #cloud-container li {margin:0px 0px;padding:0px 0px;line-height:100%;}
+#dogearTagCloud #cloud-container li {display:inline;}
+#dogearTagList ul.lotusList {margin:0;padding:0;}
+#dogearTagList li {margin:0;list-style:none;text-align:right;}
+#dogearTagList ul.lotusList {font-family:arial,sans-serif;font-size:0.7em !important;}
+#dogearTagList ul.lotusList li {color:#666;}
+#dogearTagList a.lotusLeft {font-size:1.0em !important;float:left;text-align:left;}
+#dogearTagList #list-container {padding:0px 5px 0px 5px;}
+#dogearTagList ul.lotusList li {line-height:130%;}
+#dogearTagList ul {display:inline;}
+#dogearTagList .ibm-rule,
+#dogearTagCloud .ibm-rule {padding-bottom:2px;}
+/* Summary area tag styles */
+#dw-summary-article #dw-tag-content a:link {text-decoration:none;}
+#dw-summary-article #dw-tag-content a:visited {text-decoration:none;color:#4C6E94;}
+#dw-summary-article #dw-tag-content a:hover {text-decoration:underline;}
+#dw-summary-article #dw-tag-content a.dwmoretags {color:#4C6E94;}
+#dw-summary-article #dw-tag-content p {line-height:120%;padding-bottom:0;} 
+#dw-summary-article p.dw-customize {line-height:120%;padding-bottom:10px;padding-top:7px;} 
+#dw-summary-article #dw-tag-content #moretags {line-height:120%;padding:0;} 
+/* tagging styles end =========================================================== */
+
+/* additional styles used by other applications =============================================== */
+#dw-signin {
+	overflow:auto;
+	height:auto;
+}
+* html #dw-signin {
+	width:168px;
+    height:auto;
+}
+#dw-signin ul.dw-signin-links {
+	width:167px;
+}
+/* sign-in overlay styles ========================================== */
+p.dw-perm-box span { position:relative; }
+input#perm { position:absolute; left: 0; }
+p.dw-perm-box span label { margin:2px 0 0 24px; }
+
+/* author badges =============================================== */
+.dw-author-img {
+	padding-bottom: 5px !important;
+}
+
+.dw-author-level-img {
+	padding-right: 420px !important;
+	padding-left: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+.dw-author-level-img-alt {
+	padding-right: 500px !important;
+	padding-left: 0px !important;
+	padding-bottom: 0px !important;
+}

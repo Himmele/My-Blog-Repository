@@ -1,0 +1,75 @@
+// ex24c.odl : type library source for ex24c.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (ex24c.tlb).
+
+[ uuid(A9515B01-5B85-11D0-848F-00400526305B), version(1.0) ]
+library ex24c
+{
+	importlib("stdole32.tlb");
+	
+
+	//  Primary dispatch interface for CEx24cDoc
+	
+	[ uuid(A9515B02-5B85-11D0-848F-00400526305B) ]
+	dispinterface IEx24c
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CEx24cDoc)
+			[id(1)] DATE Time;
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CEx24cDoc)
+			[id(5), propget] VARIANT Figure(short n);
+			[id(5), propput] void Figure(short n, VARIANT newValue);
+			[id(2)] void ShowWin();
+			[id(3)] IDispatch* CreateAlarm(DATE time);
+			[id(4)] void RefreshWin();
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CEx24cDoc
+	
+	[ uuid(0389DA63-CBDD-11CE-B337-88EA36DE9E4E) ]
+	coclass Document
+	{
+		[default] dispinterface IEx24c;
+	};
+
+
+	//  Primary dispatch interface for CAlarm
+	
+	[ uuid(A9515B16-5B85-11D0-848F-00400526305B) ]
+	dispinterface IAlarm
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CAlarm)
+			[id(1)] DATE Time;
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CAlarm)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CAlarm
+
+	[ uuid(A9515B17-5B85-11D0-848F-00400526305B) ]
+	coclass Alarm
+	{
+		[default] dispinterface IAlarm;
+	};
+
+	//{{AFX_APPEND_ODL}}
+};

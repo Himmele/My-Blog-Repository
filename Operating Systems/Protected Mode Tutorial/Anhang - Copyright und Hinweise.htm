@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/info.htm -->
+<HTML><HEAD><TITLE>Copyright und Hinweise</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Copyright und Hinweise-Dateien/stone.jpg">
+<H1><FONT color=#800000>Copyright und Hinweise</FONT></H1>
+<P>Die auf diesen Webseiten wiedergegebenen Informationen sind das Ergebnis und 
+die Erfahrungen, die sich während meiner Beschäftigung mit der Thematik 
+Protected Mode in meinem Praxissemester ergaben. Die hier dargestellten 
+Informationen sind daher in erster Linie für Amateur- und Lehrzwecke 
+bestimmt.</P>
+<P>Alle Angaben und Programme wurden mit großer Sorgfalt zusammengestellt und 
+geprüft. Da Fehler trotzdem nicht auszuschließen sind, muß ich darauf hinweisen, 
+daß ich keinerlei Haftung für irgendwelche Schäden übernehmen kann, die auf 
+fehlerhafte Angaben oder Programme zurückgehen. Natürlich bin ich für die 
+Mitteilung eines eventuellen Fehlers jederzeit dankbar.</P>
+<P>Alle auf diesen Webseiten verwendeten Soft- und Hardwarebezeichnungen sowie 
+Markennamen unterliegen dem warenzeichen-, marken- oder patent rechtlichen 
+Schutz der jeweiligen Firmen.</P>
+<P>Das Weitergeben, Kopieren oder Konvertieren des gesamten Textes oder Teilen 
+davon ist erlaubt. Nicht erlaubt ist hingegen: 
+<UL>
+  <LI>das Ändern des Textes mit anschließender Veröffentlichung unter meinem 
+  oder einem anderen Namen, 
+  <LI>der kommerzielle Vertrieb des Textes. </LI></UL>
+<P></P>
+<P>Weiterhin sollen die folgenden Personen nicht unerwähnt bleiben:</P>
+<UL>
+  <LI>Prof. Lenk für das Korrekturlesen des Textes und vor allem für die Idee, 
+  überhaupt ein Protected Mode Lehrmaterial zu entwickeln und 
+  <LI>Herrn Heerklotz für das Korrekturlesen des Textes und das Entfernen vieler 
+  Fehler. </LI></UL>
+<H1><FONT color=#800000>Versionskontrolle</FONT></H1>
+<P>Version 1.0 (<B>28.07.97</B>)<BR>Version 1.1 (<B>29.10.97</B>)<BR>Version 1.2 
+(<B>03.08.98</B>)<BR>Version 1.3 (<B>27.09.98</B>)<BR>Version 1.31 
+(<B>02.01.99</B>)<BR></P>
+<P><A href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B></A></P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/code.htm" onMouse><IMG 
+alt=Zurück src="Copyright und Hinweise-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <IMG alt=Weiter src="Copyright und Hinweise-Dateien/null.gif" 
+align=right border=0 name=right> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="Copyright und Hinweise-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

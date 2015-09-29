@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez3.htm -->
+<HTML><HEAD><TITLE>Call- und Task- Gates</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Call- und Task- Gates-Dateien/stone.jpg">
+<H1><FONT color=#800000>3.3 Call- und Task- Gates</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Bei normalen Unterprogrammaufrufen ohne Wechsel der Privilegstufe werden die 
+Rücksprungadresse und eventuelle Parameter auf dem Stack abgelegt, der Sprung 
+zur eigentlichen Routine ausgeführt und nach dem Rücksprung das Programm 
+fortgesetzt. Das Schutzkonzept des Protected Mode verbietet es jedoch, auf diese 
+Weise Routinen in anderen Privilegstufen aufzurufen. Für diesen Zweck existieren 
+Call-Gates, die, wie bereits weiter oben erwähnt wurde, einen Einsprungspunkt in 
+eine höher privilegierte Routine definieren.</P>
+<P>Dabei tritt jedoch das folgende Problem auf: </P>
+<P>Angenommen, eine in Ring 3 laufende Anwendung versucht, über ein Call-Gate 
+eine Routine des Betriebsystems (im Ring 0) aufzurufen. Wird das Call-Gate 
+aktiviert, "legt" der Prozessor die Rücksprungadresse auf den Stack der 
+aufrufenden Routine (in einem ungeschützten Speicherbereich in Ring3 !), ändert 
+die aktuelle Privilegstufe und führt anschließend den Sprung aus. Das Problem 
+liegt nun darin, daß der Stack im Ring 3 nur wenig gegenüber anderen Anwendungen 
+geschützt ist bzw. nicht entfernte Stackelemente der Betriebsystemroutine nach 
+dem Aufruf der Routine noch gelesen werden könnten. Ein klarer Verstoß gegen das 
+Schutzkonzept.</P>
+<H2><FONT color=#000080>Call-Gate</FONT></H2>
+<P>Die Lösung des oben genannten Problems besteht nun darin, im Call-Gate 
+festzulegen, wieviele Parameter vom Stack der Anwendung auf den Stack der 
+Betriebsystemroutine (bzw. der jeweils höher privilegierten Routine) kopiert 
+werden soll. Dadurch ist es möglich, alle Stackbehandlungen im geschützten 
+Bereich der Betriebssystemroutine durchzuführen. Daraus ergibt sich jedoch auch, 
+daß jeder Task so viele separate Stacksegmente definieren muß, wie es 
+Privilegstufen im System gibt. Da der Prozessor im Normalfall jedoch nur einen 
+Stack adressieren kann (über SS:ESP), übernehmen die Einträge SSn:ESPn des 
+TSS-Segmentes die Aufgabe, die entsprechenden Stacksegmente zu verwalten. Nur 
+der jeweils aktive Stack wird durch SS:ESP adressiert. Ein Stackeintrag im TSS 
+für die Privilegstufe 3 wird nicht benötigt, da es keine Routine gibt, die 
+niedriger als eine Routine in Ring 3 privilegiert ist.</P>
+<P>Tritt ein Privilegstufenwechsel über ein Call-Gate auf, wird zunächst die 
+Privilegstufe des Gates (DPL) mit der aktuellen Privilegstufe (CPL) verglichen. 
+Wenn das aufrufende Programm mindestens die Privilegstufe des Gates besitzt, 
+kann mit weiteren Prüfungen fortgesetzt werden. Ist das nicht der Fall, wird die 
+Exception 13 ausgelöst. Nachdem festgestellt wurde, daß sich das Call-Gate im 
+Speicher befindet ("Present"-Bit gesetzt), ändert der Prozessor die CPL und 
+springt an die im Gate angegebene Adresse. Dabei wird die im Call-Gate 
+angegebene Anzahl 32-Bit Werte vom Stack der Anwendung auf den durch die 
+entsprechende Privilegstufe ausgewählten Stack kopiert. Insgesamt lassen sich 
+dabei 31 Werte auf den Stack kopieren (Vgl. Abb. 3.9 - Aufbau des 
+Call-Gates).</P>
+<CENTER>
+<P><IMG alt=Call-Gate src="Call- und Task- Gates-Dateien/p_3_9.gif" border=2> 
+<BR><I><B>Abb. 3.9:</B> Aufbau des Call-Gate</I> </P></CENTER>
+<P>Da das Call-Gate selbst die komplette Adresse der beschriebenen Routine 
+beinhaltet, wird die beim Aufruf des Gates angegebene Offsetadresse ignoriert 
+(Abb. 3.10 zeigt die Umsetzung eines Gate-Aufrufes zur eigentlichen Adresse der 
+Routine).</P>
+<CENTER>
+<P><IMG alt="Call-Gate Aufruf" src="Call- und Task- Gates-Dateien/p_3_10.gif" 
+border=2> <BR><I><B>Abb. 3.10:</B> Aufruf eines Call-Gate</I> </P></CENTER>
+<P>Bei dieser Umsetzung wird der Zugriff auf eine Routine durch zwei 
+Privilegprüfungen kontrolliert. DPL1 in Abbildung 3.10 definiert, wer auf das 
+Gate zugreifen darf. Dieser Zugriff ist nur möglich, wenn die aktuelle 
+Privilegstufe (CPL) des aufrufenden Programmes numerisch höher oder gleich (d.h. 
+entsprechend niedriger oder gleich privilegiert) dem Wert des Feldes DPL1 im 
+Call-Gate ist.</P>
+<P>DPL2 im Codesegment-Deskriptor kann den Zugriff auf das beschriebene 
+Codesegment weiter einschränken. Wird es auf eine Privilegstufe kleiner als DPL1 
+gesetzt, kann unter Umständen zwar auf das Call-Gate zugegriffen werden, die 
+Ausführung der eigentlichen Routine löst jedoch eine Exception aus.</P>
+<P><B>Anmerkung:</B> Call-Gates können auch von JMP-Befehlen aufgerufen werden. 
+Dabei ist jedoch zu beachten, daß bei der Ausführung von JMP kein 
+Privilegstufenwechsel durchgeführt werden kann. Call-Gates können über den 
+JMP-Befehl nur aufgerufen werden, wenn sich die beschriebene Routine auf der 
+gleichen Privilegstufe wie die aufrufende Routine befindet.</P>
+<H2><FONT color=#000080>Task-Gates</FONT></H2>
+<P>Task-Gates entsprechen in ihrem Aufbau den Call-Gates (Vgl. Abb. 3.11), 
+definieren aber keine Einsprungsadresse in eine Routine, sondern lösen einen 
+Taskwechsel aus. Der im Task-Gate angegebene Selektor muß aus diesem Grund nicht 
+auf einen Codesegment-Deskriptor zeigen, sondern einen TSS-Deskriptor 
+festlegen.</P>
+<CENTER>
+<P><IMG alt=Task-Gate src="Call- und Task- Gates-Dateien/p_3_11.gif" border=2> 
+<BR><I><B>Abb. 3.11:</B> Task-Gate</I> </P></CENTER>
+<P>Die DPL des angesprochenen Tasks wird beim Aufruf über ein Task-Gate nicht 
+überprüft. Nur die DPL des Task-Gates entscheidet darüber, ob ein Zugriff auf 
+den TSS-Deskriptor möglich ist. Im Gegensatz zu TSS-Deskriptoren, die sich nur 
+in der GDT befinden dürfen, können Task-Gates in der LDT des Prozesses 
+gespeichert werden. Auch Interrupts und Exceptions können einen Task-Wechsel 
+auslösen. Task-Gates werden dazu in die Interrupt Deskriptor Tabelle (IDT) 
+eingetragen. Dadurch kann erreicht werden, daß bei einer Interrupt-Behandlung 
+ein eigener Task gestartet wird. Dieser Task kann dann unabhängig vom Programm, 
+das die Exception auslöste, eine Fehlerbehandlung durchführen.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Call- und Task- Gates-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_04.asm">pm_04.asm</A> 
+      benutzt einen Task, um ein Protected Mode Programm auszuführen. Dabei 
+      wurde der bisherige, lineare Programmablauf der Beispielprogramme <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_01.asm">pm_01.asm</A> 
+      bis <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_03.asm">pm_03.asm</A> 
+      abgeändert und die eigentliche Protected Mode Initialisierung in das 
+      externe Modul <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm.asm">pm.asm</A> 
+      verlagert.</P>
+      <P>Die Routine pm_init im Modul pm.asm muß von einem Programm im Realmode 
+      über einen FAR-Call aktiviert werden. "pm_init" führt nun alle nötigen 
+      Vorbereitungen aus, um in den Protected Mode zu schalten. Dabei legt die 
+      Routine zwei TS-Segmente und die dazugehörigen TSS-Deskriptoren an. Ein 
+      TSS wird für die Routine pm_init verwendet. Das andere TSS wird für die 
+      Routine, die pm_init aufgerufen hat, benutzt.<BR>"pm_init" führt, nachdem 
+      sich der Prozessor im Protected Mode befindet, einen Task-Wechsel 
+      (FAR-JMP) zum aufrufenden Programm aus. Im Register AX befindet sich 
+      danach ein Selektor auf das erste TSS. Das Anwendungsprogramm ist mit 
+      einem Sprung zu diesem, im Register AX übergebenen Selektor in der Lage, 
+      seinen Task zu beenden und die Kontrolle an pm_init abzugeben. "pm_init" 
+      schaltet nach der Rückehr aus dem ausgeführten Task den Protected Mode 
+      wieder aus, aktiviert den Realmode und kehrt zu DOS zurück.</P>
+      <P>Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_04.asm">pm_04.asm</A> 
+      ist ein Beispiel, wie kooperatives Multitasking im Protected Mode aussehen 
+      könnte. Der von "pm_init" ausgeführte Task kehrt "von sich aus" zum 
+      vorhergehenden Task zurück und wird nicht automatisch an irgendeiner 
+      Stelle im Programmcode unterbrochen.</P>
+      <P>Ein Beispiel für echtes pre-emptives Multitasking finden Sie unter 
+      Punkt 6. Komplexbeispiel.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez2.htm"><IMG 
+alt=Zurück src="Call- und Task- Gates-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez4.htm"><IMG 
+alt=Weiter src="Call- und Task- Gates-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_s"><IMG 
+alt="Zum Index" src="Call- und Task- Gates-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 26.07.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

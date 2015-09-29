@@ -1,0 +1,629 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos2.htm -->
+<HTML><HEAD><TITLE>VCPI</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=VCPI-Dateien/stone.jpg>
+<H1><FONT color=#800000>4.2 VCPI</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Das VCPI-Interface (<B>V</B>irtual <B>C</B>ontrol <B>P</B>rogramming 
+<B>I</B>nterface) wurde 1989 von den Softwarefirmen PharLap, Hersteller von 
+DOS-Extendern, und Quaterdeck, Hersteller von QEMM, vorgestellt. Diese 
+Spezifikation behandelt Probleme, die die Koexistenz von DOS-Extendern, 
+Multitaskern und Speicherverwaltungsprogrammen betrifft. Wie bereits weiter oben 
+erwähnt wurde, ergeben sich für DOS-Extender Probleme, wenn sie versuchen, auf 
+einem PC, der mit virtuellen EMS-Speicher arbeitet, den Protected Mode zu 
+initialisieren. Der Grund für diese Probleme liegt in der Bereitstellung des 
+virtuellen EMS-Speichers durch die Nutzung des V86-Modus (Vgl. <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez4.htm">3.4 Virtueller 
+8086-Modus (V86)</A>. Der VCPI-Standard bietet trotz dieser Tatsache die 
+Möglichkeit, in den Protected Mode zu schalten. Darüber hinaus stellt er 
+Funktionen zur Verfügung, die z.B. den Zugriff auf das Extended Memory 
+regeln.</P>
+<H2><FONT color=#000080>Prinzip: Client und Server</FONT></H2>
+<P>Den Client-Server-Modellen im Netzwerkbereich nicht unähnlich, basiert der 
+VCPI-Standard auf dem Zusammenspiel zwischen Clients und einem Server. Für VCPI 
+stellt ein Server ein Programm dar, das VCPI-Funktionen zur Verfügung stellt. 
+Diese Funktionen können von verschiedenen Clients (Kunden, Programme wie 
+beispielsweise DOS-Extender) genutzt werden. Unter dem VCPI-Standard bezeichnet 
+der Server-Begriff immer ein Speicherverwaltungsprogramm (z.B. EMM386.EXE). 
+Diese Speicherverwaltung dient dabei den Clients als gemeinsame Schnittstelle zu 
+den System-Resourcen: Protected Mode und Extended Memory. Da diese 
+Speicherverwaltungsprogramme in den meisten Fällen bereits beim Systemstart 
+eingebunden werden, z.B. als Treiber in der CONFIG.SYS, steht der VCPI-Server 
+allen Programmen gleichermaßen zur Verfügung.</P>
+<H2><FONT color=#000080>VCPI Funktionen / Dienste</FONT></H2>
+<P>VCPI-Server stellen ihren Clients 13 verschiedene Funktionen zur Verfügung. 
+Diese Funktionen können in die folgenden Bereiche eingeteilt werden:</P>
+<UL>
+  <LI>Funktionen zur Initialisierung des VCPI 
+  <LI>Funktionen zur Verwaltung des Extended Memory 
+  <LI>Zugriff auf Spezialregister des Prozessors (CR0, Debug-Register) 
+  <LI>Programmierung des Interrupt-Controllers 
+  <LI>Umschaltung zwischen V86-Modus und Protected Mode </LI></UL>
+<P>Alle Funktionen wurden als Erweiterung des EMS-Standards implementiert und 
+sind über den Interrupt 67h, Unterfunktionsnummer DEh (AH=DEh) ansprechbar. Alle 
+VCPI-Funktionen liefern einen Rückehrcode im AH-Register, dabei steht "00h" für 
+keine Fehler. Entsprechend zeigen Werte ungleich 0 einen aufgetretenen Fehler 
+an.</P>
+<H2><FONT color=#000080>Funktionen</FONT></H2>
+<H2><FONT color=#000080><I>1. Initialisierung des VCPI</I></FONT></H2>
+<P>Bevor Funktionen des VCPI genutzt werden können, muß festgestellt werden, ob 
+überhaupt ein VCPI-Server im System vorhanden ist. Dazu muß zunächst geprüft 
+werden, ob ein EMS-Treiber installiert wurde (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm">Vgl. 1.3.3 
+EMS/XMS</A>). Konnte ein EMS-Treiber gefunden werden, ist es weiterhin 
+erforderlich, eine EMS-Seite über die "normale" EMS-Schnittstelle anzufordern. 
+Das ist notwendig, da manche EMS-Treiber den Prozessor solange im Realmode 
+belassen, bis ihre Dienste benötigt werden, erst dann schalten sie in den 
+V86-Modus. Da sich VCPI-Server nur im V86-Modus zu erkennen geben, muß vorher 
+sichergestellt sein, daß der EMS-Treiber aktiv ist.</P>
+<P>Jetzt kann festgestellt werden, ob der verwendete EMS-Treiber die 
+VCPI-Schnittstelle unterstützt. Für diesen Zweck existiert die Funktion 00h des 
+VCPI:</P><PRE><I><B>Funktion 00h: Test auf Vorhandensein eines VCPI-Servers</B>
+Aufruf mit    AX =  DE00h
+Rückgabe      AH =  00h, Erfolg
+                    BX =  Versionsnummer BCD
+              AH != 00h (=84h) Fehler, kein VCPI vorhanden</I>
+</PRE>
+<P>Konnte auf diese Weise ein VCPI-Server erkannt werden, können die 
+Vorbereitungen für die Initialisierung des Protected Mode fortgesetzt 
+werden.</P>
+<P>Obwohl VCPI-Server und Clients die gleichen linearen Adressen benutzen 
+können, darf es nicht unkontrolliert möglich sein, daß sie die gleichen 
+physischen (!) Speicherbereiche benutzen, da es sonst möglich wäre, daß sich 
+Server und Clienten gegenseitig überschreiben. Da das Paging bei Verwendung des 
+VCPI-Standards aufgrund des EMM immer aktiv ist, müssen die vom Server und vom 
+Client verwendeten Pagetables untereinander koordiniert werden. Den physischen 
+Speicher teilen bedeutet dabei, entweder nur eine Pagetable für Server und 
+Clients zu verwenden und damit das Register CR3 immer unverändert zu lassen oder 
+teilweise mit identischen Pagetables zu arbeiten. Der VCPI-Standard macht von 
+der letztgenannten Möglichkeit Gebrauch.</P>
+<P>Es existiert eine VCPI-Funktion, die die Pagetable des Clients so 
+initialisiert, daß die ersten 256 Einträge (1 MB) das erste MByte des linearen 
+Adressraums auf das erste MByte des physischen Adressraums abbilden. Alle 
+weiteren Pages stehen dem Client zur Verfügung. Die Initialisierung der 
+Pagetables wird dabei von der Funktion 01 des VCPI-Standards übernommen:</P><PRE><I><B>Funktion 01h: get protected mode interface</B>
+Aufruf mit    AX =  DE01h
+              ES:DI -&gt; 4KB großer Pagetable Buffer
+              DS:SI -&gt; 24 Byte großer Buffer, für die Aufnahme
+                       von 3 Segmentdeskriptoren
+Rückgabe      AH =  00h, Erfolg
+                     DI =  Erster unbenutzter Eintrag im Buffer(Offset)
+                    EBX -&gt; Einsprungspunkt für VCPI-Funktionsaufrufe aus
+                           dem Protected Mode
+             AH != 00h, Fehler</I>
+</PRE>
+<P>Der Funktion wird in ES:DI ein Zeiger auf einen Buffer übergeben, der die 
+erste Pagetable aufnimmt. Diese Pagetable muß der erste Eintrag in einem vom 
+Client zu verwaltenden Page-Directory sein. Unter dem durch das Registerpaar 
+DS:SI identifizierten, 24 Byte großen Puffer werden weiterhin 3 
+Segmentdeskriptoren abgelegt. Der Client muß dafür sorgen, daß diese 3 
+Deskriptoren in eine GDT (Globale Deskriptor Tabelle) eingebaut werden.</P>
+<P>Der erste Deskriptor beschreibt dabei das Codesegment des VCPI-Servers und 
+dient mit dem in EBX zurückgelieferten Offset als Einsprungsadresse für den 
+Aufruf der VCPI-Funktionen aus dem Protected Mode heraus (als FAR-CALL 
+aufgerufen). Der von der Funktion 01 im Register DI zurückgelieferte Wert gibt 
+das Offset in der Pagetable an, an der sich der erste nicht belegte Pagetable 
+Eintrag befindet. Ab diesem Eintrag steht die Pagetable dem Client zur Verfügung 
+(Vgl. Abb. 4.1).</P>
+<P>
+<CENTER>
+<P><IMG alt="VCPI Pagetables und GDT" src="VCPI-Dateien/p_4_1.gif" border=3> 
+</P><I><B>Abb. 4.1:</B> Verwaltung der Pagetables und der GDT unter VCPI</I> 
+</CENTER>
+<P></P>
+<H2><FONT color=#000080><I>2. Verwaltung des Extended Memory</I></FONT></H2>
+<P>Damit sich unterschiedliche Clients im Speicher nicht gegenseitig stören, 
+müssen alle das Extended Memory betreffenden Speicheranforderungen über die 
+VCPI-Schnittstelle durchgeführt werden. Nur auf diese Weise können z.B. 
+DOS-Extender und Speicherverwaltungen problemlos nebeneinander verwendet 
+werden.</P>
+<P>Bevor ein Client Speicher über VCPI anfordert, kann er feststellen, ob 
+überhaupt noch Speicher zur Verfügung steht. Über die Funktion 02 der 
+VCPI-Schnittstelle kann dazu die phys. Adresse der höchsten 4KByte großen 
+Speicherseite angefordert werden:</P><PRE><I><B>Funktion 02h: get max. physical memory address</B>
+Aufruf mit    AX =  DE02h
+Rückgabe      AH =  00h, Erfolg
+                    EDX-&gt; Adresse der höchsten ansprechbaren 4K Speicherseite
+              AH != 00h Fehler</I>
+</PRE>
+<P><B>Anmerkung:</B> Der in EDX zurückgelieferte Wert entspricht der 
+(theoretisch) höchsten ansprechbaren 4KB Speicherseite und muß nicht unbedingt 
+dem tatsächlich vorhandenen Speicher entsprechen.</P>
+<P>Über die Funktion 03h kann die Anzahl der noch freien 4KB Seiten ermittelt 
+werden:</P><PRE><I><B>Funktion 03h: get number of free 4K pages</B>
+Aufruf mit    AX =  DE03h
+Rückgabe      AH =  00h, Erfolg
+                    EDX-&gt; number of free 4K pages
+              AH != 00h, Fehler</I>
+</PRE>
+<P>Maximal kann die in EDX zurückgelieferte Anzahl 4KByte großer Speicherseiten 
+über die Funktion 04h angefordert werden:</P><PRE><I><B>Funktion 04h: allocate a 4K Page</B>
+Aufruf mit    AX =  DE04h
+Rückgabe      AH = 00h, Erfolg
+                   EDX-&gt; physische Adresse der allokierten 4K Speicherseite
+              AH != 00h Fehler</I>
+</PRE>
+<P>Der reservierte Speicher kann dabei aus ganz unterschiedlichen 
+Speicherbereichen stammen. Der Client muß als nächstes einen Segmentdeskriptor 
+in seiner GDT anlegen, über den der Zugriff auf die reservierte Seite 
+stattfindet (der Bereich kann dabei natürlich größer als 4 KByte sein, wenn 
+mehrere Speicherseiten zusammengefaßt werden). Weiterhin muß der Client einen 
+Eintrag in seiner Pagetable anlegen, der auf die reservierte Seite zeigt. Dabei 
+muß beachtet werden, daß die Funktion 01h bereits Einträge in der Pagetable 
+belegt hat.</P>
+<P>Der Offset des ersten freien Eintrags muß daher noch ermittelt werden. 
+Funktion 01 lieferte dazu die Offsetadresse des ersten freien Eintrags im 
+Register DI zurück. Den Index des ersten freien Pagetable Eintrages erhält man, 
+indem man von der ursprünglichen Offsetadresse (der Fkt. 01 im Register ES:DI 
+übergeben) den Wert des Registers DI (von Fkt. 01 zurückgeliefert) abzieht. 
+Dadurch erhält man die Länge der belegten Pagetable in Byte.</P>
+<P><B>Anmerkung:</B> Betrachtet man diese Differenz in der Einheit KByte, ergibt 
+sich die erste freie Adresse im linearen Adressraum! Durch eine Division mit 4 
+(jeder Eintrag ist 4 Byte lang) ergibt sich der Index für die erste freie 
+Page.</P>
+<P>Benötigt der Client die reservierten Speicherseiten nicht mehr, können sie 
+über die Funktion 05 wieder freigegeben werden:</P><PRE><I><B>Funktion 05h: free 4K Page</B>
+Aufruf mit    AX =  DE05h
+              EDX-&gt; physikalische Adresse einer 4 KB Speicherseite
+Rückgabe      AH = 00h, Erfolg
+              AH != 00h Fehler</I>
+</PRE>
+<P>Über die Funktion 06h kann zu einer linearen Adresse im ersten MB 
+festgestellt werden, wo die zu dieser Seite gehörende physische Speicherseite 
+liegt (z.B. wo befindet sich der physische Ursprung einer EMS-Speicherseite, die 
+an der Adresse E000h:0000h eingeblendet wird ?)</P><PRE><I><B>Funktion 06h: get physical adresse of page in first MB</B>
+Aufruf mit    AX =  DE06h
+              CX =  Seiten Nummer (lineare Adresse durch 4096 dividiert, bzw. um
+                    12 Bit nach rechts verschoben)
+Rückgabe      AH =  00h Erfolg
+                    EDX-&gt; physische Adresse der Speicherseite
+              AH != 00h Fehler</I>
+</PRE>
+<H2><FONT color=#000080><I>3. Zugriff auf Spezialregister des Prozessors (CR0, 
+Debug-Register)</I></FONT></H2>
+<P>Über die Funktion 07h kann das Statusregister CR0 des Prozessors ausgelesen 
+werden:</P><PRE><I><B>Funktion 07h: read CR0</B>
+Aufruf mit    AX =  DE07h
+Rückgabe      AH =  00h Erfolg
+                    EBX-&gt; Inhalt des Registers CR0</I>
+</PRE>
+<P><B>Anmerkung:</B> Anstelle dieser Funktion kann auch über den "normalen" 
+MOV-Befehl der Inhalt des Registers CR0 ausgelesen werden. Da "MOV EAX,CR0" in 
+jeder Privilegstufe ausgeführt werden kann, besteht keine Notwendigkeit, die 
+Funktion 07 zu benutzen.</P>
+<P>Die Funktionen 08h und 09h erlauben es beispielsweise Debuggern, die Inhalte 
+der DEBUG-Register auszulesen bzw. zu verwenden. Im Gegensatz zur Funktion 07h 
+unterliegt der Zugriff auf die Debug-Register der Privilegierung.</P><PRE><I><B>Funktion 08h: read debug registers</B>
+Aufruf mit    AX =  DE08h
+              ES:DI-&gt; Zeiger auf Array für 8 Doublewords
+Rückgabe      AH =  00h Erfolg, Buffer wurde mit Debug-Registern
+                    DR0..DR7 gefüllt (DR4 und DR5 werden nicht benutzt)</I>
+</PRE><PRE><I><B>
+Funktion 09h: set debug registers</B>
+Aufruf mit    AX =  DE09h
+              ES:DI-&gt; Zeiger auf Array für 8 Doublewords (enthält
+                      neue Werte)
+Rückgabe      AH = 00h Erfolg, Werte für DR4 und DR5 werden
+                   nicht benutzt</I>
+</PRE>
+<P>Mehr über die Debug-Register finden sie unter: <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm">Die 
+Debug-Register</A>.</P>
+<H2><FONT color=#000080><I>4. Programmierung des 
+Interrupt-Controllers</I></FONT></H2>
+<P>Um zu verstehen, warum ein VCPI-Client überhaupt die Möglichkeit besitzen 
+darf, die Einstellungen des Interrupt-Controllers zu verändern, ist eine kurze 
+Erklärung der durch den Interrupt-Controller durchgeführten Interrupt-Verwaltung 
+notwendig.</P>
+<P>Computer ab dem AT (80286 Prozessor) besitzen (unabhängig vom VCPI-Standard) 
+zwei Interrupt-Controller, um je 8 Hardware-Interrupts verwalten zu können. Die 
+8 Interrupts des zweiten Controllers sind dabei über den Interrupt 2 des ersten 
+Controllers miteinander verbunden (kaskadiert). Tritt nun eine 
+Interrupt-Anforderungen der Leitungen 8 bis 15 (also 0 bis 7 am zweiten 
+Interrupt-Controller) auf, wird ein Interrupt 2 am ersten Interrupt-Controller 
+ausgelöst.</P><A name=table_4_1>
+<P>Die auftretenden Interrupts werden dabei so auf die Interrupt-Vektortabelle 
+abgebildet, wie es in Tabelle 4.1 dargestellt wird.</P></A>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="25%">Interrupt Nr.</TH>
+    <TH width="75%">Belegung</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>00h</TD>
+    <TD>CPU: Division durch NULL</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>01h</TD>
+    <TD>CPU: Einzelschritt</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>02h</TD>
+    <TD>CPU: NMI</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>03h</TD>
+    <TD>CPU: Breakpoint</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>04h</TD>
+    <TD>CPU: numerischer Überlauf</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>05h</TD>
+    <TD>Hardcopy</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>06h</TD>
+    <TD>unbekannter Befehl</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>07h</TD>
+    <TD>reserviert</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>08h</TD>
+    <TD>IRQ0: Timer</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>09h</TD>
+    <TD>IRQ1: Tastatur</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Ah</TD>
+    <TD>IRQ2: 2ter Interrupt-Controller (nur AT)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Bh</TD>
+    <TD>IRQ3: serielle Schnittstelle 2</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Ch</TD>
+    <TD>IRQ4: serielle Schnittstelle 1</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Dh</TD>
+    <TD>IRQ5: Festplatte</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Eh</TD>
+    <TD>IRQ6: Diskette</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Fh</TD>
+    <TD>IRQ7: Drucker</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10h..6Fh</TD>
+    <TD>reserviert / spez. Geräte (z.B. Maus) / frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>70h</TD>
+    <TD>IRQ8: Echtzeituhr</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>71h</TD>
+    <TD>IRQ9: frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>72h</TD>
+    <TD>IRQ10: frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>73h</TD>
+    <TD>IRQ11: frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>74h</TD>
+    <TD>IRQ12: frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>75h</TD>
+    <TD>IRQ13: 80287 NMI</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>76h</TD>
+    <TD>IRQ14: Fetsplatte</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>77h</TD>
+    <TD>IRQ15: frei</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>78h..FFh</TD>
+    <TD>reserviert / frei</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 4.1:</B> Standard-Interruptvektortabelle im 
+Realmode</I> </CAPTION></CENTER>
+<P>Wie aus Tabelle 4.1 ersichtlich, werden die Hardwareinterrupts 0..7 (IRQ0 ... 
+IRQ7) auf die Interrupt-Vektoren 08h..0Fh und die Hardwareinterrupts 08..0Fh 
+(IRQ8 ... IRQ15) auf die Interrupt-Vektoren 70h..77h umgeleitet. Im Gegensatz 
+zum Realmode ergibt sich im Protected Mode ein Problem, das mit den 
+Prozessor-Exceptions zusammenhängt. Intel belegt im Zusammenhang mit seinen 
+Prozessoren die Interrupts 00..0Fh mit den Prozessorexceptions 00..0Fh. Tritt 
+nun beispielsweise ein Timer-Interrupt auf (Hardware-Interrupt 8 (IRQ0), 18,2 
+mal pro Sekunde, umgeleitet auf Interrupt-Vektor 8) würde im Protected Mode alle 
+18,2 mal in der Sekunde eine Double-Fault Exception ausgelöst werden. Das ist 
+auch der Grund dafür, daß alle in den vorangegangenen Kapiteln beschriebenen 
+Beispielprogramme nur mit gesperrten Interrupts korrekt arbeiten!</P>
+<P>Die Lösung dieses Problems besteht darin, den ersten Interrupt-Controller 
+anzuweisen, seine (Hardware-) Interrupts nicht auf die Interrupts 08..0Fh 
+umzuleiten, sondern an eine andere, freie Stelle innerhalb der 
+Interrupt-Vektortabelle (bzw. der IDT im Protected Mode).</P>
+<P>Dazu können unter der Nutzung der VCPI-Schnittstelle die Funktionen 0Ah und 
+0Bh genutzt werden, um diese Veränderung durchzuführen. Die VCPI-Funktion 0Ah 
+dient dazu, die aktuellen Interrupt-Controller Einstellungen abzufragen:</P><PRE><I><B>Funktion 0Ah: get interrupt vector mappings</B>
+Aufruf mit    AX =  DE0Ah
+Rückgabe      AH =  00h, Erfolg
+                    BX = erster Vektor für den ersten Interruptcontroller,
+                         Interrupts 0..7 (Standard 8)
+                    CX = erster Vektor für den zweiten Interruptcontroller,
+                         Interrupts 8..15 (Standard 70h)</I>
+</PRE>
+<P>Besitzen die von der Funktion 0Ah in den Registern BX und CX 
+zurückgelieferten Werte nicht mehr ihre originalen Inhalte (8, 70h), darf der 
+Client diese Werte nicht mehr verändern, da diese Änderung bereits durch einen 
+anderen Client durchgeführt wurde.</P>
+<P>Eine Umleitung der Interrupts kann der VCPI-Schnittstelle durch die Funktion 
+0Bh mitgeteilt werden, wenn über die Funktion 0Ah festgestellt wurde, daß beide 
+Interruptvektoren (für den ersten und zweiten Controller) ihre Orginalwerte 
+enthalten:</P><PRE><I><B>Funktion 0Bh: set interrupt vector mappings</B>
+Aufruf mit    AX =  DE0Bh
+              BX =  erster Vektor für den ersten Interruptcontroller,
+                    Interrupts 0..7
+              CX =  erster Vektor für den zweiten Interruptcontroller,
+                    Interrupts 8..15
+Rückgabe      AH =  00h, Erfolg
+                   AH != 00h, Fehler</I>
+</PRE>
+<P><B>Anmerkung:</B> Funktion 0Bh dient nur der Mitteilung der Veränderung an 
+den VCPI-Server! Der Client muß selbst die Interrupt-Belegung durch 
+Neuprogrammierung des Interrupt-Controller verändern.</P>
+<P>Die Umprogrammierung der Interrupt-Controller erfordert ihre 
+Neuinitialisierung. Der genaue Vorgang sowie die Zusammenhänge können in 
+entsprechender Literatur zur Systemprogrammierung nachgelesen werden (z.B. 
+Tischer: "PC-Intern" 4.0). An dieser Stelle soll nur der erforderliche 
+Assemblercode kurz dargestellt werden:</P><PRE><I>; Neuinit der Interrupt-Controller, sowie neu Setzen des
+; Interrupt Mappings
+        mov al,00010001b        ; kaskadierte Interrupt-Controller
+        out 020h,al             ; und Flankentriggerung an beider Controller
+        out 0a0h,al             ; senden
+
+; neuer IRQ-Vektor für den ersten Controller einstellen
+        mov al,??               ; Standardwert = 8
+        out 021h,al
+
+; neuer IRQ-Vektor für zweiten Controller einstellen
+        mov al,??               ; Standardwert = 70h
+	out 0a1h,al
+
+; Kaskadierung beider Controller einstellen
+	mov al,00001000b        ; Kaskadierung über IRQ2
+	out 021h,al
+	mov al,00000100b        ; Kaskadierung über IRQ2
+	out 0a1h,al
+
+; PIC auf Intel-Umgebung und manuelle Int.- Beendigung einstellen
+	mov al,00000001b
+	out 021h,al
+	out 0a1h,al</I>
+</PRE>
+<H2><FONT color=#000080><I>5. Umschaltung zwischen V86-Modus und Protected 
+Mode</I></FONT></H2>
+<P>Funktion 0Ch dient dem kontrolliertem Übergang zwischen dem V86-Modus und dem 
+Protected Mode. Wird die Funktion im V86-Modus über den "normalen" EMS-Interrupt 
+angesprungen, wird ein Wechsel vom V86-Modus in den Protected Mode durchgeführt. 
+Befindet sich der Computer jedoch im Protected Mode und wird Funktion 0Ch über 
+ein FAR-Call zum VCPI-Server aktiviert (vergleiche VCPI-Funktion 01), wird der 
+V86-Modus initialisiert.</P>
+<P>Je nachdem, in welchem Modus sich der Computer zum Zeitpunkt des 
+Funktionsaufrufes befindet, erwartet die Routine eine unterschiedliche 
+Registerbelegung.</P><PRE><I><B>Aufruf im V86-Modus, Int 67h:
+Funktion 0Ch: switch to protected mode</B>
+Aufruf mit    AX =  DE0Ch
+              ESI=  lineare Adresse innerhalb des ersten phys. MB eines Buffers,
+                    der Werte für die Prozessorregister im Protected Mode
+                    enthählt (siehe untern)</I>
+</PRE>
+<P>Die Datenstruktur zum Funktionsaufruf ist in Tabelle 4.2 dargestellt (FWORD 
+ist eine 6 Byte lange Datenstruktur, die eine Selektor:(32Bit) Offsetadresse 
+beinhaltet).</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="25%">Offset</TH>
+    <TH width="50%">Bedeutung</TH>
+    <TH width="25%">Typ</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0000h</TD>
+    <TD>CR3 (Startadresse des Page-Directory)</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0004h</TD>
+    <TD>lineare Adresse einer Variablen unterhalb der 1-MByte Grenze, die 
+      einen FAR-Zeiger (FWORD) auf die GDT enthält</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0008h</TD>
+    <TD>lineare Adresse einer Variablen unterhalb der 1-MB Grenze, die einen 
+      FAR-Zeiger (FWORD) auf die IDT enthält</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Ch</TD>
+    <TD>Selektor für die LDT</TD>
+    <TD>WORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Eh</TD>
+    <TD>Selektor für das TR-Register</TD>
+    <TD>WORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0010h</TD>
+    <TD>Einsprungsadresse in den Programmcode nach Umschaltung in den 
+      Protected Mode (Selektor:32-Bit-Offset)</TD>
+    <TD>FWORD</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 4.2:</B> Registerbuffer für Aufruf der 
+VCPI-Funktion 0Ch</I> </CAPTION></CENTER>
+<P>Nach dem Aufruf der Funktion befindet sich der Computer im Protected Mode. 
+Die Register GDTR, IDTR, LDTR, CR3 und TR wurden mit den Werten aus der 
+Datenstruktur initialisiert. Die Interrupts sind gesperrt und der Inhalt der 
+folgenden Register wurde zerstört bzw. ist ungültig: EAX, ESI, DS, ES, FS, GS. 
+Die jetzt ausgeführte Protected-Mode Routine ist dafür verantwortlich, einen 
+Stack bereitzustellen, die Selektorregister DS, ES, FS und GS mit gültigen 
+Segmentselektoren zu laden und die Interrupts wieder zuzulassen.</P>
+<P>Die Rückkehr in den V86-Modus wird ebenfalls über die Funktion 0Ch 
+durchgeführt. Der Einsprungspunkt aus dem Protected Mode wird jetzt jedoch über 
+den Codesegmentselektor des VCPI-Servers und den von Funktion 01 
+zurückgelieferten Offsetwert gebildet. Die Registerbelegung für den Rücksprung 
+ist auch eine andere.</P><PRE><I><B>Funktion 0Ch: switch to V86-Mode</B>
+Aufruf mit    AX =  DE0Ch
+              DS =  Segmentselektor auf Datensegment (lineares Segment von
+                    der Größe 1MB, mit der Basisadresse 0)
+              SS:ESP-&gt; Datenstruktur mit neuen Registerwerten (siehe
+                    Tabelle 4.3), muß unterhalb der 1 MB-Grenze liegen!</I>
+</PRE>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="25%">Offset</TH>
+    <TH width="50%">Bedeutung</TH>
+    <TH width="25%">Typ</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>00h</TD>
+    <TD>reserviert</TD>
+    <TD>QWORD (8 Byte)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>08h</TD>
+    <TD>EIP nach Umschaltung in V86-Mode</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Ch</TD>
+    <TD>CS nach Umschaltung in V86-Mode</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10h</TD>
+    <TD>reserviert (EFLAGS-Register)</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>14h</TD>
+    <TD>ESP nach Umschaltung</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>18h</TD>
+    <TD>SS nach Umschaltung</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>1Ch</TD>
+    <TD>ES nach Umschaltung</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>20h</TD>
+    <TD>DS nach Umschaltung</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>24h</TD>
+    <TD>FS nach Umschaltung</TD>
+    <TD>DWORD</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>28h</TD>
+    <TD>GS nach Umschaltung</TD>
+    <TD>DWORD</TD></TR></TBODY></TABLE><CAPTION ALIGN="CENTER" 
+VALIGN="BOTTOM"><I><B>Tabelle 4.3:</B> Registerbuffer für Rückkehr in den 
+V86-Mode</I> </CAPTION></CENTER>
+<P><B>Anmerkung:</B> Bei den Werten für die Segmentregister handelt es sich um 
+"normale" 16 Bit breite Realmode-Segmentadressen. Da für die einzelnen Einträge 
+in der Datenstruktur (Tabelle 4.3) 32 Bit reserviert sind, wird der neue Wert 
+für das entsprechende Segmentregister im ersten Wort (an der niedrigeren 
+Adresse) gespeichert, das zweite Wort bleibt ungenutzt.</P>
+<P>Nach der Umschaltung sind die Interrupts ausgeschaltet, das nun ausgeführte 
+Realmode Programm muß die Interrupts über den Befehl STI wieder zulassen.</P>
+<P><B>Achtung:</B> Um eine korrekte Rückschaltung in den Realmode durchzuführen, 
+müssen die folgenden Bedingungen erfüllt sein:</P>
+<OL>
+  <LI>Register ESP enthält einen Zeiger auf das zweite (!) Element der in 
+  Tabelle 4.3 dargestellten Datenstruktur (also auf EIP, NICHT auf die ersten 8 
+  reservierten Byte!) 
+  <LI>Die Register DS und SS enthalten einen Selektor auf einen gültigen 
+  Datensegmentdeskriptor in der GDT, dieser Deskriptor muß die Länge von 1 MB 
+  und die Basisadresse 0 besitzen. Weiterhin muß das B (bzw. D) - Bit im Byte 6 
+  des Deskriptors auf 1 gesetzt sein, um einen zum 80386 kompatiblen Deskriptor 
+  anzuzeigen. </LI></OL>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="VCPI-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das in Assembler geschriebene Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_05.asm">pm_05.asm</A> 
+      initialisiert unter Nutzung der VCPI-Funktionen den Protected Mode und 
+      kehrt anschließend in den V86-Mode zurück. Bevor die Umschaltung in den 
+      Protected Mode durchgeführt wird, legt das Beispielprogramm eine Pagetable 
+      und ein zugehöriges Page-Directory an.</P></TD></TR></TBODY></TABLE></CENTER>
+<H2><FONT color=#000080>Zusammenfassung - VCPI</FONT></H2>
+<P>Wie bereits in der Einleitung erwähnt wurde, ist die Hauptaufgabe des VCPI, 
+in erster Linie das Zusammenarbeiten von DOS-Extendern und Speicherverwaltungen 
+zu gewährleisten. VCPI wird daher vor allem von DOS-Extendern verwendet, um die 
+Umschaltung in den Protected Mode vorzunehmen. Ein "normales" Anwendungsprogramm 
+bzw. ein Programm, das unter einem DOS-Extender ausgeführt wird, braucht sich in 
+der Regel nicht mit dem VCPI-Standard auseinanderzusetzen. Daher muß sich in der 
+Regel auch nur der Programmierer eines DOS-Extenders mit den Funktionen des VCPI 
+beschäftigen. Eine Zusammenfassung aller VCPI-Funktionen findet sich unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/download/vcpispec.zip">vcpispec.zip</A>.<BR>Ein 
+weiterer Standard, ähnlich dem VCPI, ist das DOS Protected Mode Interface (kurz: 
+DPMI), das im Folgenden vorgestellt werden soll.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos1.htm"><IMG alt=Zurück 
+src="VCPI-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos3.htm"><IMG alt=Weiter 
+src="VCPI-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_d"><IMG 
+alt="Zum Index" src="VCPI-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

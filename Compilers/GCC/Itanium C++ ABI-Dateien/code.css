@@ -1,0 +1,24 @@
+CODE.normal {
+	FONT-WEIGHT: bold
+}
+CODE.var {
+	FONT-WEIGHT: bold; FONT-STYLE: italic
+}
+H2 CODE {
+	FONT-WEIGHT: bold; COLOR: blue
+}
+H3 CODE {
+	FONT-WEIGHT: bold; COLOR: blue
+}
+H4 CODE {
+	FONT-WEIGHT: bold; COLOR: blue
+}
+CODE {
+	FONT-WEIGHT: bold
+}
+SPAN.change {
+	COLOR: red
+}
+DIV.change {
+	COLOR: red
+}

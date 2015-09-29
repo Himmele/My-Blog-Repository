@@ -1,0 +1,413 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+AbWidgets           0x18              abmain.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+TARGET(elf32-i386)
+LOAD /x86/lib/crt1.o
+LOAD /x86/lib/crti.o
+LOAD /x86/lib/crtbegin.o
+LOAD BigButton.o
+LOAD Toggle.o
+LOAD ToggleButton1.o
+LOAD ToggleButton3.o
+LOAD abmain.o
+LOAD /x86/usr/lib/libphexlib.so
+LOAD /x86/usr/lib/libAp.so
+LOAD /x86/usr/lib/libph.so
+LOAD /x86/usr/lib/libphrender.so
+LOAD /x86/lib/libm.so
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/libgcc.a
+LOAD /x86/lib/libc.so
+LOAD /x86/lib/libc.a
+LOAD /usr/lib/gcc-lib/ntox86/2.95.2/libgcc.a
+LOAD /x86/lib/crtend.o
+LOAD /x86/lib/crtn.o
+                0x080480f4                .=(0x8048000+SIZEOF_HEADERS)
+
+.interp         0x080480f4       0x14
+ *(.interp)
+ .interp        0x080480f4       0x14 /x86/lib/crtbegin.o
+
+.note0          0x08048108        0x0
+
+.hash           0x08048108       0xbc
+ *(.hash)
+ .hash          0x08048108       0xbc /x86/lib/crtbegin.o
+
+.dynsym         0x080481c4      0x1c0
+ *(.dynsym)
+ .dynsym        0x080481c4      0x1c0 /x86/lib/crtbegin.o
+
+.dynstr         0x08048384      0x146
+ *(.dynstr)
+ .dynstr        0x08048384      0x146 /x86/lib/crtbegin.o
+
+.gnu.version    0x080484ca        0x0
+ *(.gnu.version)
+
+.gnu.version_d  0x080484cc        0x0
+ *(.gnu.version_d)
+
+.gnu.version_r  0x080484cc        0x0
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.sdata
+ *(.rel.sdata)
+ *(.rel.sdata.*)
+ *(.rel.gnu.linkonce.s*)
+
+.rela.sdata
+ *(.rela.sdata)
+ *(.rela.sdata.*)
+ *(.rela.gnu.linkonce.s*)
+
+.rel.sbss
+ *(.rel.sbss)
+
+.rela.sbss
+ *(.rela.sbss)
+
+.rel.bss        0x080484cc       0x30
+ *(.rel.bss)
+ .rel.bss       0x080484cc       0x30 /x86/lib/crtbegin.o
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt        0x080484fc       0x50
+ *(.rel.plt)
+ .rel.plt       0x080484fc       0x50 /x86/lib/crtbegin.o
+
+.rela.plt
+ *(.rela.plt)
+
+.init           0x0804854c        0x8
+ *(.init)
+ .init          0x0804854c        0x5 /x86/lib/crtend.o
+ .init          0x08048551        0x3 /x86/lib/crtn.o
+
+.plt            0x08048554       0xb0
+ *(.plt)
+ .plt           0x08048554       0xb0 /x86/lib/crtbegin.o
+                0x08048564                printf
+                0x08048574                ApLinkWindow
+                0x08048584                ApInitialize
+                0x08048594                _PtSetResource
+                0x080485a4                PtExit
+                0x080485b4                PtMessageBox
+                0x080485c4                _init_libc
+                0x080485d4                atexit
+                0x080485e4                PtMainLoop
+                0x080485f4                exit
+
+.text           0x08048604      0x200
+                0x08048604                _btext=.
+ *(.text)
+ .text          0x08048604       0x5f /x86/lib/crt1.o
+                0x0804860c                _start
+ *fill*         0x08048663        0x1 37008
+ .text          0x08048664       0x52 /x86/lib/crtbegin.o
+ *fill*         0x080486b6        0x2 37008
+ .text          0x080486b8       0x36 BigButton.o
+                0x080486b8                BigButton
+ *fill*         0x080486ee        0x2 37008
+ .text          0x080486f0       0x24 Toggle.o
+                0x080486f0                Toggle
+ .text          0x08048714       0x24 ToggleButton1.o
+                0x08048714                ToggleButton1
+ .text          0x08048738       0x24 ToggleButton3.o
+                0x08048738                ToggleButton3
+ .text          0x0804875c       0x4a abmain.o
+                0x0804875c                main
+ *fill*         0x080487a6        0x2 37008
+ .text          0x080487a8       0x5a /x86/lib/crtend.o
+ *fill*         0x08048802        0x2 37008
+ *(.text.*)
+ *(.stub)
+ *(.gnu.warning)
+ *(.gnu.linkonce.t*)
+                0x08048804                _etext=.
+                0x08048804                PROVIDE (etext, .)
+
+.fini           0x08048804        0x8
+ *(.fini)
+ .fini          0x08048804        0x5 /x86/lib/crtbegin.o
+ .fini          0x08048809        0x3 /x86/lib/crtn.o
+
+.rodata         0x0804880c      0x299
+ *(.rodata)
+ .rodata        0x0804880c       0x10 BigButton.o
+ .rodata        0x0804881c        0x7 Toggle.o
+ .rodata        0x08048823       0x10 ToggleButton1.o
+ .rodata        0x08048833       0x10 ToggleButton3.o
+ *fill*         0x08048843        0x1
+ .rodata        0x08048844      0x261 abmain.o
+                0x08048a40                ABN_PtBigButton
+                0x08048a3c                ABN_base
+                0x08048a48                ABN_PtToggleButton1
+                0x08048a44                ABN_PtToggleGroup
+                0x08048a4c                ABN_PtToggleButton2
+                0x08048a50                ABN_PtToggleButton3
+                0x08048a22                ApOptions
+ *(.rodata.*)
+ *(.gnu.linkonce.r*)
+
+.rodata1
+ *(.rodata1)
+                0x08049aa5                .=(ALIGN(0x1000)+(.&0xfff))
+
+.data           0x08049ac0       0x64
+ *(.data)
+ .data          0x08049ac0        0x4 /x86/lib/crtbegin.o
+ *fill*         0x08049ac4       0x1c
+ .data          0x08049ae0       0x40 abmain.o
+                0x08049ae0                base
+                0x08049b00                AbContext
+ .data          0x08049b20        0x4 /x86/lib/crtend.o
+ *(.data.*)
+ *(.gnu.linkonce.d*)
+
+.data1
+ *(.data1)
+
+.eh_frame       0x08049b24       0x68
+ *(.eh_frame)
+ .eh_frame      0x08049b24       0x30 BigButton.o
+ .eh_frame      0x08049b54       0x38 abmain.o
+
+.gcc_except_table
+ *(.gcc_except_table)
+
+.ctors          0x08049b8c        0x8
+ *crtbegin.o(.ctors)
+ .ctors         0x08049b8c        0x4 /x86/lib/crtbegin.o
+ EXCLUDE_FILE ( *crtend.o)*(.ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ .ctors         0x08049b90        0x4 /x86/lib/crtend.o
+
+.dtors          0x08049b94        0x8
+ *crtbegin.o(.dtors)
+ .dtors         0x08049b94        0x4 /x86/lib/crtbegin.o
+ EXCLUDE_FILE ( *crtend.o)*(.dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ .dtors         0x08049b98        0x4 /x86/lib/crtend.o
+
+.got            0x08049b9c       0x34
+ *(.got.plt)
+ .got.plt       0x08049b9c       0x34 /x86/lib/crtbegin.o
+                0x08049b9c                _GLOBAL_OFFSET_TABLE_
+ *(.got)
+
+.dynamic        0x08049bd0       0xb0
+ *(.dynamic)
+ .dynamic       0x08049bd0       0xb0 /x86/lib/crtbegin.o
+                0x08049bd0                _DYNAMIC
+
+.sdata
+ *(.sdata)
+ *(.sdata.*)
+ *(.gnu.linkonce.s.*)
+                0x08049c80                _edata=.
+                0x08049c80                PROVIDE (edata, .)
+                0x08049c80                __bss_start=.
+
+.sbss
+ *(.dynsbss)
+ *(.sbss)
+ *(.sbss.*)
+ *(.scommon)
+
+.bss            0x08049c80       0x78
+ *(.dynbss)
+ .dynbss        0x08049c80       0x60 /x86/lib/crtbegin.o
+                0x08049c80                errno
+                0x08049c84                PtButton
+                0x08049c88                PtGroup
+                0x08049c8c                PtToggleButton
+                0x08049c90                PtWindow
+                0x08049c98                _Ap_
+ *(.bss)
+ *(.bss.*)
+ *(COMMON)
+ COMMON         0x08049ce0       0x18 abmain.o
+                                  0x0 (size before relaxing)
+                0x08049ce0                AbWidgets
+                0x08049cf8                .=ALIGN(0x4)
+                0x08049cf8                .=ALIGN(0x4)
+                0x08049cf8                _end=.
+                0x08049cf8                PROVIDE (end, .)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000      0x10a
+ *(.comment)
+ .comment       0x00000000       0x26 /x86/lib/crtbegin.o
+ .comment       0x00000026       0x26 BigButton.o
+ .comment       0x0000004c       0x26 Toggle.o
+ .comment       0x00000072       0x26 ToggleButton1.o
+ .comment       0x00000098       0x26 ToggleButton3.o
+ .comment       0x000000be       0x26 abmain.o
+ .comment       0x000000e4       0x26 /x86/lib/crtend.o
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0x40
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 BigButton.o
+ .debug_aranges
+                0x00000020       0x20 abmain.o
+
+.debug_pubnames
+                0x00000000       0xed
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x20 BigButton.o
+ .debug_pubnames
+                0x00000020       0xcd abmain.o
+
+.debug_info     0x00000000    0x363fb
+ *(.debug_info)
+ .debug_info    0x00000000    0x1b14e BigButton.o
+ .debug_info    0x0001b14e    0x1b2ad abmain.o
+
+.debug_abbrev   0x00000000      0x4f1
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x260 BigButton.o
+ .debug_abbrev  0x00000260      0x291 abmain.o
+
+.debug_line     0x00000000     0x23e5
+ *(.debug_line)
+ .debug_line    0x00000000     0x11d8 BigButton.o
+ .debug_line    0x000011d8     0x120d abmain.o
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+OUTPUT(WidgetGroups elf32-i386)
+
+.note           0x00000000       0x8c
+ .note          0x00000000       0x14 /x86/lib/crtbegin.o
+ .note          0x00000014       0x14 BigButton.o
+ .note          0x00000028       0x14 Toggle.o
+ .note          0x0000003c       0x14 ToggleButton1.o
+ .note          0x00000050       0x14 ToggleButton3.o
+ .note          0x00000064       0x14 abmain.o
+ .note          0x00000078       0x14 /x86/lib/crtend.o

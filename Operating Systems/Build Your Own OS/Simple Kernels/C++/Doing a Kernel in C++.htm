@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0044)http://www.mega-tokyo.com/os/os-faq-cpp.html -->
+<HTML><HEAD><TITLE>Operating Systems FAQ :: C++ Programming</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><LINK 
+href="Operating Systems FAQ  C++ Programming-Dateien/default.css" type=text/css 
+rel=stylesheet>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <H2><A name=start>Doing a kernel in C++</A></H2></TD></TR>
+  <TR>
+    <TD>(This was taken from a message on the OS-Dev message board) 
+      <P>Using C++ is quite easy for the most part just a few snags that have to 
+      be delt with namely the builtin functions that g++ inserts into your code 
+      use the following make line to get rid of most of them. <PRE>g++ -nostdlib -nostdinc -fno-builtin -fno-exceptions
+</PRE>
+      <P>of course it is easier to just define those options as some macro the 
+      only builtin function you will have to deal with after this will be 
+      __builtin-delete for deleting this __builtin_new for creating new objs and 
+      __builtin_vec_new for arrays of objs simply. 
+      <P>Simply don't use NEW and you are safe from the last two builtins and 
+      just declare this in a header file somewhere <PRE>void inline __builtin_delete(void* arg){}; 
+</PRE>
+      <P>then things should compile without errors if you want to be able to use 
+      new and new[] then you have to define the builtins correctly just like 
+      regular functions where new and new[] take a size number and an unsigned 
+      int and return a void* 
+      <P>i use flat binary mode for the kernel initialization stuff. Compile 
+      everything as modules using (nolib is the crap i described earlier) <PRE>g++ $(NOLIB) file.cpp -r 
+</PRE>the link them in the end using (this is 1 line, but split over two 
+      for display) <PRE>ld $(NOLIB) -o kernel.bin -e main -oformat binary
+-Ttext 0x00100000 file1.o file2.o file3.o ...
+</PRE>
+      <P>The entry point where execution will start is int main(); i find that 
+      if you define main() after you define any other functiosn the linker 
+      doesn't produce code properly for binary output so just make main the 
+      first function in your file and make sure that it is the first file in the 
+      list of files linked by ld in the line i described earlier. 
+      <P>Finally -Ttext 0x00100000 tells the linker where the file will be in 
+      memory when it gets executed is at 1MB mark. </P></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <H2><A name=rtti>Aiyah! Whats RTTI? (Run Time Type Info)</A></H2></TD></TR>
+  <TR>
+    <TD>(This info take from a message on the OS-Dev message board) 
+      <P>This is the way i understand RTTI...<BR>RTTI is for Run Time Type 
+      Information. Because you are using a virtual function and inherritance, it 
+      would be possible to pass two completely different objects to the same 
+      function. Because the function is virtual the compiler cannot create two 
+      versions at link time and sort it out ahead of time, instead it has to be 
+      figured out just before it is executed. 
+      <P>RTTI is a means of (for lack of a better term) enumerating types while 
+      the machine runs and then providing a means to get that type information 
+      for any object (type number). I think you did the rignt thing by putting 
+      -no-rtti in the compile string but if you ever dynamically change an 
+      object from one type to another during run time you will get into trouble. 
+
+      <P>This eg should clarify for all what i think would happen (in a C 
+      equivalent manner). <PRE>print(char* string) 
+{ 
+...prints a string which is given as a 32bit pointer on the stack... 
+} 
+
+print(int number) 
+{ 
+...prints a 32bit integer that is passed as an argument on the stack 
+} 
+
+//now for the types 
+int num1=12345; 
+char name[]="ABCDEFG; 
+int_or_string variabletype = "I am a string for now" 
+
+//now call them 
+print(num1); 
+print(name); 
+print(varialbetype); 
+variabletype = 98765; 
+print(variabletype); 
+variabletype = "a string again"; 
+print(variabletype); 
+</PRE>
+      <P>The compiler can figure out a compile time that print(num1); is a call 
+      to the integer version of print() and print(name) is a call to the string 
+      version. 
+      <P>But because our variabletype can change from one type (class) to 
+      another it is not possible at compile time to determine which function to 
+      call until we are actually calling it. </P></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <H2><A name=disable_rtti>How do I disable RTTI in GCC?</A></H2></TD></TR>
+  <TR>
+    <TD>You can disable RTTI in gcc by adding the switch "<B>-fno-rtti</B>" 
+  </TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <H2><A name=new_delete>Can I use NEW and DELETE in my 
+  kernel?</A></H2></TD></TR>
+  <TR>
+    <TD>(This message taken from a message on the OS-Dev message board) 
+      <P>The new a delete will be available if you define them as functions and 
+      it is possible to (from real 16bit mode setup a gdt and idt in a kind of 
+      crude fashion then turn on the pmode bit and long jump into the code using 
+      the right selector and offset which will start right into c++ code with 
+      objects and everything you want. </P></TD></TR></TBODY></TABLE></BODY></HTML>

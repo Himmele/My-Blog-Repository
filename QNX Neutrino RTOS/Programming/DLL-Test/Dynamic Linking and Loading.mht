@@ -1,0 +1,1468 @@
+From: <Mit Microsoft Internet Explorer 7 gespeichert>
+Subject: Dynamic Linking and Loading
+Date: Tue, 10 Jul 2007 21:13:12 +0200
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01C7C337.1FCD14E0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3138
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.iecc.com/linker/linker10.html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Dynamic Linking and Loading</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.6000.16481" name=3DGENERATOR></HEAD>
+<BODY>
+<H1>Dynamic Linking and Loading</H1><I>$Revision: 2.3 $</I> =
+<BR><I>$Date:=20
+1999/06/15 03:30:36 $</I>=20
+<P>
+<P>
+<TABLE cellSpacing=3D0 cols=3D1 cellPadding=3D0 bgColor=3Dpink>
+  <TBODY>
+  <TR>
+    <TD><I>Dynamic linking</I> defers much of the linking process until =
+a=20
+      program starts running. It provides a variety of benefits that are =
+hard to=20
+      get otherwise:=20
+      <UL>
+        <LI>Dynamically linked shared libraries are easier to create =
+than static=20
+        linked shared libraries.=20
+        <LI>Dynamically linked shared libraries are easier to update =
+than static=20
+        linked shared libraries.=20
+        <LI>The semantics of dynamically linked shared libraries can be =
+much=20
+        closer to those of unshared libraries.=20
+        <LI>Dynamic linking permits a program to load and unload =
+routines at=20
+        runtine, a facility that can otherwise be very difficult to =
+provide.=20
+        </LI></UL>
+      <P>
+      <P>There are a few disadvantages, of course. The runtime =
+performance costs=20
+      of dynamic linking are substantial compared to those of static =
+linking,=20
+      since a large part of the linking process has to be redone every =
+time a=20
+      program runs. Every dynamically linked symbol used in a program =
+has to be=20
+      looked up in a symbol table and resolved. (Windows DLLs mitigate =
+this cost=20
+      somewhat, as we describe below.) Dynamic libraries are also larger =
+than=20
+      static libraries, since the dynamic ones have to include symbol =
+tables.=20
+      </P></TD></TR></TBODY></TABLE>
+<P>
+<P>Beyond issues of call compatibility, a chronic source of problems is =
+changes=20
+in library semantics. Since dynamic shared libraries are so easy to =
+update=20
+compared to unshared or static shared libraries, it's easy to change =
+libraries=20
+that are in use by existing programs, which means that the behavior of =
+those=20
+programs changes even though "nothing has changed". This is a frequent =
+source of=20
+problems on Microsoft Windows, where programs use a lot of shared =
+libraries,=20
+libraries go through a lot of versions, and library version control is =
+not very=20
+sophisticated. Most programs ship with copies of all of the libraries =
+they use,=20
+and installers often will inadvertently install an older version of a =
+shared=20
+library on top of a newer one, breaking programs that are expecting =
+features=20
+found in the newer one. Well-behaved applications pop up a warning =
+before=20
+installing an older library over a newer one, but even so, programs that =
+depend=20
+on semantics of older libraries have been known to break when newer =
+versions=20
+replace the older ones.=20
+<P>
+<H2>ELF dynamic linking</H2>Sun Microsystems' SunOS introduced dynamic =
+shared=20
+libraries to UNIX in the late 1980s. UNIX System V Release 4, which Sun=20
+co-developed, introduced the ELF object format and adapted the Sun =
+scheme to=20
+ELF. ELF was clearly an improvement over the previous object formats, =
+and by the=20
+late 1990s it had become the standard for UNIX and UNIX like systems =
+including=20
+Linux and BSD derivatives.=20
+<P>
+<H2>Contents of an ELF file</H2>As mentioned in Chapter 3, an ELF file =
+can be=20
+viewed as a set of <I>sections</I>, interpreted by the linker, or a set =
+of=20
+<I>segments</I>, interpreted by the program loader. ELF programs and =
+shared=20
+libraries have the same general structure, but with different sets of =
+segments=20
+and sections.=20
+<P>
+<P>ELF shared libraries can be loaded at any address, so they invariably =
+use=20
+position independent code (PIC) so that the text pages of the file need =
+not be=20
+relocated and can be shared among multiple processes. As described in =
+Chapter 8,=20
+ELF linkers support PIC code with a Global Offset Table (GOT) in each =
+shared=20
+library that contains pointers to all of the static data referenced in =
+the=20
+program, Figure 1. The dynamic linker resolves and relocates all of the =
+pointers=20
+in the GOT. This can be a performance issue but in practice the GOT is =
+small=20
+except in very large libraries; a commonly used version of the standard =
+C=20
+library has only 180 entries in the GOT for over 350K of code.=20
+<P>
+<P>Since the GOT is in the same loadable ELF file as the code that =
+references=20
+it, and the relative addresses within a file don't change regardless of =
+where=20
+the program is loaded, the code can locate the GOT with a relative =
+address, load=20
+the address of the GOT into a register, and then load pointers from the =
+GOT=20
+whenever it needs to address static data. A library need not have a GOT =
+if it=20
+references no static data, but in practice all libraries do.=20
+<P>
+<P>To support dynamic linking, each ELF shared libary and each =
+executable that=20
+uses shared libraries has a Procedure Linkage Table (PLT). The PLT adds =
+a level=20
+of indirection for function calls analogous to that provided by the GOT =
+for=20
+data. The PLT also permits "lazy evaluation", that is, not resolving =
+procedure=20
+addresses until they're called for the first time. Since the PLT tends =
+to have a=20
+lot more entries than the GOT (over 600 in the C library mentioned =
+above), and=20
+most of the routines will never be called in any given program, that can =
+both=20
+speed startup and save considerable time overall.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><A href=3D"http://www.iecc.com/linker/linkerfig10-01.html"><IMG=20
+      height=3D61 =
+src=3D"http://www.iecc.com/linker/thumb-linker10-01.jpg"=20
+      width=3D100></A> </TD>
+    <TD><I>Figure 1:</I> PLT and GOT <BR>picture of program with PLT=20
+      <BR>picture of library with PLT and GOT =
+</TD></TR></TBODY></TABLE></CENTER>
+<P>We discuss the details of the PLT below.=20
+<P>
+<P>An ELF dynamically linked file contains all of the linker information =
+that=20
+the runtime linker will need to relocate the file and resolve any =
+undefined=20
+symbols. The <TT>.dynsym</TT> section, the dynamic symbol table, =
+contains all of=20
+the file's imported and exported symbols. The <TT>.dynstr</TT> and=20
+<TT>.hash</TT> sections contain the name strings for the symbol, and a =
+hash=20
+table the runtime linker can use to look up symbols quickly.=20
+<P>
+<P>The final extra piece of an ELF dynamically linked file is the=20
+<TT>DYNAMIC</TT> segment (also marked as the <TT>.dynamic</TT> section) =
+which=20
+runtime dynamic linker uses to find the information about the file the =
+linker=20
+needs. It's loaded as part of the data segment, but is pointed to from =
+the ELF=20
+file header so the runtime dynamic linker can find it. The DYNAMIC =
+section is a=20
+list of tagged values and pointers. Some entry types occur just in =
+programs,=20
+some just in libraries, some in both.=20
+<UL>
+  <LI>NEEDED: the name of a library this file needs. (Always in =
+programs,=20
+  sometimes in libraries when one library is dependend on another, can =
+occur=20
+  more than once.)=20
+  <LI>SONAME: "shared object name", the name of the file the linker =
+uses.=20
+  (Libraries.)=20
+  <LI>SYMTAB, STRTAB, HASH, SYMENT, STRSZ,: point to the symbol table,=20
+  associated string and hash tables, size of a symbol table entry, size =
+of=20
+  string table. (Both.)=20
+  <LI>PLTGOT: points to the GOT, or on some architectures to the PLT =
+(Both.)=20
+  <LI>REL, RELSZ, and RELENT or RELA, RELASZ, and RELAENT: pointer to, =
+number=20
+  of, and size of relocation entries. REL entries don't contain addends, =
+RELA=20
+  entries do. (Both.)=20
+  <LI>JMPREL, PLTRELSZ, and PLTREL: pointer to, size, and format (REL or =
+RELA)=20
+  of relocation table for data referred to by the PLT. (Both.)=20
+  <LI>INIT and FINI: pointer to initializer and finalizer routines to be =
+called=20
+  at program startup and finish. (Optional but usual in both.)=20
+  <LI>A few other obscure types not often used. </LI></UL>An entire ELF =
+shared=20
+library might look like Figure 2. First come the read-only parts, =
+including the=20
+symbol table, PLT, text, and read-only data, then the read-write parts =
+including=20
+regular data, GOT, and the dynamic section. The bss logically follows =
+the last=20
+read-write section, but as always isn't present in the file.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><A href=3D"http://www.iecc.com/linker/linkerfig10-02.html"><IMG=20
+      height=3D121 =
+src=3D"http://www.iecc.com/linker/thumb-linker10-02.jpg"=20
+      width=3D100></A> </TD>
+    <TD><I>Figure 2:</I> An ELF shared library <BR>(Lots of pointer =
+arrows=20
+      here)=20
+      <P>read-only pages: <BR>.hash <BR>.dynsym <BR>.dynstr <BR>.plt =
+<BR>.text=20
+      <BR>.rodata=20
+      <P>read-write pages: <BR>.data <BR>.got <BR>.dynamic=20
+      <P>.bss </P></TD></TR></TBODY></TABLE></CENTER>
+<P>An ELF program looks much the same, but in the read-only segment has =
+init and=20
+fini routines, and an INTERP section near the front of the file to =
+specify the=20
+name of the dynamic linker (usually <TT>ld.so</TT>). The data segment =
+has no=20
+GOT, since program files aren't relocated at runtime.=20
+<P>
+<H2>Loading a dynamically linked program</H2>Loading a dynamically =
+linked ELF=20
+program is a lengthy but straightforward process.=20
+<P>
+<H3>Starting the dynamic linker</H3>When the operating system runs the =
+program,=20
+it maps in the file's pages as normal, but notes that there's an =
+INTERPRETER=20
+section in the executable. The specified interpreter is the dynamic =
+linker,=20
+ld.so, which is itself in ELF shared library format. Rather than =
+starting the=20
+program, the system maps the dynamic linker into a convenient part of =
+the=20
+address space as well and starts ld.so, passing on the stack an =
+<I>auxiliary=20
+vector</I> of information needed by the linker. The vector includes:=20
+<UL>
+  <LI>AT_PHDR, AT_PHENT, and AT_PHNUM: The address of the program header =
+for the=20
+  program file, the size of each entry in the header, and the number of =
+entries.=20
+  This structure describes the segments in the loaded file. If the =
+system hasn't=20
+  mapped the program into memory, there may instead be a AT_EXECFD entry =
+that=20
+  contains the file descriptor on which the program file is open.=20
+  <LI>AT_ENTRY: starting address of the program, to which the dynamic =
+linker=20
+  jumps after it has finished initialization.=20
+  <LI>AT_BASE: The address at which the dynamic linker was loaded =
+</LI></UL>
+<P>
+<P>At this point, bootstrap code at the beginning of ld.so finds its own =
+GOT,=20
+the first entry in which points to the DYNAMIC segment in the ld.so =
+file. From=20
+the dynamic segment, the linker can find its own relocation entries, =
+relocate=20
+pointers in its own data segment, and resolve code references to the =
+routines=20
+needed to load everything else. (The Linux ld.so names all of the =
+essential=20
+routines with names starting with <TT>_dt</TT>_ and special-case code =
+looks for=20
+symbols that start with the string and resolves them.)=20
+<P>
+<P>The linker then initializes a chain of symbol tables with pointers to =
+the=20
+program's symbol table and the linker's own symbol table. Conceptually, =
+the=20
+program file and all of the libraries loaded into a process share a =
+single=20
+symbol table. But rather than build a merged symbol table at runtime, =
+the linker=20
+keeps a linked list of the symbol tables in each file. each file =
+contains a hash=20
+table to speed symbol lookup, with a set of hash headers and a hash =
+chain for=20
+each header. The linker can search for a symbol quickly by computing the =
+
+symbol's hash value once, then running through apprpriate hash chain in =
+each of=20
+the symbol tables in the list.=20
+<P>
+<H3>Finding the libraries</H3>Once the linker's own initializations are =
+done, it=20
+finds the names of the libraries required by the program. The program's =
+program=20
+header has a pointer to the "dynamic" segment in the file that contains =
+dynamic=20
+linking information. That segment contains a pointer, DT_STRTAB, to the =
+file's=20
+string table, and entries DT_NEEDED each of which contains the offset in =
+the=20
+string table of the name of a required library.=20
+<P>
+<P>For each library, the linker finds the library's ELF shared library =
+file,=20
+which is in itself a fairly complex process. The library name in a =
+DT_NEEDED=20
+entry is something like <I>libXt.so.6</I> (the Xt toolkit, version 6.) =
+The=20
+library file might in in any of several library directories, and might =
+not even=20
+have the same file name. On my system, the actual name of that library =
+is=20
+/usr/X11R6/lib/libXt.so.6.0, with the ``.0'' at the end being a minor =
+version=20
+number.=20
+<P>
+<P>The linker looks in these places to find the library:=20
+<UL>
+  <LI>If the dynamic segment contains an entry called DT_RPATH, it's a=20
+  colon-separated list of directories to search for libraries. This =
+entry is=20
+  added by a command line switch or environment variable to the regular =
+(not=20
+  dynamic) linker at the time a program is linked. It's mostly used for=20
+  subsystems like databases that load a collection of programs and =
+supporting=20
+  libraries into a single directory.=20
+  <LI>If there's an environment symbol LD_LIBRARY_PATH, it's treated as =
+a=20
+  colon-separated list of directories in which the linker looks for the =
+library.=20
+  This lets a developer build a new version of a library, put it in the=20
+  LD_LIBRARY_PATH and use it with existing linked programs either to =
+test the=20
+  new library, or equally well to instrument the behavior of the =
+program. (It=20
+  skips this step if the program is set-uid, for security reasons.)=20
+  <LI>The linker looks in the library cache file =
+<TT>/etc/ld.so.conf</TT> which=20
+  contains a list of library names and paths. If the library name is =
+present, it=20
+  uses the corresponding path. This is the usual way that most libraries =
+are=20
+  found. (The file name at the end of the path need not be exactly the =
+same as=20
+  the library name, see the section on library versions, below.)=20
+  <LI>If all else fails, it looks in the default directory /usr/lib, and =
+if the=20
+  library's still not found, displays an error message and exits. =
+</LI></UL>
+<P>
+<P>Once it's found the file containing the library, the dynamic linker =
+opens the=20
+file, and reads the ELF header to find the program header which in turn =
+points=20
+to the file's segments including the dynamic segment. The linker =
+allocates space=20
+for the library's text and data segments and maps them in, along with =
+zeroed=20
+pages for the bss. From the library's dynamic segment, it adds the =
+library's=20
+symbol table to the chain of symbol tables, and if the library requires =
+further=20
+libraries not already loaded, adds any new libraries to the list to be =
+loaded.=20
+<P>
+<P>When this process terminates, all of the libraries have been mapped =
+in, and=20
+the loader has a logical global symbol table consisting of the union of =
+all of=20
+the symbol tables of the program and the mapped library.=20
+<P>
+<H3>Shared library initialization</H3>Now the loader revisits each =
+library and=20
+handles the library's relocation entries, filling in the library's GOT =
+and=20
+performing any relocations needed in the library's data segment. =
+Load-time=20
+relocations on an x86 include:=20
+<UL>
+  <LI>R_386_GLOB_DAT, used to initialize a GOT entry to the address of a =
+symbol=20
+  defined in another library.=20
+  <LI>R_386_32, a non-GOT reference to a symbol defined in another =
+library,=20
+  generally a pointer in static data.=20
+  <LI>R_386_RELATIVE, for relocatable data references, typically a =
+pointer to a=20
+  string or other locally defined static data.=20
+  <LI>R_386_JMP_SLOT, used to initialize GOT entries for the PLT, =
+described=20
+  later. </LI></UL>
+<P>
+<P>If a library has an <TT>.init</TT> section, the loader calls it to do =
+
+library-specific initializations, such as C++ static constructors, and =
+any=20
+<TT>.fini</TT> section is noted to be run at exit time. (It doesn't do =
+the init=20
+for the main program, since that's handled in the program's own startup =
+code.)=20
+When this pass is done, all of the libraries are fully loaded and ready =
+to=20
+execute, and the loader calls the program's entry point to start the =
+program.=20
+<P>
+<H2>Lazy procedure linkage with the PLT</H2>Programs that use shared =
+libraries=20
+generally contain calls to a lot of functions. In a single run of the =
+program=20
+many of the functions are never called, in error routines or other parts =
+of the=20
+program that aren't used. Furthermore, each shared library also contains =
+calls=20
+to functions in other libraries, even fewer of which will be executed in =
+a given=20
+program run since many of them are in routines that the program never =
+calls=20
+either directly or indirectly.=20
+<P>
+<P>To speed program startup, dynamically linked ELF programs use lazy =
+binding of=20
+procedure addresses. That is, the address of a procedure isn't bound =
+until the=20
+first time the procedure is called.=20
+<P>
+<P>ELF supports lazy binding via the Procedure Linkage Table, or PLT. =
+Each=20
+dynamically bound program and shared library has a PLT, with the PLT =
+containing=20
+an entry for each non-local routine called from the program or library, =
+Figure=20
+3. Note that the PLT in PIC code is itself PIC, so it can be part of the =
+
+read-only text segment.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><!-- INSERT FIGURE 3 --></TD>
+    <TD><I>Figure 3:</I> PLT structure in x86 code <BR>Special first =
+entry=20
+      <P><TT><BR>PLT0: pushl GOT+4 <BR>jmp *GOT+8=20
+      <P></TT>
+      <P>Regular entries, non-PIC code:=20
+      <P><TT><BR>PLTn: jmp *GOT+m <BR>push #reloc_offset <BR>jmp PLT0=20
+      <P></TT>
+      <P>Regular entries, PIC code:=20
+      <P><TT><BR>PLTn: jmp *GOT+m(%ebx) <BR>push #reloc_offset <BR>jmp =
+PLT0=20
+      <P></TT>
+      <P></P></TD></TR></TBODY></TABLE></CENTER>
+<P>All calls within the program or library to a particular routine are =
+adjusted=20
+when the program or library is built to be calls to the routine's entry =
+in the=20
+PLT. The first time the program or library calls a routine, the PLT =
+entry calls=20
+the runtime linker to resolve the actual address of the routine. After =
+that, the=20
+PLT entry jumps directly to the actual address, so after the first call, =
+the=20
+cost of using the PLT is a single extra indirect jump at a procedure =
+call, and=20
+nothing at a return.=20
+<P>
+<P>The first entry in the PLT, which we call PLT0, is special code to =
+call the=20
+dynamic linker. At load time, the dynamic linker automatically places =
+two values=20
+in the GOT. At GOT+4 (the second word of the GOT) it puts a code that =
+identifies=20
+the particular library. At GOT+8, it puts the address of the dynamic =
+linker's=20
+symbol resolution routine.=20
+<P>
+<P>The rest of the entries in the PLT, which we call PLTn, each start =
+with an=20
+indirect jump through a GOT entry. Each PLT entry has a corresponding =
+GOT entry=20
+which is initially set to point to the push instruction in the PLT entry =
+that=20
+follows the jmp. (In a PIC file this requires a loadtime relocation, but =
+not an=20
+expensive symbol lookup.) Following the jump is a push instruction which =
+pushes=20
+a relocation offset, the offset in the file's relocation table of a =
+special=20
+relocation entry of type <TT>R_386_JMP_SLOT</TT>. The relocation entry's =
+symbol=20
+reference points to the symbol in the file's symbol table, and its =
+address=20
+points to the GOT entry.=20
+<P>
+<P>This compact but rather baroque arragement means that the first time =
+the=20
+program or library calls a PLT entry, the first jump in the PLT entry in =
+effect=20
+does nothing, since the GOT entry through which it jumps points back =
+into the=20
+PLT entry. Then the push instruction pushes the offset value which =
+indirectly=20
+identifies both the symbol to resolve and the GOT entry into which to =
+resolve=20
+it, and jumps to PLT0. The instructions in PLT0 push another code that=20
+identifies which program or library it is, and then jumps into stub code =
+in the=20
+dynamic linker with the two identifying codes at the top of the stack. =
+Note that=20
+this was a jump, rather than a call, above the two identifying words =
+just pushed=20
+is the return address back to the routine that called into the PLT.=20
+<P>
+<P>Now the stub code saves all the registers and calls an internal =
+routine in=20
+the dynamic linker to do the resolution. the two identifying words =
+suffice to=20
+find the library's symbol table and the routine's entry in that symbol =
+table.=20
+The dynamic linker looks up the symbol value using the concatenated =
+runtime=20
+symbol table, and stores the routine's address into the GOT entry. Then =
+the stub=20
+code restores the registers, pops the two words that the PLT pushed, and =
+jumps=20
+off to the routine. The GOT entry having been updated, subsequent calls =
+to that=20
+PLT entry jump directly to the routine itself without entering the =
+dynamic=20
+linker.=20
+<P>
+<H2>Other peculiarities of dynamic linking</H2>The ELF linker and =
+dynamic linker=20
+have a lot of obscure code to handle special cases and try and keep the =
+runtime=20
+semantics as similar as possible to whose of unshared libraries.=20
+<P>
+<H3>Static initializations</H3>If a program has an external reference to =
+a=20
+global variable defined in a shared library, the linker has to create in =
+the=20
+program a copy of the variable, since program data addresses have to be =
+bound at=20
+link time, Figure 4. This poses no problem for the code in the shared =
+library,=20
+since the code can refer to the variable via a GOT pointer which the =
+dynamic=20
+linker can fix up, but there is a problem if the library initializes the =
+
+variable. To deal with this problem, the linker puts an entry in the =
+program's=20
+relocation table (which otherwise just contains <TT>R_386_JMP_SLOT</TT>, =
+
+<TT>R_386_GLOB_DAT</TT>, <TT>R_386_32</TT>, and <TT>R_386_RELATIVE</TT> =
+entries)=20
+of type <TT>R_386_COPY</TT> that points to the place in the program =
+where the=20
+copy of the variable is defined, and tells the dynamic linker to copy =
+the=20
+initial value of that word of data from the shared library.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><!-- INSERT FIGURE 4 --></TD>
+    <TD><I>Figure 4:</I> Global data initialization <BR>Main program:=20
+      <P><TT><BR>extern int token;=20
+      <P></TT>
+      <P>Routine in shared library:=20
+      <P><TT><BR>int token =3D 42;=20
+      <P></TT>
+      <P></P></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<P>Although this feature is essential for certain kinds of code, it =
+occurs very=20
+rarely in practice. This is a band-aid, since it only works for single =
+word=20
+data. The initializers that do occur are always pointers to procedures =
+or other=20
+data, so the band-aid suffices.=20
+<P>
+<H3>Library versions</H3>Dynamic libraries are generally named with =
+major and=20
+minor versions numbers, like <TT>libc.so.1.1</TT> but programs should be =
+bound=20
+only to major version numbers like <TT>libc.so.1</TT> since minor =
+versions are=20
+supposed to be upward compatible.=20
+<P>
+<P>To keep program loading reasonably fast, the system manager maintains =
+a cache=20
+file containing the full pathname most recent version of each library, =
+which is=20
+updated by a configuration program whenever a new library is installed.=20
+<P>
+<P>To support this design, each dynamically linked library can have a =
+"true=20
+name" called the <I>SONAME</I> assigned at library creation time. For =
+example,=20
+the library called <TT>libc.so.1.1</TT> would have a SONAME of=20
+<TT>libc.so.1</TT>. (The SONAME defaults to the library's name.) When =
+the linker=20
+builds a program that uses shared libraries, it lists the SONAMEs of the =
+
+libraries it used rather than the actual names of the libraries. The =
+cache=20
+creation program scans all of the directories that contain shared =
+libraries,=20
+finds all of the shared libraries, extracts the SONAME from each one, =
+and where=20
+there are multiple libraries with the same SONAME, discards all but the =
+highest=20
+version number. Then it writes the cache file with SONAMEs and full =
+pathnames so=20
+at runtime the dynamic linker can quickly find the current version of =
+each=20
+library.=20
+<P>
+<H2>Dynamic loading at runtime</H2>Although the ELF dynamic linker is =
+usually=20
+called implcitly at program load time and from PLT entries, programs can =
+also=20
+call it explicitly using <TT>dlopen()</TT> to load a shared library and=20
+<TT>dlsym()</TT> to find the address of a symbol, usually a procedure to =
+call.=20
+Those two routines are actually simple wrappers that call back into the =
+dynamic=20
+linker. When the dynamic linker loads a library via <TT>dlopen()</TT>, =
+it does=20
+the same relocation and symbol resolution it does on any other library, =
+so the=20
+dynamically loaded program can without any special arrangements call =
+back to=20
+routines already loaded and refer to global data in the running program. =
+
+<P>
+<P>This permits users to add extra functionality to programs without =
+access to=20
+the source code of the programs and without even having to stop and =
+restart the=20
+programs (useful when the program is something like a database or a web =
+server.)=20
+Mainframe operating systems have provided access to "exit routines" like =
+this=20
+since at least the early 1960s, albeit without such a convenient =
+interface, and=20
+it's long been a way to add great flexibility to packaged applications. =
+It also=20
+provides a way for programs to extend themselves; there's no reason a =
+program=20
+couldn't write a routine in C or C++, run the compiler and linker to =
+create a=20
+shared library, then dynamically load and run the new code. (Mainframe =
+sort=20
+programs have linked and loaded custom inner loop code for each sort job =
+for=20
+decades.)=20
+<P>
+<H2>Microsoft Dynamic Link Libraries</H2>Microsoft Windows also provides =
+shared=20
+libraries, called dynamic-link libraries or DLLs in a fashion similar to =
+but=20
+somewhat simpler than ELF shared libraries. The design of DLLs changed=20
+substantially between the 16 bit Windows 3.1 and the 32 bit Windows NT =
+and 95.=20
+This discussion addresses only the more modern Win32 libraries. DLLs =
+import=20
+procedure addresses using a PLT-like scheme. Although the design of DLLs =
+would=20
+make it possible to import data addresses using a GOT-like scheme, in =
+practice=20
+they use a simpler scheme that requires explicit program code to =
+dereference=20
+imported pointers to shared data.=20
+<P>
+<P>In Windows, both programs and DLLs are PE format (portable =
+executable) files=20
+are intended to be memory mapped into a process. Unlike Windows 3.1, =
+where all=20
+applications shared a single address space, Win32 gives each application =
+its own=20
+address space and executables and libraries are mapped into each address =
+space=20
+where they are used. For read-only code this doesn't make any practical=20
+difference, but for data it means that each application using a DLL gets =
+its own=20
+copy of the DLL's data. (That's a slight oversimplification, since PE =
+files can=20
+mark some sections as shared data with a single copy shared among all=20
+applications that use the file, but most data is unshared.)=20
+<P>
+<P>Loading a Windows executable and DLLs is similar to loading a =
+dynamically=20
+linked ELF program, although in the Windows case the dynamic linker is =
+part of=20
+the kernel. First the kernel maps in the executable file, guided by =
+section info=20
+in the PE headers. Then it maps in all of the DLLs that the executable =
+refers=20
+to, again guided by the PE headers in each DLL.=20
+<P>
+<P>PE files can contain relocation entries. An executable generally =
+won't=20
+contain them and so has to be mapped at the address for which it was =
+linked.=20
+DLLs all do contain relocation entries, and are relocated when they're =
+mapped in=20
+if the address space for which they were linked isn't available. =
+(Microsoft=20
+calls runtime relocation <I>rebasing</I>.)=20
+<P>
+<P>All PE files, both executables and DLLs, have an entry point, and the =
+loader=20
+calls a DLL's entry point when the DLL is loaded, when the DLL is =
+unloaded, and=20
+each time a process thread attaches to or detaches from the DLL. (The =
+loader=20
+passes an argument to say why it's making each call.) This provides a =
+hook for=20
+static initializers and destructors analogous to the ELF <TT>.init</TT> =
+and=20
+<TT>.fini</TT> sections.=20
+<P>
+<H3>Imported and exported symbols in PE files</H3>PE supports shared =
+libraries=20
+with two special sections of the file, <TT>.edata</TT>, for exported =
+data, that=20
+lists the symbols exported from a file, and <TT>.idata</TT>, that lists =
+the=20
+symbols imported into a file. Program files generally have only an=20
+<TT>.idata</TT> section, while DLLs always have an <TT>.edata</TT> and =
+may have=20
+a <TT>.idata</TT> if they use other DLLs. Symbols can be exported either =
+by=20
+symbol name, or by "ordinal", a small integer that gives the index of =
+the symbol=20
+in the export address table. Linking by ordinals is slightly more =
+efficient=20
+since it avoids a symbol lookup, but considerably more error prone since =
+it's up=20
+to the person who builds a DLL to ensure that ordinals stay the same =
+from one=20
+library version to another. In practice ordinals are usually used to =
+call system=20
+services that rarely change, and names for everything else.=20
+<P>
+<P>The <TT>.edata</TT> section contains an export directory table that =
+describes=20
+the rest of the section, followed by the tables that define the exported =
+
+symbols, Figure 5.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><A href=3D"http://www.iecc.com/linker/linkerfig10-05.html"><IMG=20
+      height=3D89 =
+src=3D"http://www.iecc.com/linker/thumb-linker10-05.jpg"=20
+      width=3D100></A> </TD>
+    <TD><I>Figure 5:</I> Structure of .edata section <BR>export =
+directory=20
+      pointing to: <BR>export address table <BR>ordinal table <BR>name =
+pointer=20
+      table <BR>name strings </TD></TR></TBODY></TABLE></CENTER>
+<P>The export address table contains the RVA (relative virtual address, =
+relative=20
+to the base of the PE file) of the symbol. If the RVA points back into =
+the=20
+<TT>.edata</TT> section, it's a "forwarder" reference, and the value =
+pointed to=20
+is a string naming the symbol to use to satisfy the reference, probably =
+defined=20
+in a different DLL. The ordinal and name pointer tables are parallel, =
+with each=20
+entry in the name pointer table being the RVA of the name string for the =
+symbol,=20
+and the ordinal being the index in the export address table. (Ordinals =
+need not=20
+be zero-based; the ordinal base to subtract from ordinal values to get =
+the index=20
+in the export address table is stored in the export directory and is =
+most often=20
+1.) Exported symbols need not all have names, although in practice they =
+always=20
+do. The symbols in the name pointer table are in alphabetical order to =
+permit=20
+the loader to use a binary search.=20
+<P>
+<P>The <TT>.idata</TT> section does the converse of what the =
+<TT>.edata</TT>=20
+section does, by mapping symbols or ordinals back into virtual =
+addresses. The=20
+section consists of a null-terminated array of import directory tables, =
+one per=20
+DLL from which symbols are imported, followed by an import lookup table =
+per DLL,=20
+followed by a name table with hints, Figure 6.=20
+<P>
+<CENTER>
+<TABLE border=3D3>
+  <TBODY>
+  <TR>
+    <TD><A href=3D"http://www.iecc.com/linker/linkerfig10-06.html"><IMG=20
+      height=3D83 =
+src=3D"http://www.iecc.com/linker/thumb-linker10-06.jpg"=20
+      width=3D100></A> </TD>
+    <TD><I>Figure 6:</I> Structure of .idata section <BR>array of import =
+
+      directory tables, with lotsa arrows <BR>each has import lookup =
+table RVA,=20
+      time/date stamp, forwarder chain (unused?), DLL name, import =
+address RVA=20
+      table <BR>NULL <BR>import table, entries with high bit flag (table =
+per=20
+      DLL) <BR>hint/name table </TD></TR></TBODY></TABLE></CENTER>
+<P>For each imported DLL, there is an array of import addresses, =
+typically in=20
+the program's text segment, into which the program loader places the =
+resolved=20
+addresses. The import lookup table identifies the symbols to import, =
+with the=20
+entries in the import lookup table being parallel to those in the import =
+address=20
+table. The lookup table consists of 32 bit entries. If the high bit of =
+an entry=20
+is set, the low 31 bits are the ordinal of the symbol to import, =
+otherwise the=20
+entry is the RVA of an entry in the hint/name table. Each hint/name =
+entry=20
+consists of a four-byte hint that guesses the index of the symbol in the =
+DLL's=20
+export name pointer table, followed by the null terminated symbol name. =
+The=20
+program loader uses the hint to probe the export table, and if the =
+symbol name=20
+matches, it uses that symbol, otherwise it binary searches the entire =
+export=20
+table for the name. (If the DLL hasn't changed, or at least its list of =
+exported=20
+symbols hasn't changed, since the program that uses the DLL was linked, =
+the=20
+guess will be right.)=20
+<P>
+<P>Unlike ELF imported symbols, the values of symbols imported via=20
+<TT>.idata</TT> are only placed in the import address table, not fixed =
+up=20
+anywhere else in the importing file. For code addresses, this makes =
+little=20
+difference. When the linker builds an executable or DLL, it creates in =
+the text=20
+section a table of misnamed "thunks", indirect jumps through the entries =
+in the=20
+import address table, and uses the addresses of the thunks as the =
+address of the=20
+imported routine, which is transparent to the programmer. (The thunks as =
+well as=20
+most of the data in the <TT>.idata</TT> section actually come from a =
+stub=20
+library created at the same time as the DLL.) In recent versions of =
+Microsoft's=20
+C and C++ compiler, if the programmer knows that a routine will be =
+called in a=20
+DLL, the routine can be declared "dllimport", and the compiler will emit =
+an=20
+indirect call to the address table entry, avoiding the extra indirect =
+jump. For=20
+data addresses, the situation is more problematical, since it's harder =
+to hide=20
+the extra level of indirection required to address a symbol in another=20
+executable. Traditionally, programmers just bit the bullet and =
+explicitly=20
+declared imported variables to be pointers to the real values and =
+explicitly=20
+dereferencd the pointers. Recent versions of Microsoft's C and C++ =
+compiler also=20
+let the programmer declare global data to be "dllimport" and the =
+compiler will=20
+emit the extra pointer deferences, much like ELF code that references =
+data=20
+indirectly via pointers in the GOT.=20
+<P>
+<H3>Lazy binding</H3>Recent versions of Windows compilers have added =
+delay=20
+loaded imports to permit lazy symbol binding for procedures, somewhat =
+like the=20
+ELF PLT. A delay-loaded DLL has a structure similar to the =
+<TT>.idata</TT>=20
+import directory table, but not in the <I>.idata</I> section so the =
+program=20
+loader doesn't handle it automatically. The entries in the import =
+address table=20
+initially all point to a helper routine that finds and loads the DLL and =
+
+replaces the contents of the address table with the actual addresses. =
+The=20
+delay-loaded directory table has a place to store the original contents =
+of the=20
+import address table so the values can be put back if the DLL is later =
+unloaded.=20
+Microsoft provides a standard helper routine, but its interfaces are =
+documented=20
+and programmers can write their own versions if need be.=20
+<P>
+<P>Windows also permits programs to load and unload DLLs explicitly =
+using=20
+<TT>LoadLibrary</TT> and <TT>FreeLibrary</TT>, and to find addresses of =
+symbols=20
+using <TT>GetProcAddress</TT>.=20
+<P>
+<H3>DLLs and threads</H3>One area in which the Windows DLL model doesn't =
+work=20
+particularly well is thread local storage. A Windows program can start =
+multiple=20
+threads in the same process, which share the process' address space. =
+Each thread=20
+has a small chunk of thread local storage (TLS) to keep data specific to =
+that=20
+thread, such as pointers to data structures and resources that the thead =
+is=20
+using. The TLS needs "slots" for the data from the executable and from =
+each DLL=20
+that uses TLS. The Windows linker can create a .tls section in a PE =
+executable,=20
+that defines the layout for the TLS needed by routines in the executable =
+and any=20
+DLLs to which it directly refers. Each time the process creates a =
+thread, the=20
+new thread gets its own TLS, created using the .tls section as a =
+template.=20
+<P>
+<P>The problem is that most DLLs can either be linked implicitly from =
+the=20
+executable, or loaded explicitly with <TT>LoadLibrary</TT>. DLLs loaded=20
+explicitly don't automatically get .tls storage, and since a DLL's =
+author can't=20
+predict whether a library will be invoked implicitly or explicitly, it =
+can't=20
+depend on the .tls section.=20
+<P>
+<P>Windows defines runtime system calls that allocate slots at the end =
+of the=20
+TLS. DLLs use those calls rather than .tls unless the DLL is known only =
+to be=20
+invoked implicitly.=20
+<H2>OSF/1 pseudo-static shared libraries</H2>OSF/1, the ill-fated UNIX =
+variant=20
+from the Open Software Foundation, used a shared library scheme =
+intermediate=20
+between static and dynamic linking. Its authors noted that static =
+linking is a=20
+lot faster than dynamic since less relocation is needed, and that =
+libraries are=20
+updated infrequently enough that system managers are willing to endure =
+some pain=20
+when they update shared libraries, although not the agony of relinking =
+every=20
+executable program in the entire system.=20
+<P>
+<P>So OSF/1 took the approach of maintaining a global symbol table =
+visible to=20
+all processes, and loaded all the shared libraries into a sharable =
+address space=20
+at system boot time. This assigned all of the libraries addresses that =
+wouldn't=20
+change while the system was running. Each time a program started, if it =
+used=20
+shared libraries, it would map in the shared libraries and symbol table =
+and=20
+resolve undefined references in the executable using the global symbol =
+table. No=20
+load-time relocation was ever required since programs were all linked to =
+load in=20
+a part of the address space that was guaranteed to be available in each =
+process,=20
+and the library relocation had already happened when they were loaded at =
+boot=20
+time.=20
+<P>
+<P>When one of the shared libraries changed, the system just had to be =
+rebooted=20
+normally, at which point the system loaded the new libraries and created =
+a new=20
+symbol table for executables to use.=20
+<P>
+<P>This scheme was clever, but it wasn't very satisfactory. For one =
+thing,=20
+processing symbol lookups is considerably slower than processing =
+relocation=20
+entries, so avoiding relocation wasn't that much of a performance =
+advantage. For=20
+another, dynamic linking provides the ability to load and run a library =
+at=20
+runtime, and the OSF/1 scheme didn't provide for that.=20
+<P>
+<H2>Making shared libraries fast</H2>
+<TABLE cellSpacing=3D0 cols=3D1 cellPadding=3D0 bgColor=3Dpink>
+  <TBODY>
+  <TR>
+    <TD>Shared libraries, and ELF shared libraries in particular, can be =
+very=20
+      slow. The slowdowns come from a variety of sources, several of =
+which we=20
+      mentioned in Chapter 8:=20
+      <UL>
+        <LI>Load-time relocation of libraries=20
+        <LI>Load-time symbol resolution in libraries and executables=20
+        <LI>Overhead due to PIC function prolog code=20
+        <LI>Overhead due to PIC indirect data references=20
+        <LI>Slower code due to PIC reserved addressing registers =
+</LI></UL>The=20
+      first two problems can be ameliorated by caching, the latter two =
+by=20
+      retreating from pure PIC code.=20
+      <P>
+      <P></P></TD></TR></TBODY></TABLE>On modern computers with large =
+address spaces,=20
+it's usually possible to choose an address range for a shared library =
+that's=20
+available in all or at least most of the processes that use the library. =
+One=20
+very effective technique is similar to the Windows approach. Either when =
+the=20
+library is linked or the first time a library is loaded, tentatively =
+bind its=20
+addresses to a chunk of address space. After that, each time a program =
+links to=20
+the library, use the same addresses of possible, which means that no =
+relocation=20
+will be necessary. If that address space isn't available in a new =
+process, the=20
+library is relocated as before.=20
+<P>
+<P>SGI systems use the term <I>QUICKSTART</I> to describe the process of =
+
+pre-relocating objects at linktime, or in a separate pass over the =
+shared=20
+library. BeOS caches the relocated library the first time it's loaded =
+into a=20
+process. If multiple libraries depend on each other, in principle it =
+should be=20
+possible to pre-relocate and then pre-resolve symbol references among =
+libraries,=20
+although I'm not aware of any linkers that do so.=20
+<P>
+<P>If a system uses pre-relocated libraries, PIC becomes a lot less =
+important.=20
+All the processes that load a library at its pre-relocated address can =
+share the=20
+library's code whether it's PIC or not, so a non-PIC library at a =
+well-chosen=20
+address can in practice be as sharable as PIC without the performance =
+loss of=20
+PIC. This is basically the static linked library approach from Chapter =
+9, except=20
+that in case of address space collisions, rather than the program =
+failing the=20
+dynamic linker moves the libraries at some loss of performance. Windows =
+uses=20
+this approach.=20
+<P>
+<P>BeOS implements cached relocated libraries with great thoroughness, =
+including=20
+preserving correct semantics when libaries change. When a new version of =
+a=20
+library is installed BeOS notes the fact and creates a new cached =
+version rather=20
+than using the old cached version when programs refer to the library. =
+Library=20
+changes can have a ripple effect. When library A refers to symbols in =
+library B=20
+and B is updated, a new cached version of A will also have to be created =
+if any=20
+of the referenced symbols in B have moved. This does make the =
+programmer's life=20
+easier, but it's not clear to me that libraries are in practice updated =
+often=20
+enough to merit the considerable amount of system code needed to track =
+library=20
+updates.=20
+<P>
+<H2>Comparison of dynamic linking approaches</H2>The Unix/ELF and =
+Windows/PE=20
+dynamic linking differ in several interesting ways.=20
+<P>
+<P>The ELF scheme uses a single name space per program, while the PE =
+scheme uses=20
+a name space per library. An ELF executable lists the symbols it needs =
+and the=20
+libraries it needs, but it doesn't record which symbol is in which =
+library. A PE=20
+file, on the other hand, lists the symbols to import from each library. =
+The PE=20
+scheme is less flexible but also more resistant to inadvertent spoofing. =
+Imagine=20
+that an executable calls routine AFUNC which is found in library A and =
+BFUNC=20
+which is found in library B. If a new version of library A happens to =
+define its=20
+own BFUNC, an ELF program could use the new BFUNC in preference to the =
+old one,=20
+while a PE program wouldn't. This is a problem with some large =
+libraries; one=20
+partial solution is to use the poorly documented DT_FILTER and =
+DT_AUXILIARY=20
+fields to tell the dynamic linker what libraries this one imports =
+symbols from,=20
+so the linker will search those libraries for imported symbols before =
+searching=20
+the executable and the rest of the libraries. The DT_SYMBOLIC field =
+tells the=20
+dynamic linker to search the library's own symbol table first, so that =
+other=20
+libraries cannot shadow intra-library references. (This isn't always =
+desirable;=20
+consider the malloc hack described in the previous chapter.) These =
+ad-hoc=20
+approaches make it less likely that symbols in unrelated libraries will=20
+inadvertently shadow the correct symbols, but they're no substitude for =
+a=20
+hierarchical link-time name space as we'll see in Chapter 11 that Java =
+has.=20
+<P>
+<P>The ELF scheme tries considerably harder than the PE scheme to =
+maintain the=20
+semantics of static linked programs. In an ELF program, references to =
+data=20
+imported from another library are automatically resolved, while a PE =
+program=20
+needs to treat imported data specially. The PE scheme has trouble =
+comparing the=20
+values of pointers to functions, since the address of an imported =
+function is=20
+the address of the "thunk" that calls it, not the address of the actual =
+function=20
+in the other library. ELF handles all pointers the same.=20
+<P>
+<P>At run-time, nearly all of the Windows dynamic linker is in the =
+operating=20
+system, while the ELF dynamic linker runs entirely as part of the =
+application,=20
+with the kernel merely mapping in the initial files. The Windows scheme =
+is=20
+arguably faster, since it doesn't have to map and relocate the dynamic =
+linker in=20
+each process before it starts linking. The ELF scheme is definitely a =
+lot more=20
+flexible. Since each executable names the "interpreter" program (now =
+always the=20
+dynamic linker named ld.so) to use, different executables could use =
+different=20
+interpreters without requring any operating system changes. In practice, =
+this=20
+makes it easier to support executables from variant versions of Unix, =
+notably=20
+Linux and BSD, by making a dynamic linker that links to compatibility =
+libraries=20
+that support non-native executables.=20
+<P>
+<H2>Exercises</H2>In ELF shared libraries, libraries are often linked so =
+that=20
+calls from one routine to another within a single shared library go =
+through the=20
+PLT and have their addresses bound at runtime. Is this useful? Why or =
+why not?=20
+<P>
+<P>Imagine that a program calls a library routine <TT>plugh()</TT> that =
+is found=20
+in a shared library, and the programmer builds a dynamically linked =
+program that=20
+uses that library. Later, the system manager notices that <TT>plugh</TT> =
+is a=20
+silly name for a routine and installs a new version of the library that =
+calls=20
+the routine <TT>xsazq</TT> instead. What happens when the next time the=20
+programmer runs the program?=20
+<P>
+<P>If the runtime environment variable <TT>LD_BIND_NOW</TT> is set, the =
+ELF=20
+dynamic loader binds all of the program's PLT entries at load time. What =
+would=20
+happen in the situtation in the previous problem if <TT>LD_BIND_NOW</TT> =
+were=20
+set?=20
+<P>
+<P>Microsoft implemented lazy procedure binding without operating system =
+
+assistance by adding some extra cleverness in the linker and using the =
+existing=20
+facilities in the operating system. How hard would it be to provide =
+transparent=20
+access to shared data, avoiding the extra level of pointers that the =
+current=20
+scheme uses?=20
+<P>
+<H2>Project</H2>It's impractical to build an entire dynamic linking =
+system for=20
+our project linker, since much of the work of dynamic linking happens at =
+
+runtime, not link time. Much of the work of building a shared library =
+was=20
+already done in the project 8-3 that created PIC executables. A =
+dynamically=20
+linked shared library is just a PIC executable with a well-defined list =
+of=20
+imported and exported symbols and a list of other libraries on which it =
+depends.=20
+To mark the file as a shared library or an executable that uses shared=20
+libraries, the first line is:=20
+<P><TT><BR>LINKLIB lib1 lib2 ... <BR>or <BR>LINK lib1 lib2 ...=20
+<P></TT>
+<P><BR>where the lib's are the names of other shared libraries on which =
+this one=20
+depends.=20
+<P>
+<P><I>Project 10-1:</I> Starting with the version of the linker from =
+project=20
+8-3, extend the linker to produce shared libraries and executables that =
+need=20
+shared libraries. The linker needs to take as its input a list of input =
+files to=20
+combine into the output executable or library, as well as other shared =
+libraries=20
+to search. The output file contains a symbol table with defined =
+(exported) and=20
+undefined (imported) symbols. Relocation types are the ones for PIC =
+files along=20
+with AS4 and RS4 for references to imported symbols.=20
+<P>
+<P><I>Project 10-2:</I> Write a run-time binder, that is, a program that =
+takes=20
+an executable that uses shared libraries and resolves its references. It =
+should=20
+read in the executable, then read in the necessary libraries, relocating =
+them to=20
+non-overlapping available addresses, and creating a logically merged =
+symbol=20
+table. (You may want to actually create such a table, or use a list of =
+per-file=20
+tables as ELF does.) Then resolve all of the relocations and external=20
+references. When you're done, all code and data should be assigned =
+memory=20
+addresses, and all addresses in the code and data should be resolved and =
+
+relocated to the assigned addresses. </P></BODY></HTML>
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.iecc.com/linker/thumb-linker10-01.jpg
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAA9AGQDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3JmJP
+XtSFxGh3Hb7k0/IA/CoGCm4BOSc5HfHH/wCukSY11rd4l1LHb6W9xFER+9EyqH6fdB69fpweRUEH
+iC/m2sNAlVG5y06ggfQ4Ofb0rW1HUL212ra6bPdlh1jZQAffJq2TOVX175oGCuHJww49DSk4Pqaj
+JmR33EMOCe2P84qYe9ACqccjvSbRjJK0pB4GailljgTc24/7oyT9AOaBDLt3S1mNsFecRsY1Y4Bb
+HAP41z41bxFEuZdFtSwyTtvAOPpg/wCfSt8eWQB5OSRu+5nr+FSxvtO1Y2QYHO3ANMZDbzNJEhm2
+RyFcuivuCnuM96sBcHKsMVHO7+YPTBAJ56kU4KVQIvQcUhCnf2C/nRTgpPqPrRQMztRsdQuJg1pq
+htFK7WQQK/OeoJ6ccVa+cH5AoJkPB+mP6VZOOxOaryp82d5GGHfuf/10AQXd/HYPClzdRRNO22NS
+pO4+lC3yvCJxMBGw3BhE3I9ane1imH735/8AeAPf6ewoa1hZQrKGCjABC8D8qAKyXEk05SORJFZQ
+Gb7u3r2PWr2emeKqRoivLHHGrHIOBgAce1WGkVAN7AduTjNAh6gkkjHNN8s+YN3HymmecWOI45D9
+Rj+dG2UndJIAMY2r/jQA6HAgj2kH5R/Knb8nHWs5XMGlI6Zkl8kFI2kCBjjoT2ptjdSyki6SO2AA
+6XIkyckce2ADz69OKYF+TaW+iMefwqkDrI1LaosWsgR85ZxIRjnjGAc+/SrA2GclJDMAp4GD6ccV
+aQAIFbqAMmkA8MQAHIzRTCMHjpRQBl3PiC0tb82bx3JlDAZS3dl5/wBoDHUj8/rV1nR5CcEjcBgq
+ewzVojdnOCPrUJV1UYiJIfPB60AZuoW2p3F1G9nKkMAXDoYUYk568n0/zzkWo4pY7RVkh8yYLguV
+Qbmx1xmrIMh/gA/3m/8ArU3943/PPj/bP+FAFSyjuQ0izYiGBtVQvv6VcVEjJIA3Hv1P50ixFZWk
+bb8ygcMT0z/jTxjPPNACnLHkcUMM9BjjtS5HTmmjk89PrQBnp/o+nCRDvkWP5ULKm5gOBnHGTVTT
+9Qurlm+12oskwCP9LVyT9B/jWlaRiKLaq7WBw2fXGashmA6fjQBAHRpB5cpY8c5/wqyCRz61BIdz
+kZ+bYSPwqhO2urfj7NDp8lnlBveV1fH8RwAR9Oe3vQBshxjvRUYBIGVGcc4NFADyGwcHFMKNjk0r
+HAJ98UiHcxz2oAQDHbNADDkCpDTMbenagBvPTvRwAR0NOHLfpSkc0AAOKQsSTxSD5m5pVIweOlAE
+IkUSSZPVu30FSg575pjRRFyTGhJ7lRTRDES37tRjuBigBxI81R32t/MUseRGMHjt9KQQRh+h6d2J
+/nUmPkzQA4OcdP1ooEeQOaKVwP/Z
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.iecc.com/linker/thumb-linker10-02.jpg
+
+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
+8AUU5/vUUCP/2Q==
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.iecc.com/linker/thumb-linker10-05.jpg
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABZAGQDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3JnbP
+Ix+NMVvnIwcjB/On5A7DpTWcAn+HtSJHFiMjGTmmmQhgMcn3oR0J+8uaViodMAHJx9eKAEDs38Jx
+XK6v4huLTU7m2XVtNtkUELG8TvKDsU8446t78EV1gz2rLWGBWYS3BMiyEgtj5T7E89DjrTAwk8Th
+pvKbWtPaY24WONIXw0xwNx9QDngevPrSWut3b6wlvJrmlMGlRPKWJ1Y5PQZ74BAH164rozJB5xIk
+Hzr8o4+XH+f0p6psVHa4J3AEApgnj+dAGcLbxOUG6803eGBysTAHjkck9607E3qW5F9JC8244MKl
+RjtwSaWEl0ZfPyTyPlwQOOtPELgj99u9crSAkJDAYzTiuMck/Wo1jdOWYMPp0qQn0FADTuHUUUdf
+/wBdFUK4FQe/P0qhqCT+TO1lDby3exfLE3C5yc5/CtDsSfzppWN2+ZFJ6ZK1Izn2m8QjKtpul8HP
+Ep5HHtVuznuSM3llawyiQBTCwbcu3Oe3RiR74z3rW8qEfeVCP92qzTqt3sgjLkKeF4A6dfzoAkSd
+XkMSygSKNxVlwcU4lNwEnllgM1U2O7hmETBmOQI92Dx19T+VPZRtw8UZ/wC3VjTAsGRFV9uMgZOK
+p3mtWlhCJrstHGSF3GNjyfYDNKChLxhHbC8qiGP17kj1NF1aPPYxwWtzNa4Odw+Y4weDn6/pQBmL
+420aQA+dKvIxut374749Tikm8aaVbbN8km8qr4WFjkMgcHp0IP51K2i3wCrDr15GMBSSisTwMnJG
+c8E85HPSiPQb5Zo2fxFeuilS0bKuHwc9ccAgY/x5ygNe2vI7y0huYiTFKgdDggkEZHB6VPu7Dke9
+c+fD2osCH8SXx5G0qiDGAOvHPOT+OKs2ei3tvd+fLrV1cIf+WbqoHQjt+H5UAbGYz1AzRURgxgEB
+jjqyZopiJmOR3NNLEnpxTJriKFS0kqoANxLsAABWeniDSC3/ACFLQkgHHnLxn8aQy9NJsXBbBY4B
+9PeqbSJHwFkVQ/3F++2QOSfyNTPdRSpFcQFZYxkqyng84z+dRK8qyyOw82JxghYmJJ5zz0xQA47v
+k3K0OXOBEck8d+OvHvT9w6b7o/8AbP8A+xoW7+7uhfj7p2/e461KLmQkEQSD6rQIrFsPJ8l03yrz
+twRyegx/nNaG3jpgVD5xebGxlO3uOtZd/wCJrHSrlIL9jDKwyikZ3DJ6Y+h/KgDZIx2JpCoJHbms
+V/F2kraxTtdKElJVRtOcgAsOnbcPzpkHjDSbmWOKK4JkkdVRNpBJbAHb3oA3tpycGlBPGea5uPxn
+pV5cx29tdK7ykBAARkk4xyOtb1s8xQecmxhxjOaALG72oqPmigCG7t3ubaeNFj81o2RGddwBI7g9
+R7VzcPh7UVu43uotDeDP7yEWYyVx0Bx/nJ+ldST/ALR6c80pTIJBoGQNb+XBGsIWFIyMKgwo/Adq
+hWORlOELEM3ImIHU+9Xs9jVEW6kyf6LbuN7HLH39MUAOPzw22Bn02tj+E07ypc5IGOwMzf4VCoJj
+t4mjRiEbg9MjAqXyduMW9vn6Z/pQIRWPnlGRdwUbf3jN6+o9qp3OnXVzqUd3BqkttEFAaARqwY55
+zmpcFL1uIkZYlYiNe2Tnt6VbJ8s7iPlbqfQ+tAGP/YOrebv/AOEkmPPy4tYuBxkdPanNoOqksR4i
+uM7yygwR4HXAPHI6fl71u7cdGx7Yo4zye/GTQBl6XpN7bKxv9Ue7ZlX+ARgHnOMeuf0rSWDZ8wZm
+OMZY5p4GOlN25I+bp70AODkfwg/jRShR60UAIQPQdKOnfinYPWmspJ4JzQMQpnpTU3IMFQTk9ven
+5bj5Qxow3c49hQBEFOVOOBnv60/HAJ6UEHd1BpBgk7T+FAFcqFu1YnBkUr07Dn+tRzwtc2b2U7DJ
+j2s8bFSM5GR6GrMwBdC3HBAYdjxUaKzNJG8m99gBYDHdqBGTB4aeGVZW13Vpdrbgsl0SCM5wRjGP
+6VDB4XW0uorj+1tUm2up2yXWVPI4I28/4VKdG11BI6eIssclFNqu0eg61pWMF5Bp6xX12t1PvBMo
+j2Dls4x7dKALcY24AJwOMnkmpG20nHB6UH65FABxgcUU/wCQ8/0ooAQjAPXOKQl1P1704fepz9D+
+FAxmWPO3ApNhbnOPxqQ/dP1pi/6s/WgBAuc9/rQcDHPNKv3PxqM/dNAhWQlCowQRyD0qFLQwgiKT
+yweSMZGc1Yh+4KWT7v4UAVykoGPPB/7Z/wD16UROxw8pIyDjb6Gnjv8AWpf/AK1ADTjoaXnFJH97
+8TTj/qjQA0A46/pRR3NFID//2Q==
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.iecc.com/linker/thumb-linker10-06.jpg
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABTAGQDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD1TxLq
+9xpKwvFdWkKuGz9pRm3YI6be/P45qjpup6zqlo1xFqGlEREpIsaScPt4BJPTcQfpXSXaIYP3gQgE
+dTgdfWq4jtgMhoVHoJTzSJMmIeKfKRPt2kSPtHzGNwS3U98YIx+da2nf2ovmjU/spIb92bcMMjHf
+JPrj8KTFuJIisked38Dlj0PrVkRqwDLPIfqF/wAKYExOQPl7VSv9Xs9MMYvZvJEgYqSCQcYz0+oq
+wElBx5oIx3X/AANZ2qWd/K8c0GqG3RFKlY4xySRyd2RwAaQEcXi/Q5iwjv1ZlV2KhWzhASxxj0U/
+lUth4r0fUrtbW0vFllbO1QrDdxnjI9Kyjplw1+WOtTGPeTtdY3AXIYqGIzjt+FWNM0me0ZPO1aed
+BvAXaRzkc7s+qn/vo0wOk3ZOCv51z7eLdPEhU21+QFLbxatjgZP+f8RW0jhlyHzj2Oa52fw7EI4k
+k1XUBzvybvYOBjGNvQ5OaALcniqwSDzRBeMnmCMBbdsknkcGrFjr9nqFz5EUN1HJgt+9hZQQMdzx
+3FZUmgh/LFvrl6kgXblbncTlmOTxyfn9uAPSppPCqyLIf7V1Qs/ZrrAzn6Z//VSGdEr7xlSCM44N
+FQqLiIbIhFsH95uT60UCHTyFY8AYO5cZGf4hRic5Pmp/37P+NOlAZBg8716/7wp5U7s5IHegCtL5
+m+IvKpG7gCMjse+amYFCXXp1YY/UUOwDRYjLfP8A0NKwdiM5xTAAwYZGCCM5FQXAMyMsT7eQM+pz
+T2BjO1c4c4HsaVwiBULohxkBu4BGT+o/OkBGsdyGY/al5xx5ZOP1p0cZ25ctkO3t3PanCWDaX+0x
+7RnJ3DAx1/LFNjeAytGs8TvuyQrDPTPT6EUwJtrHOZDz2qADbJEmWHyMc4z3FT529qFGQB/IUgIZ
+F2ru3O+WXhsY+8PQU+SFZDuJYMOmDipsHHpQMnPpmmBCYImOWD5/3jRU4Ge9FICCWJZVwQV5B49j
+mnlQPXk9zSkjnoKaQD2U/SgBGjDFGycKcjB9iP604HjGB+dKeOgFNKKCCQPwoAjkHmSqoVsbSTzW
+JrtldahFGn2S2l8lmQ/adw3btuCpH6+4rdDL5z89EH9ahnZZUPAKblHPc7h+lAHH/wDCNXsF40tv
+pOl+Uu9Y8yspZW3Z3KDjnP8AOltvD2owTre2ltpVveo/7vG9towytk8/7IH4muuFrzkW9t+JP+FS
+WwJj5Kqd75C9D8xpgQwi8eHbcPCk+XyI8sNufl9OcY/WpQXjJX5pO+VwMfman8vPOahlVXkUFEdt
+pxu/CkAGYgjMEnX1B/rVjOQeO9UzCyKWMUKgc5ViSP0q1yBnAoAeACOpoppbB6flRQAHBXnFKCu3
+rg01W9uaQ8dAKADODkY+tKZMDnafrQST1AxQME9T+VAFd5B5hQKAWUD8Oc1KwHlFUVOgwMdPSo5m
+23CODwindlexx/hTnlhPBY5xzigB+zPJYUKnuCMnrTPOgB++348UfaISwVZVJPQA0ASlW6cYpMcY
+yOPajJwOaUDNAC54wMdO9Nbk5JGaOD94YxTgoz160CFVlxzj8qKUKP71FAEf3j0IpxAUdTSMeOM0
+3r2NAxQCe+aGUqOppMEc5NBZumKAI5F3AFtuwjDZH5Gq9wZra1mFjCJZUiBji3BQx543Hp9at4JH
+Az7VBFE9szKkJKEcHcOuST1PvQBjHVfEsSAv4fjk3ELhL0cZOMn5enf8a3IjO8cBli8uRsF03A7T
+t5Ge9L5jqP8AUOffI/xoDs0q/umUAHliOv50ASbWLd6d83GM0nGMZOTSZ6ZJx70AHVqUxnG7mkyD
+xzS4PbNACbHPf9aKdj60UCHMBzTT9+iigYq0Pwv50UUAAPyD6U0DIyetFFADSBkijAK80UUIAXot
+OAy3PpRRQA5gAvQdKAo9KKKQh20ZPFFFFAH/2Q==
+
+------=_NextPart_000_0000_01C7C337.1FCD14E0--

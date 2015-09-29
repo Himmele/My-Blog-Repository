@@ -1,0 +1,1117 @@
+<!DOCTYPE HTML>
+<html lang="en"><head>
+
+
+    <title>Mac Dev Center: OpenGL Programming Guide for Mac OS X: OpenGL on the Mac Platform</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta id="Generator" name="Generator" content="Gutenberg">
+    <meta id="GeneratorVersion" name="GeneratorVersion" content="v132">
+    <meta id="Copyright" name="Copyright" content="Copyright 2009 Apple Inc. All Rights Reserved.">
+    <meta id="IndexTitle" name="IndexTitle" content="OpenGL on the Mac Platform">
+    <meta id="xcode-display" name="xcode-display" content="render">
+    <meta name="viewport" content="width=550">
+    
+    <link rel="stylesheet" type="text/css" href="OpenGL%20on%20the%20Mac%20Platform-Dateien/devpubs.css">
+    <link rel="stylesheet" type="text/css" href="OpenGL%20on%20the%20Mac%20Platform-Dateien/docHeader.css">
+    <link rel="stylesheet" type="text/css" href="OpenGL%20on%20the%20Mac%20Platform-Dateien/docs.css">
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="../../../../Resources/Oct2009/CSS/ie.css"/><![endif]-->
+    <script>
+        var Book={
+            isConceptualFlow: true,
+            language: document.getElementsByTagName('html')[0].getAttribute('xml:lang'),
+            resourcesURI: '../../../../Resources/Oct2009',
+            tocURI: '../toc.html',
+            bookTitle: 'OpenGL Programming Guide for Mac OS X',
+            indexTitle: 'OpenGL on the Mac Platform',
+            indexURI: '../index.html',
+            nextPage: '../opengl_drawing/opengl_drawing.html',
+            previousPage: '../opengl_intro/opengl_intro.html'
+        };
+    </script>
+    <script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/prototype.js"></script>
+    <script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/scriptaculous.js"></script><script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/effects.js"></script>
+    <script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/devpubs.js"></script>
+    <script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/header_toc.js"></script>
+    <script type="text/javascript" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/pedia.js"></script>
+</head><body class="hasjs" style="overflow: hidden;"><a name="//apple_ref/doc/uid/TP40001987-CH208" title="OpenGL on the Mac Platform"></a>
+    <div id="adcHeader" class="hideOnPrint hideInXcode">
+        <script src="OpenGL%20on%20the%20Mac%20Platform-Dateien/browserdetect.js" type="text/javascript" charset="utf-8"></script>
+<script src="OpenGL%20on%20the%20Mac%20Platform-Dateien/apple_core.js" type="text/javascript" charset="utf-8"></script>
+<script src="OpenGL%20on%20the%20Mac%20Platform-Dateien/search_decorator.js" type="text/javascript" charset="utf-8"></script>
+<script src="OpenGL%20on%20the%20Mac%20Platform-Dateien/adc_core.js" type="text/javascript" charset="utf-8"></script>
+<div style="height: 36px; background-image: url(/mac/library/documentation/Resources/Oct2009/includes/header_sm_mid.png);">
+<a href="http://developer.apple.com/mac/library"><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/mac_header_sm_left.png" alt="Mac OS X Reference Library" style="border: medium none ;" width="264" height="36"></a>
+<a href="http://developer.apple.com/"><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/developer_header_sm.png" alt="Apple Developer Connection" style="border: medium none ; position: absolute; right: 60px;" width="179" height="36"></a>
+<img id="adc_search" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/header_sm_search.png" alt="spyglass button" style="border: medium none ; position: absolute; right: 0px;" width="60" height="36">
+</div>
+<form id="search_menu" method="get" action="/mac/search/search.php" accept-charset="utf-8" style="padding: 14px; display: none; background-image: url(/mac/library/documentation/Resources/Oct2009/includes/search_panel.png); height: 25px; width: 220px; position: absolute; top: 35px; right: 0px; z-index: 100000;">
+        <input name="simp" value="1" type="hidden">
+        <input name="num" value="10" type="hidden">
+        <input name="site" value="snowleopard" type="hidden">
+    <label for="gh-adcsearch"><div class="search-wrapper blurred empty"><span class="left"></span><input value="Search Mac Reference Library" autocomplete="off" class="adcsearch prettysearch" id="gh-adcsearch" name="q" accesskey="s" results="5" type="search"><span class="right"></span><div class="reset"></div></div></label>
+</form>
+<script type="text/javascript">
+    var Search = {
+        openMenu: function (event) {
+            event.stop();
+            if ($('search_menu').style.display === 'block') {
+                Search.closeMenu(event);
+            } else {
+                $('adc_search').src = '/mac/library/documentation/Resources/Oct2009/includes/sm_search_active.png';
+                $('search_menu').style.display = 'block';
+                $('gh-adcsearch').focus();
+            }
+        },
+        closeMenu: function (event) {
+            if (!event.element().descendantOf('search_menu')){
+                $('adc_search').src = '/mac/library/documentation/Resources/Oct2009/includes/header_sm_search.png';
+                $('search_menu').style.display = 'none';
+            }
+        }
+    };
+    $('adc_search').observe('click', Search.openMenu);
+    document.observe('click', Search.closeMenu);
+</script>
+    </div>
+    <div id="header">
+        <div id="title"><h1 id="book_title">OpenGL Programming Guide for Mac OS X
+    
+</h1><span id="file_links"><span id="PDF_link"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/OpenGLProg_MacOSX.pdf" class="urlLink"><img id="pdf_icon" alt="PDF Icon" src="OpenGL%20on%20the%20Mac%20Platform-Dateien/pdf.png" width="18" height="16">PDF</a></span></span></div>
+        <ul id="headerButtons" class="hideOnPrint">
+            <li id="toc_button" style=""><button id="table_of_contents" class="open">Table of Contents</button></li>
+            <li id="page_buttons" style="">
+                <button id="previousPage" title="Previous"></button>
+                <button id="nextPage" title="Next"></button>
+            </li>
+        </ul>
+    </div>
+    <div id="tocContainer" class="isShowingTOC"><ul id="toc"><meta name="ROBOTS" content="NOINDEX">
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+		
+	<li class="section">
+		<span class="sectionName">
+			<div><a id="tocEntry_0" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_intro/opengl_intro.html#//apple_ref/doc/uid/TP40001987-CH207-TP9">Introduction</a></div>
+		</span>
+	</li> 
+	
+
+
+
+
+
+
+    
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_1" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW1">OpenGL on the Mac Platform</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_2" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW5">Structure of OpenGL in Mac OS X</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_3" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW19">Programming Interfaces</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_4" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW4">OpenGL APIs Specific to Mac OS X</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_5" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW3">Apple-Implemented OpenGL Libraries</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_6" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW21">Terminology</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_7" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW22">Renderer</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_8" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW14">Renderer and Buffer Attributes</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_9" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW15">Pixel Format Objects</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_10" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW12">Rendering Contexts</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_11" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW13">Drawable Objects</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_12" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW16">Virtual Screens</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_13" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW17">Running an OpenGL Program in Mac OS X</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_14" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW24">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_15" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW8">Drawing to a Window or View</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_16" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW2">General Approach</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_17" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW23">Drawing to a Cocoa View</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_18" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW5">Drawing to an NSOpenGLView Class: A Tutorial</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_19" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW3">Drawing OpenGL Content to a Custom View</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_20" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW24">Drawing to a Carbon Window</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_21" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW1">What's Next</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_22" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW27">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_23" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW6">Drawing to the Full Screen</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_24" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW11">General Approach</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_25" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW8">Using Cocoa  to Create a Full-Screen Context</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_26" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW4">Using AGL  to Create a Full-Screen Context</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_27" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW1">Using CGL to Create a Full-Screen Context</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_28" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW2">Adjusting Display Modes</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_29" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW14">What's Next?</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_30" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fullscreen/opengl_cgl.html#//apple_ref/doc/uid/TP40001987-CH210-SW15">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_31" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW2">Drawing Offscreen</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_32" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW5">Setting Up an Offscreen Drawable Object</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_33" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW6">Using a Hidden View  or Window</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_34" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW3">Rendering to a Pixel Buffer</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_35" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW12">Setting Up a Pixel Buffer for Offscreen Drawing</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_36" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW13">Using a Pixel Buffer as a Texture Source</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_37" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW14">Rendering to a Pixel Buffer on a Remote System</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_38" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW7">Rendering to a Framebuffer Object</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_39" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW10">Drawing a Texture Offscreen</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_40" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW16">Drawing a Renderbuffer Image Offscreen</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_41" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_offscreen/opengl_offscreen.html#//apple_ref/doc/uid/TP40001987-CH403-SW17">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_42" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_general/opengl_gen_tasks.html#//apple_ref/doc/uid/TP40001987-CH211-SW7">Determining the OpenGL Capabilities Supported by the Hardware</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_43" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_general/opengl_gen_tasks.html#//apple_ref/doc/uid/TP40001987-CH211-SW1">Detecting Functionality</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_44" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_general/opengl_gen_tasks.html#//apple_ref/doc/uid/TP40001987-CH211-SW3">Guidelines for Code That Checks for Functionality</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_45" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_general/opengl_gen_tasks.html#//apple_ref/doc/uid/TP40001987-CH211-SW4">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_46" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW12">Techniques for Working with Rendering Contexts</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_47" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW23">Context Parameters</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_48" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW24">Swap Interval</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_49" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW25">Surface Opacity</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_50" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW21">Surface Drawing Order</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_51" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW22">Vertex and Fragment Processing</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_52" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW28">Back Buffer Size Control</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_53" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW5">Updating a Rendering Context</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_54" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW1">Tracking Renderer Changes</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_55" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW30">Updating a Rendering Context for a Custom Cocoa View</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_56" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW31">Updating a Rendering Context for a Carbon Window</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_57" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW32">Updating Full-screen AGL and CGL Rendering Contexts</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_58" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW7">Sharing Rendering Contexts</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_59" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW34">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_60" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW9">Techniques for Choosing Attributes</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_61" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW6">Buffer Size Attribute Selection Tips</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_62" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW5">Attributes that are not Recommended</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_63" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW4">Ensuring that Back Buffer Contents Remain the Same</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_64" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW10">Ensuring a Valid Pixel Format Object</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_65" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW8">Ensuring a Specific Type of Renderer</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_66" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW11">Ensuring a Single Renderer for a Display</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_67" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW13">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_68" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW3">Techniques for Working with Vertex Data</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_69" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW16">Best Practices for Working with Vertex Data</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_70" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW5">Using Extensions to Improve Performance</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_71" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW17">Vertex Array Range Extension</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_72" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW18">Vertex Buffer Object Extension</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_73" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW1">Fence Extension</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_74" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW10">Double Buffering Vertex Data</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_75" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_vertexdata/opengl_vertexdata.html#//apple_ref/doc/uid/TP40001987-CH406-SW19">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_76" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW1">Techniques for Working with Texture Data</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_77" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW14">Using Extensions to Optimize</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_78" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW24">Apple Client Storage</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_79" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW21">Apple Texture Range and Rectangle Texture</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_80" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW25">Combining Extensions</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_81" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW22">Optimal Data Formats and Types</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_82" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW3">Working with Non–Power-of-Two Textures</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_83" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW28">Creating Textures from Image Data</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_84" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW29">Creating a Texture from a Cocoa View</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_85" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31">Creating a Texture from a Quartz Image Source</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_86" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW34">Getting Decompressed Raw Pixel Data from a Source Image</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_87" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW13">Downloading Texture Data</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_88" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW16">Double Buffering Texture Data</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_89" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW32">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_90" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW7">Techniques for Scene Anti-Aliasing</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_91" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW8">Guidelines</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_92" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW9">General Approach</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_93" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW3">Hinting for a Specific Anti-Aliasing Technique</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_94" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW2">Setting Up Full Scene Anti-Aliasing</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_95" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_fsaa/opengl_fsaa.html#//apple_ref/doc/uid/TP40001987-CH405-SW10">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_96" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW1">Multithreading and OpenGL</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_97" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW6">Program Design</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_98" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW7">Guidelines for Threading OpenGL Applications</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_99" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW9">When Things Go Wrong</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_100" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW5">Threading APIs</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_101" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_threading/opengl_threading.html#//apple_ref/doc/uid/TP40001987-CH409-SW4">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_102" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW1">Improving Performance</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_103" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW12">Best Practices</a></li>
+                                       
+                        
+                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_104" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW2">Use Flush and Finish Routines Effectively</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_105" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW11">Be Mindful of OpenGL State Variables</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_106" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW3">Draw Only When Necessary</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_107" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW4">Synchronize with the Screen Refresh Rate</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_108" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW7">Use OpenGL Macros</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_109" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW13">Use the CPU and the GPU Asynchronously</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_110" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW19">Use Appropriate Routines for Images and Pixel Data</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_111" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW21">Retrieve Error Information Only When Debugging</a></li>
+                        </ul>
+                        
+                                                                                                        <ul class="list_2">
+                            <li class="entry_3"><a id="tocEntry_112" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW23">Use Optimal Data Types and Formats</a></li>
+                        </ul>
+                        
+                                                                                                                        
+                        <li class="entry_2"><a id="tocEntry_113" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW14">Gathering and Analyzing Baseline Performance Data</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_114" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW20">Identifying Bottlenecks with Shark</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_115" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_performance/opengl_performance.html#//apple_ref/doc/uid/TP40001987-CH213-SW15">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_116" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW1">Appendix A: OpenGL Functionality by Version</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_117" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW4">Version 1.1</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_118" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW6">Version 1.2</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_119" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW9">Version 1.3</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_120" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW11">Version 1.4</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_121" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW13">Version 1.5</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_122" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_api_versions/opengl_api_versions.html#//apple_ref/doc/uid/TP40001987-CH301-SW15">Version 2.0</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_123" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_entrypts/opengl_entrypts.html#//apple_ref/doc/uid/TP40001987-CH402-SW6">Appendix B: Setting Up Function Pointers to OpenGL Routines</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_124" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_entrypts/opengl_entrypts.html#//apple_ref/doc/uid/TP40001987-CH402-SW2">Obtaining a Function Pointer to an Arbitrary OpenGL Entry Point</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_125" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_entrypts/opengl_entrypts.html#//apple_ref/doc/uid/TP40001987-CH402-SW3">Initializing Entry Points</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                            <li id="" class="section children">
+                <span class="sectionName">
+                    <a id="tocEntry_126" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_quartz_services/opengl_quartz_services.html#//apple_ref/doc/uid/TP40001987-CH302-SW6">Appendix C: Quartz Display Services and Full-Screen Mode</a>
+                </span>
+                
+                                <ul class="collapsible" style="display: none;">
+                
+                                        
+                        <li class="entry_2"><a id="tocEntry_127" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_quartz_services/opengl_quartz_services.html#//apple_ref/doc/uid/TP40001987-CH302-SW8">Displays and Display Modes</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_128" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_quartz_services/opengl_quartz_services.html#//apple_ref/doc/uid/TP40001987-CH302-SW9">Fading the Display</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_129" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_quartz_services/opengl_quartz_services.html#//apple_ref/doc/uid/TP40001987-CH302-SW10">Controlling the Pointer</a></li>
+                                       
+                        
+                                                                                        
+                        <li class="entry_2"><a id="tocEntry_130" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_quartz_services/opengl_quartz_services.html#//apple_ref/doc/uid/TP40001987-CH302-SW4">See Also</a></li>
+                                       
+                        
+                                                                                    </ul>
+            </li>
+            
+
+                                        <li class="section">
+                <span class="sectionName">
+                                            <div><a id="tocEntry_131" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_glossary/opengl_glossary.html#//apple_ref/doc/uid/TP40001987-CH502-SW1">Glossary</a></div>
+                                    </span>  
+            </li> 
+            
+
+                                        <li class="section">
+                <span class="sectionName">
+                                            <div><a id="tocEntry_132" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_rev_hx/opengl_rev_hx.html#//apple_ref/doc/uid/TP40001987-CH1000-TP9">Revision History</a></div>
+                                    </span>  
+            </li> 
+            	
+	
+	    
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+
+    
+    
+
+
+</ul></div>
+    <div id="contents" class="isShowingTOC">
+        <a id="top" name="top"></a>
+        <a id="INDEX" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/index.html" style="display: none;"></a>
+        
+        <a name="//apple_ref/doc/uid/TP40001987-CH208-SW1" title="OpenGL on the Mac Platform"></a><br><h1 id="pageTitle">OpenGL on the Mac Platform</h1><p>You
+can tell that Apple has an implementation of OpenGL on its platform
+just by looking at the user interface for many of the applications that
+are installed with Mac OS X. The reflections built into iChat (<span class="content_text">Figure 1-1</span>)
+provide one of the more notable examples. The responsiveness of the
+windows, the instant results of applying an effect in iPhoto, and many,
+many other operations in Mac OS X v10.4 are due to the use of OpenGL.
+OpenGL isn't restricted to just the operating system and Apple
+applications. Any Mac developer can use OpenGL. In fact, Apple's
+implementation is available to every Macintosh user as part of Mac OS
+X. </p><p>OpenGL for Mac OS X is implemented as a set of frameworks
+that contain the OpenGL runtime engine and its drawing software. These
+frameworks use platform-neutral virtual resources to free your
+programming as much as possible from hardware considerations. Mac OS X
+provides a set of application programming interfaces (APIs) that Cocoa
+and Carbon applications can use to support OpenGL drawing.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW18" title="Figure 1-1OpenGL provides the reflections in iChat"></a><p><strong>Figure 1-1&nbsp;&nbsp;</strong>OpenGL provides the reflections in iChat</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/reflection.jpg" alt="OpenGL provides the reflections in iChat"></div><p>This
+chapter describes the OpenGL frameworks and the associated APIs,
+defines the terminology that is Apple-specific, describes how data
+flows through OpenGL, and provides an overview of the tasks necessary
+for a Cocoa or Carbon application to tap into that pipeline.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW5" title="Structure of OpenGL in Mac OS X"></a><h2 class="jump section2">Structure of OpenGL in Mac OS X</h2><p>Mac
+OS X supports a display space that can consist of multiple dissimilar
+displays, each driven by different graphics cards with different
+capabilities. In addition, multiple OpenGL renderers can drive each
+graphics card. To accommodate this versatility, OpenGL for Mac OS X is
+segmented into three well-defined layers: a window system layer, a
+framework layer, and a driver layer, as shown in <span class="content_text">Figure 1-2</span>.
+This segmentation allows for plug-in interfaces to both the window
+system layer and the framework layer. Plug-in interfaces offer
+flexibility in software and hardware configuration without violating
+the OpenGL standard.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW2" title="Figure 1-2Layers of OpenGL for Mac OS X"></a><p><strong>Figure 1-2&nbsp;&nbsp;</strong>Layers of OpenGL for Mac OS X</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/opengl_layers.jpg" alt="Layers of OpenGL for Mac OS X"></div><p>The <strong>window system layer</strong>
+is what allows your OpenGL program to become a reality onscreen. You'll
+use the Apple-specific OpenGL APIs provided in this layer—the NSOpenGL
+classes and the AGL and CGL APIs—to direct where OpenGL drawing takes
+place and control a variety of aspects of rendering. These APIs contain
+functions and methods specific to the Mac OS X windowing system. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW4">“OpenGL APIs Specific to Mac OS X”</a></span> for more information.) This layer also includes the OpenGL libraries—GL, GLU, and GLUT. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW3">“Apple-Implemented OpenGL Libraries”</a></span> for details.)</p><p>The <strong>common OpenGL framework layer</strong> is the software interface to the graphics hardware. This layer contains Apple's implementation of the OpenGL specification.</p><p>The <strong>driver layer</strong>
+contains the optional GLD plug-in interface and one or more GLD plug-in
+drivers, which may have different software and hardware support
+capabilities. The GLD plug-in interface supports third-party plug-in
+drivers, allowing third-party hardware vendors to take advantage of
+newer driver technology.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW19" title="Programming Interfaces"></a><h2 class="jump section2">Programming Interfaces</h2><p>The
+programming interfaces that you'll use fall into two categories—those
+specific to the Macintosh platform and those defined by the OpenGL
+Architecture Review Board. The Apple-specific programming interfaces
+are what Cocoa and Carbon applications use to communicate with the Mac
+OS X windowing system. These APIs don't create OpenGL content, they
+simply manage content, direct it to a drawing destination (onscreen or
+offscreen), and control various aspects of the rendering operation. The
+OpenGL APIs actually create content. OpenGL routines accept vertex,
+pixel, and texture data and assemble the data to create content that
+has the illusion of being three-dimensional. The final content resides
+in a framebuffer, where it will languish unseen by the user unless your
+application uses a windowing-system specific API to direct the content
+onscreen.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW20" title="Figure 1-3The programing interfaces used for OpenGL content"></a><p><strong>Figure 1-3&nbsp;&nbsp;</strong>The programing interfaces used for OpenGL content</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/opengl_architecture.jpg" alt="The programing interfaces used for OpenGL content"></div><a name="//apple_ref/doc/uid/TP40001987-CH208-SW4" title="OpenGL APIs Specific to Mac OS X"></a><h3 class="jump section3">OpenGL APIs Specific to Mac OS X</h3><p>Mac
+OS X offers three easy-to-use application programming interfaces (APIs)
+that are specific to the Macintosh platform: the NSOpenGL classes, the
+AGL API, and the CGL API. Throughout this document, these three APIs
+are referred to as the Apple-specific OpenGL APIs.</p><p>Cocoa provides four classes specifically for OpenGL—<code>NSOpenGLView</code>, <code>NSOpenGLContext</code>, <code>NSOpenGLPixelFormat</code>, and <code>NSOpenGLPixelBuffer</code>. The <code>NSOpenGLView</code> class provides easy access to a basic OpenGL context that can be set up in Interface Builder. <code>NSOpenGLView</code> is a subclass of <code>NSView</code> and has the expected facilities to display OpenGL content in a view. <code>NSOpenGLContext</code> and <code>NSOpenGLPixelFormat</code>, along with <code>NSView</code>, are the building blocks for the <code>NSOpenGLView</code> class. Applications that subclass <code>NSOpenGLView</code> do not need to directly subclass <code>NSOpenGLPixelFormat</code> or <code>NSOpenGLContext</code>. Applications that need  customization or flexibility, can subclass <code>NSView</code>. The <code>NSOpenGLPixelBuffer</code> class provides hardware-accelerated offscreen drawing. Using the NSOpenGL classes, you can also draw to the full screen. </p><p>For detailed information on the NSOpenGL classes, see the following reference documentation: </p><ul class="spaceabove"><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLView_Class/index.html#//apple_ref/doc/uid/TP40004077" target="_top">NSOpenGLView Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLContext_Class/index.html#//apple_ref/doc/uid/TP40004074" target="_top">NSOpenGLContext Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLPixelBuffer_Class/index.html#//apple_ref/doc/uid/TP40004075" target="_top">NSOpenGLPixelBuffer Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLPixelFormat_Class/index.html#//apple_ref/doc/uid/TP40004076" target="_top">NSOpenGLPixelFormat Class Reference</a></em></p></li></ul><p>Apple Graphics Library (<strong>AGL</strong>)
+is the Apple interface to OpenGL for Carbon applications. It can be
+used by both Mach-O and CFM binaries, although CFM binaries are not
+recommended in Mac OS X because it's not possible to generate a
+universal binary with them. (A <strong>universal binary</strong> runs
+natively on both PowerPC and Intel-based Macintosh computers.) AGL
+supports drawing to the full screen as well as to Carbon windows and
+offscreen locations. In addition to the standard functionality, AGL
+provides full support for hardware-accelerated offscreen drawing,
+bitmap font rendering, and the ability to render content directly to a
+texture (also called <strong>render-to-texture</strong> functionality). The AGL API resides in the AGL framework.  Applications must include the <code>AGL.h</code> header file (<code>System/Library/Frameworks/AGL.framework/AGL.h</code>) to access AGL functionality. <em><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/AGL_OpenGL/index.html#//apple_ref/doc/uid/TP30001068" target="_top">AGL Reference</a></em> provides a complete description of this API.</p><p>The Core OpenGL API (<strong>CGL</strong>)
+is the basis for the NSOpenGL classes and AGL. CGL offers the most
+direct access to system functionality and provides the highest level of
+graphics performance and control for drawing to the full screen. CGL is
+windowing-system agnostic but is accessible from both Cocoa and Carbon
+applications. The CGL API resides in the OpenGL framework. Applications
+must include the <code>OpenGL.h</code> header file (<code>System/Library/Frameworks/OpenGL.framework/OpenGL.h</code>) to access CGL functionality. <em><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/CGL_OpenGL/index.html#//apple_ref/doc/uid/TP40001186" target="_top">CGL Reference</a></em> provides a complete description of this API.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW3" title="Apple-Implemented OpenGL Libraries"></a><h3 class="jump section3">Apple-Implemented OpenGL Libraries</h3><p>Mac
+OS X also provides the full suite of graphics libraries that are part
+of every implementation of OpenGL: GL, GLU, GLUT, and GLX. Two of
+these—GL and GLU—provide low-level drawing support. The other two—GLUT
+and GLX—support drawing to the screen. </p><p>Your application
+typically interfaces directly with the core OpenGL library (GL), the
+OpenGL Utility library (GLU), and the OpenGL Utility Toolkit (GLUT).
+The <strong>GL library</strong> provides a low-level modular API that
+allows you to define graphical objects. It supports the core functions
+that are common to all OpenGL implementations, as mandated by the
+OpenGL specification. It provides support for two fundamental types of
+graphics primitives: objects defined by sets of vertices, such as line
+segments and simple polygons, and objects that are pixel-based images,
+such as filled rectangles and bitmaps. The GL API does not handle
+complex custom graphical objects; your application must decompose them
+into simpler geometries.</p><p>The <strong>GLU library</strong>
+combines functions from the GL library to support more advanced
+graphics features. It runs on all conforming implementations of OpenGL.
+GLU is capable of creating and handling complex polygons (including
+quartic equations), processing nonuniform rational b-spline curves
+(NURBs), scaling images, and decomposing a surface to a series of
+polygons (tessellation).</p><p>The <strong>GLUT library</strong>
+provides a cross-platform API for performing operations associated with
+the user windowing environment—displaying and redrawing content,
+handling events, and so on. It is implemented on most UNIX, Linux, and
+Windows platforms. As such, any code that you write with GLUT can be
+reused across multiple platforms. However, such code is constrained by
+a generic set of user interface elements and event-handling options.
+This book does not show how to use GLUT. If you are interested in GLUT,
+see the sample code in the <span class="content_text"><a href="http://developer.apple.com/referencelibrary/" class="browserLink">ADC Reference Library</a></span>. GLUT Basics is a simple example that will get you started.</p><p><strong>GLX</strong>
+is an OpenGL extension that supports using OpenGL within a window
+provided by the X Window system. X11 for Mac OS X is available as an
+optional installation using the Mac OS X installation DVD. (It's not
+shown in <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW20">Figure 1-3</a></span>.) See <em>OpenGL Programming for the X Window System</em>, published by Addison Wesley for more information.</p><p>This document does not show how to use these libraries. For detailed information, either go to the OpenGL Foundation website <span class="content_text"><a target="_blank" href="http://www.opengl.org/" class="urlLink">http://www.opengl.org</a></span>, or see the most recent version of "The Redbook"—<span class="content_text"><a target="_blank" href="http://www.opengl.org/documentation/red_book/" class="urlLink">OpenGL Programming Guide</a></span>, published by Addison Wesley.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW21" title="Terminology"></a><h2 class="jump section2">Terminology</h2><p>There
+are a number of terms that you’ll want to understand so that you can
+write code effectively using OpenGL: renderer, renderer attributes,
+buffer attributes, pixel format objects, rendering contexts, drawable
+objects, and virtual screens. As an OpenGL programmer some of these may
+seem familiar to you. However, understanding the Apple-specific nuances
+of these terms will help you get the most out of OpenGL on the
+Macintosh platform.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW22" title="Renderer"></a><h3 class="jump section3">Renderer</h3><p>A <strong>renderer</strong>
+is the combination of the hardware and software that OpenGL uses to
+create an image from a view and a model. (A software renderer is an
+exception; it does not use graphics hardware and is typically used as a
+fallback.) The characteristics of the final image depends on the
+capabilities of the graphics hardware associated with the renderer and
+the device used to display the image. A particular renderer supports
+specific capabilities—for example, the ability to produce environmental
+effects such as fog.</p><p>Mac OS X supports graphics accelerator cards
+with varying capabilities as well as systems without graphics
+acceleration hardware. It is possible for multiple renderers, each with
+different capabilities or features, to drive a single set of graphics
+hardware. </p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW14" title="Renderer and Buffer Attributes"></a><h3 class="jump section3">Renderer and Buffer Attributes</h3><p>Renderer
+and buffer attributes are operating system-dependent extensions that
+communicate to OpenGL the renderer and buffer requirements for your
+application. The Apple implementation of OpenGL dynamically selects the
+best renderer for the current rendering task and does so transparently
+to your application. But, if your application has very specific
+rendering requirements and wants to control renderer selection, it can
+do so by supplying the appropriate renderer attributes. Buffer
+attributes describe such things as color and depth buffer sizes, and
+whether the data is stereoscopic or monoscopic. </p><p>Renderer and
+buffer attributes are represented by constants defined in the
+Apple-specific OpenGL APIs. OpenGL uses the attributes you supply to
+perform the setup work needed prior to drawing content. <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW8">“Drawing to a Window or View”</a></span> provides simple example that show  how to use renderer and buffer attributes. <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW9">“Techniques for Choosing Attributes”</a></span> provides tips on choosing renderer and buffer attributes to achieve specific rendering goals. </p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW15" title="Pixel Format Objects"></a><h3 class="jump section3">Pixel Format Objects</h3><p>A <strong>pixel format</strong>
+describes pixel data storage in memory. The description includes the
+pixel components (that is, red, blue, green, alpha), the number and
+order of components, and other relevant information, such as whether a
+pixel contains stencil and depth values. A <strong>pixel format object</strong>
+is an opaque data type designed to hold a pixel format along with a
+list of renderers and display devices that satisfy the requirements
+specified by an application. </p><p>Each of the Apple-specific OpenGL
+APIs defines a pixel format data type and accessor routines that you
+can use to obtain the information referenced by this object. See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW16">“Virtual Screens”</a></span> for more information on renderer  and display devices.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW12" title="Rendering Contexts"></a><h3 class="jump section3">Rendering Contexts</h3><p>A <strong>rendering context</strong>,
+or simply context, contains state information for the rendering target
+of your application. The context affects the rendered result much in
+the same way that the characteristics of a drawing pen (ink color,
+point size, type of ink, and so forth) affect what's drawn on a piece
+of paper. State variables are set per context. Once set, a value
+remains as such until you change it. State variables include such
+things as drawing color, the viewing and projection transformations,
+lighting characteristics, and material properties.</p><p>Although your application can maintain more than one context, only one context can be the <strong>current context</strong>
+in a thread. The current context is the rendering context that receives
+OpenGL commands issued by your application. The system initializes the
+context to the default OpenGL state. The context then tracks all state
+changes made while it is the current context.</p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW13" title="Drawable Objects"></a><h3 class="jump section3">Drawable Objects</h3><p>A <strong>drawable object</strong>
+refers to an object allocated outside of OpenGL, but that can serve as
+an OpenGL framebuffer. A drawable object can be the target of OpenGL
+drawing operations. The behavior of drawable objects is not part of the
+OpenGL specification. Rather, a drawable object is a platform-specific
+construct provided by the Mac OS X windowing system.</p><p>A drawable
+object can be any of the following: a Carbon window, a Cocoa view,
+offscreen memory, a full-screen graphics device, or a pixel buffer
+(available starting in Mac OS X v10.3). </p><div class="notebox clear"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW23" title="Note"></a><p><strong>Note:</strong>&nbsp;A <strong>pixel buffer</strong>
+(pbuffer) is an OpenGL buffer designed for hardware-accelerated
+offscreen drawing and as a source for texturing. An application can
+render an image into a pixel buffer once and then use the buffer
+contents multiple times to texture a variety of surfaces without
+copying the image data.</p></div><p>Before OpenGL can draw to a
+drawable object, the object must be attached to a rendering context.
+The characteristics of the drawable object narrow the selection of
+hardware and software specified by the rendering context. OpenGL
+automatically allocates buffers, creates surfaces, and specifies which
+renderer is the current renderer. </p><p>The logical flow of data from an application through OpenGL to a drawable object is shown in <span class="content_text">Figure 1-4</span>.
+The application issues OpenGL commands that are sent to the current
+rendering context. The current context, which contains state
+information, constrains how the commands are interpreted by the
+appropriate renderer. The renderer converts the OpenGL primitives to an
+image in the framebuffer. (See also <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW17">“Running an OpenGL Program in Mac OS X .”</a></span>)</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW6" title="Figure 1-4Data flow through OpenGL"></a><p><strong>Figure 1-4&nbsp;&nbsp;</strong>Data flow through OpenGL</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/dataflow.jpg" alt="Data flow through OpenGL"></div><a name="//apple_ref/doc/uid/TP40001987-CH208-SW16" title="Virtual Screens"></a><h3 class="jump section3">Virtual Screens</h3><p>The
+characteristics and quality of the OpenGL content that the user sees
+depends on both the renderer and the physical display used to view the
+content. The combination of renderer and physical display is called a <strong>virtual screen</strong>.
+This important concept has implications for any application that might
+run on a system that has more than one renderer or more than one
+display.</p><p>A simple system, with one graphics card and one physical
+display, typically has two virtual screens. One virtual screen consists
+of a hardware-based renderer and the physical display and the other
+virtual screen consists of a software-based renderer and the physical
+display. Mac OS X provides a software-based renderer as a fallback.
+It's possible for your application to decline the use of this fallback.
+You'll see how in <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pixelformats/opengl_pixelformats.html#//apple_ref/doc/uid/TP40001987-CH214-SW9">“Techniques for Choosing Attributes.”</a></span></p><p>The green rectangle around the OpenGL image in <span class="content_text">Figure 1-5</span>
+surrounds a virtual screen for a system with one graphics card and one
+display. Note that a virtual screen is not the physical display, which
+is why the green rectangle is drawn around the application window that
+shows the OpenGL content. In this case, it is the renderer provided by
+the graphics card combined with the characteristics of the display. </p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW10" title="Figure 1-5A virtual screen displays what the user sees"></a><p><strong>Figure 1-5&nbsp;&nbsp;</strong>A virtual screen displays what the user sees</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/one_card_one_vscreen.jpg" alt="A virtual screen displays what the user sees"></div><p>Because
+a virtual screen is not simply the physical display, a system with one
+display can use more than one virtual screen at a time, as shown in <span class="content_text">Figure 1-6</span>.
+The green rectangles are drawn to point out each virtual screen.
+Imagine that the virtual screen on the right side uses a software-only
+renderer and that the one on the left uses a hardware-dependent
+renderer. Although this is a contrived example, it illustrates the
+point.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW8" title="Figure 1-6Two virtual screens"></a><p><strong>Figure 1-6&nbsp;&nbsp;</strong>Two virtual screens</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/one_card_two_vscreens.jpg" alt="Two virtual screens"></div><p>It's also possible to have a virtual screen that can represent more than one physical display. The green rectangle in <span class="content_text">Figure 1-7</span>
+is drawn around a virtual screen that spans two physical displays. In
+this case, the same graphics hardware drives a pair of identical
+displays. This is also true when mirroring is enabled.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW7" title="Figure 1-7A virtual screen can represent more than one physical screen"></a><p><strong>Figure 1-7&nbsp;&nbsp;</strong>A virtual screen can represent more than one physical screen</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/dual_headed_cards.jpg" alt="A virtual screen can represent more than one physical screen"></div><p>The
+concept of a virtual screen is particularly important when the user
+drags an image from one physical screen to another. When this happens,
+the virtual screen may change, and with it, a number of attributes of
+the imaging process, such as the current renderer, may change. With the
+dual-headed graphics card shown in <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW7">Figure 1-7</a></span>, dragging between displays preserves the same virtual screen. However, <span class="content_text">Figure 1-8</span>
+shows the case for which two displays represent two unique virtual
+screens. Not only are the two graphics cards different, but it's
+possible that the renderer, buffer attributes, and pixel
+characteristics are different. A change in any of these three items can
+result in a change in the virtual screen.</p><p>When the user drags an
+image from one display to another, and the virtual screen is the same
+for both displays, the image quality should appear similar. However,
+for the case shown in <span class="content_text">Figure 1-8</span>, the image quality can be quite different.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW9" title="Figure 1-8Two virtual screens and two graphics cards"></a><p><strong>Figure 1-8&nbsp;&nbsp;</strong>Two virtual screens and two graphics cards</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/two_cards_two_vscreens.jpg" alt="Two virtual screens and two graphics cards"></div><p>OpenGL
+for Mac OS X transparently manages rendering across multiple monitors.
+A user can drag a window from one monitor to another, even though their
+display capabilities may be different or they may be driven by
+dissimilar graphics cards with dissimilar resolutions and color depths.</p><p>OpenGL
+dynamically switches renderers when the virtual screen that contains
+the majority of the pixels in an OpenGL window changes. When a window
+is split between multiple virtual screens, the framebuffer is
+rasterized entirely by the renderer driving the screen that contains
+the largest segment of the window. The regions of the window on the
+other virtual screens are drawn by copying the rasterized image. When
+the entire OpenGL drawable object is displayed on one virtual screen,
+there is no performance impact from multiple monitor support.</p><p>Applications
+need to track virtual screen changes and, if appropriate, update the
+current application state to reflect changes in renderer capabilities.
+See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_contexts/opengl_contexts.html#//apple_ref/doc/uid/TP40001987-CH216-SW12">“Techniques for Working with Rendering Contexts.”</a></span></p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW17" title="Running an OpenGL Program in Mac OS X "></a><h2 class="jump section2">Running an OpenGL Program in Mac OS X </h2><p><span class="content_text">Figure 1-9</span>
+shows the flow of data in an OpenGL program, regardless of the platform
+that the program runs on. Pixel data and vertex data can be sent to
+OpenGL for processing in two ways. The first is by issuing OpenGL
+commands that are executed immediately, either to assemble a model from
+vertex data or a texture from pixel data. When an application issues
+OpenGL commands that are executed immediately, OpenGL is said to be
+operating in <strong>immediate mode</strong>. There are two immediate
+mode paths in the figure: one from vertex data to per-vertex operations
+and the other from pixel data to per-pixel operations.</p><p>The "display lists" rectangle in the figure represents the second way that an application can send data to OpenGL. A <strong>display list</strong>
+is a set of OpenGL commands that is assembled and named by an
+application. The display list is then stored on the OpenGL server. The
+application can refer to the list by its assigned name when the data
+defined by the list is needed. Display lists are ideal for
+computing-intensive operations because at the time you need to use the
+data, it is already uploaded to the GPU and is usually preprocessed.
+There are two display list paths in the figure, one for vertex data and
+one for pixel data.</p><div class="figure"><a name="//apple_ref/doc/uid/TP40001987-CH208-SW11" title="Figure 1-9 The flow of data through OpenGL"></a><p><strong>Figure 1-9&nbsp;&nbsp;</strong> The flow of data through OpenGL</p><img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/opengl_pipeline.jpg" alt="The OpenGL pipeline"></div><p>Per-vertex
+operations include such things as applying transformation matrices to
+add perspective or to clip and applying lighting effects. Per-pixel
+operations include such things as color conversion and applying blur
+and distortion effects. Pixels destined for textures are sent to
+texture assembly where OpenGL stores textures until it needs to apply
+them onto an object.</p><p>OpenGL rasterizes the processed vertex and
+pixel data, meaning that the data are converged to create fragments. A
+fragment encapsulates all the values for a pixel, including color,
+depth, and sometimes texture values. These values are used during
+anti-aliasing and any other calculations needed to fill shapes and to
+connect vertices.</p><p>Per-fragment operations include applying
+environment effects, depth and stencil testing, and performing other
+operations such as blending and dithering. Some operations—such as
+hidden-surface removal—end the processing of a fragment. OpenGL draws
+fully processed fragments into the appropriate location in the
+framebuffer.</p><p>The dashed arrows in <span class="content_text">Figure 1-9</span> indicate reading pixel data back from the framebuffer. They represent operations performed by OpenGL functions such as <code>glReadPixels</code>, <code>glCopyPixels</code>, and <code>glCopyTexImage2D</code>.</p><p>So
+far you've seen how OpenGL operates on any platform. But how do Cocoa
+and Carbon applications provide data to the OpenGL for processing?
+Regardless of the application environment (Cocoa or Carbon), a Mac OS X
+application must perform these tasks:</p><ul class="ul"><li class="li"><p>Set up a list of buffer and renderer attributes that define the sort of drawing you want to perform. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW14">“Renderer and Buffer Attributes.”</a></span>)</p></li><li class="li"><p>Request
+the system to create a pixel format object that contains a pixel format
+that meets the constraints of the buffer and render attributes and a
+list of all suitable combinations of displays and renderers. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW15">“Pixel Format Objects”</a></span> and <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW16">“Virtual Screens.”</a></span>)</p></li><li class="li"><p>Create
+a rendering context to hold state information that controls such things
+as drawing color, view and projection matrices, characteristics of
+light, and conventions used to pack pixels. When you set up this
+context, you must provide a pixel format object because the rendering
+context needs to know the set of virtual screens that can be used for
+drawing. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW12">“Rendering Contexts.”</a></span>)</p></li><li class="li"><p>Bind
+a drawable object to the rendering context. The drawable object is what
+captures the OpenGL drawing sent to that rendering context. (See <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_pg_concepts/opengl_pg_concepts.html#//apple_ref/doc/uid/TP40001987-CH208-SW13">“Drawable Objects.”</a></span>)</p></li><li class="li"><p>Make
+the rendering context the current context. OpenGL automatically targets
+the current context. Although your application might have several
+rendering contexts set up, only the current one is the active one for
+drawing purposes.</p></li><li class="li"><p>Issue OpenGL drawing commands. If you've completed the previous tasks, the contents of the framebuffer shown in <span class="content_text">Figure 1-9</span> are drawn to the drawable object that's attached to the current rendering context.</p></li></ul><p>The tasks described in the first five bullet items are platform-specific. <span class="content_text"><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html#//apple_ref/doc/uid/TP40001987-CH404-SW8">“Drawing to a Window or View”</a></span>
+provides simple examples of how to perform them. As you read other
+parts of this document, you'll see there are a number of other tasks
+that, although not mandatory for drawing, are really quite necessary
+for any application that wants to use OpenGL to perform complex 3D
+drawing efficiently on a wide variety of Macintosh systems. </p><a name="//apple_ref/doc/uid/TP40001987-CH208-SW24" title="See Also"></a><h2 class="jump section2">See Also</h2><p>Reference documentation for the Apple-specific OpenGL programming interfaces:</p><ul class="ul"><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/AGL_OpenGL/index.html#//apple_ref/doc/uid/TP30001068" target="_top">AGL Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Reference/CGL_OpenGL/index.html#//apple_ref/doc/uid/TP40001186" target="_top">CGL Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLContext_Class/index.html#//apple_ref/doc/uid/TP40004074" target="_top">NSOpenGLContext Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLPixelBuffer_Class/index.html#//apple_ref/doc/uid/TP40004075" target="_top">NSOpenGLPixelBuffer Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLPixelFormat_Class/index.html#//apple_ref/doc/uid/TP40004076" target="_top">NSOpenGLPixelFormat Class Reference</a></em></p></li><li class="li"><p><em><a href="http://developer.apple.com/mac/library/documentation/Cocoa/Reference/ApplicationKit/Classes/NSOpenGLView_Class/index.html#//apple_ref/doc/uid/TP40004077" target="_top">NSOpenGLView Class Reference</a></em></p></li></ul><p>The <span class="content_text"><a href="http://developer.apple.com/graphicsimaging/opengl/" class="browserLink">Apple Developer Connection OpenGL technology page</a></span> links to high-level technical articles on OpenGL and Mac OS X.</p>
+        <div id="pageNavigationLinks" style="">
+            <a id="nextLink" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_drawing/opengl_drawing.html">Next</a>
+            <a id="previousLink" href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_intro/opengl_intro.html">Previous</a>
+        </div>
+        <br><hr><div align="center"><p class="content_text" dir="ltr" lang="en"> Last updated: 2009-08-28</p></div>
+
+        <div class="hideOnPrint">
+            <!-- start of footer -->
+            <div id="feedbackForm" style="margin: 15px auto; padding: 5px 10px; background: rgb(217, 217, 217) none repeat scroll 0% 0%; display: block; width: 38em; font-weight: bold; color: rgb(51, 51, 51); -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 15px; text-align: center; -moz-border-radius-topleft: 12px; -moz-border-radius-topright: 12px; -moz-border-radius-bottomright: 12px; -moz-border-radius-bottomleft: 12px; vertical-align: middle;">
+    Did this document help you?
+    <span class="tooltip" data-abstract="&lt;b&gt;Yes:&lt;/b&gt; Tell us what works for you.">
+       <a target="_blank" href="http://developer.apple.com/feedback/?v=1" class="urlLink">Yes</a>
+    </span>
+    <span class="tooltip" data-abstract="&lt;b&gt;It's good, but:&lt;/b&gt; Report typos, inaccuracies, and so forth.">
+        <a target="_blank" href="http://developer.apple.com/feedback/?v=2" class="urlLink">It's good, but...</a>
+    </span>
+    <span class="tooltip" data-abstract="&lt;b&gt;Not helpful:&lt;/b&gt; Tell us what would have helped.">
+        <a target="_blank" href="http://developer.apple.com/feedback/?v=3" class="urlLink">Not helpful...</a>
+    </span>
+</div>
+            <div class="hideInXcode">
+                <div id="globalfooter">
+    <p class="gf-buy">Shop the <a href="http://www.apple.com/store/">Apple Online Store</a> (1-800-MY-APPLE), visit an <a href="http://www.apple.com/retail/">Apple Retail Store</a>, or find a <a href="http://www.apple.com/buy/locator/">reseller</a>.</p>
+
+<ul class="gf-links piped">
+	<li><a class="first" href="http://lists.apple.com/">Mailing Lists</a></li>
+	<li><a href="http://developer.apple.com/rss/">RSS Feeds</a></li>
+</ul>
+
+<div class="gf-sosumi">
+    <p>Copyright © 2009 Apple Inc. All rights reserved.</p>
+    <ul class="piped">
+    <li><a href="http://www.apple.com/legal/terms/site.html" class="first">Terms of Use</a></li>
+    <li><a href="http://www.apple.com/legal/privacy/">Privacy Policy</a></li>
+    </ul>
+</div>
+    </div><!--/globalfooter-->
+            </div>
+            <!-- end of footer -->
+        </div>
+    </div>
+    <!-- start of path -->
+<div id="breadcrumbs"><a href="http://developer.apple.com/mac" class="browserLink">Mac Dev Center</a> <img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/triangle_closed.png" alt="Right arrow"> <a href="http://developer.apple.com/mac/library/navigation/index.html#//apple_ref/doc/uid/TP40008333" target="_top">Mac OS X Reference Library</a> <img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/triangle_closed.png" alt="Right arrow"> <a href="http://developer.apple.com/mac/library/navigation/topic_details/194.html#//apple_ref/doc/uid/TP40007368" target="_top">Graphics &amp; Animation: 3D Drawing</a> <img src="OpenGL%20on%20the%20Mac%20Platform-Dateien/triangle_closed.png" alt="Right arrow"> <a href="http://developer.apple.com/mac/library/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_intro/opengl_intro.html#//apple_ref/doc/uid/TP40001987-CH207-TP9">OpenGL Programming Guide for Mac OS X</a></div><!-- end of path -->
+    <div id="tooltip"></div>
+</body></html>

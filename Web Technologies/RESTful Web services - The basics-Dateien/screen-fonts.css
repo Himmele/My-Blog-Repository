@@ -1,0 +1,525 @@
+/*	$Id: screen-fonts.css,v 1.9 2010/11/15 06:54:50 mvelus Exp $ */
+
+
+address, dd, dt, h2, h3, h4, h5,
+h6, li, p, td, th, caption {
+	font-family:arial,sans-serif;
+}
+
+
+/* masthead styles begin ============================================ */
+
+#ibm-geo,
+#ibm-geo-tou {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-geo a,
+#ibm-geo li#ibm-change-country,
+#ibm-geo li#ibm-back-country,
+#ibm-geo-tou a {font-weight:normal;}
+#ibm-site-name span#ibm-site-name-back-link {font-weight:normal;}
+#ibm-site-name {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-search-form select,
+#ibm-search-form input {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+}
+input.ibm-btn-search {
+	font-family:arial,sans-serif;
+	font-size:.7em !important;
+	font-weight:bold;
+}
+#ibm-universal-nav ul {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-universal-nav ul ul {font-size:1em;}
+li#ibm-welcome-message,
+li#ibm-welcome-message a,
+li#ibm-unav-misc,
+li#ibm-unav-misc a {font-weight:normal;}
+div#ibm-welcome-message span {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+div#ibm-welcome-message span a {font-weight:normal;}
+/* masthead styles end ============================================== */
+
+
+/* content styles begin ============================================= */
+#ibm-content-head ul#ibm-navigation-trail li {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+}
+h1 {
+	font-family:arial,sans-serif;
+	font-size:1.7em;
+	font-weight:normal;
+}
+.ibm-alternate-title h1 {
+	font-size:1em;
+	font-weight:bold;
+}
+#ibm-content-head em {
+	font-family:arial,sans-serif;
+	font-weight:bold;
+	font-size:0.85em;
+	font-style:normal;
+}
+.ibm-offer-statement em {
+	font-size:1.2em;
+	font-style:normal;
+	font-weight:bold;
+}
+.ibm-intro blockquote {
+	font-size:1.7em;
+	font-weight:normal;
+}
+.ibm-intro p.ibm-quote-source i {font-size:1.6em;}
+#ibm-content-main p {font-size:0.76em;}
+#ibm-myinterest-module a {font-size:0.7em;}
+.ibm-container h2,
+.ibm-container h2.ibm-first {font-size:0.75em;}
+#ibm-content-main .ibm-container h3,
+#ibm-content-main .ibm-container h4,
+.ibm-container .ibm-container-body ol,
+#ibm-leadspace ul.ibm-bullet-list,
+.ibm-container .ibm-tab-section ul.ibm-bullet-list,
+.ibm-container .ibm-container-body ul.ibm-bullet-list {font-size:0.76em;}
+.ibm-columns ol,
+.ibm-columns ul.ibm-bullet-list {font-size:0.8em;}
+.ibm-container .ibm-container-body ol ol,
+.ibm-container .ibm-container-body ol ul.ibm-bullet-list,
+.ibm-container .ibm-container-body ul.ibm-bullet-list ul {font-size:1em;}
+#ibm-content-main ul.ibm-bullet-list li p {font-size:1em;}
+#ibm-content-sidebar ol,
+#ibm-content-sidebar ul.ibm-bullet-list {font-size:0.7em;}
+div.ibm-container-body.ibm-code-sample p code,
+.ibm-container-body div.ibm-code-sample,
+.ibm-container-body div.ibm-code-sample p,
+.ibm-container-body pre.ibm-code-sample,
+.ibm-container-body p.ibm-code-sample code,
+.ibm-code-sample p code,
+div.ibm-code-sample,
+div.ibm-code-sample p,
+pre.ibm-code-sample,
+p.ibm-code-sample code,
+.ibm-alternate-code-sample p code,
+div.ibm-alternate-code-sample,
+div.ibm-alternate-code-sample p,
+pre.ibm-alternate-code-sample,
+p.ibm-alternate-code-sample code {
+	font-family:monospace;
+	font-size:small !important;
+}
+* html .ibm-container-body div.ibm-code-sample,
+* html .ibm-container-body div.ibm-code-sample p,
+* html .ibm-container-body pre.ibm-code-sample,
+* html .ibm-container-body p.ibm-code-sample code,
+* html div.ibm-alternate-code-sample,
+* html div.ibm-alternate-code-sample p,
+* html pre.ibm-alternate-code-sample,
+* html p.ibm-alternate-code-sample code {font-size /**/:x-small !important;}
+ul.ibm-tabs {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+	line-height:1em;
+}
+div.ibm-text ul.ibm-tabs {
+	font-size:0.8em;
+	font-weight:normal;
+	line-height:1.66em;
+}
+div.ibm-text ul.ibm-tabs li.ibm-highlight-tab {font-weight:bold;}
+#ibm-content-main .ibm-page-tools ul a.ibm-audio-link,
+#ibm-content-main .ibm-page-tools ul a.ibm-download-link,
+#ibm-content-main .ibm-page-tools ul a.ibm-email-link,
+#ibm-content-main .ibm-page-tools ul a.ibm-pdf-link,
+#ibm-content-main .ibm-page-tools ul a.ibm-print-link,
+#ibm-content-main .ibm-page-tools ul a.ibm-video-link {font-weight:bold;}
+.ibm-leadspace-overlay h2 {font-size:1.38em;}
+.ibm-leadspace-overlay p em {
+	font-family:arial,sans-serif !important;
+	font-weight:normal;
+	font-size:1.0em;
+	font-style:normal;
+}
+div.ibm-landing-page .ibm-leadspace-overlay h1 {
+	font-weight:bold;
+	font-size:2.1em;
+}
+div.ibm-landing-page div.ibm-leadspace-overlay p {font-size:1.9em;}
+blockquote {
+	font-family:arial,sans-serif;
+	font-size:2em;
+	font-weight:bold;
+}
+p.ibm-quote-source i {font-size:1.9em;}
+div.ibm-landing-page .ibm-promo-overlay h2 {font-weight:normal;}
+div.ibm-landing-page .ibm-related-information h2 {font-size:0.8em;}
+div.ibm-landing-page .ibm-promo-overlay p {
+	font-weight:normal !important;
+	font-size:0.8em !important;
+}
+div.ibm-landing-page .ibm-related-information p {
+	font-weight:normal !important;
+	font-size:0.8em !important;
+}
+div.ibm-landing-page #ibm-content-head p.ibm-ind-link a.ibm-forward-em-link {font-weight:bold;}
+div.ibm-landing-page #ibm-content-head p.ibm-ind-link a {font-size:0.5em;}
+.ibm-form-note,
+.ibm-item-note,
+.ibm-item-note-alternate {font-weight:normal;}
+form .ibm-item-note {font-size:0.9em;}
+.ibm-item-note-alternate {font-size:0.7em !important;}
+/*#ibm-twitter-list .ibm-item-note-alternate {font-size:0.85em !important;}*/
+#ibm-content-main form.ibm-column-form fieldset {
+	font-family:arial,sans-serif;
+	font-weight:normal;
+	font-size:0.76em;
+}
+#ibm-content-main form.ibm-column-form fieldset legend {font-weight:bold;}
+#ibm-content-main form.ibm-column-form fieldset span label {font-weight:normal !important;}
+#ibm-content-main div.ibm-page-tools ul a {
+	font-family:arial,sans-serif;
+	font-size:0.9em;
+}
+#ibm-content-main ul.ibm-link-list {font-size:0.8em;}
+#ibm-content-main ul.ibm-link-list p,
+#ibm-content-main ul.ibm-link-list a {font-size:0.95em;}
+#ibm-content-main ul.ibm-link-list p a {font-size:1em;}
+#ibm-content-main ul.ibm-directory-link-list {
+	font-size:0.7em;
+	line-height:1.45em;
+}
+#ibm-content-main .ibm-directory-link-list li {font-size:1.1em;}
+div.ibm-link-list-az ul.ibm-link-list li {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ibm-content-main ul.ibm-directory-nav,
+#ibm-content-main ul#ibm-directory-nav {line-height:1.45em;}
+#ibm-content-main ul.ibm-directory-nav li,
+#ibm-content-main ul#ibm-directory-nav li {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ibm-content-main ol.ibm-article-list li {font-size:1.4em;}
+#ibm-content-main .ibm-container .ibm-container-body ul.ibm-stock-list h3 {font-weight:normal;}
+#ibm-content-main ul.ibm-stock-list li h3,
+#ibm-content-main ul.ibm-stock-list li p {font-weight:normal;font-size:0.75em;}
+#ibm-content-main input, 
+#ibm-content-main select, 
+#ibm-content-main textarea {
+	font-family:arial,sans-serif;
+	font-size:1em;
+}
+span.ibm-table-navigation-links a, 
+.ibm-price {font-weight:bold;}
+#ibm-content-main table th,
+#ibm-content-main table td,
+#ibm-content-main table.ibm-results-table caption,
+#ibm-content-main table.ibm-data-table caption {font-size:0.75em;}
+#ibm-content-main table.ibm-data-table th,
+#ibm-content-main table.ibm-data-table td {font-size:0.7em;}
+#ibm-content-main table.ibm-data-table th table th,
+#ibm-content-main table.ibm-data-table th table td,
+#ibm-content-main table.ibm-data-table td table th,
+#ibm-content-main table.ibm-data-table td table td {font-size:1em;}
+#ibm-content-main table.ibm-data-table caption em {font-weight:bold;font-style:normal;}
+#ibm-content-main table.ibm-data-table th p,
+#ibm-content-main table.ibm-data-table td p,
+#ibm-content-main table.ibm-data-table th ul.ibm-link-list,
+#ibm-content-main table.ibm-data-table td ul.ibm-link-list {font-size:1em;}
+#ibm-content-main table.ibm-results-table,
+table.ibm-data-table h2,
+table.ibm-results-table h2 {font-size:1em;}
+#ibm-content-main table th.ibm-table-row {font-weight:normal;}
+#ibm-content-main table ul.ibm-bullet-list {font-size:1em !important;}
+.ibm-container .ibm-container-body ul.ibm-bullet-list.ibm-no-links li ol li {font-size:1.3em;}
+/*div.ibm-tab-section ul.ibm-bullet-list li {font-size:0.8em;}*/
+#ibm-content-main .ibm-container.ibm-footnote {font-size:0.9em !important;}
+li.ibm-highlight-link {font-weight:bold;}
+#ibm-content-main ul.ibm-newsletter{font-size:0.8em;}
+span.ibm-inset-img-caption {font-size:0.9em;}
+ul.ibm-twisty {
+	font-size:0.76em;
+}
+ul.ibm-twisty ul,
+.ibm-container .ibm-container-body ul.ibm-twisty ul,
+.ibm-container .ibm-container-body ul.ibm-twisty ol,
+#ibm-content-main  ul.ibm-twisty ul,
+ul.ibm-twisty li ol,
+#ibm-content-main ul.ibm-twisty li p {
+	font-size:1em;
+}
+/* content styles end =============================================== */
+
+
+/* features styles begin ============================================ */
+#ibm-content-sidebar p {font-size:0.7em;}
+#ibm-content-sidebar .ibm-container h2,
+#ibm-content-sidebar .ibm-container h2.ibm-first {font-size:0.7em;}
+#ibm-content-sidebar .ibm-ms-statement .ibm-container-body p {
+	font-weight:bold;
+	font-family:verdana,arial,sans-serif;
+	font-size:13px;
+}
+ul.ibm-live-assistance-list a {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+/* features styles end ============================================== */
+
+
+/* nav styles begin ================================================= */
+#ibm-navigation ul {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-navigation ul ul {font-size:1em;}
+#ibm-navigation ul ul li {border:none;}
+#ibm-navigation ul ul a {font-weight:normal;}
+#ibm-navigation li#ibm-overview a {font-size:1.1em;}
+#ibm-navigation h2 {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-parent-link a,
+#ibm-secondary-navigation ul {font-weight:normal;}
+#ibm-navigation .ibm-container.ibm-show-hide-sec h2,
+#ibm-navigation .ibm-container.ibm-show-hide-sec h3,
+.ibm-container.ibm-show-hide-sec p.ibm-ind-link a {font-size:0.7em;}
+/* nav styles end =================================================== */
+
+
+/* footer styles begin ============================================== */
+#ibm-footer-module p {
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-page-tools ul {
+	font-family:arial,sans-serif;
+	font-size:0.9em;
+}
+#ibm-footer ul {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-legal p {font-size:0.8em;}
+#ibm-reg-number {
+	font-family:arial,sans-serif;
+	font-size:0.75em;
+}
+/* footer styles end ================================================ */
+
+
+/* anchor styles begin ============================================== */
+a.ibm-feature-em-link {font-weight:bold;}
+#ibm-content-sidebar p.ibm-ind-link a.ibm-forward-link {font-family:arial,sans-serif;}
+ul.ibm-link-list a {font-size:0.75em;}
+#ibm-content-sidebar ul.ibm-link-list a {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+}
+#ibm-content-main a.ibm-back-em-link,
+#ibm-content-main a.ibm-forward-em-link,
+#ibm-content-main a.ibm-anchor-up-link,
+#ibm-content-main a.ibm-anchor-down-em-link,
+#ibm-content-sidebar a.ibm-back-em-link,
+#ibm-content-sidebar a.ibm-anchor-down-em-link,
+#ibm-content-sidebar a.ibm-anchor-up-link,
+#ibm-content-sidebar a.ibm-forward-em-link {font-weight:bold;}
+#ibm-content-sidebar form.ibm-sidebar-form select {font-size:0.95em;}
+/* anchor styles end ================================================ */
+
+
+/* button styles begin ============================================== */
+input.ibm-btn-arrow-pri,
+input.ibm-btn-cancel-pri,
+input.ibm-btn-cart-pri,
+input.ibm-btn-customize-pri,
+input.ibm-btn-download-pri,
+input.ibm-btn-view-pri,
+input.ibm-btn-add-sec,
+input.ibm-btn-arrow-sec,
+input.ibm-btn-back-sec,
+input.ibm-btn-cancel-sec,
+input.ibm-btn-cart-sec,
+input.ibm-btn-chat-sec,
+input.ibm-btn-customize-sec,
+input.ibm-btn-download-sec,
+input.ibm-btn-email-sec,
+input.ibm-btn-pda-sec,
+input.ibm-btn-phone-sec,
+input.ibm-btn-refresh-sec,
+input.ibm-btn-remove-sec,
+input.ibm-btn-undo-sec,
+input.ibm-btn-video-sec,
+input.ibm-btn-view-sec {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-content-sidebar input.ibm-btn-arrow-pri {font-size:1em;}
+#ibm-content-sidebar input.ibm-btn-add-sec,
+#ibm-content-sidebar input.ibm-btn-arrow-sec,
+#ibm-content-sidebar input.ibm-btn-back-sec,
+#ibm-content-sidebar input.ibm-btn-cancel-sec,
+#ibm-content-sidebar input.ibm-btn-cart-sec,
+#ibm-content-sidebar input.ibm-btn-chat-sec,
+#ibm-content-sidebar input.ibm-btn-customize-sec,
+#ibm-content-sidebar input.ibm-btn-download-sec,
+#ibm-content-sidebar input.ibm-btn-email-sec,
+#ibm-content-sidebar input.ibm-btn-pda-sec,
+#ibm-content-sidebar input.ibm-btn-phone-sec,
+#ibm-content-sidebar input.ibm-btn-refresh-sec,
+#ibm-content-sidebar input.ibm-btn-remove-sec,
+#ibm-content-sidebar input.ibm-btn-undo-sec,
+#ibm-content-sidebar input.ibm-btn-video-sec,
+#ibm-content-sidebar input.ibm-btn-view-sec {font-size:1em;}
+table div.ibm-buttons-row p {font-size:1em !important;}
+/* button styles end ============================================== */
+
+
+/* overlay styles begin ============================================== */
+div#ibm-overlay-masthead p a {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+}
+div#ibm-overlay-content p {
+	font-family:arial,sans-serif;
+	font-size:0.7em;
+}
+div#ibm-overlay-content ul {
+	font-size:0.9em;
+}
+div#ibm-overlay-top .ibm-buttons-row p {
+	font-size:1.1em;
+}
+div.ibm-overlay-legal {font-size:0.9em;}
+div#ibm-overlay-top h2 {
+	font-size:1.4em;
+	font-weight:normal;
+}
+div#ibm-overlay-top .ibm-overlay-bookmarks h3,
+div#ibm-overlay-top .ibm-overlay-bookmarks #ibm-bookmark-container h4,
+div#ibm-overlay-top .ibm-overlay-bookmarks #ibm-bookmark-container td,
+div#ibm-overlay-top .ibm-overlay-bookmarks #ibm-bookmark-container th {
+	font-size:.75em;
+}
+div.ibm-common-overlay .ibm-title h1,
+div.ibm-common-overlay .ibm-title h2,
+div.ibm-common-overlay .ibm-title h3,
+div.ibm-common-overlay .ibm-title h4 {
+	font-family:arial,sans-serif;
+	font-size:1.4em;
+	font-weight:normal;
+}
+div.ibm-common-overlay .ibm-title.ibm-subtitle p em {
+	font-family:arial,sans-serif;
+	font-weight:bold;
+	font-size:0.9em;
+	font-style:normal;
+}
+div.ibm-common-overlay .ibm-title.ibm-subtitle p.ibm-error em {font-weight:normal;}
+div.ibm-common-overlay .ibm-container h2,
+div.ibm-common-overlay .ibm-container h3,
+div.ibm-common-overlay .ibm-container p,
+div.ibm-common-overlay .ibm-container  ol,
+div.ibm-common-overlay .ibm-container  ul.ibm-bullet-list {font-size:0.7em !important;}
+/* overlay styles end ============================================== */
+
+
+/* popup styles begin ============================================== */
+#ibm-popup #ibm-masthead h1 {
+	font-size:1em;
+	font-weight:bold;
+}
+#ibm-popup #ibm-content-head h1 {
+	font-size:1.4em;
+	line-height:1em;
+}
+/* popup styles end ============================================== */
+
+
+#ibm-content-main .v14-header-1,
+#ibm-content-main .v14-header-2,
+#ibm-content-main .v14-header-3,
+#ibm-content-main .v14-header-4 {
+	font-size:0.75em;
+	font-weight:bold;
+}
+#ibm-content-main table.v14-gray-table-border p,
+#ibm-content-main table.v14-gray-table-border td {font-size:1em !important;}
+#ibm-content-sidebar a.smallplainlink {font-size:0.75em;}
+* html #ibm-content-main table.v14-gray-table-border p,
+* html #ibm-content-main table.v14-gray-table-border td {font-size /**/:x-small !important;}
+#ibm-content-sidebar .v14-header-1-small,
+#ibm-content-sidebar .v14-header-2-small,
+#ibm-content-sidebar .v14-header-3-small,
+#ibm-content-sidebar .v14-header-4-small {
+	font-size:0.7em;
+	font-weight:bold;
+}
+#ibm-content-sidebar table.v14-gray-table-border span,
+#ibm-content-sidebar table.v14-gray-table-border label {font-size:0.7em;}
+#ibm-content-sidebar table.v14-gray-table-border span.small label {font-size:1em;}
+#ibm-content-sidebar td.npl p {font-size:0.9em !important;}
+
+/*div.ibm-domino-rtf {
+		font-family:arial,sans-serif;
+}
+table p,
+#ibm-content-main p tt,
+div.ibm-domino-rtf * {font-size:12px !important;}*/
+div.ibm-domino-rtf {
+		font-family:arial,sans-serif;
+		font-size:0.8em;
+}
+div.ibm-domino-rtf address,
+div.ibm-domino-rtf blockquote,
+div.ibm-domino-rtf div,
+div.ibm-domino-rtf dl,
+div.ibm-domino-rtf fieldset,
+div.ibm-domino-rtf h1,
+div.ibm-domino-rtf h2,
+div.ibm-domino-rtf h3,
+div.ibm-domino-rtf h4,
+div.ibm-domino-rtf h5,
+div.ibm-domino-rtf h6,
+div.ibm-domino-rtf ol,
+div.ibm-domino-rtf p,
+div.ibm-domino-rtf pre,
+div.ibm-domino-rtf ul,
+div.ibm-domino-rtf tt {font-size:1em !important;}
+
+div.ibm-domino-rtf ul tt,
+div.ibm-domino-rtf ol li tt {font-size:1.2em !important;}
+div.ibm-domino-rtf ul tt {font-size:0.9em\9 !important;}
+div.ibm-domino-rtf ol li tt {font-size:1em\9 !important;}
+
+div.ibm-domino-rtf tt table caption {font-size:1.2em !important;}
+div.ibm-domino-rtf tt table caption {font-size:0.9em\9 !important;}
+
+div.ibm-domino-rtf tt table p {font-size:1.6em !important;}
+div.ibm-domino-rtf tt table p {font-size:1.3em\9 !important;}
+
+div.ibm-domino-rtf table {
+	font-size: 1.2em !important;
+}
+
+

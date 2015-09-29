@@ -1,0 +1,25 @@
+#
+# Protected Mode Beispielprogramm 4
+#
+# makefile fÅr "pm_04.asm", getestet TASM 3.2 und TLINK 5.1
+#
+
+!include "..\..\..\pfade.mak"
+
+#
+
+LNKFLAGS= /x /3 /L$(LIBPATH)
+
+#
+
+pm_04.exe: pm_04.obj pm.obj
+    $(LNK) $(LNKFLAGS) pm_04.obj + pm.obj, pm_04.exe
+
+pm_04.obj: pm_04.asm
+    $(ASM) $(ASMFLAGS) pm_04.asm
+
+pm.obj: pm.asm
+    $(ASM) $(ASMFLAGS) pm.asm
+
+
+

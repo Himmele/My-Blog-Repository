@@ -1,0 +1,23 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<script>
+function readCookie(nm) {
+    var nameEQ = nm + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i<ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+</script>
+</head><body>
+<script>
+var v = readCookie("apn-privacy");
+var b1 = ("true" == v) ? "1" : "0";
+var url = "//s.amazon-adsystem.com/ooi3?b1=" + b1 + "&cookieSrc=c.www.endless.com&cb=" + Math.random()*10000000000000000;
+document.writeln("<img border=0 width=1 height=1 src=\"" + url + "\"/>");
+</script><img src="e-cs_data/ooi3.gif" width="1" border="0" height="1">
+
+</body></html>

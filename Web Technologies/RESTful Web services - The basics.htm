@@ -1,0 +1,5333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>RESTful Web services: The basics</title>
+<meta http-equiv="PICS-Label" content="(PICS-1.1 &quot;http://www.icra.org/ratingsv02.html&quot; l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true r (n 0 s 0 v 0 l 0) &quot;http://www.classify.org/safesurf/&quot; l gen true r (SS~~000 1))">
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
+<link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico">
+<meta name="Owner" content="developerWorks Content/Raleigh/IBM">
+<meta name="DC.Language" scheme="rfc1766" content="en">
+<meta name="IBM.Country" content="ZZ">
+<meta name="Security" content="Public">
+<meta name="IBM.SpecialPurpose" content="SP001">
+<meta name="IBM.PageAttributes" content="sid=1003,1004">
+<meta name="Source" content="v16 Template Generator">
+<meta name="Robots" content="index,follow">
+<meta name="Abstract" content="Representational State Transfer (REST) has gained widespread acceptance across the Web as a simpler alternative to SOAP- and Web Services Description Language (WSDL)-based Web services. Key evidence of this shift in interface design is the adoption of REST by mainstream Web 2.0 service providers -- including Yahoo, Google, and Facebook -- who have deprecated or passed on SOAP and WSDL-based interfaces in favor of an easier-to-use, resource-oriented model to expose their services. In this article, Alex Rodriguez introduces you to the basic principles of REST.">
+<meta name="Description" content="Representational State Transfer (REST) has gained widespread acceptance across the Web as a simpler alternative to SOAP- and Web Services Description Language (WSDL)-based Web services. Key evidence of this shift in interface design is the adoption of REST by mainstream Web 2.0 service providers -- including Yahoo, Google, and Facebook -- who have deprecated or passed on SOAP and WSDL-based interfaces in favor of an easier-to-use, resource-oriented model to expose their services. In this article, Alex Rodriguez introduces you to the basic principles of REST.">
+<meta name="Keywords" content="restful, REST, Representational State Transfer, soap, wsdl,             alternative to spa, alternative to wsdl, resource-oriented, stateles, http,             json, xml, uri, java, design principles, http methods explicitly, get, put,             delete, create, crud, web services, SOA, service-oriented architecture, service             oriented architecture, Yahoo, Google, Facebook, Alex Rodriguez, tttwsca">
+<meta name="DC.Date" scheme="iso8601" content="2008-11-06">
+<meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT316">
+<meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="TT700">
+<meta scheme="IBM_WTMCategory" name="IBM.WTMCategory" content="SOFDCSOAZZ">
+<meta name="DC.Rights" content="© Copyright&nbsp;IBM Corporation&nbsp;2008">
+<meta name="IBM.Effective" scheme="W3CDTF" content="2008-11-06">
+<meta name="title" content="RESTful Web services: The basics">
+
+<!-- HEADER_SCRIPTS_AND_CSS_INCLUDE -->
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/all.css" media="all" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/screen.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/screen-uas.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/screen-fonts.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/handheld.css" media="handheld" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/print.css" media="print" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/overlay.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+
+<!-- dW-specific CSS -->
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/dw-screen.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/dw-screen-comments-ratings-signin.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/jquery.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<!-- xM Masthead/Footer -->
+<link href="RESTful%20Web%20services%20-%20The%20basics-Dateien/dw-mf0311.css" rel="stylesheet" title="www" type="text/css">
+<script src="RESTful%20Web%20services%20-%20The%20basics-Dateien/ibmcommon.js" type="text/javascript">//</script><link title="IBM Search" href="http://www.ibm.com/search/opensearch/description.xml" type="application/opensearchdescription+xml" rel="search">
+<script src="RESTful%20Web%20services%20-%20The%20basics-Dateien/dynamicnav.js" type="text/javascript">//</script>
+
+<!-- dW functional JS -->
+<script language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/urltactic.js" type="text/javascript"></script>
+<!-- Rating_START -->
+<script language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/showrating.js" type="text/javascript"></script>
+<style type="text/css">
+.metavalue {
+  display: none;
+}
+</style>
+<!-- Rating_END --><!-- RESERVED_HEADER_INCLUDE -->
+<script language="javascript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/ajax1.js" type="text/javascript"></script>
+<script language="javascript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/search_counter-maverick.js" type="text/javascript"></script>
+<script language="javascript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/request_referer_capture-maverick.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+ <!--
+ setDefaultQuery('webservicesart');
+ //-->
+</script>
+<script language="JavaScript" type="text/javascript">
+ <!--
+ function openNewWindow(url,tar,arg){window.open(url,tar,arg);}
+ //-->
+</script>
+<!-- Include file support -->
+<script language="JavaScript" type="text/javascript">
+(function($) {
+	jQuery.extend({
+		getInc: function(u,d){
+			if(u==null)return;
+			jQuery.ajax({
+	    		type: "GET",
+			url: u,
+			dataType: "text",
+	        	success: function(t) {
+				jQuery(d).html(t);
+				ibmCommon.initShowHide(jQuery(d).children()[0]);			
+			},
+			async: true
+			});
+		}
+	});
+})(jQuery);
+</script>
+<script charset="UTF-8" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/usen-utf8.js" type="text/javascript" id="mhMenu"></script><script charset="UTF-8" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/Controller" type="text/javascript" id="wiBundle"></script></head>
+
+<body id="ibm-com">
+<div id="ibm-top" class="ibm-landing-page">
+
+<!-- MASTHEAD_BEGIN -->
+<!-- MASTHEAD_BEGIN -->
+<div class="ibm-access"><a href="#ibm-content">Skip to main content</a></div>
+<div id="ibm-masthead-dw">
+  
+    <!-- TOP ROW -->    
+    <div id="dw-masthead-top-row">
+		<ul id="ibm-unav-home-dw">
+			<li id="ibm-logo">
+				<a href="http://www.ibm.com/us/en/"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/ibm-smlogo.gif" alt="IBM®" height="16" width="44"></a>
+			</li>
+		</ul>
+        <ul id="ibm-mast-options-dw">
+		    <li id="dw-mast-top-0">
+				<a class="" href="http://www.ibm.com/developerworks/dwwi/DWAuthRouter?m=loginpage&amp;lang=en&amp;d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F" title="">Sign in (or register)</a>
+			</li>
+		    <li id="dw-mast-top-1">
+				<a href="#SELECTLANG">English</a><img class="dw-preload" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/arrow-down-active.gif" alt="" height="7" width="8">
+			</li>
+		    <li id="dw-mast-top-2" class="dw-mf-hide">
+				<a href="#">[userid] <img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/photo.gif" alt="PHOTO" class="dw-mast-profimg" height="20" width="20"></a>
+			</li>
+		</ul>
+	</div>
+    
+    <!-- TOP ROW SLIDER -->
+    <div id="ibm-my-menu-dw">    
+        <div class="ibm-ribbon-pane-dw">
+            <div class="ibm-ribbon-section-dw">
+                <!-- Sign-in -->
+				<div class="dw-mast-columns">                
+					<div class="dw-mast-col-1-1">
+					    <div class="dw-mast-close">
+							<ul>
+								<li><a href="#">Close [x]</a></li>
+							</ul>
+						</div>
+						<div id="dw-mast-sso">
+							<div id="dw-mast-sso-reg">
+								<p>If you don't have an IBM ID and password, <a href="#" onclick="(function () {window.location='/developerworks/dwwi/DWAuthRouter?m=reg&amp;lang=en&amp;d='+encodeURIComponent(location.href);})();">register here</a>.</p>
+							</div>
+							<div id="signin_error_mf" class="no-display"></div>
+							<div id="dw-mast-sso-form">
+								<form id="sForm_mf" action="" method="post" name="sForm_name_mf" onsubmit="return false;">
+									<div id="dw-mast-sso-id" class="dw-mast-sso-id-en">
+										<label for="ibmid_mf">IBM ID:</label>
+										<input class="" id="ibmid_mf" name="ibmid_name_mf" maxlength="100" onkeypress="handleEP(event,this.form,'mf');" type="text">
+									</div>
+									<div id="dw-mast-sso-pw" class="dw-mast-sso-pw-en">
+										<label for="pw_mf">Password:</label>
+										<input class="" id="pw_mf" value="" name="pw_name_mf" maxlength="100" onkeypress="handleEP(event,this.form,'mf');" type="password">
+									</div>
+									<div id="dw-mast-sso-target" class="dw-mast-sso-target-en">
+										<label for="AfterSignIn_mf">After sign in:</label>
+										<select id="AfterSignIn_mf" name="AfterSignIn_name_mf">
+											<option selected="selected" value="">Stay on the current page</option>
+											<option value="/developerworks/mydeveloperworks/profiles/html/myProfileView.do?lang=en">My developerWorks profile</option>
+											<option value="/developerworks/mydeveloperworks/homepage?lang=en">My developerWorks home</option>
+										</select>
+									</div>					
+									<div id="dw-mast-sso-terms">
+										<p class="dw-mf-perm-box">
+											<input id="perm_mf" name="perm_name_mf" type="checkbox"><label for="perm_mf"> Keep me signed in.</label>
+										</p>
+										<p class="dw-mast-sso-terms-en">By clicking <strong>Submit</strong>, you agree to the <a href="https://www.ibm.com/developerworks/community/terms/">developerWorks terms of use</a>.</p>
+									</div>
+									<div>
+										<input class="dw-mf-submit-btn" name="ibm_submit_name_mf" value="Submit" onclick="signin('mf');return false;" type="submit">
+									</div>
+								</form>
+							</div>
+							<div id="dw-mast-sso-update">
+								<ul>
+									<li><a class="ibm-forward-link" href="http://www.ibm.com/developerworks/dwwi/jsp/WSHelp.jsp?lang=en_US">Forgot your IBM ID?</a></li>
+								</ul>
+								<!--[if IE 9]><div class="dw-mf-update-ie9"><![endif]-->
+								<ul class="dw-mf-pwupdate">
+									<li><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=forgot&amp;lang=en_US&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(getAuthUrl())+'%3Fm%3Dloginpage%26lang%3Den_US%26d%3D'+encodeURIComponent(location.href);})();">Forgot your password?</a></li>
+									<li><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=chpw&amp;lang=en_US&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(location.href);})();">Change your password</a></li>
+								</ul>
+								<!--[if IE 9]></div><![endif]-->
+							</div>
+							<div id="dw-mast-sso-text">
+								<p>The first time you sign into developerWorks, a <strong>profile</strong> is created for you.  <strong>Select information in your developerWorks profile is displayed to the public, but you may edit the information at any time.</strong>  Your first name, last name (unless you choose to hide them), and display name will accompany the content that you post.</p>
+								<p class="dw-mf-secure">All information submitted is secure.</p>
+							</div>
+						</div>
+                    
+						<div id="dw-mast-dname" class="dw-mf-hide">
+							<p>The first time you sign in to developerWorks, a profile is 
+created for you, so you need to choose a display name.  Your display 
+name accompanies the content you post on developerworks.</p><p><strong>Please choose a display name between 3-31 characters</strong>.  Your display name must be unique in the developerWorks community and should not be your email address for privacy reasons.</p>
+							<div id="signin_dname_error_mf" class="no-display"></div>
+							<div id="dw-mast-dname-form">
+								<form id="dForm_mf" action="" method="post" name="dForm_name_mf" onsubmit="return false;">
+									<div id="dw-mast-dname-mf">
+										<label for="dname_mf">Display name:</label>
+										<input id="dname_mf" name="dname_name_mf" maxlength="31" size="25" onkeypress="handleEP(event,this.form,'mf');" type="text">
+									</div>
+									<div id="dw-mast-dname-terms">
+										<p>By clicking <strong>Submit</strong>, you agree to the <a href="https://www.ibm.com/developerworks/community/terms/">developerWorks terms of use</a>.</p>
+									</div>
+									<div>
+										<input class="dw-mf-submit-btn" name="dname_submit_name_mf" value="Submit" onclick="signin('mf');return false;" type="submit">
+									</div>
+								</form>								
+							</div>
+							<div id="dw-mast-dname-secure">
+								<p class="dw-mf-secure">All information submitted is secure.</p>
+							</div>
+						</div>
+
+						<div id="dw-mast-auth" class="dw-mf-hide">
+							<div>
+								<h2>My developerWorks:</h2>
+								<ul>
+									<li><a id="dw-mast-top-0-0" href="http://www.ibm.com/developerworks/mydeveloperworks/profiles/html/myProfileView.do?lang=en">My profile</a></li>
+									<li><a href="http://www.ibm.com/developerworks/mydeveloperworks/homepage?lang=en">My home</a></li>
+									<li><a href="http://www.ibm.com/developerworks/mydeveloperworks/groups/service/html/mycommunities?lang=en">My groups</a></li>
+								</ul>     
+							</div>
+							<div id="dw-mast-notify" class="dw-mf-hide">
+								<h2>My notifications:</h2>
+								<ul>
+									<li><a id="new_notify" href="http://www.ibm.com/developerworks/mydeveloperworks/homepage?lang=en">{[num_notify] new notifications}([num_notify] new notification)</a></li>
+									<li><a id="new_invite" href="http://www.ibm.com/developerworks/mydeveloperworks/profiles/html/wc.do?action=in&amp;requireAuth=true&amp;widgetId=friends&amp;lang=[lang]">{[num_invite] network requests}([num_invite] network request)</a></li>  
+								</ul>
+							</div>
+							<div class="dw-mast-more">
+								<ul class="ibm-link-list">
+									<li><a class="dw-more-link" href="#" onclick="signOut(); return false;"><strong>Sign out</strong></a></li>
+								</ul>
+							</div>
+						</div>
+						
+					</div>					
+                   
+                </div>
+                <!-- Language selector --> 
+				<div class="dw-mast-columns">
+					<div class="dw-mast-col-2-1">
+						<h2>Select a language:</h2>
+						<ul>
+							<li><a id="dw-mast-top-1-0" href="http://www.ibm.com/developerworks/">English</a></li>
+							<li><a href="http://www.ibm.com/developerworks/cn/">中文</a></li>
+							<li><a href="http://www.ibm.com/developerworks/jp/">日本語</a></li>
+							<li><a href="http://www.ibm.com/developerworks/kr/">한국어</a></li>
+						</ul>
+					</div>
+					<div class="dw-mast-col-2-2">
+						<ul>
+							<li><a href="http://www.ibm.com/developerworks/ru/">Русский</a></li>
+							<li><a href="http://www.ibm.com/developerworks/br/">Português (Brasil)</a></li>
+							<li><a href="http://www.ibm.com/developerworks/ssa/">Español</a></li>
+							<li><a href="http://www.ibm.com/developerworks/vn/">Việt</a></li>
+						</ul>
+					</div>
+					<div class="dw-mast-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div id="ibm-universal-nav-dw">
+        <ul id="ibm-unav-links-dw">
+            <li id="ibm-unav-home-dwlogo">
+				<a href="http://www.ibm.com/developerWorks/"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/dw-wordmark.gif" alt="developerWorks®" height="32" width="218"></a>
+            </li>
+        </ul>
+        <ul id="ibm-menu-links-dw">
+            <li id="dw-mast-nav-0"><a href="http://www.ibm.com/developerworks/topics/">Technical topics</a></li>
+            <li id="dw-mast-nav-1"><a href="http://www.ibm.com/developerworks/downloads/">Evaluation software</a></li>
+            <li id="dw-mast-nav-2"><a href="http://www.ibm.com/developerworks/community/">Community</a></li>
+            <li id="dw-mast-nav-3"><a href="http://www.ibm.com/developerworks/events/">Events</a></li>
+        </ul>
+			<form id="ibm-search-form" action="//www.ibm.com/search/csass/search/" method="get" name="form1">
+				<input name="sn" value="dw" type="hidden">
+				<input name="lang" value="en" type="hidden">
+				<input name="cc" value="US" type="hidden">
+				<input name="en" value="utf" type="hidden">
+				<input name="hpp" value="20" type="hidden">
+				<input name="dws" value="dw" type="hidden">
+				<p>
+				<label for="q"><img alt="Search developerWorks" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/c_002.gif" height="1" width="1"></label>
+				<input value="Search developerWorks" name="q" maxlength="100" id="q" type="text">
+				<input id="ibm-search" class="ibm-btn-search" name="Search" value="Search" type="submit">
+				</p>
+			</form>
+    </div>
+    
+    <!-- BOTTOM ROW SLIDER -->
+    <div id="ibm-common-menu-dw">
+        <div class="ibm-ribbon-pane-dw dw-ribbon-pane-en">
+            <div class="ibm-ribbon-section-dw">
+				<!-- Technical topics category -->
+                <div class="dw-mast-columns">
+					<div class="dw-mast-col-3-1">
+						<h2>IBM products:</h2>
+						<ul>
+							<li><a id="dw-mast-nav-0-0" href="http://www.ibm.com/developerworks/aix/">AIX and UNIX</a></li>
+							<li><a href="http://www.ibm.com/developerworks/ibmi/">IBM i</a></li>
+							<li><a href="http://www.ibm.com/developerworks/data/">Information Management</a></li>
+							<li><a href="http://www.ibm.com/developerworks/lotus/">Lotus</a></li>
+							<li><a href="http://www.ibm.com/developerworks/rational/">Rational</a></li>
+							<li><a href="http://www.ibm.com/developerworks/tivoli/">Tivoli</a></li>  
+							<li><a href="http://www.ibm.com/developerworks/websphere/">WebSphere</a></li>     
+						</ul>     
+                    </div>
+					<div class="dw-mast-col-3-2">
+						<h2>Technologies:</h2>
+						<ul>
+							<li><a href="http://www.ibm.com/developerworks/java/">Java technology</a></li>
+							<li><a href="http://www.ibm.com/developerworks/linux/">Linux</a></li>
+							<li><a href="http://www.ibm.com/developerworks/opensource/">Open source</a></li>
+							<li><a href="http://www.ibm.com/developerworks/webservices/">SOA and web services</a></li>
+							<li><a href="http://www.ibm.com/developerworks/web/">Web development</a></li>  
+							<li><a href="http://www.ibm.com/developerworks/xml/">XML</a></li>     
+						</ul>
+                    </div>
+					<div class="dw-mast-col-3-3 dw-mast-col-3-3-en">
+						<h2>Solutions:</h2>
+						<ul>
+							<li><a href="http://www.ibm.com/developerworks/cloud/">Cloud computing</a></li>
+							<li><a href="http://www.ibm.com/developerworks/industry/">Industries</a></li>
+							<li><a href="http://www.ibm.com/developerworks/servicemanagement/">Integrated Service Management</a></li>
+						</ul>
+						<ul>
+							<li class="dw-mast-newgroup"><a href="http://www.ibm.com/developerworks/library/">Technical library</a></li>
+							<li><a href="http://www.ibm.com/developerworks/feeds/">Feeds and syndication</a></li>
+							<li><a href="https://www.ibm.com/developerworks/newsletter/">Newsletters</a></li>
+						</ul>        
+                    </div>
+                    <div class="dw-mast-more dw-mast-more-en">
+						<ul class="ibm-link-list">
+							<li><a class="dw-more-link" href="http://www.ibm.com/developerworks/topics/"><strong>More about Technical topics</strong></a></li>
+						</ul>
+                    </div>
+                    <div class="dw-mast-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+				</div>
+				<!-- Evaluation software category -->
+                <div class="dw-mast-columns">
+					<div class="dw-mast-col-1-1">
+						<h2>Find software by:</h2>
+						<ul>
+							<li><a id="dw-mast-nav-1-0" href="http://www.ibm.com/developerworks/downloads/product.html">IBM product</a></li>
+							<li><a href="http://www.ibm.com/developerworks/downloads/evalmethod.html">Evaluation method (Download, online trial, product beta, cloud)</a></li>
+							<li><a href="http://www.ibm.com/developerworks/downloads/industry.html">Industry</a></li>
+						</ul>            
+                    </div>
+                    <div class="dw-mast-more">
+						<ul class="ibm-link-list">
+							<li><a class="dw-more-link" href="http://www.ibm.com/developerworks/downloads/"><strong>More about Evaluation software</strong></a></li>
+						</ul>
+                    </div>
+                    <div class="dw-mast-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+				</div>
+				<!-- Community category -->
+                <div class="dw-mast-columns">
+					<div class="dw-mast-col-3-1">
+						<ul>
+							<li><a id="dw-mast-nav-2-0" href="https://www.ibm.com/developerworks/community/homepage/?lang=en">My home</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/profiles/?lang=en">Profiles</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/groups/?lang=en">Groups</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/blogs/?lang=en">Blogs</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/bookmarks/?lang=en">Bookmarks</a></li>  
+						</ul>     
+                    </div>
+					<div class="dw-mast-col-3-2">
+						<ul>
+							<li><a href="https://www.ibm.com/developerworks/forums/">Forums</a></li>
+							<li><a href="https://www.ibm.com/developerworks/mydeveloperworks/wikis/?lang=en">Wikis</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/files/?lang=en">Files</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/activities/?lang=en">Activities</a></li>
+							<li><a href="https://www.ibm.com/developerworks/community/podcasts/?lang=en">Podcasts</a></li>     
+						</ul>
+                    </div>
+					<div class="dw-mast-col-3-3 dw-mast-col-3-3-en">
+						<ul>
+							<li><a href="http://www.ibm.com/developerworks/champion/">IBM Champion program</a></li>
+						</ul>
+                    </div>
+                    <div class="dw-mast-more dw-mast-more-en">
+						<ul class="ibm-link-list">
+							<li><a class="dw-more-link" href="http://www.ibm.com/developerworks/community/?lang=en"><strong>More about Community</strong></a></li>
+						</ul>
+                    </div>
+                    <div class="dw-mast-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+				</div>
+				<!-- Events category -->
+                <div class="dw-mast-columns">
+					<div class="dw-mast-col-1-1">
+						<ul>
+							<li><a id="dw-mast-nav-3-0" href="http://www.ibm.com/developerworks/briefings/">Briefings</a></li>
+							<li><a href="http://www.ibm.com/developerworks/find/webcasts/">Webcasts</a></li>
+							<li><a href="http://www.ibm.com/developerworks/find/events/">Find events (briefings, webcasts, conferences...)</a></li>
+						</ul>            
+                    </div>
+                    <div class="dw-mast-more">
+						<ul class="ibm-link-list">
+							<li><a class="dw-more-link" href="http://www.ibm.com/developerworks/events/"><strong>More about Events</strong></a></li>
+						</ul>
+                    </div>
+                    <div class="dw-mast-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+				</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div id="fdiv" class="ibm-access"><embed type="application/x-shockwave-flash" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/connect.swf" id="sflash" name="sflash" quality="high" menu="false" wmode="window" movie="https://www.ibm.com/developerworks/js/dw-mf/connect.swf" swliveconnect="true" allowscriptaccess="always" height="1" width="1"></div>
+<!-- MASTHEAD_END --><!-- MASTHEAD_END -->
+
+<div id="ibm-pcon">
+
+<!-- CONTENT_BEGIN -->
+<div id="ibm-content">
+
+<!-- Navigation_Trail_BEGIN -->
+<!-- &nbsp; -->
+      <div id="ibm-content-head"><ul id="ibm-navigation-trail"><li class="ibm-first"><a href="http://www.ibm.com/developerworks/">developerWorks</a></li><li><a href="http://www.ibm.com/developerworks/topics/">Technical topics</a></li><li><a href="http://www.ibm.com/developerworks/webservices/">SOA and web services</a></li><li><a href="http://www.ibm.com/developerworks/webservices/library/">Technical library</a></li></ul></div>
+<!-- Navigation_Trail_END -->
+
+<!-- dW_Summary Area_START -->
+<div id="dw-summary-article">
+
+<div class="dw-content-head">
+<h1>RESTful Web services: The basics</h1><p>
+</p></div>
+
+<div class="ibm-container-body ibm-two-column">
+
+<div class="ibm-column ibm-first">
+<div class="author"><a title="" class="dwauthor" rel="#authortip1" href="#author1">Alex Rodriguez</a> (<a href="mailto:arodrigu@us.ibm.com?subject=RESTful%20Web%20services:%20The%20basics">arodrigu@us.ibm.com</a>), Software Engineer, IBM</div><div style="display: none;" id="authortip1" class="dwauthor-onload-state ibm-no-print"><div class="position"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/p-arodriguez.jpg" alt="Alex Rodriguez's photo" height="80" width="64"></div>Alex Rodriguez is a software engineer at IBM focusing on distributed
+                Java technologies and REST Web services. He has been programming Java
+                since JDK 1.1.7B and specializes in designing and developing Java EE-based
+                software.</div>
+<p></p>
+<p><strong>Summary:</strong>&nbsp; Representational State Transfer (REST) has gained widespread
+            acceptance across the Web as a simpler alternative to SOAP- and Web Services
+            Description Language (WSDL)-based Web services. Key evidence of this shift in
+            interface design is the adoption of REST by mainstream Web 2.0 service
+            providers—including Yahoo, Google, and Facebook—who have
+            deprecated or passed on SOAP and WSDL-based interfaces in favor of an
+            easier-to-use, resource-oriented model to expose their services. In this
+            article, Alex Rodriguez introduces you to the basic principles of REST.</p>
+
+<div id="dw-tag-content" class="ibm-no-print"><p><b>Tags for this article:</b>&nbsp; <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=apis')">apis</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_and_information_integration')">application_and_information_integration</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_development')">application_development</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=basics')">basics</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_process_management')">business_process_management</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_processes')">business_processes</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_service_management')">business_service_management</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=datapower')">datapower</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=java_technology')">java_technology</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=jaxrs')">jaxrs</a>... <a class="dwmoretags" rel="#moretags"><strong>more tags</strong></a></p><div style="display: none;" id="moretags" class="dwauthor-onload-state ibm-no-print"><strong>More tags</strong>:&nbsp; <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=overview')">overview</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rad')">rad</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rest')">rest</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=restful')">restful</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=services')">services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soap_%2528simple_object_access_protocol%2529')" title="soap_(simple_object_access_protocol)">soap_(simple_object_ac...</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards')">standards</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards_and_specifications')" title="standards_and_specifications">standards_and_specific...</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=stateful_web_services')">stateful_web_services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=transactions')">transactions</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=user_interface')">user_interface</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web')">web</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_service')">web_service</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_services')">web_services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=webservice')">webservice</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=webservices')">webservices</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=wsdl_%2528web_services_description_language%2529')" title="wsdl_(web_services_description_language)">wsdl_(web_services_des...</a></div><p></p></div><div id="dw-moretags-access" class="ibm-access"><a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=overview')">overview</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rad')">rad</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rest')">rest</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=restful')">restful</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=services')">services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soap_%2528simple_object_access_protocol%2529')" title="soap_(simple_object_access_protocol)">soap_(simple_object_ac...</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards')">standards</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards_and_specifications')" title="standards_and_specifications">standards_and_specific...</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=stateful_web_services')">stateful_web_services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=transactions')">transactions</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=user_interface')">user_interface</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web')">web</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_service')">web_service</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_services')">web_services</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=webservice')">webservice</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=webservices')">webservices</a>, <a href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=wsdl_%2528web_services_description_language%2529')" title="wsdl_(web_services_description_language)">wsdl_(web_services_des...</a></div>
+<p class="ibm-no-print"></p><div id="dw-tag-this" class="ibm-no-print"><a class="ibm-external-link" onclick="jQuery.launchTagThisWindow(); return false;" href="#">Tag this!</a></div><div id="interestShow" class="ibm-no-print"><div id="dw-interest-anon"><a id="intAnonBtn" class="ibm-external-link" href="">Update My dW interests</a> (<a class="dw-interest" href="https://www.ibm.com/developerworks/dwwi/DWAuthRouter?m=loginpage&amp;d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F">Log in</a> | <a class="dw-interest" href="#overlay" onclick="ibmCommon.Overlays.show('dwmyinterestadd', this);return false;">What's this?</a>) <a class="ibm-access" href="#dwmyinterestaddhelp">Skip to help for Update My dW interests</a></div></div><p></p>
+</div>
+
+<div class="ibm-column ibm-second">
+<p class="leading"><strong>Date:</strong>&nbsp; 06 Nov 2008
+<br><strong>Level: </strong>&nbsp;Intermediate
+<br class="ibm-ind-link"><strong>PDF:</strong>&nbsp; <a href="http://public.dhe.ibm.com/software/dw/webservices/ws-restful/ws-restful-pdf.pdf">A4 and Letter</a> (62KB)<a class="ibm-external-link" href="http://www.adobe.com/products/acrobat/readstep2.html">Get Adobe® Reader®</a>
+<br><strong>Also available in:&nbsp;</strong>
+&nbsp;<a href="http://www.ibm.com/developerworks/cn/webservices/ws-restful/">Chinese</a>
+
+
+&nbsp;<a href="http://www.ibm.com/developerworks/jp/webservices/library/ws-restful/">Japanese</a> 
+&nbsp;<a href="http://www.ibm.com/developerworks/vn/library/ws-restful/">Vietnamese</a> 
+
+
+<br>
+<br><strong>Activity:</strong>&nbsp; 341556 views
+<br><strong>Comments:</strong> &nbsp; <span id="nCmts">12&nbsp;(<a class="dw-view-comment" href="#icomments">View</a>&nbsp;|&nbsp;<a onclick="showSignIn();return false;" href="#">Add comment</a> - Sign in)</span>
+<!-- Rating_Area_Begin -->
+</p><div id="art-rating-summary"><img alt="Average rating 4 stars based on 533 votes" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-4b.jpg" class="dw-avg-rating"> Average rating (533 votes)<br><a class="dw-view-comment" href="#iratings">Rate this article</a></div>
+<!-- Rating_Area_End -->
+<p></p>
+</div>
+
+</div>
+</div>
+<!-- dW_Summary_Area_END -->
+
+<!-- CONTENT_BODY -->
+<div id="ibm-content-body">
+
+<!-- MAIN_COLUMN_BEGIN -->
+<div id="ibm-content-main">
+
+<!-- Related_Searches_Area -->
+<!-- Related_Searches_Area_Begin -->
+<script type="text/javascript" language="javascript">
+	     capture_referrer();
+</script>
+
+<div id="dw-related-searches-article" style="display:none">
+<div class="ibm-container ibm-alternate-two">
+<div class="ibm-container-body">
+
+<!--  START : HTML FOR ARTICLE SEARCH -->
+  <div id="article_results" style="display:block"></div>
+<!--  END : HTML FOR ARTICLE SEARCH -->
+
+</div>
+</div>
+</div>
+<!-- Related_Searches_Area_End -->
+<!-- MAIN_COLUMN_CONTAINER_BEGIN -->
+<div class="ibm-container">
+
+<!-- MAIN_COLUMN_CONTENT_BEGIN -->
+<p><a name="N10050"><span class="atitle">The basics</span></a></p><p>REST defines a set of architectural principles by which you can design Web
+                services that focus on a system's resources, including how resource states are
+                addressed and transferred over HTTP by a wide range of clients written in
+                different languages. If measured by the number of Web services that use
+                it, REST has emerged in the last few years alone as a predominant Web
+                service design model. In fact, REST has had such a large impact on the Web
+                that it has mostly displaced SOAP- and WSDL-based interface design because
+                it's a considerably simpler style to use. </p><p> REST didn't attract this much attention when it was first introduced in
+                2000 by Roy Fielding at the University of California, Irvine, in his
+                academic dissertation, 
+                    "Architectural Styles and the Design of Network-based Software
+                    Architectures," which  analyzes
+                a set of software architecture principles that use the Web as a platform
+                for distributed computing (see <a href="#resources">Resources</a> for a link to
+                this dissertation). Now, years after its introduction, major frameworks for
+                REST have started to appear and are still being developed because it's
+                slated, for example, to become an integral part of Java™ 6 through JSR-311. </p><p> This article suggests that in its purest form today, when it's attracting
+                this much attention, a concrete implementation of a REST Web service
+                follows four basic design principles: </p><ul><li>Use HTTP methods explicitly.</li><li>Be stateless.</li><li>Expose directory structure-like URIs.</li><li>Transfer XML, JavaScript Object Notation (JSON), or both.</li></ul><p> The following sections expand on these four principles and propose a
+                technical rationale for why they might be important for REST Web service
+                designers.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Back to top</a></p><p><a name="N1006D"><span class="atitle">Use HTTP methods
+                explicitly</span></a></p><p> One of the key 
+characteristics of a RESTful Web service is the explicit
+                use of HTTP methods in a way that follows the protocol 
+as defined by RFC
+                2616. HTTP GET, for instance, is defined as a 
+data-producing method that's intended to be used by a client application
+ to retrieve a resource, to
+                fetch data from a Web server, or to execute a query with
+ the expectation
+                that the Web server will look for and respond with a set
+ of matching
+                resources. </p><p>REST asks developers to use HTTP methods explicitly and in a way that's
+                consistent with the protocol definition. This basic REST design principle
+                establishes a one-to-one mapping between create, read, update, and delete
+                (CRUD) operations and HTTP methods.
+                According to this mapping:</p><ul><li>To create a resource on the server, use POST.</li><li>To retrieve a resource, use GET.</li><li>To change the state of a resource or to
+                update it, use PUT.</li><li>To remove or delete a resource, use DELETE.</li></ul><p>An unfortunate design flaw inherent in many Web APIs is in the use of HTTP
+                methods for unintended purposes. The request URI in an HTTP GET request,
+                for example, usually identifies one specific resource. Or the query
+                string in a request URI includes a set of parameters that defines the
+                search criteria used by the server to find a set of matching resources. At
+                least this is how the HTTP/1.1 RFC describes GET. But there are many cases
+                of unattractive Web APIs that use HTTP GET to trigger something
+                transactional on the server—for instance, to add records to a database.
+                In these cases the GET request URI is not used properly or at least not
+                used RESTfully. If the Web API uses GET to invoke remote procedures, it
+                looks like this:<br><br><code>GET /adduser?name=Robert HTTP/1.1</code></p><p>It's not a very attractive design because the Web method above supports a
+                state-changing operation over HTTP GET. Put another way, the HTTP GET
+                request above has side effects. If successfully processed, the result of
+                the request is to add a new user—in this example, Robert—to the underlying data store.
+                The problem here is mainly semantic. Web servers are designed to
+                respond to HTTP GET requests by retrieving resources that match the path
+                (or the query criteria) in the request URI and return these or a
+                representation in a response, not to add a record to a database. From the
+                standpoint of the intended use of the protocol method then, and from the
+                standpoint of HTTP/1.1-compliant Web servers, using GET in this way is
+                inconsistent. </p><p> Beyond the semantics, the other problem with GET is that to
+                trigger the deletion, modification, or addition of a record in a database,
+                or to change server-side state in some way, it invites Web caching tools
+                (crawlers) and search engines to make server-side changes
+                unintentionally simply by crawling a link. A simple way to overcome this
+                common 
+                problem is to move the parameter names and values
+                on the request URI into XML tags. The resulting tags, an XML
+                representation of the entity to create, may be sent in the body of an HTTP
+                POST whose request URI is the intended parent of the entity (see Listings
+                1 and 2).</p><br><a name="list1"><strong>Listing 1. Before</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">GET /adduser?name=Robert HTTP/1.1
+            </pre></td></tr></tbody></table><br><br><a name="list2"><strong>Listing 2.
+After</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">POST /users HTTP/1.1
+Host: myserver
+Content-Type: application/xml
+&lt;?xml version="1.0"?&gt;
+&lt;user&gt;
+  &lt;name&gt;Robert&lt;/name&gt;
+&lt;/user&gt;
+            </pre></td></tr></tbody></table><br><p>The method above is exemplary of a RESTful request: proper use of HTTP POST
+                and inclusion of the payload in the body of the request. On the receiving
+                end, the request may be processed by adding the resource contained in the
+                body as a subordinate of the resource identified in the request URI; in
+                this case the new resource should be added as a child of <code>/users</code>. This
+                containment relationship between the new entity and its parent, as
+                specified in the POST request, is analogous to the way a file is
+                subordinate to its parent directory. The client sets up the relationship
+                between the entity and its parent and defines the new entity's URI in the
+                POST request. </p><p>A client application may then get a representation of the resource using
+                the new URI, noting that at least logically the resource is located under
+                <code>/users</code>, as shown in Listing 3.</p><br><a name="list3"><strong>Listing
+3. HTTP GET request</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">GET /users/Robert HTTP/1.1
+Host: myserver
+Accept: application/xml
+</pre></td></tr></tbody></table><br><p>Using GET in this way is explicit because GET is for
+                data retrieval only. GET is an operation that should be free of side
+                effects, a property also known as <em>idempotence</em>.</p><p>A similar refactoring of a Web method also needs to be applied in cases
+                where an update operation is supported over HTTP GET, as shown in Listing 4. </p><br><a name="list4"><strong>Listing
+4. Update over HTTP GET</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">GET /updateuser?name=Robert&amp;newname=Bob HTTP/1.1
+</pre></td></tr></tbody></table><br><p>This changes the <code>name</code> attribute (or property) of the resource. While the
+                query string can be used for such an operation, and Listing 4 is a
+                simple one, this query-string-as-method-signature pattern tends to break
+                down when used for more complex operations. Because your goal is to make
+                explicit use of HTTP methods, a more RESTful approach is to send an HTTP
+                PUT request to update the resource, instead of HTTP GET, for the same
+                reasons stated above (see Listing 5).</p><br><a name="list5"><strong>Listing
+5. HTTP PUT request</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">PUT /users/Robert HTTP/1.1
+Host: myserver
+Content-Type: application/xml
+&lt;?xml version="1.0"?&gt;
+&lt;user&gt;
+  &lt;name&gt;Bob&lt;/name&gt;
+&lt;/user&gt;
+</pre></td></tr></tbody></table><br><p>Using PUT to replace the original resource provides a much cleaner
+                interface that's consistent with REST's principles and with the
+                definition of HTTP methods. The PUT request in Listing 5 is explicit in the sense
+                that it points at the resource to be updated by identifying it in the
+                request URI and in the sense that it transfers a new representation of
+                the resource from client to server in the body of a PUT request instead
+                of transferring the resource attributes as a loose set of parameter names
+                and values on the request URI. Listing 5 also has the effect of
+                renaming the resource from <code>Robert</code> to <code>Bob</code>, and in doing so changes its
+                URI to <code>/users/Bob</code>. In a REST Web service, subsequent requests for the
+                resource using the old URI would generate a standard 404 Not Found error. </p><p> As a general design principle, it helps to follow REST guidelines for
+                using HTTP methods explicitly by using nouns in URIs instead of verbs. In
+                a RESTful Web service, the verbs—POST, GET, PUT, and
+                DELETE—are already defined by the protocol. And ideally, to keep the interface
+                generalized and to allow clients to be explicit about the operations they
+                invoke, the Web service should not define more verbs or remote procedures,
+                such as <code>/adduser</code> or <code>/updateuser</code>. This general design principle also
+                applies to the body of an HTTP request, which is intended to be used to
+                transfer resource state, not to carry the name of a remote method or
+                remote procedure to be invoked. </p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Back to top</a></p><p><a name="N100EF"><span class="atitle">Be stateless</span></a></p><p>REST Web services need to scale to meet increasingly high performance
+                demands. Clusters of servers with load-balancing and failover
+                capabilities, proxies, and gateways are typically arranged in a way that
+                forms a service topology, which allows requests to be forwarded from one
+                server to the other as needed to decrease the overall response time of a
+                Web service call. Using intermediary servers to improve scale
+                requires REST Web service clients to send complete, independent requests;
+                that is, to send requests that include all data needed to be fulfilled so
+                that the components in the intermediary servers may forward, route, and
+                load-balance without any state being held locally in between requests. </p><p> A complete, independent request doesn't require the server, while
+                processing the request, to retrieve any kind of application context or
+                state. A REST Web service application (or client) includes within the HTTP
+                headers and body of a request all of the parameters, context, and data
+                needed by the server-side component to generate a response. Statelessness
+                in this sense improves Web service performance and simplifies the design
+                and implementation of server-side components because the absence of state
+                on the server removes the need to synchronize session data with an
+                external application. </p><p>Figure 1 illustrates a stateful service from which an application may
+                request the next page in a multipage result set, assuming that the
+                service keeps track of where the application leaves off while navigating
+                the set. In this stateful design, the service increments and stores a
+                <code>previousPage</code> variable somewhere to be able to respond to
+                requests for next.</p><br><a name="fig1"><strong>Figure 1. Stateful design</strong></a><br><img alt="Stateful Design" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/figure1.gif" height="159" width="564"><br><p>Stateful
+ services like this get complicated. In a Java Platform, Enterprise 
+Edition (Java EE) environment
+                stateful services require a lot of up-front 
+consideration to
+                efficiently store and enable the synchronization of 
+session data across a
+                cluster of Java EE containers. In this type of 
+environment, there's a
+                problem familiar to servlet/JavaServer Pages (JSP) and 
+Enterprise JavaBeans (EJB) developers who often struggle to
+                find the root causes of <code>java.io.NotSerializableException</code> during session
+                replication. Whether it's thrown by the servlet container during
+                <code>HttpSession</code> replication or thrown by the EJB container during stateful
+                EJB replication, it's a problem that can cost developers days in trying
+                to pinpoint the one object that doesn't implement <code>Serializable</code> in a
+                sometimes complex graph of objects that constitute the server's state.
+                In addition, session synchronization adds overhead,
+                which impacts server performance. </p><p> Stateless server-side components, on the other hand, are less complicated
+                to design, write, and distribute across load-balanced servers. A
+                stateless service not only performs better, it shifts most of the
+                responsibility of maintaining state to the client application. In a
+                RESTful Web service, the server is responsible for generating responses
+                and for providing an interface that enables the client to maintain
+                application state on its own. For example, in the request for a multipage
+                result set, the client should include the actual page number to retrieve
+                instead of simply asking for <em>next</em> (see Figure 2). </p><br><a name="fig2"><strong>Figure 2. Stateless design</strong></a><br><img alt="Stateless Design" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/figure2.gif" height="159" width="564"><br><p> A stateless Web service
+                generates a response that links to the next page number in the set and
+                lets the client do what it needs to in order to keep this value around.
+                This aspect of RESTful Web service design can be broken down into two sets
+                of responsibilities as a high-level separation that clarifies just how a
+                stateless service can be maintained:</p><p><strong>Server</strong></p><ul><li>Generates responses that include links to other resources to allow
+                    applications to navigate between related resources. This type of
+                    response embeds links. Similarly, if the request is for a parent or
+                    container resource, then a typical RESTful response might also include
+                    links to the parent's children or subordinate resources so that these
+                    remain connected. </li><li>Generates responses that indicate whether they are
+                    cacheable or not to improve performance by reducing the number of
+                    requests for duplicate resources and by eliminating some requests
+                    entirely. The server does this by including a Cache-Control and
+                    Last-Modified (a date value) HTTP response header.</li></ul><p><strong>Client application</strong></p><ul><li>Uses the Cache-Control response header to determine
+                    whether to cache the resource (make a local copy of it) or not. The
+                    client also reads the Last-Modified response header and sends back
+                    the date value in an If-Modified-Since header to ask the server if
+                    the resource has changed. This is called Conditional GET, and the two
+                    headers go hand in hand in that the server's response is a standard
+                    304 code (Not Modified) and omits the actual resource requested if it
+                    has not changed since that time. A 304 HTTP response code means the
+                    client can safely use a cached, local copy of the resource
+                    representation as the most up-to-date, in effect bypassing subsequent
+                    GET requests until the resource changes. </li><li> 
+Sends complete requests that can be serviced
+                    independently of other requests. This requires the 
+client to make full
+                    use of HTTP headers as specified by the Web service 
+interface and to
+                    send complete representations of resources in the 
+request body. The
+                    client sends requests that make very few assumptions
+ about prior
+                    requests, the existence of a session on the server, 
+the server's ability to add context to a request, or about
+                    application state that is kept in between requests. </li></ul><p>This collaboration between client application and service is essential to
+                being stateless in a RESTful Web service. It improves performance
+                by saving bandwidth and minimizing server-side application
+                state. </p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Back to top</a></p><p><a name="N1013C"><span class="atitle">Expose directory
+                structure-like URIs</span></a></p><p>From the standpoint of client applications addressing
+                resources, the URIs determine how intuitive the REST Web service is
+                going to be and whether  the service is going to be used in ways
+                that the designers can anticipate. A third RESTful Web service
+                characteristic is all about the URIs.</p><p>REST Web service URIs should be intuitive to the point where they are easy
+                to guess. Think of a URI as a kind of self-documenting interface
+                that requires little, if any, explanation or reference for a developer to
+                understand what it points to and to derive related resources. To this end,
+                the structure of a URI should be straightforward, predictable, and easily
+                understood.</p><p>One way to achieve this level of usability is to define directory
+                structure-like URIs. This type of URI is hierarchical, rooted at a single
+                path, and branching from it are subpaths that expose the service's main
+                areas. According to this definition, a URI is not merely a slash-delimited
+                string, but rather a tree with subordinate and superordinate branches
+                connected at nodes. For example, in a discussion threading service that
+                gathers topics ranging from Java to paper, you might define a
+                structured set of URIs like this:<br><br><code>http://www.myservice.org/discussion/topics/{topic}</code></p><p>The root, <code>/discussion</code>, has a <code>/topics</code> node beneath it. Underneath that there are a series of topic names, such as gossip, technology, and so on,
+                each of which points to a discussion thread. Within this structure, it's
+                easy to pull up discussion threads just by typing something after
+                /topics/. </p><p>In some cases, the path to a resource lends itself especially well to a
+                directory-like structure. Take resources organized by date, for instance,
+                which are a very good match for using a hierarchical syntax. </p><p>This example is intuitive because it is based on rules:<br><br><code>http://www.myservice.org/discussion/2008/12/10/{topic}</code></p><p>The first path fragment is a four-digit year, the second path fragment is
+                a two-digit day, and the third fragment is a two-digit month. It may seem a
+                little silly to explain it that way, but this is the level of simplicity
+                we're after. Humans and machines can easily generate structured URIs like
+                this because they are based on rules. Filling in the path parts in the
+                slots of a syntax makes them good because there is a definite
+                pattern from which to compose them:<br><br><code>http://www.myservice.org/discussion/{year}/{day}/{month}/{topic}</code></p><p>Some additional guidelines to make note of while thinking about URI
+                structure for a RESTful Web service are:</p><ul><li>Hide the server-side scripting technology file extensions (.jsp, .php,
+                    .asp), if any, 
+                     so you can port to something else without changing
+                    the URIs.</li><li>Keep everything lowercase.</li><li>Substitute spaces with hyphens or underscores (one or the other).</li><li>Avoid query strings as much as you can.</li><li>Instead of using the 404 Not Found code if the request URI is for a partial path,
+                    always provide a default page or resource as a response.</li></ul><p>URIs should also be static so that when the resource changes or the
+                implementation of the service changes, the link stays the same. This
+                allows bookmarking. It's also important that the relationship between
+                resources that's encoded in the URIs remains independent of the way the
+                relationships are represented where they are stored. </p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Back to top</a></p><p><a name="N10179"><span class="atitle">Transfer XML,
+                JSON, or both</span></a></p><p>A resource representation typically reflects the current state of a
+                resource, and its attributes, at the time a client application requests it.
+                Resource representations in this sense are mere snapshots in time. This
+                could be a thing as simple as a representation of a record in a database
+                that consists of a mapping between column names and XML tags, where the
+                element values in the XML contain the row values. Or, if the system has a
+                data model, then according to this definition a resource representation
+                is a snapshot of the attributes of one of the things in your system's data
+                model. These are the things you want your REST Web service to serve up. </p><p>The last set of constraints that goes into a RESTful Web service design has
+                to do with the format of the data that the application and service exchange in
+                the request/response payload or in the HTTP body. This is where it really
+                pays to keep things simple, human-readable, and connected. </p><p>The objects in your data model are usually related in some way, and the
+                relationships between data model objects (resources) should be reflected
+                in the way they are represented for transfer to a client application. In
+                the discussion threading service, an example of connected resource
+                representations might include a root discussion topic and its attributes, and
+                embed links to the responses given to that topic.  </p><br><a name="list6"><strong>Listing 6.
+XML representation of a discussion thread</strong></a><br><table summary="This table contains a code listing." border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><td class="code-outline"><pre class="displaycode">&lt;?xml version="1.0"?&gt;
+&lt;discussion date="{date}" topic="{topic}"&gt;
+  &lt;comment&gt;{comment}&lt;/comment&gt;
+  &lt;replies&gt;
+    &lt;reply from="joe@mail.com" href="/discussion/topics/{topic}/joe"/&gt;
+    &lt;reply from="bob@mail.com" href="/discussion/topics/{topic}/bob"/&gt;
+  &lt;/replies&gt;
+&lt;/discussion&gt;
+</pre></td></tr></tbody></table><br><p>And last, to give client applications the ability to request a specific
+                content type that's best suited for them, construct your service so that
+                it makes use of the built-in HTTP Accept header, where the value of the
+                header is a MIME type. Some common MIME types used by RESTful services
+                are shown in Table 1.</p><br><a name="tab1"><strong>Table 1. Common MIME types used by RESTful services</strong></a><br><table class="ibm-data-table" summary="" border="0" cellpadding="0" cellspacing="0" width="50%"><tbody><tr><th scope="col">MIME-Type</th><th scope="col">Content-Type</th></tr><tr><th class="tb-row" scope="row">JSON</th><td>application/json</td></tr><tr class="alt-row"><th class="tb-row" scope="row">XML</th><td>application/xml</td></tr><tr><th class="tb-row" scope="row">XHTML</th><td>application/xhtml+xml</td></tr></tbody></table><p>This allows the service to be used by a variety of clients written in
+                different languages running on different platforms and devices. Using MIME
+                types and the HTTP Accept header is a mechanism known as <em>content
+                    negotiation</em>, which lets clients choose which 
+data format is right for them and minimizes data coupling between the 
+service and the applications that use it. </p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Back to top</a></p><p><a name="N101BE"><span class="atitle">Conclusion</span></a></p><p>
+ REST is not always the right choice. It has caught on as a way to 
+design
+                Web services with less dependence on proprietary 
+middleware (for example, an
+                application server) than the SOAP- and WSDL-based kind. 
+And in a sense,
+                REST is a return to the Web the way it was before the 
+age of the big
+                application server, through its emphasis on the early 
+Internet standards,
+                URI and HTTP. As you've examined in the so-called 
+principles of RESTful
+                interface design, XML over HTTP is a powerful interface 
+that allows
+                internal applications, such as Asynchronous JavaScript +
+ XML (Ajax)-based custom user interfaces, to
+                easily connect, address, and consume resources. In fact,
+ the great fit between Ajax and REST has increased the amount of 
+attention REST is getting these days.</p><p>Exposing a system's resources through a RESTful API is a flexible way
+                    to provide different kinds of applications with data formatted in a
+                    standard way. It helps to meet integration requirements that are
+                    critical to building systems where data can be easily combined
+                    (mashups) and to extend or build on a set of base, RESTful services
+                    into something much bigger. This article touches on just the basics
+                    here but hopefully in a way that has enticed you to continue exploring the subject. </p><!-- CMA ID: 350297 --> <!-- Site ID: 1 --> <!-- XSLT stylesheet used to transform this file: dw-document-html-6.0.xsl -->
+<br>
+<p><a name="resources"><span class="atitle">Resources</span></a></p><p><strong>Learn</strong></p><ul><li>Read chapter 5 of Roy Fielding's
+                dissertation, 
+                "<a href="http://www.ics.uci.edu/%7Efielding/pubs/dissertation/rest_arch_style.htm">Architectural Styles and
+the Design of Network-based Software Architectures</a>."
+            <br><br></li><li>Get more information about 
+                <a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1</a><br><br></li><li>Read the book 
+                <em><a href="http://www.oreilly.com/catalog/9780596529260/">RESTful Web
+Services</a></em>.
+            <br><br></li><li>The <a href="http://www.ibm.com/developerworks/webservices" onmouseover="linkQueryAppend(this)">SOA and Web services zone</a>
+ on IBM developerWorks hosts hundreds of informative articles and 
+introductory, intermediate, and advanced tutorials on how to develop Web
+ services
+                applications.<br><br></li><li>Play in the <a href="http://www.ibm.com/developerworks/downloads/soasandbox/" onmouseover="linkQueryAppend(this)">IBM SOA Sandbox</a>! Increase your SOA skills through practical, hands-on experience with the IBM SOA entry points.<br><br></li><li>The <a href="http://www.ibm.com/software/solutions/soa/" onmouseover="linkQueryAppend(this)">IBM SOA Web site</a> offers an overview of SOA and how IBM can help you get there.<br><br></li><li>Stay current with <a href="http://www.ibm.com/developerworks/offers/techbriefings" onmouseover="linkQueryAppend(this)">developerWorks technical events and webcasts</a>.
+            <br><br></li><li>Browse for books on these and other technical topics at the
+                <a href="http://safari.bvdep.com/?x=1&amp;portal=bvdep&amp;uicode=&amp;Key=&amp;GUID=D1F1DB57-50AF-4998-99-DA-6D-BB-A5-E0-E4-0B" onmouseover="linkQueryAppend(this)">Safari bookstore</a>.<br><br></li><li>Check out a quick <a href="http://www.ibm.com/developerworks/offers/lp/demos/" onmouseover="linkQueryAppend(this)">Web services on demand demo</a>.<br><br></li></ul><p><strong>Get products and technologies</strong></p><ul><li>Download 
+                <a href="http://www.jcp.org/en/jsr/detail?id=311">JSR 311: JAX-RS: The
+Java API for RESTful Web Services</a>.
+            <br><br></li><li>Get 
+                <a href="https://jersey.dev.java.net/">Jersey (GlassFish)</a>.
+            <br><br></li><li>Download 
+                <a href="http://www.restlet.org/">Restlet</a>, the REST framework for
+                Java.
+            <br><br></li><li>Download
+                <a href="http://www.ibm.com/developerworks/downloads/" onmouseover="linkQueryAppend(this)">IBM product evaluation versions</a>
+                and get your hands on application development tools and middleware
+                products from DB2®, Lotus®, Rational®, Tivoli®,
+                and WebSphere®.<br><br></li></ul><p><strong>Discuss</strong></p><ul><li><a href="http://www.ibm.com/developerworks/forums/dw_wsforums.jsp">Participate in the discussion forum</a>.<br><br></li><li>Get involved in the developerWorks community
+                by participating in <a href="http://www.ibm.com/developerworks/blogs/" onmouseover="linkQueryAppend(this)">developerWorks blogs</a>.
+            <br><br></li></ul>
+<p><a name="author"><span class="atitle">About the author</span></a></p><div class="ibm-container ibm-portrait-module ibm-alternate-two"><div class="ibm-container-body"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/p-arodriguez.jpg" class="dw-author-img" alt="Alex Rodriguez's photo" height="80" width="64"><p><a name="author1"> </a>Alex Rodriguez is a software engineer at IBM focusing on distributed
+                Java technologies and REST Web services. He has been programming Java
+                since JDK 1.1.7B and specializes in designing and developing Java EE-based
+                software.</p></div></div>
+<!-- MAIN_COLUMN_CONTENT_END -->
+
+<!-- OVERLAYS_START -->
+<!-- Report_Abuse_Start -->
+<div class="ibm-common-overlay ibm-no-print" id="reportabuseoverlay">
+   <div class="ibm-head"><p><a class="ibm-common-overlay-close" href="#">Close [x]</a></p></div>
+   <div class="ibm-body">
+      <div class="ibm-main">
+         <a class="ibm-access" name="reportabuseoverlay">Report abuse help</a>   
+         <div class="ibm-title"><h1>Report abuse</h1></div>
+         <div class="ibm-container ibm-alternate">
+            <p><strong>Thank you.</strong>  This entry has been flagged for moderator attention.</p>
+            <div class="ibm-overlay-rule"><hr></div>
+            <div class="ibm-buttons-row">
+               <input onclick="ibmCommon.Overlays.hide('reportabuseoverlay');return false;" class="ibm-btn-cancel-sec dw-btn-cancel-sec" name="ibm-cancel" value="Close" type="button">
+            </div>
+         </div>
+      </div> 
+   </div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Report_Abuse_Error_Start -->
+<div class="ibm-common-overlay ibm-no-print" id="reportabuseoverlayerror">
+   <div class="ibm-head"><p><a class="ibm-common-overlay-close" href="#">Close [x]</a></p></div>
+   <div class="ibm-body">
+      <div class="ibm-main">
+         <a class="ibm-access" name="reportabuseoverlayerror">Report abuse help</a>   
+         <div class="ibm-title"><h1>Report abuse</h1></div>
+         <div class="ibm-container ibm-alternate">
+            <p class="ibm-ind-error"><strong>Report abuse submission failed.  Please try again later.</strong></p>
+            <div class="ibm-overlay-rule"><hr></div>
+            <div class="ibm-buttons-row">
+               <input onclick="ibmCommon.Overlays.hide('reportabuseoverlayerror');return false;" class="ibm-btn-cancel-sec dw-btn-cancel-sec" name="ibm-cancel" value="Close" type="button">
+            </div>
+         </div>
+      </div> 
+   </div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Sign in OVERLAY STARTS HERE --> 
+<div class="ibm-common-overlay" id="signin_overlay">
+<div class="ibm-head">
+<p><a class="ibm-common-overlay-close" href="#" onclick="clearForm();">Close [x]</a></p>
+</div>
+<div class="ibm-body">
+<div class="ibm-main">
+<div class="ibm-title ibm-subtitle">
+<h1>developerWorks: Sign in</h1>
+<div id="ibm-overlay-error-signin" class="no-display"></div>
+</div>
+
+<div class="ibm-container ibm-alternate ibm-buttons-last">
+<div class="ibm-container-body">
+<p class="ibm-overlay-intro">If you don't have an IBM ID and password, <a href="#" onclick="(function () {window.location='/developerworks/dwwi/DWAuthRouter?m=reg&amp;d='+encodeURIComponent(location.href);})();">register here</a>.</p>
+<form class="ibm-column-form" id="sFormId" action="" method="post" name="sForm" onsubmit="return false;">
+<p><label for="ibmid">IBM ID:</label><span><input name="ibm-id" id="ibmid" size="25" class="required" onkeypress="handleEP(event,this.form);" type="text"><br><a class="ibm-forward-link" href="http://www.ibm.com/developerworks/dwwi/jsp/WSHelp.jsp?lang=en_US">Forgot your IBM ID?</a></span>   
+</p> 
+<p><label for="password">Password:</label><span><input name="password" id="password" size="25" value="" class="required" onkeypress="handleEP(event,this.form);" type="password"><br><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=forgot&amp;lang=en_US&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(getAuthUrl())+'%3Fm%3Dloginpage%26lang%3Den_US%26d%3D'+encodeURIComponent(location.href);})();">Forgot your password?</a><br><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=chpw&amp;lang=en_US&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(location.href);})();">Change your password</a></span></p> 
+<p class="no-bottom-padding"> 
+   <label for="AfterSignIn">After sign in:</label> 
+   <span>
+
+      <select name="SignInAction" id="AfterSignIn">
+          <option selected="selected" value="">Stay on the current page</option>
+          <option value="/developerworks/mydeveloperworks/profiles/html/myProfileView.do">My developerWorks profile</option>
+          <option value="/developerworks/mydeveloperworks/homepage/">My developerWorks home</option>
+      </select>
+   </span>
+</p>
+<p class="dw-perm-box">
+	<span><input id="perm" name="perm_name" type="checkbox"><label for="perm"> Keep me signed in.</label></span>
+</p>
+<div class="ibm-overlay-rule"><hr></div>
+<p>By clicking <strong>Submit</strong>, you agree to the <a href="https://www.ibm.com/developerworks/community/terms/">developerWorks terms of use</a>.</p>
+<div class="ibm-buttons-row">
+   <p><input class="ibm-btn-arrow-pri" name="ibm-submit" value="Submit" onclick="signin();return false;" type="submit"><span class="ibm-sep">&nbsp;</span>
+<input value="Cancel" name="ibm-cancel" class="ibm-btn-cancel-sec" onclick="clearForm();ibmCommon.Overlays.hide('signin_overlay');return false;" type="button"></p>
+</div>
+</form>
+<div class="ibm-overlay-rule"><hr></div>
+<p>The first time you sign into developerWorks, a <strong>profile</strong> is created for you.  <strong>Select information in your developerWorks profile is displayed to the public, but you may edit the information at any time</strong>. Your first name, last name (unless you choose to hide them), and display name will accompany the content that you post.</p>
+<div class="dw-overlay-legal"><p>All information submitted is secure.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Sign in OVERLAY ENDS HERE --> 
+ 
+
+<!-- Display name OVERLAY STARTS HERE --> 
+<div class="ibm-common-overlay" id="displayname_overlay">
+<div class="ibm-head">
+<p><a class="ibm-common-overlay-close" href="#" onclick="clearForm();">Close [x]</a></p>
+</div>
+<div class="ibm-body">
+<div class="ibm-main">
+<div class="ibm-title ibm-subtitle">
+<h1>Choose your display name</h1>
+<div id="ibm-overlay-error-dname" class="no-display"></div>
+</div>
+<div class="ibm-container ibm-alternate ibm-buttons-last">
+<div class="ibm-container-body">
+<p class="ibm-overlay-intro">The first time you sign in to 
+developerWorks, a profile is created for you, so you need to choose a 
+display name.  Your display name accompanies the content you post on 
+developerWorks.</p>
+<p><strong>Please choose a display name between 3-31 characters</strong>. Your display name must be unique in the developerWorks community and should not be your email address for privacy reasons.</p>
+<form id="dFormId" method="post" action="" name="dForm" onsubmit="return false;" class="ibm-column-form">
+<p><label for="displayname">Display name:</label><span><input name="displayname" id="displayname" size="25" onkeypress="handleEP(event,this.form);" type="text"></span><span class="ibm-form-note">(Must be between 3 – 31 characters.)</span>
+</p>
+
+<div class="ibm-overlay-rule"><hr>
+</div>
+<p>By clicking <strong>Submit</strong>, you agree to the <a href="https://www.ibm.com/developerworks/community/terms/">developerWorks terms of use</a>.</p>
+<div class="ibm-buttons-row">
+   <p><input class="ibm-btn-arrow-pri" name="ibm-submit" value="Submit" onclick="signin();return false;" type="submit"><span class="ibm-sep">&nbsp;</span>
+<input value="Cancel" name="ibm-cancel" class="ibm-btn-cancel-sec" onclick="clearForm();ibmCommon.Overlays.hide('displayname_overlay');return false;" type="button"></p>
+</div>
+</form>
+<div class="ibm-overlay-rule"><hr></div>
+<div class="dw-overlay-legal"><p>All information submitted is secure.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Display name OVERLAY ENDS HERE -->
+<!-- OVERLAYS_END -->
+
+<!-- RATINGS START -->
+<p class="ibm-no-print"><span class="atitle"><a name="iratings">Rate this article</a></span></p>
+<input id="art-rating" name="ratinga" value="4" type="hidden"><div id="art-rating-module"><p id="submitErr" class="ibm-ind-error" style="display: none;"><strong>Error: Submission failed. Please try again.</strong></p><p><span id="ratingSectUI"><img alt="Average rating 4 stars based on 533 votes" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-4gw.jpg" class="dw-avg-rating"> Average rating (533 votes)</span></p><div class="ibm-container" id="ratingForm"><div class="ibm-container-body dw-container-ratings"><form class="dw-ratings-form" onsubmit="artRating.submitRating(); return false;"><input name="ratingstars" id="rat-1" value="1" type="radio"><label class="rating-label" id="star1" for="rat-1">1 star</label><img id="rat-1-img" alt="1 star" title="1 star" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-1w.jpg" class="rating-image"><span class="dw-rating-text">1 star</span><br><input name="ratingstars" id="rat-2" value="2" type="radio"><label class="rating-label" id="star2" for="rat-2">2 stars</label><img id="rat-2-img" alt="2 stars" title="2 stars" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-2w.jpg" class="rating-image2"><span class="dw-rating-text">2 stars</span><br><input name="ratingstars" id="rat-3" value="3" type="radio"><label class="rating-label" id="star3" for="rat-3">3 stars</label><img id="rat-3-img" alt="3 stars" title="3 stars" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-3w.jpg" class="rating-image2"><span class="dw-rating-text">3 stars</span><br><input name="ratingstars" id="rat-4" value="4" type="radio"><label class="rating-label" id="star4" for="rat-4">4 stars</label><img id="rat-4-img" alt="4 stars" title="4 stars" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-4w.jpg" class="rating-image2"><span class="dw-rating-text">4 stars</span><br><input name="ratingstars" id="rat-5" value="5" type="radio"><label class="rating-label" id="star5" for="rat-5">5 stars</label><img id="rat-5-img" alt="5 stars" title="5 stars" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stars120x20-5w.jpg" class="rating-image2"><span class="dw-rating-text">5 stars</span><div class="ibm-buttons-row"><p class="ibm-first"><input value="Submit" name="ibm-submit" class="ibm-btn-arrow-pri dw-ratings-submit" type="submit"></p></div></form></div></div></div>
+<script language="JavaScript" type="text/javascript">
+// <![CDATA[
+   // widget div id and article id as args
+   window.artRating.init('art-rating-module','art-rating-summary');
+// ]]>
+</script>
+<!-- RATINGS END -->
+
+<!-- INLINE_COMMENTS_START -->
+<p class="ibm-no-print"><span class="atitle"><a name="icomments">Comments</a></span></p>
+<div id="threadShow"><div id="cmtTog" style=""><div class="ibm-container ibm-alternate-two dw-commentbox dw-noborder"><p id="cmtHead"><label for="newCmt"><strong>Add comment:</strong></label></p><div class="ibm-container-body dw-commentbox dw-noborder"><p id="signInSect"> <a onclick="showSignIn();return false;" href="#">Sign in</a> or <a href="http://www.ibm.com/developerworks/dwwi/DWAuthRouter?m=register&amp;lang=en&amp;d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F%23icomments">register</a>  to leave a comment.</p><p>Note: HTML elements are not supported within comments.</p><span id="infoCmt"></span><form focus="name" enctype="multipart/form-data" method="post" action="" name="form" class="ibm-column-form"><p><textarea disabled="disabled" cols="120" rows="5" name="newCmt" id="newCmt" class="dw-inoperable"></textarea><br></p><div id="notifiedSect"><label for="comment_notification"><span><input name="comment_notification" id="comment_notification" value="1" disabled="disabled" type="checkbox"><span id="notifyText" class="ibm-form-note">Notify me when a comment is added</span></span></label><span id="maxCharsCount" class="ibm-form-note"><span id="charCount">1000</span> characters left</span></div><br><br><p></p><p class="ibm-buttons-row"><input disabled="disabled" value="Post" jquery1275054459750="11" name="postCmt" id="postCmt" class="ibm-btn-arrow-sec dw-btn-arrow-sec" alt="Post your comment" type="button"><br><br></p></form></div></div><div id="topControl" class="ibm-container ibm-alternate-two dw-comment-totals" style=""><div class="ibm-container-body"><form id="selectComments" method="get" action=""><p><span class="dw-comment-totals-label"><strong>Total comments (<span id="numCmts">12</span>)</strong></span><span><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/c_002.gif" alt="" height="10" width="100"></span><span class="dw-how-many-comments-label" style="" id="dropdownCmts"><label for="howManyComments">Show:</label>&nbsp;<select name="comments" id="howManyComments" class="dw-how-many-comments"><option selected="selected" value="recent">Most recent comments   </option><option value="all">All comments</option></select><input class="ibm-btn-go" name="ibm-go" value="Go" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/short-btn.gif" alt="Go" type="image"><br></span></p></form></div></div><div id="cmtSect"><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>No mention of the REST in Practice book, that's disappointing.</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posted by <strong>caleywoods</strong> on 18 August 2011</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="https://www.ibm.com/developerworks/community/report?lang=en&amp;referingURL=http://www.ibm.com/developerworks/webservices/library/ws-restful/&amp;mymessage=Comment:%20No%20mention%20of%20the%20REST%20in%20Practice%20book%2C%20that%27s%20disappointing.%0DPosted%20by%20caleywoods%20on%2018%20August%202011%0D%0D---%20Add%20any%20comments%20below%20this%20line%20---" target="_newtab">Report abuse</a></p><div class="dw-clear-both"></div></div></div></div></div><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>Thank
+ you very much, this article helped me very much to understand the 
+topic. I've got a recommendation for this article, because I wanted to 
+learn how to join an online app with a desktop app. Now I understand the
+ technology behind it. Greetz!</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posted by <strong><a href="http://www.ibm.com/developerworks/forums/profile.jspa?userID=397833">MonikaTelefonanlagen</a></strong> on 27 April 2011</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="https://www.ibm.com/developerworks/community/report?lang=en&amp;referingURL=http://www.ibm.com/developerworks/webservices/library/ws-restful/&amp;mymessage=Comment:%20Thank%20you%20very%20much%2C%20this%20article%20helped%20me%20very%20much%20to%20understand%20the%20topic.%20I%27ve%20got%20a%20recommendation%20for%20this%20article%2C%20because%20I%20wanted%20to%20learn%20how%20to%20join%20an%20online%20app%20with%20a%20desktop%20app.%20Now%20I%20understand%20the%20technology%20behind%20it.%20Greetz%21%0DPosted%20by%20MonikaTelefonanlagen%20on%2027%20April%202011%0D%0D---%20Add%20any%20comments%20below%20this%20line%20---" target="_newtab">Report abuse</a></p><div class="dw-clear-both"></div></div></div></div></div><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>Nice</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posted by <strong><a href="http://www.ibm.com/developerworks/forums/profile.jspa?userID=227176">jambo-ray</a></strong> on 18 January 2011</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="https://www.ibm.com/developerworks/community/report?lang=en&amp;referingURL=http://www.ibm.com/developerworks/webservices/library/ws-restful/&amp;mymessage=Comment:%20Nice%0DPosted%20by%20jambo-ray%20on%2018%20January%202011%0D%0D---%20Add%20any%20comments%20below%20this%20line%20---" target="_newtab">Report abuse</a></p><div class="dw-clear-both"></div></div></div></div></div><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>Very nicely explained. Thanks!</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posted by <strong><a href="http://www.ibm.com/developerworks/forums/profile.jspa?userID=347493">NirmalyaB</a></strong> on 17 December 2010</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="https://www.ibm.com/developerworks/community/report?lang=en&amp;referingURL=http://www.ibm.com/developerworks/webservices/library/ws-restful/&amp;mymessage=Comment:%20Very%20nicely%20explained.%20Thanks%21%0DPosted%20by%20NirmalyaB%20on%2017%20December%202010%0D%0D---%20Add%20any%20comments%20below%20this%20line%20---" target="_newtab">Report abuse</a></p><div class="dw-clear-both"></div></div></div></div></div><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>Hi Alex, thank you for this article.<br><br>I
+ was wandering if there is something about REST connectivity with J2ME??
+ as I think it is a need now to put all these things together.</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posted by <strong><a href="http://www.ibm.com/developerworks/forums/profile.jspa?userID=289610">GhaithAlrabadi</a></strong> on 29 October 2010</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="https://www.ibm.com/developerworks/community/report?lang=en&amp;referingURL=http://www.ibm.com/developerworks/webservices/library/ws-restful/&amp;mymessage=Comment:%20Hi%20Alex%2C%20thank%20you%20for%20this%20article.I%20was%20wandering%20if%20there%20is%20something%20about%20REST%20connectivity%20with%20J2ME%3F%3F%20as%20I%20think%20it%20is%20a%20need%20now%20to%20put%20all%20these%20things%20together.%0DPosted%20by%20GhaithAlrabadi%20on%2029%20October%202010%0D%0D---%20Add%20any%20comments%20below%20this%20line%20---" target="_newtab">Report abuse</a></p><div class="dw-clear-both"></div></div></div></div></div></div></div><div id="bottomControl" class="ibm-container ibm-alternate-two dw-comment-totals" style="display:none"><div class="ibm-container-body"><form id="selectComments2" method="get" action=""><p><span class="dw-comment-totals-label"><strong>Total comments (<span id="numCmts2">12</span>)</strong></span><span><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/c_002.gif" alt="" height="10" width="100"></span><span class="dw-how-many-comments-label" style="" id="dropdownCmts2"><label for="howManyComments2">Show:</label>&nbsp;<select name="comments" id="howManyComments2" class="dw-how-many-comments"><option selected="selected" value="recent">Most recent comments   </option><option value="all">All comments</option></select><input class="ibm-btn-go" name="ibm-go" value="Go" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/short-btn.gif" alt="Go" type="image"><br></span></p></form></div></div></div>
+<!-- INLINE_COMMENTS_END -->
+
+<p class="ibm-ind-link ibm-back-to-top"><a class="ibm-anchor-up-link" href="#ibm-pcon">Back to top</a></p>
+
+<!-- Overlays -->
+<!-- Zone/Leaf_Interest_Overlay_Start -->
+<div class="ibm-common-overlay ibm-no-print" id="dwmyinterestadd">
+<div class="ibm-head"><p><a class="ibm-common-overlay-close" href="#close">Close [x]</a></p></div>
+<div class="ibm-body">
+<div class="ibm-main">
+<a class="ibm-access" name="dwmyinterestaddhelp">Help: Update or add to My dW interests</a>   
+<div class="ibm-title"><h1>What's this?</h1></div>
+<div class="ibm-container ibm-alternate">
+<p>This little timesaver lets you update your My developerWorks profile 
+with just one click!  The general subject of this content (AIX and UNIX,
+ Information Management, Lotus, Rational, Tivoli, WebSphere, Java, 
+Linux, Open source, SOA and Web services, Web development, or XML) will 
+be added to the interests section of your profile, if it's not there 
+already.  You only need to be logged in to My developerWorks.</p>
+<p>And what's the point of adding your interests to your profile?  
+That's how you find other users with the same interests as yours, and 
+see what they're reading and contributing to the community.  Your 
+interests also help us recommend relevant developerWorks content to you.</p>
+<p><a href="https://www.ibm.com/developerworks/mydeveloperworks/profiles/home.do?lang=en">View your My developerWorks profile</a></p>
+<p class="ibm-access"><a href="#interestShow">Return from help</a></p>
+</div> 
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+
+<div class="ibm-common-overlay ibm-no-print" id="dwmyinterestremove">
+<div class="ibm-head"><p><a class="ibm-common-overlay-close" href="#close">Close [x]</a></p></div>
+<div class="ibm-body">
+<div class="ibm-main">
+<a class="ibm-access" name="dwmyinterestremovehelp">Help: Remove from My dW interests</a> 
+<div class="ibm-title"><h1>What's this?</h1></div>
+<div class="ibm-container ibm-alternate">
+<p>Removing this interest does not alter your profile, but rather 
+removes this piece of content from a list of all content for which 
+you've indicated interest.  In a future enhancement to My 
+developerWorks, you'll be able to see a record of that content.</p>
+<p><a href="https://www.ibm.com/developerworks/mydeveloperworks/profiles/home.do?lang=en">View your My developerWorks profile</a></p>
+<p class="ibm-access"><a href="#interestShow">Return from help</a></p>
+</div> 
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Zone/Leaf_Interest_Overlay_End --></div>
+<!-- MAIN_COLUMN_CONTAINER_END -->
+
+<!-- Rating_Meta_BEGIN -->
+<!--Rating_Meta_BEGIN--><div class="metavalue">static.content.url=http://www.ibm.com/developerworks/js/artrating/</div><div class="metavalue">SITE_ID=1</div><div class="metavalue">Zone=SOA and web services</div><div class="metavalue">ArticleID=350297</div><div class="metavalue">ArticleTitle=RESTful Web services: The basics</div><div class="metavalue">publish-date=11062008</div><div class="metavalue">author1-email=arodrigu@us.ibm.com</div><div class="metavalue">author1-email-cc=</div><script language="javascript" type="text/javascript">document.write('<div class="metavalue">url='+location.href.replace(/</g,  '%3C')+'</div>');</script><div class="metavalue">url=http://www.ibm.com/developerworks/webservices/library/ws-restful/</div><!--Rating_Meta_END-->
+<!-- Rating_Meta_END -->
+
+</div>
+<!-- MAIN_COLUMN_END-->
+
+<!-- RIGHT_COLUMN_BEGIN -->
+<div id="ibm-content-sidebar">
+
+<!-- RIGHT_COLUMN_CONTENT_BEGIN --> 
+<div class="ibm-container"><h2>Table of contents</h2><div class="ibm-container-body"><img alt="" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/c.gif" height="1" width="1"><ul class="ibm-bullet-list"><li><a class="ibm-feature-link" href="#N10050">The basics</a></li><li><a class="ibm-feature-link" href="#N1006D">Use HTTP methods
+                explicitly</a></li><li><a class="ibm-feature-link" href="#N100EF">Be stateless</a></li><li><a class="ibm-feature-link" href="#N1013C">Expose directory
+                structure-like URIs</a></li><li><a class="ibm-feature-link" href="#N10179">Transfer XML,
+                JSON, or both</a></li><li><a class="ibm-feature-link" href="#N101BE">Conclusion</a></li><li><a class="ibm-feature-link" href="#resources">Resources</a></li><li><a class="ibm-feature-link" href="#author">About the author</a></li><li><a class="ibm-feature-link" href="#icomments">Comments</a></li></ul></div></div>
+<!--XSLT stylesheet used to transform this content: s-nextsteps.xsl--><div class="ibm-container"><h2>Next steps from IBM</h2><div class="ibm-container-body"><img alt="" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/spot-nextsteps.jpg" border="0" height="58" width="188"><p>Rational Tester for SOA Quality is an automated web services testing and SOA testing tool that
+   supports Web services SOAP, HTTP(S), JMS, WS-Security, UDDI, and RESTful standards.</p><div class="ibm-rule"><hr></div><ul class="ibm-bullet-list"><li><a href="http://www.ibm.com/developerworks/downloads/r/tsq/index.html" class="ibm-feature-link">Try: The no-charge Rational Service Tester for SOA Quality helps quality assurance professionals validate web
+    service based SOA application..</a></li><li><a href="http://www.ibm.com/developerworks/rational/library/08/1028_bryson2/?open" class="ibm-feature-link">Article: See the whats new with Rational Service Tester for SOA Quality, and its Generic Service Client, which
+      provides a single client to interact with any SOA service type.</a></li><li><a href="http://www.ibm.com/developerworks/edu/r-dw-rt-tsqws.html" class="ibm-feature-link">Tutorial: Get hands-on experience with this Transport for SOAP feature tutorial using Rational Tester for SOA
+      Quality.</a></li><li><a href="http://www.ibm.com/software/dre/h2b/buildh2bpage.wss?synkey=M444763D19437G49" class="ibm-feature-link">Buy: Rational Service Tester for SOA Quality</a></li></ul></div></div>
+<!-- Tagging_Start -->
+<div id="dw-tag-cloud-container" class="ibm-container"><h2>Tags</h2>
+<div id="dw-tag-help"><a class="dwauthor" rel="#tagtip" id="dwtagtip"><img alt="Help" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/help_icon.gif" align="top" height="16" width="16"></a></div>
+<div style="display: none;" id="tagtip" class="dwauthor-onload-state ibm-no-print">Use the <strong>search field</strong> to find all types of content in My developerWorks with that tag.<p>Use the <strong>slider bar</strong> to see more or fewer tags.</p><p>For articles in technology zones (such as Java technology, Linux, Open source, XML), <strong>Popular tags</strong> shows the top tags 
+for <em>all technology zones</em>.  For articles in product zones (such as Info Mgmt, Rational, WebSphere), <strong>Popular tags</strong> shows the top tags for <em>just that product zone</em>.</p><p>For articles in technology zones (such as Java technology, Linux, Open source, XML), <strong>My tags</strong> shows your tags for <em>all technology zones</em>.  For articles in product zones (such as Info Mgmt, Rational, WebSphere), <strong>My tags</strong> shows your tags for <em>just that product zone</em>.</p></div>
+<div class="ibm-access">Use the search field to find all types of content in My developerWorks with that tag.  <em>Popular tags</em> shows the top tags for this particular content zone (for example, Java technology, Linux, WebSphere).  <em>My tags</em> shows your tags for this particular content zone (for example, Java technology, Linux, WebSphere).</div>
+<div class="ibm-container-body">
+<div class="dw-tag-search"><form action="//www.ibm.com/developerworks/mydeveloperworks/bookmarks/html?lang=en" method="get" id="actualtagform" onsubmit="popupform(this, 'join')">
+<p><label for="tagfield"><strong>Search all tags</strong></label><input id="tagfield" name="tag" maxlength="20" size="17" type="text">&nbsp;<input src="RESTful%20Web%20services%20-%20The%20basics-Dateien/short-btn.gif" class="ibm-btn-view" alt="submit search" title="submit search" value="Search" type="image"></p></form></div>
+<div class="ibm-rule"><hr></div>
+<div id="dw-tag-select">
+<div id="dw-tag-select-popular"><p><strong>Popular article tags</strong>&nbsp;|&nbsp;<br><a id="a-my" href="javascript:;">My article tags</a><a href="#dw-tag-access" class="ibm-access">Skip to tags list</a></p></div>
+<div id="dw-tag-select-my" class="dw-hidetag"><p><a id="a-popular" href="javascript:;">Popular article tags</a>&nbsp;|&nbsp;<br><strong>My article tags</strong></p><a href="#dw-tag-access" class="ibm-access">Skip to tags list</a></div><div id="dw-tag-access" class="ibm-access"><h2>Popular tags</h2><ul>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f1-74">
+					
+					<a title="ajax 230" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=ajax&amp;lang=en')">
+					
+						
+						
+							ajax	
+						
+					
+					<span class="ibm-access">(230)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f2-13">
+					
+					<a title="and 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=and&amp;lang=en')">
+					
+						
+						
+							and	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f3-30">
+					
+					<a title="android 75" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=android&amp;lang=en')">
+					
+						
+						
+							android	
+						
+					
+					<span class="ibm-access">(75)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f4-15">
+					
+					<a title="apache 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=apache&amp;lang=en')">
+					
+						
+						
+							apache	
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f5-36">
+					
+					<a title="application_and_information_integration 87" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_and_information_integration&amp;lang=en')">
+					
+						
+							application_a...	
+						
+						
+					
+					<span class="ibm-access">(87)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f6-100">
+					
+					<a title="application_development 444" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_development&amp;lang=en')">
+					
+						
+							application_...	
+						
+						
+					
+					<span class="ibm-access">(444)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f7-80">
+					
+					<a title="architecture 265" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture&amp;lang=en')">
+					
+						
+						
+							architecture	
+						
+					
+					<span class="ibm-access">(265)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f8-10">
+					
+					<a title="architecture_-_application 45" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture_-_application&amp;lang=en')">
+					
+						
+							architecture_-...	
+						
+						
+					
+					<span class="ibm-access">(45)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f9-7">
+					
+					<a title="atom 41" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=atom&amp;lang=en')">
+					
+						
+						
+							atom	
+						
+					
+					<span class="ibm-access">(41)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f10-5">
+					
+					<a title="business_process_management 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_process_management&amp;lang=en')">
+					
+						
+							business_proce...	
+						
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f11-14">
+					
+					<a title="business_processes 50" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_processes&amp;lang=en')">
+					
+						
+							business_proce...	
+						
+						
+					
+					<span class="ibm-access">(50)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f12-49">
+					
+					<a title="cloud 120" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=cloud&amp;lang=en')">
+					
+						
+						
+							cloud	
+						
+					
+					<span class="ibm-access">(120)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f13-36">
+					
+					<a title="cloud_computing 87" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=cloud_computing&amp;lang=en')">
+					
+						
+							cloud_computi...	
+						
+						
+					
+					<span class="ibm-access">(87)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f14-15">
+					
+					<a title="components 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=components&amp;lang=en')">
+					
+						
+						
+							components	
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f15-19">
+					
+					<a title="configuration_and_administration 56" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=configuration_and_administration&amp;lang=en')">
+					
+						
+							configuration_...	
+						
+						
+					
+					<span class="ibm-access">(56)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f16-3">
+					
+					<a title="css_(cascading_style_sheets) 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=css_%2528cascading_style_sheets%2529&amp;lang=en')">
+					
+						
+							css_(cascading...	
+						
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f17-50">
+					
+					<a title="databases_and_data_management 125" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=databases_and_data_management&amp;lang=en')">
+					
+						
+							databases_and...	
+						
+						
+					
+					<span class="ibm-access">(125)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f18-2">
+					
+					<a title="db2 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=db2&amp;lang=en')">
+					
+						
+						
+							db2	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f19-8">
+					
+					<a title="design 43" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=design&amp;lang=en')">
+					
+						
+						
+							design	
+						
+					
+					<span class="ibm-access">(43)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f20-1">
+					
+					<a title="development 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=development&amp;lang=en')">
+					
+						
+						
+							development	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f21-13">
+					
+					<a title="dojo 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=dojo&amp;lang=en')">
+					
+						
+						
+							dojo	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f22-14">
+					
+					<a title="dom_(document_object_model) 49" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=dom_%2528document_object_model%2529&amp;lang=en')">
+					
+						
+							dom_(document_...	
+						
+						
+					
+					<span class="ibm-access">(49)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f23-49">
+					
+					<a title="eclipse 122" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=eclipse&amp;lang=en')">
+					
+						
+						
+							eclipse	
+						
+					
+					<span class="ibm-access">(122)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f24-5">
+					
+					<a title="editing 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=editing&amp;lang=en')">
+					
+						
+						
+							editing	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f25-3">
+					
+					<a title="formatting 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=formatting&amp;lang=en')">
+					
+						
+						
+							formatting	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f26-13">
+					
+					<a title="frameworks 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=frameworks&amp;lang=en')">
+					
+						
+						
+							frameworks	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f27-45">
+					
+					<a title="general_programming 109" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=general_programming&amp;lang=en')">
+					
+						
+							general_progr...	
+						
+						
+					
+					<span class="ibm-access">(109)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f28-38">
+					
+					<a title="html 92" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=html&amp;lang=en')">
+					
+						
+						
+							html	
+						
+					
+					<span class="ibm-access">(92)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f29-28">
+					
+					<a title="html5 70" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=html5&amp;lang=en')">
+					
+						
+						
+							html5	
+						
+					
+					<span class="ibm-access">(70)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f30-17">
+					
+					<a title="integration 53" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=integration&amp;lang=en')">
+					
+						
+						
+							integration	
+						
+					
+					<span class="ibm-access">(53)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f31-14">
+					
+					<a title="interoperability 49" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=interoperability&amp;lang=en')">
+					
+						
+							interoperabili...	
+						
+						
+					
+					<span class="ibm-access">(49)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f32-89">
+					
+					<a title="java 336" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=java&amp;lang=en')">
+					
+						
+						
+							java	
+						
+					
+					<span class="ibm-access">(336)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f33-69">
+					
+					<a title="java_technology 201" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=java_technology&amp;lang=en')">
+					
+						
+							java_technol...	
+						
+						
+					
+					<span class="ibm-access">(201)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f34-61">
+					
+					<a title="javascript 163" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=javascript&amp;lang=en')">
+					
+						
+						
+							javascript	
+						
+					
+					<span class="ibm-access">(163)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f35-18">
+					
+					<a title="jquery 55" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=jquery&amp;lang=en')">
+					
+						
+						
+							jquery	
+						
+					
+					<span class="ibm-access">(55)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f36-1">
+					
+					<a title="jsf 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=jsf&amp;lang=en')">
+					
+						
+						
+							jsf	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f37-3">
+					
+					<a title="json 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=json&amp;lang=en')">
+					
+						
+						
+							json	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f38-6">
+					
+					<a title="json_(javascript_object_notation) 40" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=json_%2528javascript_object_notation%2529&amp;lang=en')">
+					
+						
+							json_(javascri...	
+						
+						
+					
+					<span class="ibm-access">(40)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f39-86">
+					
+					<a title="linux 312" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=linux&amp;lang=en')">
+					
+						
+						
+							linux	
+						
+					
+					<span class="ibm-access">(312)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f40-8">
+					
+					<a title="mashups 42" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mashups&amp;lang=en')">
+					
+						
+						
+							mashups	
+						
+					
+					<span class="ibm-access">(42)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f41-27">
+					
+					<a title="messaging 69" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=messaging&amp;lang=en')">
+					
+						
+						
+							messaging	
+						
+					
+					<span class="ibm-access">(69)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f42-4">
+					
+					<a title="mobile 38" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobile&amp;lang=en')">
+					
+						
+						
+							mobile	
+						
+					
+					<span class="ibm-access">(38)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f43-2">
+					
+					<a title="mobile_and_embedded_systems 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobile_and_embedded_systems&amp;lang=en')">
+					
+						
+							mobile_and_emb...	
+						
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f44-1">
+					
+					<a title="mobility 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobility&amp;lang=en')">
+					
+						
+						
+							mobility	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f45-3">
+					
+					<a title="multimedia 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=multimedia&amp;lang=en')">
+					
+						
+						
+							multimedia	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f46-5">
+					
+					<a title="namespaces 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=namespaces&amp;lang=en')">
+					
+						
+						
+							namespaces	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f47-80">
+					
+					<a title="open_source 267" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=open_source&amp;lang=en')">
+					
+						
+						
+							open_source	
+						
+					
+					<span class="ibm-access">(267)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f48-11">
+					
+					<a title="parsing 46" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=parsing&amp;lang=en')">
+					
+						
+						
+							parsing	
+						
+					
+					<span class="ibm-access">(46)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f49-5">
+					
+					<a title="patterns 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=patterns&amp;lang=en')">
+					
+						
+						
+							patterns	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f50-33">
+					
+					<a title="performance 81" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=performance&amp;lang=en')">
+					
+						
+						
+							performance	
+						
+					
+					<span class="ibm-access">(81)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f51-2">
+					
+					<a title="perl 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=perl&amp;lang=en')">
+					
+						
+						
+							perl	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f52-52">
+					
+					<a title="php 131" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=php&amp;lang=en')">
+					
+						
+						
+							php	
+						
+					
+					<span class="ibm-access">(131)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f53-47">
+					
+					<a title="php_(hypertext_preprocessor) 114" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=php_%2528hypertext_preprocessor%2529&amp;lang=en')">
+					
+						
+							php_(hypertex...	
+						
+						
+					
+					<span class="ibm-access">(114)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f54-6">
+					
+					<a title="programming 40" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=programming&amp;lang=en')">
+					
+						
+						
+							programming	
+						
+					
+					<span class="ibm-access">(40)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f55-35">
+					
+					<a title="python 85" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=python&amp;lang=en')">
+					
+						
+						
+							python	
+						
+					
+					<span class="ibm-access">(85)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f56-26">
+					
+					<a title="rest 67" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rest&amp;lang=en')">
+					
+						
+						
+							rest	
+						
+					
+					<span class="ibm-access">(67)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f57-2">
+					
+					<a title="ruby 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=ruby&amp;lang=en')">
+					
+						
+						
+							ruby	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f58-29">
+					
+					<a title="schemas 73" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=schemas&amp;lang=en')">
+					
+						
+						
+							schemas	
+						
+					
+					<span class="ibm-access">(73)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f59-33">
+					
+					<a title="security 81" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=security&amp;lang=en')">
+					
+						
+						
+							security	
+						
+					
+					<span class="ibm-access">(81)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f60-17">
+					
+					<a title="services 54" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=services&amp;lang=en')">
+					
+						
+						
+							services	
+						
+					
+					<span class="ibm-access">(54)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f61-49">
+					
+					<a title="soa 120" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soa&amp;lang=en')">
+					
+						
+						
+							soa	
+						
+					
+					<span class="ibm-access">(120)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f62-58">
+					
+					<a title="soa_(service-oriented_architecture) 152" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soa_%2528service-oriented_architecture%2529&amp;lang=en')">
+					
+						
+							soa_(service-...	
+						
+						
+					
+					<span class="ibm-access">(152)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f63-39">
+					
+					<a title="soap_(simple_object_access_protocol) 93" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soap_%2528simple_object_access_protocol%2529&amp;lang=en')">
+					
+						
+							soap_(simple_...	
+						
+						
+					
+					<span class="ibm-access">(93)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f64-12">
+					
+					<a title="spring 47" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=spring&amp;lang=en')">
+					
+						
+						
+							spring	
+						
+					
+					<span class="ibm-access">(47)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f65-41">
+					
+					<a title="standards 99" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards&amp;lang=en')">
+					
+						
+						
+							standards	
+						
+					
+					<span class="ibm-access">(99)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f66-21">
+					
+					<a title="standards_and_specifications 59" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards_and_specifications&amp;lang=en')">
+					
+						
+							standards_and...	
+						
+						
+					
+					<span class="ibm-access">(59)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f67-19">
+					
+					<a title="tips 56" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=tips&amp;lang=en')">
+					
+						
+						
+							tips	
+						
+					
+					<span class="ibm-access">(56)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f68-52">
+					
+					<a title="web 129" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web&amp;lang=en')">
+					
+						
+						
+							web	
+						
+					
+					<span class="ibm-access">(129)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f69-54">
+					
+					<a title="web_2.0 137" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_2.0&amp;lang=en')">
+					
+						
+						
+							web_2.0	
+						
+					
+					<span class="ibm-access">(137)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f70-25">
+					
+					<a title="web_authoring 65" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_authoring&amp;lang=en')">
+					
+						
+						
+							web_authoring	
+						
+					
+					<span class="ibm-access">(65)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f71-21">
+					
+					<a title="web_development 59" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_development&amp;lang=en')">
+					
+						
+							web_developme...	
+						
+						
+					
+					<span class="ibm-access">(59)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f72-82">
+					
+					<a title="web_services 279" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_services&amp;lang=en')">
+					
+						
+						
+							web_services	
+						
+					
+					<span class="ibm-access">(279)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f73-19">
+					
+					<a title="websphere 57" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=websphere&amp;lang=en')">
+					
+						
+						
+							websphere	
+						
+					
+					<span class="ibm-access">(57)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f74-9">
+					
+					<a title="wsdl_(web_services_description_language) 44" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=wsdl_%2528web_services_description_language%2529&amp;lang=en')">
+					
+						
+							wsdl_(web_serv...	
+						
+						
+					
+					<span class="ibm-access">(44)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f75-15">
+					
+					<a title="xhtml_(extensible_html) 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xhtml_%2528extensible_html%2529&amp;lang=en')">
+					
+						
+							xhtml_(extensi...	
+						
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f76-98">
+					
+					<a title="xml 421" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xml&amp;lang=en')">
+					
+						
+						
+							xml	
+						
+					
+					<span class="ibm-access">(421)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f77-17">
+					
+					<a title="xpath_(xml_path_language) 54" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xpath_%2528xml_path_language%2529&amp;lang=en')">
+					
+						
+							xpath_(xml_pat...	
+						
+						
+					
+					<span class="ibm-access">(54)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f78-13">
+					
+					<a title="xquery_(xml_query_language) 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xquery_%2528xml_query_language%2529&amp;lang=en')">
+					
+						
+							xquery_(xml_qu...	
+						
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f79-11">
+					
+					<a title="xslt 46" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xslt&amp;lang=en')">
+					
+						
+						
+							xslt	
+						
+					
+					<span class="ibm-access">(46)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f80-19">
+					
+					<a title="xslt_(xsl_transformations) 57" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xslt_%2528xsl_transformations%2529&amp;lang=en')">
+					
+						
+							xslt_(xsl_tran...	
+						
+						
+					
+					<span class="ibm-access">(57)</span>					
+					</a>&nbsp;
+				</li>
+					
+			</ul><p>End of Popular tags</p><h2>My tags</h2><div id="dw-tag-access-my" class="ibm-access"><center>To access My Tags, please <a href="http://www.ibm.com/developerworks/dwwi/DWAuthRouter?m=auth&amp;lang=en&amp;d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F">sign in</a><p>Read Popular tags</p></center><br></div><p>End of My tags</p></div>
+<div id="dw-tag-cloud">
+	<div id="dogearTagCloud">
+		<div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="content-slider"><a style="left: 0%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div>
+		
+			
+						
+						
+						
+						
+						
+									
+			
+				<div id="ui-slider-scale"><p><span class="content-slider-more">More</span><span class="content-slider-less">Less</span></p></div>
+			
+		
+	    <div id="cloud-container">
+			<ul>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f1-74">
+					
+					<a title="ajax 230" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=ajax&amp;lang=en')">
+					
+						
+						
+							ajax	
+						
+					
+					<span class="ibm-access">(230)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f2-13">
+					
+					<a title="and 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=and&amp;lang=en')">
+					
+						
+						
+							and	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f3-30">
+					
+					<a title="android 75" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=android&amp;lang=en')">
+					
+						
+						
+							android	
+						
+					
+					<span class="ibm-access">(75)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f4-15">
+					
+					<a title="apache 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=apache&amp;lang=en')">
+					
+						
+						
+							apache	
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f5-36">
+					
+					<a title="application_and_information_integration 87" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_and_information_integration&amp;lang=en')">
+					
+						
+							application_a...	
+						
+						
+					
+					<span class="ibm-access">(87)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f6-100">
+					
+					<a title="application_development 444" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_development&amp;lang=en')">
+					
+						
+							application_...	
+						
+						
+					
+					<span class="ibm-access">(444)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f7-80">
+					
+					<a title="architecture 265" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture&amp;lang=en')">
+					
+						
+						
+							architecture	
+						
+					
+					<span class="ibm-access">(265)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f8-10">
+					
+					<a title="architecture_-_application 45" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture_-_application&amp;lang=en')">
+					
+						
+							architecture_-...	
+						
+						
+					
+					<span class="ibm-access">(45)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f9-7">
+					
+					<a title="atom 41" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=atom&amp;lang=en')">
+					
+						
+						
+							atom	
+						
+					
+					<span class="ibm-access">(41)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f10-5">
+					
+					<a title="business_process_management 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_process_management&amp;lang=en')">
+					
+						
+							business_proce...	
+						
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f11-14">
+					
+					<a title="business_processes 50" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_processes&amp;lang=en')">
+					
+						
+							business_proce...	
+						
+						
+					
+					<span class="ibm-access">(50)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f12-49">
+					
+					<a title="cloud 120" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=cloud&amp;lang=en')">
+					
+						
+						
+							cloud	
+						
+					
+					<span class="ibm-access">(120)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f13-36">
+					
+					<a title="cloud_computing 87" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=cloud_computing&amp;lang=en')">
+					
+						
+							cloud_computi...	
+						
+						
+					
+					<span class="ibm-access">(87)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f14-15">
+					
+					<a title="components 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=components&amp;lang=en')">
+					
+						
+						
+							components	
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f15-19">
+					
+					<a title="configuration_and_administration 56" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=configuration_and_administration&amp;lang=en')">
+					
+						
+							configuration_...	
+						
+						
+					
+					<span class="ibm-access">(56)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f16-3">
+					
+					<a title="css_(cascading_style_sheets) 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=css_%2528cascading_style_sheets%2529&amp;lang=en')">
+					
+						
+							css_(cascading...	
+						
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f17-50">
+					
+					<a title="databases_and_data_management 125" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=databases_and_data_management&amp;lang=en')">
+					
+						
+							databases_and...	
+						
+						
+					
+					<span class="ibm-access">(125)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f18-2">
+					
+					<a title="db2 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=db2&amp;lang=en')">
+					
+						
+						
+							db2	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f19-8">
+					
+					<a title="design 43" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=design&amp;lang=en')">
+					
+						
+						
+							design	
+						
+					
+					<span class="ibm-access">(43)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f20-1">
+					
+					<a title="development 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=development&amp;lang=en')">
+					
+						
+						
+							development	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f21-13">
+					
+					<a title="dojo 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=dojo&amp;lang=en')">
+					
+						
+						
+							dojo	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f22-14">
+					
+					<a title="dom_(document_object_model) 49" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=dom_%2528document_object_model%2529&amp;lang=en')">
+					
+						
+							dom_(document_...	
+						
+						
+					
+					<span class="ibm-access">(49)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f23-49">
+					
+					<a title="eclipse 122" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=eclipse&amp;lang=en')">
+					
+						
+						
+							eclipse	
+						
+					
+					<span class="ibm-access">(122)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f24-5">
+					
+					<a title="editing 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=editing&amp;lang=en')">
+					
+						
+						
+							editing	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f25-3">
+					
+					<a title="formatting 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=formatting&amp;lang=en')">
+					
+						
+						
+							formatting	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f26-13">
+					
+					<a title="frameworks 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=frameworks&amp;lang=en')">
+					
+						
+						
+							frameworks	
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f27-45">
+					
+					<a title="general_programming 109" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=general_programming&amp;lang=en')">
+					
+						
+							general_progr...	
+						
+						
+					
+					<span class="ibm-access">(109)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f28-38">
+					
+					<a title="html 92" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=html&amp;lang=en')">
+					
+						
+						
+							html	
+						
+					
+					<span class="ibm-access">(92)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f29-28">
+					
+					<a title="html5 70" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=html5&amp;lang=en')">
+					
+						
+						
+							html5	
+						
+					
+					<span class="ibm-access">(70)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f30-17">
+					
+					<a title="integration 53" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=integration&amp;lang=en')">
+					
+						
+						
+							integration	
+						
+					
+					<span class="ibm-access">(53)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f31-14">
+					
+					<a title="interoperability 49" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=interoperability&amp;lang=en')">
+					
+						
+							interoperabili...	
+						
+						
+					
+					<span class="ibm-access">(49)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f32-89">
+					
+					<a title="java 336" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=java&amp;lang=en')">
+					
+						
+						
+							java	
+						
+					
+					<span class="ibm-access">(336)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f33-69">
+					
+					<a title="java_technology 201" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=java_technology&amp;lang=en')">
+					
+						
+							java_technol...	
+						
+						
+					
+					<span class="ibm-access">(201)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f34-61">
+					
+					<a title="javascript 163" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=javascript&amp;lang=en')">
+					
+						
+						
+							javascript	
+						
+					
+					<span class="ibm-access">(163)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f35-18">
+					
+					<a title="jquery 55" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=jquery&amp;lang=en')">
+					
+						
+						
+							jquery	
+						
+					
+					<span class="ibm-access">(55)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f36-1">
+					
+					<a title="jsf 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=jsf&amp;lang=en')">
+					
+						
+						
+							jsf	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f37-3">
+					
+					<a title="json 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=json&amp;lang=en')">
+					
+						
+						
+							json	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f38-6">
+					
+					<a title="json_(javascript_object_notation) 40" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=json_%2528javascript_object_notation%2529&amp;lang=en')">
+					
+						
+							json_(javascri...	
+						
+						
+					
+					<span class="ibm-access">(40)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f39-86">
+					
+					<a title="linux 312" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=linux&amp;lang=en')">
+					
+						
+						
+							linux	
+						
+					
+					<span class="ibm-access">(312)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f40-8">
+					
+					<a title="mashups 42" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mashups&amp;lang=en')">
+					
+						
+						
+							mashups	
+						
+					
+					<span class="ibm-access">(42)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f41-27">
+					
+					<a title="messaging 69" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=messaging&amp;lang=en')">
+					
+						
+						
+							messaging	
+						
+					
+					<span class="ibm-access">(69)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f42-4">
+					
+					<a title="mobile 38" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobile&amp;lang=en')">
+					
+						
+						
+							mobile	
+						
+					
+					<span class="ibm-access">(38)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f43-2">
+					
+					<a title="mobile_and_embedded_systems 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobile_and_embedded_systems&amp;lang=en')">
+					
+						
+							mobile_and_emb...	
+						
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f44-1">
+					
+					<a title="mobility 35" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=mobility&amp;lang=en')">
+					
+						
+						
+							mobility	
+						
+					
+					<span class="ibm-access">(35)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f45-3">
+					
+					<a title="multimedia 37" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=multimedia&amp;lang=en')">
+					
+						
+						
+							multimedia	
+						
+					
+					<span class="ibm-access">(37)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f46-5">
+					
+					<a title="namespaces 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=namespaces&amp;lang=en')">
+					
+						
+						
+							namespaces	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+								
+							
+							
+						
+				<li class="f47-80">
+					
+					<a title="open_source 267" class="lotusF4 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=open_source&amp;lang=en')">
+					
+						
+						
+							open_source	
+						
+					
+					<span class="ibm-access">(267)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f48-11">
+					
+					<a title="parsing 46" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=parsing&amp;lang=en')">
+					
+						
+						
+							parsing	
+						
+					
+					<span class="ibm-access">(46)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f49-5">
+					
+					<a title="patterns 39" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=patterns&amp;lang=en')">
+					
+						
+						
+							patterns	
+						
+					
+					<span class="ibm-access">(39)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f50-33">
+					
+					<a title="performance 81" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=performance&amp;lang=en')">
+					
+						
+						
+							performance	
+						
+					
+					<span class="ibm-access">(81)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f51-2">
+					
+					<a title="perl 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=perl&amp;lang=en')">
+					
+						
+						
+							perl	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f52-52">
+					
+					<a title="php 131" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=php&amp;lang=en')">
+					
+						
+						
+							php	
+						
+					
+					<span class="ibm-access">(131)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f53-47">
+					
+					<a title="php_(hypertext_preprocessor) 114" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=php_%2528hypertext_preprocessor%2529&amp;lang=en')">
+					
+						
+							php_(hypertex...	
+						
+						
+					
+					<span class="ibm-access">(114)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f54-6">
+					
+					<a title="programming 40" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=programming&amp;lang=en')">
+					
+						
+						
+							programming	
+						
+					
+					<span class="ibm-access">(40)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f55-35">
+					
+					<a title="python 85" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=python&amp;lang=en')">
+					
+						
+						
+							python	
+						
+					
+					<span class="ibm-access">(85)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f56-26">
+					
+					<a title="rest 67" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=rest&amp;lang=en')">
+					
+						
+						
+							rest	
+						
+					
+					<span class="ibm-access">(67)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f57-2">
+					
+					<a title="ruby 36" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=ruby&amp;lang=en')">
+					
+						
+						
+							ruby	
+						
+					
+					<span class="ibm-access">(36)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f58-29">
+					
+					<a title="schemas 73" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=schemas&amp;lang=en')">
+					
+						
+						
+							schemas	
+						
+					
+					<span class="ibm-access">(73)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f59-33">
+					
+					<a title="security 81" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=security&amp;lang=en')">
+					
+						
+						
+							security	
+						
+					
+					<span class="ibm-access">(81)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f60-17">
+					
+					<a title="services 54" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=services&amp;lang=en')">
+					
+						
+						
+							services	
+						
+					
+					<span class="ibm-access">(54)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f61-49">
+					
+					<a title="soa 120" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soa&amp;lang=en')">
+					
+						
+						
+							soa	
+						
+					
+					<span class="ibm-access">(120)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f62-58">
+					
+					<a title="soa_(service-oriented_architecture) 152" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soa_%2528service-oriented_architecture%2529&amp;lang=en')">
+					
+						
+							soa_(service-...	
+						
+						
+					
+					<span class="ibm-access">(152)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f63-39">
+					
+					<a title="soap_(simple_object_access_protocol) 93" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=soap_%2528simple_object_access_protocol%2529&amp;lang=en')">
+					
+						
+							soap_(simple_...	
+						
+						
+					
+					<span class="ibm-access">(93)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f64-12">
+					
+					<a title="spring 47" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=spring&amp;lang=en')">
+					
+						
+						
+							spring	
+						
+					
+					<span class="ibm-access">(47)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f65-41">
+					
+					<a title="standards 99" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards&amp;lang=en')">
+					
+						
+						
+							standards	
+						
+					
+					<span class="ibm-access">(99)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f66-21">
+					
+					<a title="standards_and_specifications 59" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=standards_and_specifications&amp;lang=en')">
+					
+						
+							standards_and...	
+						
+						
+					
+					<span class="ibm-access">(59)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f67-19">
+					
+					<a title="tips 56" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=tips&amp;lang=en')">
+					
+						
+						
+							tips	
+						
+					
+					<span class="ibm-access">(56)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f68-52">
+					
+					<a title="web 129" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web&amp;lang=en')">
+					
+						
+						
+							web	
+						
+					
+					<span class="ibm-access">(129)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+								
+							
+							
+							
+						
+				<li class="f69-54">
+					
+					<a title="web_2.0 137" class="lotusF3 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_2.0&amp;lang=en')">
+					
+						
+						
+							web_2.0	
+						
+					
+					<span class="ibm-access">(137)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f70-25">
+					
+					<a title="web_authoring 65" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_authoring&amp;lang=en')">
+					
+						
+						
+							web_authoring	
+						
+					
+					<span class="ibm-access">(65)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+								
+							
+							
+							
+							
+						
+				<li class="f71-21">
+					
+					<a title="web_development 59" class="lotusF2 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_development&amp;lang=en')">
+					
+						
+							web_developme...	
+						
+						
+					
+					<span class="ibm-access">(59)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f72-82">
+					
+					<a title="web_services 279" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=web_services&amp;lang=en')">
+					
+						
+						
+							web_services	
+						
+					
+					<span class="ibm-access">(279)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f73-19">
+					
+					<a title="websphere 57" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=websphere&amp;lang=en')">
+					
+						
+						
+							websphere	
+						
+					
+					<span class="ibm-access">(57)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f74-9">
+					
+					<a title="wsdl_(web_services_description_language) 44" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=wsdl_%2528web_services_description_language%2529&amp;lang=en')">
+					
+						
+							wsdl_(web_serv...	
+						
+						
+					
+					<span class="ibm-access">(44)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f75-15">
+					
+					<a title="xhtml_(extensible_html) 51" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xhtml_%2528extensible_html%2529&amp;lang=en')">
+					
+						
+							xhtml_(extensi...	
+						
+						
+					
+					<span class="ibm-access">(51)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+							
+							
+							
+							
+								
+							
+						
+				<li class="f76-98">
+					
+					<a title="xml 421" class="lotusF5 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xml&amp;lang=en')">
+					
+						
+						
+							xml	
+						
+					
+					<span class="ibm-access">(421)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f77-17">
+					
+					<a title="xpath_(xml_path_language) 54" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xpath_%2528xml_path_language%2529&amp;lang=en')">
+					
+						
+							xpath_(xml_pat...	
+						
+						
+					
+					<span class="ibm-access">(54)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f78-13">
+					
+					<a title="xquery_(xml_query_language) 48" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xquery_%2528xml_query_language%2529&amp;lang=en')">
+					
+						
+							xquery_(xml_qu...	
+						
+						
+					
+					<span class="ibm-access">(48)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f79-11">
+					
+					<a title="xslt 46" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xslt&amp;lang=en')">
+					
+						
+						
+							xslt	
+						
+					
+					<span class="ibm-access">(46)</span>					
+					</a>&nbsp;
+				</li>
+					
+						
+							
+								
+							
+							
+							
+							
+							
+						
+				<li class="f80-19">
+					
+					<a title="xslt_(xsl_transformations) 57" class="lotusF1 my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=xslt_%2528xsl_transformations%2529&amp;lang=en')">
+					
+						
+							xslt_(xsl_tran...	
+						
+						
+					
+					<span class="ibm-access">(57)</span>					
+					</a>&nbsp;
+				</li>
+					
+			</ul>
+		</div>
+		
+			
+						
+						
+						
+						
+						
+			
+			
+				<div class="ibm-rule"><hr></div><p>View as <strong>cloud</strong>&nbsp;| <a id="alist" class="lotusAction" href="javascript:;">list</a></p>
+			
+		
+		</div> 
+
+		
+			
+			<div class="lotusChunk dw-hidetag" id="dogearTagList">
+			<div id="list-container">
+				<ul class="lotusList lotusEditable lotusTags lotusMeta">
+				
+					
+						
+			
+
+			
+				<li>				
+					<a title="ajax 230" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=ajax&amp;lang=en')">
+						
+							
+							
+								ajax	
+							
+						
+					</a>
+					230
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="and 48" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=and&amp;lang=en')">
+						
+							
+							
+								and	
+							
+						
+					</a>
+					48
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="android 75" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=android&amp;lang=en')">
+						
+							
+							
+								android	
+							
+						
+					</a>
+					75
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="apache 51" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=apache&amp;lang=en')">
+						
+							
+							
+								apache	
+							
+						
+					</a>
+					51
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="application_and_information_integration 87" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_and_information_integration&amp;lang=en')">
+						
+							
+								application_a...	
+							
+							
+						
+					</a>
+					87
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="application_development 444" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=application_development&amp;lang=en')">
+						
+							
+								application_d...	
+							
+							
+						
+					</a>
+					444
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="architecture 265" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture&amp;lang=en')">
+						
+							
+							
+								architecture	
+							
+						
+					</a>
+					265
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="architecture_-_application 45" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=architecture_-_application&amp;lang=en')">
+						
+							
+								architecture_...	
+							
+							
+						
+					</a>
+					45
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="atom 41" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=atom&amp;lang=en')">
+						
+							
+							
+								atom	
+							
+						
+					</a>
+					41
+				</li>
+				
+			
+					
+						
+			
+
+			
+				<li>				
+					<a title="business_process_management 39" class="lotusLeft my" href="javascript:launchTagWindow('/developerworks/mydeveloperworks/bookmarks/html?tag=business_process_management&amp;lang=en')">
+						
+							
+								business_proc...	
+							
+							
+						
+					</a>
+					39
+				</li>
+				
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+					
+			
+				
+			</ul>
+			</div>
+			
+				
+							
+							
+							
+							
+							
+								
+				
+					<div class="ibm-rule"><hr></div><p>View as <a id="acloud" class="lotusAction" href="javascript:;">cloud</a>&nbsp;| <strong>list</strong></p>
+				
+			
+			</div></div>  
+</div>   
+</div>
+</div>
+<!-- Tagging_End -->
+<!-- Dig_Deeper -->
+<div class="ibm-container"><h2>Dig deeper into SOA and Web services on developerWorks</h2><div class="ibm-container-body"><ul class="ibm-link-list"><li class="ibm-first"><a href="http://www.ibm.com/developerworks/webservices/" class="ibm-forward-link">Overview</a></li><li><a href="http://www.ibm.com/developerworks/webservices/newto/" class="ibm-forward-link">New to SOA and Web services</a></li><li><a href="http://www.ibm.com/developerworks/webservices/find/downloads/" class="ibm-forward-link">Downloads and products</a></li><li><a href="http://www.ibm.com/developerworks/webservices/find/projects/" class="ibm-forward-link">Open source projects</a></li><li><a href="http://www.ibm.com/developerworks/webservices/standards/" class="ibm-forward-link">Standards</a></li><li><a href="http://www.ibm.com/developerworks/webservices/library/" class="ibm-forward-link">Technical library (articles, tutorials, and more)</a></li><li><a href="http://www.ibm.com/developerworks/forums/dw_wsforums.jsp" class="ibm-forward-link">Forums</a></li><li><a href="http://www.ibm.com/developerworks/webservices/find/events/" class="ibm-forward-link">Events</a></li><li><a href="http://www.ibm.com/developerworks/newsletter/" class="ibm-forward-link">Newsletter</a></li></ul></div></div>
+<!-- High_Visibility_Offer -->
+<!--XSLT stylesheet used to transform this content: s-highvisibilityoffer.xsl--><div class="ibm-container"><h2>Seeking nominations</h2><div class="ibm-container-body"><img alt="IBM Champion logo" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/hivis-champion-community.jpg" border="0" height="70" width="188"><p class="ibm-ind-link"><a href="https://www.ibm.com/developerworks/champion/" class="ibm-forward-link">Nominate IBM Champions: experts who help you build a smarter planet with IBM</a></p></div></div>
+<!-- Special_Offers -->
+<div class="ibm-container"><h2>Special offers</h2><div class="ibm-container-body"><p class="dw-special-offers"><a href="http://www.ibm.com/developerworks/demos/"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/tile_v16_ondemanddemos.gif" alt="On demand demos: An easy way to watch and learn" border="0" height="50" width="158"></a></p><p class="dw-special-offers"><a href="http://www.ibm.com/developerworks/aboutdw/dwa/?ca=dti-dwarp"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/tile_v16_dwaarp.gif" alt="Get recognized! W Author Program" border="0" height="50" width="158"></a></p><p class="dw-special-offers"><a href="https://www.ibm.com/developerworks/cloud/index.html?ca=dti-cloudzone"><img src="RESTful%20Web%20services%20-%20The%20basics-Dateien/tile_v16_cloudzoneA.gif" alt="Cloud Computing resources for IT professionals" border="0" height="50" width="158"></a></p><div class="ibm-rule"><hr></div><p class="ibm-ind-link"><a class="ibm-forward-link" href="http://www.ibm.com/developerworks/downloads/?ca=dti-tilemoreoffers">Trial software offers</a></p></div></div>
+<!-- RIGHT_COLUMN_CONTENT_END -->
+
+</div>
+<!-- RIGHT_COLUMN_END -->
+
+<!-- CONTENT_BODY_END -->
+</div>
+
+</div>
+<!-- CONTENT_END -->
+
+ <!-- END_IBM-PCON -->
+</div>
+
+<!-- FOOTER_BEGIN -->
+<div id="ibm-footer">
+<!-- IBM footer container; disabled -->
+</div>
+
+<div id="ibm-page-tools-dw">
+	<div id="dw-footer-top-row">
+		<ul id="dw-foot-options">
+			<li id="dw-print"><a class="ibm-print-link" href="#">Print this page</a></li>
+		</ul>
+		<ul id="ibm-foot-options-dw">
+			<li id="dw-foot-0"><a href="#">Share this page</a></li>
+			<li id="dw-foot-1"><a href="#">Follow developerWorks</a></li>
+		</ul>
+	</div>
+
+	<!-- TOP ROW SLIDER -->
+    <div id="dw-page-tools-menu">    
+        <div class="ibm-ribbon-pane-dw">
+            <div class="ibm-ribbon-section-dw">
+				<!-- Share this page -->			
+                <div class="dw-footer-columns">
+                    <div class="dw-footer-col-3-1">
+                        <h2>Share this page:</h2>                       
+						<ul class="ibm-link-list">
+							<li><a id="dw-foot-0-0" class="ibm-facebook-link" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F&amp;t=RESTful%20Web%20services%3A%20The%20basics">Facebook</a></li>
+							<li><a class="ibm-linkedin-link" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F&amp;title=RESTful%20Web%20services%3A%20The%20basics">LinkedIn</a></li>
+							<li><a class="ibm-twitter-link" href="http://twitter.com/home?status=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F%20-%20RESTful%20Web%20services%3A%20The%20basics">Twitter</a></li>
+						</ul>
+                    </div>
+                    <div class="dw-footer-col-3-2">
+						<ul class="ibm-link-list">
+							<li><a class="ibm-delicious-link" href="http://delicious.com/post?url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F&amp;title=RESTful%20Web%20services%3A%20The%20basics">Delicious</a></li>
+							<li><a class="ibm-digg-link" href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F&amp;title=RESTful%20Web%20services%3A%20The%20basics">Digg</a></li>
+							<li><a class="ibm-stumbleupon" href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fwebservices%2Flibrary%2Fws-restful%2F&amp;title=RESTful%20Web%20services%3A%20The%20basics">StumbleUpon</a></li>
+						</ul>
+                    </div>
+                    <div class="dw-footer-col-3-3">
+						<ul class="ibm-link-list">
+							<li><a class="ibm-email-link" href="#">Email this page</a></li>
+						</ul>
+                    </div>
+                    <div class="dw-footer-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+                </div>
+                <!-- Follow developerWorks -->
+                <div class="dw-footer-columns">
+                    <div class="dw-footer-col-1-1">
+                        <h2>Follow developerWorks:</h2>
+						<ul class="ibm-link-list">
+							<li><a id="dw-foot-1-0" class="ibm-facebook-link" href="http://www.facebook.com/developerworks">Facebook</a></li>
+							<li><a class="ibm-twitter-link" href="http://twitter.com/developerWorks">Twitter</a></li>
+						</ul>
+                    </div>
+                    <div class="dw-footer-close">
+						<ul>
+							<li><a href="#">Close [x]</a></li>
+						</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ibm-footer-module-dw">
+	<div class="dw-footer-columns">
+		<div class="dw-footer-col-6-1"> 
+			<h2><a href="http://www.ibm.com/developerworks/topics/">Technical topics</a></h2>
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/aix/">AIX and UNIX</a></li>
+				<li><a href="http://www.ibm.com/developerworks/ibmi/">IBM i</a></li>
+				<li class="dw-footer-newline dw-footer-newline-en"><a href="http://www.ibm.com/developerworks/data/">Information<br> Management</a></li>
+				<li><a href="http://www.ibm.com/developerworks/lotus/">Lotus</a></li>
+				<li><a href="http://www.ibm.com/developerworks/rational/">Rational</a></li>
+				<li><a href="http://www.ibm.com/developerworks/tivoli/">Tivoli</a></li>
+				<li><a href="http://www.ibm.com/developerworks/websphere/">WebSphere</a></li>
+			</ul>
+			<ul>
+				<li class="dw-footer-newgroup"><a href="http://www.ibm.com/developerworks/cloud/">Cloud computing</a></li>
+				<li><a href="http://www.ibm.com/developerworks/industry/">Industries</a></li>
+				<li class="dw-footer-newline dw-footer-newline-en"><a href="http://www.ibm.com/developerworks/servicemanagement/">Integrated Service<br> Management</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-2">
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/java/">Java technology</a></li>
+				<li><a href="http://www.ibm.com/developerworks/linux/">Linux</a></li>
+				<li><a href="http://www.ibm.com/developerworks/opensource/">Open source</a></li>
+				<li><a href="http://www.ibm.com/developerworks/webservices/">SOA and web services</a></li>
+				<li><a href="http://www.ibm.com/developerworks/web/">Web development</a></li>
+				<li><a href="http://www.ibm.com/developerworks/xml/">XML</a></li>
+			</ul>
+			<h2 class="dw-footer-more"><a href="http://www.ibm.com/developerworks/topics/">More...</a></h2>
+		</div>
+		<div class="dw-footer-col-6-3">
+			<h2><a href="http://www.ibm.com/developerworks/downloads/">Evaluation software</a></h2>
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/downloads/product.html">By IBM product</a></li>
+				<li><a href="http://www.ibm.com/developerworks/downloads/evalmethod.html">By evaluation method</a></li>
+				<li><a href="http://www.ibm.com/developerworks/downloads/industry.html">By industry</a></li>
+			</ul>
+			<h2 class="dw-footer-newgroup"><a href="http://www.ibm.com/developerworks/events/">Events</a></h2>
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/briefings/">Briefings</a></li>
+				<li><a href="http://www.ibm.com/developerworks/find/webcasts/">Webcasts</a></li>
+				<li><a href="http://www.ibm.com/developerworks/find/events/">Find events</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-4">
+			<h2><a href="http://www.ibm.com/developerworks/community/">Community</a></h2>
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/forums/">Forums</a></li>
+				<li><a href="http://www.ibm.com/developerworks/community/groups/">Groups</a></li>
+				<li><a href="http://www.ibm.com/developerworks/community/blogs/">Blogs</a></li>
+				<li><a href="http://www.ibm.com/developerworks/mydeveloperworks/wikis/">Wikis</a></li>
+				<li><a href="https://www.ibm.com/developerworks/community/terms/">Terms of use</a></li>
+				<li><a href="https://www.ibm.com/developerworks/community/report/">Report abuse</a></li>
+			</ul>
+			<ul>
+				<li class="dw-footer-newgroup dw-footer-newline"><a href="http://www.ibm.com/developerworks/champion/">IBM Champion<br> program</a></li>
+			</ul>
+			<h2 class="dw-footer-more"><a href="http://www.ibm.com/developerworks/community/">More...</a></h2>
+		</div>
+		<div class="dw-footer-col-6-5">
+			<h2><a href="http://www.ibm.com/developerworks/aboutdw/">About developerWorks</a></h2>
+			<ul>
+				<li><a href="https://www.ibm.com/developerworks/feedback">Site help and feedback</a></li>
+				<li><a href="http://www.ibm.com/developerworks/aboutdw/contacts.html">Contacts</a></li>
+				<li><a href="https://www.ibm.com/developerworks/ideas">Article submissions</a></li>
+			</ul>
+			<h2 class="dw-footer-headonly dw-footer-newgroup">Related resources</h2>
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/university/">Students and faculty</a></li>
+				<li><a href="http://www.ibm.com/isv/">Business Partners</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-6">
+			<h2><a href="http://www.ibm.com/">IBM</a></h2>
+			<ul>
+				<li><a href="http://www.ibm.com/solutions/">Solutions</a></li>
+				<li><a href="http://www.ibm.com/software/">Software</a></li>
+				<li><a href="http://www.ibm.com/software/sw-services/">Software services</a></li>
+				<li><a href="http://www.ibm.com/support/">Support</a></li>
+				<li><a href="http://www.ibm.com/support/publications/us/library/index.shtml">Product information</a></li>
+				<li><a href="http://www.ibm.com/redbooks/">Redbooks</a></li>
+				<li><a href="http://www.ibm.com/privacy/">Privacy</a></li>
+				<li><a href="http://www.ibm.com/accessibility/">Accessibility</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- Language selector no-script -->
+	<noscript>
+	<div id="dw-footer-selectlang">
+		<h2><a name="SELECTLANG">Select a language:</a></h2>
+		<ul>
+			<li><a href="http://www.ibm.com/developerworks/">English</a></li>
+			<li><a href="http://www.ibm.com/developerworks/cn/">中文</a></li>
+			<li><a href="http://www.ibm.com/developerworks/jp/">日本語</a></li>
+			<li><a href="http://www.ibm.com/developerworks/kr/">한국어</a></li>
+			<li><a href="http://www.ibm.com/developerworks/ru/">Русский</a></li>
+			<li><a href="http://www.ibm.com/developerworks/br/">Português (Brasil)</a></li>
+			<li><a href="http://www.ibm.com/developerworks/ssa/">Español</a></li>
+			<li><a href="http://www.ibm.com/developerworks/vn/">Việt</a></li>
+		</ul>
+	</div>
+	</noscript>
+</div><!-- FOOTER_END -->
+
+ <!-- END_IBM-TOP -->
+<div id="ibm-overlay-top"></div></div>
+ 
+ <!-- SCRIPTS_INCLUDE_BEGIN -->
+<!-- JQuery start -->
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/jquery_002.js"></script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/jquery_003.js"></script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/ui.js"></script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/ui_002.js"></script>
+<!-- xM Masthead/Footer -->
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/jquery_004.js">//</script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/jquery.js">//</script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/dw_v16.js">//</script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/flash-detect.js">//</script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/dwsi.js">//</script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/dwjquerytags.js"></script>
+<script type="text/javascript" language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/showcomments.js">//</script>
+<script language="JavaScript" type="text/javascript">
+// <![CDATA[
+ jQuery('threadShow').showComments('95%',5,'nCmts','icomments');
+// ]]>
+</script>
+
+<script type="text/javascript" language="JavaScript">
+	jQuery.noConflict();     
+	// Put all your code in your document ready area
+	jQuery(document).ready(function(jQuery) {
+	// Do jQuery stuff using jQuery 
+	jQuery('a.dwauthor').cluetip({
+		local: true,
+		showTitle: false,
+		positionBy: 'bottomTop',
+		sticky: true,	
+		mouseOutClose: true,
+		closeText: '<img src="//dw1.s81c.com/developerworks/js/jquery/cluetip98/i/x.gif" alt="Close" />',
+		arrows: false,
+		dropShadow: true,
+		cluetipClass: 'dwbasic'
+		});
+
+		//tagging
+		login="false";
+		userid="";
+		whichTags = "init";
+		pCont = "";
+		mCont = "";
+		signInMCont = "";
+		accessCont = "";
+		pValue = 0;
+		mValue = 0;
+
+		rBHash = null;
+		rBHash = new Object();
+		rBHash['viperLang'] = 'en';
+		rBHash['urlLang'] = 'en';
+		rBHash['tagThisWinTitle'] = 'Tagit';
+		rBHash['pTags1'] = 'Popular tags';
+		rBHash['pTags2'] = 'End of Popular tags';
+		rBHash['mTags1'] = 'My tags';
+		rBHash['mTags2'] = 'End of My tags';
+		rBHash['alt1'] = 'Loading Content';
+		rBHash['noATags'] = 'No active tags';
+		rBHash['signIn1'] = 'Please ';
+		rBHash['signIn2'] = 'sign in';
+		rBHash['signIn3'] = ' to access';
+		rBHash['signIn4'] = 'My Tags';
+		rBHash['signIn5'] = 'To access My Tags, please ';
+		rBHash['signIn6'] = 'sign in';
+		rBHash['signIn7'] = 'Read Popular tags';
+
+		zoneHash = new Object();
+		zoneHash['aix'] = 'AIX and UNIX zone';
+		zoneHash['ibmi'] = 'IBM i zone';
+		zoneHash['data'] = 'Information Management zone';
+		zoneHash['lotus'] = 'Lotus zone';
+		zoneHash['rational'] = 'Rational zone';
+		zoneHash['tivoli'] = 'Tivoli zone';
+		zoneHash['websphere'] = 'WebSphere zone';
+		zoneHash['architecture'] = 'Technical library';
+		zoneHash['autonomic'] = 'Technical library';
+		zoneHash['java'] = 'Technical library';
+		zoneHash['cloud'] = 'Technical library';
+		zoneHash['industry'] = 'Technical library';
+		zoneHash['library'] = 'Technical library';
+		zoneHash['linux'] = 'Technical library';
+		zoneHash['opensource'] = 'Technical library';
+		zoneHash['power'] = 'Technical library';
+		zoneHash['webservices'] = 'Technical library';
+		zoneHash['web'] = 'Technical library';
+		zoneHash['xml'] = 'Technical library';
+		zoneHash['wireless'] = 'Technical library';
+		jQuery.checkRB();
+		jQuery.getPopularTags("/developerworks/dwtags/dwjquerytabtags?lang=" + rBHash['viperLang'] + "&base=" + jQuery.getNormalizedZoneUrl(location.href));
+		jQuery.getUserTags();
+		if(jQuery.isTutorial(location.href) == "true") {
+			jQuery.getTagsForContent("/developerworks/tagging/UseCaseServlet?lang=" + rBHash['viperLang'] + "&format=maverick&cType=tutorials&use_case=geturltags&action=gettags&url=" + jQuery.normalizeUrl(location.href));
+		}
+		else {
+			jQuery.getTagsForContent("/developerworks/tagging/UseCaseServlet?lang=" + rBHash['viperLang'] + "&format=maverick&cType=articles&use_case=geturltags&action=gettags&url=" + jQuery.normalizeUrl(location.href));
+
+		}
+		
+		// si
+		initSI();
+	});
+ </script>
+ <!-- JQuery end -->
+ <!-- Overlay js -->
+<script language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/overlay.js" type="text/javascript"></script>
+<!-- My dW Interest article -->
+<script language="JavaScript" src="RESTful%20Web%20services%20-%20The%20basics-Dateien/showinterest.js" type="text/javascript">//</script>
+<script language="JavaScript" type="text/javascript">
+        // <![CDATA[
+			var contentId = '';
+			var contentAreas = '';
+			var caArr = [];
+			contentId = '350297';
+			contentAreas = 'webservices';
+			if(contentAreas != ''){caArr = contentAreas.split(',');}
+			var topNames = [
+			];
+			
+			var loginLink = 'https://www.ibm.com/developerworks/dwwi/DWAuthRouter?m=loginpage&d=' + encodeURIComponent(window.location);jQuery('interestShow').showInterest(contentId,'dw-article',{'int_topnames':[],'int_prods':[], 'int_prod_fam':[],'int_cont_area':caArr},
+'<div id="dw-interest-anon"><a id="intAnonBtn" class="ibm-external-link" href="">Update My dW interests</a> (<a class="dw-interest" href="' + loginLink + '">Log in</a> | <a class="dw-interest" href="#overlay" onclick="ibmCommon.Overlays.show(\'dwmyinterestadd\', this);return false;">What\'s this?</a>) <a class="ibm-access" href="#dwmyinterestaddhelp">Skip to help for Update My dW interests</a></div>',
+'<div id="dw-interest-add"><a id="intSelectBtn" class="ibm-external-link" href="">Add to My dW interests</a> (<a class="dw-interest" href="#overlay" onclick="ibmCommon.Overlays.show(\'dwmyinterestadd\', this);return false;">What\'s this?</a>) <a class="ibm-access" href="#dwmyinterestaddhelp">Skip to help for Add to My dW interests</a></div>',
+'<div id="dw-interest-remove">Added to My dW interests (<a class="dw-interest" href="https://www.ibm.com/developerworks/mydeveloperworks/profiles/html/myProfileView.do?lang=en">Edit</a>)</div>'
+);
+// ]]>
+</script><!-- BEGIN: Use this section to set page specific variables for the Unica Page Tag -->
+<script language="JavaScript">var NTPT_PGEXTRA="ibmSkillLevel=3&ibmAdoptPhase=648&ibmRole=29";</script>
+<!--END --><!-- SCRIPTS_INCLUDE_END -->
+
+<div id="ibm-metrics">
+<script src="RESTful%20Web%20services%20-%20The%20basics-Dateien/stats.js" type="text/javascript">//</script>
+</div>
+
+
+<div style="position: absolute; z-index: 95; display: none;" id="cluetip-waitimage"></div><div style="z-index: 96; display: none; position: absolute;" id="cluetip"><div style="z-index: 95; opacity: 0.1; top: 1px; left: 1px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="z-index: 94; opacity: 0.1; top: 2px; left: 2px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="z-index: 93; opacity: 0.1; top: 3px; left: 3px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="z-index: 92; opacity: 0.1; top: 4px; left: 4px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="z-index: 91; opacity: 0.1; top: 5px; left: 5px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="z-index: 90; opacity: 0.1; top: 6px; left: 6px; position: absolute; background-color: rgb(0, 0, 0);"></div><div style="position: relative; z-index: 97;" id="cluetip-outer"><h3 id="cluetip-title"></h3><div id="cluetip-inner"></div></div><div id="cluetip-extra"></div><div style="z-index: 97;" id="cluetip-arrows" class="cluetip-arrows"></div></div></body></html>

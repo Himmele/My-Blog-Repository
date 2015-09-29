@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/xmstst.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE> /*
+ ** XMSTST.C
+ **
+ ** Beispielprogramm zur Nutzung eines XMS-Treibers mit Hilfe der im
+ ** Modul "xms.asm" bereitgestellten Funktionen.
+ **
+ ** in einem Speichermodell compilieren, daß mit FAR-Zeigern auf die Daten
+ ** arbeitet (z.B. LARGE)
+ **
+ ** Copyright (c) 1996 by Jens Hohmuth. All Rights Reserved.
+ ** email: Jens.Hohmuth@fh-zwickau.de
+ */
+
+#include &lt;conio.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;process.h&gt;
+#include &lt;dos.h&gt;
+#include &lt;mem.h&gt;
+#include "xms.h"
+
+/* Ausgabe eines aufgetretenen XMS-Fehlers. Fehlernummer sowie ein */
+/* Fehlertext werden über die Funktion: xms_errormsg ermittelt.    */
+void error_quit (void);
+
+void main (void)
+	{
+	int version;
+	unsigned int groesster_block;
+	unsigned int memsize;
+	int handle;
+	int i;
+
+	/* XMS - Treiber verfügbar ? */
+	if (xms_check ())
+	   {
+	   printf ("XMS-Treiber gefunden !\n");
+	   }
+	else
+	   {
+	   printf ("Kein XMS-Treiber verfuegbar.\nProgrammabbruch !\n");
+	   exit (1);
+	   }
+
+	/* Versionsnummer ermitteln und ausgeben */
+	xms_version (&amp;version);
+	printf ("Version                                  : %X.%X\n", version &gt;&gt; 8, version &amp; 0xff);
+
+	/* Größten Freien Speicherblock und Gesamtgröße des verfügbaren */
+	/* Extended Memory ermitteln und ausgeben ... */
+	xms_getfreemem (&amp;groesster_block, &amp;memsize);
+	printf ("Gesamtgroesse des freien Extended Memory : %5u KB (%2u MB)\n", memsize, memsize / 1024);
+	printf ("      davon groesster verfuegbaren Block : %5u KB (%2u MB)\n", groesster_block, groesster_block / 1024);
+
+	printf ("\n4 KByte XMS-Speicher reservieren und den aktuellen Inhalt\n");
+	printf ("des Video RAM's darin speichern.\n");
+	/* eine EMB reservieren */
+	if (! xms_alloc (&amp;handle, 4))
+		error_quit ();
+
+	/* Video RAM (Textmodus) in EMB kopieren */
+	if (! xms_ram2xms (MK_FP (0xb800, 0), handle, 0, 4000))
+		error_quit ();
+
+	printf ("OK !\n\n");
+	printf ("Jetzt wird der Bildschirm mit \"Smilies\" gefuellt.\n");
+	printf ("Nach einem Tastendruck wird der alte Bildschirminhalt,\n");
+	printf ("aus dem EMB wieder hergestellt.\n\n");
+	printf ("Taste ...\n");
+	while (! kbhit ()); getch ();
+
+	/* Bildschirm mit "Smilies" fuellen */
+	for (i=0; i&lt;2000; i++)
+		{
+		memset (MK_FP (0xb800, i*2+0), random (2), 1);
+		memset (MK_FP (0xb800, i*2+1), random (16), 1);
+		}
+	while (! kbhit ()); getch ();
+
+	/* Video RAM (Textmodus) aus EMB kopieren */
+	if (! xms_xms2ram (handle, 0, MK_FP (0xb800, 0), 4000))
+		error_quit ();
+
+	/* EMB wieder freigeben */
+	if (! xms_free (handle))
+		error_quit ();
+
+	printf ("\nKeine Fehler ...\n");
+	}
+
+/* Ausgabe eines aufgetretenen XMS-Fehlers. Fehlernummer sowie ein */
+/* Fehlertext werden über die Funktion: xms_errormsg ermittelt.    */
+void error_quit (void)
+    {
+    char errormsg [80];
+
+	printf ("\nFehler %Xh bei XMS Aktion !\nFehlerbeschreibung: %s\nPROGRAMMABBRUCH !!!\n", xms_errormsg (errormsg), errormsg);
+	exit (1);
+	}
+</PRE></BODY></HTML>

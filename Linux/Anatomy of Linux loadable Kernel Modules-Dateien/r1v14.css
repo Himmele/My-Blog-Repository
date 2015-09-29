@@ -1,0 +1,100 @@
+/* BEGIN DEVELOPERWORKS STYLES */
+
+/* V14 STYLESHEET ADDITIONS - START */
+
+/* Left navigation separator */
+td.dw-left-nav-separator { background: #98b1c4; } 
+td.dw-left-nav { background: #c8d7e3; padding-top:3px; padding-bottom:4px; }
+
+/* Masthead - scope */
+.input-scope{ background:#eee; width:150px; font-family:verdana,arial,sans-serif; font-size:10px; }
+
+/* V14 STYLESHEET ADDITIONS - END */
+
+.dwo1 { background-color : #e15119 }
+.dwbg { background-color : #ffcc66 }
+.dwg3 { background-color : #333333 }
+
+.pgray { background-color: #eeeeee; }
+
+.ortext { color: #e15119; }
+
+.title2 { font-family: Arial, sans-serif; font-weight: bold; font-size: 22px; }
+.dwsmall { font-family: Verdana, sans-serif; font-size: 11px; } 
+.dwinput { font-family: Verdana, sans-serif; font-size: 8pt; width: 124px; }
+
+a.left-nav-flyout:link,
+a.left-nav-flyout:visited,
+a.left-nav-flyout:hover { font-family:verdana,arial,sans-serif; font-weight:bold; font-size:10px; text-decoration:none; color:#293d6b;}
+
+a.left-nav-child-flyout:link,
+a.left-nav-child-flyout:visited,
+a.left-nav-child-flyout:hover { font-family:verdana,arial,sans-serif; font-size:10px; text-decoration:none; color:#293d6b;}
+
+a.feature:link { text-decoration: none; color: #000000; font-family:verdana,arial,sans-serif; font-weight: bold; font-size: 14px; }
+a.feature:visited { text-decoration: none; color: #000000; font-family:verdana,arial,sans-serif; font-weight: bold; font-size: 14px; }
+a.feature:hover { text-decoration: none; color: #000000; font-family:verdana,arial,sans-serif; font-weight: bold; font-size: 14px; }
+
+a.dwbctl:link { text-decoration: none; color: #000000; font-family: Verdana, sans-serif; font-size: 10px; }
+a.dwbctl:visited { text-decoration: none; color: #000000; font-family: Verdana, sans-serif; font-size: 10px; }
+a.dwbctl:hover { text-decoration: underline; color: #000000; font-family: Verdana, sans-serif; font-size: 10px; }
+.dwbct1 { font-family: Verdana, sans-serif; color: #000000; font-size: 11px; }
+
+a.smalltitle:link { text-decoration: none; font-family: Arial, san-serif; font-size: 15px; font-weight: normal }
+a.smalltitle:visited { text-decoration: none; font-family: Arial, san-serif; font-size: 15px; font-weight: normal }
+a.smalltitle:hover { text-decoration: none; font-family: Arial, san-serif; font-size: 15px; font-weight: normal }
+
+.bluebullet { color: #006699; font-weight: bold; }
+
+.tdgold { color: #000000; background: #ffcc66; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdgray9 { color: #ffffff; background: #999999; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdblueb { color: #000000; background: #b5c9db; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tddmbg { color: #000000; background: #40a629; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdesbg { color: #000000; background: #333333; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdlsbg { color: #000000; background: #ffd100; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdrbg { color: #000000; background: #009ece; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdtvbg { color: #000000; background: #fd1b14; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+.tdwbg { color: #000000; background: #6a3d9a; font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; }
+
+/* Begin common page styles - if you use one of these styles for something else, move it out of these comment tags */
+.astitle { font-family: Arial, sans-serif; font-weight: bold; font-size: 25px; color: #CC6633}
+.atitle { font-family: Arial, sans-serif; font-weight: bold; font-size: 18px; }
+.atitle2 { font-family: Arial, sans-serif; font-weight: bold; font-size: 18px; }
+.atitle3 { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; }
+.code {font-family: monospace; font-size: 14px;}
+.boldcode {font-family: monospace; font-size: 14px; font-weight: bold}
+.rboldcode {font-family: monospace; font-size: 14px; font-weight: bold; color: #ff0000}
+.gboldcode {font-family: monospace; font-size: 14px; font-weight: bold; color: #009966}
+.bboldcode {font-family: monospace; font-size: 14px; font-weight: bold; color: #0000ff}
+/* End common page styles */
+
+/* Begin View Styles - if you use one of these styles for something else, move it out of these comment tags */
+.tdgoldvw { color: #000000; background: #ffcc66; font-family: Arial, sans-serif; }
+.sort { font-family: Helvetica, sans-serif; font-weight: bold; font-size: 13px; }
+.sort14 { font-weight: bold; font-size: 13px; }
+.sort14g6 { font-weight: bold; font-size: 13px; color: #666666; }
+.sortg6 { font-family: Helvetica, sans-serif; font-weight: bold; color: #666666; font-size: 13px; }
+
+a.cvred:link { text-decoration: underline; color: #cc6633; font-family: Verdana, sans-serif; }
+a.cvred:visited { text-decoration: underline; color: #cc6633; font-family: Verdana, sans-serif; }
+a.cvred:hover { text-decoration: underline; color: #cc6633; font-family: Verdana, sans-serif; }
+/* End View Styles */
+
+/* Begin Search 2003 Styles - if you use one of these styles for something else, move it out of these comment tags */
+.tbgdw { background-color: #006699; background-image: url(http://www-136.ibm.com/i/gr100.gif); }
+.dwsmallwh { font-family: Verdana, sans-serif; color: #ffffff; font-size: 11px; }
+.dwsearch24 { font-family: Arial, sans-serif; color: #ffffff; font-size: 12px; }
+.dwsearch { font-family: Verdana, sans-serif; color: #000000; font-size: 11px; }
+.tdosm { font-family: Verdana, sans-serif; color: #e15119; font-size: 11px; }
+a.searchtabnavss:link { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 11px; }
+a.searchtabnavss:visited { text-decoration: none; color: #000000; font-family: Arial, sans-serif; font-size: 11px; }
+a.searchtabnavss:hover { text-decoration: underline; color: #000000; font-family: Arial, sans-serif; font-size: 11px; }
+.searchtabhiss { text-decoration: none; font-family: Arial, sans-serif; font-weight: bold; color: #000000; font-size: 11px; }
+.smallarialgr9 { font-family: Arial, sans-serif; color: #999999; font-size: 11px; }
+/* Krugle-Google heading style links */
+a.fboxb:link { text-decoration: none; color: #000; font-family: verdana,arial,sans-serif; font-weight:bold; font-size: 11px; }
+a.fboxb:visited { text-decoration: none; color: #000; font-family: verdana,arial,sans-serif; font-weight:bold; font-size: 11px; }
+a.fboxb:hover { text-decoration: underline; color: #000; font-family: verdana, rial,sans-serif; font-weight:bold; font-size: 11px; }
+/* End Search 2003 Styles */
+
+/* END DEVELOPERWORKS STYLES */

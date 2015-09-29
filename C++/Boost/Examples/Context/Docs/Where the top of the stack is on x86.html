@@ -1,0 +1,771 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0077)http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Eli Bendersky's website  » Where the top of the stack is on x86</title>
+
+<meta name="generator" content="WordPress"> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="./Where the top of the stack is on x86_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website RSS Feed" href="http://eli.thegreenplace.net/feed/">
+<link rel="pingback" href="http://eli.thegreenplace.net/xmlrpc.php">
+
+<style type="text/css" media="screen">
+/*	To accomodate differing install paths of WordPress, images are referred only here,
+	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
+	not, then go right ahead and delete the following lines, and the image files. */
+		
+	body { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgcolor.jpg"); }	
+	#page { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickbgwide.jpg") repeat-y top; border: none; } 
+	#header { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickheader.jpg") no-repeat bottom center; }
+	#footer { background: url("http://eli.thegreenplace.net/wp-content/themes/elitheme/images/kubrickfooter.jpg") no-repeat bottom; border: none; }
+
+    #headerimg { background: url('http://eli.thegreenplace.net/wp-content/themes/elitheme/images/personalheader.gif') no-repeat top;}
+</style>
+
+<link rel="alternate" type="application/rss+xml" title="Eli Bendersky&#39;s website » Where the top of the stack is on x86 Comments Feed" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/feed/">
+<link rel="stylesheet" id="wp-quicklatex-format-css" href="./Where the top of the stack is on x86_files/quicklatex-format.css" type="text/css" media="all">
+<script type="text/javascript" src="./Where the top of the stack is on x86_files/tw-sack.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var AjaxForceCommentPreviewVars = {"emptyString":"A preview will appear here","url":"http:\/\/eli.thegreenplace.net\/wp-content\/plugins\/ajax-force-comment-preview\/ajax-force-comment-preview.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Where the top of the stack is on x86_files/ajax-force-comment-preview.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://eli.thegreenplace.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://eli.thegreenplace.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="On spaces in the paths of programs and files on Windows" href="http://eli.thegreenplace.net/2011/01/28/on-spaces-in-the-paths-of-programs-and-files-on-windows/">
+<link rel="next" title="How debuggers work: Part 3 – Debugging information" href="http://eli.thegreenplace.net/2011/02/07/how-debuggers-work-part-3-debugging-information/">
+<meta name="generator" content="WordPress 3.4.2">
+<link rel="canonical" href="./Where the top of the stack is on x86_files/Where the top of the stack is on x86.html">
+<link rel="shortlink" href="http://eli.thegreenplace.net/?p=2397">
+
+	<!-- Google Ajax Search -->
+
+	
+	<link href="./Where the top of the stack is on x86_files/gsearch.css" type="text/css" rel="stylesheet">
+	<style>	
+	
+	/* Width */
+	.gsc-control {
+	  	width: 190px;
+		overflow: hidden
+	}
+	.gs-result .gs-title,
+	.gs-result .gs-title * {
+		font-size: em;
+	  	color: #;
+	}
+	.gsc-results .gsc-trailing-more-results,
+	.gsc-results .gsc-trailing-more-results * {
+	  	color: #;
+	}
+	.gs-result a.gs-visibleUrl,
+	.gs-result .gs-visibleUrl {
+	  	color: #;
+	}
+	.gs-result a.gs-clusterUrl,
+	.gs-result .gs-clusterUrl {
+	  	color: #;
+	}
+	.gsc-resultsbox-visible {
+		display: table;
+		width: 100%;
+		overflow: hidden
+	}
+	</style>
+
+
+	<style>
+	img.gsc-branding-img {
+	display: none;
+	}
+	td.gsc-branding-text div.gsc-branding-text {
+	display: none;
+	}	
+	</style>
+
+		
+	<script src="./Where the top of the stack is on x86_files/api" type="text/javascript"></script><script src="./Where the top of the stack is on x86_files/default+en.I.js" type="text/javascript"></script>
+	<!-- Google AjaxSearch Plugin for WordPress initialization -->
+	<script type="text/javascript"> 
+
+
+
+
+		function OnLoad()
+		{
+			
+			var searchControl = new GSearchControl();
+			searchControl .setLinkTarget(GSearch.LINK_TARGET_SELF); 
+			var webSearch = new GwebSearch();   
+			webSearch.setSiteRestriction("http://eli.thegreenplace.net");
+			webSearch.setUserDefinedLabel("Results");
+			webSearch.setUserDefinedClassSuffix("webSearch");
+											var options = new GsearcherOptions();
+			options.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
+			searchControl.addSearcher(webSearch, options);
+											
+
+			var drawOptions = new GdrawOptions();
+			drawOptions.setDrawMode(GSearchControl.DRAW_MODE_LINEAR);
+			searchControl.draw(document.getElementById("searchcontrol"),drawOptions);
+		}
+		GSearch.setOnLoadCallback(OnLoad);
+
+	</script>
+	<!-- Google Maps Plugin for WordPress (end) -->
+
+                <script type="text/javascript" src="./Where the top of the stack is on x86_files/jquery.js.php"></script>
+        <script type="text/javascript" src="./Where the top of the stack is on x86_files/stupid-captcha.js.php"></script><style type="text/css">.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gscsep_a{display:none}.gsq_a{padding:0}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+<body>
+<div id="page">
+
+
+<div id="header">
+	<a href="http://eli.thegreenplace.net/"><img src="./Where the top of the stack is on x86_files/personalheader.gif"></a>
+<!--	<div id="headerimg">
+		<h1><a href="http://eli.thegreenplace.net/">Eli Bendersky&#039;s website</a></h1>
+		<div class="description">Eli Bendersky&#039;s personal website</div>
+	</div>-->
+</div>
+<hr>
+
+	<div id="content" class="widecolumn">
+				
+  	
+		<div class="navigation">
+			<div class="alignleft"><b><a href="http://eli.thegreenplace.net/archives/">&lt;&lt;&lt;</a> 
+            Back to blog <a href="http://eli.thegreenplace.net/archives/">Archives</a></b></div>
+            <br>
+		</div>
+		<div class="post" id="post-2397">
+			<h2><a href="./Where the top of the stack is on x86_files/Where the top of the stack is on x86.html" rel="bookmark" title="Permanent Link: Where the top of the stack is on x86">Where the top of the stack is on x86</a></h2>
+			<small>February 4th, 2011 at 7:24 am <!-- by eliben --></small>
+			
+			<div class="entry">
+				<p>I’ve noticed more than once that some programmers are confused about the direction in which the stack grows on x86, and what "top of the stack" and "bottom of the stack" mean. It appears that this confusion is caused by a basic mismatch in the way people are used to thinking about stacks, and in the way the stack on x86 actually behaves <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id5" id="id1">[1]</a>.</p>
+<p>In this article, I intend to resolve this confusion with a few helpful diagrams.</p>
+<div class="section" id="the-stack-analogy">
+<h3>The stack analogy</h3>
+<p>Back to the basics. The stack analogy is sometimes demonstrated to new students of computing with a stack of plates. You push a plate onto the stack and pop a plate off the stack. The top of the stack is where your next plate goes when pushing, and from where you take a plate when popping.</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/plates.png" class="align-center" src="./Where the top of the stack is on x86_files/plates.png"></div>
+</div>
+<div class="section" id="hardware-stacks">
+<h3>Hardware stacks</h3>
+<p>In computers, the stack is usually a specially treated region of memory. In the abstract sense, the analogy applies – you push data by placing it on the top of the stack, and pop data by taking it from the top of the stack. Note that this doesn’t address the issue of where the top of the stack is located in memory.</p>
+</div>
+<div class="section" id="the-stack-in-x86">
+<h3>The stack in x86</h3>
+<p>Herein lies the source of the confusion. Intel’s x86 architecture places its stack "head down". It starts at some address and grows <em>down</em> to a lower address. Here’s how it looks:</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/stack1.png" class="align-center" src="./Where the top of the stack is on x86_files/stack1.png"></div>
+<p>So when we say "top of the stack" on x86, we actually mean the <em>lowest address</em> in the memory area occupied by the stack. This may be unnatural for some people <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id6" id="id2">[2]</a>. As long as we keep the diagram shown above firmly in mind, however, we should be OK.</p>
+<p>While we’re at it, let’s see how some common idioms of x86 assembly programming map to this graphical representation.</p>
+</div>
+<div class="section" id="pushing-and-popping-data-with-the-stack-pointer">
+<h3>Pushing and popping data with the stack pointer</h3>
+<p>The x86 architecture reserves a special register for working with the stack – ESP (Extended Stack Pointer). The ESP, by definition, always points to the top of the stack:</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/stack2.png" class="align-center" src="./Where the top of the stack is on x86_files/stack2.png"></div>
+<p>In this diagram, address <tt class="docutils literal"><span class="pre">0x9080ABCC</span></tt> is the top of the stack. The word located in it is some "foo" and ESP contains the address <tt class="docutils literal"><span class="pre">0x9080ABCC</span></tt> – in other words, <em>points to it</em>.</p>
+<p>To push new data onto the stack we use the <tt class="docutils literal"><span class="pre">push</span></tt> instruction <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id7" id="id3">[3]</a>. What <tt class="docutils literal"><span class="pre">push</span></tt> does is first decrement <tt class="docutils literal"><span class="pre">esp</span></tt> by 4, and then store its operand in the location <tt class="docutils literal"><span class="pre">esp</span></tt> points to. So this:</p>
+<div class="highlight">
+<pre>push eax
+</pre>
+</div>
+<p>Is actually equivalent to this:</p>
+<div class="highlight">
+<pre>sub esp, 4
+mov [esp], eax
+</pre>
+</div>
+<p>Taking the previous diagram as the starting point, and supposing that <tt class="docutils literal"><span class="pre">eax</span></tt> held the venerable value <tt class="docutils literal"><span class="pre">0xDEADBEEF</span></tt>, after the <tt class="docutils literal"><span class="pre">push</span></tt> the stack will look as follows:</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/stack3.png" class="align-center" src="./Where the top of the stack is on x86_files/stack3.png"></div>
+<p>Similarly, the <tt class="docutils literal"><span class="pre">pop</span></tt> instruction takes a value off the top of stack and places it in its operand, increasing the stack pointer afterwards. In other words, this:</p>
+<div class="highlight">
+<pre>pop eax
+</pre>
+</div>
+<p>Is equivalent to this:</p>
+<div class="highlight">
+<pre>mov eax, [esp]
+add esp, 4
+</pre>
+</div>
+<p>So, again, taking the previous diagram (after the <tt class="docutils literal"><span class="pre">push</span></tt>) as a starting point, <tt class="docutils literal"><span class="pre">pop</span> <span class="pre">eax</span></tt> will do the following:</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/stack4.png" class="align-center" src="./Where the top of the stack is on x86_files/stack4.png"></div>
+<p>And the value <tt class="docutils literal"><span class="pre">0xDEADBEEF</span></tt> will be written into <tt class="docutils literal"><span class="pre">eax</span></tt>. Note that <tt class="docutils literal"><span class="pre">0xDEADBEEF</span></tt> also stays at address <tt class="docutils literal"><span class="pre">0x9080ABC8</span></tt>, since we did nothing to overwrite it yet.</p>
+</div>
+<div class="section" id="stack-frames-and-calling-conventions">
+<h3>Stack frames and calling conventions</h3>
+<p>When looking at assembly code generated from C, you will find a lot of interesting patterns. Perhaps the most recognizable pattern is the way parameters are passed into functions using the stack, and the way local variables are allocated on the stack <a class="footnote-reference" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id8" id="id4">[4]</a>.</p>
+<p>I’ll demonstrate this with a simple C program:</p>
+<div class="highlight">
+<pre><span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">foobar</span>(<span style="color: #00007f; font-weight: bold">int</span> a, <span style="color: #00007f; font-weight: bold">int</span> b, <span style="color: #00007f; font-weight: bold">int</span> c)
+{
+    <span style="color: #00007f; font-weight: bold">int</span> xx = a + <span style="color: #007f7f">2</span>;
+    <span style="color: #00007f; font-weight: bold">int</span> yy = b + <span style="color: #007f7f">3</span>;
+    <span style="color: #00007f; font-weight: bold">int</span> zz = c + <span style="color: #007f7f">4</span>;
+    <span style="color: #00007f; font-weight: bold">int</span> sum = xx + yy + zz;
+
+    <span style="color: #00007f; font-weight: bold">return</span> xx * yy * zz + sum;
+}
+
+<span style="color: #00007f; font-weight: bold">int</span> <span style="color: #00007f">main</span>()
+{
+    <span style="color: #00007f; font-weight: bold">return</span> foobar(<span style="color: #007f7f">77</span>, <span style="color: #007f7f">88</span>, <span style="color: #007f7f">99</span>);
+}
+</pre>
+</div>
+<p>Both the arguments passed into <tt class="docutils literal"><span class="pre">foobar</span></tt> and the local variables of that function, along with some other data, are going to be stored on the stack when <tt class="docutils literal"><span class="pre">foobar</span></tt> is called. This set of data on the stack is called a <em>frame</em> for this function. Right before the <tt class="docutils literal"><span class="pre">return</span></tt> statement, the stack frame for <tt class="docutils literal"><span class="pre">foobar</span></tt> looks like this:</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/2011/02/stackframe1.png" class="align-center" src="./Where the top of the stack is on x86_files/stackframe1.png"></div>
+<p>The green data were pushed onto the stack by the calling function, and the blue ones by <tt class="docutils literal"><span class="pre">foobar</span></tt> itself.</p>
+<p>Compiled with <tt class="docutils literal"><span class="pre">gcc</span></tt> into assembly as follows:</p>
+<div class="highlight">
+<pre>gcc -masm=intel -S z.c -o z.s
+</pre>
+</div>
+<p>The following assembly listing is generated for <tt class="docutils literal"><span class="pre">foobar</span></tt>. I commented it heavily for easy understanding:</p>
+<div class="highlight">
+<pre>_foobar:
+    <span style="color: #007f00">; ebp must be preserved across calls. Since</span>
+    <span style="color: #007f00">; this function modifies it, it must be</span>
+    <span style="color: #007f00">; saved.</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">push</span>    <span style="color: #00007f">ebp</span>
+
+    <span style="color: #007f00">; From now on, ebp points to the current stack</span>
+    <span style="color: #007f00">; frame of the function</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">ebp</span>, <span style="color: #00007f">esp</span>
+
+    <span style="color: #007f00">; Make space on the stack for local variables</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">sub</span>     <span style="color: #00007f">esp</span>, <span style="color: #007f7f">16</span>
+
+    <span style="color: #007f00">; eax &lt;-- a. eax += 2. then store eax in xx</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>+<span style="color: #007f7f">8</span>]
+    <span style="color: #00007f">add</span>     <span style="color: #00007f">eax</span>, <span style="color: #007f7f">2</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">4</span>], <span style="color: #00007f">eax</span>
+
+    <span style="color: #007f00">; eax &lt;-- b. eax += 3. then store eax in yy</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>+<span style="color: #007f7f">12</span>]
+    <span style="color: #00007f">add</span>     <span style="color: #00007f">eax</span>, <span style="color: #007f7f">3</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">8</span>], <span style="color: #00007f">eax</span>
+
+    <span style="color: #007f00">; eax &lt;-- c. eax += 4. then store eax in zz</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>+<span style="color: #007f7f">16</span>]
+    <span style="color: #00007f">add</span>     <span style="color: #00007f">eax</span>, <span style="color: #007f7f">4</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">12</span>], <span style="color: #00007f">eax</span>
+
+    <span style="color: #007f00">; add xx + yy + zz and store it in sum</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">8</span>]
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">edx</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">4</span>]
+    <span style="color: #00007f">lea</span>     <span style="color: #00007f">eax</span>, [<span style="color: #00007f">edx</span>+<span style="color: #00007f">eax</span>]
+    <span style="color: #00007f">add</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">12</span>]
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">16</span>], <span style="color: #00007f">eax</span>
+
+    <span style="color: #007f00">; Compute final result into eax, which</span>
+    <span style="color: #007f00">; stays there until return</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">mov</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">4</span>]
+    <span style="color: #00007f">imul</span>    <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">8</span>]
+    <span style="color: #00007f">imul</span>    <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">12</span>]
+    <span style="color: #00007f">add</span>     <span style="color: #00007f">eax</span>, <span style="color: #00007f; font-weight: bold">DWORD</span> PTR [<span style="color: #00007f">ebp</span>-<span style="color: #007f7f">16</span>]
+
+    <span style="color: #007f00">; The leave instruction here is equivalent to:</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #007f00">;   mov esp, ebp</span>
+    <span style="color: #007f00">;   pop ebp</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #007f00">; Which cleans the allocated locals and restores</span>
+    <span style="color: #007f00">; ebp.</span>
+    <span style="color: #007f00">;</span>
+    <span style="color: #00007f">leave</span>
+    <span style="color: #00007f">ret</span>
+</pre>
+</div>
+<p>Since <tt class="docutils literal"><span class="pre">esp</span></tt> keeps moving as the function executes, <tt class="docutils literal"><span class="pre">ebp</span></tt> (base pointer, also known as frame pointer in other architectures) is used as a convenient anchor relatively to which all function arguments and locals can be found. Arguments are above <tt class="docutils literal"><span class="pre">ebp</span></tt> in the stack (hence the positive offset when accessing them), while locals are below <tt class="docutils literal"><span class="pre">ebp</span></tt> in the stack.</p>
+<div align="center" class="align-center"><img alt="http://eli.thegreenplace.net/wp-content/uploads/hline.jpg" class="align-center" src="./Where the top of the stack is on x86_files/hline.jpg" style="width: 320px; height: 5px;"></div>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id1">[1]</a></td>
+<td>It doesn’t help that some online resources mistakenly call the top of the stack "bottom". The version presented here is the correct one of x86, since it relies on terminology defined in Intel’s x86 architecture manuals.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id2">[2]</a></td>
+<td>You may try to fix the confusion by viewing memory with its low addresses at the top and high addresses at the bottom. While this would indeed make stack movement more natural, it would also mean that increasing some memory address would take it <em>down</em> in the graphical representation, which is probably even more counter-intuitive.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id3">[3]</a></td>
+<td>There are several instructions x86 defines in the "push family". I’m demonstrating <tt class="docutils literal"><span class="pre">push</span></tt> since it’s the simplest and most generally applicable.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup>
+<col class="label">
+<col></colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#id4">[4]</a></td>
+<td>This only applies to some calling conventions and architectures, of course. In others, some parameters are passed in registers.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Related posts:</p><ol>
+<li><a href="http://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/" rel="bookmark" title="Stack frame layout on x86-64">Stack frame layout on x86-64</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/11/11/position-independent-code-pic-in-shared-libraries-on-x64/" rel="bookmark" title="Position Independent Code (PIC) in shared libraries on x64">Position Independent Code (PIC) in shared libraries on x64</a></li>
+<li><a href="http://eli.thegreenplace.net/2005/11/22/when-bit-endianness-matters/" rel="bookmark" title="when bit endianness matters">when bit endianness matters</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/11/03/position-independent-code-pic-in-shared-libraries/" rel="bookmark" title="Position Independent Code (PIC) in shared libraries">Position Independent Code (PIC) in shared libraries</a></li>
+<li><a href="http://eli.thegreenplace.net/2011/08/25/load-time-relocation-of-shared-libraries/" rel="bookmark" title="Load-time relocation of shared libraries">Load-time relocation of shared libraries</a></li>
+</ol>	
+					
+				<p class="postmetadata alt">
+					<small>
+						This entry was posted
+						on Friday, February 4th, 2011 at 07:24						and is filed under <a href="http://eli.thegreenplace.net/category/articles/" title="View all posts in Articles" rel="category tag">Articles</a>, <a href="http://eli.thegreenplace.net/category/programming/assembly/" title="View all posts in Assembly" rel="category tag">Assembly</a>.
+						You can follow any responses to this entry through the <a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/feed/">RSS 2.0</a> feed. 
+						
+													You can skip to the end and leave a response. Pinging is currently not allowed.
+			
+												
+					</small>
+				</p>
+	
+			</div>
+		</div>
+		
+	
+<!-- You can start editing here. -->
+
+
+	<h3 id="comments">25 Responses to “Where the top of the stack is on x86”</h3> 
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-408431">
+			<cite>Iouri Goussev<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/2e41d52b2986c0c63a2f464e34b7b3f3" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408431" title="">February 4th, 2011 at 10:45</a> </small>
+
+			<p>Thanks, I love learning how software works at low-level.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-408491">
+			<cite>Michael Aye<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/820b665f6308bbf3f974c54081491300" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408491" title="">February 4th, 2011 at 12:43</a> </small>
+
+			<p>As this is published on Planet Python, why not put a nice example in here how to simulate a stack with a list? Not sure what the agreement officially is, but I was just a bit puzzled to find a post on the Planet Python feed that not once mentions Python.<br>
+Otherwise, good information, thanks!</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-408499">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408499" title="">February 4th, 2011 at 12:49</a> </small>
+
+			<p><b>Michael</b>, </p>
+<p>I also don’t know what the “agreement” officially is with Planet Python, but there are quite a few non-Python related articles out there. For my blog, I think they’re aggregating the programming category which includes Python, but also my other posts on programming. I’m sorry if it disturbs you.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-408570">
+			<cite><a href="http://kentsjohnson.com/" rel="external nofollow">Kent Johnson</a><a href="http://kentsjohnson.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/0c1f60fdc145650f9feaa0c62648204d" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408570" title="">February 4th, 2011 at 13:42</a> </small>
+
+			<p>This is not special to x86, this is the way the stack works on every architecture I am familiar with.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-408584">
+			<cite>Joe Brandt<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/d180cb1b2dfbb46acdc12e2e4bc4eb5a" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408584" title="">February 4th, 2011 at 13:56</a> </small>
+
+			<p>Things get more interesting if you add some erroneous code:<br>
+…<br>
+memset(&amp;y, 0, sizeof(y) * 4); // zeros 16 bytes<br>
+…<br>
+What happens? Well y is zeroed, but the value of x, the stored ebp and return address are also trashed. This is the source of many bugs and security exploits.<br>
+So its important to note that although the stack grows toward low addresses, arrays and their elements go from low to high addresses.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-408616">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408616" title="">February 4th, 2011 at 14:04</a> </small>
+
+			<p><b>Kent</b>, </p>
+<p>I agree. I was focusing on x86 here but the same may be said about many other architectures.</p>
+<p><b>Joe</b>,</p>
+<p>Indeed, and not terminating local buffers properly will allow attackers to overwrite the function return address, jumping to their malicious code. Regarding the extra notice, this article assumes some non-basic level of programming understanding. I’m hope understanding where array indices grow is included in that understanding <img src="./Where the top of the stack is on x86_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-408620">
+			<cite>Ignatius<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/766b2d9e0640b2d59c27ffe5f8af77e1" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408620" title="">February 4th, 2011 at 14:15</a> </small>
+
+			<p>This subject material should be familiar with someone who went through a formalized computer science core in the ’90s, however that being said, it seems many young developers have come from other fields, or the approach to CS has changed such that these fundamentals are no longer favored.</p>
+<p>The care and attention to detail so common throughout your articles, displayed in your use of informative illustrations, code snippets and generously sprinkled with warnings of common pitfalls/misconceptions, is a service to the community.  Further, I can not detect ego or hubris, but only a desire to share with others your hard won information, for this I wanted to express my thanks.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-408664">
+			<cite>Eversor1<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc2cdf6c43405b2a8de0da2ecb59b2ad" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408664" title="">February 4th, 2011 at 15:55</a> </small>
+
+			<p>Your article admits that the association “may be confusing to some people”. I suggest that it may be confusing to all people because the words top and bottom do not correctly explain what they are representing in your explanation, and are frankly misused. Instead of trying to alter the dictionary definition of “top” and “bottom” why not just change the terminology as applied to the stack? This seems to be a simple enough solution. Your pushes and pops affect the bottom of the stack.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-408668">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408668" title="">February 4th, 2011 at 16:02</a> </small>
+
+			<p><b>Ignatius</b>,</p>
+<p>Thanks for the kind words <img src="./Where the top of the stack is on x86_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+<p><b>Eversor1</b>,</p>
+<p>The dictionary is hardly relevant here. Wishful thinking about changing the terminology as applied to the stack can be a pleasant thought exercise, but in the end of the day you open Intel’s x86 programmer’s manual, and read on the <code class="backtick">push</code> instruction (emphasis is mine): </p>
+<blockquote><p>
+Decrements the stack pointer and then stores the source operand on the <b>top of the stack</b>.
+</p></blockquote>
+<p>My intention in this article is just to clarify things and I freely admit there’s a confusion in the terminology.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-408697">
+			<cite>Jason<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/b441c1ac97b1890721f942763d55210c" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408697" title="">February 4th, 2011 at 16:38</a> </small>
+
+			<p>Thank you.  I don’t have a formal programming education and my head has always hurt when working in languages where I have to manipulate data on the stack directly.  You’re elegant post has set my head straight (upside down) and I can now fully visualize what is happening and suspect I won’t have future headaches.  Thank you again!</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-408699">
+			<cite><a href="http://theamazingking.com/" rel="external nofollow">jk</a><a href="http://theamazingking.com/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/2d602c83b791168f28401f75fc46851b" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-408699" title="">February 4th, 2011 at 16:43</a> </small>
+
+			<p>Great article! <img src="./Where the top of the stack is on x86_files/icon_smile.gif" alt=":-)" class="wp-smiley"> </p>
+<p>Eversor1:</p>
+<p>I think its all about perspective anyway.  For example, I think of memory in the opposite way that is illustrated here such that the lower addresses are shown at the top of the page (rotate these diagrams 180 degrees).  In this case the “high” and “low” refers to the numbering of the addresses and not their position on the page.  This is how disassemblers typically show sections of memory as well.  Conveniently, this view also makes the whole top and bottom thing intuitive.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-409184">
+			<cite>Phil Mayes<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/30ebd8ef110f4f1455e4fa32b35b027e" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-409184" title="">February 5th, 2011 at 03:23</a> </small>
+
+			<p>“You may try to fix the confusion by viewing memory with its low addresses at the top and high addresses at the bottom. While this would indeed make stack movement more natural, it would also mean that increasing some memory address would take it down in the graphical representation, which is probably even more counter-intuitive.”</p>
+<p>But every core dump ever printed was in this format.  After a while, you become directionally agnostic (bidirectional??).</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-422232">
+			<cite><a href="http://nicdumz.fr/blog/" rel="external nofollow">Nicolas Dumazet</a><a href="http://nicdumz.fr/blog/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/22dea59a22ac5b9848d4e805fe1dfc57" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-422232" title="">February 18th, 2011 at 04:41</a> </small>
+
+			<p>Amazing, I came here from Planet Python, and I’m happy that some “off-topic” non-Python posts pop up from time to time. I wasn’t educated in the 90′s, but it has been at least 5 years since I last worked with some registers. It’s good to freshen up a bit!</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-624999">
+			<cite>frank<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/01f9bc4195d08c3e48412ee901e9bffe" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-624999" title="">July 20th, 2011 at 23:40</a> </small>
+
+			<p>Thanks a lot i never understand in deep the stack.. so thanks a lot<br>
+LUC</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-625410">
+			<cite>frank<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/01f9bc4195d08c3e48412ee901e9bffe" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-625410" title="">July 21st, 2011 at 10:58</a> </small>
+
+			<p>ehm.. as Phil Mayes wrote seems that there is a error..about high address and low address in the last diagram? is it? then where is located the return foobar? is it located at EBP+4(return adress)?<br>
+regards<br>
+Luc</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-669338">
+			<cite>le kommie<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/8d8f59ee9b764275e09eb2e3394d898f" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-669338" title="">September 7th, 2011 at 18:28</a> </small>
+
+			<p>When compiling the example on 64-bit Linux (GCC: (Ubuntu/Linaro 4.5.2-8ubuntu4) 4.5.2″), use the following command line to compile into assembler:</p>
+<p>    gcc -masm=intel -march=i386 -m32 -S z.c -o z.m</p>
+<p>Not using -march and -m32 will produce a completely different output.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-669763">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-669763" title="">September 8th, 2011 at 05:28</a> </small>
+
+			<p><b>le kommie,</b></p>
+<p>Good point. I was compiling this on a 32-bit Ubuntu. To compile 32-bit objects on 64-bit Ubuntu, indeed some special flags have to be passed.</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-772784">
+			<cite><a href="http://www.unavarra.es/" rel="external nofollow">candido</a><a href="http://www.unavarra.es/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/5a55ffdd8e18dac2e18b8f101224ca3a" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-772784" title="">December 10th, 2011 at 07:31</a> </small>
+
+			<p>Hi,</p>
+<p>a very good webblog. I am primer with C and assembly programming, level of these 3 references ( –C programming: a Modern Aproach, –A Computer System: A programmers perspective, –Introduction to Computer Organizationwith x86-64 Assembly language &amp; GNU/Linux) and for stack research I just begin studing with the topic: shellcode injected in stack of a vulnerable program STACK OVERWRITING and the problem is that i am searching for a good book or reference about this topic and i have not had succeeded. The reference Shellcode Handbook is out of date and today SO have a lot of security ( stack bound check, canarys, non executable, stack, etc ….), so for a track of book examples I need updated it and me conclusion is that i need today linux kernel security concepts background. I can see that you are expert on unix environment, so, I would like know some update reference about that. My plaform is linux/GNU, ubuntu10.04 distribution 32 bits arch and toolbox (GNU emacs, gcc 4.4.3, gdb 6.8)</p>
+<p>Thanks in advance<br>
+Cándido Aramburu<br>
+Universidad Publica de Navarra<br>
+<a href="mailto:candido@unavarra.es">candido@unavarra.es</a></p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-772876">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-772876" title="">December 10th, 2011 at 10:01</a> </small>
+
+			<p><b>candido</b>,</p>
+<p>I’m not familiar with books on this topic</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-820581">
+			<cite>Matt<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/699fb052958e251a8d82e8a840e50d63" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-820581" title="">February 4th, 2012 at 08:53</a> </small>
+
+			<p>Just wanted to say thanks.  Your straightforward explanation cleared up a lot of my confusion regarding the stack frame.  It has been an excellent supplement to my OS class.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-829287">
+			<cite>vaibhav<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/c92c38cb9c20c91761dc691534013c76" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-829287" title="">February 16th, 2012 at 12:27</a> </small>
+
+			<p>Thanks a lot for such a wonderful article <img src="./Where the top of the stack is on x86_files/icon_smile.gif" alt=":)" class="wp-smiley"><br>
+Keep writing!</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-882978">
+			<cite>Sree<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/c7754736c5db173adf40c2ecd0027cb7" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-882978" title="">April 12th, 2012 at 06:31</a> </small>
+
+			<p>‘Can anyone tell me how to find the starting address of stack and heap?’<br>
+‘Also i want information about how to find where the stack and heap overlaps?’</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-963793">
+			<cite><a href="http://geek42.info/" rel="external nofollow">geek42</a><a href="http://geek42.info/" rel="external nofollow"><img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/02529f3cc97c2acb9da0d24ff596f360" alt="No Gravatar" width="40" height="40/"></a></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-963793" title="">August 13th, 2012 at 07:39</a> </small>
+
+			<p>1,  the stack concept are explained brief in CSAPP( i read the CSAPP2e)</p>
+<p>2,  the order is follow the endian order , this might be the keypoint, but the enture of position of BOS might could limit the memory usage, just a personal opinion</p>
+
+		</li>
+
+	
+	
+		<li class="" id="comment-963865">
+			<cite>Leon<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/aec5bb1bf0eed37b80f39f40524234cc" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-963865" title="">August 13th, 2012 at 12:14</a> </small>
+
+			<p>Just use diagrams that have lower addresses on the top and the whole article becomes obsolete.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-963870">
+			<cite>eliben<img style="float: left; margin-right: 10px; border: none; display:inline;" src="./Where the top of the stack is on x86_files/fc761ccaf6c0d7d977e2959f9bfebd06" alt="No Gravatar" width="40" height="40/"></cite> Says:
+						<br>
+
+			<small class="commentmetadata"><a href="http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/#comment-963870" title="">August 13th, 2012 at 12:19</a> </small>
+
+			<p><b>Leon</b>,</p>
+<p>And yet, many resources prefer to keep the “top” actually on top. If you draw the low addresses on top, then the concept of “above” and “below” becomes inverted and confusing.</p>
+<p>Let’s say I want to describe where locals are. I say “they are below <code class="backtick">ebp</code>”. With the diagrams as shown in this post, this makes sense visually. Invert them, though, and it will stop making sense.</p>
+<p>So things are not so simple, I think.</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://eli.thegreenplace.net/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1">
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2">
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3">
+<label for="url"><small>Website</small></label></p>
+
+
+        <!--<span>Write the number 4 here (required)</span><br/>-->
+    <p><input type="text" name="stupid-captcha" value="" tabindex="4"> 
+    <label for="stupid-captcha"><small>Write the number 4 here (required)</small></label></p>
+
+<p><small>To post code with preserved formatting, enclose it in `backticks` (even multiple lines) </small></p>
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="5"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<input type="hidden" name="comment_post_ID" value="2397">
+</p>
+<input name="afcp-preview" type="button" id="afcp-preview" tabindex="6" value="Preview" style="visibility: visible; display: inline; "><div id="ajax-force-comment-preview">A preview will appear here</div><noscript>&lt;p&gt;&lt;strong&gt;Currently you have JavaScript disabled. In order to post comments, please make sure JavaScript is enabled, and reload the page.&lt;/strong&gt;&lt;/p&gt;</noscript><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8e25595afb"></p>
+</form>
+
+
+
+
+	
+		
+	</div>
+
+<hr>
+<div id="footer">
+	<p>
+		Eli Bendersky's website is powered by 
+		<a href="http://wordpress.org/">WordPress</a>
+		<br><a href="http://eli.thegreenplace.net/feed/">Entries (RSS)</a>
+		and <a href="http://eli.thegreenplace.net/comments/feed/">Comments (RSS)</a>.
+<!--	<br/><br/>
+	Ads:
+    <a href="http://www.behindthecounter.com/newegg-promo-code/">Newegg Promo Code</a>
+-->
+	</p>
+</div>
+</div>
+
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+
+		
+
+<table cellspacing="0" cellpadding="0" style="width: 100%; display: none; position: absolute; top: -1px; left: 0px; " class="gstl_0 gssb_c"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%; "></td></tr></tbody></table></body></html>

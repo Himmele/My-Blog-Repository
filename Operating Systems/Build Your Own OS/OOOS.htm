@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0044)http://204.215.248.28/board.jsp?message=1114 -->
+<HTML><HEAD><TITLE>OSDev MessageBoard</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="OOOS-Dateien/current.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=white leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=left><IMG 
+      src="OOOS-Dateien/logo.jpg"><BR><NOBR><SPAN>The place to 
+      start for OS developers.</SPAN></NOBR></TD>
+    <TD align=right><!-- banner --></TD></TR>
+  <TR>
+    <TD width="100%" colSpan=2>
+      <TABLE borderColor=#404040 cellSpacing=0 cellPadding=2 width="100%" 
+      bgColor=#0b8d94 border=1>
+        <TBODY>
+        <TR>
+          <TD align=middle><NOBR><SPAN><A class=nav 
+            href="http://www.osdev.org/index.html">Home</A>&nbsp;|&nbsp;<A 
+            class=nav 
+            href="http://www.osdev.org/developers/index.html">Developer 
+            Guides</A>&nbsp;|&nbsp;<A class=nav 
+            href="http://204.215.248.28/board.jsp">Message 
+            Board</A>&nbsp;|&nbsp;<A class=nav 
+            href="http://www.osdev.org/cgi-bin/projects.cgi">OSDev 
+            Ring</A>&nbsp;|&nbsp;<A class=nav 
+            href="http://www.osdev.org/cgi-bin/links.cgi">Links</A></SPAN></NOBR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER><BR>
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" bgColor=white border=0 vspace="0" 
+hspace="0">
+  <TBODY>
+  <TR>
+    <FORM action=board.jsp method=get>
+    <TD vAlign=bottom>Page:&nbsp; <SELECT name=page> 
+        <OPTION>1<OPTION>2<OPTION>3<OPTION>4<OPTION 
+        selected>5<OPTION>6<OPTION>7<OPTION>8<OPTION>9<OPTION>10<OPTION>11<OPTION>12<OPTION>13<OPTION>14</OPTION></SELECT> 
+<INPUT type=submit value=Go> </TD></FORM>
+    <FORM action=post.jsp method=get>
+    <TD vAlign=bottom align=right><INPUT type=submit value="Post New"> 
+    </TD></FORM></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" bgColor=white border=4 vspace="0" 
+hspace="0">
+  <TBODY>
+  <TR>
+    <TD vAlign=top width="100%" height="100%">
+      <TABLE cellSpacing=0 cellPadding=2 width="100%" bgColor=white border=0 
+      vspace="0" hspace="0">
+        <TBODY>
+        <TR bgColor=#dddddd>
+          <TD>Subject:&nbsp;OOP OS, a matter of API design</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>Author:&nbsp;krillzip</TD></TR>
+        <TR bgColor=#dddddd>
+          <TD>Date:&nbsp;2002-03-03</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>I have tought for a while how to design an API for<BR>an Object 
+            Oriented OS in C++, this is not an discousion<BR>about task 
+            switching or LTD:s or GTD:s and other low level styff like 
+            that.<BR>This is a discussion about a totally new way to design an 
+            OS,<BR>well it has the standard futures like Pmode memory handling, 
+            preemptive multitasking,<BR>and signaling.<BR><BR>Imagine 
+            this:<BR><BR>The kernel has six static classes for handling basic 
+            things<BR>The classes are those:<BR><BR>class TaskManager{}; // 
+            Handling multitasking<BR>class MemoryManager{}; // Handling memory, 
+            the _new_ operator does it's calls to this class<BR>class 
+            IOManager{}; // Handling hardware access, registers, 
+            microcontrollers<BR>class ProcessingManager{}; // Handling multi 
+            processing<BR><BR>Now, the next two classes are OS-specific, 
+            especisally the last one<BR><BR>class StreamManager{}; // Handling 
+            data streaming and event handling and messaging<BR>class 
+            ObjectManager{}; // The most revolutonary thing with this OS, keeps 
+            tracks o the FrameWork classes<BR><BR>The OS also has a C++ class 
+            framework making the os Object Oriented<BR>All classes in the 
+            framework like the GUI classes (windows, menus), Driver classes, 
+            font classes and<BR>all other kind of classes needed are inharited 
+            from one baseclass: class Object{}; so that all classes could 
+            be<BR>handled by the ObjectManager. All classes in the framework are 
+            loaded dynamicaly.<BR><BR>Here comes the big question!<BR>How should 
+            I design my API so it is easy to use but without any loss of my OOP 
+            OS philosofy.<BR>If the drivers are loaded dynamicaly it will be 
+            hard for the programmer, cause then he/she first has to get the 
+            pointer to the driver,<BR>but if the drivers are loaded staticaly it 
+            would be as easy to use as cout &lt;&lt; "hello"; or cin &gt;&gt; 
+            intVar;<BR><BR>There are two ways I could design:<BR>Case 1:<BR>In 
+            this case the drivers are loaded dynamicaly.<BR>The program want to 
+            print a picture to the screen.<BR><BR>#include 
+            &lt;myOSheader.h&gt;<BR><BR>int main(void)<BR>{<BR>OSdriver * 
+            theDisplay; // Declaring a pointer to the Display driver.<BR>class 
+            Image myPicture; // Declaring the picture object.<BR><BR>theDisplay 
+            = ObjectManager.ReturnDriver("Screen"); // Returning the pointer 
+            from the kernel.<BR><BR>theDispplay -&gt; Mode(_13h_);<BR>theDisplay 
+            -&gt; &lt;&lt; myPicture;<BR>}<BR><BR>In this example the OS has to 
+            return the pointer to the driver for using the display.<BR><BR>Case 
+            2:<BR>In this case the drivers are loaded staticaly.<BR>The program 
+            want to print a picture to the screen.<BR><BR>#include 
+            &lt;myOSheader.h&gt;<BR><BR>int main(void)<BR>{<BR>class Image 
+            myPicture; // Declaring the picture 
+            object.<BR><BR>theDisplay.Mode(_13h_);<BR>theDisplay &lt;&lt; 
+            myPicture;<BR>}<BR><BR>In this example it's just as simple as cout 
+            or cin.<BR><BR>What this discussion is about is finding 
+            the<BR>middleway between Object Orientation and the easy to 
+            programming.<BR><BR>Why I want my OS to be like this is because I 
+            want it to:<BR>1. be easy to expand.<BR>2. I want it Object 
+            Orientated.<BR>3. in C++ so it will be easy to port between 
+            platforms.<BR><BR>The hard question is the API.<BR><BR>Thanx on 
+            advance for tips and 
+answers.<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" bgColor=white border=0 vspace="0" 
+hspace="0">
+  <TBODY>
+  <TR>
+    <TD>
+      <FORM action=post.jsp method=get><INPUT type=hidden value=1114 
+      name=replyto> <INPUT type=submit value="Reply To"> 
+</FORM></TD></TR></TBODY></TABLE><BR>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" bgColor=white border=4 vspace="0" 
+hspace="0">
+  <TBODY>
+  <TR>
+    <TD vAlign=top width="100%" height="100%">
+      <TABLE cellSpacing=0 cellPadding=2 width="100%" bgColor=white border=0 
+      vspace="0" hspace="0">
+        <TBODY>
+        <TR bgColor=#eeeeee>
+          <TH align=left>Message</TH>
+          <TH align=left>Author</TH>
+          <TH>Date</TH></TR>
+        <TR bgColor=#dddddd>
+          <TD><A class=current 
+            href="http://204.215.248.28/board.jsp?message=1114">OOP OS, a matter 
+            of API design</A></TD>
+          <TD>krillzip</TD>
+          <TD noWrap align=middle>2002-03-03</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1115">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>The Legend</TD>
+          <TD noWrap align=middle>2002-03-03</TD></TR>
+        <TR bgColor=#dddddd>
+          <TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1118">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>krillzip</TD>
+          <TD noWrap align=middle>2002-03-04</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1116">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>J. Weeks</TD>
+          <TD noWrap align=middle>2002-03-03</TD></TR>
+        <TR bgColor=#dddddd>
+          <TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1119">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>Anonymous</TD>
+          <TD noWrap align=middle>2002-03-04</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1120">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>J. Weeks</TD>
+          <TD noWrap align=middle>2002-03-04</TD></TR>
+        <TR bgColor=#dddddd>
+          <TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1124">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>Anonymous</TD>
+          <TD noWrap align=middle>2002-03-05</TD></TR>
+        <TR bgColor=#eeeeee>
+          <TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="http://204.215.248.28/board.jsp?message=1125">RE:OOP&nbsp;OS,&nbsp;a&nbsp;matter&nbsp;of&nbsp;API&nbsp;design</A></SPAN></TD>
+          <TD>J. Weeks</TD>
+          <TD noWrap 
+align=middle>2002-03-05</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER></BODY></HTML>

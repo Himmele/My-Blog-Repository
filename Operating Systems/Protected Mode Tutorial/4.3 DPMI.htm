@@ -1,0 +1,717 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos3.htm -->
+<HTML><HEAD><TITLE>DPMI</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=DPMI-Dateien/stone.jpg>
+<H1><FONT color=#800000>4.3 DPMI</FONT></H1>
+<H2><FONT color=#000080>Einleitung</FONT></H2>
+<P>Das DOS-Protected-Mode-Interface (DPMI) entstand bei der Entwicklung von 
+Microsoft Windows 3.0. Microsoft entschied sich für die Veröffentlichung dieses 
+Standards und gründete 1990 zusammen mit anderen Softwarefirmen ein DPMI-Komitee 
+zur Weiterentwicklung der DPMI-Schnittstelle. Mitglieder dieser Vereinigung sind 
+neben Microsoft: Borland, Intel, IBM, Phar Lap, Quaterdeck, Rational Systems 
+sowie einige weitere. Im Gegensatz zu VCPI ist der DPMI-Standard allgemeiner 
+gehalten und deckt die folgenden Dienstleistungen ab:</P>
+<UL>
+  <LI>Verwaltung der Deskriptortabellen eines Protected-Mode-Programmes. 
+  <LI>Verwaltung des Extended Memory sowie den Zugriff auf den DOS-Speicher. 
+  <LI>Interrupt- und Exceptionverwaltung. 
+  <LI>Zugriff auf Realmode-Programme und Interrupt-Handler. 
+  <LI>Kontrollierter Zugriff auf spezielle Prozessor-Register. </LI></UL>
+<P>Die Darstellung der Dienstleistungen zeigt jedoch auch, daß ein DPMI-Client 
+einen großen Teil seiner Protected-Mode-Rechte an den DPMI-Server (DPMI-Host im 
+Sprachgebrauch des DPMI-Komitees) abtreten muß. Weiterhin wird ein 
+Anwendungsprogramm unter DPMI auf der niedrigsten Privilegstufe ausgeführt, 
+wodurch der DPMI-Host (läuft auf höchster Privilegstufe: 0) immer in der Lage 
+ist, die Kontrolle über alle laufenden Programme zu behalten.</P>
+<H2><FONT color=#000080>Virtuelle Maschine</FONT></H2>
+<P>Ein DPMI-Host führt seine Clients immer in einer sogenannten virtuellen 
+Maschine aus (VM-Virtual Machine). Dabei ist unter einer VM die "Umgebung" zu 
+verstehen, in der eine Anwendung ausgeführt wird. Diese "Umgebung" muß dabei 
+nicht zwingend mit der tatsächlich vorhandenen Hardware übereinstimmen, vielmehr 
+dient sie im allgemeinen dazu, eine größere Funktionsvielfalt bereitzustellen. 
+So können mehrere VM's parallel ausgeführt werden, wobei die Hardware von einem 
+im Hintergrund laufenden Betriebssystem verwaltet und nur kontrolliert den 
+Anwendungen zur Verfügung gestellt wird.</P>
+<P>Unter Windows 3.x wird eine solche VM beispielsweise durch eine DOS-Box 
+verkörpert. Eine VM besitzt in diesem Fall einen Adressraum von 1 MB plus HMA 
+und dient in der Regel der Ausführung von Realmode-DOS-Programmen. Innerhalb 
+einer VM können dabei mehrere DPMI-Clients zum Einsatz kommen.</P>
+<P>Multitasking zwischen den VMs ist möglich und versetzt z.B. Windows 3.x in 
+die Lage, mehrere DOS-Programme in verschiedenen DOS-Boxen gleichzeitig 
+auszuführen. Der DPMI-Host unterbricht dafür die Ausführung eines Programmes 
+regelmäßig, um die Ausführung eines anderen Programmes in einer anderen VM 
+fortzusetzen. Dabei handelt es sich um "pre-emptives Multitasking".</P>
+<P>Es existieren 2 verschiedene DPMI-Versionen (0.9 und 1.0), deren Unterschiede 
+sich vor allem bei der Verwaltung der virtuellen Maschinen zeigt. Während sich 
+unter der DPMI-Version 0.9 mehrere Clients innerhalb einer VM eine lokale 
+Beschreibertabelle (LDT) und eine Interrupt-Vektor Tabelle (IDT) teilen, weist 
+der DPMI-Host der Version 1.0 jedem Client seine eigene LDT und IDT zu. Clients 
+unter DPMI-Version 0.9 erhalten dadurch Zugriff auf die Segmente der anderen 
+Clients (die gleiche LDT!), was der DPMI-Host nicht verhindern kann. Unter DPMI 
+1.0 ist das durch den Schutzmechanismus des Protected Mode nicht mehr 
+möglich.</P>
+<P>Neben den zwei unterschiedlichen DPMI Versionen muß auch zwischen 16- und 
+32-Bit-DPMI-Hosts unterschieden werden. Letztere können nur auf einem Computer 
+mit 80386 Prozessor oder höher ausgeführt werden. 16-Bit-DPMI-Hosts wurden für 
+den 80286 entwickelt und unterscheiden sich von 32-Bit-Hosts vor allem in der 
+Übergabe von Parametern an die einzelnen DPMI-Funktionen. Während ein 
+32-Bit-DPMI-Host Parameter in den erweiterten Prozessorregistern erwartet (EAX, 
+EBX ...) beachtet ein 16-Bit-Host die erweiterten Register nicht. Weiterhin kann 
+ein 16-Bit-Host den Paging-Mechanismus nicht benutzen (und damit auch nicht die 
+Funktionen, die in das Paging eingreifen, bereitstellen), da ein solcher 
+Mechanismus auf dem 80286-Prozessor nicht existiert.</P>
+<H2><FONT color=#000080>DOS-Extender mit dem DPMI-Standard</FONT></H2>
+<P>Obwohl der DPMI-Standard ursprünglich für Windows entwickelt wurde, 
+existieren mittlerweile auch DOS-Extender, die diese Schnittstelle unterstützen 
+bzw. selbst als DPMI-Host auftreten. Dadurch ist die Ausführung von 
+DOS-Extendern bzw. Programmen, die die DPMI-Schnittstelle benutzen, nicht mehr 
+an Windows gebunden.</P>
+<H2><FONT color=#000080>Überblick über die DPMI-Funktionen</FONT></H2>
+<H2><FONT color=#000080><I>Initialisierung des DPMI-Clients</I></FONT></H2>
+<P>Ein DPMI-Host stellt seine Funktionen einem im Protected Mode laufenden 
+Programm über den Int 31h zur Verfügung. Bevor die Int 31h Schnittstelle benutzt 
+werden kann, müssen bereits im Realmode die Voraussetzungen für die Umschaltung 
+sowie die Initialisierung des Protected Mode durchgeführt werden. Für diesen 
+Zweck stehen die in Tabelle 4.4 dargestellten Funktionen im Realmode (teilweise 
+auch im Protected Mode) über den <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#multiplex">Multiplexer-Interrupt 
+2Fh</A> zur Verfügung.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>1680</TD>
+    <TD>Client ist unbeschäftigt, Programmausführung weiterreichen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>1686</TD>
+    <TD>CPU-Betriebsmodus abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>1687</TD>
+    <TD>Feststellen, ob DPMI-Host verfügbar und Protected-Mode-Einsprungspunkt 
+      ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>168A</TD>
+    <TD>Host spezifischen API-Einsprungspunkt ermitteln</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.4:</B> DPMI-Funktionen im 
+Realmode</I> </CAPTION></CENTER>
+<P><B>Anmerkung:</B> Die Rückschaltung in den Realmode kann aus dem Protected 
+Mode Programm über den Aufruf der "normalen" DOS-Ende-Funktion des Interrupts 
+21h (AH=4Ch, Int 21h) erreicht werden.</P>
+<H2><FONT color=#000080><I>Funktionen zur Verwaltung der LDT 
+(AH=00h)</I></FONT></H2>
+<P>Wie bereits weiter oben erwähnt, ist für die Verwaltung der 
+Deskriptortabellen der DPMI-Host zuständig. Im Gegensatz zum VCPI-Standard 
+können auf diese Weise viele Probleme, die durch die direkte Manipulation der 
+Deskriptortabellen durch einen VCPI-Client entstehen, vermieden werden. 
+Weiterhin ist es nur dem DPMI-Host gestattet, die GDT zu verändern, Ein 
+DPMI-Client kann nur über die in Tabelle 4.5 dargestellten Funktionen die 
+Deskriptoren seiner LDT manipulieren. Da jeder DPMI-Client seine eigene LDT 
+zugewiesen bekommt, bleiben etwaige Fehler auch nur auf diese LDT begrenzt und 
+können so weder andere Clients, noch den DPMI-Host beeinflussen.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0000h</TD>
+    <TD>LDT-Deskriptor allokieren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0001h</TD>
+    <TD>LDT-Deskriptor freigeben</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0002h</TD>
+    <TD>Realmode-Segment zu Deskriptor</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0003h</TD>
+    <TD>Inkrement für Selektor abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0004h</TD>
+    <TD>Segment gegen Auslagerung sperren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0005h</TD>
+    <TD>Auslagerung eines Segments sperren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0006h</TD>
+    <TD>Basisadresse eines Segments abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0007h</TD>
+    <TD>Basisadresse eines Segments festlegen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0008h</TD>
+    <TD>Länge eines Segments setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0009h</TD>
+    <TD>Zugriffsrechte/Segmenttyp einstellen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Ah</TD>
+    <TD>Alias für Codesegment erzeugen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Bh</TD>
+    <TD>Segmentdeskriptor abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Ch</TD>
+    <TD>Segmentdeskriptor setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Dh</TD>
+    <TD>einen Selektor anfordern</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Eh</TD>
+    <TD>mehrere Segmentdeskriptoren abfragen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>000Fh</TD>
+    <TD>mehrere Segmentdeskriptoren setzen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.5:</B> DPMI-Funktionen zur 
+Verwaltung der LDT (Int 31h)</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Zugriff auf den DOS-Speicher (AH=01h)</I></FONT></H2>
+<P>Wichtig für DOS-Extender ist der Datenaustausch zwischen dem 
+Realmode-DOS-Speicher (unter 1MB) und dem Speicher über der 1MB Grenze (Extended 
+Memory, Protected Mode). Die in Tabelle 4.6 dargestellten DPMI-Funktionen 
+erlauben es, einem DPMI-Client DOS-Speicher zu reservieren, freizugeben oder die 
+Größe eines DOS-Speicherblocks zu verändern. Ihre Funktion entspricht den 
+DOS-Funktionen 48h, 49h und 4Ah.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0100h</TD>
+    <TD>DOS-Speicherblock anfordern</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0101h</TD>
+    <TD>DOS-Speicherblock freigeben</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0102h</TD>
+    <TD>Größe eines DOS-Speicherblocks ändern</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.6:</B> DPMI-Funktionen für den 
+Zugriff auf den DOS-Speicher</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Funktionen zur Verwaltung von Interrupts und 
+Exceptions (AH=02h,AH=09h)</I></FONT></H2>
+<P>Der DPMI-Host programmiert grundsätzlich den ersten Interrupt-Controller um 
+und installiert für die Exceptions 00..1Fh eigene Exception-Handler. Weiterhin 
+werden für 3 Interrupts (1Ch, 23h und 24h) Protected Mode Handler installiert, 
+die bei ihrer Aktivierung im Protected Mode ausgeführt werden. Für alle 
+Interrupts wird der Prozessor in den Realmode geschaltet, der jeweilige 
+Realmode-Handler aktiviert und anschließend in den Protected Mode 
+zurückgeschaltet. Die in Tabelle 4.7 aufgeführten DPMI-Funktionen dienen dem 
+Abfragen bzw. Neusetzen von Interrupts bzw. Exceptionhandlern für den Real- oder 
+Protected Mode.</P>
+<P>Weiterhin stehen Funktionen zur Verfügung, die den Zustand des virtuellen 
+Interruptflags beeinflussen. Dieses Interruptflag wird vom DPMI-Host für jeden 
+Client verwaltet und entscheidet darüber, ob den jeweiligen Client 
+Hardware-Interrupts erreichen können oder nicht.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0200h</TD>
+    <TD>Adresse eines Realmode-Interrupt Handlers ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0201h</TD>
+    <TD>Adresse eines Realmode-Interrupt Handlers setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0202h</TD>
+    <TD>Adresse eines Exception Handlers ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0203h</TD>
+    <TD>Adresse eines Exception Handlers setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0204h</TD>
+    <TD>Adresse eines Protected-Mode-Interrupt Handlers ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0205h</TD>
+    <TD>Adresse eines Protected-Mode-Interrupt Handlers setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0210h</TD>
+    <TD>Adresse eines Exception Handlers ermitteln</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0211h</TD>
+    <TD>Adresse eines (Realmode) Exception-Handlers ermitteln</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0212h</TD>
+    <TD>Adresse eines Exception Handlers setzen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0213h</TD>
+    <TD>Adresse eines (Realmode) Exception-Handlers setzen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0900h</TD>
+    <TD>Virtuelles Interrupt-Flag setzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0901h</TD>
+    <TD>Virtuelles Interrupt-Flag freigeben</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0902h</TD>
+    <TD>Virtuelles Interrupt-Flag abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.7:</B> DPMI-Funktionen für die 
+Interrupt- / Exception Verwaltung</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Aufruf von Realmode-Routinen (AH=03h)</I></FONT></H2>
+<P>Um direkt Routinen unterhalb der 1MB Grenze aufzurufen, stehen die in Tabelle 
+4.8 dargestellten DPMI-Funktionen zur Verfügung. Dabei muß die Adresse der 
+aufzurufenden Routine dem Protected Mode Programm bekannt sein.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0300h</TD>
+    <TD>Realmode-Interrupt simulieren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0301h</TD>
+    <TD>Realmode Routine mit FAR RETURN aufrufen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0302h</TD>
+    <TD>Realmode Routine mit IRET RETURN aufrufen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0303h</TD>
+    <TD>Realmode Callback erzeugen (allokieren)</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0304h</TD>
+    <TD>Realmode Callback freigeben</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0305h</TD>
+    <TD>Adresse von Funktionen ermitteln, die für die Sicherung / 
+      Wiederherstellung der Prozessorregister zuständig sind</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0306h</TD>
+    <TD>Adresse der Mode-Switch Routine ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.8:</B> DPMI-Funktionen für den 
+Aufruf von Realmode Funktionen</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Funktionen für den Zugriff auf das Extended Memory 
+(AH=05h,AH=08h)</I></FONT></H2>
+<P>Der DPMI-Host stellt Funktionen zur Verfügung, die Extended Memory 
+allokieren, die Größe eines allokierten Speicherbereichs verändern, sowie einen 
+allokierten Speicherbereich wieder freigeben können. Weiterhin existieren 
+Funktionen, die eine Umwandlung zwischen physischen und linearen Adressen 
+ermöglichen. Anzumerken ist, daß Extended Memory zwar über die Funktionen aus 
+Tabelle 4.9 reserviert werden kann, für den Zugriff aber über die Funktionen 
+0000h..000Dh erst noch gültige Deskriptoren und Selektoren bereitgestellt werden 
+müssen.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0500h</TD>
+    <TD>Informationen über Speicherbelegung ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0501h</TD>
+    <TD>Speicher im Extended Memory allokieren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0502h</TD>
+    <TD>Speicherblock im Extended Memory freigeben</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0503h</TD>
+    <TD>Größe eines Extended Memory Blocks ändern</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0504h</TD>
+    <TD>Speicherblock allokieren, der an Page-Frame Grenze beginnt</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0505h</TD>
+    <TD>Größe eines Speicherblocks ändern, der über Funktion 0504h reserviert 
+      wurde</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0800h</TD>
+    <TD>physische Adresse in Lineare Umwandeln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0801h</TD>
+    <TD>physisches Adressmapping (Fkt. 0800h) aufheben</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.9:</B> DPMI-Funktionen für den 
+Aufruf von Realmode-Funktionen</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Funktionen für die Verwaltung des virtuellen 
+Speichers (AH=05h, AH=06h)</I></FONT></H2>
+<P>Für 32-Bit-DPMI-Hosts existieren Funktionen, die in die virtuelle 
+Speicherverwaltung (Paging) des Prozessors eingreifen. So kann beispielsweise 
+für bestimmte Speicherseiten die Auslagerung verhindert werden (Funktionen, Vgl. 
+Tabelle 4.10).</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0600h</TD>
+    <TD>Speicherbereich gegen Auslagerung schützen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0601h</TD>
+    <TD>Speicherbereich entriegeln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0602h</TD>
+    <TD>Realmode Speicherbereich gegen Auslagerung schützen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0603h</TD>
+    <TD>Realmode Speicherbereich entriegeln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0604h</TD>
+    <TD>Größe einer Page ermitteln</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0506h</TD>
+    <TD>Ermittlung der Page-Attribute eines über Fkt. 0504h res. Blocks</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0507h</TD>
+    <TD>Setzen der Page-Attribute eines über Fkt. 0504h res. Blocks</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0508h</TD>
+    <TD>phys. Adressbereich auf einen über Fkt. 0504h res. Block mappen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0509h</TD>
+    <TD>Speicherbereich unter 1MB auf Fkt. 0504h reservierten Speicherblock 
+      mappen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>050Ah</TD>
+    <TD>Speicherblock Basisadresse und Länge eines 0504h Blocks ermitteln</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>050Bh</TD>
+    <TD>Ermittlung des verfügbaren Speichers</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0702h</TD>
+    <TD>Speicherbereich bei Auslagerung bevorzugen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0703h</TD>
+    <TD>Speicherbereich als überschreibar markieren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.10:</B> DPMI-Funktionen für die 
+Verwaltung des virtuellen Speichers</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Unterstützung der Debug-Register 
+(AH=0Bh)</I></FONT></H2>
+<P>Um jedem DPMI-Client die Möglichkeit zu geben, die <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm">Debug-Register</A> 
+zu nutzen, müssen alle Zugriffe auf die Debug-Register über den DPMI-Host 
+durchgeführt werden. Sobald der entsprechende Client zur Ausführung kommt, lädt 
+der DPMI-Host die Debug-Register mit den für den jeweiligen Client aktuellen 
+Inhalten. Tabelle 4.11 stellt die Funktionen zum Zugriff auf die Debug-Register 
+dar.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0B00h</TD>
+    <TD>Watchpoint definieren</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0B01h</TD>
+    <TD>Watchpoint löschen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0B02h</TD>
+    <TD>Status eines Watchpoint abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0B03h</TD>
+    <TD>Status eines Watchpoints zurücksetzen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.11:</B> DPMI-Funktionen für den 
+Zugriff auf die Debugregister</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Unterstützung speicheresidenter Programmteile 
+(AH=0Ch)</I></FONT></H2>
+<P>Zur Verwaltung von speicheresidenten Protected Mode Programmen (Protected 
+Mode TSR's) stellt der DPMI-Host seinen Clients Funktionen bereit, die in 
+Tabelle 4.12 dargestellt sind.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0C00h</TD>
+    <TD>Protected Mode Service Callback installieren</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0C01h</TD>
+    <TD>Programm beenden und resident bleiben (TSR)</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.12:</B> DPMI-Funktionen für 
+speicheresidente Programme</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Funktionen zur Verwaltung von "geteilten 
+Speicherbereichen" (Shared Memory) (AH=0Dh)</I></FONT></H2>
+<P>Der DPMI-Host unterstützt die Kommunikation und den Datenaustausch zwischen 
+mehreren DPMI-Clients durch die Verwaltung von "Shared Memory". Der Zugriff auf 
+einen solchen Speicherbereich muß dabei beim DPMI-Host angemeldet werden und 
+darf erst dann durchgeführt werden, wenn momentan kein anderer Client den 
+Speicherbereich benutzt. Auf diese Weise können Datenverluste vermieden werden. 
+Der DPMI-Host stellt dazu die in Tabelle 4.13 dargestellten Funktionen zur 
+Verfügung.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0D00h</TD>
+    <TD>"Shared Memoryblock" allokieren</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0D01h</TD>
+    <TD>"Shared Memoryblock" wieder freigeben</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0D02h</TD>
+    <TD>Zugriff auf "Shared Memoryblock" anfordern</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0D03h</TD>
+    <TD>Zugriffsrechte auf "Shared Memoryblock" wieder abgeben</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.13:</B> DPMI-Funktionen für 
+speicheresidente Programme</I> </CAPTION></CENTER>
+<H2><FONT color=#000080><I>Sonstige Funktionen (AH=04h, AH=0Ah, 
+AH=0Eh)</I></FONT></H2>
+<P>Tabelle 4.14 stellt die Funktionen dar, die allgemeinen Zwecken dienen und 
+keiner anderen Funktionsgruppe zugeordnet werden können.</P>
+<CENTER>
+<TABLE width=600 border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="20%">Fkt.-Nr. (AX)</TH>
+    <TH width="60%">Funktion</TH>
+    <TH width="20%">ab Version</TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0400h</TD>
+    <TD>Versionsnummer abfragen</TD>
+    <TD vAlign=center align=middle>0.9</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0401h</TD>
+    <TD>DPMI-Host Fähigkeiten abfragen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0A00h</TD>
+    <TD>HOST spezifische Eigenschaften abfragen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0E00h</TD>
+    <TD>Koprozessor Status abfragen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0E01h</TD>
+    <TD>Koprozessor Status setzen</TD>
+    <TD vAlign=center align=middle>1.0</TD></TR></TBODY></TABLE><CAPTION 
+ALIGN="CENTER" VALIGN="BOTTOM"><I><B>Tabelle 4.14:</B> DPMI-Funktionen für 
+allgemeine Funktionen</I> </CAPTION></CENTER>
+<H2><FONT color=#000080>Initialisierung des DPMI-Clients und Umschaltung in den 
+Protected Mode</FONT></H2>
+<P>Die Initialisierung des DPMI-Clients und des Protected Mode soll an dieser 
+Stelle genauer beschrieben werden. Wird der Interrupt 2Fh mit dem Wert 1687h im 
+Register AX aufgerufen und ist kein DPMI-Host im System verfügbar, dann enthält 
+AX nach dem Funktionsaufruf einen Wert ungleich 0. Kehrt die Funktion mit dem 
+Wert 0 in AX zurück, steht ein DPMI-Host zur Verfügung und die Register sind wie 
+folgt belegt:</P><PRE>    BX      = Flags
+              Bit 0    = 0 (32-bit Programme werden nicht unterstützt)
+                       = 1 (32-bit Programme werden unterstützt)
+              Bit 1-15     (nicht benutzt)
+
+    CL      = Prozessor Typ
+              02H = 80286
+              03H = 80386
+              04H = 80486
+              05H-FFH  für spätere Intel Prozessoren reserviert
+
+    DH      = DPMI-Hauptversionsnummer (dezimal)
+    DL      = DPMI-Unterversionsnummer (dezimal)
+
+    SI      = Anzahl der Paragraphen, die für Protected Mode Initialisierung
+              benötigt werden (siehe unten)
+
+    ES:DI   = Segment:Offset Adresse für Protected Mode Initialisierung
+</PRE>
+<P>Konnte ein DPMI-Host über die Funktion 1687h identifiziert werden, muß als 
+nächstes die in SI übergebene Anzahl Paragraphen für den DPMI-Host 
+bereitgestellt werden (z.B. über die DOS-Funktion 48h). Die Segmentadresse 
+dieses Bereiches muß in das ES-Register geladen werden, bevor der Sprung 
+(FAR-Call) an die durch Funktion 1687h ermittelte Adresse durchgeführt werden 
+kann (siehe oben, Registerpaar ES:DI).</P>
+<P>Ist nach der Rückkehr das Carry-Flag gesetzt, befindet sich der Prozessor 
+immer noch im Realmode, da die Initialisierung des Protected Mode durch den 
+DPMI-Host fehlgeschlagen ist. Ist das Carry-Flag jedoch gelöscht, konnte der 
+Protected Mode erfolgreich aktiviert werden. Die Programmausführung wird 
+"normal" fortgesetzt. Die Selektoren in den Registern CS, DS und SS verweisen 
+auf Deskriptoren, die die (Realmode-) Segmente vor der Umschaltung in den 
+Protected Mode beschreiben. Der Selektor ES verweist auf einen 
+Segmentdeskriptor, der den PSP des Programms beschreibt und die Länge 100h 
+besitzt. Die Selektoregister GS und FS enthalten den Wert 0 (Null-Selektor). Dem 
+Programm stehen jetzt die Funktionen der Int 31h-Schnittstelle zur 
+Verfügung.</P>
+<P>Eine komplette Übersicht der durch den DPMI-Host bereitgestellten Funktionen 
+(Parameter und Rückgabewerte) befindet sich unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/download/dpmispec.zip">dpmispec.zip 
+(33 KB)</A>. </P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="DPMI-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Das DPMI-Beispielprogramm <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_06.asm">pm_06.asm</A> 
+      muß unter einem DPMI-Host (z.B. in der DOS-Box von Windows) ausgeführt 
+      werden. Es schaltet mit Hilfe der DPMI-Funktionen in den Protected Mode 
+      und zurück. </P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_dos2.htm"><IMG alt=Zurück 
+src="DPMI-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_1.htm"><IMG alt=Weiter 
+src="DPMI-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_d"><IMG 
+alt="Zum Index" src="DPMI-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

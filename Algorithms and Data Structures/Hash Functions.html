@@ -1,0 +1,195 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="Stylesheet" type="text/css" href="http://home.comcast.net/~bretm/default.css">
+		<title>Pluto Scarab — Hash Functions</title>
+	</head>
+	<body>
+		<div id="paper">
+		<div class="text">
+		
+			<h1>Hash Functions</h1>
+			
+			<div class="sidebar">
+				<img src="fig1.gif" width="344" height="126" alt="Figure 1" title="">
+				<br/><br/>
+				<p>
+					A hash function maps a bit vector onto another, usually shorter, bit
+					vector. The result is uniformly distributed, which means that for an input
+					vector chosen at random, each out bit is equally likely to be 0 or 1 and 
+					is not correlated with the other bits (unless the size of the range is not
+					a power of 2 in which case the high bits will show correlations). 
+				</p>
+				<p>
+					Typically, m > n and this is why
+					hash functions are called <i>compression functions</i> in some applications.
+					Because the function is non-invertible, it means that not all m-bit
+					input vectors can be losslessly compressed by the same function, or even
+					by different functions if you count the bits required to indicate which
+					compression function is to be used.
+				</p>
+			</div>
+			
+			<div class="TOC">
+				<h4>Table of Contents</h4>
+				<ol>
+					<li><a href="./">Hash function basics</a></li>
+					<li><a href="2.html">Anatomy of a hash function</a></li>
+					<li><a href="3.html">Mixing, and Strict Avalanche Condition</a></li>
+					<li><a href="4.html">Search for the perfect mixing function</a></li>
+					<li><a href="5.html">Evaluating hash functions</a></li>
+					<li><a href="6.html">Evaluation of FNV</a></li>
+					<li><a href="7.html">Evaluation of Jenkins' hash</a></li>
+					<li><a href="8.html">Evaluation of CRC32</a></li>
+					<li><a href="9.html">Evaluation of SHA-1</a></li>
+					<li><a href="10.html">Use of S-Boxes in Hash Functions</a></li>
+					<li><a href="11.html">References</a></li>
+				</ol>
+			</div>
+			
+			<p>
+				Hash functions are functions that map a bit vector to another bit vector,
+				usually shorter than the original vector and usually of fixed length for
+				a particular function.
+			</p>
+			
+			<p>
+				There are three primary uses for hash functions:
+			</p>
+			
+			<ol>
+				<li>Fast table lookup</li>
+				<li>Message digests</li>
+				<li>Encryption</li>
+			</ol>
+			
+			<h2>Fast Table Lookup</h2>
+			
+			<p>
+				Fast table lookup can be implemented using a hash function and a hash table.
+				Elements are found in the hash table by calculating the hash of the
+				element's key and using the hash value as the index into the table. This is
+				clearly faster than other methods, such as examining each element of the table
+				sequentially to find a match.
+			</p>
+			
+			<h2>Message Digests</h2>
+			
+			<p>
+				Message digests allow you to compare two large bit vectors and quickly
+				determine if they are equal. Instead of comparing the vectors bit-by-bit,
+				if the hash values of each bit vector are available you can compare the
+				hash values. If the hash values are different, the original vectors must
+				be different. If the hash values are the same then the original vectors
+				are very likely to be the same if the hash function is good.
+			</p>
+			
+			<p>
+				Message digests can use either cryptographic or non-cryptographic hash
+				functions. If the purpose of the message digest is to determine if the
+				original message has been tampered with, you would need to use a 
+				cryptographic hash function. If you just want to quickly tell if it's
+				the same as another file with a different name (assuming the hash values
+				have already been computed), you can use a non-cryptographic hash function.
+			</p>
+			
+			<h2>Encryption</h2>
+			
+			<div class="sidebar">
+				<img src="fig2.gif" width="344" height="162" alt="Figure 2" title="" />
+				<br/><br/>
+				Collision! Two different input vectors produce the same output vector.
+				For hash tables, this means that the second table insertion will be slower
+				because an alternate location will need to be used. For non-cryptographic
+				message digests, it means that two messages will appear to be the same
+				when they are not. For cryptographic message digests, it means the contents
+				of the message and/or the identity of the sender can be undetectibly altered.
+			</div>
+			
+			<p>
+				Encryption is the transformation of data into a form unreadable by anyone 
+				without a secret decryption key. Hash functions play an important role in 
+				encryption because it is their properties that cause the encrypted data to be 
+				unreadable and the original data to be unrecoverable from the encrypted data 
+				without the decryption key.
+			</p>
+			
+			<p>
+				Hash functions in this context are sometimes given other names such as
+				mixing functions.
+			</p>
+			
+			<h2>Properties of Hash Functions</h2>
+			
+			<p>
+				For a function to be useful as a hash function, it must exhibit the property of
+				<i>uniform distribution</i>. Some hash functions also have the
+				<i>one-way</i> property. If a hash function is to be used for cryptography
+				or for fast table lookup where the nature of the keys is unknown,
+				the one-way property is a requirement.
+			</p>
+			
+			<h2>Uniform Distribution</h2>
+			
+			<p>
+				All good hash functions share the property of <i>collision 
+				avoidance</i>, which means that the desired behavior is for unique inputs
+				to provide unique outputs. If the length of the input vector is
+				greater than the length of the output vector it's impossible to avoid
+				all collisions because the set of input vectors will be of greater
+				order than the set of output vectors. The hash function partitions the
+				input set into subsets of input vectors that all produce the same 
+				output. 
+			</p>
+			<p>
+				Since collisions cannot be avoided, the goal is to minimize their 
+				likelihood given two arbitrary input vectors. Minimization occurs when 
+				the size of the largest partition is minimized, that is, when the output
+				vectors are evenly distributed among the corresponding input vectors.
+				When this happens we say the output vectors are <i>uniformly distributed</i>.
+			</p>
+			
+			<h2>One-Way Functions</h2>
+			
+			<p>
+				Another important goal is that "similar" input vectors produce very
+				different output vectors. For the case of table lookup, table keys are 
+				usually either human language strings, index numbers, or other data that 
+				exhibit non-randomness. For the case of message digest functions, the 
+				goal is to make it as difficult as possible to find two different messages 
+				that result in the same hash. A hash function with this property is called
+				a <i>one-way</i> hash function.
+			</p>
+			<p>
+				Not all applications require hash functions to be one-way, but all 
+				cryptographic applications do. For example, a hash value for fast table
+				lookup where the keys are telephone numbers could simply be the last four 
+				digits of the phone number. This hash function is suitable 
+				because it's likely to be uniformly distributed, but it's clearly not one-way
+				because it is easy to devise a phone number that has a specific
+				hash value.
+			</p>
+			
+			<p><a href="2.html">Next page</a></p>
+		</div>
+
+			<div id="footer">
+				<a href="http://validator.w3.org/check?uri=referer"><img 
+					title="" alt="Valid HTML 4.01!" 
+					src="http://www.w3.org/Icons/valid-html401"
+					height="31" width="88"
+					style="border-width: 0; float: right"></a>
+				<a href="/">Home</a> |
+				E-mail: BretMulvey at Hotmail
+			</div>
+			
+			<div id="copyright">
+				Copyright © 2007 Bret Mulvey. All Rights Reserved.
+				<img src="/cgi-bin/counter.gif" alt="" title="" width="1" height="1">
+			</div>
+			
+		</div>
+	</body>
+</html>
+

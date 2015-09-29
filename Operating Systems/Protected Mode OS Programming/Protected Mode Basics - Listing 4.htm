@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://x86.ddj.com/ftp/source/pmbasics/tspec_a1.l4 -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>; Listing 4 -- Protected mode program to move a block of memory
+;
+;-----------------------------------------------------------------------------
+;
+; TSPEC_A1.L4
+;
+;       Copyright (c) 1991, 1995-Present  Robert Collins
+;
+;       You have my permission to copy and distribute this software for
+;       non-commercial purposes.  Any commercial use of this software or
+;       source code is allowed, so long as the appropriate copyright
+;       attributions (to me) are intact, *AND* my email address is properly
+;       displayed.
+;
+;       Basically, give me credit, where credit is due, and show my email
+;       address.
+;
+;-----------------------------------------------------------------------------
+;
+;       Robert R. Collins               email:  rcollins@x86.org
+;
+;-----------------------------------------------------------------------------
+
+
+;---------------------------------------------------------------;
+;                       BEGIN LISTING 4                         ;
+;---------------------------------------------------------------;
+; PM_BASICS:  Enter protected mode, block move 1k to user data  ;
+;               segment, and exit to DOS.                       ;
+;---------------------------------------------------------------;
+;                                                               ;
+;_DATA   SEGMENT WORD PUBLIC 'DATA'                             ;
+;---------------------------------------------------------------;
+; Structure definitions                                         ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;   Descriptor  STRUC                                           ;
+;       Seg_limit       dw      ?       ; Segment limit         ;
+;       Base_A15_A00    dw      ?       ; A00..A15 of base addr ;
+;       Base_A23_A16    db      ?       ; A16..A23 of base addr ;
+;       Access_rights   db      ?       ; Segment access rights ;
+;       GDLimit_A19_A16 db      ?       ; Granularity, Op-size, ;
+;                                       ;   Limit A16..A19      ;
+;       Base_A31_A24    db      ?       ; A24..A31 of base addr ;
+;   Descriptor  ENDS                                            ;
+;                                                               ;
+;                                                               ;
+;   _DWORD      STRUC                                           ;
+;       DD_offset       dw      ?                               ;
+;       DD_segment      dw      ?                               ;
+;   _DWORD      ENDS                                            ;
+;                                                               ;
+;                                                               ;
+;---------------------------------------------------------------;
+; Macro definitions                                             ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;   Minit_descriptor    macro   segment,offset,desc_name        ;
+;       mov     ax,&amp;segment             ;; get segment name     ;
+;       mov     es,ax                   ;;   to form 32 bit addr;
+;       mov     si,&amp;offset              ;;                      ;
+;       Call    Calc_pm_address         ;; calculate 32 bit addr;
+;       mov     &amp;desc_name.Base_A15_A00,ax ;; Save 32-bit linear;
+;       mov     &amp;desc_name.Base_A23_A16,dl ;; segment address in;
+;       mov     &amp;desc_name.Base_A31_A24,dh ;; GDT entry         ;
+;   endm                                                        ;
+;                                                               ;
+;                                                               ;
+;Align 4                                                        ;
+;---------------------------------------------------------------;
+; GDT &amp; related equate definitions                              ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;       CS_access       equ     10011011b ; EXE/READ-only access;
+;       DS_access       equ     10010011b ; R/W Data segment    ;
+;                                                               ;
+;       GDT_286 Descriptor      &lt;&gt;      ; NULL DESCRIPTOR       ;
+;       CSEG2   Descriptor      &lt;0ffffh,,,CS_access&gt;    ; CS    ;
+;       DSEG2   Descriptor      &lt;0ffffh,,,DS_access&gt;    ; DS    ;
+;       SSEG2   Descriptor      &lt;0ffffh,,,DS_access&gt;    ; SS    ;
+;       ESEG2   Descriptor      &lt;0ffffh,0,10h,DS_access&gt;; 1M    ;
+;       Gdt286_len      equ     $-Gdt_286                       ;
+;                                                               ;
+;       GDT_PTR Label   Fword                                   ;
+;               dw      Gdt286_len-1    ; length of table       ;
+;       GDT_LW  dw      0                                       ;
+;       GDT_HB  db      0                                       ;
+;               db      0                                       ;
+;                                                               ;
+;                                                               ;
+;---------------------------------------------------------------;
+; Local variables here                                          ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;       Mem_buffer      db      400h dup (0)                    ;
+;       Orig_stack      _DWORD &lt;&gt;                               ;
+;                                                               ;
+;_DATA  ENDS                                                    ;
+;                                                               ;
+;                                                               ;
+;_TEXT  SEGMENT WORD PUBLIC 'CODE'                              ;
+;       ASSUME  CS:_TEXT, DS:_DATA, ES:_DATA, SS:STACK          ;
+;---------------------------------------------------------------;
+
+        RESET_IDTR      label   fword
+                dw      400h - 1        ; Limit portion
+        HOSE_IDTR       df      0       ; Hosed value &amp; base
+                                        ;   address for IDTR
+
+;---------------------------------------------------------------
+  PM_BASICS     PROC    FAR
+;---------------------------------------------------------------
+; .EXE file setup
+;---------------------------------------------------------------
+        push    ds              ; set up the stack to have
+        xor     ax,ax           ; the double word vector, so the
+        push    ax              ; far return will bo back to DOS
+        mov     ax,_data        ; setup segments to match
+        mov     ds,ax           ;   compiler directives
+        mov     es,ax
+        pushf                   ; save interrupt flag
+        cli                     ; disable interrupts
+
+;---------------------------------------------------------------
+; 1) Save interrupt masks
+; 2) Save SS:SP in user data segment
+; 3) Save real mode return address
+; 4) Set the shutdown code in CMOS to tell BIOS, upon reset we
+;    will be returning to our program
+; 5a) Set up descriptor table entries w/ run time addresses
+; 5b) Initialize pointer to GDT
+; 6) Enable A20 on the address bus
+; 7) Enable protected mode
+; 8) FAR JUMP to protected mode routine
+;---------------------------------------------------------------
+        Call    Get_INT_Status          ; save PIC masks
+; (2)
+        mov     Orig_stack.DD_segment,SS; save SS:SP
+        mov     Orig_stack.DD_offset,SP
+; (3)
+        mov     ax,offset @RM_286       ; save real mode return
+        Call    SetPM_RET_addr          ;  address
+; (4)
+        Call    Set_shutdown_type       ; set shutdown in CMOS
+; (5a,b)
+        Minit_descriptor        cs,0,CSEG2      ; Code SEG
+        Minit_descriptor        ss,0,SSEG2      ; Stack SEG
+        Minit_descriptor        ds,0,DSEG2      ; Data SEG
+        mov     si,offset GDT_286
+        Call    Calc_PM_Address
+        mov     GDT_LW,ax
+        mov     GDT_HB,dl
+        Lgdt    GDT_PTR
+; (6)
+        Call    Enable_Gate20
+; (7)
+        smsw    ax              ; get machine status word
+        or      al,1            ; enable protected mode bit
+        lmsw    ax              ; now in protected mode
+; (8)
+        Mfarjmp &lt;@PM_286&gt;,&lt;CSEG2-GDT_286&gt;
+
+;---------------------------------------------------------------
+; Now, fully in protected mode:  Initialize protected mode
+; segment registers.
+;---------------------------------------------------------------
+@PM_286:
+        mov     ax,ESEG2-GDT_286; Pointer to 1M data segment
+        mov     ds,ax
+        mov     ax,DSEG2-GDT_286; Pointer to current data seg
+        mov     es,ax
+        mov     ax,SSEG2-GDT_286; Pointer to stack segment
+        mov     ss,ax
+
+;---------------------------------------------------------------
+; Block move 1K from 1M to data segment
+;---------------------------------------------------------------
+        mov     cx,400h / 2     ; # of words to move
+        mov     si,0            ; starting @ 1M:0
+        mov     di,offset Mem_buffer    ; going to mem_buffer
+        rep     movsw
+
+;---------------------------------------------------------------
+; 1) Exit protected mode with elegant reset
+;---------------------------------------------------------------
+; Prepare to TRIPLE-FAULT the 286 by setting the limit portion
+; of the IDTR=0.  Then generate an interrupt.  This will cause
+; the 286 to triple-fault, thus resetting itself.  Execution
+; will resume @ F000:FFF0.
+;---------------------------------------------------------------
+        lidt    fword ptr CS:HOSE_IDTR  ; Limit=0 (illegal)
+
+.386P
+;---------------------------------------------------------------
+; Now, if we are a 286, the next instruction will cause the
+; desired triple-fault -- because we just hosed the IDTR.  If
+; we are a 386, then MOV EAX,CR0 will execute just fine, and we
+; can begin the process of exiting protected mode.
+;---------------------------------------------------------------
+        mov     eax,cr0         ; get CPU control register
+                                ; The 286 will resume execution
+                                ;   @ F000:FFF0, but the 386
+                                ;   will fall through.
+
+        lidt    fword ptr CS:Reset_IDTR ; restore w/ real-mode
+                                ;   compatible value.  We MUST
+                                ;   do this because real-mode
+                                ;   interrupts are relocatable
+                                ;   on the 386 via the IDT
+                                ;   register!
+
+        and     al,0feh         ; clear protected mode bit
+        mov     cr0,eax         ; now, we are out of prot mode
+        Mfarjmp &lt;@RM_286&gt;,&lt;seg _TEXT&gt;
+
+.286P
+;---------------------------------------------------------------
+; 2) Restore segment registers w/ real mode compatible values
+; 3) Restore the stack SS:SP
+; 4) Inhibit A20 from the address bus (gate A20 off)
+; 5) Restore the PIC masks
+;---------------------------------------------------------------
+@RM_286:mov     ax,_data
+        mov     ds,ax
+        mov     es,ax
+; (3)
+        mov     ss,Orig_stack.DD_segment        ; Restore SS:SP
+        mov     sp,Orig_stack.DD_offset
+; (4)
+        Call    Shut_A20
+; (5)
+        Call    Set_INT_Status
+        popf
+        retf
+PM_BASICS       ENDP
+;---------------------------------------------------------------
+;                       END LISTING 4
+;---------------------------------------------------------------
+ 
+</PRE></BODY></HTML>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex4.htm -->
+<HTML><HEAD><TITLE>6.4 Gesamtbeispiel</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Gesamtbeispiel-Dateien/stone.jpg>
+<H1><FONT color=#800000>6.4 Gesamtbeispiel</FONT></H1>
+<P>Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/pm_07_03.asm">pm_07_03.asm</A> 
+stellt 4 unterschiedliche Grafikeffekte in 4 "Fenstern" im Standard 
+VGA-Grafikmodus dar (320x200x256, <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm">Anmerkung: 
+VGA</A>). Dabei hat jedes Grafikfenster eine Größe von 160x100 Pixel und die 
+dazugehörigen Programme laufen alle als eigenständige Tasks (Vgl. Abb. 6.3). Die 
+Task-Umschaltung wird vom mehrfach angesprochenen Task-Handler übernommen.</P>
+<CENTER>
+<P><IMG alt="pm_07_03.asm Screenshot" src="Gesamtbeispiel-Dateien/scrshot.gif" 
+border=0> <BR><I><B>Abb. 6.3:</B> Beispielprogramm pm_07_03.asm</I> 
+</P></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex3.htm"><IMG 
+alt=Zurück src="Gesamtbeispiel-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm"><IMG 
+alt=Weiter src="Gesamtbeispiel-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_k"><IMG 
+alt="Zum Index" src="Gesamtbeispiel-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 27.07.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

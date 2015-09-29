@@ -1,0 +1,289 @@
+/*1304367354,169776317*/
+
+body.fan_widget{background:transparent}
+.fbDarkWidget .fan_box{color:#808080}
+.fbDarkWidget .fan_box a{color:#ccc}
+.fan_box .full_widget{border:solid 1px #94a3c4;background:white}
+.fan_box .full_widget .connect_top{background:#eceff5}
+.fan_box .connect_top{padding:10px 10px 8px 10px}
+.pts .fan_box .connect_top{padding:5px 10px 8px 5px}
+.fan_box .profileimage{float:left;width:40px;height:40px;padding:0 10px 0 0;margin:0 0 4px 0}
+.fan_box .connect_action{padding:0 0 0 8px}
+.fan_box .connect_action .name{line-height:15px;font-size: 14px;font-weight:bold}
+.fan_box .connect_button{padding-top:5px}
+.fan_box .connect_button .uiButton{margin:1px 0 0 0}
+.fan_box .connect_action a.undo{margin:0 0 0 3px}
+.fan_box .page_stream, .fan_box .page_stream_short{text-align:center;padding:0 5px;overflow:auto;border-top:solid 1px #d8dfea;position:relative}
+.fan_box .storyContent{text-align:left}
+.fan_box .page_stream{height:300px}
+.fan_box .page_stream_short{height:250px}
+.fan_box .page_stream .loader{padding-top:20px}
+.fan_box .UIIntentionalStory{background:transparent;text-align:left;padding:7px 0 0 0}
+.fan_box .UIIntentionalStory .UIMediaItem_UnknownWidth{max-width:100px}
+.fan_box .connections{border-top:solid 1px #d8dfea;padding:10px 0 4px 10px;min-height:150px}
+.pts .fan_box .connections{padding:5px 0 4px 5px}
+.fan_box .connections .connections_grid{padding-top:5px}
+.fan_box .connections_grid .grid_item{float:left;padding:0 5px 8px 0;overflow:hidden;width:50px}
+.fan_box .connections_grid .grid_item .name{font-size: 9px;color:#808080;overflow:hidden;padding-top:2px;text-align:center;white-space:nowrap}
+.fan_box .connect_span{margin:0 0 1px}
+.fan_box .connect_widget .connect_widget_text{padding:0}
+.fan_box .connect_widget td.connect_widget_vertical_center{height:20px}
+.fan_box .connect_widget td.connect_widget_vertical_center a.connect_widget_like_button{margin-right:7px}
+.fan_box .connect_widget .connect_widget_interactive_area{margin:5px 0 0}
+.connect_comment_widget{margin:0 4px;padding:5px 0;position:relative}
+.connect_comment_widget .nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zv/r/agyQHs6yLID.gif) no-repeat 8px 0;height:6px;width:20px;padding:0;margin:0;left:0;line-height:0;position:absolute;z-index:2;top:0}
+.connect_comment_widget .side_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zn/r/vAOEfR4cWQM.gif) no-repeat 0 0;height:20px;width:6px;padding:0;margin:0;left:-5px;line-height:0;position:absolute;z-index:2;top:14px}
+.connect_comment_widget_rtl .side_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zK/r/R95msRfVr6a.gif) no-repeat 0 0}
+.connect_comment_widget .comment_content{background:white;border-color:#333333 #333333 #283e6c;border-style:solid;border-width:1px 1px 2px;zoom:1}
+.connect_comment_widget .connect_comment_widget_text{padding:8px 8px 4px}
+.connect_comment_widget .connect_comment_widget_placeholder_input{width:304px;color:#808080;line-height:16px;height:20px}
+.connect_comment_widget .connect_comment_widget_placeholder_input_region{padding:8px 8px 5px}
+.connect_comment_widget .connect_comment_widget_user_pic{display:block;float:left;height:auto;padding:0 5px 0 0;width:50px}
+.connect_comment_widget .connect_comment_widget_full_input_textarea{height:50px;width:319px}
+.connect_comment_widget .connect_comment_widget_full_input_region{padding:8px 8px 5px}
+.connect_comment_widget textarea.connect_comment_widget_disabled{color:#808080}
+.connect_comment_widget.like_button_dark textarea.connect_comment_widget_disabled{color:#dedede}
+.connect_comment_widget div.connect_comment_share_preview{padding-left:55px;padding-top:6px}
+.connect_comment_widget div.connect_comment_widget_button_region{padding:8px 8px 5px;text-align:right;background-color:#f2f2f2;border-top:1px solid #bdc7d8}
+.connect_comment_widget.like_button_dark div.connect_comment_widget_button_region{background-color:#333;border-top:1px solid #666}
+.like_button_dark .nub,.like_button_dark .connect_widget_comment_box_upward_nub{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zL/r/7vbl1usLlV8.gif)}
+.like_button_dark .side_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zB/r/Gvy8rtIdNBK.gif) no-repeat 0 0;left:-4px}
+.connect_comment_widget_rtl.like_button_dark .side_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zp/r/E-2vs4qfO7d.gif) no-repeat 0 0}
+.like_button_dark .comment_content{background:#111;border:1px solid #666;border-bottom:2px solid #ccc;color:#ccc}
+.like_button_dark .connect_comment_widget_placeholder_input{border:1px solid #505050;background:1px solid #505050;color:#fff}
+.like_button_dark .connect_comment_widget_full_input_textarea,.like_button_dark .connect_comment_widget_placeholder_input{background-color:#000;border-color:#434343;color:#fff}
+.like_button_dark .connect_comment_widget_full_input_textarea{color:#fff}
+.like_button_dark a{color:#fff}
+.connect_comment_widget .connect_comment_widget_title{font-size: 12px;margin-top:-2px}
+.connect_comment_widget.like_button_dark .connect_comment_widget_title{color:#ccc}
+.connect_comment_widget .connect_comment_widget_description,.connect_comment_widget .connect_comment_widget_href{font-size: 11px;margin-bottom:6px}
+.connect_comment_widget .connect_comment_widget_description{color:#000}
+.connect_comment_widget.like_button_dark .connect_comment_widget_description{color:#ccc}
+body.transparent_widget{background-color:transparent;overflow:hidden}
+body.plugin.transparent_widget{overflow-y:hidden}
+.connect_widget{background-color:transparent}
+.connect_widget .connect_widget_facebook_favicon{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat -1px -47px transparent;display:block;height:14px;padding:0 0 0 0;width:14px;position:absolute;left:-1px}
+.connect_widget .connect_widget_interactive_area{border-collapse:collapse}
+.connect_widget td.connect_widget_vertical_center{border-spacing:0;font-size: 11px;line-height:normal;padding:0}
+.connect_widget td.connect_widget_button_cell{vertical-align:top}
+.connect_widget td.connect_widget_confirm_cell{padding-top:4px}
+.connect_widget .connect_button_slider{position:relative;zoom:1}
+.connect_widget .connect_widget_button_cell .connect_slide_hide_content{overflow:hidden;width:1px;margin-right:0}
+.connect_widget .connect_slide_hide_content .connect_button_container{margin-left:1px}
+.button_count .connect_widget_interactive_area .connect_widget_facebook_favicon,.button_count .connect_widget_interactive_area .connect_widget_text{float:left;position:static}
+body.ie7 .connect_widget a.connect_widget_like_button{float:none}
+a.connect_widget_like_button{display:block;float:left;-webkit-border-radius:3px;-webkit-border-radius:3px;padding:4px 5px;border:1px solid #000}
+.button_count a.connect_widget_like_button{padding:2px 4px}
+a.connect_widget_like_button span{line-height:14px}
+a.connect_widget_like_button:hover{text-decoration:none}
+.connect_widget_number_cloud{position:relative;background:#f3f3f3;border:1px solid #d3d3d3;height:24px;padding-top:6px;text-align:center}
+.like_widget_dark div.connect_widget_number_cloud{background-color:#c7c7c7;border-color:#c7c7c7}
+div.connect_widget_number_cloud table.connect_widget_number_cloud_summary{margin-left:auto;margin-right:auto}
+div.connect_widget_number_cloud table.connect_widget_number_cloud_summary td{font-size: 13px}
+.thumbs_up_icon{width:15px;height:15px;margin-right:2px;background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) -1px -32px no-repeat}
+.like_widget_dark .thumbs_up_icon{background-position:-1px -2px}
+.like_widget_dark div.connect_widget_number_cloud_extension a{color:#333}
+div.connect_widget_number_cloud .connect_widget_text{padding-left:0}
+.connect_widget_number_cloud_nub{position:absolute;z-index:2;height:7px;width:0;bottom:-7px;left:5px}
+.connect_widget_number_cloud_nub s,.connect_widget_number_cloud_nub i{border:solid transparent;border-left-color:#d3d3d3;border-width:0 0 7px 7px;display:block;position:relative}
+.connect_widget_number_cloud_nub i{left:1px;top:-9px;border-left-color:#f3f3f3}
+.like_widget_dark .connect_widget_number_cloud_nub s{border-left-color:#c7c7c7}
+.like_widget_dark .connect_widget_number_cloud_nub i{display:none}
+.connect_widget_offscreen{position:absolute;top:-10000px}
+div.connect_widget_number_cloud_extension{font-size: 11px;height:30px;margin-left:4px;margin-right:4px;margin-top:6px}
+div.connect_widget_number_cloud_extension_icon{margin-left:2px;margin-top:3px}
+div.connect_widget_number_cloud_extension_text{border-color:#dedede;border-width:1px 0 0 0;border-style:solid;line-height:11px;margin-top:1px;text-align:center}
+div.connect_widget_number_cloud_extension_text table{width:100%}
+div.connect_widget_number_cloud_extension_text td{height:30px;text-align:center;vertical-align:middle}
+div.connect_widget_number_cloud_extension span.like_reminder{color:#777;font-size: 9px}
+.like_widget_dark div.connect_widget_number_cloud_extension span.like_reminder{color:#333;font-size: 9px}
+table.connect_widget_button_count_summary,table.connect_widget_simple_summary{background-color:#eceef5;color:#000;font-size: 11px;height:21px}
+table.connect_widget_button_count_summary div.thumbs_up{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 3px -32px #eceef5;height:15px;width:18px}
+td.connect_widget_simple_including div.simple_liked{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 3px -47px #eceef5;height:15px;width:18px}
+.like_button_simple .connect_widget_like_button .liketext{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 0 -47px #eceef5}
+.connect_widget_rtl table.connect_widget_button_count_summary div.thumbs_up{background-position:-1px 0}
+table.connect_widget_button_count_summary div.undo{background-color:#eceef5;height:21px;width:18px}
+.like_button_dark table.connect_widget_button_count_summary div.undo{background-color:#c7c7c7}
+table.connect_widget_button_count_summary label.undo_button{margin-left:6px;margin-top:4px}
+table.connect_widget_button_count_summary div.summary_text{padding-left:3px;padding-right:6px;white-space:nowrap}
+table.connect_widget_simple_summary div.summary_text{padding-left:3px;padding-right:6px;white-space:nowrap;color:#ccc}
+.like_button_dark table.connect_widget_button_count_summary,.like_button_dark table.connect_widget_simple_summary{background-color:#c7c7c7}
+.like_button_dark table.connect_widget_button_count_summary div.thumbs_up{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 3px -3px}
+.connect_widget_rtl .like_button_dark table.connect_widget_button_count_summary div.thumbs_up{background-position:-1px -3px}
+.connect_widget_button_count_count{background:#efefef;border:1px solid #c1c1c1;float:left;font-weight:normal;height:14px;margin-left:1px;min-width:15px;padding:1px 2px 1px 2px;text-align:center}
+.like_button_dark div.connect_widget_button_count_count{background-color:#c7c7c7;border-color:#c7c7c7}
+.connect_widget_button_count_nub{float:left;position:relative;z-index:2;height:0;width:5px;top:-5px;left:2px}
+.connect_widget_button_count_nub s,.connect_widget_button_count_nub i{border:solid transparent;border-right-color:#c7c7c7;border-width:5px 5px 0 0;display:block;position:relative}
+.connect_widget_button_count_nub i{left:2px;top:-6px;border-right-color:#efefef}
+.like_button_dark .connect_widget_button_count_nub i{display:none}
+td.connect_widget_button_count_excluding{padding:0}
+td.connect_widget_button_count_including,td.connect_widget_simple_including{padding:0}
+td.connect_widget_button_count_including .connect_widget_button_count_count.noGrayOut{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zp/r/qDH1xoDhFBF.gif) no-repeat 4px 2px;padding-left:22px;padding-right:4px}
+.connect_widget_rtl td.connect_widget_button_count_including .connect_widget_button_count.noGrayOut{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zp/r/qDH1xoDhFBF.gif) no-repeat 4px 2px;padding-right:22px;padding-left:4px}
+.connect_widget_like_button .vertical{display:block;top:-6px;left:0;margin:0 3px -6px 0;position:relative;padding:3px 4px 4px 3px;border-top:solid 1px;border-bottom:solid 1px}
+.button_count .connect_widget_like_button .vertical{padding:2px 3px 3px 2px}
+.connect_widget_like_button .horizontal{height:100%;width:100%;position:absolute;display:block;top:-3px;left:-3px;padding-left:1px;border-left:solid 1px;border-right:solid 1px}
+.connect_widget_like_button .corner_mask{overflow:hidden;width:3px;height:3px;position:absolute;display:block}
+.connect_widget_like_button .corner{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png);height:6px;width:6px;display:block}
+.connect_widget_like_button .topleft{top:-6px;left:-3px}
+.connect_widget_like_button .topleft .corner{margin:0 0}
+.connect_widget_like_button .topright{top:-6px;right:0}
+.connect_widget_like_button .topright .corner{margin:0 0 0 -3px}
+.connect_widget_like_button .bottomright{bottom:0;right:0}
+.connect_widget_like_button .bottomright .corner{margin:-3px 0 0 -3px}
+.connect_widget_like_button .bottomleft{bottom:0;left:-3px}
+.connect_widget_like_button .bottomleft .corner{margin:-3px 0 0 0}
+.connect_widget_like_button .liketext{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) -1px -33px no-repeat;color:#3b5998;display:block;padding-left:17px;white-space:nowrap}
+.connect_widget_rtl .connect_button_container .liketext{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) 34px -33px no-repeat}
+.connect_widget_like_button .liketextwithimage img{margin-bottom:-2px;margin-right:4px;width:13px}
+.hidden .connect_widget_like_button .liketextwithimage img{height:0;margin:0;padding:0;width:0}
+.connect_widget_like_button .fbLikeButtonTrackingPixel{display:inline;height:0;width:0}
+.button_count .like_button_dark .like_button_no_like .liketext,.button_count .connect_widget_like_button .liketext{background-position:-1px -47px}
+.connect_widget .like_button_no_like .piece,.connect_widget .like_button_no_like{background-color:#eceef5;border-color:#cad4e7}
+.connect_widget .like_button_no_like .corner{background-position:10px -89px}
+.connect_widget a.like_button_no_like:hover .piece,.connect_widget a.like_button_no_like:hover{background-color:#ebedf4;border-color:#9dacce}
+.connect_widget .like_button_no_like:hover .corner{background-position:10px -95px}
+.connect_widget .like_button_pressed,.connect_widget .like_button_pressed .piece{background-color:#ced4e6;border-color:#94a5ca}
+.connect_widget .like_button_pressed .corner{background-position:10px 55px}
+.connect_widget .like_button_like .corner{background-position:10px 49px}
+.connect_widget .like_button_dark .like_button_no_like,.connect_widget .like_button_dark .like_button_no_like .piece{background-color:#c7c7c7;border-color:#e2e2e2}
+.connect_widget .like_button_dark .like_button_no_like .corner{background-position:10px -217px}
+.connect_widget .like_button_dark .liketext{color:#333;background-position:-1px -3px}
+.connect_widget .like_button_dark .like_button_no_like:hover,.connect_widget .like_button_dark .like_button_no_like:hover .piece{background-color:#d9d9d9;border-color:#e9e9e9}
+.connect_widget .like_button_dark .like_button_no_like:hover .corner{background-position:10px -217px}
+.connect_widget .like_button_dark .like_button_no_like_pressed,.connect_widget .like_button_dark .like_button_no_like_pressed .piece{background-color:#a8a8a8;border-color:#a8a8a8;border-top-color:#8f8f8f}
+.connect_widget .like_button_dark .like_button_no_like_pressed .corner{background-position:10px 80px}
+.connect_widget .like_button_dark .like_button_like .corner{background-position:10px 74px}
+.connect_widget .connect_text_wrapper{position:relative}
+.connect_widget div.connect_confirmation_cell{padding:0;margin:0}
+.connect_widget div.connect_confirmation_cell_like{padding-left:0;position:relative;left:-1px}
+.connect_widget div.connect_confirmation_cell_no_like{padding-left:7px}
+.connect_widget .vertical_centering{padding-top:5px}
+.connect_widget .connect_widget_text{display:block;padding-left:17px}
+.button_count .connect_widget_interactive_area .connect_widget_text{padding-left:0;font-weight:bold}
+.connect_widget .like_button_dark .connect_widget_text,.connect_widget .like_button_dark .connect_widget_confirmation{color:#808080}
+.connect_widget .like_button_dark .connect_widget_text a{color:#fff}
+.connect_widget .connect_widget_connect_button{float:left}
+.connect_widget .connect_bar_widget_interactive_area{float:left}
+.connect_widget .connect_bar_widget_text_cell{width:400px}
+.connect_widget .connect_widget_icon{padding:4px 0 4px 4px;vertical-align:middle}
+.connect_widget a.connect_widget_link_inactive{color:#808080;text-decoration:none;cursor:default}
+.connect_widget a.connect_widget_error_text{color:#a00;font-weight:bold}
+div.connect_widget_comment_box_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zn/r/vAOEfR4cWQM.gif) no-repeat 0 0;height:12px;left:-6px;position:absolute;top:6px;width:20px;z-index:3}
+div.connect_widget_comment_box_upward_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zv/r/agyQHs6yLID.gif) no-repeat 0 0;height:12px;left:5px;position:absolute;top:-6px;width:20px;z-index:3}
+.connect_widget_rtl div.connect_widget_comment_box_nub{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zK/r/R95msRfVr6a.gif) no-repeat 0 0;left:-20px}
+.connect_widget div.connect_widget_comment_box{background-color:#fff;border-color:#000;border-style:solid;border-width:1px 1px 2px 1px;position:relative;z-index:100}
+.connect_widget div.connect_widget_comment_box.like_button_dark{background-color:#111;color:#ccc;border-color:#666}
+.connect_widget div.like_button_dark input.connect_widget_comment_textinput{background-color:#666;border-color:#666;color:#dedede}
+.connect_widget div.connect_widget_header_text{float:left;height:20;overflow:hidden;padding-left:7px;padding-top:3px;width:200}
+.connect_widget div.connect_widget_cancel_button{cursor:pointer;float:right;padding-right:7px;padding-top:3px}
+.connect_widget div.connect_widget_comment_text_area_div{padding-left:7px;padding-top:2px}
+.connect_widget div.connect_widget_comment_area{padding:8px}
+.connect_widget .connect_widget_comment_textinput{width:325px}
+.connect_widget .connect_widget_comment_summary{padding:7px 5px 7px 5px}
+.connect_widget .connect_widget_comment_button{margin-left:-1px}
+.connect_widget .connect_widget_comment_close_button{margin-left:2px}
+.connect_widget .like_button_dark .connect_widget_comment_close_button{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zE/r/htZktl244wt.png);background-repeat:none;opacity:.7}
+.connect_widget .like_button_dark .connect_widget_comment_close_button:hover{opacity:1}
+.connect_widget textarea.connect_widget_comment_text_area{height:30px;width:476px}
+.connect_widget .connect_widget_image{height:30px;width:30px;padding-top:3px;vertical-align:bottom}
+.connect_widget a.name_tooltip_link{display:block}
+.connect_widget a.name_tooltip_link .uiTooltipWrap:hover{display:none}
+.connect_widget .connect_widget_name{text-align:center}
+.connect_widget .connect_widget_sample_connection{float:left;padding-right:3px;width:30px;padding-top:5px}
+.connect_widget .connect_widget_user_not_connected{display:none}
+.connect_widget .connect_bar_widget_sample_connections{float:right}
+.connect_widget .connect_widget_whats_this{color:#999;font-size: 9px;padding-top:4px}
+.connect_widget .connect_widget_whats_this a:hover{color:#3b5998;text-decoration:none}
+.connect_widget .page_stream img{max-width:120px}
+.fbConnectWidgetTopmost{border:1px solid #aaa;border-top-color:#315c99;overflow:hidden;padding:0;position:relative}
+div.fbDarkWidget{border:1px solid #666;border-top-color:#ccc;background-color:#000}
+.fbDarkWidget .fbWidgetTitle{color:#fff}
+.fbDarkWidget a,
+.fbDarkWidget .profileName{color:#fff}
+.fbDarkWidget a.uiLinkSubtle{color:#808080}
+div.fbConnectWidgetHeaderTitle{border-width:0 0 1px}
+div.ConnectActivityLogin{border-width:0 0 1px;zoom:1}
+.fbRecommendationWidgetContent .recommendations_metadata{padding-top:3px;color:#808080}
+.fbDarkWidget div.ConnectActivityLogin{border-color:#303030;background-color:#000}
+.fbProfilePic{height:35px;width:35px}
+.fbImageContainer{width:35px;height:35px;background:#edeff4 url(http://static.ak.fbcdn.net/rsrc.php/v1/ze/r/nZW4C56WJb6.png) no-repeat 0 0;overflow:hidden}
+.fbDarkWidget .fbImageContainer{background-position:-35px 0}
+.fbConnectWidgetHeaderTitle{color:#1c2a47;border:1px solid #c6cedd;padding-bottom:7px;padding-top:8px;cursor:default}
+.fbConnectWidgetHeaderTitleBranded{background:#3b5998;color:#fff;cursor:default;padding-bottom:5px;padding-top:7px}
+.fbDarkWidget .fbConnectWidgetHeaderTitle{background-color:#333;border:1px solid #444}
+.fbConnectWidgetTrackingPixel{display:inline;height:0;width:0}
+.fbLoginButton{float:left}
+.ConnectActivityLoginMessage{color:#666;line-height:14px;vertical-align:top;zoom:1}
+.fbDarkWidget .ConnectActivityLoginMessage{color:#808080}
+.fbConnectWidgetFooter{background-color:#fff;bottom:0;cursor:default;position:absolute;width:100%}
+.fbDarkWidget .fbConnectWidgetFooter{background-color:#000}
+.fbConnectWidgetFooter .fbFooterBorder{border-top:1px solid #ccc;margin:0 6px;padding:4px 3px}
+.fbDarkWidget .fbConnectWidgetFooter .fbFooterBorder{border-top:1px solid #444}
+.fbSeparator{color:#ccc;background-color:#ccc;height:1px}
+.fbDarkWidget .fbSeparator{color:#303030;background-color:#303030}
+.fbConnectWidgetContent, .fbImageContainer img{visibility:hidden}
+div.fbHalfPage{overflow:hidden}
+div.fbAdminOptions{float:right}
+body.ie7 .connect_widget a.connect_widget_like_button,
+body.ie8 .connect_widget a.connect_widget_like_button,
+body.ie9 .connect_widget a.connect_widget_like_button{position:relative;margin:6px 0 0 3px;border:0;background-color:transparent !important;padding:0;overflow:visible}
+.connect_widget_like_button .liketext{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) -1px -33px no-repeat}
+.connect_widget a.like_button_no_like:hover .piece,
+.connect_widget a.like_button_no_like:hover{background-color:#eceef5;border-color:#9dacce}
+.connect_widget .like_button_like ,
+.connect_widget .like_button_like .piece{background-color:#eee;border-color:#ddd;cursor:default}
+.connect_widget .like_button_dark .like_button_like ,
+.connect_widget .like_button_dark .like_button_like .piece{background-color:#444;border-color:#555;cursor:default}
+.connect_widget .like_button_like .corner{background-position:10px -229px}
+.connect_widget .like_button_dark .like_button_like .corner{background-position:10px -223px}
+.connect_widget .like_button_like .liketext{background-image:none;clear:right;color:#aaa}
+.connect_widget .tombstone_cross{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 0 -128px;display:block;float:left;height:12px;margin-right:3px;width:14px;z-index:99}
+.like_button_no_like .tombstone_cross{display:none}
+.like_button_like .tombstone_cross{display:block}
+.connect_widget .like_button_dark .like_button_like .tombstone_cross{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png) no-repeat 0 -156px}
+.connect_widget .like_button_like .tombstone_cross:hover{background-position:0 -235px;cursor:pointer}
+.connect_widget .like_button_simple .like_button_like .tombstone_cross:hover{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v1/zk/r/QSupuIwbSa4.png);background-position:0 -128px;cursor:auto;height:12px;margin-left:0;margin-right:3px;margin-top:0;width:14px}
+.connect_widget .like_button_dark .like_button_like .tombstone_cross:hover{background-position:0 -247px}
+.connect_widget .connect_button_container .like_button_like .liketext,
+.connect_widget .connect_widget_connect_button .like_button_like .liketext{padding-left:17px}
+.connect_widget_comment_box div.connect_widget_comment_box_nub{background:none}
+.connect_widget .like_button_dark .like_button_like .liketext{color:#666}
+div.connect_widget div.connect_confirmation_cell_like{padding-left:7px}
+.fbpage_edit_header{padding:0;margin:0;height:31px;border:0;margin:-7px 0 19px;border-bottom:1px solid #ccc;background:#fff}
+.pages_edit .fbpage_edit_header{margin:0}
+.icon_dock{margin:0;padding:0;width:300px;float:right}
+.icon_dock .icon_dock_container{margin:0;padding:0;padding-top:8px;float:right;z-index:30}
+.icon_dock .edit_link{padding-right:8px;padding-top:10px;font-weight:bold;color:#666;display:block;margin:0;float:right}
+.icon_dock a{padding:0;padding-left:5px;padding-top:8px;margin:0 0 0 0}
+.edit_app_switcher{margin:0 0;padding-top:6px}
+.edit_app_switcher .app_switcher_button .name{padding:2px 0 2px 6px}
+.edit_app_switcher .app_switcher_menu{width:160px}
+.edit_app_switcher .app_switcher_menu .name{width:105px;text-align:left}
+.edit_app_switcher .app_switcher_button .arrow{padding:2px 0 1px}
+.fbpage_edit_header .left_header{float:left;font-size: 11px;font-weight:bold;overflow:hidden;padding:7px 0 2px;white-space:nowrap;width:250px}
+.fbpage_edit_header .left_header_text{padding-left:5px;position:relative;top:-4px}
+.fbpage_edit_header div.left_header .edit_link{font-weight:normal;padding-left:4px;color:#ccc}
+.fbpage_edit_header div.left_header .edit_link a{color:#6d84b4}
+.fan_status_inactive{background-color:#fffccc;color:#666;margin:0;padding:0 0 0 3px;line-height:18px}
+.pagesAboutText{margin:0 6px 5px}
+.pagesAboutTextActions{padding:3px 8px 4px 22px}
+#wall_section_header .uiSelectorButton,#wall_section_header .uiSelectorButton:active,#wall_section_header .uiSelectorButton:focus,#wall_section_header .uiSelectorButton:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v1/zD/r/B4K_BWwP7P5.png) right -244px;background-color:transparent;border:none;box-shadow:none;-webkit-box-shadow:none;margin:0;outline:0;padding:0 20px 2px 0}
+#wall_section_header .uiHeaderActions,#wall_section_header .uiSelectorButton .uiButtonText{color:#333;padding:0}
+#wall_section_header .uiSelectorButton:hover .uiButtonText{text-decoration:underline}
+#wall_section_header .openToggler .uiSelectorButton:hover .uiButtonText{text-decoration:none}
+.placePageStats{margin:0 6px 5px;overflow:hidden}
+.placePageStatsNumber{font-family:Helvetica,Arial,default;font-size: 18px;font-weight:bold}
+.placePageHereNowContent{margin-top:10px;overflow:hidden}
+.placeVisitorsFacepile{margin:2px 6px 14px 6px}
+.uiNumberGiant{font-family:arial, helvetica}
+.connect_widget{overflow:hidden}
+.connect_widget .connect_widget_facebook_logo_menubar{background-color:#3b5998;border:1px solid #244588;border-bottom:none;margin-bottom:-1px;position:relative}
+.connect_widget .connect_widget_facebook_logo{padding:3px 0 5px 6px;float:left}
+.connect_widget .connect_widget_facebook_logo span{background:transparent url(http://static.ak.fbcdn.net/rsrc.php/v1/zx/r/zZEOQP4uOC1.gif) no-repeat scroll 0 0;display:block;height:17px;width:90px}
+.connect_widget .connect_widget_facebook_logo:hover span{background-position:left -17px}
+.connect_widget .connect_widget_menu_options{float:right}
+.connect_widget .connect_widget_menu_link{float:left;height:17px;margin-right:5px;padding:5px 5px 3px 5px;color:#fff;font-size: 11px}
+.connect_widget .connect_widget_menu_link:hover{background-color:#5c75aa;text-decoration:none}
+
+#bootloader_kM3FS { height: 42px; }

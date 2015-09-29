@@ -1,0 +1,2419 @@
+From: <Saved by Windows Internet Explorer 7>
+Subject: The Joel Test: 12 Steps to Better Code - Joel on Software
+Date: Mon, 7 Jan 2008 09:40:46 +0100
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01C85111.614058C0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3028
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.joelonsoftware.com/articles/fog0000000043.html
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" =
+"http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML><HEAD><TITLE>The Joel Test: 12 Steps to Better Code - Joel on =
+Software</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8">
+<META content=3D"MSHTML 6.00.6000.16414" name=3DGENERATOR>
+<META content=3DBA75236C/43 name=3Dcitydesk><LINK title=3Ddefault =
+media=3Dscreen=20
+href=3D"http://www.joelonsoftware.com/css/css.css" type=3Dtext/css=20
+rel=3Dstylesheet><LINK media=3Dprint=20
+href=3D"http://www.joelonsoftware.com/css/print.css" type=3Dtext/css=20
+rel=3Dstylesheet><LINK title=3DRSS =
+href=3D"http://www.joelonsoftware.com/rss.xml"=20
+type=3Dapplication/rss+xml rel=3Dalternate></HEAD>
+<BODY text=3D#000000 bgColor=3D#ffffff>
+<TABLE cellSpacing=3D0 cellPadding=3D0 width=3D750 align=3Dcenter =
+border=3D0>
+  <TBODY>
+  <TR>
+    <TD width=3D500><A href=3D"http://www.joelonsoftware.com/"><IMG =
+height=3D220=20
+      alt=3D"Joel on Software" =
+src=3D"http://www.joelonsoftware.com/i/head.jpg"=20
+      width=3D500 border=3D0></A> </TD>
+    <TD id=3Devents=20
+    style=3D"BACKGROUND-IMAGE: url(../i/calendar.jpg); =
+BACKGROUND-REPEAT: no-repeat"=20
+    vAlign=3Dcenter align=3Dmiddle width=3D232>
+      <DIV>Feb 13-14: Tokyo:<BR><B><A=20
+      href=3D"http://www.seshop.com/event/dev/">Shoeisha Developers=20
+      Summit</A></B></DIV>
+      <DIV>Feb 26-27: New York:<BR><B><A=20
+      href=3D"http://www.futuretest.net/">FutureTest =
+2008</A></B></DIV></TD></TR>
+  <TR>
+    <TD style=3D"BACKGROUND: #eee; PADDING-BOTTOM: 3px; PADDING-TOP: =
+3px"=20
+    align=3Dmiddle colSpan=3D2>
+      <FORM style=3D"DISPLAY: inline" =
+action=3Dhttp://www.google.com/custom=20
+      method=3Dget>Search: <INPUT maxLength=3D255 size=3D25 name=3Dq> =
+<INPUT type=3Dhidden=20
+      =
+value=3DLW:640;L:http://www.joelonsoftware.com/head.jpg;LH:113;BGC:white;=
+AH:left;AWFID:9bf745a1e751e1bb;=20
+      name=3Dcof> <INPUT type=3Dhidden value=3Dwww.joelonsoftware.com =
+name=3Ddomains>=20
+      <INPUT type=3Dhidden value=3Dwww.joelonsoftware.com =
+name=3Dsitesearch>=20
+  </FORM></TD></TR></TBODY></TABLE><BR>
+<TABLE id=3Dmain cellSpacing=3D0 cellPadding=3D0 width=3D750 =
+align=3Dcenter border=3D0>
+  <TBODY>
+  <TR>
+    <TD vAlign=3Dtop width=3D470>
+      <DIV=20
+      style=3D"BORDER-RIGHT: rgb(0,0,128) 1px solid; PADDING-RIGHT: 5px; =
+BORDER-TOP: rgb(0,0,128) 10px solid; PADDING-LEFT: 5px; BACKGROUND: =
+#eee; MARGIN-BOTTOM: 10px; PADDING-BOTTOM: 4px; BORDER-LEFT: =
+rgb(0,0,128) 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: rgb(0,0,128) =
+1px solid; FONT-FAMILY: =
+Calibri,Verdana,Arial,sans-serif"><STRONG>Wanted:</STRONG>=20
+      <A href=3D"http://jobs.joelonsoftware.com/?3100">Software Engineer =
+at=20
+      DonorsChoose.org</A> (New York, NY 10018). See this and other =
+great job=20
+      listings at <A=20
+      =
+href=3D"http://jobs.joelonsoftware.com/">jobs.joelonsoftware.com</A>. =
+</DIV>
+      <DIV class=3Dslug>
+      <H1>The Joel Test: 12 Steps to Better Code</H1><BR>
+      <H2>By Joel Spolsky<BR>Wednesday, August 09, 2000<BR></H2></DIV>
+      <P>Have you ever heard of <A=20
+      href=3D"http://www.sei.cmu.edu/sema/welcome.html">SEMA</A>? It's a =
+fairly=20
+      esoteric system for measuring how good a software team is. No, =
+<I>wait!=20
+      Don't follow that link! </I>It will take you about six years just =
+to=20
+      <I>understand</I> that stuff. So I've come up with my own, highly=20
+      irresponsible, sloppy test to rate the quality of a software team. =
+The=20
+      great part about it is that it takes about 3 minutes. With all the =
+time=20
+      you save, you can go to medical school.</P>
+      <CENTER>
+      <TABLE style=3D"align: center" cellSpacing=3D0 cellPadding=3D0 =
+width=3D400=20
+      border=3D0>
+        <TBODY>
+        <TR>
+          <TD colSpan=3D3><IMG height=3D23=20
+            =
+src=3D"http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG80.gi=
+f"=20
+            width=3D"100%"></TD></TR>
+        <TR>
+          <TD=20
+          =
+background=3Dhttp://www.joelonsoftware.com/pictures/ShadedPaperBorders/IM=
+G84.gif><IMG=20
+            height=3D14=20
+            =
+src=3D"http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG81.gi=
+f"=20
+            width=3D9></TD>
+          <TD width=3D"100%" bgColor=3D#ffffff>
+            <TABLE cellSpacing=3D0 cellPadding=3D10 width=3D379 =
+border=3D0>
+              <TBODY>
+              <TR>
+                <TD style=3D"TEXT-ALIGN: left">
+                  <P align=3Dcenter><FONT face=3D"Arial =
+Black,Arial,Helvetica"=20
+                  color=3D#333333 size=3D4>The Joel Test</FONT></P>
+                  <OL>
+                    <LI>Do you use source control?=20
+                    <LI>Can you make a build in one step?=20
+                    <LI>Do you make daily builds?=20
+                    <LI>Do you have a bug database?=20
+                    <LI>Do you fix bugs before writing new code?=20
+                    <LI>Do you have an up-to-date schedule?=20
+                    <LI>Do you have a spec?=20
+                    <LI>Do programmers have quiet working conditions?=20
+                    <LI>Do you use the best tools money can buy?=20
+                    <LI>Do you have testers?=20
+                    <LI>Do new candidates write code during their =
+interview?=20
+                    <LI>Do you do hallway usability testing?=20
+              </LI></OL></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=3Dtop align=3Dright width=3D12=20
+          =
+background=3Dhttp://www.joelonsoftware.com/pictures/ShadedPaperBorders/IM=
+G85.gif><IMG=20
+            height=3D11=20
+            =
+src=3D"http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG82.gi=
+f"=20
+            width=3D12></TD></TR>
+        <TR>
+          <TD colSpan=3D3><IMG height=3D16=20
+            =
+src=3D"http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG83.gi=
+f"=20
+            width=3D"100%"></TD></TR></TBODY></TABLE></CENTER>
+      <P>The neat thing about The Joel Test is that it's easy to get a =
+quick=20
+      <B>yes</B> or <B>no</B> to each question. You don't have to figure =
+out=20
+      lines-of-code-per-day or average-bugs-per-inflection-point. Give =
+your team=20
+      1 point for each "yes" answer.&nbsp;The bummer about The Joel Test =
+is that=20
+      you <I>really shouldn't </I>use it to make sure that your nuclear =
+power=20
+      plant software is safe.</P>
+      <P>A score of 12 is perfect, 11 is tolerable, but 10 or lower and =
+you've=20
+      got serious problems. The truth is that most software =
+organizations are=20
+      running with a score of 2 or 3, and they need <I>serious</I> help, =
+because=20
+      companies like Microsoft run at 12 full-time.&nbsp;</P>
+      <P>Of course, these are not the only factors that determine =
+success or=20
+      failure: in particular, if you have a great software team working =
+on a=20
+      product that nobody wants, well, people aren't going to want it. =
+And it's=20
+      possible to imagine a team of "gunslingers" that doesn't do any of =
+this=20
+      stuff that still manages to produce incredible software that =
+changes the=20
+      world. But, all else being equal, if you get these 12 things =
+right, you'll=20
+      have a disciplined team that can consistently deliver.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>1. Do you use =
+source=20
+      control?</B></FONT><BR>I've used commercial source control =
+packages, and=20
+      I've used <A href=3D"http://www.cvshome.org/">CVS</A>, which is =
+free, and=20
+      let me tell you, CVS is <I>fine</I>. But if you don't have source =
+control,=20
+      you're going to stress out trying to get programmers to work =
+together.=20
+      Programmers have no way to know what other people did. Mistakes =
+can't be=20
+      rolled back easily. The other neat thing about source control =
+systems is=20
+      that the source code itself is checked out on every programmer's =
+hard=20
+      drive -- I've never heard of a project using source control that =
+lost a=20
+      lot of code.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>2. Can you make =
+a build=20
+      in one step?</B></FONT><BR>By this I mean: how many steps does it =
+take to=20
+      make a shipping build from the latest source snapshot? On good =
+teams,=20
+      there's a single script you can run that does a full checkout from =
+
+      scratch, rebuilds every line of code, makes the EXEs, in all their =
+various=20
+      versions, languages, and #ifdef combinations, creates the =
+installation=20
+      package, and creates the final media -- CDROM layout, download =
+website,=20
+      whatever.</P>
+      <P>If the process takes any more than one step, it is prone to =
+errors. And=20
+      when you get closer to shipping, you want to have a very fast =
+cycle of=20
+      fixing the "last" bug, making the final EXEs, etc. If it takes 20 =
+steps to=20
+      compile the code, run the installation builder, etc., you're going =
+to go=20
+      crazy and you're going to make silly mistakes.</P>
+      <P>For this very reason, the last company I worked at switched =
+from WISE=20
+      to InstallShield: we <I>required</I> that the installation process =
+be able=20
+      to run, from a script, automatically, overnight, using the NT =
+scheduler,=20
+      and WISE couldn't run from the scheduler overnight, so we threw it =
+out.=20
+      (The kind folks at WISE assure me that their latest version does =
+support=20
+      nightly builds.)</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>3. Do you make =
+daily=20
+      builds?</B></FONT><BR>When you're using source control, sometimes =
+one=20
+      programmer accidentally checks in something that breaks the build. =
+For=20
+      example, they've added a new source file, and everything compiles =
+fine on=20
+      their machine, but they forgot to add the source file to the code=20
+      repository. So they lock their machine and go home, oblivious and =
+happy.=20
+      But nobody else can work, so they have to go home too, =
+unhappy.</P>
+      <P>Breaking the build is so bad (and so common) that it helps to =
+make=20
+      daily builds, to insure that no breakage goes unnoticed. On large =
+teams,=20
+      one good way to insure that breakages are fixed right away is to =
+do the=20
+      daily build every afternoon at, say, lunchtime. Everyone does as =
+many=20
+      checkins as possible before lunch. When they come back, the build =
+is done.=20
+      If it worked, great! Everybody checks out the latest version of =
+the source=20
+      and goes on working. If the build failed, you fix it, but =
+everybody can=20
+      keep on working with the pre-build, unbroken version of the =
+source.</P>
+      <P>On the Excel team we had a rule that whoever broke the build, =
+as their=20
+      "punishment", was responsible for babysitting the builds until =
+someone=20
+      else broke it. This was a good incentive not to break the build, =
+and a=20
+      good way to rotate everyone through the build process so that =
+everyone=20
+      learned how it worked.&nbsp;</P>
+      <P>Read more about daily builds in my article <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000023.html">Daily =
+
+      Builds are Your Friend</A>.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>4. Do you have =
+a bug=20
+      database?</B></FONT><BR>I don't care what you say. If you are =
+developing=20
+      code, even on a team of one, without an organized database listing =
+all=20
+      known bugs in the code, you are going to ship low quality code. =
+Lots of=20
+      programmers think they can hold the bug list in their heads. =
+Nonsense. I=20
+      can't remember more than two or three bugs at a time, and the next =
+
+      morning, or in the rush of shipping, they are forgotten. You =
+absolutely=20
+      have to keep track of bugs formally.</P>
+      <P>Bug databases can be complicated or simple. A minimal useful =
+bug=20
+      database must include the following data for every bug:</P>
+      <UL>
+        <LI>complete steps to reproduce the bug=20
+        <LI>expected behavior=20
+        <LI>observed (buggy) behavior=20
+        <LI>who it's assigned to=20
+        <LI>whether it has been fixed or not </LI></UL>
+      <P>If the complexity of bug tracking software is the only thing =
+stopping=20
+      you from tracking your bugs, just make a simple 5 column table =
+with these=20
+      crucial fields and <I>start using it</I>.</P>
+      <P>For more on bug tracking, read <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000029.html">Painle=
+ss=20
+      Bug Tracking</A>.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>5. Do you fix =
+bugs before=20
+      writing new code?</B></FONT><BR>The very first version of =
+Microsoft Word=20
+      for Windows was considered a "death march" project. It took =
+forever. It=20
+      kept slipping. The whole team was working ridiculous hours, the =
+project=20
+      was delayed again, and again, and again, and the stress was =
+incredible.=20
+      When the dang thing finally shipped, years late, Microsoft sent =
+the whole=20
+      team off to Cancun for a vacation, then sat down for some serious=20
+      soul-searching.</P>
+      <P>What they realized was that the project managers had been so =
+insistent=20
+      on keeping to the "schedule" that programmers simply rushed =
+through the=20
+      coding process, writing extremely bad code, because the bug fixing =
+phase=20
+      was not a part of the formal schedule. There was no attempt to =
+keep the=20
+      bug-count down. Quite the opposite. The story goes that one =
+programmer,=20
+      who had to write the code to calculate the height of a line of =
+text,=20
+      simply wrote "return 12;" and waited for the bug report to come in =
+about=20
+      how his function is not always correct. The schedule was merely a=20
+      checklist of features waiting to be turned into bugs. In the =
+post-mortem,=20
+      this was referred to as "infinite defects methodology".</P>
+      <P>To correct the problem, Microsoft universally adopted something =
+called=20
+      a "zero defects methodology". Many of the programmers in the =
+company=20
+      giggled, since it sounded like management thought they could =
+reduce the=20
+      bug count by executive fiat. Actually, "zero defects" meant that =
+at any=20
+      given time, the highest priority is to eliminate bugs =
+<I>before</I>=20
+      writing any new code. Here's why.&nbsp;</P>
+      <P>In general, the longer you wait before fixing a bug, the =
+costlier (in=20
+      time and money) it is to fix.</P>
+      <P>For example, when you make a typo or syntax error that the =
+compiler=20
+      catches, fixing it is basically trivial.</P>
+      <P>When you have a bug in your code that you see the first time =
+you try to=20
+      run it, you will be able to fix it in no time at all, because all =
+the code=20
+      is still fresh in your mind.</P>
+      <P>If you find a bug in some code that you wrote a few days ago, =
+it will=20
+      take you a while to hunt it down, but when you reread the code you =
+wrote,=20
+      you'll remember everything and you'll be able to fix the bug in a=20
+      reasonable amount of time.</P>
+      <P>But if you find a bug in code that you wrote a few =
+<I>months</I> ago,=20
+      you'll probably have forgotten a lot of things about that code, =
+and it's=20
+      much harder to fix. By that time you may be fixing somebody =
+<I>else's</I>=20
+      code, and they may be in Aruba on vacation, in which case, fixing =
+the bug=20
+      is like science: you have to be slow, methodical, and meticulous, =
+and you=20
+      can't be sure how long it will take to discover the cure.</P>
+      <P>And if you find a bug in code that has <I>already shipped</I>, =
+you're=20
+      going to incur incredible expense getting it fixed.</P>
+      <P>That's one reason to fix bugs right away: because it takes less =
+time.=20
+      There's another reason, which relates to the fact that it's easier =
+to=20
+      <I>predict</I> how long it will take to write new code than to fix =
+an=20
+      existing bug. For example, if I asked you to predict how long it =
+would=20
+      take to write the code to sort a list, you could give me a pretty =
+good=20
+      estimate. But if I asked you how to predict how long it would take =
+to fix=20
+      that bug where your code doesn't work if Internet Explorer 5.5 is=20
+      installed, you can't even <I>guess</I>, because you don't know (by =
+
+      definition) what's <I>causing</I> the bug. It could take 3 days to =
+track=20
+      it down, or it could take 2 minutes.</P>
+      <P>What this means is that if you have a schedule with a lot of =
+bugs=20
+      remaining to be fixed, the schedule is unreliable. But if you've =
+fixed all=20
+      the <I>known</I> bugs, and all that's left is new code, then your =
+schedule=20
+      will be stunningly more accurate.</P>
+      <P>Another great thing about keeping the bug count at zero is that =
+you can=20
+      respond much faster to competition. Some programmers think of this =
+as=20
+      keeping the product <I>ready to ship</I> at all times. Then if =
+your=20
+      competitor introduces a killer new feature that is stealing your=20
+      customers, you can implement just that feature and ship on the =
+spot,=20
+      without having to fix a large number of accumulated bugs.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>6. Do you have =
+an=20
+      up-to-date schedule?</B></FONT><BR>Which brings us to schedules. =
+If your=20
+      code is at all important to the business, there are lots of =
+reasons why=20
+      it's important to the business to know when the code is going to =
+be done.=20
+      Programmers are notoriously crabby about making schedules. "It =
+will be=20
+      done when it's done!" they scream at the business people.</P>
+      <P>Unfortunately, that just doesn't cut it. There are too many =
+planning=20
+      decisions that the business needs to make well in advance of =
+shipping the=20
+      code: demos, trade shows, advertising, etc. And the only way to do =
+this is=20
+      to have a schedule, and to keep it up to date.</P>
+      <P>The other crucial thing about having a schedule is that it =
+forces you=20
+      to decide what features you are going to do, and then it forces =
+you to=20
+      pick the least important features and <I>cut them</I> rather than =
+slipping=20
+      into <A=20
+      =
+href=3D"http://www.netmeg.net/jargon/terms/c/creeping_featuritis.html">fe=
+aturitis</A>=20
+      (a.k.a. scope creep).</P>
+      <P>Keeping schedules does not have to be hard. Read my article <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000245.html">Painle=
+ss=20
+      Software Schedules</A>, which describes a simple way to make great =
+
+      schedules.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>7. Do you have =
+a=20
+      spec?</B></FONT><BR>Writing specs is like flossing: everybody =
+agrees that=20
+      it's a good thing, but nobody does it.&nbsp;</P>
+      <P>I'm not sure why this is, but it's probably because most =
+programmers=20
+      hate writing documents. As a result, when teams consisting solely =
+of=20
+      programmers attack a problem, they prefer to express their =
+solution in=20
+      code, rather than in documents. They would much rather dive in and =
+write=20
+      code than produce a spec first.</P>
+      <P>At the design stage, when you discover problems, you can fix =
+them=20
+      easily by editing a few lines of text. Once the code is written, =
+the cost=20
+      of fixing problems is dramatically higher, both emotionally =
+(people hate=20
+      to throw away code) and in terms of time, so there's resistance to =
+
+      actually fixing the problems. Software that wasn't built from a =
+spec=20
+      usually winds up badly designed and the schedule gets out of=20
+      control.&nbsp; This seems to have been the problem at Netscape, =
+where the=20
+      first four versions grew into such a mess that management <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000069.html">stupid=
+ly=20
+      decided</A> to throw out the code and start over. And then they =
+made this=20
+      mistake all over again with Mozilla, creating a monster that spun =
+out of=20
+      control and took <I>several years</I> to get to alpha stage.</P>
+      <P>My pet theory is that this problem can be fixed by teaching =
+programmers=20
+      to be less reluctant writers by sending them off to take <A=20
+      href=3D"http://www.yale.edu/engl450b/">an intensive course in =
+writing</A>.=20
+      Another solution is to hire smart program managers who produce the =
+written=20
+      spec. In either case, you should enforce the simple rule "no code =
+without=20
+      spec".</P>
+      <P>Learn all about writing specs by reading my <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000036.html">4-part=
+=20
+      series</A>.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>8. Do =
+programmers have=20
+      quiet working conditions?</B></FONT><BR>There are extensively =
+documented=20
+      productivity gains provided by giving knowledge workers space, =
+quiet, and=20
+      privacy. The classic software management book <A=20
+      =
+href=3D"http://www.amazon.com/exec/obidos/ASIN/0932633439/ref=3Dnosim/joe=
+lonsoftware/">Peopleware</A>=20
+      documents these productivity benefits extensively.</P>
+      <P>Here's the trouble. We all know that knowledge workers work =
+best by=20
+      getting into "flow", also known as being "in the zone", where they =
+are=20
+      fully concentrated on their work and fully tuned out of their =
+environment.=20
+      They lose track of time and produce great stuff through absolute=20
+      concentration. This is when they get all of their productive work =
+done.=20
+      Writers, programmers, scientists, and even basketball players will =
+tell=20
+      you about being in the zone.=20
+      <P>The trouble is, getting into "the zone" is not easy. When you =
+try to=20
+      measure it, it looks like it takes an average of 15 minutes to =
+start=20
+      working at maximum productivity. Sometimes, if you're tired or =
+have=20
+      already done a lot of creative work that day, you just can't get =
+into the=20
+      zone and you spend the rest of your work day fiddling around, =
+reading the=20
+      web, playing Tetris.=20
+      <P>The other trouble is that it's so easy to get knocked =
+<I>out</I> of the=20
+      zone. Noise, phone calls, going out for lunch, having to drive 5 =
+minutes=20
+      to Starbucks for coffee, and interruptions by coworkers --=20
+      <I>especially</I> interruptions by coworkers -- all knock you out =
+of the=20
+      zone. If a coworker asks you a question, causing a 1 minute =
+interruption,=20
+      but this knocks you out of the zone badly enough that it takes you =
+half an=20
+      hour to get productive again, your overall productivity is in =
+serious=20
+      trouble. If you're in a noisy bullpen environment like the type =
+that=20
+      caffeinated dotcoms love to create, with marketing guys screaming =
+on the=20
+      phone next to programmers, your productivity will plunge as =
+knowledge=20
+      workers get interrupted time after time and never get into the =
+zone.=20
+      <P>With programmers, it's especially hard. Productivity depends on =
+being=20
+      able to juggle a lot of little details in short term memory all at =
+once.=20
+      Any kind of interruption can cause these details to come crashing =
+down.=20
+      When you resume work, you can't remember any of the details (like =
+local=20
+      variable names you were using, or where you were up to in =
+implementing=20
+      that search algorithm) and you have to keep looking these things =
+up, which=20
+      slows you down a lot until you get back up to speed.=20
+      <P>Here's the simple algebra. Let's say (as the evidence seems to =
+suggest)=20
+      that if we interrupt a programmer, even for a minute, we're really =
+blowing=20
+      away 15 minutes of productivity. For this example, lets put two=20
+      programmers, Jeff and Mutt, in open cubicles next to each other in =
+a=20
+      standard Dilbert veal-fattening farm. Mutt can't remember the name =
+of the=20
+      Unicode version of the strcpy function. He could look it up, which =
+takes=20
+      30 seconds, or he could ask Jeff, which takes 15 seconds. Since =
+he's=20
+      sitting right next to Jeff, he asks Jeff. Jeff gets distracted and =
+loses=20
+      15 minutes of productivity (to save Mutt 15 seconds).=20
+      <P>Now let's move them into separate offices with walls and doors. =
+Now=20
+      when Mutt can't remember the name of that function, he could look =
+it up,=20
+      which still takes 30 seconds, or he could ask Jeff, which now =
+takes 45=20
+      seconds and involves standing up (not an easy task given the =
+average=20
+      physical fitness of programmers!). So he looks it up. So now Mutt =
+loses 30=20
+      seconds of productivity, but we save 15 minutes for Jeff. =
+Ahhh!</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>9. Do you use =
+the best=20
+      tools money can buy?</B></FONT><BR>Writing code in a compiled =
+language is=20
+      one of the last things that still can't be done instantly on a =
+garden=20
+      variety home computer. If your compilation process takes more than =
+a few=20
+      seconds, getting the latest and greatest computer is going to save =
+you=20
+      time. If compiling takes even 15 seconds, programmers will get =
+bored while=20
+      the compiler runs and switch over to reading <A=20
+      href=3D"http://www.theonion.com/">The Onion</A>, which will suck =
+them in and=20
+      kill hours of productivity.</P>
+      <P>Debugging GUI code with a single monitor system is painful if =
+not=20
+      impossible. If you're writing GUI code, two monitors will make =
+things much=20
+      easier.</P>
+      <P>Most programmers eventually have to manipulate bitmaps for =
+icons or=20
+      toolbars, and most programmers don't have a good bitmap editor =
+available.=20
+      Trying to use Microsoft Paint to manipulate bitmaps is a joke, but =
+that's=20
+      what most programmers have to do.</P>
+      <P>At <A =
+href=3D"http://www.joelonsoftware.com/articles/TwoStories.html">my=20
+      last job</A>, the system administrator kept sending me automated =
+spam=20
+      complaining that I was using more than ... get this ... 220 =
+megabytes of=20
+      hard drive space on the server. I pointed out that given the price =
+of hard=20
+      drives these days, the cost of this space was significantly less =
+than the=20
+      cost of the <I>toilet paper</I> I used. Spending even 10 minutes =
+cleaning=20
+      up my directory would be a fabulous waste of productivity.</P>
+      <P><B>Top notch development teams don't torture their =
+programmers.</B>=20
+      Even minor frustrations caused by using underpowered tools add up, =
+making=20
+      programmers grumpy and unhappy. And a grumpy programmer is an =
+unproductive=20
+      programmer.</P>
+      <P>To add to all this... programmers are easily bribed by giving =
+them the=20
+      coolest, latest stuff. This is a far cheaper way to get them to =
+work for=20
+      you than actually paying competitive salaries!</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>10. Do you have =
+
+      testers?</B></FONT><BR>If your team doesn't have dedicated =
+testers, at=20
+      least one for every two or three programmers, you are either =
+shipping=20
+      buggy products, or you're wasting money by having $100/hour =
+programmers do=20
+      work that can be done by $30/hour testers. Skimping on testers is =
+such an=20
+      outrageous false economy that I'm simply blown away that more =
+people don't=20
+      recognize it.</P>
+      <P>Read <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000067.html">Top =
+Five=20
+      (Wrong) Reasons You Don't Have Testers</A>, an article I wrote =
+about this=20
+      subject.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>11. Do new =
+candidates=20
+      write code during their interview?</B></FONT><BR>Would you hire a =
+magician=20
+      without asking them to show you some magic tricks? Of course =
+not.</P>
+      <P>Would you hire a caterer for your wedding without tasting their =
+food? I=20
+      doubt it. (Unless it's Aunt Marge, and she would hate you =
+for<I>ever</I>=20
+      if you didn't let her make her "famous" chopped liver cake).</P>
+      <P>Yet, every day, programmers are hired on the basis of an =
+impressive=20
+      resum=C3=A9 or because the interviewer enjoyed chatting with them. =
+Or they are=20
+      asked trivia questions ("what's the difference between =
+CreateDialog() and=20
+      DialogBox()?") which could be answered by looking at the =
+documentation.=20
+      You don't care if they have memorized thousands of trivia about=20
+      programming, you care if they are able to produce code. Or, even =
+worse,=20
+      they are asked "AHA!" questions: the kind of questions that seem =
+easy when=20
+      you know the answer, but if you don't know the answer, they are=20
+      impossible.</P>
+      <P>Please, just <I>stop doing this</I>. Do whatever you want =
+during=20
+      interviews, but make the candidate <I>write some code</I>. (For =
+more=20
+      advice, read my <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000073.html">Guerri=
+lla=20
+      Guide to Interviewing</A>.)</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>12. Do you do =
+hallway=20
+      usability testing?<BR></B></FONT>A <I>hallway usability test</I> =
+is where=20
+      you grab the next person that passes by in the hallway and force =
+them to=20
+      try to use the code you just wrote. If you do this to five people, =
+you=20
+      will learn 95% of what there is to learn about usability problems =
+in your=20
+      code.</P>
+      <P>Good user interface design is not as hard as you would think, =
+and it's=20
+      crucial if you want customers to love and buy your product. You =
+can read=20
+      my <A=20
+      =
+href=3D"http://www.joelonsoftware.com/uibook/chapters/fog0000000057.html"=
+>free=20
+      online book on UI design</A>, a short primer for programmers.</P>
+      <P>But the most important thing about user interfaces is that if =
+you show=20
+      your program to a handful of people, (in fact, five or six is =
+enough) you=20
+      will quickly discover the biggest problems people are having. Read =
+<A=20
+      href=3D"http://www.useit.com/alertbox/20000319.html">Jakob =
+Nielsen's=20
+      article</A> explaining why. Even if your UI design skills are =
+lacking, as=20
+      long as you force yourself to do hallway usability tests, which =
+cost=20
+      nothing, your UI will be much, much better.</P>
+      <P><FONT face=3D"Arial Black, Arial, Helvetica"><B>Four Ways To =
+Use The Joel=20
+      Test</B></FONT></P>
+      <OL>
+        <LI>Rate your own software organization, and tell me how it =
+rates, so I=20
+        can gossip.=20
+        <LI>If you're the manager of a programming team, use this as a =
+checklist=20
+        to make sure your team is working as well as possible. When you =
+start=20
+        rating a 12, you can <A=20
+        =
+href=3D"http://www.joelonsoftware.com/articles/fog0000000072.html">leave =
+
+        your programmers alone</A> and focus full time on keeping the =
+business=20
+        people from bothering them.=20
+        <LI>If you're trying to decide whether to take a programming =
+job, ask=20
+        your prospective employer how they rate on this test. If it's =
+too low,=20
+        make sure that you'll have the authority to fix these things. =
+Otherwise=20
+        you're going to be frustrated and unproductive.=20
+        <LI>If you're an investor doing due diligence to judge the value =
+of a=20
+        programming team, or if your software company is considering =
+merging=20
+        with another, this test can provide a quick rule of thumb. =
+</LI></OL>
+      <DIV class=3Ddiscuss><A=20
+      =
+href=3D"http://joel.reddit.com/submit?url=3Dhttp://www.joelonsoftware.com=
+/articles/fog0000000043.html">Discuss</A>=20
+      at joel.reddit.com</DIV><BR><BR>
+      <P>
+      <P><STRONG>Students: </STRONG>Fog Creek Software has <A=20
+      style=3D"BACKGROUND-COLOR: yellow"=20
+      href=3D"http://fogcreek.com/Jobs/SummerIntern.html">awesome summer =
+
+      internships</A>&nbsp;in New York City. You get free housing, free =
+lunches,=20
+      lots of free New York activities, and a chance to write great code =
+with=20
+      great developers. And a competitive salary. Apply today: we only =
+have four=20
+      open positions and usually get hundreds of applications, which =
+will be=20
+      considered on a first-come, first-served basis.</P>
+      <P><B>About the Author:</B> I'm your host, Joel Spolsky, a =
+software=20
+      developer in New York City. Since 2000, I've been writing about =
+software=20
+      development, management, business, and the Internet on this site. =
+For my=20
+      day job, I run <A href=3D"http://www.fogcreek.com/">Fog Creek =
+Software</A>,=20
+      makers of <A href=3D"http://www.fogcreek.com/FogBugz">FogBugz</A> =
+- the=20
+      smart bug tracking software with the stupid name, and <A=20
+      href=3D"https://www.copilot.com/">Fog Creek Copilot</A> - the =
+easiest way to=20
+      provide remote tech support over the Internet, with nothing to =
+install or=20
+      configure.</P>
+      <P></P>
+      <P>Enter your email address to receive a (very occasional) email =
+whenever=20
+      I write a major new article. You can unsubscribe at any time, of=20
+      course.<BR>
+      <FORM action=3Dhttp://www.whatcounts.com/bin/listctrl =
+method=3Dpost><INPUT=20
+      type=3Dhidden value=3D470001004392224892 name=3Dslid> <INPUT =
+type=3Dhidden=20
+      value=3Dsubscribe name=3Dcmd> <INPUT type=3Dhidden=20
+      value=3Dhttp://www.joelonsoftware.com/fog0000000331.html =
+name=3Dgoto> Email:=20
+      <INPUT size=3D35 name=3Demail> <INPUT type=3Dhidden value=3Dplain =
+name=3Dformat> <INPUT type=3Dsubmit value=3DSubscribe> </FORM></P></TD>
+    <TD vAlign=3Dtop width=3D30>&nbsp;</TD>
+    <TD id=3Dsidebar vAlign=3Dtop width=3D250>
+      <DIV=20
+      style=3D"BORDER-RIGHT: navy 1px solid; PADDING-RIGHT: 5px; =
+BORDER-TOP: navy 10px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; =
+BORDER-LEFT: navy 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: navy 2px =
+solid">
+      <DIV>I'm your host, Joel Spolsky, a software developer in New York =
+City.=20
+      Since 2000, I've been writing about software development, =
+management,=20
+      business, and the Internet on this site. <A=20
+      href=3D"http://www.joelonsoftware.com/AboutMe.html">More about =
+me</A>.=20
+</DIV>
+      <DIV>There's a <A=20
+      href=3D"http://www.joelonsoftware.com/Archive.html">complete =
+archive</A> of=20
+      everything going back to 2000. The home page is reserved for =
+minor,=20
+      ephemeral thoughts, but occasionally I write a longer article. You =
+can=20
+      sign up to receive email whenever this happens at the bottom of =
+this page.=20
+      We also have one of those <A=20
+      href=3D"http://www.joelonsoftware.com/rss.xml">RSS =
+thingamajiggies</A>. If=20
+      you don't know what that is, consider yourself lucky.</DIV>
+      <DIV>This site has been translated by volunteers around the world =
+into=20
+      more than <A href=3D"http://local.joelonsoftware.com/">thirty=20
+      languages</A>.</DIV>
+      <DIV><A href=3D"http://joel.reddit.com/"><IMG =
+style=3D"MARGIN-LEFT: 5px"=20
+      alt=3D"The Joel Reddit"=20
+      src=3D"http://www.joelonsoftware.com/sidebar/JoelReddit.PNG" =
+align=3Dright=20
+      border=3D0></A>Share links to interesting URLs with other readers =
+at <A=20
+      href=3D"http://joel.reddit.com/">the Joel Reddit</A>&nbsp;(<A=20
+      =
+href=3D"http://www.joelonsoftware.com/items/2006/03/20.html">about</A>).<=
+/DIV>
+      <DIV>Want to hire great developers? Looking for a job that doesn't =
+suck?=20
+      Check out the popular <A =
+href=3D"http://jobs.joelonsoftware.com/">job=20
+      board</A>&nbsp;or the <A =
+href=3D"http://jobs.joelonsoftware.co.in/">job=20
+      board for India</A>.</DIV>
+      <DIV>Have feedback? There are several popular discussion boards on =
+this=20
+      site:</DIV>
+      <DIV style=3D"MARGIN-LEFT: 17px"><A=20
+      href=3D"http://discuss.joelonsoftware.com/?joel">Joel on =
+Software</A><BR><A=20
+      href=3D"http://discuss.joelonsoftware.com/?biz">Business of=20
+      Software</A><BR><A =
+href=3D"http://discuss.joelonsoftware.com/?design">Design=20
+      of Software</A><BR><A=20
+      href=3D"http://discuss.joelonsoftware.com/?dotnet">.NET =
+Questions</A><BR><A=20
+      =
+href=3D"http://discuss.techinterview.org/?interview">TechInterview.org</A=
+><BR><A=20
+      href=3D"http://support.fogcreek.com/?citydesk">CityDesk</A><BR><A=20
+      href=3D"http://support.fogcreek.com/?FogBugz">FogBugz</A><BR><A=20
+      href=3D"http://support.fogcreek.com/?copilot">Fog Creek =
+Copilot</A></DIV>
+      <DIV>You can also <A=20
+      href=3D"http://www.joelonsoftware.com/EmailtheAuthor.html">email =
+me=20
+      directly</A>, although my mailbox is an official disaster =
+area.</DIV>
+      <DIV>For my day job, I'm the CEO of <A =
+href=3D"http://www.fogcreek.com/">Fog=20
+      Creek Software</A>, a bootstrapped software company in New York, =
+NY.</DIV>
+      <DIV>We make <A =
+href=3D"http://www.fogcreek.com/FogBugz">FogBugz</A>, a bug=20
+      tracking system that <A=20
+      =
+href=3D"http://www.fogcreek.com/FogBugz/FogBugzInDepth.html">actually=20
+      works</A> and can be used to manage everything your development =
+does, from=20
+      bug tracking to customer email to feature management to project =
+scheduling=20
+      and so much more. Check out the <A=20
+      =
+href=3D"http://www.fogcreek.com/FogBugz/50tour/01.html">screenshots</A> =
+or=20
+      the <A href=3D"http://try.fogbugz.com/sqltrial.asp">free online=20
+      trial</A>.</DIV>
+      <DIV>We also make <A href=3D"https://www.copilot.com/">Fog Creek=20
+      Copilot</A>, which lets you control someone else's computer (with =
+their=20
+      permission, of course) over the Internet. It's the best way to fix =
+
+      someone's computer problems remotely. There's nothing to install, =
+it's=20
+      simple as heck, and it works through any kind of firewall, NAT, or =
+proxy=20
+      situation with zero configuration. <A=20
+      href=3D"https://www.copilot.com/learnmore/">More</A></DIV>
+      <DIV>If you're in college, Fog Creek Software has a very cool paid =
+<A=20
+      href=3D"http://www.fogcreek.com/Jobs/SummerIntern.html">internship =
+
+      program</A> (<A href=3D"http://www.projectaardvark.com/">last =
+year's=20
+      interns</A> developed Copilot in one summer). We also run a <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/FogCreekMBA.html">Software=
+=20
+      Management Training Program</A>, an intensive three-year program =
+for=20
+      college graduates to learn about managing high tech that combines =
+a=20
+      Masters in Technology Management with extensive hands-on =
+experience in a=20
+      variety of positions.</DIV>
+      <DIV>Wondering what it's like to develop software at Fog Creek? =
+The=20
+      documentary <A =
+href=3D"http://www.projectaardvark.com/movie/">Aardvark'd</A>=20
+      covers the story of the development of Copilot. It's available on=20
+      DVD.</DIV>
+      <DIV><IMG style=3D"MARGIN-LEFT: 5px" height=3D120 alt=3D""=20
+      src=3D"http://www.joelonsoftware.com/navLinks/books-photo.jpg" =
+width=3D140=20
+      align=3Dright border=3D0>So far, this site has been made into <A=20
+      href=3D"http://www.joelonsoftware.com/BuytheBooks.html">three =
+books</A>:=20
+      <EM>User Interface Design for Programmers</EM>, <EM>Joel on =
+Software</EM>,=20
+      and <EM>Smart and Gets Things Done</EM>. All are excellent ways to =
+catch=20
+      up on years of the drivel that appears here without going blind =
+reading it=20
+      on a tiny screen. I=E2=80=99m also the editor of <A=20
+      =
+href=3D"http://www.joelonsoftware.com/articles/BestSoftwareWriting.html">=
+The=20
+      Best Software Writing</A>, a collection of other people's superb =
+essays=20
+      about software. </DIV>
+      <DIV>Fog Creek co-founder Michael Pryor has his own site on <A=20
+      href=3D"http://www.techinterview.org/">Technical Interview =
+Questions</A>.=20
+      </DIV>
+      <DIV><A href=3D"http://www.fogcreek.com/CityDesk"><IMG=20
+      style=3D"MARGIN-LEFT: 5px" height=3D31 alt=3D""=20
+      src=3D"http://www.joelonsoftware.com/MadeWithCityDesk.gif" =
+width=3D88=20
+      align=3Dright border=3D0></A>The entire contents of this site =
+represent the=20
+      opinions of one person. This site is built with <A=20
+      href=3D"http://www.fogcreek.com/CityDesk">CityDesk</A> and hosted =
+by <A=20
+      href=3D"http://www.peer1.net/">Peer 1 Network</A>. </DIV>
+      <DIV>=C2=A9 1999-2007 Joel Spolsky. All Rights Reserved. <A=20
+      href=3D"http://www.joelonsoftware.com/Linking.html">Linking, =
+quoting and=20
+      reprinting</A></DIV></DIV>
+      <P><A href=3D"http://www.joelonsoftware.com/rss.xml"><IMG =
+height=3D14=20
+      alt=3D"RSS Feed" src=3D"http://www.joelonsoftware.com/xml.gif" =
+width=3D36=20
+      border=3D0></A>&nbsp;</P></TD></TR>
+  <TR>
+    <TD style=3D"BORDER-TOP: navy 1px solid; FONT-SIZE: 80%; =
+PADDING-TOP: 1em"=20
+    align=3Dmiddle colSpan=3D3><A =
+href=3D"http://www.joelonsoftware.com/">Home</A> |=20
+      <A =
+href=3D"http://www.joelonsoftware.com/EmailtheAuthor.html">Email</A> | =
+<A=20
+      href=3D"http://www.fogcreek.com/FogBugz">Bug Tracking Software</A> =
+| <A=20
+      href=3D"https://www.copilot.com/">Remote Assistance</A> | <A=20
+      href=3D"http://www.joelonsoftware.com/Archive.html">Complete =
+Archive</A>=20
+  </TD></TR></TBODY></TABLE>
+<SCRIPT src=3D"http://www.google-analytics.com/urchin.js" =
+type=3Dtext/javascript>
+</SCRIPT>
+
+<SCRIPT type=3Dtext/javascript>
+_uacct =3D "UA-225715-5";
+urchinTracker();
+</SCRIPT>
+</BODY></HTML>
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/i/head.jpg
+
+/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4p
+LSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09P
+T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCADcAfQDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC+kGB0
+qSOBiwOOKtogxUgAFdPMYcpAVC8VBNHv4Aq26g1HsOaEwaKksYWPBqFLbIDH8q0GjJxmkKfLgCqU
+ieUqjbjHpTyBsqT7Oc9eKUw5G2i4WMyYgtgCpIMg4I5q01gRIGDZFSpbANkirclaxCi7kC7uwqxG
++BzVhbQbMluahkgI+7ms3ZmiuiTeMVA02Dio3aReqHHrVd5ueeKFBicy00hIqF5CKgNxxioi5Pet
+I02Q6g6SbPAqNSC3zUnWpkVMeprWySM73GsFIOKYqgjJNS+XjOeBTEHNCBkyJ8vAzVpMuFHSnQBW
+HHGKsqFyDjkVjKRrGJatQIosZzUjEGoValLVizZEgNIzVEZMUwvmkBKWpVaoN1OU0AWQ1BcKCScA
+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
+P7oo8tP7op1FACBVHQUtFFABRRRQB//Z
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG80.gif
+
+R0lGODdhkAEXANUAAP///+Dg4P7+/vz8/P39/fn5+fX19fb29vv7+/r6+vj4+PPz8+Pj4+rq6vHx
+8e/v7/Dw8N7e3vf39+zs7Ofn59vb287OztTU1Ovr69bW1uTk5PLy8tPT0+Li4u3t7djY2Nzc3NXV
+1dra2uHh4ebm5tDQ0M/Pz93d3QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAkAEXAAAG/kCAcEgsGo/IpHLJ
+bDqf0Kh0Sq1ar9isdsvter/gsHhMLpvP6LR6zW673/C4fE6v2+/4vH7P7/v/gIGCg4SFhoeIiYph
+AY2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmjQKpAk8CAYuvsLGJBLSqq0qprrK7vL14CQgDA7W3
+R6kEur7Ky8xnEgoFwcRIArTJzdjZ2lYLBgcKwLXUBAPX2+fo6UUPDgvfCcPFRKkDCObq+PnMDRMP
+7grBUhmpNqDAPX0IE75iQAGDvwMF4g0kgEDBQYUYMwqK0IHCBAcGABKQJ6RaAgkXNapciUdEBAYN
+/ElIMHLggAQHUrLcydNNWoYKIyh42HAAHkkAAgrm7Mm0qRsOHyKQ+AhxwNGkBQzodMq165YSGU5o
+wAAy4tWCWr2qXcvFRAgQMCEYMGsz61a2ePMisXChQty5Vuum1Uu4cBK+fhvIpQsgCAA7
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG81.gif
+
+R0lGODlhCQAOAKIAAP////X19eDg4Pn5+f7+/vz8/AAAAAAAACH5BAAAAAAALAAAAAAJAA4AQAMd
+CApUE2IxB2V7cd2qaVbbN2GWV5IdCpopt6ojlAAAOw==
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG82.gif
+
+R0lGODlhDAALALMAAP////z8/Pn5+c7OzvDw8Orq6tTU1Nvb2/7+/uPj4/X19QAAAAAAAAAAAAAA
+AAAAACH5BAAAAAAALAAAAAAMAAsAQAQncJiTClEiIAAktZjGedWVbd1UhigJnqP6iuln0u7dynps
+s74VDBABADs=
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG83.gif
+
+R0lGODdhkAEQANUAAP////7+/vz8/Pn5+fX19ePj4+rq6tvb287OzvDw8NTU1MXFxcLCwsnJyf39
+/fb29vHx8fr6+vj4+Pv7+/Pz8+fn5+zs7O/v79bW1t7e3uvr6+3t7ebm5vf39/Ly8uHh4dPT09jY
+2MjIyOTk5MzMzN3d3dDQ0Nzc3ODg4NXV1c/Pz8rKysPDw9HR0cvLy8bGxuLi4tra2gAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAkAEQAAAG/kCAEBAQDAiooXLJ
+bDqf0Kh0Sq1ar9isdsvter/gsBKhOBQMCcJAEGAWj0mxfE6v2+/4vH5fJZvRamxuRkh8hoeIiYqL
+jHwqKSdnaWttS28EEBojJRgmJCILLAyjpKWmp6ipqqusra6vsLGys7S1tre4ubq7sCwLIiQmGCUj
+GhCBlUpvDxAWHBkhIAguIi8L19jZ2tvc3d7f4OHi4+Tl5ufo6err7O3u7+QvIi4IICEZHBYQD5SD
+EQ8eNlT4cABDCwQkVjRYyLChw4cQI0qcSLGixYsYM2rcyLGjx48gQ4ociXEFCQQtMBz4UGGDhwcR
+BFlyEKEDhQsGCmSIgQGE/gkVCIIKHUq0qNGjSJMqXcq0qdOnUKNKnUq1qtWrWLM6VWECBIYYGc5c
+oNAhgoNkQwI4mCABk4UKMDIcCIEhhYK7ePPq3cu3r9+/gAMLHky4sOHDiBMrXsy4sePHhFNgCHEg
+A4wK+ghImHDWjQMjD25qqFDgQ4YSJw6oXs26tevXsGPLnk27tu3buHPr3s27t+/fwIMLv32iRIYP
+BSpoGMtPQGdLRdiGvmDBQAUOIwpo3869u/fv4MOLH0++vPnz6NOrX8++vfv38OPLTz+CQwUDFphv
+ZoM27ecIEoQGwQUbWKCBAQgmqOCCDDbo4IMQRijhhBRWaOGFGGao4YYc/nbo4YcgXqiBBRtcAAEF
+D0gQ03OerQXgAwRQ4AEEECRg44045qjjjjz26OOPQAYp5JBEFmnkkUgmqeSSTDbpZJE0ekABASlG
+wBmL0Dnw2QQDSNDBAzASIOaYZJZp5plopqnmmmy26eabcMYp55x01mnnnXjmqaecYHYgwQATOHdW
+f8qo9ZkAE0QQwQCMNuroo5BGKumklFZq6aWYZqrpppx26umnoIYq6qikfqpooIIGQCh0qmp5qACw
+xirrrLTWauutuOaq66689urrr8AGK+ywxBZr7LHIDuuqqqpWweyz0EYr7bTUVmvttdhmq+223Hbr
+7bfghivuuOSWa660A04EAQA7
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/sidebar/JoelReddit.PNG
+
+iVBORw0KGgoAAAANSUhEUgAAACEAAAAoCAIAAAD/iQTwAAAACXBIWXMAAAWJAAAEJwFcLmaqAAAA
+B3RJTUUH1gMWAAo1lj0LqAAAAAd0RVh0QXV0aG9yAKmuzEgAAAAMdEVYdERlc2NyaXB0aW9uABMJ
+ISMAAAAKdEVYdENvcHlyaWdodACsD8w6AAAADnRFWHRDcmVhdGlvbiB0aW1lADX3DwkAAAAJdEVY
+dFNvZnR3YXJlAF1w/zoAAAALdEVYdERpc2NsYWltZXIAt8C0jwAAAAh0RVh0V2FybmluZwDAG+aH
+AAAAB3RFWHRTb3VyY2UA9f+D6wAAAAh0RVh0Q29tbWVudAD2zJa/AAAABnRFWHRUaXRsZQCo7tIn
+AAABAElEQVR42t1XT2jbWBr/uvjwDC7I0IWnQ6E6DFQlhbFpYCSSwxp6qMscotCFqWEg653CjstC
+4jAwM9oevOqc7BSWpAs7dhYG0h4Wq4eACi3xZUE+ZJEPHaxCFxSoQToE9MACfTAG7eF5ndj508zC
+XPbjHZ6+97330/f/vUtJksAvTL+CX57+XzBSZy1ghHbX7v3Ym+F7rusPfM91SCZ7I5cTqKgqqqqo
+lNKzjrp0qs8bTxrGI10UiJDJplNAUgQA3MAXCBGvZI9LEgCG6B+GucXC+ld67lbuQhiP//y49dQQ
+CCEpAql0OnW+JQj5r4AX+MXPykbNIBnyAYzs5UuiIJAUkBQJP/DZXwAAAQBJREFUGBICAiFnGDh9
+nJ0GCEdxfvFuc7t5us8xwvW1dVEUWQQ+QxyBd8i8QyZck28s3mWQDhgyRBwhIiICIiDG4zGKcRSH
+oxgAOrvtIAhO/6XS56WskO31ev7AL35aDEfwcG29/EV54kz3rWu9tOyu7e7bIWPpFJCJfqOjE+MR
+tr5vHd8ISZIkSdJ3+5TSJEniYawsKNqS5vt+cjb13X7bbNc36tqSdv+eJmRAyICQIYRAdbVaXa0C
+QNtsc+ExhrPvaEtakiTKglJdrSb/Ezn7DqWUH83nUxjxMAYAo2YoC8rUvjhOvtOSe5B8rSRxPHtq
+t528ah7nc3s4+w7/XT6ByXLbbMyfBu4AAAEASURBVAPA3qu92VPuwXi8ak4tPTPG/K+nfqu53dSW
+tHgYU0q5weH48sQ9R9TbO8LotqeWuH58TBOltLxS5sZPkuQDCQYfF2DJgAMHruXhE21q6boKPRMA
+IKfNbFIVNWThzg87U3E1wT8/nE7Rsts+6afySnkSVEmSTNXd0melnec7P6OiflyATzSYqQIA/Xd9
+6ap09D0T9ZTSvtufiqxhPMO5SARPuXlGor5Rn4HxfZ9SWl2tziA5+055pTyzPR7G8pzc3G6eh5Ek
+iVEzKKXHg9j3/epqldcGbUnTljRKKaW0vlE/vtH3/VNTGE7Vd+/VHo+/k3Zz9h1n35kJjXgYcwMY
+NSO3GspEAAABAElEQVQexm2z3dxuxsNxLEzV9t6/et57j7srDMOtv26ZL0xlQSn/rpy/mT/Zf3iv
+tF5aO893VEXVv9Fzt3Kl+yXpmsQi5vSczssOyZCj/FAXVcaY/JFsvjAlQaBCFgAEQmAQtGqP1wOf
+IcpzsvyRzOXtrh0EgUypz1jhTpGXCQBgjLGI+QMfEd23bu5WboxhvjAZY/03fQBo/b3Vqj02Pi0C
+gL5rleZzAOAdSnkqGN1e5Q8VAHj44PeN36j2e78o3zBedzovrWVteeeHHd4BQxbiCL1/e/xznB8h
+C4u3i3yev5mfsYlMRdf3CCFFSdJrul7Ti5IEAIjIW4h+u4Bur3CngBHKMkXOCwAAAQBJREFUczJj
+zO7a+iNdvi4DQEp/cHd8T/jeUhdV6apUWa2IktBBr/vG6x54XA8xI3TeebIoZiMAACEjOAHzIwYA
+N64IXhiKGUGeVwt3Cowx3rUqX1TGffDu4ti+2QzRv6pghIV5+f4dNZ0hwWE46WX3FZVPtv7pLssy
+vSLKVCzOyQDjbkgVtfSg3HjSMGoGAOiPdG/gcT0utb8rn1Up7PfgBWEhBTIVzykojddWiLC+UXd/
+dAHg2z99yy83k3nKf++ffocboSgXvcD+YNEKETyMK19Wsleypd+WjvhhOLZVbxACIIwgHgGMEH4C
+BMAIyVXZWCu6b1wWeADn6cEwtnYtkiGtvwGvyI8AAAEASURBVLU2n27yWNp8umntWmMMY3U5jBAx
+xgjjCBGRDeP+QbD8R0O+Lss3Ze9d/3w93CDg6VnfqPOGLV2TrF1rkrNn3qm5prm5nDMIzgEIDn15
+Tj7SKWIiFfPzU0XhTIyHaw/dt66qqN0DDxHPEnMCNkksAPADH1KgKMqF3gabG5v6N7o38JQFpbVv
+syg8KdM78Myeoy6qR3Z74/oDX1XUC2Fks9m22Tb/YYq/Ft0RhIuFDiGdEfJhRdiTJJxXY0ImejSe
+NOob9TAMeVp8+P0RhuH62nrjSWNSYMors5m0rC0HQZC+nKaUTuruz3hHlT4vMcZ4D2huN0srJYym
+vGK+MO2uzQV/cpVNAAAAVklEQVSsXcvu2pOEuChGEASbfxkHe3mlXLxd5CWPr3ZedypfVnhaAEDu
+Vm7r6daz589Of6s5bz1EQMQ4jhERI0TE4DAEgPTl9Iz0DCc/P1WheX6cpP8A/qq1zOoogM8AAAAA
+SUVORK5CYII=
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/navLinks/books-photo.jpg
+
+/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsK
+CwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQU
+FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAB4AIwDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDvPix4
+d+LnjXxq138P9YnstAt4ooHjivxADKNzSEr15DLz3x7V518Rfht+0Fb+G5Lm28a3luZIvNgkg1px
+uHTIK9hnNd8vxXufD/jTXNFecx2UXlv8iFssYlby3x1Ddj2OfauE+Inxu1nUopksZI4J9rMiR5KQ
+luScdCxPPsfU1tTw0ppbWZnVxEKd9Nj5K8Q+Ofjv4a1AaHqvjHxoNfeXyY44tek2yOThdqgZOcjv
+zWDq3xl+KuiXlxb6n4y8bW80R8toJfEMqSRyDO7cNv049u9e0fAHxZoN58VI774g6m0moB9lhLfD
+MIYk7ix/vdh+NY/7afjDwZrusvZ6FHFf6rbXIWTU4AAFjAI8skffOcf7uMZ5wOueGpxqez5Xtv8A
+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
+2Q==
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/MadeWithCityDesk.gif
+
+R0lGODlhWAAfAPcAAAAAAAEBAQICAgMDAwQEBAUFBQYGBgcHBwgICAkJCQoKCgsLCwwMDA0NDQ4O
+Dg8PDxAQEBERERISEhMTExQUFBUVFRYWFhcXFxgYGBkZGRoaGhsbGxwcHB0dHR4eHh8fHz8dLjkc
+MSAgICEhISIiIiMjIyQkJCUlJSYmJicnJygoKCkpKSoqKisrKywsLC0tLS4uLi8vLzAwMDExMTIy
+MjMzMzQ0NDU1NTY2Njc3Nzg4ODk5OTo6Ojs7Ozw8PD09PT4+Pj8/P0whKk4sPRQRVBwaXx0cXCce
+TTYjRjgwXCwrYygmbi8saTQyYzUxbCQofzQzcjo6dj48ej07f1A9TVg8U0Q9bEI7c0BAQEFBQUJC
+QkNDQ0REREVFRUZGRkdHR0hISElJSUpKSktLS0xMTE1NTU5OTk9PT1VBU1xBVFZEXV9GXVBQUFFR
+UVJSUlNTU1RUVFVVVVZWVldXV1hYWFlZWVpaWltbW1xcXF1dXV5eXl9fX2lBRUxCbVdGY1FIaEpH
+f0hIeUxNfVlOdV9QdlxUfmJQZGBXfGBgYGFhYWJiYmNjY2RkZGZmZnVibnJhdXhnc3hidnxieXht
+en5sfIBNTJddTZBpbINyeq14a8qEYdOSbNuUasKIcMSMdcSMduqlbyIsiCs0jCw7mztGnjJBpTlI
+oE5OilJTgldWj09WmVVYk1ZYlV9bkmFSgGlbhGRcj3xzhnR3mXJynlBbp1ZepEJVsllkrExgtlFk
+tm5som5yr211rXF0pXR5qmhvsGt6umt7vIBugYVzgYt6goZ5jYl6jXSExHmIw5OGjJ6NjpeJk5WI
+lpmOkJeDmJ2MnJ6QkpuRmqKTkqKVn5ySqYGJtZKQsKefpKaWqKiZtK6lq6ehs6uksaGkv6iiubKy
+srWxus2Xgs6fjs6ekNmnkdCtpYGJwpecwI+e0J6ozpem06Sqy7Gyy6Gp0MvFyMbJ2snN3tPV4tfZ
+5P///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAWAAfAEAI/gC/MVqk
+SFEiRHv05MmD546dOnTmzJETB84bN27asDljpgwZMmPEhAHz5YuXLly2aMmSBUsQID98+OjBY4eO
+HDlw3LBRg8aMGTJiwHjhokULFitUpECB4oSJEiRGjBDxwUMHDo2+zdsKAMDWeV2/igU7lutYr16/
+pi3Ltq3bt2KzwgW7dq7dtl3r3t0rl+vav2nDqhVMd7BftWQLKyY8V92xWqymXCk0yFikNENACMma
+cmXLlzF70LSZUydPn0CFEjWKVGlTp1CnUrXKYcMGDRkwXLBQoQKFCRIiQIDwwEEDBgsUKEiA4ICB
+AgUIDBAQIG/evokDk0VrVm93xNq9/u8dz7YvY7GCCac/bDg9Wu2LyZd9x84bNmfPqGGXf16+/6/x
+4GKKKL10Y80sgMjSxBHLOKKMNlSgkZVFGWnEkUcgiUSSSSipxJJLMM002k04mNbTT0ENVdRRSS3V
+1FNRiTDbVbbhphtvvgEnHHHGMbDff0AG6R923BUJGHzgZVdYf0KO92OTUEZZFpGAlcWkYezddSWU
+5om3WF15YXmYde4duaVb8phDSyuvSHJJJp5sAgonT5LnpZRwBVPKLar4EkgRTPTBDTiGCBONGo9k
+1ciijDbq6KOQRirppJRWKuk3DdnxUEQUVXSRhRdmGMZIHHLR2WegzVQTaSaemKKK/yy2+GIJsc1I
+o403+paVqKSeZKqHIIY4Gqs71eCqULAiJStstVbVwa255fqbjjw2cFxyzB3gXHR14ultkN1+Ky55
+VIp5Flt6/WXWuHYRuV1i774LZrzcxcuuW+4q+WVg6cIbHrz3lqdVwATftR+Z/GZpJcJ23tlkl+eG
+iXBYEoPJr3phLnnmkANf6R6WCbeXcMZjAgnPOdmUM4444XzSCTkQo8ceYyTT/B66H29cVjrA7KIL
+LK4Q4kcVfFRiiSYH15xxzYORid7SUF9sFzq5/LJKKks4ccg2xUzDDCVrhBDuXDrf244tpPCyTjVR
+CIKKFX+4k8ww18SCxNgFA4nMKBehPHGKFFAQYYQSSUzSDCSYQEOMNI0EBAA7
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/xml.gif
+
+R0lGODlhJAAOANUAANVYBPHUwOFdBP/28P9yFeCngvfp4OVeBPRkBe3JsfBjBfr079+ecv+rc/fg
+0NByM+e9of/j0Z9BA//m1eWEQ/+FNP/awc5VBM1nI//t4eezkeirgtRhFPBsFOR3Lt1uJPDBofjX
+wf98JOZ7M/PCofqWU/CugiEOAfmygv/Rsv+PRP+0gn0zAv+aV8JQBD8aAf/IpP////9mAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAkAA4AAAbKwAls
+SCwaj8ijpyVrOp/QqDTKYk6vWKq12YgNCDJVLEJYxWKVJuwcjlmmVWgoliBkYo+LOQZBEM4xLmIB
+AFJxTyILMQ4xDC4IZoofKwNngjGEhltOJWcBLgcyZhB0AySWg4VaUWIxBhxNZgUgZxiomKpQh04E
+AwOMGrExBSN0LreZq08pjQ9nFKLDAgguALcGGysrKk+7Ml2fByiuHbICTreAMSYKTt4yB9VNAi4u
+MvTnTvUyCvX++TLeZRlIRcKLgwgTKlzIcOGJIAA7
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG84.gif
+
+R0lGODlhCQAOAKIAAP////X19eDg4Pn5+f7+/vz8/AAAAAAAACH5BAAAAAAALAAAAAAJAA4AQAMd
+CApUE2IxB2V7cd2qaVbbN2GWV5IdCpopt6ojlAAAOw==
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://www.joelonsoftware.com/pictures/ShadedPaperBorders/IMG85.gif
+
+R0lGODlhDAALALMAAP////z8/Pn5+c7OzvDw8Orq6tTU1Nvb2/7+/uPj4/X19QAAAAAAAAAAAAAA
+AAAAACH5BAAAAAAALAAAAAAMAAsAQAQncJiTClEiIAAktZjGedWVbd1UhigJnqP6iuln0u7dynps
+s74VDBABADs=
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: text/css;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.joelonsoftware.com/css/css.css
+
+BODY {
+	FONT-FAMILY: Georgia, "Times New Roman", Times, serif
+}
+DIV.slug H1 {
+	DISPLAY: inline; FONT-SIZE: 24px; COLOR: navy; FONT-FAMILY: Tahoma, =
+Arial, Helvetica, sans-serif
+}
+DIV.slug H2 {
+	DISPLAY: inline; FONT-SIZE: 11px; MARGIN: 0px; COLOR: #aaa; =
+FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+DIV.slug A {
+	PADDING-LEFT: 1ex; FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: =
+Arial, Helvetica, sans-serif
+}
+DIV.discuss {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #aaa; FONT-FAMILY: Arial, =
+Helvetica, sans-serif
+}
+TD#events DIV {
+	MARGIN-TOP: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 2px; PADDING-TOP: =
+0px; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TD#sidebar DIV {
+	FONT-SIZE: 12px; PADDING-BOTTOM: 10px
+}
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: text/css;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.joelonsoftware.com/css/print.css
+
+BODY {
+	FONT-FAMILY: Georgia, "Times New Roman", Times, serif
+}
+DIV.slug H1 {
+	DISPLAY: inline; FONT-SIZE: 24px; COLOR: navy; FONT-FAMILY: Tahoma, =
+Arial, Helvetica, sans-serif
+}
+DIV.slug H2 {
+	DISPLAY: inline; FONT-SIZE: 11px; MARGIN: 0px; COLOR: #aaa; =
+FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+DIV.slug A {
+	PADDING-LEFT: 1ex; FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: =
+Arial, Helvetica, sans-serif
+}
+TD#events DIV {
+	MARGIN-TOP: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 2px; PADDING-TOP: =
+0px; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TD#sidebar {
+	DISPLAY: none
+}
+TD#sidebar DIV {
+	FONT-SIZE: 12px; PADDING-BOTTOM: 10px
+}
+
+------=_NextPart_000_0000_01C85111.614058C0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.google-analytics.com/urchin.js
+
+//-- Google Analytics Urchin Module=0A=
+//-- Copyright 2007 Google, All Rights Reserved.=0A=
+=0A=
+//-- Urchin On Demand Settings ONLY=0A=
+var _uacct=3D"";			// set up the Urchin Account=0A=
+var _userv=3D1;			// service mode (0=3Dlocal,1=3Dremote,2=3Dboth)=0A=
+=0A=
+//-- UTM User Settings=0A=
+var _ufsc=3D1;			// set client info flag (1=3Don|0=3Doff)=0A=
+var _udn=3D"auto";		// (auto|none|domain) set the domain name for cookies=0A=
+var _uhash=3D"on";		// (on|off) unique domain hash for cookies=0A=
+var _utimeout=3D"1800";   	// set the inactive session timeout in seconds=0A=
+var _ugifpath=3D"/__utm.gif";	// set the web path to the __utm.gif file=0A=
+var _utsp=3D"|";			// transaction field separator=0A=
+var _uflash=3D1;			// set flash version detect option (1=3Don|0=3Doff)=0A=
+var _utitle=3D1;			// set the document title detect option =
+(1=3Don|0=3Doff)=0A=
+var _ulink=3D0;			// enable linker functionality (1=3Don|0=3Doff)=0A=
+var _uanchor=3D0;			// enable use of anchors for campaign =
+(1=3Don|0=3Doff)=0A=
+var _utcp=3D"/";			// the cookie path for tracking=0A=
+var _usample=3D100;		// The sampling % of visitors to track (1-100).=0A=
+=0A=
+//-- UTM Campaign Tracking Settings=0A=
+var _uctm=3D1;			// set campaign tracking module (1=3Don|0=3Doff)=0A=
+var _ucto=3D"15768000";		// set timeout in seconds (6 month default)=0A=
+var _uccn=3D"utm_campaign";	// name=0A=
+var _ucmd=3D"utm_medium";		// medium (cpc|cpm|link|email|organic)=0A=
+var _ucsr=3D"utm_source";		// source=0A=
+var _uctr=3D"utm_term";		// term/keyword=0A=
+var _ucct=3D"utm_content";	// content=0A=
+var _ucid=3D"utm_id";		// id number=0A=
+var _ucno=3D"utm_nooverride";	// don't override=0A=
+=0A=
+//-- Auto/Organic Sources and Keywords=0A=
+var _uOsr=3Dnew Array();=0A=
+var _uOkw=3Dnew Array();=0A=
+_uOsr[0]=3D"google";	_uOkw[0]=3D"q";=0A=
+_uOsr[1]=3D"yahoo";	_uOkw[1]=3D"p";=0A=
+_uOsr[2]=3D"msn";		_uOkw[2]=3D"q";=0A=
+_uOsr[3]=3D"aol";		_uOkw[3]=3D"query";=0A=
+_uOsr[4]=3D"aol";		_uOkw[4]=3D"encquery";=0A=
+_uOsr[5]=3D"lycos";	_uOkw[5]=3D"query";=0A=
+_uOsr[6]=3D"ask";		_uOkw[6]=3D"q";=0A=
+_uOsr[7]=3D"altavista";	_uOkw[7]=3D"q";=0A=
+_uOsr[8]=3D"netscape";	_uOkw[8]=3D"query";=0A=
+_uOsr[9]=3D"cnn";	_uOkw[9]=3D"query";=0A=
+_uOsr[10]=3D"looksmart";	_uOkw[10]=3D"qt";=0A=
+_uOsr[11]=3D"about";	_uOkw[11]=3D"terms";=0A=
+_uOsr[12]=3D"mamma";	_uOkw[12]=3D"query";=0A=
+_uOsr[13]=3D"alltheweb";	_uOkw[13]=3D"q";=0A=
+_uOsr[14]=3D"gigablast";	_uOkw[14]=3D"q";=0A=
+_uOsr[15]=3D"voila";	_uOkw[15]=3D"rdata";=0A=
+_uOsr[16]=3D"virgilio";	_uOkw[16]=3D"qs";=0A=
+_uOsr[17]=3D"live";	_uOkw[17]=3D"q";=0A=
+_uOsr[18]=3D"baidu";	_uOkw[18]=3D"wd";=0A=
+_uOsr[19]=3D"alice";	_uOkw[19]=3D"qs";=0A=
+_uOsr[20]=3D"yandex";	_uOkw[20]=3D"text";=0A=
+_uOsr[21]=3D"najdi";	_uOkw[21]=3D"q";=0A=
+_uOsr[22]=3D"aol";	_uOkw[22]=3D"q";=0A=
+_uOsr[23]=3D"club-internet"; _uOkw[23]=3D"q";=0A=
+_uOsr[24]=3D"mama";	_uOkw[24]=3D"query";=0A=
+_uOsr[25]=3D"seznam";	_uOkw[25]=3D"q";=0A=
+_uOsr[26]=3D"search";	_uOkw[26]=3D"q";=0A=
+_uOsr[27]=3D"szukaj";	_uOkw[27]=3D"szukaj";=0A=
+_uOsr[28]=3D"szukaj";	_uOkw[28]=3D"qt";=0A=
+_uOsr[29]=3D"netsprint";	_uOkw[29]=3D"q";=0A=
+_uOsr[30]=3D"google.interia";	_uOkw[30]=3D"q";=0A=
+_uOsr[31]=3D"szukacz";	_uOkw[31]=3D"q";=0A=
+_uOsr[32]=3D"yam";	_uOkw[32]=3D"k";=0A=
+_uOsr[33]=3D"pchome";	_uOkw[33]=3D"q";=0A=
+=0A=
+=0A=
+//-- Auto/Organic Keywords to Ignore=0A=
+var _uOno=3Dnew Array();=0A=
+//_uOno[0]=3D"urchin";=0A=
+//_uOno[1]=3D"urchin.com";=0A=
+//_uOno[2]=3D"www.urchin.com";=0A=
+=0A=
+//-- Referral domains to Ignore=0A=
+var _uRno=3Dnew Array();=0A=
+//_uRno[0]=3D".urchin.com";=0A=
+=0A=
+//-- **** Don't modify below this point ***=0A=
+var =
+_uff,_udh,_udt,_ubl=3D0,_udo=3D"",_uu,_ufns=3D0,_uns=3D0,_ur=3D"-",_ufno=3D=
+0,_ust=3D0,_ubd=3Ddocument,_udl=3D_ubd.location,_udlh=3D"",_uwv=3D"1";=0A=
+var _ugifpath2=3D"http://www.google-analytics.com/__utm.gif";=0A=
+if (_udl.hash) _udlh=3D_udl.href.substring(_udl.href.indexOf('#'));=0A=
+if (_udl.protocol=3D=3D"https:") =
+_ugifpath2=3D"https://ssl.google-analytics.com/__utm.gif";=0A=
+if (!_utcp || _utcp=3D=3D"") _utcp=3D"/";=0A=
+function urchinTracker(page) {=0A=
+ if (_udl.protocol=3D=3D"file:") return;=0A=
+ if (_uff && (!page || page=3D=3D"")) return;=0A=
+ var a,b,c,xx,v,z,k,x=3D"",s=3D"",f=3D0;=0A=
+ var nx=3D" expires=3D"+_uNx()+";";=0A=
+ var dc=3D_ubd.cookie;=0A=
+ _udh=3D_uDomain();=0A=
+ if (!_uVG()) return;=0A=
+ _uu=3DMath.round(Math.random()*2147483647);=0A=
+ _udt=3Dnew Date();=0A=
+ _ust=3DMath.round(_udt.getTime()/1000);=0A=
+ a=3Ddc.indexOf("__utma=3D"+_udh);=0A=
+ b=3Ddc.indexOf("__utmb=3D"+_udh);=0A=
+ c=3Ddc.indexOf("__utmc=3D"+_udh);=0A=
+ if (_udn && _udn!=3D"") { _udo=3D" domain=3D"+_udn+";"; }=0A=
+ if (_utimeout && _utimeout!=3D"") {=0A=
+  x=3Dnew Date(_udt.getTime()+(_utimeout*1000));=0A=
+  x=3D" expires=3D"+x.toGMTString()+";";=0A=
+ }=0A=
+ if (_ulink) {=0A=
+  if (_uanchor && _udlh && _udlh!=3D"") s=3D_udlh+"&";=0A=
+  s+=3D_udl.search;=0A=
+  if(s && s!=3D"" && s.indexOf("__utma=3D")>=3D0) {=0A=
+   if (!(_uIN(a=3D_uGC(s,"__utma=3D","&")))) a=3D"-";=0A=
+   if (!(_uIN(b=3D_uGC(s,"__utmb=3D","&")))) b=3D"-";=0A=
+   if (!(_uIN(c=3D_uGC(s,"__utmc=3D","&")))) c=3D"-";=0A=
+   v=3D_uGC(s,"__utmv=3D","&");=0A=
+   z=3D_uGC(s,"__utmz=3D","&");=0A=
+   k=3D_uGC(s,"__utmk=3D","&");=0A=
+   xx=3D_uGC(s,"__utmx=3D","&");=0A=
+   if ((k*1) !=3D ((_uHash(a+b+c+xx+z+v)*1)+(_udh*1))) =
+{_ubl=3D1;a=3D"-";b=3D"-";c=3D"-";xx=3D"-";z=3D"-";v=3D"-";}=0A=
+   if (a!=3D"-" && b!=3D"-" && c!=3D"-") f=3D1;=0A=
+   else if(a!=3D"-") f=3D2;=0A=
+  }=0A=
+ }=0A=
+ if(f=3D=3D1) {=0A=
+  _ubd.cookie=3D"__utma=3D"+a+"; path=3D"+_utcp+";"+nx+_udo;=0A=
+  _ubd.cookie=3D"__utmb=3D"+b+"; path=3D"+_utcp+";"+x+_udo;=0A=
+  _ubd.cookie=3D"__utmc=3D"+c+"; path=3D"+_utcp+";"+_udo;=0A=
+ } else if (f=3D=3D2) {=0A=
+  a=3D_uFixA(s,"&",_ust);=0A=
+  _ubd.cookie=3D"__utma=3D"+a+"; path=3D"+_utcp+";"+nx+_udo;=0A=
+  _ubd.cookie=3D"__utmb=3D"+_udh+"; path=3D"+_utcp+";"+x+_udo;=0A=
+  _ubd.cookie=3D"__utmc=3D"+_udh+"; path=3D"+_utcp+";"+_udo;=0A=
+  _ufns=3D1;=0A=
+ } else if (a>=3D0 && b>=3D0 && c>=3D0) {=0A=
+  _ubd.cookie=3D"__utmb=3D"+_udh+"; path=3D"+_utcp+";"+x+_udo;=0A=
+ } else {=0A=
+  if (a>=3D0) a=3D_uFixA(_ubd.cookie,";",_ust);=0A=
+  else a=3D_udh+"."+_uu+"."+_ust+"."+_ust+"."+_ust+".1";=0A=
+  _ubd.cookie=3D"__utma=3D"+a+"; path=3D"+_utcp+";"+nx+_udo;=0A=
+  _ubd.cookie=3D"__utmb=3D"+_udh+"; path=3D"+_utcp+";"+x+_udo;=0A=
+  _ubd.cookie=3D"__utmc=3D"+_udh+"; path=3D"+_utcp+";"+_udo;=0A=
+  _ufns=3D1;=0A=
+ }=0A=
+ if (_ulink && xx && xx!=3D"" && xx!=3D"-") {=0A=
+   xx=3D_uUES(xx);=0A=
+   if (xx.indexOf(";")=3D=3D-1) _ubd.cookie=3D"__utmx=3D"+xx+"; =
+path=3D"+_utcp+";"+nx+_udo;=0A=
+ }=0A=
+ if (_ulink && v && v!=3D"" && v!=3D"-") {=0A=
+  v=3D_uUES(v);=0A=
+  if (v.indexOf(";")=3D=3D-1) _ubd.cookie=3D"__utmv=3D"+v+"; =
+path=3D"+_utcp+";"+nx+_udo;=0A=
+ }=0A=
+ _uInfo(page);=0A=
+ _ufns=3D0;=0A=
+ _ufno=3D0;=0A=
+ if (!page || page=3D=3D"") _uff=3D1;=0A=
+}=0A=
+function _uInfo(page) {=0A=
+ var p,s=3D"",dm=3D"",pg=3D_udl.pathname+_udl.search;=0A=
+ if (page && page!=3D"") pg=3D_uES(page,1);=0A=
+ _ur=3D_ubd.referrer;=0A=
+ if (!_ur || _ur=3D=3D"") { _ur=3D"-"; }=0A=
+ else {=0A=
+  dm=3D_ubd.domain;=0A=
+  if(_utcp && _utcp!=3D"/") dm+=3D_utcp;=0A=
+  p=3D_ur.indexOf(dm);=0A=
+  if ((p>=3D0) && (p<=3D8)) { _ur=3D"0"; }=0A=
+  if (_ur.indexOf("[")=3D=3D0 && =
+_ur.lastIndexOf("]")=3D=3D(_ur.length-1)) { _ur=3D"-"; }=0A=
+ }=0A=
+ s+=3D"&utmn=3D"+_uu;=0A=
+ if (_ufsc) s+=3D_uBInfo();=0A=
+ if (_uctm) s+=3D_uCInfo();=0A=
+ if (_utitle && _ubd.title && _ubd.title!=3D"") =
+s+=3D"&utmdt=3D"+_uES(_ubd.title);=0A=
+ if (_udl.hostname && _udl.hostname!=3D"") =
+s+=3D"&utmhn=3D"+_uES(_udl.hostname);=0A=
+ s+=3D"&utmr=3D"+_ur;=0A=
+ s+=3D"&utmp=3D"+pg;=0A=
+ if ((_userv=3D=3D0 || _userv=3D=3D2) && _uSP()) {=0A=
+  var i=3Dnew Image(1,1);=0A=
+  i.src=3D_ugifpath+"?"+"utmwv=3D"+_uwv+s;=0A=
+  i.onload=3Dfunction() {_uVoid();}=0A=
+ }=0A=
+ if ((_userv=3D=3D1 || _userv=3D=3D2) && _uSP()) {=0A=
+  var i2=3Dnew Image(1,1);=0A=
+  =
+i2.src=3D_ugifpath2+"?"+"utmwv=3D"+_uwv+s+"&utmac=3D"+_uacct+"&utmcc=3D"+=
+_uGCS();=0A=
+  i2.onload=3Dfunction() { _uVoid(); }=0A=
+ }=0A=
+ return;=0A=
+}=0A=
+function _uVoid() { return; }=0A=
+function _uCInfo() {=0A=
+ if (!_ucto || _ucto=3D=3D"") { _ucto=3D"15768000"; }=0A=
+ if (!_uVG()) return;=0A=
+ var =
+c=3D"",t=3D"-",t2=3D"-",t3=3D"-",o=3D0,cs=3D0,cn=3D0,i=3D0,z=3D"-",s=3D""=
+;=0A=
+ if (_uanchor && _udlh && _udlh!=3D"") s=3D_udlh+"&";=0A=
+ s+=3D_udl.search;=0A=
+ var x=3Dnew Date(_udt.getTime()+(_ucto*1000));=0A=
+ var dc=3D_ubd.cookie;=0A=
+ x=3D" expires=3D"+x.toGMTString()+";";=0A=
+ if (_ulink && !_ubl) {=0A=
+  z=3D_uUES(_uGC(s,"__utmz=3D","&"));=0A=
+  if (z!=3D"-" && z.indexOf(";")=3D=3D-1) { =
+_ubd.cookie=3D"__utmz=3D"+z+"; path=3D"+_utcp+";"+x+_udo; return ""; }=0A=
+ }=0A=
+ z=3Ddc.indexOf("__utmz=3D"+_udh);=0A=
+ if (z>-1) { z=3D_uGC(dc,"__utmz=3D"+_udh,";"); }=0A=
+ else { z=3D"-"; }=0A=
+ t=3D_uGC(s,_ucid+"=3D","&");=0A=
+ t2=3D_uGC(s,_ucsr+"=3D","&");=0A=
+ t3=3D_uGC(s,"gclid=3D","&");=0A=
+ if ((t!=3D"-" && t!=3D"") || (t2!=3D"-" && t2!=3D"") || (t3!=3D"-" && =
+t3!=3D"")) {=0A=
+  if (t!=3D"-" && t!=3D"") c+=3D"utmcid=3D"+_uEC(t);=0A=
+  if (t2!=3D"-" && t2!=3D"") { if (c !=3D "") c+=3D"|"; =
+c+=3D"utmcsr=3D"+_uEC(t2); }=0A=
+  if (t3!=3D"-" && t3!=3D"") { if (c !=3D "") c+=3D"|"; =
+c+=3D"utmgclid=3D"+_uEC(t3); }=0A=
+  t=3D_uGC(s,_uccn+"=3D","&");=0A=
+  if (t!=3D"-" && t!=3D"") c+=3D"|utmccn=3D"+_uEC(t);=0A=
+  else c+=3D"|utmccn=3D(not+set)";=0A=
+  t=3D_uGC(s,_ucmd+"=3D","&");=0A=
+  if (t!=3D"-" && t!=3D"") c+=3D"|utmcmd=3D"+_uEC(t);=0A=
+  else  c+=3D"|utmcmd=3D(not+set)";=0A=
+  t=3D_uGC(s,_uctr+"=3D","&");=0A=
+  if (t!=3D"-" && t!=3D"") c+=3D"|utmctr=3D"+_uEC(t);=0A=
+  else { t=3D_uOrg(1); if (t!=3D"-" && t!=3D"") =
+c+=3D"|utmctr=3D"+_uEC(t); }=0A=
+  t=3D_uGC(s,_ucct+"=3D","&");=0A=
+  if (t!=3D"-" && t!=3D"") c+=3D"|utmcct=3D"+_uEC(t);=0A=
+  t=3D_uGC(s,_ucno+"=3D","&");=0A=
+  if (t=3D=3D"1") o=3D1;=0A=
+  if (z!=3D"-" && o=3D=3D1) return "";=0A=
+ }=0A=
+ if (c=3D=3D"-" || c=3D=3D"") { c=3D_uOrg(); if (z!=3D"-" && =
+_ufno=3D=3D1)  return ""; }=0A=
+ if (c=3D=3D"-" || c=3D=3D"") { if (_ufns=3D=3D1)  c=3D_uRef(); if =
+(z!=3D"-" && _ufno=3D=3D1)  return ""; }=0A=
+ if (c=3D=3D"-" || c=3D=3D"") {=0A=
+  if (z=3D=3D"-" && _ufns=3D=3D1) { =
+c=3D"utmccn=3D(direct)|utmcsr=3D(direct)|utmcmd=3D(none)"; }=0A=
+  if (c=3D=3D"-" || c=3D=3D"") return "";=0A=
+ }=0A=
+ if (z!=3D"-") {=0A=
+  i=3Dz.indexOf(".");=0A=
+  if (i>-1) i=3Dz.indexOf(".",i+1);=0A=
+  if (i>-1) i=3Dz.indexOf(".",i+1);=0A=
+  if (i>-1) i=3Dz.indexOf(".",i+1);=0A=
+  t=3Dz.substring(i+1,z.length);=0A=
+  if (t.toLowerCase()=3D=3Dc.toLowerCase()) cs=3D1;=0A=
+  t=3Dz.substring(0,i);=0A=
+  if ((i=3Dt.lastIndexOf(".")) > -1) {=0A=
+   t=3Dt.substring(i+1,t.length);=0A=
+   cn=3D(t*1);=0A=
+  }=0A=
+ }=0A=
+ if (cs=3D=3D0 || _ufns=3D=3D1) {=0A=
+  t=3D_uGC(dc,"__utma=3D"+_udh,";");=0A=
+  if ((i=3Dt.lastIndexOf(".")) > 9) {=0A=
+   _uns=3Dt.substring(i+1,t.length);=0A=
+   _uns=3D(_uns*1);=0A=
+  }=0A=
+  cn++;=0A=
+  if (_uns=3D=3D0) _uns=3D1;=0A=
+  _ubd.cookie=3D"__utmz=3D"+_udh+"."+_ust+"."+_uns+"."+cn+"."+c+"; =
+path=3D"+_utcp+"; "+x+_udo;=0A=
+ }=0A=
+ if (cs=3D=3D0 || _ufns=3D=3D1) return "&utmcn=3D1";=0A=
+ else return "&utmcr=3D1";=0A=
+}=0A=
+function _uRef() {=0A=
+ if (_ur=3D=3D"0" || _ur=3D=3D"" || _ur=3D=3D"-") return "";=0A=
+ var i=3D0,h,k,n;=0A=
+ if ((i=3D_ur.indexOf("://"))<0) return "";=0A=
+ h=3D_ur.substring(i+3,_ur.length);=0A=
+ if (h.indexOf("/") > -1) {=0A=
+  k=3Dh.substring(h.indexOf("/"),h.length);=0A=
+  if (k.indexOf("?") > -1) k=3Dk.substring(0,k.indexOf("?"));=0A=
+  h=3Dh.substring(0,h.indexOf("/"));=0A=
+ }=0A=
+ h=3Dh.toLowerCase();=0A=
+ n=3Dh;=0A=
+ if ((i=3Dn.indexOf(":")) > -1) n=3Dn.substring(0,i);=0A=
+ for (var ii=3D0;ii<_uRno.length;ii++) {=0A=
+  if ((i=3Dn.indexOf(_uRno[ii].toLowerCase())) > -1 && =
+n.length=3D=3D(i+_uRno[ii].length)) { _ufno=3D1; break; }=0A=
+ }=0A=
+ if (h.indexOf("www.")=3D=3D0) h=3Dh.substring(4,h.length);=0A=
+ return =
+"utmccn=3D(referral)|utmcsr=3D"+_uEC(h)+"|"+"utmcct=3D"+_uEC(k)+"|utmcmd=3D=
+referral";=0A=
+}=0A=
+function _uOrg(t) {=0A=
+ if (_ur=3D=3D"0" || _ur=3D=3D"" || _ur=3D=3D"-") return "";=0A=
+ var i=3D0,h,k;=0A=
+ if ((i=3D_ur.indexOf("://")) < 0) return "";=0A=
+ h=3D_ur.substring(i+3,_ur.length);=0A=
+ if (h.indexOf("/") > -1) {=0A=
+  h=3Dh.substring(0,h.indexOf("/"));=0A=
+ }=0A=
+ for (var ii=3D0;ii<_uOsr.length;ii++) {=0A=
+  if (h.toLowerCase().indexOf(_uOsr[ii].toLowerCase()) > -1) {=0A=
+   if ((i=3D_ur.indexOf("?"+_uOkw[ii]+"=3D")) > -1 || =
+(i=3D_ur.indexOf("&"+_uOkw[ii]+"=3D")) > -1) {=0A=
+    k=3D_ur.substring(i+_uOkw[ii].length+2,_ur.length);=0A=
+    if ((i=3Dk.indexOf("&")) > -1) k=3Dk.substring(0,i);=0A=
+    for (var yy=3D0;yy<_uOno.length;yy++) {=0A=
+     if (_uOno[yy].toLowerCase()=3D=3Dk.toLowerCase()) { _ufno=3D1; =
+break; }=0A=
+    }=0A=
+    if (t) return _uEC(k);=0A=
+    else return =
+"utmccn=3D(organic)|utmcsr=3D"+_uEC(_uOsr[ii])+"|"+"utmctr=3D"+_uEC(k)+"|=
+utmcmd=3Dorganic";=0A=
+   }=0A=
+  }=0A=
+ }=0A=
+ return "";=0A=
+}=0A=
+function _uBInfo() {=0A=
+ var sr=3D"-",sc=3D"-",ul=3D"-",fl=3D"-",cs=3D"-",je=3D1;=0A=
+ var n=3Dnavigator;=0A=
+ if (self.screen) {=0A=
+  sr=3Dscreen.width+"x"+screen.height;=0A=
+  sc=3Dscreen.colorDepth+"-bit";=0A=
+ } else if (self.java) {=0A=
+  var j=3Djava.awt.Toolkit.getDefaultToolkit();=0A=
+  var s=3Dj.getScreenSize();=0A=
+  sr=3Ds.width+"x"+s.height;=0A=
+ }=0A=
+ if (n.language) { ul=3Dn.language.toLowerCase(); }=0A=
+ else if (n.browserLanguage) { ul=3Dn.browserLanguage.toLowerCase(); }=0A=
+ je=3Dn.javaEnabled()?1:0;=0A=
+ if (_uflash) fl=3D_uFlash();=0A=
+ if (_ubd.characterSet) cs=3D_uES(_ubd.characterSet);=0A=
+ else if (_ubd.charset) cs=3D_uES(_ubd.charset);=0A=
+ return =
+"&utmcs=3D"+cs+"&utmsr=3D"+sr+"&utmsc=3D"+sc+"&utmul=3D"+ul+"&utmje=3D"+j=
+e+"&utmfl=3D"+fl;=0A=
+}=0A=
+function __utmSetTrans() {=0A=
+ var e;=0A=
+ if (_ubd.getElementById) e=3D_ubd.getElementById("utmtrans");=0A=
+ else if (_ubd.utmform && _ubd.utmform.utmtrans) =
+e=3D_ubd.utmform.utmtrans;=0A=
+ if (!e) return;=0A=
+ var l=3De.value.split("UTM:");=0A=
+ var i,i2,c;=0A=
+ if (_userv=3D=3D0 || _userv=3D=3D2) i=3Dnew Array();=0A=
+ if (_userv=3D=3D1 || _userv=3D=3D2) { i2=3Dnew Array(); c=3D_uGCS(); }=0A=
+=0A=
+ for (var ii=3D0;ii<l.length;ii++) {=0A=
+  l[ii]=3D_uTrim(l[ii]);=0A=
+  if (l[ii].charAt(0)!=3D'T' && l[ii].charAt(0)!=3D'I') continue;=0A=
+  var r=3DMath.round(Math.random()*2147483647);=0A=
+  if (!_utsp || _utsp=3D=3D"") _utsp=3D"|";=0A=
+  var f=3Dl[ii].split(_utsp),s=3D"";=0A=
+  if (f[0].charAt(0)=3D=3D'T') {=0A=
+   s=3D"&utmt=3Dtran"+"&utmn=3D"+r;=0A=
+   f[1]=3D_uTrim(f[1]); if(f[1]&&f[1]!=3D"") =
+s+=3D"&utmtid=3D"+_uES(f[1]);=0A=
+   f[2]=3D_uTrim(f[2]); if(f[2]&&f[2]!=3D"") =
+s+=3D"&utmtst=3D"+_uES(f[2]);=0A=
+   f[3]=3D_uTrim(f[3]); if(f[3]&&f[3]!=3D"") =
+s+=3D"&utmtto=3D"+_uES(f[3]);=0A=
+   f[4]=3D_uTrim(f[4]); if(f[4]&&f[4]!=3D"") =
+s+=3D"&utmttx=3D"+_uES(f[4]);=0A=
+   f[5]=3D_uTrim(f[5]); if(f[5]&&f[5]!=3D"") =
+s+=3D"&utmtsp=3D"+_uES(f[5]);=0A=
+   f[6]=3D_uTrim(f[6]); if(f[6]&&f[6]!=3D"") =
+s+=3D"&utmtci=3D"+_uES(f[6]);=0A=
+   f[7]=3D_uTrim(f[7]); if(f[7]&&f[7]!=3D"") =
+s+=3D"&utmtrg=3D"+_uES(f[7]);=0A=
+   f[8]=3D_uTrim(f[8]); if(f[8]&&f[8]!=3D"") =
+s+=3D"&utmtco=3D"+_uES(f[8]);=0A=
+  } else {=0A=
+   s=3D"&utmt=3Ditem"+"&utmn=3D"+r;=0A=
+   f[1]=3D_uTrim(f[1]); if(f[1]&&f[1]!=3D"") =
+s+=3D"&utmtid=3D"+_uES(f[1]);=0A=
+   f[2]=3D_uTrim(f[2]); if(f[2]&&f[2]!=3D"") =
+s+=3D"&utmipc=3D"+_uES(f[2]);=0A=
+   f[3]=3D_uTrim(f[3]); if(f[3]&&f[3]!=3D"") =
+s+=3D"&utmipn=3D"+_uES(f[3]);=0A=
+   f[4]=3D_uTrim(f[4]); if(f[4]&&f[4]!=3D"") =
+s+=3D"&utmiva=3D"+_uES(f[4]);=0A=
+   f[5]=3D_uTrim(f[5]); if(f[5]&&f[5]!=3D"") =
+s+=3D"&utmipr=3D"+_uES(f[5]);=0A=
+   f[6]=3D_uTrim(f[6]); if(f[6]&&f[6]!=3D"") =
+s+=3D"&utmiqt=3D"+_uES(f[6]);=0A=
+  }=0A=
+  if ((_userv=3D=3D0 || _userv=3D=3D2) && _uSP()) {=0A=
+   i[ii]=3Dnew Image(1,1);=0A=
+   i[ii].src=3D_ugifpath+"?"+"utmwv=3D"+_uwv+s;=0A=
+   i[ii].onload=3Dfunction() { _uVoid(); }=0A=
+  }=0A=
+  if ((_userv=3D=3D1 || _userv=3D=3D2) && _uSP()) {=0A=
+   i2[ii]=3Dnew Image(1,1);=0A=
+   =
+i2[ii].src=3D_ugifpath2+"?"+"utmwv=3D"+_uwv+s+"&utmac=3D"+_uacct+"&utmcc=3D=
+"+c;=0A=
+   i2[ii].onload=3Dfunction() { _uVoid(); }=0A=
+  }=0A=
+ }=0A=
+ return;=0A=
+}=0A=
+function _uFlash() {=0A=
+ var f=3D"-",n=3Dnavigator;=0A=
+ if (n.plugins && n.plugins.length) {=0A=
+  for (var ii=3D0;ii<n.plugins.length;ii++) {=0A=
+   if (n.plugins[ii].name.indexOf('Shockwave Flash')!=3D-1) {=0A=
+    f=3Dn.plugins[ii].description.split('Shockwave Flash ')[1];=0A=
+    break;=0A=
+   }=0A=
+  }=0A=
+ } else if (window.ActiveXObject) {=0A=
+  for (var ii=3D10;ii>=3D2;ii--) {=0A=
+   try {=0A=
+    var fl=3Deval("new =
+ActiveXObject('ShockwaveFlash.ShockwaveFlash."+ii+"');");=0A=
+    if (fl) { f=3Dii + '.0'; break; }=0A=
+   }=0A=
+   catch(e) {}=0A=
+  }=0A=
+ }=0A=
+ return f;=0A=
+}=0A=
+function __utmLinker(l,h) {=0A=
+ if (!_ulink) return;=0A=
+ var p,k,a=3D"-",b=3D"-",c=3D"-",x=3D"-",z=3D"-",v=3D"-";=0A=
+ var dc=3D_ubd.cookie;=0A=
+ if (!l || l=3D=3D"") return;=0A=
+ var iq =3D l.indexOf("?"); =0A=
+ var ih =3D l.indexOf("#"); =0A=
+ if (dc) {=0A=
+  a=3D_uES(_uGC(dc,"__utma=3D"+_udh,";"));=0A=
+  b=3D_uES(_uGC(dc,"__utmb=3D"+_udh,";"));=0A=
+  c=3D_uES(_uGC(dc,"__utmc=3D"+_udh,";"));=0A=
+  x=3D_uES(_uGC(dc,"__utmx=3D"+_udh,";"));=0A=
+  z=3D_uES(_uGC(dc,"__utmz=3D"+_udh,";"));=0A=
+  v=3D_uES(_uGC(dc,"__utmv=3D"+_udh,";"));=0A=
+  k=3D(_uHash(a+b+c+x+z+v)*1)+(_udh*1);=0A=
+  =
+p=3D"__utma=3D"+a+"&__utmb=3D"+b+"&__utmc=3D"+c+"&__utmx=3D"+x+"&__utmz=3D=
+"+z+"&__utmv=3D"+v+"&__utmk=3D"+k;=0A=
+ }=0A=
+ if (p) {=0A=
+  if (h && ih>-1) return;=0A=
+  if (h) { _udl.href=3Dl+"#"+p; }=0A=
+  else {=0A=
+   if (iq=3D=3D-1 && ih=3D=3D-1) _udl.href=3Dl+"?"+p;=0A=
+   else if (ih=3D=3D-1) _udl.href=3Dl+"&"+p;=0A=
+   else if (iq=3D=3D-1) =
+_udl.href=3Dl.substring(0,ih-1)+"?"+p+l.substring(ih);=0A=
+   else _udl.href=3Dl.substring(0,ih-1)+"&"+p+l.substring(ih);=0A=
+  }=0A=
+ } else { _udl.href=3Dl; }=0A=
+}=0A=
+function __utmLinkPost(f,h) {=0A=
+ if (!_ulink) return;=0A=
+ var p,k,a=3D"-",b=3D"-",c=3D"-",x=3D"-",z=3D"-",v=3D"-";=0A=
+ var dc=3D_ubd.cookie;=0A=
+ if (!f || !f.action) return;=0A=
+ var iq =3D f.action.indexOf("?"); =0A=
+ var ih =3D f.action.indexOf("#"); =0A=
+ if (dc) {=0A=
+  a=3D_uES(_uGC(dc,"__utma=3D"+_udh,";"));=0A=
+  b=3D_uES(_uGC(dc,"__utmb=3D"+_udh,";"));=0A=
+  c=3D_uES(_uGC(dc,"__utmc=3D"+_udh,";"));=0A=
+  x=3D_uES(_uGC(dc,"__utmx=3D"+_udh,";"));=0A=
+  z=3D_uES(_uGC(dc,"__utmz=3D"+_udh,";"));=0A=
+  v=3D_uES(_uGC(dc,"__utmv=3D"+_udh,";"));=0A=
+  k=3D(_uHash(a+b+c+x+z+v)*1)+(_udh*1);=0A=
+  =
+p=3D"__utma=3D"+a+"&__utmb=3D"+b+"&__utmc=3D"+c+"&__utmx=3D"+x+"&__utmz=3D=
+"+z+"&__utmv=3D"+v+"&__utmk=3D"+k;=0A=
+ }=0A=
+ if (p) {=0A=
+  if (h && ih>-1) return;=0A=
+  if (h) { f.action+=3D"#"+p; }=0A=
+  else {=0A=
+   if (iq=3D=3D-1 && ih=3D=3D-1) f.action+=3D"?"+p;=0A=
+   else if (ih=3D=3D-1) f.action+=3D"&"+p;=0A=
+   else if (iq=3D=3D-1) =
+f.action=3Df.action.substring(0,ih-1)+"?"+p+f.action.substring(ih);=0A=
+   else =
+f.action=3Df.action.substring(0,ih-1)+"&"+p+f.action.substring(ih);=0A=
+  }=0A=
+ }=0A=
+ return;=0A=
+}=0A=
+function __utmSetVar(v) {=0A=
+ if (!v || v=3D=3D"") return;=0A=
+ if (!_udo || _udo =3D=3D "") {=0A=
+  _udh=3D_uDomain();=0A=
+  if (_udn && _udn!=3D"") { _udo=3D" domain=3D"+_udn+";"; }=0A=
+ }=0A=
+ if (!_uVG()) return;=0A=
+ var r=3DMath.round(Math.random() * 2147483647);=0A=
+ _ubd.cookie=3D"__utmv=3D"+_udh+"."+_uES(v)+"; path=3D"+_utcp+"; =
+expires=3D"+_uNx()+";"+_udo;=0A=
+ var s=3D"&utmt=3Dvar&utmn=3D"+r;=0A=
+ if ((_userv=3D=3D0 || _userv=3D=3D2) && _uSP()) {=0A=
+  var i=3Dnew Image(1,1);=0A=
+  i.src=3D_ugifpath+"?"+"utmwv=3D"+_uwv+s;=0A=
+  i.onload=3Dfunction() { _uVoid(); }=0A=
+ }=0A=
+ if ((_userv=3D=3D1 || _userv=3D=3D2) && _uSP()) {=0A=
+  var i2=3Dnew Image(1,1);=0A=
+  =
+i2.src=3D_ugifpath2+"?"+"utmwv=3D"+_uwv+s+"&utmac=3D"+_uacct+"&utmcc=3D"+=
+_uGCS();=0A=
+  i2.onload=3Dfunction() { _uVoid(); }=0A=
+ }=0A=
+}=0A=
+function _uGCS() {=0A=
+ var t,c=3D"",dc=3D_ubd.cookie;=0A=
+ if ((t=3D_uGC(dc,"__utma=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utma=3D"+t+";+");=0A=
+ if ((t=3D_uGC(dc,"__utmb=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utmb=3D"+t+";+");=0A=
+ if ((t=3D_uGC(dc,"__utmc=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utmc=3D"+t+";+");=0A=
+ if ((t=3D_uGC(dc,"__utmx=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utmx=3D"+t+";+");=0A=
+ if ((t=3D_uGC(dc,"__utmz=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utmz=3D"+t+";+");=0A=
+ if ((t=3D_uGC(dc,"__utmv=3D"+_udh,";"))!=3D"-") =
+c+=3D_uES("__utmv=3D"+t+";");=0A=
+ if (c.charAt(c.length-1)=3D=3D"+") c=3Dc.substring(0,c.length-1);=0A=
+ return c;=0A=
+}=0A=
+function _uGC(l,n,s) {=0A=
+ if (!l || l=3D=3D"" || !n || n=3D=3D"" || !s || s=3D=3D"") return "-";=0A=
+ var i,i2,i3,c=3D"-";=0A=
+ i=3Dl.indexOf(n);=0A=
+ i3=3Dn.indexOf("=3D")+1;=0A=
+ if (i > -1) {=0A=
+  i2=3Dl.indexOf(s,i); if (i2 < 0) { i2=3Dl.length; }=0A=
+  c=3Dl.substring((i+i3),i2);=0A=
+ }=0A=
+ return c;=0A=
+}=0A=
+function _uDomain() {=0A=
+ if (!_udn || _udn=3D=3D"" || _udn=3D=3D"none") { _udn=3D""; return 1; }=0A=
+ if (_udn=3D=3D"auto") {=0A=
+  var d=3D_ubd.domain;=0A=
+  if (d.substring(0,4)=3D=3D"www.") {=0A=
+   d=3Dd.substring(4,d.length);=0A=
+  }=0A=
+  _udn=3Dd;=0A=
+ }=0A=
+ _udn =3D _udn.toLowerCase(); =0A=
+ if (_uhash=3D=3D"off") return 1;=0A=
+ return _uHash(_udn);=0A=
+}=0A=
+function _uHash(d) {=0A=
+ if (!d || d=3D=3D"") return 1;=0A=
+ var h=3D0,g=3D0;=0A=
+ for (var i=3Dd.length-1;i>=3D0;i--) {=0A=
+  var c=3DparseInt(d.charCodeAt(i));=0A=
+  h=3D((h << 6) & 0xfffffff) + c + (c << 14);=0A=
+  if ((g=3Dh & 0xfe00000)!=3D0) h=3D(h ^ (g >> 21));=0A=
+ }=0A=
+ return h;=0A=
+}=0A=
+function _uFixA(c,s,t) {=0A=
+ if (!c || c=3D=3D"" || !s || s=3D=3D"" || !t || t=3D=3D"") return "-";=0A=
+ var a=3D_uGC(c,"__utma=3D"+_udh,s);=0A=
+ var lt=3D0,i=3D0;=0A=
+ if ((i=3Da.lastIndexOf(".")) > 9) {=0A=
+  _uns=3Da.substring(i+1,a.length);=0A=
+  _uns=3D(_uns*1)+1;=0A=
+  a=3Da.substring(0,i);=0A=
+  if ((i=3Da.lastIndexOf(".")) > 7) {=0A=
+   lt=3Da.substring(i+1,a.length);=0A=
+   a=3Da.substring(0,i);=0A=
+  }=0A=
+  if ((i=3Da.lastIndexOf(".")) > 5) {=0A=
+   a=3Da.substring(0,i);=0A=
+  }=0A=
+  a+=3D"."+lt+"."+t+"."+_uns;=0A=
+ }=0A=
+ return a;=0A=
+}=0A=
+function _uTrim(s) {=0A=
+  if (!s || s=3D=3D"") return "";=0A=
+  while ((s.charAt(0)=3D=3D' ') || (s.charAt(0)=3D=3D'\n') || =
+(s.charAt(0,1)=3D=3D'\r')) s=3Ds.substring(1,s.length);=0A=
+  while ((s.charAt(s.length-1)=3D=3D' ') || =
+(s.charAt(s.length-1)=3D=3D'\n') || (s.charAt(s.length-1)=3D=3D'\r')) =
+s=3Ds.substring(0,s.length-1);=0A=
+  return s;=0A=
+}=0A=
+function _uEC(s) {=0A=
+  var n=3D"";=0A=
+  if (!s || s=3D=3D"") return "";=0A=
+  for (var i=3D0;i<s.length;i++) {if (s.charAt(i)=3D=3D" ") n+=3D"+"; =
+else n+=3Ds.charAt(i);}=0A=
+  return n;=0A=
+}=0A=
+function __utmVisitorCode(f) {=0A=
+ var r=3D0,t=3D0,i=3D0,i2=3D0,m=3D31;=0A=
+ var a=3D_uGC(_ubd.cookie,"__utma=3D"+_udh,";");=0A=
+ if ((i=3Da.indexOf(".",0))<0) return;=0A=
+ if ((i2=3Da.indexOf(".",i+1))>0) r=3Da.substring(i+1,i2); else return =
+"";  =0A=
+ if ((i=3Da.indexOf(".",i2+1))>0) t=3Da.substring(i2+1,i); else return =
+"";  =0A=
+ if (f) {=0A=
+  return r;=0A=
+ } else {=0A=
+  var c=3Dnew =
+Array('A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T'=
+,'U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9');=0A=
+  return =
+c[r>>28&m]+c[r>>23&m]+c[r>>18&m]+c[r>>13&m]+"-"+c[r>>8&m]+c[r>>3&m]+c[((r=
+&7)<<2)+(t>>30&3)]+c[t>>25&m]+c[t>>20&m]+"-"+c[t>>15&m]+c[t>>10&m]+c[t>>5=
+&m]+c[t&m];=0A=
+ }=0A=
+}=0A=
+function _uIN(n) {=0A=
+ if (!n) return false;=0A=
+ for (var i=3D0;i<n.length;i++) {=0A=
+  var c=3Dn.charAt(i);=0A=
+  if ((c<"0" || c>"9") && (c!=3D".")) return false;=0A=
+ }=0A=
+ return true;=0A=
+}=0A=
+function _uES(s,u) {=0A=
+ if (typeof(encodeURIComponent) =3D=3D 'function') {=0A=
+  if (u) return encodeURI(s);=0A=
+  else return encodeURIComponent(s);=0A=
+ } else {=0A=
+  return escape(s);=0A=
+ }=0A=
+}=0A=
+function _uUES(s) {=0A=
+ if (typeof(decodeURIComponent) =3D=3D 'function') {=0A=
+  return decodeURIComponent(s);=0A=
+ } else {=0A=
+  return unescape(s);=0A=
+ }=0A=
+}=0A=
+function _uVG() {=0A=
+ if((_udn.indexOf("www.google.") =3D=3D 0 || _udn.indexOf(".google.") =
+=3D=3D 0 || _udn.indexOf("google.") =3D=3D 0) && _utcp=3D=3D'/' && =
+_udn.indexOf("google.org")=3D=3D-1) {=0A=
+  return false;=0A=
+ }=0A=
+ return true;=0A=
+}=0A=
+function _uSP() {=0A=
+ var s=3D100;=0A=
+ if (_usample) s=3D_usample;=0A=
+ if(s>=3D100 || s<=3D0) return true;=0A=
+ return ((__utmVisitorCode(1)%10000)<(s*100));=0A=
+}=0A=
+function urchinPathCopy(p){=0A=
+ var d=3Ddocument,nx,tx,sx,i,c,cs,t,h,o;=0A=
+ cs=3Dnew Array("a","b","c","v","x","z");=0A=
+ h=3D_uDomain(); if (_udn && _udn!=3D"") o=3D" domain=3D"+_udn+";";=0A=
+ nx=3D_uNx()+";";=0A=
+ tx=3Dnew Date(); tx.setTime(tx.getTime()+(_utimeout*1000));=0A=
+ tx=3Dtx.toGMTString()+";";=0A=
+ sx=3Dnew Date(); sx.setTime(sx.getTime()+(_ucto*1000));=0A=
+ sx=3Dsx.toGMTString()+";";=0A=
+ for (i=3D0;i<6;i++){=0A=
+  t=3D" expires=3D";=0A=
+  if (i=3D=3D1) t+=3Dtx; else if (i=3D=3D2) t=3D""; else if (i=3D=3D5) =
+t+=3Dsx; else t+=3Dnx;=0A=
+  c=3D_uGC(d.cookie,"__utm"+cs[i]+"=3D"+h,";");=0A=
+  if (c!=3D"-") d.cookie=3D"__utm"+cs[i]+"=3D"+c+"; path=3D"+p+";"+t+o;=0A=
+ }=0A=
+}=0A=
+function _uCO() {=0A=
+ if (!_utk || _utk=3D=3D"" || _utk.length<10) return;=0A=
+ var d=3D'www.google.com';=0A=
+ if (_utk.charAt(0)=3D=3D'!') d=3D'analytics.corp.google.com';=0A=
+ _ubd.cookie=3D"GASO=3D"+_utk+"; path=3D"+_utcp+";"+_udo;=0A=
+ var sc=3Ddocument.createElement('script');=0A=
+ sc.type=3D'text/javascript';=0A=
+ sc.id=3D"_gasojs";=0A=
+ =
+sc.src=3D'https://'+d+'/analytics/reporting/overlay_js?gaso=3D'+_utk+'&'+=
+Math.random();=0A=
+ document.getElementsByTagName('head')[0].appendChild(sc);  =0A=
+}=0A=
+function _uGT() {=0A=
+ var h=3Dlocation.hash, a;=0A=
+ if (h && h!=3D"" && h.indexOf("#gaso=3D")=3D=3D0) {=0A=
+  a=3D_uGC(h,"gaso=3D","&");=0A=
+ } else {=0A=
+  a=3D_uGC(_ubd.cookie,"GASO=3D",";");=0A=
+ }=0A=
+ return a;=0A=
+}=0A=
+var _utk=3D_uGT();=0A=
+if (_utk && _utk!=3D"" && _utk.length>10) {=0A=
+ if (window.addEventListener) {=0A=
+  window.addEventListener('load', _uCO, false); =0A=
+ } else if (window.attachEvent) { =0A=
+  window.attachEvent('onload', _uCO);=0A=
+ }=0A=
+}=0A=
+=0A=
+function _uNx() {=0A=
+  return (new Date((new Date()).getTime()+63072000000)).toGMTString();=0A=
+}=0A=
+
+------=_NextPart_000_0000_01C85111.614058C0--

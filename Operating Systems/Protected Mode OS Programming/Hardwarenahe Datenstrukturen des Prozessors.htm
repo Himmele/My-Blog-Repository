@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0052)http://www.matthiaskay.de/prog/assembler/hwdata.html -->
+<HTML><HEAD><TITLE>Hardwarenahe Datenstrukturen des Prozessors</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type><LINK 
+href="Hardwarenahe Datenstrukturen des Prozessors-Dateien/global.css" 
+rel=stylesheet type=text/css>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY>
+<DIV class=navigate><A class=navigate 
+href="http://www.matthiaskay.de/prog/assembler/index.html">Assembler</A> </DIV>
+<DIV>
+<DIV>
+<H1>Hardwarenahe Datenstrukturen</H1>
+<UL>
+  <LI><A href="http://www.matthiaskay.de/prog/assembler/hwdata.html#gdt">GDT</A> 
+  (globale Deskriptortabelle) 
+  <LI><A href="http://www.matthiaskay.de/prog/assembler/hwdata.html#idt">IDT</A> 
+  (Interruptdeskriptortabelle) 
+  <LI><A href="http://www.matthiaskay.de/prog/assembler/hwdata.html#ldt">LDT</A> 
+  (lokale Deskriptortabelle) 
+  <LI><A 
+  href="http://www.matthiaskay.de/prog/assembler/hwdata.html#deskriptor">Deskriptor</A> 
+
+  <LI><A 
+  href="http://www.matthiaskay.de/prog/assembler/hwdata.html#selektor">Selektor</A> 
+  </LI></UL></DIV>
+<H2 style="TEXT-ALIGN: left"><A name=gdt></A>Die Globale Deskriptortabelle 
+(GDT)</H2>
+<P>Die GDT hat eine maximale Größe von 64 KBytes. Der einzelne Deskriptor hat 
+eine Länge von 8 Bytes. Es können deshalb maximal 64*1024/8=8192 Deskriptoren 
+enthalten sein. Davon ist der nullte Deskriptor allerdings ein sogenannter 
+Null-Deskriptor (seine 8 Bytes bestehen aus Nullen). Effektiv können also 8191 
+Deskriptoren genutzt werden. </P>
+<P>In diesem Zusammenhang spielt das GDTR-Register eine wichtige Rolle. Aus 
+diesem Register entnimmt die CPU die lineare Basisadresse und Länge der GDT. Das 
+Register hat eine Breite von 48 Bits, wobei die 32 höherwertigen Bits die 
+Basisadresse darstellen und die niederwertigen 16 Bits die Längenangabe (in 
+Byte). Die Länge der GDT berechnet sich wie folgt: 
+(Anzahl_der_Deskriptoren*8)-1. Daraus folgt, daß die GDT niemals 8192 
+Deskriptoren umfassen muß. Die Länge richtet sich vielmehr danach, wieviele 
+Deskriptoren tatsächlich benötigt werden. </P>
+<DIV>Als Einträge in der GDT sind 
+<UL>
+  <LI><A 
+  href="http://www.matthiaskay.de/prog/assembler/hwdata.html#des_dat">Datendeskriptoren</A> 
+
+  <LI><A 
+  href="http://www.matthiaskay.de/prog/assembler/hwdata.html#des_cod">Programmdeskriptoren</A> 
+
+  <LI>TSS-Deskriptoren 
+  <LI>LDT-Deskriptoren 
+  <LI>Taskgatedeskriptoren 
+  <LI>Callgatedeskriptoren </LI></UL>möglich. </DIV>
+<H2 style="TEXT-ALIGN: left"><A name=idt></A>Die Interruptdeskriptortabelle 
+(IDT)</H2>
+<P>Die IDT hat eine maximale Länge von 2 KB, sie enthält also maximal 256 
+Deskriptoren. Adresse und Länge der IDT wird in dem 48 Bit breiten IDTR-Register 
+festgehalten. Es entspricht dem GDTR-Register; die Längenberechnung ist 
+ebenfalls identisch. </P>
+<DIV>Es sind nur 
+<UL>
+  <LI>Taskgatedeskriptoren 
+  <LI>Interruptgatedeskriptoren 
+  <LI>Trapgatedeskriptoren </LI></UL>erlaubt. </DIV>
+<P>Über diese Tabelle werden die Interrupts gesteuert. Die ersten 32 Einträge 
+sollten mindestens belegt sein. </P>
+<H2 style="TEXT-ALIGN: left"><A name=ldt></A>Die Lokale Deskriptortabelle 
+(LDT)</H2>
+<P>In dieser Deskriptortabelle finden bis zu 8192 Deskriptoren Platz. Der Sinn 
+dieser Tabelle besteht darin, daß jeder Prozeß seine eigene Deskriptortabelle 
+haben kann und so die Prozesse gegeneinander besser abgeschottet sind. </P>
+<P>Im Gegensatz zur GDT ist der allererste Deskriptor kein Null-Deskriptor. 
+Ebenfalls ist es in der LDT nicht möglich, LDT-Deskriptoren unterzubringen; 
+diese Deskriptorform ist nur in der <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#gdt">GDT</A> erlaubt. 
+</P>
+<P>Im LDTR-Register - es ist 16 Bit breit - wird ein Selektor untergebracht, der 
+auf einen LDT-Deskriptor in der GDT zeigen muß. Die Länge der LDT wird im 
+Deskriptor der GDT festgehalten (zur Berechnung der Länge: siehe <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#gdt">GDT</A>). </P>
+<H2 style="TEXT-ALIGN: left"><A name=selektor></A>Der Selektor</H2>
+<P>Der Selektor hat eine Breite von 16 Bits, paßt also in jedes Segmentregister. 
+Die Bits 0 und 1 geben die Privilegebene an (0..3 ,wobei 0 die höchste und 3 die 
+niedrigste ist). Bit 2 gibt an, ob der <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#deskriptor">Deskriptor</A> 
+aus der <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#gdt">GDT</A> (=0) 
+oder der <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#ldt">LDT</A> (=1) 
+gelesen werden soll. Die verbleibenden 13 Bits geben die Indexnummer 
+(Ordinalzahl, 0..8191) des gewünschten Deskriptors an. <IMG alt=Selektor 
+height=40 src="Hardwarenahe Datenstrukturen des Prozessors-Dateien/selektor.gif" 
+style="TEXT-ALIGN: center" width=125> </P>
+<H2 style="text-style: left"><A name=deskriptor></A>Der Deskriptor</H2>
+<P>Über Deskriptoren wird festgelegt, wo im Speicher sich ein Objekt befindet; 
+Selektoren enthalten diese Angabe nicht. </P>
+<DIV>Ein <A 
+href="http://www.matthiaskay.de/prog/assembler/hwdata.html#deskriptor">Deskriptor</A> 
+ist immer 8 Byte lang. In ihm werden die folgenden Informationen festgehalten: 
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <UL>
+        <LI><A 
+        href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_typ">Segmenttyp</A> 
+
+        <LI><A 
+        href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_zus">Segmentzustand</A> 
+
+        <LI><A 
+        href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_len">Segmentlänge</A> 
+
+        <LI><A 
+        href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_acc">Zugriffsrechte</A> 
+
+        <LI><A 
+        href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_basis">Basisadresse</A> 
+        </LI></UL></TD>
+    <TD><A 
+      href="http://www.matthiaskay.de/prog/assembler/hwdata.html#seg_typ"><IMG 
+      alt=Deskriptor height=51 
+      src="Hardwarenahe Datenstrukturen des Prozessors-Dateien/des_base.gif" 
+      width=357></A></TD></TR></TBODY></TABLE></DIV>
+<H3 style="TEXT-ALIGN: left"><A name=seg_typ></A>Segmenttyp</H3>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>TYPE</TD>
+    <TD>Daten und Programm (S=1)</TD>
+    <TD>System (S=0)</TD></TR>
+  <TR>
+    <TD>0</TD>
+    <TD>Daten: nur lesen</TD>
+    <TD class=reserved>reserviert</TD></TR>
+  <TR>
+    <TD>1</TD>
+    <TD>Daten: nur lesen, Zugriffsanzeige</TD>
+    <TD>TSS (Task inaktiv)</TD></TR>
+  <TR>
+    <TD>2</TD>
+    <TD>Daten: Lesen und Schreiben</TD>
+    <TD>LDT</TD></TR>
+  <TR>
+    <TD>3</TD>
+    <TD>Daten: Lesen und Schreiben, Zugriffsanzeige</TD>
+    <TD>TSS (Task aktiv)</TD></TR>
+  <TR>
+    <TD>4</TD>
+    <TD>Daten: nur Lesen, Abwärtserweiterung</TD>
+    <TD>Call Gate</TD></TR>
+  <TR>
+    <TD>5</TD>
+    <TD>Daten: nur Lesen, Abwärtserweiterung, Zugriffsanzeige</TD>
+    <TD>Task Gate</TD></TR>
+  <TR>
+    <TD>6</TD>
+    <TD>Daten: Lesen und Schreiben, Abwärtserweiterung</TD>
+    <TD>Interrupt Gate</TD></TR>
+  <TR>
+    <TD>7</TD>
+    <TD>Daten: Lesen und Schreiben, Abwärtserweiterung, Zugriffsanzeige</TD>
+    <TD>Trap Gate</TD></TR>
+  <TR>
+    <TD>8</TD>
+    <TD>Programm: nicht lesbar, nur ausführbar</TD>
+    <TD class=reserved>reserviert</TD></TR>
+  <TR>
+    <TD>9</TD>
+    <TD>Programm: nicht lesbar, nur ausführbar, Zugriffsanzeige</TD>
+    <TD>TSS (Task inaktiv)</TD></TR>
+  <TR>
+    <TD>A</TD>
+    <TD>Programm: lesbar und ausführbar</TD>
+    <TD>Call Gate</TD></TR>
+  <TR>
+    <TD>B</TD>
+    <TD>Programm: lesbar und ausführbar, Zugriffsanzeige</TD>
+    <TD>TSS (Task aktiv)</TD></TR>
+  <TR>
+    <TD>C</TD>
+    <TD>Programm: nicht lesbar, nur ausführbar, Privileganpassung</TD>
+    <TD>Call Gate</TD></TR>
+  <TR>
+    <TD>D</TD>
+    <TD>Programm: nicht lesbar, nur ausführbar, Privileganpassung, 
+      Zugriffsanzeige</TD>
+    <TD class=reserved>reserviert</TD></TR>
+  <TR>
+    <TD>E</TD>
+    <TD>Programm: lesbar und ausführbar, Privileganpassung</TD>
+    <TD>Interrupt Gate</TD></TR>
+  <TR>
+    <TD>F</TD>
+    <TD>Programm: lesbar und ausführbar, Privileganpassung, Zugriffsanzeige</TD>
+    <TD>Trap Gate</TD></TR></TBODY></TABLE></DIV><A name=seg_zus></A>
+<H3 style="TEXT-ALIGN: left">Segmentzustand</H3>
+<DIV>
+<TABLE border=1 width="100%">
+  <CAPTION>Anwesenheit (P)</CAPTION>
+  <TBODY>
+  <TR>
+    <TD>P=1</TD>
+    <TD>Das vom Deskriptor beschriebene Segment ist im Speicher anwesend 
+      undgültig.</TD></TR>
+  <TR>
+    <TD>P=0</TD>
+    <TD>Das vom Deskriptor beschriebene Segment ist nicht im Speicher anwesend 
+      und damit ungültig.&nbsp;
+      <P>Wird auf solch einen Deskriptor zugegeriffen, wird die Ausnahme 
+      "Segment nicht anwesend" ausgelöst.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV>
+<TABLE border=1 width="100%">
+  <CAPTION>System (S)</CAPTION>
+  <TBODY>
+  <TR>
+    <TD>S=1</TD>
+    <TD>Es handelt sich um ein Programm- oder Datensegment</TD></TR>
+  <TR>
+    <TD>S=0</TD>
+    <TD>Dieser Deskriptor ist ein Systemsegment</TD></TR></TBODY></TABLE></DIV>
+<H4 style="TEXT-ALIGN: left">Privilegebene (DPL):</H4>
+<P>Hier wird die Privilegebene eingetragen, die das Segment erhalten soll (0..3, 
+0 ist die höchste). </P>
+<DIV>
+<TABLE border=1 width="100%">
+  <CAPTION>Stackpointer (B), nur bei Stacksegmenten von Bedeutung</CAPTION>
+  <TBODY>
+  <TR>
+    <TD>B=1</TD>
+    <TD>ESP wird als Stackpointer verwendet (bis zu 4 GB Stack)</TD></TR>
+  <TR>
+    <TD>B=0</TD>
+    <TD>SP wird als Stackpointer verwendet (max. 64 KB 
+Stack)</TD></TR></TBODY></TABLE></DIV>
+<DIV>
+<TABLE border=1 width="100%">
+  <CAPTION>Erweiterungsrichtung (E)</CAPTION>
+  <TBODY>
+  <TR>
+    <TD>E=1</TD>
+    <TD>Abwärtserweiterung. Die Basisadresse beschreibt die höchste Adresse in 
+      dem Segment. Der Zugriff auf ein solches Segment erfolgt mit effektiven 
+      Adresse, die zwischen <I>Länge+1</I> und <I>Länge</I> liegen. Das Segment 
+      wird durch erniedrigen der Längenangabe erweitert.</TD></TR>
+  <TR>
+    <TD>E=0</TD>
+    <TD>Aufwärtserweiterung. Die Basisadresse beschreibt die niedrigste 
+      Adresse in dem Segment. Durch Erhöhung der Längenangabe, kann das Segment 
+      vergrößert werden.</TD></TR></TBODY></TABLE>Ist nur für Stacksegmente 
+interessant, die während der Laufzeit zu klein geworden sind und erweitert 
+werden müssen. Bei allen anderen Segmenten sollte E=0 gesetzt werden. </DIV>
+<DIV>
+<TABLE border=1 width="100%">
+  <CAPTION>Operanden- und Adreßlänge (D)</CAPTION>
+  <TBODY>
+  <TR>
+    <TD>D=1</TD>
+    <TD>Operanden- und Adreßlänge beträgt 32 Bits. Der komplette Adreßraum 
+      kann somit genutzt werden.</TD></TR>
+  <TR>
+    <TD>D=0</TD>
+    <TD>Operanden- und Adreßlänge beträgt 16 Bits. Als Folge davon können nur 
+      die ersten 64 KB eines Segmentes adressiert 
+werden</TD></TR></TBODY></TABLE></DIV>
+<H3 style="TEXT-ALIGN: left"><A name=seg_basis></A>Basisadresse</H3>
+<P>Ist ein vorzeichenloser 32 Bit Wert, der die lineare Adresse des ersten Byte 
+im Segment angibt. </P>
+<H3 style="TEXT-ALIGN: left"><A name=seg_len></A>Segmentlänge</H3>
+<P>Ist ein vorzeichenloser 20 Bit Wert, der die Länge des Segmentes in Byte 
+angibt. Mit Hilfe der Längeneinheit (G) können Segmente bis zu 4 GB groß werden. 
+</P>
+<H4 style="TEXT-ALIGN: left"><A name=seg_gran></A>Längeneinheit (G):</H4>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>G=1</TD>
+    <TD>Die Längeneinheit beträgt 4 KB. Damit ergibt sich eine Segmentgröße 
+      zwischen 4 KB und 4 GB.</TD></TR>
+  <TR>
+    <TD>G=0</TD>
+    <TD>Die Längeneinheit beträgt 1 Byte. Die Segmente nehmen so eine Größe 
+      zwischen 1 Byte und 1 MB ein.</TD></TR></TBODY></TABLE></DIV>
+<H3 style="TEXT-ALIGN: left">Zugriffsrechte</H3>
+<DIV>
+<H4 style="TEXT-ALIGN: left">Zugriffsanzeige (A)</H4>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>A=1</TD>
+    <TD>Zum Segment wurde zugegriffen</TD></TR>
+  <TR>
+    <TD>A=0</TD>
+    <TD>Zum Segment wurde nicht zugegriffen</TD></TR></TBODY></TABLE></DIV>Sobald 
+auf einen Deskriptor zugegriffen wird, wird dieses Bit gesetzt. Ist das Bit 
+schon gesetzt, dann passiert nichts weiter. 
+<H4>Schreiberlaubnis (W):</H4>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>W=1</TD>
+    <TD>Lesen und Schreiben ist erlaubt</TD></TR>
+  <TR>
+    <TD>W=0</TD>
+    <TD>Nur das Lesen ist erlaubt</TD></TR></TBODY></TABLE></DIV>
+<H4>Leseerlaubnis (R):</H4>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>R=1</TD>
+    <TD>Es sind Lesezugriffe in diesem Segment erlaubt</TD></TR>
+  <TR>
+    <TD>R=0</TD>
+    <TD>Aus diesem Segment kann nicht gelesen werden</TD></TR></TBODY></TABLE></DIV>
+<H4>Privileganpassung (C):</H4>
+<DIV>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD>C=1</TD>
+    <TD>Die Privilegebene wird angepaßt. Damit können Routinen der 
+      Privilegebene 0 auch von Ebene 3 aufgerufen werden.</TD></TR>
+  <TR>
+    <TD>C=0</TD>
+    <TD>Es findet keine Anpassung der Privilegebene 
+statt.</TD></TR></TBODY></TABLE></DIV>
+<H3><A name=des_dat></A>Datensegmentdeskriptor</H3>
+<DIV>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD></TD>
+    <TD>
+      <P style="TEXT-ALIGN: center"><IMG alt="Deskriptor Datensegment" height=41 
+      src="Hardwarenahe Datenstrukturen des Prozessors-Dateien/des_data.gif" 
+      width=376></P></TD>
+    <TD></TD></TR></TBODY></TABLE></DIV></DIV>
+<H3><A name=des_cod></A>Programmsegmentdeskriptor</H3>
+<DIV>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD></TD>
+    <TD>
+      <P style="TEXT-ALIGN: center"><IMG alt="Deskriptor Codesegment" height=41 
+      src="Hardwarenahe Datenstrukturen des Prozessors-Dateien/des_code.gif" 
+      width=376></P></TD>
+    <TD></TD></TR></TBODY></TABLE></DIV></DIV></BODY></HTML>

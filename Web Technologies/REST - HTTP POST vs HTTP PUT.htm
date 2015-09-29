@@ -1,0 +1,1511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <title>http - PUT vs POST in REST - Stack Overflow</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/stackoverflow/img/favicon.ico">
+    <link rel="apple-touch-icon" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="http://stackoverflow.com/opensearch.xml">
+    <script src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/ga.js" async="" type="text/javascript"></script><script src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/adzerk1_2_4_43adzerk2_2_17_45adzerk3_2_4_44.htm" async="" type="text/javascript"></script><script type="text/javascript" src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/jquery.js"></script>
+    <script type="text/javascript" src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/all.css">
+    
+    <link rel="canonical" href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'PUT vs POST in REST'" href="http://stackoverflow.com/feeds/question/630453">
+    <meta name="title" content="http - PUT vs POST in REST - Stack Overflow">
+    <link rel="image_src" href="http://sstatic.net/stackoverflow/img/apple-touch-icon.png">
+    <script type="text/javascript">
+        
+        StackExchange.ready(function () {
+
+            StackExchange.question.init({showAnswerHelp:true,totalCommentCount:1,shownCommentCount:1,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:630453});
+
+            styleCode();
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        StackExchange.init({"stackAuthUrl":"http://stackauth.com","serverTime":1321444900,"styleCode":true,"newTagEditor":true,"enableUserHovercards":true,"enableTabCompletion":true,"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers"},"user":{"isAnonymous":true,"fkey":"703fe0bceb1612dd1841c65a179db37f","inboxUnviewedCount":-1}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"0324556b7bf7","js/moderator.js":"a38ca3c6143d","js/full-anon.js":"24dc2674f490","js/full.js":"2a97f964a172","js/wmd.js":"30f7a165b630","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/mobile.js":"97644ef9b7d4","js/help.js":"7f83495f785a","js/tageditor.js":"75954ba7b6f1","js/tageditornew.js":"9d9998359a54","js/inline-tag-editing.js":"364e12111b4b","js/mathjax-editing.js":"a47e02eb0282","js/revisions.js":"63c88065da1f"});
+    </script>
+
+<script src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/full-anon.js" type="text/javascript" async=""></script><link rel="stylesheet" type="text/css" href="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/sidebar.css"></head>
+<body style="margin-top: 2.5em;" class="question-page">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"><div id="notify--1" style=""><span class="notify-close"><a title="dismiss this notification">×</a></span><span class="notify-text">Welcome to Q&amp;A for professional and enthusiast programmers — check out the <a onclick="StackExchange.notify.closeFirstTime(); return false;" href="http://stackoverflow.com/faq">FAQ</a>!</span></div></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+                <a class="genu" onclick="StackExchange.ready(function(){genuwine.click();});return false;">Stack Exchange</a>
+            </div>
+            <div id="topbar">
+                <div id="hlinks">
+                    <span id="hlinks-user">
+                  
+                  </span>
+                  <span id="hlinks-nav">
+                  <a href="http://stackoverflow.com/users/login?returnurl=%2fquestions%2f630453%2fput-vs-post-in-rest">log in</a>
+ <span class="lsep">|</span>
+<a href="http://careers.stackoverflow.com/">careers</a>
+ <span class="lsep">|</span>
+
+                  </span>
+                  <span id="hlinks-custom">
+                  <a href="http://chat.stackoverflow.com/">chat</a>
+ <span class="lsep">|</span>
+<a href="http://meta.stackoverflow.com/">meta</a>
+ <span class="lsep">|</span>
+<a href="http://stackoverflow.com/about">about</a>
+ <span class="lsep">|</span>
+<a href="http://stackoverflow.com/faq">faq</a>
+                  </span>
+                </div>
+                <div id="hsearch">
+                    <form id="search" action="/search" method="get" autocomplete="off">
+                    <div>
+                        <input autocomplete="off" name="q" class="textbox" placeholder="search" tabindex="1" maxlength="140" size="28" type="text">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://stackoverflow.com/">Stack Overflow</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="http://stackoverflow.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://stackoverflow.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://stackoverflow.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://stackoverflow.com/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://stackoverflow.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://stackoverflow.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div id="system-message">
+        <script type="text/javascript">
+            var curSystemMessage = 'Cast your vote in the Stack Overflow 2011 <a href="\/election">community moderator primary<\/a>!';
+            document.write(curSystemMessage);
+            $('#system-message-temp').attr('id', 'system-message');
+        </script>Cast your vote in the Stack Overflow 2011 <a href="http://stackoverflow.com/election">community moderator primary</a>!
+        </div>
+
+        <div id="content">
+            
+
+
+
+<div id="question-header">
+    <h1><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest" class="question-hyperlink">PUT vs POST in REST</a></h1>
+</div>
+<div id="mainbar">
+
+
+<div class="question" id="question">
+
+    <div class="everyonelovesstackoverflow" id="adzerk1"><a href="http://engine.adzerk.net/redirect/0/5920/2444/8277/5e6b9fc7bac64985b29d56d53ff27c4c/43/1178/8806/634570417016843200?keywords=http%2crest" rel="nofollow" target="_blank" title=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/60abb4b317034aa2af0bc697e6f02963.htm" title="" alt="" border="0" height="90" width="728"></a></div>
+
+    
+    <table>
+    <tbody><tr>
+    <td class="votecell">
+        
+<div class="vote">
+    <input value="630453" type="hidden">
+    <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+    <span class="vote-count-post" style="font-size:200%;">233</span>
+    <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+
+    <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+    <div class="favoritecount"><b>191</b></div>    
+
+    <script type="text/javascript">
+        StackExchange.ready(function() {
+            var shareUrl = "http%3a%2f%2fstackoverflow.com%2fq%2f630453";
+            var shareMsg = "PUT+vs+POST+in+REST";
+            StackExchange.share.facebook($("#fb-share-630453"), shareUrl, shareMsg);
+            StackExchange.share.twitter($("#twitter-share-630453"), shareUrl, shareMsg);
+        });
+    </script>
+    <a id="fb-share-630453" class="fb-share" title="share link to this question on Facebook">share [fb]</a>
+    <a id="twitter-share-630453" class="twitter-share" title="share link to this question on Twitter">share [tw]</a>    
+
+</div>
+
+    </td>
+<td class="postcell">
+<div>          
+    <div class="post-text">
+        <p>According to the HTTP/1.1 Spec: </p>
+
+<blockquote>
+  <p>The <strong><code>POST</code></strong> method is used to request 
+that the origin server accept the entity enclosed in the request as a 
+new subordinate of the resource identified by the <code>Request-URI</code> in the `Request-Line</p>
+</blockquote>
+
+<p>In other words, <code>POST</code> is used to <strong>create</strong>.</p>
+
+<blockquote>
+  <p>The <strong><code>PUT</code></strong> method requests that the enclosed entity be stored under the supplied <code>Request-URI</code>. If the <code>Request-URI</code>
+ refers to an already existing resource, the enclosed entity SHOULD be 
+considered as a modified version of the one residing on the origin 
+server. If the <code>Request-URI</code> does not point to an existing 
+resource, and that URI is capable of being defined as a new resource by 
+the requesting user agent, the origin server can create the resource 
+with that URI."</p>
+</blockquote>
+
+<p>That is, <code>PUT</code> is used to <strong>create or update</strong>.</p>
+
+<p>So, which one should be used to Create resource? Or one need to support both?</p>
+
+    </div>            
+    <div class="post-taglist">
+        <a href="http://stackoverflow.com/questions/tagged/http" class="post-tag" title="show questions tagged 'http'" rel="tag">http</a> <a href="http://stackoverflow.com/questions/tagged/rest" class="post-tag" title="show questions tagged 'rest'" rel="tag">rest</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/q/630453" title="short permalink to this question" id="link-post-630453">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/630453/edit">improve this question</a></div>
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info"><div class="user-action-time">edited <a href="http://stackoverflow.com/posts/630453/revisions" title="show all edits to this post"><span title="2011-10-23 13:24:45Z" class="relativetime">Oct 23 at 13:24</span></a></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/449288/gioele"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/366dbda84e78aff8a8a070622aeb63ce.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/449288/gioele">gioele</a><br><span class="reputation-score" title="reputation score">507</span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span></div></div>    </td>
+    <td class="post-signature owner">
+    <div class="user-info"><div class="user-action-time">asked <span title="2009-03-10 14:25:20Z" class="relativetime">Mar 10 '09 at 14:25</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/19268/alex"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/145778821ba747dd30334c0703ebd57f.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/19268/alex">alex</a><br><span class="reputation-score" title="reputation score">4,150</span><span title="3 gold badges"><span class="badge1"></span><span class="badgecount">3</span></span><span title="18 silver badges"><span class="badge2"></span><span class="badgecount">18</span></span><span title="41 bronze badges"><span class="badge3"></span><span class="badgecount">41</span></span></div></div>
+        <br class="cbt">
+        <div class="accept-rate accept-answer-link" title="this user has accepted an answer for 23 of 25 eligible questions">92% accept rate</div>
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>    </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-630453" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-9600464" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">It may be helpful to use the definitions in HTTPbis - Roy put a fair amount of work into clarifying them. See: <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p2-semantics-16#section-7.5" rel="nofollow">tools.ietf.org/html/…</a></span> –&nbsp;<a href="http://stackoverflow.com/users/152646/mark-nottingham" title="631 reputation" class="comment-user">Mark Nottingham</a> <span class="comment-date"><span title="2011-10-23 21:03:06Z">Oct 23 at 21:03</span></span><span class="edited-yes" title="this comment was edited"></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div style="color: rgb(0, 0, 0);" class="was-this-helpful">Was this post useful to you? &nbsp;&nbsp;<input style="" class="anon-vote" value="Yes" type="button"> &nbsp;<input style="" class="anon-vote" value="No" type="button"></div>
+    
+</td>
+</tr>    </tbody></table>    
+</div>
+<div class="question-status">
+                    <h2><b>protected</b> by <a href="http://stackoverflow.com/users/273200/bala-r">Bala R</a> <span title="2011-05-25 03:44:44Z" class="relativetime">May 25 at 3:44</span></h2>
+                    <p>This question is protected to prevent "thanks!", 
+"me too!", or spam answers by new users. To answer it, you must have 
+earned more than 10 <a href="http://stackoverflow.com/faq#reputation">reputation</a> on this site.</p>
+                  </div>
+
+
+<div id="answers">
+
+    <a name="tab-top"></a>
+    <div id="answers-header">
+        <div class="subheader answers-subheader">
+            <h2>10 Answers</h2>
+            <div id="tabs">
+                <a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+<a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+<a class="youarehere" href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+
+            </div>
+        </div>    
+    </div>    
+
+
+  
+    <a name="630475"></a>
+    <div id="answer-630475" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="630475" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post" style="font-size:200%;">232</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+<span class="vote-accepted-on" title="The question owner accepted this as the best answer Mar 10 '09 at 15:11">accepted</span>
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p><strong>Overall:</strong> </p>
+
+<p>Both PUT and POST can be used for creating. </p>
+
+<p>You have to ask "what are you performing the action to?" though to 
+distinguish what you should be using. If you want to use POST then you 
+would do that to a list of questions. If you want to use PUT then you 
+would do that to a particular question.</p>
+
+<p><strong>Great both can be used, so which one should I use in my RESTful design:</strong></p>
+
+<p>You do not need to support both PUT and POST.  </p>
+
+<p>Which is used is left up to you.  But just remember to use the right 
+one depending on what object you are referencing in the request. </p>
+
+<p>Some considerations:</p>
+
+<ul>
+<li>Do you name your URL objects you create explicitly, or let the 
+server decide? If you name them then use PUT.  If you let the server 
+decide then use POST.</li>
+<li>PUT is idempotent, so if you PUT an object twice, it has no effect.  This is a nice property, so I would use PUT when possible. </li>
+<li>You can update or create a resource with PUT with the same object URL</li>
+<li>With POST you can have 2 requests coming in at the same time making 
+modifications to a URL, and they may update different parts of the 
+object. </li>
+</ul>
+
+<p><strong>An example:</strong></p>
+
+<p><a href="http://stackoverflow.com/questions/256349/what-are-the-best-common-restful-url-verbs-and-actions/256359#256359">I wrote the following as part of another answer on SO regarding this</a>:</p>
+
+<blockquote>
+  <p><strong>POST:</strong></p>
+  
+  <p>Used to modify and update a resource</p>
+
+<pre><code>POST /questions/&lt;existing_question&gt; HTTP/1.1
+Host: wahteverblahblah.com
+</code></pre>
+  
+  <p>Note that the following is an error:</p>
+
+<pre><code>POST /questions/&lt;new_question&gt; HTTP/1.1
+Host: wahteverblahblah.com
+</code></pre>
+  
+  <p>If the URL is not yet created, you
+  should not be using POST to create it
+  while specyfing the name.  This should
+  result in a resource not found error
+  because  does not exist
+  yet.  You should PUT the
+   resource on the server
+  first. </p>
+  
+  <p>You could though do something like
+  this to create a resources using POST:</p>
+
+<pre><code>POST /questions HTTP/1.1
+Host: wahteverblahblah.com
+</code></pre>
+  
+  <p>Note that in this case the resource
+  name is not specified, the new objects
+  URL path would be returned to you.</p>
+  
+  <p><strong>PUT:</strong> </p>
+  
+  <p>Used to create a resource, or
+  overwrite it.  While you specify the
+  resources new URL.</p>
+  
+  <p>For a new resource:</p>
+
+<pre><code>PUT /questions/&lt;new_question&gt; HTTP/1.1
+Host: wahteverblahblah.com
+</code></pre>
+  
+  <p>To overwrite an existing resource:</p>
+
+<pre><code>PUT /questions/&lt;existing_question&gt; HTTP/1.1
+Host: wahteverblahblah.com
+</code></pre>
+</blockquote>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/630475#630475" title="permalink to this answer" id="link-post-630475">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/630475/edit">improve this answer</a></div>
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover"><div class="user-action-time">edited <a href="http://stackoverflow.com/posts/630475/revisions" title="show all edits to this post"><span title="2011-04-26 22:31:29Z" class="relativetime">Apr 26 at 22:31</span></a></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/12652/comptrol"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/d08ae98579e2b4ea364e7012f77ffd91.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/12652/comptrol">Comptrol</a><br><span class="reputation-score" title="reputation score">2,730</span><span title="22 silver badges"><span class="badge2"></span><span class="badgecount">22</span></span><span title="39 bronze badges"><span class="badge3"></span><span class="badgecount">39</span></span></div></div>    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover"><div class="user-action-time">answered <span title="2009-03-10 14:29:46Z" class="relativetime">Mar 10 '09 at 14:29</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/3153/brian-r-bondy"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/84af4c25398f072ce1462795fd67bf49.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/3153/brian-r-bondy">Brian R. Bondy</a><br><span class="reputation-score" title="reputation score 76408">76.4k</span><span title="18 gold badges"><span class="badge1"></span><span class="badgecount">18</span></span><span title="227 silver badges"><span class="badge2"></span><span class="badgecount">227</span></span><span title="362 bronze badges"><span class="badge3"></span><span class="badgecount">362</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-630475" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-443175" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Great, 
+according to your answer, both PUT and POST can be used to create and 
+modify resources. So which one should be used or both must be supported 
+for both create and update?</span> –&nbsp;<a href="http://stackoverflow.com/users/19268/alex" title="4150 reputation" class="comment-user owner">alex</a> <span class="comment-date"><span title="2009-03-10 15:06:30Z">Mar 10 '09 at 15:06</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-443190" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">@alex: I
+ updated my answer to give more detail in the section "Great both can be
+ used, so which one should I use in my RESTful design:"</span> –&nbsp;<a href="http://stackoverflow.com/users/3153/brian-r-bondy" title="76408 reputation" class="comment-user">Brian R. Bondy</a> <span class="comment-date"><span title="2009-03-10 15:09:12Z">Mar 10 '09 at 15:09</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-443219" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">@alex: I also added more tips in that same section about the tradeoffs.</span> –&nbsp;<a href="http://stackoverflow.com/users/3153/brian-r-bondy" title="76408 reputation" class="comment-user">Brian R. Bondy</a> <span class="comment-date"><span title="2009-03-10 15:12:41Z">Mar 10 '09 at 15:12</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-443250" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="supernova">42</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">I think
+ one cannot stress enough the fact that PUT is idempotent: if the 
+network is botched and the client is not sure whether his request made 
+it through, it can just send it a second (or 100th) time, and it is 
+guaranteed by the HTTP spec that this has exactly the same effect as 
+sending once.</span> –&nbsp;<a href="http://stackoverflow.com/users/2988/jorg-w-mittag" title="64219 reputation" class="comment-user">Jörg W Mittag</a> <span class="comment-date"><span title="2009-03-10 15:17:07Z">Mar 10 '09 at 15:17</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-443262" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">@Jörg W Mittag: Thanks for the emphasis, I agree.</span> –&nbsp;<a href="http://stackoverflow.com/users/3153/brian-r-bondy" title="76408 reputation" class="comment-user">Brian R. Bondy</a> <span class="comment-date"><span title="2009-03-10 15:19:34Z">Mar 10 '09 at 15:19</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+    <div class="everyonelovesstackoverflow" id="adzerk3"><a href="http://engine.adzerk.net/redirect/0/5922/7472/8277/5b587d4890e34eaba805bf054881228f/44/1178/10187/634570417016999455?keywords=http%2crest" rel="nofollow" target="_blank" title=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/bee37138e0414d6f99d68ae55955c4fa.htm" title="" alt="" border="0" height="90" width="728"></a></div>
+
+    
+  
+    <a name="2691891"></a>
+    <div id="answer-2691891" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="2691891" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post" style="font-size:200%;">137</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>You can find assertions on the web that say</p>
+
+<ul>
+<li><a href="http://java.sun.com/developer/technicalArticles/WebServices/restful/" rel="nofollow"><strong>POST</strong> should be used to create a resource, and <strong>PUT</strong> should be used to modify one</a></li>
+<li><a href="http://awsmedia.s3.amazonaws.com/pdf/RESTandS3.pdf" rel="nofollow"><strong>PUT</strong> should be used to create a resource, and <strong>POST</strong> should be used to modify one</a></li>
+</ul>
+
+<p>Neither is quite right. </p>
+
+<hr>
+
+<p>Better is to choose between PUT and POST based on <a href="http://en.wikipedia.org/wiki/Idempotent" rel="nofollow">idempotence</a> of the action. </p>
+
+<p><strong>PUT</strong> implies putting a resource - completely 
+replacing whatever is available at the given URL with a different thing.
+  By definition, a PUT is idempotent.  Do it as many times as you like, 
+and the result is the same. <code>x=5</code> is idempotent.  You can PUT a resource whether it previously exists, or not (eg, to Create, or to Update)! </p>
+
+<p><strong>POST</strong> updates a resource, adds a subsidiary resource, or causes a change.  A POST is not idempotent, in the way that <code>x++</code> is not idempotent. </p>
+
+<hr>
+
+<p>By this argument, PUT is for creating when you know the URL of the 
+thing you will create. POST can be used to create when you know the URL 
+of the "factory" or manager for the category of things you want to 
+create. </p>
+
+<p>so: </p>
+
+<p>POST /expense-report</p>
+
+<p>or:</p>
+
+<p>PUT  /expense-report/10929</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/2691891#2691891" title="permalink to this answer" id="link-post-2691891">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/2691891/edit">improve this answer</a></div>
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info"><div class="user-action-time">edited <a href="http://stackoverflow.com/posts/2691891/revisions" title="show all edits to this post"><span title="2010-10-24 15:07:32Z" class="relativetime">Oct 24 '10 at 15:07</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2010-04-22 14:55:54Z" class="relativetime">Apr 22 '10 at 14:55</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/48082/cheeso"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/18bff049e78e8d77a620f8ac4f15b2a0.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/48082/cheeso">Cheeso</a><br><span class="reputation-score" title="reputation score 41811">41.8k</span><span title="10 gold badges"><span class="badge1"></span><span class="badgecount">10</span></span><span title="72 silver badges"><span class="badge2"></span><span class="badgecount">72</span></span><span title="170 bronze badges"><span class="badge3"></span><span class="badgecount">170</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-2691891" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-4311598" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">4</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">I 
+agree, wherever idempotence is concerned it should trump any other 
+concerns since getting that wrong can cause many many unexpected bugs.</span> –&nbsp;<a href="http://stackoverflow.com/users/1868/josh" title="120 reputation" class="comment-user">Josh</a> <span class="comment-date"><span title="2010-10-26 05:56:09Z">Oct 26 '10 at 5:56</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-6465613" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Yes. In
+ fact, AtomPub protocol defies this (or more accurately, restricts its 
+semantic meaning of PUT): "PUT is used to edit a known Resource. It is 
+not used for Resource creation." Just because AtomPub protocol says so 
+(which is valid by the way) doesn't mean all RESTful protocols must 
+follow it. (because REST is generic)</span> –&nbsp;<a href="http://stackoverflow.com/users/122441/hendy-irawan" title="904 reputation" class="comment-user">Hendy Irawan</a> <span class="comment-date"><span title="2011-04-14 16:04:01Z">Apr 14 at 16:04</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-6803924" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">2</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">If POST
+ can update a resource, how is that not idempotent? If I change a 
+students age using PUT and do that 10x times the students age is the 
+same if I did it once.</span> –&nbsp;<a href="http://stackoverflow.com/users/61714/schneider" title="1841 reputation" class="comment-user">Schneider</a> <span class="comment-date"><span title="2011-05-06 10:54:35Z">May 6 at 10:54</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div style="color: rgb(136, 136, 136);" class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="2590281"></a>
+    <div id="answer-2590281" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="2590281" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">28</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p><strong>POST creates a child resource</strong>, so POST to <code>/items</code> creates a resources that lives under the <code>/items</code> resource. 
+Eg. <code>/items/1</code></p>
+
+<p><strong>PUT</strong> is for creating or updating something with a <strong>known URL</strong>. </p>
+
+<p>Therefore PUT is only a candidate for CREATE where you already know the url before the resource is created. 
+Eg. <code>/blogs/nigel/entry/when_to_use_post_vs_put</code> as the title is used as the resource key</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/2590281#2590281" title="permalink to this answer" id="link-post-2590281">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/2590281/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover"><div class="user-action-time">answered <span title="2010-04-07 05:52:52Z" class="relativetime">Apr 7 '10 at 5:52</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/23963/nigel-thorne"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/d9a5280831aec1b4b614eb1e5bf40baf.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/23963/nigel-thorne">Nigel Thorne</a><br><span class="reputation-score" title="reputation score">1,354</span><span title="6 silver badges"><span class="badge2"></span><span class="badgecount">6</span></span><span title="15 bronze badges"><span class="badge3"></span><span class="badgecount">15</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-2590281" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div style="color: rgb(136, 136, 136);" class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="4701836"></a>
+    <div id="answer-4701836" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="4701836" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">13</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>I'd like to add my "pragmatic" advice.  
+Use PUT when you know the "id" by which the object you are saving can be
+ retrieved.  Using PUT won't work too well if you need, say, a database 
+generated id to be returned for you to do future lookups or updates.</p>
+
+<p>So: To save an existing user, or one where the client generates the id and it's been verified that the id is unique:</p>
+
+<pre><code>PUT /user/12345 HTTP/1.1  &lt;-- create the user providing the id 12345
+Host: mydomain.com
+
+GET /user/12345 HTTP/1.1  &lt;-- return that user
+Host: mydomain.com
+</code></pre>
+
+<p>Otherwise, use POST to initially create the object, and PUT to update the object:</p>
+
+<pre><code>POST /user HTTP/1.1   &lt;--- create the user, server returns 12345
+Host: mydomain.com
+
+PUT /user/12345 HTTP/1.1  &lt;--- update the user
+Host: mydomain.com
+</code></pre>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/4701836#4701836" title="permalink to this answer" id="link-post-4701836">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/4701836/edit">improve this answer</a></div>
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info"><div class="user-action-time">edited <a href="http://stackoverflow.com/posts/4701836/revisions" title="show all edits to this post"><span title="2011-05-25 03:43:05Z" class="relativetime">May 25 at 3:43</span></a></div><div class="user-gravatar32"></div><div class="user-details"><br></div></div>    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2011-01-15 19:59:06Z" class="relativetime">Jan 15 at 19:59</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/33689/thadon"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/ceb09c840b0bb7c0a70d722d1c712e89.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/33689/thadon">ThaDon</a><br><span class="reputation-score" title="reputation score">996</span><span title="9 silver badges"><span class="badge2"></span><span class="badgecount">9</span></span><span title="20 bronze badges"><span class="badge3"></span><span class="badgecount">20</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-4701836" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div style="color: rgb(136, 136, 136);" class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="630471"></a>
+    <div id="answer-630471" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="630471" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">11</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>Use POST to create a group, and PUT to update the members of it. That's how Rails is doing it, anyway.</p>
+
+<pre><code>PUT    /items/1      #=&gt; update
+POST   /items        #=&gt; create
+</code></pre>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/630471#630471" title="permalink to this answer" id="link-post-630471">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/630471/edit">improve this answer</a></div>
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover"><div class="user-action-time">edited <a href="http://stackoverflow.com/posts/630471/revisions" title="show all edits to this post"><span title="2011-04-26 22:57:21Z" class="relativetime">Apr 26 at 22:57</span></a></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/12652/comptrol"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/d08ae98579e2b4ea364e7012f77ffd91.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/12652/comptrol">Comptrol</a><br><span class="reputation-score" title="reputation score">2,730</span><span title="22 silver badges"><span class="badge2"></span><span class="badgecount">22</span></span><span title="39 bronze badges"><span class="badge3"></span><span class="badgecount">39</span></span></div></div>    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover"><div class="user-action-time">answered <span title="2009-03-10 14:28:57Z" class="relativetime">Mar 10 '09 at 14:28</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/722/tim-sullivan"><div class="gravatar-wrapper-32"><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/picture.htm" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/722/tim-sullivan">Tim Sullivan</a><br><span class="reputation-score" title="reputation score">5,698</span><span title="19 silver badges"><span class="badge2"></span><span class="badgecount">19</span></span><span title="40 bronze badges"><span class="badge3"></span><span class="badgecount">40</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-630471" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-1816181" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">1</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Good insight on rails.</span> –&nbsp;<a href="http://stackoverflow.com/users/125380/user1" title="3656 reputation" class="comment-user">User1</a> <span class="comment-date"><span title="2009-12-15 23:47:05Z">Dec 15 '09 at 23:47</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="630785"></a>
+    <div id="answer-630785" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="630785" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">7</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>REST is a <em>very</em> high-level concept. In fact, it doesn't even mention HTTP at all!</p>
+
+<p>If you have any doubts about how to implement REST in HTTP, you can always take a look at the <a href="http://atomenabled.org/developers/protocol/atom-protocol-spec.php" rel="nofollow">Atom Publication Protocol (AtomPub)</a>
+ specification. AtomPub is a standard for writing RESTful webservices 
+with HTTP that was developed by many HTTP and REST luminaries, with some
+ input from Roy Fielding, the inventor of REST and (co-)inventor of HTTP
+ himself.</p>
+
+<p>In fact, you might even be able to use AtomPub directly. While it 
+came out of the blogging community, it is in no way restricted to 
+blogging: it is a generic protocol for RESTfully interacting with 
+arbitrary (nested) collections of arbitrary resources via HTTP. If you 
+can represent your application as a nested collection of resources, then
+ you can just use AtomPub and not worry about whether to use PUT or 
+POST, what HTTP Status Codes to return and all those details.</p>
+
+<p><a href="http://atomenabled.org/developers/protocol/atom-protocol-spec.php#crwp" rel="nofollow">This is what AtomPub has to say about resource creation</a>:</p>
+
+<blockquote>
+  <p>To add members to a Collection, clients send POST requests to the URI of the Collection.</p>
+</blockquote>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/630785#630785" title="permalink to this answer" id="link-post-630785">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/630785/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover"><div class="user-action-time">answered <span title="2009-03-10 15:27:52Z" class="relativetime">Mar 10 '09 at 15:27</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/2988/jorg-w-mittag"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/89f45d140c5d9b14fd63720ea8b0cb47.jpeg" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/2988/jorg-w-mittag">Jörg W Mittag</a><br><span class="reputation-score" title="reputation score 64219">64.2k</span><span title="8 gold badges"><span class="badge1"></span><span class="badgecount">8</span></span><span title="69 silver badges"><span class="badge2"></span><span class="badgecount">69</span></span><span title="158 bronze badges"><span class="badge3"></span><span class="badgecount">158</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-630785" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-2598367" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">1</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">There's nothing wrong with allowing PUT to create resources. Just be aware that it means that the client provides the URL.</span> –&nbsp;<a href="http://stackoverflow.com/users/50543/julian-reschke" title="3726 reputation" class="comment-user">Julian Reschke</a> <span class="comment-date"><span title="2010-04-07 07:47:32Z">Apr 7 '10 at 7:47</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="7866699"></a>
+    <div id="answer-7866699" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="7866699" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">3</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>POST means "create new" as in "Here is the input for creating a user, create it for me".</p>
+
+<p>PUT means "insert, replace if already exists" as in "Here is the data for user 5".</p>
+
+<p>You POST to example.com/users since you don't know the URL of the user yet, you want the server to create it. </p>
+
+<p>You PUT to example.com/users/id since you want to replace/create a <em>specific</em> user.</p>
+
+<p>POSTing twice with the same data means create two identical users. 
+PUTing twice with the same data creates the user the first and updates 
+him to the same state the second time (no changes). Since you end up 
+with the same state after a PUT no matter how many times you perform it,
+ it is said to be "equally potent" every time - idempotent. This is 
+useful for automatically retrying requests. No more 'are you sure you 
+want to resend' when you push the back button on the browser.</p>
+
+<p>A general advice is to use POST when you need the server to be in 
+control of URL generation of your resources. Use PUT otherwise.  Prefer 
+PUT  over POST.  </p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/7866699#7866699" title="permalink to this answer" id="link-post-7866699">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/7866699/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2011-10-23 14:27:31Z" class="relativetime">Oct 23 at 14:27</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/83741/alexander-torstling"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/60adb60c59462ef0cb9db65853736cf4.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/83741/alexander-torstling">Alexander Torstling</a><br><span class="reputation-score" title="reputation score">4,292</span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="16 bronze badges"><span class="badge3"></span><span class="badgecount">16</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-7866699" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-9602444" class="comment">
+        <td></td>
+        <td class="comment-text"><div><span class="comment-copy">Good answer - especially the last paragraph.</span> –&nbsp;<a href="http://stackoverflow.com/users/656069/brian-kelly" title="2300 reputation" class="comment-user">Brian Kelly</a> <span class="comment-date"><span title="2011-10-24 00:59:46Z">Oct 24 at 0:59</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="5431108"></a>
+    <div id="answer-5431108" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="5431108" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">0</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>At the risk of restating what has already 
+been said, it seems important to remember that PUT implies that the 
+client controls what the URL is going to end up being, when creating a 
+resource. So part of the choice between PUT and POST is going to be 
+about how much you can trust the client to provide correct, normalized 
+URLs that are coherent with whatever your URL scheme is. </p>
+
+<p>When you can't fully trust the client to do the right thing, it would be 
+more appropriate to use POST to create a new item and then send the URL back to the client in the response.</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/5431108#5431108" title="permalink to this answer" id="link-post-5431108">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/5431108/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2011-03-25 10:17:54Z" class="relativetime">Mar 25 at 10:17</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/365064/skillet-thief"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/540729b5914a6606e265420ed9bbd891.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/365064/skillet-thief">skillet-thief</a><br><span class="reputation-score" title="reputation score">1</span><span title="1 bronze badge"><span class="badge3"></span><span class="badgecount">1</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-5431108" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="7868846"></a>
+    <div id="answer-7868846" class="answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="7868846" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">0</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>The semantics are supposed be different, 
+in that "PUT", like "GET" is supposed to be idempotent -- meaning, you 
+can the same exact PUT request multiple times and the result will be as 
+if you executed it only once. </p>
+
+<p>I will describe the conventions which I think are most widely used and are most useful:</p>
+
+<p>When you PUT a resource at a particular URL what happens is that it 
+should get saved at that URL, or something along those lines.</p>
+
+<p>When you POST to a resource at a particular URL, often you are 
+posting a related piece of information to that URL. This implies that 
+the resource at the URL already exists.</p>
+
+<p>For example, when you want to create a new stream, you can PUT it to 
+some URL. But when you want to POST a message to an existing stream, you
+ POST to its URL.</p>
+
+<p>As for modifying the properties of the stream, you can do that with 
+either PUT or POST. Basically, only use "PUT" when the operation is 
+idempotent - otherwise use POST.</p>
+
+<p>Note, however, that not all modern browsers support HTTP verbs other than GET or POST.</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/7868846#7868846" title="permalink to this answer" id="link-post-7868846">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/7868846/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2011-10-23 20:07:55Z" class="relativetime">Oct 23 at 20:07</span></div><div class="user-gravatar32"><a href="http://stackoverflow.com/users/467460/gregory-magarshak"><div class=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/76183cf5130d9446df0dfa59373cb33a.png" alt=""></div></a></div><div class="user-details"><a href="http://stackoverflow.com/users/467460/gregory-magarshak">Gregory Magarshak</a><br><span class="reputation-score" title="reputation score">41</span><span title="4 bronze badges"><span class="badge3"></span><span class="badgecount">4</span></span></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-7868846" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+  
+    <a name="630551"></a>
+    <div id="answer-630551" class="answer downvoted-answer">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+<div class="vote">
+    <input value="630551" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post">-6</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+</div>
+
+        </td>
+
+
+<td class="answercell">
+    <div class="post-text"><p>For both (create and update) I would use 
+POST since you are changing something in the data store (they are not 
+idempotent function calls). For me this link was very helpful: <a href="http://www.cs.tut.fi/%7Ejkorpela/forms/methods.html" rel="nofollow">Form methods</a></p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+        <div class="post-menu"><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest/630551#630551" title="permalink to this answer" id="link-post-630551">link</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/630551/edit">improve this answer</a></div>
+    </td>
+            
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info"><div class="user-action-time">answered <span title="2009-03-10 14:42:57Z" class="relativetime">Mar 10 '09 at 14:42</span></div><div class="user-gravatar32"><span class="anonymous-gravatar"></span></div><div class="user-details">Raffael Luthiger<br></div></div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-630551" class="comments">
+        <table>
+        <tbody>
+                    
+    <tr id="comment-443236" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">3</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">From your comment you do not understand or perhaps have not been introduced to REST. Here's helpful info: <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" rel="nofollow">en.wikipedia.org/wiki/Representational_State_Transfer</a></span> –&nbsp;<a href="http://stackoverflow.com/users/12716/randolpho" title="26038 reputation" class="comment-user">Randolpho</a> <span class="comment-date"><span title="2009-03-10 15:15:32Z">Mar 10 '09 at 15:15</span></span></div></td>
+    </tr>
+            
+    <tr id="comment-973634" class="comment">
+        <td class="comment-actions"><table><tbody><tr>
+<td class="comment-score">
+<span title="number of 'great comment' votes received" class="cool">2</span>
+</td>
+<td>
+&nbsp;
+</td></tr>
+</tbody></table></td>
+        <td class="comment-text"><div><span class="comment-copy">Update is idempotent.</span> –&nbsp;<a href="http://stackoverflow.com/users/89373/aehlke" title="1817 reputation" class="comment-user">aehlke</a> <span class="comment-date"><span title="2009-07-20 17:40:17Z">Jul 20 '09 at 17:40</span></span></div></td>
+    </tr>
+
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>    </tbody></table>
+</div>
+
+
+        <h2 class="bottom-notice">
+                Not the answer you're looking for? 
+            Browse other questions tagged <a href="http://stackoverflow.com/questions/tagged/http" class="post-tag" title="show questions tagged 'http'" rel="tag">http</a> <a href="http://stackoverflow.com/questions/tagged/rest" class="post-tag" title="show questions tagged 'rest'" rel="tag">rest</a> 
+                or <a href="http://stackoverflow.com/questions/ask">ask your own question</a>.
+        </h2>
+</div>
+</div>
+<div id="sidebar">
+
+
+
+    <div class="module newuser newuser-greeting" style="">
+        <h4>Hello World!</h4>
+        <div>
+            <p></p><p>This is a collaboratively edited question and answer site for <b>professional and enthusiast programmers</b>. It's 100% free, no registration required.</p><p></p>
+            <p class="ar"><a href="http://stackoverflow.com/about">about »</a>&nbsp;&nbsp;&nbsp;<a href="http://stackoverflow.com/faq">faq »</a>
+            </p>
+        </div>
+    </div>
+    <div class="module">
+        <p class="label-key">tagged</p>
+        <div class="tagged"><a href="http://stackoverflow.com/questions/tagged/http" class="post-tag" title="show questions tagged 'http'" rel="tag">http</a>&nbsp;<span class="item-multiplier">×&nbsp;8526</span><br>
+<a href="http://stackoverflow.com/questions/tagged/rest" class="post-tag" title="show questions tagged 'rest'" rel="tag">rest</a>&nbsp;<span class="item-multiplier">×&nbsp;5586</span><br>
+</div>
+        <table id="qinfo">
+            <tbody><tr>
+                <td><p class="label-key">asked</p></td>
+                <td style="padding-left: 10px;"><p class="label-key" title="2009-03-10 14:25:20Z"><b>2 years ago</b></p></td>
+            </tr>
+            <tr>
+                <td><p class="label-key">viewed</p></td>
+
+                <td style="padding-left: 10px;"><p class="label-key"><b>64,652 times</b></p></td>
+            </tr>
+            <tr>
+                <td><p class="label-key">active</p></td>
+                <td style="padding-left: 10px;"><p class="label-key"><b><a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest?lastactivity" class="lastactivity-link" title="2011-10-23 20:07:55Z">23 days ago</a></b></p></td>
+            </tr>
+        </tbody></table>
+    </div>
+    
+        <script type="text/javascript">
+            var scriptSrc = "http://engine2.adzerk.net/z/8277/adzerk1_2_4_43,adzerk2_2_17_45,adzerk3_2_4_44?keywords=http,rest";
+            if (document.referrer) {
+                if (/\?/.test(scriptSrc))
+                    scriptSrc += "&";
+                else
+                    scriptSrc += "?";
+                scriptSrc += "xReferrer=" + document.referrer;
+            }
+            var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = scriptSrc; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);
+        </script>
+    
+    <div class="everyonelovesstackoverflow" id="adzerk2"><a href="http://engine.adzerk.net/redirect/0/4791/7472/8277/29eb5916262c4dc792e79434920ec4b6/45/1178/10193/634570417016999455?keywords=http%2crest" rel="nofollow" target="_blank" title=""><img src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/180414077f314dbdbaa8d8e2f7898249.htm" title="" alt="" border="0" height="250" width="220"></a></div>
+
+    
+    <div>
+        <script type="text/javascript">
+            var careers_adurl="http://careers.stackoverflow.com/ad/js",careers_cssurl="http://cdn.sstatic.net/careers/ads/sidebar.min.css?33df70",careers_leaderboardcssurl="http://cdn.sstatic.net/careers/ads/ninja.min.css?33cf39",careers_companycssurl="http://cdn.sstatic.net/careers/ads/company";(function(){var b="min-height:220px;margin:15px 0",c=$("<div>").addClass("hireme").attr("style",b),a=$("<div>").html(c);document.write(a.html());$.ajax({url:"http://cdn.sstatic.net/careers/ads/adloader.min.js?33df70",dataType:"script",cache:true})})();
+        </script><div style="min-height:220px;margin:15px 0" class="hireme"> <a href="http://careers.stackoverflow.com/jobs?a=12" class="top" target="_blank"></a> <ul class="jobs"> <li> <a href="http://careers.stackoverflow.com/jobs/14874/software-engineer-compass-information?a=hzypZgQ" target="_blank" title="Software Engineer at Compass Information Technology, Inc.. Click to learn more."> Software Engineer<br> <span class="company">Compass Information Technology</span> <span class="location">Camarillo, CA</span> </a> </li> <li> <a href="http://careers.stackoverflow.com/jobs/14924/global-network-architect-yum-brands?a=hDdv5ks" target="_blank" title="Global Network Architect at Yum! Brands, Inc.. Click to learn more."> Global Network Architect<br> <span class="company">Yum! Brands</span> <span class="location">Plano, TX</span> </a> </li> <li> <a href="http://careers.stackoverflow.com/jobs/13761/associate-software-engineer-must-have-wpf-schilling-robotics?a=gg1zgVW" target="_blank" title="Associate Software Engineer (Must have WPF) at Schilling Robotics. Click to learn more."> Associate Software Engineer (Must have WPF)<br> <span class="company">Schilling Robotics</span> <span class="location">Davis, CA</span> </a> </li> </ul> <img alt="" class="impression" src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/hzypZgQ-hDdv5ks-gg1zgVW-12.txt" style="display: none;"></div>
+    </div>
+
+      
+
+    <div class="module">
+    <h4 id="h-linked">Linked</h4>
+    <div class="linked">
+    <div class="spacer">
+<a href="http://stackoverflow.com/questions/256349/what-are-the-best-common-restful-url-verbs-and-actions" class="question-hyperlink">What are the best/common RESTful url verbs and actions?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/611906/http-post-with-url-query-parameters-good-idea-or-not" class="question-hyperlink">HTTP POST with URL query parameters — good idea or not?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3655505/put-versus-post-rest" class="question-hyperlink">Put versus Post - REST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/5424184/restful-many-to-many-possible" class="question-hyperlink">RESTful Many-to-Many possible?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/5673878/the-remote-server-returned-an-error-405-method-not-allowed" class="question-hyperlink">The remote server returned an error: (405) Method Not Allowed</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7016785/is-put-delete-idempotent-with-rest-automatic" class="question-hyperlink">Is PUT/DELETE idempotent with REST automatic?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4886556/uri-convention-for-insert-and-update-wcf-rest-api" class="question-hyperlink">URI Convention for Insert and Update - WCF Rest API</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2158785/why-restful-design-means-to-differentiate-create-and-update" class="question-hyperlink">why restful design means to differentiate create and update?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7409158/am-i-designing-this-wcf-restful-interface-correctly" class="question-hyperlink">Am I designing this WCF RESTful interface correctly?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4068416/rest-web-services-just-for-database-access-only" class="question-hyperlink">REST web services, just for database access only?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6273560/put-vs-post-for-files-upload-restful-api-to-be-built-using-zend-framework" class="question-hyperlink">PUT vs. POST for files upload RESTful api to be built using Zend Framework</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6511122/php-file-uploads-post-vs-put" class="question-hyperlink">PHP file uploads. POST vs PUT?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6335984/rest-api-with-multiple-commands-per-resource" class="question-hyperlink">REST API with multiple commands per resource</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7616400/developing-a-client-server-iphone-app" class="question-hyperlink">Developing a client-server iphone app</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6813420/read-data-from-http-put" class="question-hyperlink">Read data from HTTP PUT</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4554022/should-an-edit-of-a-comment-be-sent-through-post-or-put" class="question-hyperlink">Should an edit of a comment be sent through POST or PUT?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7195872/request-params-and-put-method" class="question-hyperlink">Request params and PUT method</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6283129/how-would-i-implement-restful-put-urls-if-the-primary-key-is-unknown-before-the" class="question-hyperlink">How would I implement RESTful PUT URLs if the primary key is unknown before the resource is created?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4432688/what-is-the-difference-between-the-various-http-methods" class="question-hyperlink">What is the difference between the various HTTP methods?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/5087584/wcf-restful-service" class="question-hyperlink">WCF Restful service</a>
+</div>
+
+    </div>
+    </div>
+    <div class="module">
+    <h4 id="h-related">Related</h4>
+    <div class="related">
+    <div class="spacer">
+<a href="http://stackoverflow.com/questions/283957/rest-correct-http-response-code-for-a-post-which-is-ignored" class="question-hyperlink">REST: Correct HTTP Response Code For a POST Which Is Ignored</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/306271/bulk-collection-manipulation-through-a-rest-restful-api" class="question-hyperlink">Bulk Collection Manipulation through a REST (RESTful) API</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/664873/should-i-store-method-put-delete-in-the-post-or-in-the-url" class="question-hyperlink">Should I store _method=PUT/DELETE in the post or in the url</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/1426845/incrementing-resource-counter-in-a-restful-way-put-vs-post" class="question-hyperlink">Incrementing resource counter in a RESTful way: PUT vs POST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/1625028/in-http-what-is-rest" class="question-hyperlink">In HTTP, what is REST?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/1944029/rest-question-put-one-representation-get-a-different-one" class="question-hyperlink">REST question: PUT one representation, GET a different one?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2198514/get-or-put-for-a-rest-request" class="question-hyperlink">GET or PUT for a REST request</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2208324/rest-modify-part-of-resource-put-or-post" class="question-hyperlink">REST - Modify Part of Resource - PUT or POST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2222994/understanding-rest-rest-as-a-high-volume-transport" class="question-hyperlink">Understanding REST: REST as a high volume transport?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2517825/how-to-consume-rest-in-c-sharp-including-put-post-and-delete" class="question-hyperlink">How to consume REST in C# including PUT, POST and DELETE?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/2539394/rest-http-delete-and-parameters" class="question-hyperlink">REST, HTTP DELETE and parameters</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3442514/enable-put-on-wcf-rest-api-on-iis-6-without-svc-file" class="question-hyperlink">Enable PUT on WCF REST Api on IIS 6 (without .svc file)</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3635288/perl-programatically-set-post-param-using-restclient-module" class="question-hyperlink">Perl: Programatically set POST param using REST::Client module</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3655505/put-versus-post-rest" class="question-hyperlink">Put versus Post - REST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists" class="question-hyperlink">HTTP response code for POST when resource already exists</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3856052/c-sharp-rest-client-sending-data-using-post" class="question-hyperlink">C# REST client sending data using POST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/3947132/how-to-consume-rest-service-using-http-post" class="question-hyperlink">How to consume REST service using http POST</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4268707/what-rest-put-post-delete-calls-should-return-by-a-convention" class="question-hyperlink">What REST PUT/POST/DELETE calls should return by a convention</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/4554022/should-an-edit-of-a-comment-be-sent-through-post-or-put" class="question-hyperlink">Should an edit of a comment be sent through POST or PUT?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/5315465/rails-3-link-to-generator-for-post-put-delete" class="question-hyperlink">Rails 3 link_to generator for :post, :put, &amp; :delete?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/5923283/how-to-apply-the-put-verb-in-a-rest-request" class="question-hyperlink">How to apply the PUT verb in a REST request?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6337684/php-post-to-rest-web-service" class="question-hyperlink">PHP post to REST web service</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/6528502/some-clarifications-regarding-rest-put-verb-and-other-none-crud-based-actions" class="question-hyperlink">some clarifications regarding REST PUT verb and other none CRUD based actions</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7016785/is-put-delete-idempotent-with-rest-automatic" class="question-hyperlink">Is PUT/DELETE idempotent with REST automatic?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/questions/7202019/http-put-enclosed-entity-be-stored-under-the-supplied-request-uri-does-that-m" class="question-hyperlink">HTTP PUT - enclosed entity be stored under the supplied Request-URI, does that mean Delete and Add?</a>
+</div>
+
+    </div>
+    </div>
+</div>
+
+<div id="feed-link">
+    <div id="feed-link-text"><a href="http://stackoverflow.com/feeds/question/630453" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+</div>
+<script type="text/javascript" src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/2b98.txt"></script>
+<noscript>
+    <div><img src="/posts/630453/ivc/2b98" class="dno" alt=""></div>
+</noscript>
+<div style="display:none" id="prettify-lang"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="http://stackoverflow.com/about">about</a> |
+                <a href="http://stackoverflow.com/faq">faq</a> |
+                <a href="http://blog.stackexchange.com/">blog</a> |
+                    <a href="http://chat.stackoverflow.com/">chat</a> |
+                <a href="http://data.stackexchange.com/">data</a> |
+                <a href="http://blog.stackoverflow.com/category/podcasts/">podcast</a> |
+                <a href="http://shop.stackexchange.com/">shop</a> |
+                <a href="http://stackexchange.com/legal">legal</a> |
+                <a href="http://engine.adzerk.net/redirect/0/2776/2751/0/4de3c60f719c4dfcb1a57531c7050090/0">advertising info</a> |
+
+                <a onclick="StackExchange.switchMobile('on', '/questions/630453/put-vs-post-in-rest')">mobile</a> |
+
+                <b><a href="mailto:team@stackoverflow.com">contact us</a></b>
+                  | <b><a href="http://meta.stackoverflow.com/">feedback</a></b>
+                <div id="footer-sites">
+                    
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackoverflow.com/">stackoverflow.com</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackapps.com/">api/apps</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://careers.stackoverflow.com/">careers</a>&nbsp; 
+                        <span style="color:#E8272C;font-size:140%">■</span>&nbsp;<a href="http://serverfault.com/">serverfault.com</a>&nbsp; 
+                        <span style="color:#00AFEF;font-size:140%">■</span>&nbsp;<a href="http://superuser.com/">superuser.com</a>&nbsp; 
+                        <span style="color:#969696;font-size:140%">■</span>&nbsp;<a href="http://meta.stackoverflow.com/">meta</a>&nbsp; 
+                        <span style="color:#46937D;font-size:140%">■</span>&nbsp;<a href="http://area51.stackexchange.com/">area&nbsp;51</a>&nbsp; 
+                        <span style="color:#C0D0DC;font-size:140%">■</span>&nbsp;<a href="http://webapps.stackexchange.com/">webapps</a>&nbsp; 
+                        <span style="color:#000000;font-size:140%">■</span>&nbsp;<a href="http://gaming.stackexchange.com/">gaming</a>&nbsp; 
+                        <span style="color:#dd4814;font-size:140%">■</span>&nbsp;<a href="http://askubuntu.com/">ubuntu</a>&nbsp; 
+                        <span style="color:#9ce4fe;font-size:140%">■</span>&nbsp;<a href="http://webmasters.stackexchange.com/">webmasters</a>&nbsp; 
+                        <span style="color:#cf4d3f;font-size:140%">■</span>&nbsp;<a href="http://cooking.stackexchange.com/">cooking</a>&nbsp; 
+                        <span style="color:#f4f28d;font-size:140%">■</span>&nbsp;<a href="http://gamedev.stackexchange.com/">game development</a>&nbsp; 
+                        <span style="color:#0f3559;font-size:140%">■</span>&nbsp;<a href="http://math.stackexchange.com/">math</a>&nbsp; 
+                        <span style="color:#f2f2f2;font-size:140%">■</span>&nbsp;<a href="http://photo.stackexchange.com/">photography</a>&nbsp; 
+                        <span style="color:#037187;font-size:140%">■</span>&nbsp;<a href="http://stats.stackexchange.com/">stats</a>&nbsp; 
+                        <span style="color:#f1e7cc;font-size:140%">■</span>&nbsp;<a href="http://tex.stackexchange.com/">tex</a>&nbsp; 
+                        <span style="color:#e1cdae;font-size:140%">■</span>&nbsp;<a href="http://english.stackexchange.com/">english</a>&nbsp; 
+                        <span style="color:#a2d9f6;font-size:140%">■</span>&nbsp;<a href="http://cstheory.stackexchange.com/">theoretical cs</a>&nbsp; 
+                        <span style="color:#1b3e6c;font-size:140%">■</span>&nbsp;<a href="http://programmers.stackexchange.com/">programmers</a>&nbsp; 
+                        <span style="color:#293a5d;font-size:140%">■</span>&nbsp;<a href="http://unix.stackexchange.com/">unix</a>&nbsp;
+                        <span style="color:#bec0cb;font-size:140%">■</span>&nbsp;<a href="http://apple.stackexchange.com/">apple</a>&nbsp;
+                        <span style="color:#939185;font-size:140%">■</span>&nbsp;<a href="http://wordpress.stackexchange.com/">wordpress</a>&nbsp;
+                        <span style="color:#b5cda4;font-size:140%">■</span>&nbsp;<a href="http://physics.stackexchange.com/">physics</a>&nbsp;
+                        <span style="color:#4176ab;font-size:140%">■</span>&nbsp;<a href="http://diy.stackexchange.com/">home&nbsp;improvement</a>&nbsp;
+                        <span style="color:#d1d8d7;font-size:140%">■</span>&nbsp;<a href="http://gis.stackexchange.com/">gis</a>&nbsp;
+                        <span style="color:#e5e2d3;font-size:140%">■</span>&nbsp;<a href="http://electronics.stackexchange.com/">electronics</a>&nbsp;
+                        <span style="color:#a4c639;font-size:140%">■</span>&nbsp;<a href="http://android.stackexchange.com/">android</a>&nbsp;
+                        <span style="color:#2e4e60;font-size:140%">■</span>&nbsp;<a href="http://security.stackexchange.com/">security</a>&nbsp;
+                        <span style="color:#45bcb5;font-size:140%">■</span>&nbsp;<a href="http://bicycles.stackexchange.com/">bicycles</a>&nbsp;
+                        <span style="color:#00adee;font-size:140%">■</span>&nbsp;<a href="http://dba.stackexchange.com/">dba</a>&nbsp;
+                        <span style="color:#2edaf0;font-size:140%">■</span>&nbsp;<a href="http://drupal.stackexchange.com/">drupal</a>&nbsp;
+                        <span style="color:#213951;font-size:140%">■</span>&nbsp;<a href="http://sharepoint.stackexchange.com/">sharepoint</a>&nbsp;
+                </div>
+            </div>
+            <div id="footer-flair">
+                <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
+	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
+                <div id="svnrev">rev 2011.11.16.1</div>
+            </div>
+            <div id="copyright">
+                site design / logo © 2011 stack exchange inc; 
+                user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+    
+    <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-5620270-1']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src='http://www.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();_qoptions={qacct:"p-c1rF4kxgLUzNc"};</script>
+    <script type="text/javascript" src="REST%20-%20HTTP%20POST%20vs%20HTTP%20PUT-Dateien/quant.js"></script>
+    
+
+
+</body></html>

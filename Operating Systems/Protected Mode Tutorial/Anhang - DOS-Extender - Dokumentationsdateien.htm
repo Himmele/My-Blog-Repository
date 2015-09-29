@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0055)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/code.htm -->
+<HTML><HEAD><TITLE>DOS-Extender / Dokumentationsdateien</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="DOS-Extender - Dokumentationsdateien-Dateien/stone.jpg">
+<CENTER>
+<H1><FONT color=#800000>DOS-Extender</FONT></H1></CENTER>
+<P>Die DOS-Extender auf dieser Seite sind alle frei verfügbar, unterliegen 
+jedoch dem Copyright des jeweiligen Autors. Da es sich um Shareware bzw. 
+Freeware-Produkte handelt, lesen Sie bitte die entsprechenden 
+Dokumentationsdateien, um festzustellen, inwieweit Sie sie in Ihren eigenen 
+Programmen verwenden dürfen.</P>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle width="25%"><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TH> 
+
+    <TD align=left width="75%"><A 
+      href="http://www.fh-zwickau.de/doc/prmo/extender/dos32b35.zip"><B>dos32b35.zip 
+      (474 KB)</B></A></TH> </TD>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>DOS32 ist ein kompletter DOS-Extender für die Entwicklung von echten 
+      32-Bit Protected Mode DOS-Anwendungen. DOS32 unterstützt vor allem 
+      Assembler aber auch C. Das DOS32-Paket enthält einen 32-Bit Linker, fast 
+      500 KB Quellcode und viele Beispielprogramme. Der DOS32 Extender gehöhrt 
+      sicherlich zu den am leichtesten verwendbaren DOS-Extendern.</P></TD></TR>
+  <TR>
+    <TD align=middle><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TD>
+    <TD><A 
+      href="http://www.fh-zwickau.de/doc/prmo/extender/pmode307.zip"><B>pmode307.zip 
+      (55 KB)</B></A></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>"PMODE" ist ein weiterer DOS-Extender. Er ist kompakter und schneller 
+      als DOS32, vermutlich jedoch etwas schwerer zu benutzen. Der komplette 
+      Quellcode zum "PMODE-DOS-Extender" ist in pmode307.zip enthalten 
+  !</P></TD></TR>
+  <TR>
+    <TD align=middle><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TD>
+    <TD><A 
+      href="http://www.fh-zwickau.de/doc/prmo/extender/pmw133.zip"><B>pmw133.zip 
+      (144 KB)</B></A></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>"PMODEW" ist eine Sonderform des "PMODE-Extenders" für den 
+      kommerziellen WATCOM-C Compiler. Er ersetzt den DOS-Extender von WATCOM 
+      (DOS4GW) und ist eine sehr gute Alternative zum originalen Extender (Vor 
+      allem in Bezug auf die Ausführungszeit der erstellten EXE-Datei und den 
+      für den DOS-Extender benötigten 
+Speicherplatz).</P></TD></TR></TBODY></TABLE><BR>
+<HR>
+
+<CENTER>
+<H1><FONT color=#800000>Dokumentationsdateien</FONT></H1></CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle width="25%"><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TD>
+    <TD width="75%"><A 
+      href="http://www.fh-zwickau.de/doc/prmo/docs/vcpi.doc"><B>vcpi.doc (15 
+      KB)</B></A></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>Die komplette VCPI Spezifikation als gepackte Textdatei, inklusive 
+      aller Funktionsparameter und Rückgabewerte.</P></TD></TR>
+  <TR>
+    <TD align=middle><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TD>
+    <TD><A 
+      href="http://www.fh-zwickau.de/doc/prmo/docs/dpmispec.txt"><B>dpmispec.txt 
+      (14 KB)</B></A></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>Komplette Übersicht aller, durch den DPMI-Standard der Version 0.9 zur 
+      Verfügung gestellten Funktionen und Funktionsparameter.</P></TD></TR>
+  <TR>
+    <TD align=middle><IMG 
+      src="DOS-Extender - Dokumentationsdateien-Dateien/disk.gif" border=0></TD>
+    <TD><A 
+      href="http://www.fh-zwickau.de/doc/prmo/docs/386intel.txt"><B>386intel.txt 
+      (212 KB)</B></A></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P>Das 80386 Referenz-Handbuch als Textdatei.</P></TD></TR></TBODY></TABLE><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm"><IMG alt=Zurück 
+src="DOS-Extender - Dokumentationsdateien-Dateien/arrowl.gif" align=left 
+border=0 name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/info.htm"><IMG alt=Weiter 
+src="DOS-Extender - Dokumentationsdateien-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="DOS-Extender - Dokumentationsdateien-Dateien/index.gif" 
+border=0 name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 27.09.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

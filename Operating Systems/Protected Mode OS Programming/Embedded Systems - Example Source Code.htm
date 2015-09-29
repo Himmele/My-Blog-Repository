@@ -1,0 +1,1195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0039)http://www.embedded.com/98/9806list.htm -->
+<HTML><HEAD><TITLE>ESP - June '98 - Advanced Embedded x86 Programming: Paging - Code Listing</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META 
+content="embedded systems,conference,development,real-time,programming,emulators,multitasking,debugging,software,optimization,engineer,RTOS,chips,tools,microcontrollers,DSP,operating systems,kernel,microprocessors,object-oriented,single board,ada,C++,visual basic,forth,RISC,compilers,specialty libraries, configuration management,ICE,ROM emulators,logic analyzers,device programmers,oscilloscopes,8-bit,eprom,flash,OEM,boards,Miller Freeman,vendor,magazine,custom publishing,esp,esc,directories,mwmedia,Windows CE, Win CE, CE, Windows, Microsoft, developer,  software, operating system, hand held, wallet, PC, OS, mobile, wireless, portable, driver, ETK, OAL, OAK, Pentium, 486, MIPS, Smartcards, Cellular Phone, Small-Form-Factor, H/PC, Palm, CE, RFA, PDA, PIC" 
+name=keywords>
+<META 
+content="Welcome to Embedded.com, the on-line resource for embedded systems developers. This is the place to come for tutorials, code,  demos, and news, along with information about Embedded Systems Programming Magazine and the Embedded Systems Conferences. " 
+name=description>
+<SCRIPT language=javascript1.2 type=text/javascript>
+/*
+Dr. Clue's drop-down menu system for 4th generation browsers
+        copyright @ 1998,1999 drclue , www.drclue.net
+license is granted for use of this software by individuals
+in support of personal web-sites. All other rights reserved.
+*/
+//*** Global Variables
+var LIBLOADEDJSmenu=false;
+var     systemLibCnt    =0;
+var     systemIsNS      =(document.layers!=null);       // Is it a Netscape browser
+var     systemMouseDn   =false; // mousemove dragging
+if(document.layers)document.all=document.layers;
+var     systemMaxZ      =0; 
+var     systemNullChk   =((systemIsNS)?((navigator.appVersion.substring(0,4)=="4.05")?"null":"undefined"):"null")
+var menuTimeOut         =null;  // mouseout Cancel menu timer
+var     menuCurrentItem =null;  // currently highlighted object.
+var     menuCurrentPath ="";    // The open menu list.
+var     menuScreenWidth =0;
+//*** General Menu  configuration variables
+var     menuSubAuto     =false;
+var     menuSubSymbol   ="&raquo;";     // html to indicate sub menu
+var     menuRoll        =true;  // Show menu items as built
+var     menuCharHeight  =11;    // Avg Char Height.
+var     menuCharWidth   =5;     // Avg Char Width.
+var     menuYpopoff     =0;
+var     menuXpopoff     =178;
+var     menuBcolor      ="#ABABAB";     // background
+var     menuTcolor      ="#FFFFFF";     // Text
+var     menuHBcolor     ="#FFFFFF";
+var     menuHTcolor     ="#ABABAB";
+var     menuFont        ="verdana,arial";// menu label font
+var     menuFontSize    =1;     // menu font size
+var     menuBold        =false; // Use bold
+var     menuAtimeout    =4500;
+var     Firstpass       =true;
+var     lastEVENT       =null;
+
+var szDuds="Mozilla/4.0 (compatible; MSIE 4.5; Mac_PowerPC)";
+
+esconfoff = new Image;
+esconfoff.src = "http://img.cmpnet.com/embedded/redesign/es_conf.gif";
+esconfon = new Image;
+esconfon.src = "http://img.cmpnet.com/embedded/redesign/es_conf_on.gif";
+
+magoff = new Image;
+magoff.src = "http://img.cmpnet.com/embedded/redesign/esp_mag.gif";
+magon = new Image;
+magon.src = "http://img.cmpnet.com/embedded/redesign/esp_mag_on.gif";
+
+iaoff = new Image;
+iaoff.src = "http://img.cmpnet.com/embedded/redesign/ia.gif";
+iaon = new Image;
+iaon.src = "http://img.cmpnet.com/embedded/redesign/ia_on.gif";
+
+downoff = new Image;
+downoff.src = "http://img.cmpnet.com/embedded/redesign/code.gif";
+downon = new Image;
+downon.src = "http://img.cmpnet.com/embedded/redesign/code_on.gif";
+
+demooff = new Image;
+demooff.src = "http://img.cmpnet.com/embedded/redesign/prod_demos.gif";
+demoon = new Image;
+demoon.src = "http://img.cmpnet.com/embedded/redesign/prod_demos_on.gif";
+
+resoff = new Image;
+resoff.src = "http://img.cmpnet.com/embedded/redesign/resources.gif";
+reson = new Image;
+reson.src = "http://img.cmpnet.com/embedded/redesign/resources_on.gif";
+
+ieoff = new Image;
+ieoff.src = "http://img.cmpnet.com/embedded/redesign/ind_ev.gif";
+ieon = new Image;
+ieon.src = "http://img.cmpnet.com/embedded/redesign/ind_ev_on.gif";
+
+guideoff = new Image;
+guideoff.src = "http://img.cmpnet.com/embedded/redesign/buyers.gif";
+guideon = new Image;
+guideon.src = "http://img.cmpnet.com/embedded/redesign/buyers_on.gif";
+
+siteoff = new Image;
+siteoff.src = "http://img.cmpnet.com/embedded/redesign/sitemap.gif";
+siteon = new Image;
+siteon.src = "http://img.cmpnet.com/embedded/redesign/sitemap_on.gif";
+
+productsoff = new Image;
+productsoff.src = "http://img.cmpnet.com/embedded/redesign/new_prod.gif";
+productson = new Image;
+productson.src = "http://img.cmpnet.com/embedded/redesign/new_prod_on.gif";
+
+directoff = new Image;
+directoff.src = "http://img.cmpnet.com/embedded/redesign/catalogs.gif";
+directon = new Image;
+directon.src = "http://img.cmpnet.com/embedded/redesign/catalogs_on.gif";
+
+cdromoff = new Image;
+cdromoff.src = "http://img.cmpnet.com/embedded/redesign/cdrom.gif";
+cdromon = new Image;
+cdromon.src = "http://img.cmpnet.com/embedded/redesign/cdrom_on.gif";
+
+embeddedbooksoff = new Image;
+embeddedbooksoff.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks.gif";
+embeddedbookson = new Image;
+embeddedbookson.src = "http://img.cmpnet.com/embedded/redesign/embeddedbooks_on.gif";
+
+researchoff = new Image;
+researchoff.src = "http://img.cmpnet.com/embedded/redesign/market.gif";
+researchon = new Image;
+researchon.src = "http://img.cmpnet.com/embedded/redesign/market_on.gif";
+
+jobsoff = new Image;
+jobsoff.src = "http://img.cmpnet.com/embedded/redesign/job.gif";
+jobson = new Image;
+jobson.src = "http://img.cmpnet.com/embedded/redesign/job_on.gif";
+
+
+welcomeoff = new Image;
+welcomeoff.src = "http://img.cmpnet.com/embedded/redesign/welcometo.gif";
+welcomeon = new Image;
+welcomeon.src = "http://img.cmpnet.com/embedded/redesign/welcometo_on.gif";
+
+function imgSwap(imgId,imgSrc,restat) {
+   document.images[imgId].src=eval(imgSrc+'.src');
+   if (restat)window.status='';
+}
+
+function PreLoads(treeList)
+        {
+        window.status="["+systemLibCnt+"] menu.js["+LIBLOADEDJSmenu + "] items ["+""+" Loading ...";
+        if(!LIBLOADEDJSmenu)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.onResize="document.location.href=document.location.href";        
+        if(!document.links.length)
+          {  setTimeout("PreLoads('"+treeList+"')",500);return;   }
+        window.status="initializing";
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             window.status="Loading "+killboy;
+             menuCREATE(killboy,0,0);
+             }
+        window.status="";
+        }
+
+
+/* Called by the jsLAYERclass to create
+a layer if the layer does not already exist.*/
+function jsLAYERcreateLayer(Homeboy,x,y,w,h,bColor)
+        {
+        if(systemIsNS)
+          {
+          var lyr= document.layers[Homeboy.lyrName] = new Layer(w)
+          lyr.left=x;lyr.top=y; lyr.clip.height=h+1;lyr.clip.width=w+1;
+          lyr.bgColor=((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor);
+          lyr.visibility='hidden';lyr.zIndex=1;
+          lyr.isHighlight=false;
+          lyr.border=1;
+          document.layers[Homeboy.lyrName].style=document.layers[Homeboy.lyrName];
+          }else{
+          var str = '\n<DIV id='+Homeboy.lyrName+' style="visibility: hidden; position:absolute; left:'+x+'; top:'+y+'; width:'+w
+          str += '; height:'+(h+1)+'px; clip:rect(0px '+(w+1)+'px '+(h+1)+'px 0px)'
+          str += '; background-color:'+((jsLAYERcreateLayer.arguments.length>5)?bColor:menuBcolor)+';z-Index:5;"> </DIV>';
+          document.body.insertAdjacentHTML("BeforeEnd",str);
+          }
+        Homeboy.jsLAYERobject=document.all[Homeboy.lyrName];
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument  =document.layers[Homeboy.lyrName].document;
+          Homeboy.style            =document.layers[Homeboy.lyrName];
+          }else{
+          Homeboy.jsLAYERdocument  =document.all[Homeboy.lyrName];
+          Homeboy.style            =document.all[Homeboy.lyrName].style;
+          Homeboy.style.zIndex     =systemMaxZ++;
+          }
+        Homeboy.jsLAYERobject.HomeBoy=Homeboy;
+        Homeboy.jsLAYERobject.W =w;
+        Homeboy.jsLAYERobject.X =x;
+        Homeboy.jsLAYERobject.Y =y;
+        Homeboy.jsLAYERobject.H =h;
+        Homeboy.jsLAYERobject.MOUSEHANDLER="MOUSEVECTOR";
+        return Homeboy;
+        }
+function jsLAYERsetHandler(Homeboy,szHANDLER) // named function for events
+        {
+        Homeboy.jsLAYERobject.MOUSEHANDLER=szHANDLER;
+        MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+        }
+function jsLAYERhomeboy(layername){return document.all[layername].HomeBoy;}
+function jsLAYERopen(Homeboy){if(systemIsNS){Homeboy.jsLAYERobject.document.open();  }else{  Homeboy.jsLAYERobject.innerHTML="";}}
+function jsLAYERwrite(Homeboy,Text){if(systemIsNS){Homeboy.jsLAYERdocument.write(Text);}else{Homeboy.jsLAYERobject.innerHTML+=Text;}}
+function jsLAYERclose(Homeboy)
+        {
+        if(systemIsNS)
+          {
+          Homeboy.jsLAYERdocument.close();
+          MOUSECAPTURE(Homeboy,Homeboy.lyrName);
+          }
+        }
+function jsLAYERsetContent(Homeboy,text)
+        {
+        jsLAYERopen(Homeboy);
+        jsLAYERwrite(Homeboy,text);
+        jsLAYERclose(Homeboy);return;
+        }
+function jsLAYERshow(Homeboy,vis){Homeboy.style.visibility=((vis)?"visible":"hidden");}
+function jsLAYERgetX(Homeboy){return parseInt(Homeboy.style.left);}
+function jsLAYERgetY(Homeboy){return parseInt(Homeboy.style.top);}
+function jsLAYERxy(Homeboy,x,y,InLayer)
+        {
+        this.InX=x;this.InY=y;
+        if(document.layers)
+          {
+          if(InLayer)
+            {
+            InX+=InLayer.style.left;
+            InY+=InLayer.style.top;
+            }
+          Homeboy.jsLAYERobject.x=this.InX;
+          Homeboy.jsLAYERobject.y=this.InY;
+          }else{
+          if(InLayer)
+            {
+            this.InX+=parseInt(document.all[Homeboy.lyrName].style.left);
+            this.InY+=parseInt(document.all[Homeboy.lyrName].style.top);
+            }
+//alert(document.all[Homeboy.lyrName].style.left+"[]"+this.InX+"[]"+x)
+          document.all[Homeboy.lyrName].style.left=this.InX
+          document.all[Homeboy.lyrName].style.top=this.InY
+
+          }
+
+
+        }
+/*Function      :MEVENT
+**Parameters    :Homeboy        - Layer Class Pointer
+**               Evt            - javascript Browser Event
+**Description   :Noramalizes Netscape/MSIE evnts to 
+**a class containing variables for both, with Netscape names
+**superceding MSIE names. It is this psudeo event class that
+**is passed to all MOUSE... event handler functions.
+*/
+function MEVENT(Homeboy,Evt) //normalizes the differences in NS and MSIE events
+        {
+        this.type=Evt.type;
+        this.screenX=Evt.screenX;
+        this.screenY=Evt.screenY;
+        if(systemIsNS)
+          {
+        this.pageX=Evt.pageX;
+        this.pageY=Evt.pageY;
+        this.locationX=Homeboy.jsLAYERobject.x;
+        this.locationY=Homeboy.jsLAYERobject.y;
+        this.layerX=Evt.layerX;
+        this.layerY=Evt.layerY;
+        this.which=Evt.which;
+        this.target=Evt.target;
+        this.modifiers=Evt.modifiers;
+          }else{
+        this.pageX=Evt.x;
+        this.pageY=Evt.y;
+        if(document.body.scrollTop)this.pageY+=document.body.scrollTop;
+        this.locationX=parseInt(Homeboy.jsLAYERobject.style.left);
+        this.locationY=parseInt(Homeboy.jsLAYERobject.style.top);
+        this.layerX=this.pageX-this.locationX;
+        this.layerY=this.pageY-this.locationY;
+        this.which=Evt.button+1;
+        this.target=Evt.srcElement;
+        this.modifiers=(((Evt.altKey)?1:0)+((Evt.ctrlKey)?2:0)+((Evt.AltKey)?4:0));
+          }
+        }
+function MOUSEVECTOR(layername,Evt)// handles the actuall prep and call of mouse events
+        {
+        Homeboy=document.all[layername].HomeBoy;return false;
+        }
+// Sets up mouse event NOTE: Use of "new Function" is important
+function MOUSECAPTURE(Homeboy,layername)
+        {
+
+var NFD="return "+Homeboy.jsLAYERobject.MOUSEHANDLER+"('"+layername+"',"+((systemIsNS)?"arguments[0]":"window.event")+")"
+Homeboy.jsLAYERobject.onmouseover=new Function(NFD)
+Homeboy.jsLAYERobject.onmouseout=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousemove=new Function(NFD)
+Homeboy.jsLAYERdocument.onmousedown=new Function(NFD)
+Homeboy.jsLAYERdocument.onmouseup=new Function(NFD)
+if(systemIsNS)Homeboy.jsLAYERdocument.captureEvents(  Event.MOUSEUP |   Event.MOUSEDOWN   | Event.MOUSEMOVE);
+        }
+function NSResizePatch(){document.location.href=document.location.href;}
+function jsNULLvector(layername,Evt){return true;}
+var MPTYPE ="",MSTYPE ="";
+function jsMPANELvector(panelName,Evt)  // Vectors mouse messages for the panel
+        {
+        Homeboy=jsLAYERhomeboy(panelName);
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MPTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          }
+        if(Evt.type!="mousemove" )return false;
+        EVENT=new MEVENT(Homeboy,Evt);
+
+        EntryNum=0;
+        EntryNotch=EVENT.layerY;
+        if(EntryNotch)
+          {
+          EntryNotch-=(EntryNotch%(menuCharHeight+1));
+          EntryNum=(EntryNotch/(menuCharHeight+1))
+          }
+        if(Homeboy.mParent.Items.length<=EntryNum)return true;
+        lastEVENT=EVENT;
+        if(Homeboy.mParent.EntryNum==EntryNum)return false;
+
+//if(!systemIsNS)
+//{
+//alert(EntryNum+"[]"+EntryNotch+"[]"+EVENT.layerY)
+//Homeboy.mParent.Items[EntryNum].RENDER)
+//}
+        jsLAYERsetContent(Homeboy.mParent.mSELECT,Homeboy.mParent.Items[EntryNum].RENDER);
+
+        jsLAYERxy(Homeboy.mParent.mSELECT,jsLAYERgetX(Homeboy),jsLAYERgetY(Homeboy)+(EntryNum*(menuCharHeight+1)));
+        Homeboy.mParent.EntryNum=EntryNum;
+        if(!menuSubAuto)return false;
+        if(Homeboy.mParent.Items[EntryNum].ACTION.substring(0,1)=="@")
+          {
+          fakeEvt = new Object();
+          fakeEvt.type="mouseup";
+          jsMSELECTvector(Homeboy.mParent.mSELECT.lyrName,fakeEvt);
+          }
+        return false;
+        }
+/*
+** Vectors mouse messages for the menu selector
+*/
+function jsMSELECTvector(panelName,Evt)
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(Evt.type=="mouseout" || Evt.type=="mouseover") 
+          {
+          MSTYPE=Evt.type;
+          if(MPTYPE==MSTYPE&&MPTYPE=="mouseout")menuTimeOut=setTimeout("menuPOPDN()",100);
+          Homeboy=jsLAYERhomeboy(panelName);
+          return false;
+          }
+        if(Evt.type!="mouseup")return false;
+        Homeboy=jsLAYERhomeboy(panelName);
+        var action = Homeboy.mParent.Items[Homeboy.mParent.EntryNum].ACTION;
+
+        if(menuCurrentPath.indexOf(Homeboy.jsLAYERobject.GROUP)>0)
+          {
+          var FindGroup = ":"+Homeboy.jsLAYERobject.GROUP+":";
+          var killList = menuCurrentPath.substring(menuCurrentPath.indexOf(FindGroup)+FindGroup.length-1);
+          menuPOPDN(killList);
+          }
+        if(action.length<1){window.status="[Not Available]";return false;}
+        var isMenu = action.substring(0,1)=="@";
+        var isJavascript = action.substring(0,1)=="!";
+        if(isJavascript)
+          {
+          eval(action.substring(1))
+          return false;
+          }
+        if(isMenu)
+          {
+          menuPOPUP(jsLAYERgetX(Homeboy)+Homeboy.jsLAYERobject.W+2,jsLAYERgetY(Homeboy),action.substring(1));
+          }else{
+          document.location.href=action;
+          }
+        return false;
+        }
+/*
+** This is the menu panel
+*/
+function jsMPANELclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#000000");
+        jsLAYERsetHandler(this,"jsMPANELvector");
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** This is the highlite bar
+*/
+function jsMSELECTclass(group,entry,label,action,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h);
+        jsLAYERsetHandler(this,"jsMSELECTvector");
+        this.jsLAYERobject.GROUP=group;
+        this.jsLAYERobject.ENTRY=entry;
+        this.jsLAYERobject.rtWidth=10;
+        this.jsLAYERobject.rtSymbol="&raquo;";
+        }
+/*
+** Create the menu label obeject string for display
+*/
+function menuLABEL(Homeboy,text,isHighlight,isSub)
+        {
+        var fontstart="<FONT FACE='"+menuFont+"' SIZE="+menuFontSize+" COLOR='"+((isHighlight)?menuHTcolor:menuTcolor)+"'>"+((menuBold)?"<B>":"");
+        var CONTENT="&nbsp;";
+        if(text)CONTENT=text.length?"&nbsp;"+text:"&nbsp;";
+        var lyrtxt="<TABLE BORDER=0 CELLPADDING=0 STYLE='cursor:hand' CELLSPACING='0' BGCOLOR='";
+        lyrtxt+=((isHighlight)?menuHBcolor:menuBcolor);
+        lyrtxt+="' WIDTH='"+Homeboy.jsLAYERobject.W+"' HEIGHT='"+menuCharHeight+"'><TR VALIGN=MIDDLE>";
+        twidth=parseInt(Homeboy.jsLAYERobject.W)-parseInt(Homeboy.jsLAYERobject.rtWidth);
+        lyrtxt+="<TD WIDTH='"+twidth.toString();
+        lyrtxt+="'>"+fontstart+CONTENT+((menuBold)?"</B>":"")+"</FONT></TD>";
+        lyrtxt+="<TD WIDTH='10'>"+fontstart+((isSub)?menuSubSymbol:"&nbsp;")+((menuBold)?"</B>":"")+"</FONT></TD></TR></TABLE>";
+        return lyrtxt;
+        }
+function MenuItem(label,action)
+        {
+        this.LABEL      =label  ;
+        this.ACTION     =action ;
+        this.SUB        =this.ACTION.substring(0,1)=="@";
+        this.RENDER     =""     ;
+        }
+function MenuListAPPEND(label,action)   //Appends an item to the menuobject
+        {
+        this.Items[this.Items.length]=new MenuItem(label,action);
+        if(label.length>this.greatestCharWidth)this.greatestCharWidth=label.length;
+        }
+function menuPop(tobj,imgId,imgSrc) //Pops up menu relative to <A> tag location on screen.
+        {
+        if ((imgId)&&(imgSrc))imgSwap(imgId,imgSrc);
+        objectName=tobj.href.substring(tobj.href.lastIndexOf("/")+1);
+        if(objectName.indexOf(".html")>-1)objectName=objectName.substring(0,objectName.indexOf("."))
+//      if(!menuCurrentPath)return;
+        if(menuCurrentPath.indexOf(":"+objectName+":")==0)return false;
+        if(menuCurrentPath.length>0)menuPOPDN();
+if(szDuds.indexOf(navigator.userAgent)>-1)
+{
+if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+return true;
+}
+
+        if(navigator.appVersion.indexOf("MSIE")>-1&&navigator.appVersion.indexOf("Mac")>-1)
+          {// compatible mac
+          if(tobj.href.indexOf(".html")==-1)tobj.href+=".html";
+          return true;
+          }
+
+        this.MX=((systemIsNS)?(tobj.x):window.event.clientX-window.event.offsetX+tobj.offsetLeft);
+        this.MY=((systemIsNS)?(tobj.y):window.event.clientY-window.event.offsetY+tobj.offsetTop);
+        if(!systemIsNS)MSIEmeasure(tobj,this);    
+        this.MY+=menuYpopoff;
+        this.MX+=menuXpopoff;
+        menuPOPUP(this.MX,this.MY,objectName);
+        menuTimeOut=setTimeout("menuPOPDN()",menuAtimeout);
+        return false;
+        }
+function menuPOPUP(x,y,menulist)        //*** Opens named menu at given location
+        {
+        var DL=eval(menulist);
+        if(!DL){alert("menuPOPUP NULL "+menulist);return;}
+        menuSHOW(menulist,x,y);
+        if(!menuScreenWidth)
+          menuScreenWidth=(systemIsNS)?document.width:document.body.offsetWidth;
+        mkw=(DL.greatestCharWidth*menuCharWidth)+10;
+        var atX = ((x+mkw+20)>=menuScreenWidth)?x-mkw:x;
+        if(jsLAYERgetX(DL.mPANEL)!=atX)menuXY(DL,atX,y);
+        }
+function menuCREATE(szMlist,iLeft,iTop)
+        {
+        Left= 20;Top = 40;
+        if(menuCREATE.arguments.length>1)Left=iLeft;
+        if(menuCREATE.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL ==null)
+          {
+          Mlist.mPANEL=new jsMPANELclass(szMlist,0,"Hello","alert('hi')",Left,Top,((Mlist.greatestCharWidth+10)*menuCharWidth)+1,((menuCharHeight+1)*Mlist.Items.length)+1);
+          Mlist.mPANEL.mParent=Mlist;
+          var menuContent='';
+          menuContent='<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0><TR><TD>';
+          for(x=0;x<Mlist.Items.length;x++)
+           {
+           menuContent+=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,false,Mlist.Items[x].SUB);
+           Mlist.Items[x].RENDER=menuLABEL(Mlist.mPANEL,Mlist.Items[x].LABEL,true,Mlist.Items[x].SUB);
+           }
+        menuContent+='</TD><TD BGCOLOR="#000000">&nbsp;</TD>';
+        menuContent+="</TR><TR><TD COLSPAN=2>&nbsp;</TD></TR></TABLE>";
+//alert(menuContent);
+          jsLAYERsetContent(Mlist.mPANEL,menuContent);
+          }
+        if(Mlist.mSELECT==null)
+          {
+          Mlist.mSELECT=new jsMSELECTclass(szMlist,1,"Hello","alert('hi')",Left,Top,(Mlist.greatestCharWidth+10)*menuCharWidth,menuCharHeight);
+          Mlist.mSELECT.mParent=Mlist;
+          jsLAYERsetContent(Mlist.mSELECT,Mlist.Items[0].RENDER);
+          }
+        }
+
+function menuSHOW(szMlist,iLeft,iTop)   // SHOW the menu
+        {
+        Left= 20;Top = 40;
+        if(menuSHOW.arguments.length>1)Left=iLeft;
+        if(menuSHOW.arguments.length>2)Top=iTop;
+        Mlist=eval(szMlist);
+        if(Mlist.mPANEL==null)menuCREATE(szMlist,iLeft,iTop);
+        if(jsLAYERgetX(Mlist.mPANEL)!=Left || jsLAYERgetY(Mlist.mPANEL)!=Top)
+            {
+            jsLAYERxy(Mlist.mPANEL,Left,Top)   
+            jsLAYERxy(Mlist.mSELECT,Left,Top+(Mlist.EntryNum*(menuCharHeight+1)));
+            }; 
+        if(menuCurrentPath.indexOf(":"+szMlist+":")<0)menuCurrentPath+=((menuCurrentPath.length)?"":":")+szMlist+":";
+
+        if(Mlist.mPANEL.style.clip&&!systemIsNS)
+          {
+          Clips= Mlist.mPANEL.style.clip.split("rect(")[1].split(")")[0].split("px")
+          Clips[2]=Mlist.Items.length * (menuCharHeight+1);
+          Mlist.mPANEL.style.clip = "rect("+Array(0,Clips[1],Clips[2],0).join("px ")+"px)";
+          Mlist.mPANEL.style.zIndex=5;
+          Mlist.mSELECT.style.zIndex=6;
+          }
+        Mlist.mPANEL.style.visiblity='visible';
+//alert(Mlist.Items.length +" Item(s) "+ Mlist.mPANEL.style.clip);
+        jsLAYERshow(Mlist.mPANEL,true);
+        jsLAYERshow(Mlist.mSELECT,true);
+        }
+function menuHIDE(szMlist)      //  Hides the named menu
+        {
+        Mlist=eval(szMlist);
+        jsLAYERshow(Mlist.mSELECT,false);
+        jsLAYERshow(Mlist.mPANEL,false);
+        }
+function menuXY(Mlist,x,y)      // Moves the referenced menu
+        {
+        jsLAYERxy(Mlist.mPANEL,x,y)
+        jsLAYERxy(Mlist.mSELECT,x,y+(Mlist.EntryNum*(menuCharHeight+1)));
+        }
+function menuPOPDN(treeList)    // closes a list of menus
+        {
+        if(menuTimeOut)clearTimeout(menuTimeOut);
+        if(menuPOPDN.arguments.length<1)treeList=menuCurrentPath;
+        while(treeList.length>1)
+             {          
+             killboy =treeList.substring(1);
+             killboy =killboy.substring(0,killboy.indexOf(":"));
+             treeList=treeList.substring(killboy.length+1);
+             menuHIDE(killboy);
+             }
+        if(menuPOPDN.arguments.length<1)menuCurrentPath="";
+        };
+/*
+** MAIN MENU OBJECT
+*/
+var mSELECT=null;
+function MenuList(Mlist)
+        {
+        this.mPANEL=null;this.mSELECT=null;
+        this.Items=new Array();this.EntryNum=0;
+        this.APPEND=MenuListAPPEND;
+        this.greatestCharWidth=0;
+        }
+
+/*      Function        :MSIEmeasure
+**      Since I have found no straight forward method of obtaining IE x,y
+**      coords for the clicked link, this function recurses up the object tree
+**      to measure the screen location of the <A> involved
+*/
+function MSIEmeasure(btobj,HB)
+        {
+        var tobj=btobj;
+        HB.MX=tobj.offsetLeft;
+        HB.MY=tobj.offsetTop;
+        while(tobj.parentElement)
+          {
+          if(!tobj.parentElement)break;
+          tobj = tobj.parentElement;
+//        if(tobj.tagName=="TABLE")
+          if(String(":TABLE:TD:DIV:").indexOf(":"+tobj.tagName+":")>-1)
+            {
+            HB.MX+=tobj.offsetLeft;
+            HB.MY+=tobj.offsetTop;
+            }
+          if(!tobj.parentElement)break;
+          if(tobj.parentElement.tagName=="BODY")break;
+          }
+        return ;
+        }
+/****************************************
+** A message window                     *
+*****************************************/
+var StatusMsgWin=null;
+function jsMESSAGEclass(group,entry,x,y,w,h)
+        {
+        this.lyrName            =group+entry;
+        if(!document.all[this.lyrName])jsLAYERcreateLayer(this,x,y,w,h,"#FFFFCC");
+        jsLAYERsetHandler(this,"jsNULLvector");
+        jsLAYERshow(this,true);
+        this.jsLAYERobject.GROUP=group;this.jsLAYERobject.ENTRY=entry;
+        }
+/*
+** Set the contents of the message window;
+*/
+function jsStatusMsg(txtMESSAGE)
+        {
+        if(!StatusMsgWin)
+          {
+          StatusMsgWin= new jsMESSAGEclass("E",1,1,1,355,100);
+          jsLAYERshow(StatusMsgWin,true);
+          }
+        jsLAYERsetContent(StatusMsgWin,txtMESSAGE);
+        }
+var LIBLOADEDJSmenu=true;
+//systemLibCnt++; 
+
+</SCRIPT>
+
+<SCRIPT language=JavaScript>
+<!--
+var image1;
+preLoad();
+function preLoad() {
+if (document.images) {
+image1= new Image();
+image1.src = "http://invite.ke2.informative.com/images/invite.gif";
+if (image1.complete){
+InviteUser() ;
+}else{
+setTimeout('everySecond()',1000);
+}
+}
+}
+function everySecond(){
+if (image1.complete){
+InviteUser() ;
+}
+}
+function InviteUser(){
+var strURL ="http://invite.ke2.informative.com/i.dll?s=23803&c=i&i=P&xu=embed&CLOSE=1";
+window.open ( strURL, "", "toolbar=no,toolbar=0,location=no,location=0,status=no,status=0,menubar=no,menubar=0,scrollbars=yes,scrollbars=1,resizable=yes,resizable=1,width=1,height=1,top=3000,left=3000,alwaysRaised=1" ); 
+}
+//-->
+// Copyright 1997-2000 Informative, Inc</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#663399 aLink=#6699cc link=#0000ff bgColor=#ffffff 
+leftMargin=0 topMargin=0 rightMargin=0><FONT 
+face="Verdana, Georgia, Arial, Sans-Serif" size=2><!-- ad width = 468  - ad height = 60 -->
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#666699>
+    <TD vAlign=bottom align=left bgColor=#666699 rowSpan=2><A 
+      href="http://www.embedded.com/"><IMG 
+      src="Embedded Systems - Example Source Code/embedded_top.jpg" width=302 border=0 
+      HIEGHT="119"></A><BR></TD><!-- TOP BANNER -->
+    <TD vAlign=top align=middle bgColor=#666699 colSpan=2><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3362&amp;RunID=39729&amp;AdID=29384&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=178.1831&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=48215&amp;n=1034051218?" 
+      target=_top><IMG height=60 alt="Click here!" 
+      src="Embedded Systems - Example Source Code/dsp-getstarted-468.gif" width=468 
+    border=0></A><BR></TD></TR>
+  <TR>
+    <TD vAlign=bottom align=right bgColor=#666699><IMG height=50 hspace=0 
+      src="Embedded Systems - Example Source Code/blend_top.gif" width=387 border=0><BR></TD>
+    <TD vAlign=bottom align=right width=91 bgColor=#666699 height=50><IMG 
+      height=50 hspace=0 src="Embedded Systems - Example Source Code/edtnlogo.gif" width=91 
+      border=0><BR></TD></TR></TBODY></TABLE><!-- TOP NAV -->
+<TABLE cellSpacing=1 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR bgColor=#333366>
+    <TD align=middle width=130><A 
+      href="http://www.edtn.com/encyclopedia/"><IMG height=16 
+      alt="EDTN Encyclopedia" src="Embedded Systems - Example Source Code/e_cyclo.gif" width=94 
+      border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.embedded.com/98/"><IMG 
+      height=16 alt=Home src="Embedded Systems - Example Source Code/home.gif" width=42 
+    border=0></A></TD>
+    <TD align=middle width=130><A href="http://www.edtn.com/register/"><IMG 
+      height=16 alt="Register for the EDTN Network" 
+      src="Embedded Systems - Example Source Code/register.gif" width=68 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/contact.htm"><IMG height=16 alt=Contact 
+      src="Embedded Systems - Example Source Code/about.gif" width=73 border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="http://www.embedded.com/advertising.html"><IMG height=16 
+      alt=Advertising src="Embedded Systems - Example Source Code/advert.gif" width=97 
+    border=0></A></TD>
+    <TD align=middle width=130><A 
+      href="mailto:wbiondi@cmp.com?subject=Feedback from Embedded.com"><IMG 
+      height=16 alt=Feedback src="Embedded Systems - Example Source Code/feeback.gif" width=68 
+      border=0></A></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=780 border=0>
+  <TBODY>
+  <TR><!-- LEFTNAV -->
+    <TD vAlign=top align=left width=205 rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 width=205 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=21 bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=18 bgColor=#ffffcc><IMG height=18 
+            src="Embedded Systems - Example Source Code/curve_lav.gif" width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=166 bgColor=#ffffcc>&nbsp;</TD></TR><!-- LEFTTOC -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD vAlign=top align=left width=184 bgColor=#ffffcc colSpan=2>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=middle bgColor=#ffffcc>
+                  <CENTER><A 
+                  href="http://www.cmpnet.com/cgi-bin/goto?SRC=ESCSF_REG&amp;URL=http://www.esconline.com/sf/register.htm"><IMG 
+                  height=42 alt="REGISTER NOW!" 
+                  src="Embedded Systems - Example Source Code/escsf_sm.gif" width=124 
+                  border=0></A></CENTER><!-- SEARCH -->
+                  <FORM action=/search method=get><IMG height=21 
+                  src="Embedded Systems - Example Source Code/esearch.gif" width=184> <INPUT 
+                  name=queryText><BR><INPUT type=submit value=Search name=Search> 
+                  <BR><FONT face="verdana, georgia, arial" size=1><A 
+                  href="http://www.edtn.com/esearchcenter.html"><B>Search the 
+                  EDTN Network</B></A></FONT> </FORM></TD></TR>
+              <TR>
+                <TD vAlign=top align=left bgColor=#ffffcc><!-- EMBEDDED.COM LINKS --><IMG height=19 
+                  alt="Embedded.com Links" 
+                  src="Embedded Systems - Example Source Code/embedd_links.gif" width=184><BR><A 
+                  onmouseover="imgSwap('esconf','esconfon',1)" 
+                  onmouseout="imgSwap('esconf','esconfoff',1)" 
+                  href="http://www.esconline.com/"><IMG height=35 
+                  src="Embedded Systems - Example Source Code/es_conf.gif" width=184 border=0 
+                  name=esconf></A><BR><A onmouseover="imgSwap('mag','magon',1)" 
+                  onmouseout="imgSwap('mag','magoff',1)" 
+                  href="http://www.embedded.com/mag.htm"><IMG height=35 
+                  src="Embedded Systems - Example Source Code/esp_mag.gif" width=184 border=0 
+                  name=mag></A><BR><A onmouseover="imgSwap('ia','iaon',1)" 
+                  onmouseout="imgSwap('ia','iaoff',1)" 
+                  href="http://www.embedded.com/internet/"><IMG height=20 
+                  src="Embedded Systems - Example Source Code/ia.gif" width=184 border=0 
+                  name=ia></A><BR><A onmouseover="imgSwap('down','downon',1)" 
+                  onmouseout="imgSwap('down','downoff',1)" 
+                  href="http://www.embedded.com/code.htm"><IMG height=21 
+                  src="Embedded Systems - Example Source Code/code.gif" width=184 border=0 
+                  name=down></A><BR><A onmouseover="imgSwap('demo','demoon',1)" 
+                  onmouseout="imgSwap('demo','demooff',1)" 
+                  href="http://www.embedded.com/demos.htm"><IMG height=19 
+                  src="Embedded Systems - Example Source Code/prod_demos.gif" width=184 border=0 
+                  name=demo></A><BR><A onmouseover="imgSwap('res','reson',1)" 
+                  onmouseout="imgSwap('res','resoff',1)" 
+                  href="http://www.embedded.com/links.htm"><IMG height=21 
+                  src="Embedded Systems - Example Source Code/resources.gif" width=184 border=0 
+                  name=res></A><BR><A onmouseover="imgSwap('ie','ieon',1)" 
+                  onmouseout="imgSwap('ie','ieoff',1)" 
+                  href="http://www.embedded.com/events.htm"><IMG height=19 
+                  src="Embedded Systems - Example Source Code/ind_ev.gif" width=184 border=0 
+                  name=ie></A><BR><A onmouseover="imgSwap('guide','guideon',1)" 
+                  onmouseout="imgSwap('guide','guideoff',1)" 
+                  href="http://www.embedded.com/bg/"><IMG height=20 
+                  src="Embedded Systems - Example Source Code/buyers.gif" width=184 border=0 
+                  name=guide></A><BR><A onmouseover="imgSwap('site','siteon',1)" 
+                  onmouseout="imgSwap('site','siteoff',1)" 
+                  href="http://www.embedded.com/sitemap.htm"><IMG height=20 
+                  src="Embedded Systems - Example Source Code/sitemap.gif" width=184 border=0 
+                  name=site></A><BR><!--NEW PRODUCTS--><IMG height=19 
+                  alt="NEW Products" src="Embedded Systems - Example Source Code/new_prodheader.gif" 
+                  width=184> 
+                  <TABLE><FONT face=VERDANA size=1>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Example Source Code/blackarrow_lg.gif"> </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0071">Atmel 
+                        offers design tool for programmable SoCs</A> 
+                    </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Example Source Code/blackarrow_lg.gif"> </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020215S0065">Communications 
+                        processor supports by-wire systems</A> </FONT></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=left><IMG 
+                        src="Embedded Systems - Example Source Code/blackarrow_lg.gif"> </TD>
+                      <TD align=left><FONT face=VERDANA size=1><A 
+                        href="http://www.embedded.com/story/OEG20020213S0050">MEN 
+                        Micro board sports I/O options</A> 
+                  </FONT></TD></TR></TBODY></TABLE>
+                  <P align=right><A href="http://www.embedded.com/products">More 
+                  New Products</A> <IMG src="Embedded Systems - Example Source Code/blackarrow.gif"> 
+                  <BR><BR></FONT><!-- COMPANY STORE PRODUCTS --><IMG height=19 
+                  alt="Company Store" 
+                  src="Embedded Systems - Example Source Code/companystore_header.gif" 
+                  width=184><BR><A onmouseover="imgSwap('direct','directon',1)" 
+                  onmouseout="imgSwap('direct','directoff',1)" 
+                  href="http://www.embedded.com/directories/"><IMG height=22 
+                  src="Embedded Systems - Example Source Code/catalogs.gif" width=184 border=0 
+                  name=direct></A><BR><A 
+                  onmouseover="imgSwap('cdrom','cdromon',1)" 
+                  onmouseout="imgSwap('cdrom','cdromoff',1)" 
+                  href="http://www.embedded.com/cdrom.htm"><IMG height=22 
+                  src="Embedded Systems - Example Source Code/cdrom.gif" width=184 border=0 
+                  name=cdrom></A><BR><A 
+                  onmouseover="imgSwap('embeddedbooks','embeddedbookson',1)" 
+                  onmouseout="imgSwap('embeddedbooks','embeddedbooksoff',1)" 
+                  href="http://www.embedded.com/books.htm"><IMG height=22 
+                  src="Embedded Systems - Example Source Code/embeddedbooks.gif" width=184 border=0 
+                  name=embeddedbooks></A><BR><A 
+                  onmouseover="imgSwap('jobs','jobson',1)" 
+                  onmouseout="imgSwap('jobs','jobsoff',1)" 
+                  href="http://www.embedded.com/jobs.htm"><IMG height=20 
+                  src="Embedded Systems - Example Source Code/job.gif" width=184 border=0 
+                  name=jobs></A> <!-- SPONSORED MICROSITES --><!--<IMG SRC="http://img.cmpnet.com/embedded/redesign/microsites.gif" ALT="Sponsored Microsites" WIDTH="184" HEIGHT="19"><BR>
+
+
+<A HREF="http://embeddeddsp.embedded.com" 
+onMouseOver="imgSwap('welcome','welcomeon',1)" onMouseOut="imgSwap('welcome','welcomeoff',1)"><IMG SRC="http://img.cmpnet.com/embedded/redesign/welcometo.gif" ALT="Welcome to Embedded DSP by TI" WIDTH="184" HEIGHT="33" BORDER="0" NAME="welcome"></A>--></P></TD></TR></TBODY></TABLE><BR 
+            clear=all><!-- top left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4876&amp;RunID=27699&amp;AdID=22064&amp;GroupID=121&amp;FamilyID=2722&amp;TagValues=450.1831&amp;Redirect=http://www.isdmag.com/" 
+            target=_top><IMG height=125 alt="Click here!" 
+            src="Embedded Systems - Example Source Code/isd125.gif" width=125 border=1></A> </CENTER><!--- end of top left tile ad--><BR><!-- botom left tile ad call-->
+            <CENTER><A 
+            href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4877&amp;RunID=27223&amp;AdID=21736&amp;GroupID=122&amp;FamilyID=1&amp;TagValues=453.1831&amp;Redirect=http://www.isdmag.com" 
+            target=_top><IMG height=125 alt="Click here!" 
+            src="Embedded Systems - Example Source Code/isd125.gif" width=125 border=1></A> </CENTER><!--- end of bottom left tile ad--><BR>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=right bgColor=#ffffcc><!-- AROUND THE NETWORK --><IMG height=11 
+                  alt="From around the network" 
+                  src="Embedded Systems - Example Source Code/around.gif" width=184 vspace=3><BR><!-- GLOBAL PORTALS --><IMG height=19 
+                  alt="Global Portals" src="Embedded Systems - Example Source Code/gb2.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.edtn.com/">EDTN Network</A><BR><A 
+                  href="http://www.edtneurope.com/">EDTN Europe</A><BR><A 
+                  href="http://www.edtnasia.com/">EDTN Asia</A><BR><BR><!-- COMMUNITIES --><IMG height=19 
+                  alt=Communities src="Embedded Systems - Example Source Code/frontbut-commun.gif" 
+                  width=184><BR><FONT face=VERDANA,ARIAL size=1><A 
+                  href="http://www.eedesign.com/">EEdesign</A><BR><I>Design 
+                  tools and methodologies</I><BR><A 
+                  href="http://www.planetanalog.com/">Planet 
+                  Analog</A><BR><I>The analog/mixed signal resource</I><BR><A 
+                  href="http://www.commsdesign.com/">Comms Design</A><BR><I>The 
+                  analog/mixed signal resource</I><BR><A 
+                  href="http://www.siliconstrategies.com/">Silicon 
+                  Strategies</A><BR><I>Tracking the semiconductor 
+                  foodchain</I><BR><A 
+                  href="http://www.gaas.net/">GaAsNET</A><BR><I>GaAs electronics 
+                  industry resource</I><BR><A 
+                  href="http://www.embedded.com/">Embedded.com</A><BR><I>Embedded 
+                  systems resource</I><BR><A 
+                  href="http://www.theworkcircuit.com/">The Work 
+                  Circuit</A><BR><I>Where Engineers make their own 
+                  connections</I><BR><A 
+                  href="http://www.iapplianceweb.com/">iApplianceWeb</A><BR><I>Information 
+                  appliance resource</I><BR></FONT><!--network jump menu -->
+                  <SCRIPT>
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</SCRIPT>
+
+                  <FORM name=form1><IMG height=19 alt="EDTN sites worldwide" 
+                  src="Embedded Systems - Example Source Code/side-wwsites2.gif" width=184 
+                  vspace=2><BR><FONT 
+                  face="Verdana, Arial, Helvetica, sans-serif" size=1><SELECT 
+                  onchange="MM_jumpMenu('parent',this,1)" size=2 
+                  name="network links"> <OPTION selected>Please select a 
+                    site</OPTION> <OPTION value=http://www.edtn.com/>EDTN 
+                    Network</OPTION> <OPTION 
+                    value=http://www.allembedded.com>Allembedded</OPTION> 
+                    <OPTION value=http://www.chipcenter.com>ChipCenter</OPTION> 
+                    <OPTION value=http://www.circuitsassembly.com>Circuits 
+                    Assembly</OPTION> <OPTION 
+                    value=http://www.commsdesign.com>Comms Design</OPTION> 
+                    <OPTION value=http://www.csdmag.com>Comms Sys 
+                    Design</OPTION> <OPTION 
+                    value=http://www.us.design-reuse.com>Design &amp; 
+                    Reuse</OPTION> <OPTION value=http://www.edtneurope.com>EDTN 
+                    Europe</OPTION> <OPTION 
+                    value=http://www.edtnscandinavia.com>EDTN 
+                    Scandinavia</OPTION> <OPTION 
+                    value=http://www.eedesign.com>EEdesign</OPTION> <OPTION 
+                    value=http://www.eetimes.com>EE Times</OPTION> <OPTION 
+                    value=http://www.ebnonline.com/>Electronic Buyers 
+                    News</OPTION> <OPTION 
+                    value=http://www.electronica-world.com>Electronica 
+                    World</OPTION> <OPTION 
+                    value=http://www.electronicstimes.co.uk>Electronics 
+                    Times</OPTION> <OPTION 
+                    value=http://www.embedded.com>Embedded.com</OPTION> <OPTION 
+                    value=http://www.gaasnet.com>GaAsNET</OPTION> <OPTION 
+                    value=http://www.hdi-online.com>HDI</OPTION> <OPTION 
+                    value=http://www.isdmag.com>Int Sys Design</OPTION> <OPTION 
+                    value=http://www.mwee.com>Microwave Engineering</OPTION> 
+                    <OPTION 
+                    value=http://www.planetanalog.com>PlanetAnalog</OPTION> 
+                    <OPTION value=http://www.pcdmag.com>Printed Circuit 
+                    Design</OPTION> <OPTION value=http://www.pcfab.com>PC 
+                    Fab</OPTION> <OPTION 
+                    value=http://www.pcnalert.com>PCNalert.com</OPTION> <OPTION 
+                    value=http://www.powerdesigners.com>PowerDesigner</OPTION> 
+                    <OPTION value=http://www.semibiznews.com>Semi Business 
+                    News</OPTION> <OPTION 
+                    value=http://www.techcareers.co.uk>Techcareers</OPTION> 
+                    <OPTION value=http://www.wnie.com>What's New in 
+                    Electronics</OPTION></SELECT> </FONT></FORM><BR><!-- encyclopedia link --><A 
+                  href="http://www.edtn.com/encyclopedia/"><IMG height=19 
+                  alt=e-cyclopedia src="Embedded Systems - Example Source Code/side-elec_ind2.gif" 
+                  width=184 vspace=2 border=0></A><BR><!-- netseminar link --><A 
+                  href="http://www.netseminar.com/"><IMG height=19 
+                  alt=NetSeminar src="Embedded Systems - Example Source Code/side-netseminar2.gif" 
+                  width=184 vspace=3 border=0></A><BR><!-- alerts link --><A 
+                  href="http://www.edtn.alerts.com/edtn/fs_main.jsp" 
+                  target=new><IMG height=19 alt=Alerts 
+                  src="Embedded Systems - Example Source Code/side-alerts2.gif" width=184 vspace=3 
+                  border=0></A> </FONT><!--
+<P ALIGN="CENTER"><a href="http://www.edtn.com/shared/redirect?url=/howiwork/?site=embedded"><IMG SRC="http://img.cmpnet.com/commsdesign/pics/howiwork_trans.gif" ALT="Howiwork" WIDTH="120" HEIGHT="74" BORDER="0"></A></P>
+--></TD></TR></TBODY></TABLE></TD></TR><!-- Corporate LOGO -->
+        <TR>
+          <TD bgColor=#666699>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD vAlign=top align=right>
+            <CENTER><IMG height=65 alt="Corporate Logo" 
+            src="Embedded Systems - Example Source Code/ubm_white.gif" width=70></CENTER></TD></TR>
+        <TR>
+          <TD vAlign=top align=middle colSpan=3><FONT face=verdana,arial 
+            size=1>Copyright © 2002 CMP Media LLC<BR><A 
+            href="http://www.cmpnet.com/delivery/privacy.html">Privacy 
+            Statement</A></FONT> </TD></TR></TBODY></TABLE></TD><!-- END LEFT NAV --><!-- BODY -->
+    <TD vAlign=top align=left width=433 bgColor=#ffffff>
+      <TABLE cellSpacing=0 cellPadding=0 width=433 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff><IMG height=18 
+            src="Embedded Systems - Example Source Code/curve_yell.gif" width=18 border=0><BR></TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff>
+        <TR>
+          <TD vAlign=top align=left width=18 bgColor=#ffffff>&nbsp;</TD>
+          <TD vAlign=top align=left width=415 bgColor=#ffffff><!-- TITLE ESP - June '98 - Advanced Embedded x86 Programming: Paging - Code Listing --><FONT 
+            face="Verdana, Georgia, Sans-Serif" size=2>
+            <CENTER><BR><IMG height=67 src="Embedded Systems - Example Source Code/esplogo.gif" 
+            width=329><BR><BR></CENTER><PRE>1.  ; Paging.asm
+2.  ; Copyright (C) 1997, Jean L. Gareau
+3.  ;
+4.  ; This program demonstrates how to enable paging in protected mode.
+5.  ; A flat memory model and a simplified segment
+ definition are used.
+6.  ;
+7.  ; This program has been assembled with MASM 6.11:
+8.  ;	C:\&gt;ML ProtMode32.asm
+9.  ;
+10. ; When linked, it must have a base address of BASE (F0000000h in this example), 
+11. ; which is where this code is to be mapped in its address space.
+12.
+13. BASE		EQU	0F0000000h		; Base address (virtual)
+14.
+15. 		.386P			; Use 386+ privileged instructions
+16.
+17. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+18. ; Macros (to use 32-bit instructions while in real mode)		   ;
+19.
+ ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+20.
+21. LGDT32	MACRO	Addr		; 32-bit LGDT Macro in 16-bit
+22.		DB	66h		; 32-bit operand override
+23.		DB	8Dh		; lea (e)bx,Addr
+24.		DB	1Eh
+25.		DD	Addr
+26.		DB	0Fh		; lgdt fword ptr [bx]
+27.		DB	01h
+28.		DB	17h
+29. ENDM
+30.
+31. FJMP32	MACRO	Selector,Offset	; 32-bit Far Jump Macro in 16-bit
+32.		DB	66h		; 32-bit operand override
+33.		DB	0EAh		; far jump
+34.		DD	Offset		; 32-bit offset
+35.		DW	Selector		; 16-bit selector
+36. ENDM
+37.
+38.		PUBLIC	_EntryPoint	; The linker needs it.
+39.
+
+40. _TEXT	SEGMENT PARA USE32 PUBLIC ŒCODE'
+41.		ASSUME	CS:_TEXT
+42.
+43. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+44. ; Page Directory and Page Table.			    		;
+45. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+46.
+47.	 	ORG	3000h		; =&gt; Depends on code location. 
+&lt;
+=
+48.
+49. PD:		
+50.		dd	1024 DUP (0)	; Page Directory: all entries at 0.
+51. PT:		
+52.		dd	1024 DUP (0)	; Page Table  : all entries at 0.
+53.
+54. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+55. ; Entry Point. The CPU is executing in 16-bit real mode.
+   		;
+56. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+57.
+58.		ORG	5000h		; =&gt; Depends on code location. 
+&lt;
+=
+59.
+60. _EntryPoint:
+61.
+62.		LGDT32	GdtDesc - BASE	; Load GDT descriptor
+63.
+64.		mov	eax,cr0		; Get control register 0
+65.		or	ax,1		; Set PE bit (bit #0) in (e)ax
+66.		mov	cr0,eax		; Activate protected mode!
+67.		jmp	$+2		; Flush the instruction queue.
+68.
+69. ; The CPU is now executing in 16-bit protected mode. Make a far jump in order to
+70. ; load CS with a selector to a 32-bit executable code
+ descriptor.
+71.
+72.		FJMP32	08h,Start32 - BASE	; Jump to Start32 (below)
+73. 
+74. ; This point is never reached. Data follow.
+75.
+76. GdtDesc:				; GDT descriptor
+77.		dw	GDT_SIZE - 1	; GDT limit
+78. 		dd	Gdt		; GDT base address (below)
+79. 
+80. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+81. ; The CPU is now executing in 32-bit protected mode.			   ;
+82. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+83.
+84. Start32:
+85.
+86. ; Initialize all segment registers to 10h (entry #2 in the GDT)
+87.
+88.		mov	ax,10h		; entry #2
+ in GDT
+89. 		mov	ds,ax		; ds = 10h
+90. 		mov	es,ax		; es = 10h
+91.		mov	fs,ax		; fs = 10h
+92. 		mov	gs,ax		; gs = 10h
+93. 		mov	ss,ax		; ss = 10h
+94. 
+95. ; Set the top of stack to allow stack operations.
+96.
+97. 		mov	esp,8000h		; arbitrary top of stack
+98.
+99. ; Store the PT address into PDE 0 and 960.
+100.
+101.		mov	eax,offset Pd - BASE	; eax  = &amp;PD
+102.		mov	ebx,offset Pt - BASE + 3		; ebx  = &amp;PT | 3
+103.		mov	[eax],ebx		; PD[0] = &amp;PT
+104.
+105.		mov	eax,offset Pd - BASE + 960 * 4	; eax = &amp;PDE[960]
+106.
+		mov	[eax],ebx		; PD[960] = &amp;PT
+107. 
+108. ; Initialize the PT to cover the first 4 MB of physical memory.
+109.
+110. 		mov	edi,offset Pt - BASE	; edi = &amp;PT
+111.		mov	eax,3		; Address 0, bit p &amp; r/w set
+112.		mov	ecx,1024		; 1024 entries
+113. InitPt:
+114.		stosd			; Write one entry
+115.		add	eax,1000h		; Next page address
+116.		loop	InitPt		; Loop
+117. 
+118. ; Turn on paging by:
+119. ;	 1) setting the PD address into CR3 and
+120.
+121.		mov	eax,offset Pd - BASE	; eax = &amp;PD
+122. 		mov	cr3,eax		; cr3 = &amp;PD
+
+123. 
+124. ;	2) setting CR0's PG bit.
+125.
+126.		mov	eax,cr0
+127.		or	eax,80000000h	; Set PG bit
+128.		mov	cr0,eax		; Paging is on!
+129.		jmp	$+2		; Flush the instruction queue.
+130.
+131. ; Let's now jump to F000xxxx.
+132.
+133.		push	offset PagingMode	; Keep full address (F000xxxxh)
+134.		ret			; Jump at Paging Mode (below)
+135.
+136. PagingMode:
+137.
+138. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+139. ; -&gt; Paging is now enabled, executing code at F000xxxxh 
+&lt;
+‹    		;
+140.
+ ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+141. 
+142. ; Other initialization instructions come here.
+143. ;		...
+144. 
+145. ; This point is never reached. Data follow.
+146.
+147. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+148. ; GDT							   ;	
+149. ;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹-;
+150. 
+151. ; Global Descriptor Table (GDT) (faster accessed if aligned on 4).
+152.
+153.		ALIGN	4
+154. 
+155. Gdt:
+ 
+156.
+157. ; GDT[0]: Null entry, never used.
+158.   
+159. 		dd	0
+160. 		dd	0
+161. 
+162. ; GDT[1]: Executable, read-only code, base address of 0,
+ limit of FFFFFh, 
+163. ;	 granularity bit (G) set (making the limit 4GB)
+164. 
+165. 		dw	0FFFFh		; Limit[15..0]
+166.		dw	0000h		; Base[15..0]
+167. 		db	00h		; Base[23..16]
+168. 		db	10011010b		; P(1) DPL(00) S(1) 1 C(0) R(1) A(0)
+169. 		db	11001111b		; G(1) D(1) 0 0 Limit[19..16]
+170. 		db	00h		; Base[31..24]
+171. 		
+172. ; GDT[2]: Writable data segment, covering the save address space than GDT[1].
+173. 
+174. 		dw	0FFFFh		; Limit[15..0]
+175. 		dw	0000h		; Base[15..0]
+176. 		db	00h		; Base[23..16]
+177. 		db
+	10010010b		; P(1) DPL(00) S(1) 0 E(0) W(1) A(0)
+178. 		db	11001111b		; G(1) B(1) 0 0 Limit[19..16]
+179. 		db	00h		; Base[31..24]
+180. 
+181. GDT_SIZE	EQU	$ - offset Gdt	; Size, in bytes
+182. 
+183. _TEXT		ENDS
+184.		END
+
+</PRE></FONT></TD></TR></TBODY></TABLE></TD><!-- RIGHT NAV -->
+    <TD vAlign=top align=left width=142 bgColor=#ffffff>
+      <P><NOBR><IMG height=100 alt="" src="Embedded Systems - Example Source Code/spacer.gif" 
+      width=8> <A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=4878&amp;RunID=39727&amp;AdID=29386&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=1831.1910.2474&amp;Redirect=http://s0b.bluestreak.com/ix.e?hr&amp;s=48210&amp;n=1035031209?" 
+      target=_top><IMG height=600 alt="Click here!" 
+      src="Embedded Systems - Example Source Code/01624a17-15-0-0.gif" width=125 border=1></A></NOBR> 
+      </P></TD></TR><!-- SPONSORED LINK & BOTTOM AD -->
+  <TR>
+    <TD vAlign=top align=middle colSpan=2><BR clear=all>
+      <CENTER>
+      <TABLE borderColor=#000000 cellSpacing=0 cellPadding=0 border=1>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width=468>
+            <TABLE cellSpacing=0 cellPadding=5 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><FONT face=verdana,arial size=2><B>Sponsor 
+                  Links</B></FONT> </TD></TR>
+              <TR>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>Wind River</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4907&amp;RunID=38972&amp;AdID=29394&amp;Redirect=http://ad.doubleclick.net/clk;3739644;6834914;w?http://www.windriver.com/products/html/eval_center.html">Free 
+                  Wind River downloads. Tornado Prototyper, Standalone Tools, 
+                  and more!</A> 
+                  <P><B>Microsoft</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4908&amp;RunID=38765&amp;AdID=29263&amp;Redirect=http://www.microsoft.com/redirect.asp?PageID=165&amp;PARAM=WEMBONL&amp;TARGET=/windows/Embedded/trial/evalkit.asp">Order 
+                  your Windows Embedded Evaluation Software today!</A></FONT> 
+                  </P></TD>
+                <TD vAlign=top align=left width=234><FONT face=verdana,arial 
+                  size=2><B>EDTN Mobile News</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;ProfileID=4909&amp;RunID=26084&amp;AdID=21164&amp;Redirect=http://www.edtn.com/palm/download.html/" 
+                  target=_TOP>The latest news now available to go. <BR>Palm VII 
+                  users click here</A> 
+                  <P><B>Planet Analog</B><BR><A 
+                  href="http://newads.cmpnet.com/adclick/event.ng/Type=click&amp;RunID=27017&amp;AdID=21162&amp;ProfileID=4910&amp;GroupID=1&amp;FamilyID=1&amp;TagValues=804.1785.1831.1913&amp;Redirect=http://www.edtn.com/register/newsletters" 
+                  target=_TOP>Sign up for FREE Analog Newsletter 
+                  Now!</A></A></FONT> 
+      </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER><A 
+      href="http://newads.cmpnet.com/event.ng/Type=click&amp;ProfileID=3543&amp;RunID=19436&amp;AdID=27333&amp;GroupID=1&amp;FamilyID=2882&amp;TagValues=179.1831&amp;Redirect=http://www.eedesign.com" 
+      target=_top><IMG alt="Click here!" src="Embedded Systems - Example Source Code/eedesign_1.gif" 
+      border=0></A><BR></CENTER></TD></TR></TBODY></TABLE><!-- END BODY --></FONT></BODY></HTML>

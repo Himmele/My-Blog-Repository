@@ -1,0 +1,38 @@
+// Created by Microsoft (R) C/C++ Compiler Version 11.00.0000 (26f11e65).
+//
+// Debug/ExchangeData.tli
+//
+// Wrapper implementations for Win32 type library ..\ExchangeData\Release\ExchangeData.tlb
+// compiler-generated file created 07/15/01 at 17:26:07 - DO NOT EDIT!
+
+#pragma once
+
+//
+// dispinterface IExchangeDataAuto wrapper method implementations
+//
+
+inline VARIANT_BOOL IExchangeDataAuto::DisplayDialog ( ) {
+    VARIANT_BOOL _result;
+    _com_dispatch_method(this, 0x3, DISPATCH_METHOD, VT_BOOL, (void*)&_result, NULL);
+    return _result;
+}
+
+inline long IExchangeDataAuto::GetLongData ( ) {
+    long _result;
+    _com_dispatch_propget(this, 0x1, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void IExchangeDataAuto::PutLongData ( long _val ) {
+    _com_dispatch_propput(this, 0x1, VT_I4, _val);
+}
+
+inline _bstr_t IExchangeDataAuto::GetTextData ( ) {
+    BSTR _result;
+    _com_dispatch_propget(this, 0x2, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void IExchangeDataAuto::PutTextData ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x2, VT_BSTR, (BSTR)_val);
+}

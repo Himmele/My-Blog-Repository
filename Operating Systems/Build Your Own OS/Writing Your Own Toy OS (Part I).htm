@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)http://www.linuxgazette.com/issue77/krishnakumar.html -->
+<!--startcut  ==============================================--><!-- *** BEGIN HTML header *** --><HTML><HEAD><TITLE>Writing Your Own Toy OS (Part I) LG #77</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#0000af aLink=#ff0000 link=#0000ff bgColor=#ffffff><!-- *** END HTML header *** -->
+<CENTER><A href="http://www.linuxgazette.com/"><IMG height=124 
+alt="LINUX GAZETTE" src="Writing Your Own Toy OS (Part I)-Dateien/lglogo.png" 
+width=600 border=0></A> <BR><!-- *** BEGIN navbar *** --><IMG height=45 alt="" 
+src="Writing Your Own Toy OS (Part I)-Dateien/left.jpg" width=14 align=bottom 
+border=0><A href="http://www.linuxgazette.com/issue77/kollar.html"><IMG 
+height=45 alt="[ Prev ]" src="Writing Your Own Toy OS (Part I)-Dateien/prev.jpg" 
+width=16 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue77/lg_toc77.html"><IMG height=45 
+alt="[ Table of Contents ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/toc.jpg" width=220 align=bottom 
+border=0></A><A href="http://www.linuxgazette.com/index.html"><IMG height=45 
+alt="[ Front Page ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/frontpage.jpg" width=137 
+align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/cgi-bin/talkback/all.py?site=LG&amp;article=http://www.linuxgazette.com/issue77/krishnakumar.html"><IMG 
+height=45 alt="[ Talkback ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/talkback.jpg" width=121 
+align=bottom border=0></A><A href="http://www.linuxgazette.com/lg_faq.html"><IMG 
+height=45 alt="[ FAQ ]" src="Writing Your Own Toy OS (Part I)-Dateien/faq.jpg" 
+width=62 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue77/lechnyr.html"><IMG height=45 
+alt="[ Next ]" src="Writing Your Own Toy OS (Part I)-Dateien/next.jpg" width=15 
+align=bottom border=0></A><IMG height=45 alt="" 
+src="Writing Your Own Toy OS (Part I)-Dateien/right.jpg" width=15 align=bottom> <!-- *** END navbar *** -->
+<P></CENTER><!--endcut ============================================================-->
+<H4 align=center>"Linux Gazette...<I>making Linux just a little more fun!</I>" 
+</H4>
+<P>
+<HR>
+
+<P><!--===================================================================-->
+<CENTER>
+<H1><FONT color=maroon>Writing Your Own Toy OS (Part I)</FONT></H1>
+<H4>By <A href="mailto:krishnakumar_r@bharatmail.com">Krishnakumar 
+R.</A></H4></CENTER>
+<P>
+<HR>
+
+<P><!-- END header --><EM>This article is a hands-on tutorial for building a 
+small boot sector. The first section provides the theory behind what happens at 
+the time the computer is switched on. It also explains our plan. The second 
+section tells all the things you should have on hand before proceeding further, 
+and the third section deals with the programs. Our little startup program won't 
+actually boot Linux, but it will display something on the screen.</EM> 
+<HR>
+
+<H2><A name=s1>1. Background</A></H2>
+<H2>1.1 The Fancy Dress</H2>
+<P>The microprocessor controls the computer. At startup, every microprocessor is 
+just another 8086. Even though you may have a brand new Pentium, it will only 
+have the capabilities of an 8086. From this point, we can use some software and 
+switch processor to the infamous <EM>protected mode </EM>. Only then can we 
+utilize the processor's full power. 
+<H2>1.2 Our Role</H2>
+<P>Initially, control is in the hands of the <EM>BIOS</EM>. This is nothing but 
+a collection of programs that are stored in ROM. BIOS performs the <EM>POST</EM> 
+(Power On Self Test). This checks the integrity of the computer (whether the 
+peripherals are working properly, whether the keyboard is connected, etc.). This 
+is when you hear those beeps from the computer. If everything is okay, BIOS 
+selects a boot device. It copies the first sector (boot sector) from the device, 
+to address location <EM>0x7C00</EM>. The control is then transferred to this 
+location. The boot device may be a floppy disk, CD-ROM, hard disk or some device 
+of your choice. Here we will take the boot device to be a floppy disk. If we had 
+written some code into the boot sector of the floppy, our code would be executed 
+now. Our role is clear: just write some programs to the boot sector of the 
+floppy. 
+<H2>1.3 The Plan</H2>
+<P>First write a small program in 8086 assembly (don't be frightened; I will 
+teach you how to write it), and copy it to the boot sector of the floppy. To 
+copy, we will code a C program. Boot the computer with that floppy, and then 
+enjoy. 
+<P>
+<H2><A name=s2>2. Things You Should Have</A></H2>
+<P>
+<DL>
+  <DT><B>as86</B>
+  <DD>
+  <P>This is an assembler. The assembly code we write is converted to an object 
+  file by this tool. </P>
+  <DT><B>ld86</B>
+  <DD>
+  <P>This is the linker. The object code generated by as86 is converted to 
+  actual machine language code by this tool. Machine language will be in a form 
+  that 8086 understands. </P>
+  <DT><B>gcc</B>
+  <DD>
+  <P>The C compiler. For now we need to write a C program to transfer our OS to 
+  the floppy. </P>
+  <DT><B>A free floppy</B>
+  <DD>
+  <P>A floppy will be used to store our operating system. This also is our boot 
+  device. </P>
+  <DT><B>Good Old Linux box</B>
+  <DD>
+  <P>You know what this is for. </P></DD></DL>as86 and ld86 will be in most of the 
+standard distributions. If not, you can always get them from the site <A 
+href="http://www.cix.co.uk/~mayday/">http://www.cix.co.uk/~mayday/</A>. Both of 
+them are included in single package, bin86. Good documentation is available at 
+<A 
+href="http://www.linuxgazette.com/issue77/www.linux.org/docs/ldp/howto/Assembly-HOWTO/as86.html">http://www.linuxgazette.com/issue77/www.linux.org/docs/ldp/howto/Assembly-HOWTO/as86.html</A>. 
+
+<H2><A name=s3>3. 1, 2, 3, Start!</A></H2>
+<H2>3.1 The Boot Sector </H2>
+<P>Grab your favourite editor and type in these few lines. 
+<BLOCKQUOTE><CODE><PRE>entry start
+start:
+      mov ax,#0xb800
+      mov es,ax
+      seg es
+      mov [0],#0x41
+      seg es
+      mov [1],#0x1f
+loop1: jmp loop1
+</PRE></CODE></BLOCKQUOTE>
+<P>This is an assembly language that as86 will understand. The first statement 
+specifies the entry point where the control should enter the program. We are 
+stating that control should initially go to label <EM><CODE>start</CODE></EM>. 
+The 2nd line depicts the location of the label <EM><CODE>start</CODE></EM> 
+(don't forget to put ":" after the start). The first statement that will be 
+executed in this program is the statement just after <EM>start</EM>. 
+<P>0xb800 is the address of the video memory. The # is for representing an 
+immediate value. After the execution of 
+<BLOCKQUOTE><CODE><PRE>mov ax,#0xb800 
+</PRE></CODE></BLOCKQUOTE>register ax will contain the value 0xb800, that is, 
+the address of the video memory. Now we move this value to the 
+<EM><CODE>es</CODE></EM> register. <EM><CODE>es</CODE></EM> stands for the extra 
+segment register. Remember that 8086 has a segmented architecture. It has 
+segments like code segments, data segments, extra segments, etc.--hence the 
+segment registers cs, ds, es. Actually, we have made the video memory our extra 
+segment, so anything written to extra segment would go to video memory. 
+<P>To display any character on the screen, you need to write two bytes to the 
+video memory. The first is the ascii value you are going to display. The second 
+is the attribute of the character. Attribute has to do with which colour should 
+be used as the foreground, which for the background, should the char blink and 
+so on. <EM><CODE>seg es</CODE></EM> is actually a prefix that tells which 
+instruction is to be executed next with reference to <EM><CODE>es</CODE></EM> 
+segment. So, we move value 0x41, which is the ascii value of character A, into 
+the first byte of the video memory. Next we need to move the attribute of the 
+character to the next byte. Here we enter 0x1f, which is the value for 
+representing a white character on a blue background. So if we execute this 
+program, we get a white A on a blue background. Finally, there is the loop. We 
+need to stop the execution after the display of the character, or we have a loop 
+that loops forever. Save the file as <EM><CODE>boot.s</CODE></EM>. 
+<P>The idea of video memory may not be very clear, so let me explain further. 
+Suppose we assume the screen consists of 80 columns and 25 rows. So for each 
+line we need 160 bytes, one for each character and one for each character's 
+attribute. If we need to write some character to column 3 then we need to skip 
+bytes 0 and 1 as they is for the 1st column; 2 and 3 as they are for the 2nd 
+column; and then write our ascii value to the 4th byte and its attribute to the 
+5th location in the video memory. 
+<H2>3.2 Writing Boot Sector to Floppy</H2>
+<P>We have to write a C program that copies our code (OS code) to first sector 
+of the floppy disk. Here it is: 
+<BLOCKQUOTE><CODE><PRE>
+#include &lt;sys/types.h&gt; /* unistd.h needs this */
+#include &lt;unistd.h&gt;    /* contains read/write */
+#include &lt;fcntl.h&gt;
+
+int main()
+{
+        char boot_buf[512];
+        int floppy_desc, file_desc;
+ 
+        
+        file_desc = open("./boot", O_RDONLY);
+        read(file_desc, boot_buf, 510);
+        close(file_desc);
+        
+        boot_buf[510] = 0x55;
+        boot_buf[511] = 0xaa;
+
+        floppy_desc = open("/dev/fd0", O_RDWR);
+        lseek(floppy_desc, 0, SEEK_CUR);
+        write(floppy_desc, boot_buf, 512);
+        close(floppy_desc);
+}
+</PRE></CODE></BLOCKQUOTE>
+<P>First, we open the file <EM><CODE>boot</CODE></EM> in read-only mode, and 
+copy the file descripter of the opened file to variable 
+<EM><CODE>file_desc</CODE></EM>. Read from the file 510 characters or until the 
+file ends. Here the code is small, so the latter case occurs. Be decent; close 
+the file. 
+<P>The last four lines of code open the floppy disk device (which mostly would 
+be /dev/fd0). It brings the head to the beginning of the file using 
+<EM><CODE>lseek</CODE></EM>, then writes the 512 bytes from the buffer to 
+floppy. 
+<P>The man pages of read, write, open and lseek (refer to man 2) would give you 
+enough information on what the other parameters of those functions are and how 
+to use them. There are two lines in between, which may be slightly mysterious. 
+The lines: 
+<P>
+<BLOCKQUOTE><CODE><PRE>boot_buf[510] = 0x55;
+boot_buf[511] = 0xaa;
+</PRE></CODE></BLOCKQUOTE>This information is for BIOS. If BIOS is to recognize 
+a device as a bootable device, then the device should have the values 0x55 and 
+0xaa at the 510th and 511th location. Now we are done. The program reads the 
+file <EM><CODE>boot</CODE></EM> to a buffer named boot_buf. It makes the 
+required changes to 510th and 511th bytes and then writes boot_buf to floppy 
+disk. If we execute the code, the first 512 bytes of the floppy disk will 
+contain our boot code. Save the file as <EM><CODE>write.c</CODE></EM>. 
+<H2>3.3 Let's Do It All</H2>
+<P>To make executables out of this file you need to type the following at the 
+Linux bash prompt. 
+<BLOCKQUOTE><CODE><PRE>as86 boot.s -o boot.o
+
+ld86 -d boot.o -o boot
+
+cc write.c -o write
+</PRE></CODE></BLOCKQUOTE>
+<P>First, we assemble the <CODE><EM>boot.s</EM></CODE> to form an object file 
+<EM><CODE>boot.o</CODE></EM>. Then we link this file to get the final file 
+<EM><CODE>boot</CODE></EM>. The <EM><CODE>-d</CODE></EM> for ld86 is for 
+removing all headers and producing pure binary. Reading man pages for as86 and 
+ld86 will clear any doubts. We then compile the C program to form an executable 
+named <EM><CODE>write</CODE></EM>. 
+<P>Insert a blank floppy into the floppy drive and type 
+<BLOCKQUOTE><CODE><PRE>./write
+</PRE></CODE></BLOCKQUOTE>Reset the machine. Enter the BIOS setup and make 
+floppy the first boot device. Put the floppy in the drive and watch the computer 
+boot from your boot floppy. 
+<P>Then you will see an 'A' (with white foreground color on a blue background). 
+That means that the system has booted from the boot floppy we have made and then 
+executed the boot sector program we wrote. It is now in the infinite loop we had 
+written at the end of our boot sector. We must now reboot the computer and 
+remove the our boot floppy to boot into Linux. 
+<P>From here, we'll want to insert more code into our boot sector program, to 
+make it do more complex things (like using BIOS interrupts, protected-mode 
+switching, etc). The later parts (PART II, PART III etc. ) of this article will 
+guide you on further improvements. Till then GOOD BYE ! <!-- *** BEGIN bio *** -->
+<P>
+<H4><IMG alt="" src="Writing Your Own Toy OS (Part I)-Dateien/note.gif" 
+align=bottom>Krishnakumar R.</H4><EM>Krishnakumar is a final year B.Tech student 
+at Govt. Engg. College Thrissur, Kerala, India. His journey into the land of 
+Operating systems started with module programming in linux . He has built a 
+routing operating system by name GROS.(Details available at his home page: <A 
+href="http://www.askus.way.to/">http://www.askus.way.to/</A> ) His other 
+interests include Networking, Device drivers, Compiler Porting and Embedded 
+systems.</EM> <!-- *** END bio *** --><!-- *** BEGIN copyright *** -->
+<P>
+<HR>
+<!-- P -->
+<H5 align=center>Copyright © 2002, Krishnakumar R..<BR>Copying license <A 
+href="http://www.linuxgazette.com/copying.html">http://www.linuxgazette.com/copying.html</A><BR>Published 
+in Issue 77 of <I>Linux Gazette</I>, April 2002</H5><!-- *** END copyright *** --><!--startcut ==========================================================-->
+<HR>
+
+<P>
+<CENTER><!-- *** BEGIN navbar *** --><IMG height=45 alt="" 
+src="Writing Your Own Toy OS (Part I)-Dateien/left.jpg" width=14 align=bottom 
+border=0><A href="http://www.linuxgazette.com/issue77/kollar.html"><IMG 
+height=45 alt="[ Prev ]" src="Writing Your Own Toy OS (Part I)-Dateien/prev.jpg" 
+width=16 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue77/lg_toc77.html"><IMG height=45 
+alt="[ Table of Contents ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/toc.jpg" width=220 align=bottom 
+border=0></A><A href="http://www.linuxgazette.com/index.html"><IMG height=45 
+alt="[ Front Page ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/frontpage.jpg" width=137 
+align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/cgi-bin/talkback/all.py?site=LG&amp;article=http://www.linuxgazette.com/issue77/krishnakumar.html"><IMG 
+height=45 alt="[ Talkback ]" 
+src="Writing Your Own Toy OS (Part I)-Dateien/talkback.jpg" width=121 
+align=bottom border=0></A><A href="http://www.linuxgazette.com/lg_faq.html"><IMG 
+height=45 alt="[ FAQ ]" src="Writing Your Own Toy OS (Part I)-Dateien/faq.jpg" 
+width=62 align=bottom border=0></A><A 
+href="http://www.linuxgazette.com/issue77/lechnyr.html"><IMG height=45 
+alt="[ Next ]" src="Writing Your Own Toy OS (Part I)-Dateien/next.jpg" width=15 
+align=bottom border=0></A><IMG height=45 alt="" 
+src="Writing Your Own Toy OS (Part I)-Dateien/right.jpg" width=15 align=bottom> <!-- *** END navbar *** --></CENTER><!--endcut ============================================================--></BODY></HTML>

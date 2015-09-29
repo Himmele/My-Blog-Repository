@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0048)http://www.setcomputing.com/operating_system.asp -->
+<?xml version="1.0" encoding="UTF-8"?><HTML lang=en xml:lang="en" 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD 
+profile=http://www.w3.org/2000/08/w3c-synd/#><TITLE>Operating System - setcomputing.com</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><!-- BEGIN FILE: /templates/error_handling.inc" --><LINK 
+href="Simple OS-Dateien/global.css" type=text/css rel=StyleSheet>
+<SCRIPT language=javascript src="Simple OS-Dateien/validity.js" 
+type=text/javascript></SCRIPT>
+<!-- END FILE: /templates/error_handling.inc" -->
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY marginwidth="0" marginheight="0"><!-- THIS PAGE IS SELF INCOMPLETE --><!-- BEGIN FILE: /templates/global_top.inc" -->
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+function newWindow(source) {
+	var posX, posY;
+	posX=(screen.width-600)/2;
+	posY=(screen.height-400)/2;
+	window.open(source, "PageSource", "width=600,height=400,scrollbars=1,status=1,resizable=1, screenX="+posX+", screenY="+posY+", left="+posX+", top=", posY);
+}
+//-->
+</SCRIPT>
+
+<TABLE style="BORDER-COLLAPSE: collapse" borderColor=#111111 cellSpacing=0 
+cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="60%" bgColor=#b8cbe0 colSpan=2><A 
+      onmouseover="javascript:window.status=messages[0]; return true;" 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="http://www.setcomputing.com/default.asp"><IMG alt=logo 
+      src="Simple OS-Dateien/logo.gif" border=0></A> </TD>
+    <TD vAlign=top align=right width="40%" bgColor=#b8cbe0 colSpan=2><SPAN 
+      style="FONT-SIZE: 10px">Unique Sessions: 9621 <BR><A 
+      onmouseover="javascript:window.status='View the ASP code for this page'; return true;" 
+      style="FONT-WEIGHT: bold; FONT-SIZE: 10px; COLOR: rgb(0,0,0)" 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="javascript:newWindow('/open_source.php?file=/operating_system.asp');">View 
+      ASP Source</A> | <A 
+      onmouseover="javascript:window.status=messages[1]; return true;" 
+      style="FONT-WEIGHT: bold; FONT-SIZE: 10px; COLOR: rgb(0,0,0)" 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="http://www.setcomputing.com/search/default.php">Search</A></SPAN> 
+  </TD></TR></TBODY></TABLE><!-- END FILE: /templates/global_top.inc" -->
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=0 
+width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width="12%"><!-- THIS PAGE IS SELF INCOMPLETE --><!-- BEGIN FILE: /templates/menu.inc" --><!-- BEGIN BUILIDING MENU -->
+      <TABLE 
+      style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 112px; BACKGROUND-COLOR: #e7e7e7; BORDER-RIGHT-WIDTH: 0px" 
+      cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#d7d7d7>
+            <DIV class=concept>setcomputing</DIV></TD></TR>
+        <TR>
+          <TD class=menu id=mn_1 onmouseover="javascript:MouseOverMenu('mn_1');" 
+          onclick="javascript:window.location.href='/default.asp';" 
+          onmouseout="javascript:MouseOutMenu('mn_1');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/default.asp">Home</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_2 onmouseover="javascript:MouseOverMenu('mn_2');" 
+          onclick="javascript:window.location.href = '/search/default.php';" 
+          onmouseout="javascript:MouseOutMenu('mn_2');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/search/default.php">Search</A> 
+        </TD></TR>
+        <TR>
+          <TD class=menu id=mn_20 
+          onmouseover="javascript:MouseOverMenu('mn_20');" 
+          onclick="javascript:window.location.href = '/news/';" 
+          onmouseout="javascript:MouseOutMenu('mn_20');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/news/">Global News</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_18 
+          onmouseover="javascript:MouseOverMenu('mn_18');" 
+          onclick="javascript:window.location.href = '/binary/default.php';" 
+          onmouseout="javascript:MouseOutMenu('mn_18');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/binary/default.php">Base 
+            Conversions</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_19 
+          onmouseover="javascript:MouseOverMenu('mn_19');" 
+          onclick="javascript:window.location.href = '/binary/bin/default.php';" 
+          onmouseout="javascript:MouseOutMenu('mn_19');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/binary/bin/default.php">Bitwise 
+            Operations</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_4 onmouseover="javascript:MouseOverMenu('mn_4');" 
+          onclick="javascript:window.location.href = '/ai_alice/';" 
+          onmouseout="javascript:MouseOutMenu('mn_4');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/assembler/">Assembler</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_7 onmouseover="javascript:MouseOverMenu('mn_7');" 
+          onclick="javascript:window.location.href = '/stat.php';" 
+          onmouseout="javascript:MouseOutMenu('mn_7');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/stat.php">Server Status</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_9 onmouseover="javascript:MouseOverMenu('mn_9');" 
+          onclick="javascript:window.location.href = '/ascii.asp';" 
+          onmouseout="javascript:MouseOutMenu('mn_9');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/ascii.asp">ASCII table</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_10 
+          onmouseover="javascript:MouseOverMenu('mn_10');" 
+          onclick="javascript:window.location.href = '/resume/';" 
+          onmouseout="javascript:MouseOutMenu('mn_10');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/resume/">Rèsumè</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_11 
+          onmouseover="javascript:MouseOverMenu('mn_11');" 
+          onclick="javascript:window.location.href = '/author/';" 
+          onmouseout="javascript:MouseOutMenu('mn_11');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/author/">About the Author</A> 
+        </TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD align=middle bgColor=#d7d7d7>
+            <DIV class=concept>articles</DIV></TD></TR>
+        <TR>
+          <TD class=menu id=mn_12 
+          onmouseover="javascript:MouseOverMenu('mn_12');" 
+          onclick="javascript:window.location.href = '/adt/';" 
+          onmouseout="javascript:MouseOutMenu('mn_12');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/adt/">Algorithms</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_13 
+          onmouseover="javascript:MouseOverMenu('mn_13');" 
+          onclick="javascript:window.location.href = '/ccpp/';" 
+          onmouseout="javascript:MouseOutMenu('mn_13');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/ccpp/">C/C++</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_14 
+          onmouseover="javascript:MouseOverMenu('mn_14');" 
+          onclick="javascript:window.location.href = '/stl/';" 
+          onmouseout="javascript:MouseOutMenu('mn_14');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/stl/">C++ STL</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_15 
+          onmouseover="javascript:MouseOverMenu('mn_15');" 
+          onclick="javascript:window.location.href = '/aspsql/';" 
+          onmouseout="javascript:MouseOutMenu('mn_15');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/aspsql/">ASP/SQL</A> </TD></TR>
+        <TR>
+          <TD class=menu id=mn_16 
+          onmouseover="javascript:MouseOverMenu('mn_16');" 
+          onclick="javascript:window.location.href = '/compiler/';" 
+          onmouseout="javascript:MouseOutMenu('mn_16');" align=middle><A 
+            class=menu onmouseover="return true;" 
+            href="http://www.setcomputing.com/compiler/">Compiler Design</A> 
+        </TD></TR></TBODY></TABLE><!-- END BUILDING MENU --><!-- END FILE: /templates/menu.inc" --></TD>
+    <TD width="1%" bgColor=white>&nbsp;</TD>
+    <TD vAlign=top width=* bgColor=white><IMG src="Simple OS-Dateien/os.gif">
+      <P>
+      <DIV class=discussion>This tutorial will put you through building your own 
+      mini OS and outputting the hello world message.&nbsp;<BR>First thing we 
+      need to create a boot sector. Because CPU is loading in 16 bit 
+      mode,&nbsp;<BR>to create a boot sector we need to use assembler and a 
+      linker from bin86 package.&nbsp;<BR>There are of course alternatives, but 
+      the tutorial will be created using examples from this 
+      package.&nbsp;<BR>The syntax for this assembler combining common 
+      characteristics for Intel and AT&amp;T and might&nbsp;<BR>seem a little 
+      strength, however you'll get used to it.<BR><BR>1. Boot sector 
+      (boot.s)&nbsp;<BR>I will not write the full source for the program, so 
+      that you will understand the basic idea better.&nbsp;<BR>First of all, we 
+      should define the general constants:<BR><BR>
+      <DIV class=code>START_HEAD = 0 - The device head, we will be 
+      using.<BR>START_TRACK = 0 - The track, we start reading 
+      from.<BR>START_SECTOR = 2 - The sector, we will start reading the OS 
+      from&nbsp;<BR>SYSSIZE = 10 - The size in sectors (1 sector = 512 
+      byte)<BR>FLOPPY_ID = 0 -The ID of the drive (0 - is first, 1 is 
+      second)<BR>HEADS = 2 - Number of heads<BR>SECTORS = 18 - Number of sectors 
+      for a floppy ( 18 for 1.44 Mb)<BR></DIV><BR>While booting the following 
+      will happen:&nbsp;<BR>The BIOS loader reads first sector of the floppy and 
+      will put it in 0000:0x7c00&nbsp;<BR>and will move there the control. We'll 
+      get it and, first, we should move ourselves&nbsp;<BR>lower to the address 
+      0000:0x600 move there and continue. All we really need to do&nbsp;<BR>is 
+      to boot the kernel ( sector 2-12 on the first track of the floppy with the 
+      address&nbsp;<BR>0x100:0000, moving into protected mode and jumping to the 
+      first rows of the kernel.&nbsp;<BR>Because of this, we'll need to declare 
+      few more constants:<BR><BR>
+      <DIV class=code>BOOTSEG = 0x7c00 - We will put the booting BIOS sector 
+      here<BR>INITSEG = 0x600 - Here we will move it<BR>SYSSEG = 0x100 - Our 
+      kernel will go here<BR>DATA_ARB = 0x92 - The definer of data segment for 
+      descriptor<BR>CODE_ARB = 0x9A - The definer of code segment for 
+      descriptor<BR><BR></DIV>First of all, we should move ourselves into more 
+      appropriate place:<BR><BR>
+      <DIV class=code>cli<BR>xor ax,ax<BR>mov ss,ax<BR>mov sp, #BOOTSEG<BR>mov 
+      si, sp<BR>mov ds, ax<BR>mov es, ax<BR>sti<BR>cld<BR>move di, 
+      #INITSEG<BR>mov cx, #0x100<BR>repnz<BR>movsw<BR>jmpi go, #0 ; jump into 
+      new place of the boot sector , mark "go"</DIV>
+      <P>Now we have to configure data segments (es,ds)&nbsp;<BR>
+      <DIV class=code><BR>go:<BR>mov ax, #0xF0<BR>mov ss,ax<BR>mov sp, 
+      ax<BR>0xF0:0xF0=0xFF0<BR>mov ax, #0x60 ;we'll set data segments in 
+      0x60<BR>mov ds,ax<BR>mov es,ax<BR></DIV><BR>Finally, we can output the 
+      message. Because we have the whole BIOS&nbsp;<BR>we can use the prepared 
+      function 0x13 of interrupt 0x10. We could&nbsp;<BR>of course cut it and 
+      write directly into Video memory, but we only&nbsp;<BR>have 512 bytes, 
+      which is not a lot. We'd rather spend it on something else.<BR><BR>
+      <DIV class=code>mov cx,#18<BR>mov bp,#boot_msg<BR>call 
+      write_message<BR></DIV><BR>The function write_message looks like 
+      this:<BR><BR>write_message:<BR><BR>
+      <DIV class=code>push bx<BR>push ax<BR>push cx<BR>push dx<BR>push cx<BR>mov 
+      ah, #0x03; read the current cursor position, so that we don't output the 
+      message anywhere.<BR>xor bh,bh<BR>int 0x10<BR>pop cx<BR>mov bx,#0x0007 ; 
+      parameters of outputted symbols: videopage 0, attribute 7 (black and 
+      grey)<BR>mov ax,#0x1301 ; outputting prompt and moving cursor<BR>int 
+      0x10<BR>pop dx<BR>pop cx<BR>pop ax<BR>pop bx<BR>ret<BR></DIV><BR><BR>and 
+      message is like this:<BR><BR>
+      <DIV class=code>boot_msg:<BR>.byte 13,10<BR>.ascii "Booting 
+      LaserOS..."<BR>.byte 0<BR></DIV><BR>By this time we will have message 
+      "Booting LaserOS..." displayed on the screen.<BR>This is much better than 
+      hello world :).&nbsp;<BR><BR>(BOOT.S)<BR>Now, as we have our loader, we 
+      move into protected mode and output program written in C.&nbsp;<BR>The 
+      kernel is 32 bit. It will be placed separately from the boot sector and 
+      built with&nbsp;<BR>gcc and gas. The syntax of assembler gas is compatible 
+      with AT&amp;T standard,&nbsp;<BR>so it will be much simpler. But first we 
+      need to read kernel. Again, we'll&nbsp;<BR>use a prepared function 0x2 of 
+      interrupt 0x13.<BR><BR><BR>
+      <DIV class=code>recalibrate:<BR><BR>mov ah, #0<BR>mov dl, 
+      #FLOPPY_ID<BR>int 0x13 ; drive reinitialisation<BR>jc recalibrate<BR>call 
+      read_track ; calling kernel reading function<BR><BR>jnc next_work ; if 
+      nothing bad happens, continue working<BR>bad_read ; if reding is not 
+      successful, output error&nbsp;<BR>mov bp,#error_read_msg<BR>mov cx, 
+      7<BR><BR>call write_message<BR><BR>inf1: jmp inf1 ; going to endless loop, 
+      so that we can be saved by "hand" rebooting only.<BR></DIV><BR>The actual 
+      reading function is very simple. We should "memorise" parameters 
+      and&nbsp;<BR>the read the kernel in one go. The difficulties will begin 
+      when the kernel wont&nbsp;<BR>be able to fit in 17 sectors (i.e. 8.5 Kb); 
+      But this is in the future and now we&nbsp;<BR>shouldn't have troubles with 
+      that!<BR><BR>
+      <DIV class=code>read_track:<BR>pusha<BR>push es<BR>push ds<BR>mov di, 
+      #sysseg&nbsp;<BR>mov es, di ; the data buffer address<BR>xor bx,bx<BR>mov 
+      ch, #START_TRACK ; track 0<BR>mov c1, #START_SECTOR ; start from sector 
+      2<BR>mov dl, FLOPPY_ID<BR>mov dh, #START_HEAD<BR>mov ah, #2<BR>mov al, 
+      #SYSSIZE ; read 10 sectors<BR>int 0x13<BR>pop ds<BR>pop 
+      es<BR>popa<BR>ret<BR></DIV><BR>That's it, kernel is read successfully, and 
+      we can output one more message:)<BR>next_work:<BR><BR>
+      <DIV class=code>call kill_motor ; stop floppy drive<BR>mov bp,#load_msg ; 
+      output message<BR>mov cx,#4<BR>call write_message<BR><BR></DIV>this is the 
+      message, you want to output<BR><BR>
+      <DIV class=code>load_msg:<BR>.ascii "DONE"<BR>.byte 0<BR><BR></DIV>And 
+      here how you stop floppy:<BR><BR>
+      <DIV class=code>kill_motor:<BR>push dx<BR>push ax<BR>mov dx,#0x3f2<BR>xor 
+      al,al<BR>out dx,al<BR>pop ax<BR>pop dx<BR>ret<BR></DIV><BR>No, you should 
+      see the following on your monitor "Booting LaserOS...DONE" and the 
+      lame&nbsp;<BR>of your floppy drive should be off. Ok, now is the most 
+      important bit, jump&nbsp;<BR>into protected mode. First of all, we should 
+      turn on the address line A20. It&nbsp;<BR>means that we'll be using 32 bit 
+      data addressing.<BR><BR>
+      <DIV class=code>mov al, #0x01 ; the recording command for 8042<BR>out 
+      #0x64, al<BR>mov al, #0xDF&nbsp;<BR>out #0x60, al<BR></DIV><BR><BR>Show to 
+      everyone, that we are moving into protected mode, so that everyone knows 
+      how 31337 we are:).&nbsp;<BR><BR><BR>
+      <DIV class=code>protected_mode:<BR>mov bp,#load_msg<BR>mov cx, #25<BR>call 
+      write_message&nbsp;<BR>the message<BR><BR>load_msg:<BR>.byte 
+      13,10<BR>.ascii "Going to protected mode..."<BR>.byte 0<BR><BR>While the 
+      BIOS is still alive, we should save the cursor position and save it in 
+      (0000:0x8000).&nbsp;<BR>Kernel will use this data 
+      after.<BR><BR>save_cursor:<BR>mov ah,#0x03 ; read cursor position<BR>xor 
+      bh, bh<BR>int 0x10<BR>seg cs<BR>mov [0x8000], dx ; save into special 
+      hidden place<BR><BR>Now, ATTENTION , restrict interrupts and load 
+      descriptors table.<BR><BR><BR>cli<BR>igdt GDT_DESCRIPTOR ; load 
+      descriptors table description<BR>The descriptors table consists of 3 
+      describers: zero ( should present always), code segment and data 
+      segment.<BR><BR>.align 4<BR>.word 0<BR><BR>GDT_DESCRIPTORS: .word 3*8-1 ; 
+      descriptors table size<BR><BR>.long 0x600 + GDT ; location of descriptors 
+      table<BR><BR>.align 2<BR><BR>GDT:<BR><BR>.long 0,0 ; e.g. 0 : empty 
+      descriptor<BR>.word 0xFFFF, 0 ; number 8: code descriptor<BR>.byte 0, 
+      CODE_ARB, 0xC0, 0<BR>.word 0xFFFF, 0 ; number 0x10 : data 
+      descriptor<BR>.byte 0, DATA_ARB, 0xCF, 0<BR></DIV><BR><BR>Moving into 
+      protected mode may implemented in (at minimum) two ways. We&nbsp;<BR>will 
+      be using command lmsw, just like in Linux.&nbsp;<BR><BR>
+      <DIV class=code>mov ax, #1<BR>lmsw ax ; later real mode : now we are in a 
+      protected mode<BR>jmpi 0x1000, 8 ; Long jump onto 32 bit kernel<BR><BR>At 
+      the end of the assembly file you could also add:<BR>.org 511<BR>.end_boot: 
+      .byte 0<BR></DIV>As a result, your file will be exactly 512 
+      byte.<BR><BR>That's it, we are done!!! Now we say good buy to it and move 
+      onto kernel.<BR><BR><BR>(START.C)<BR>Unfortunately, the kernel must also 
+      start from assembler. However now it wont be so much of it.&nbsp;<BR>We 
+      should set the correct values of segments for data. (es, ds, fs, gs) 
+      Saving there the&nbsp;<BR>value of respective data 
+      descriptor.&nbsp;<BR><BR>
+      <DIV class=code>cld<BR>cli<BR>movl $(___KERNEL_DS),%eax<BR>movl 
+      %ax,%ds<BR>movl %ax,%es<BR>movl %ax,%fs<BR>movl %ax,%gs<BR></DIV><BR>No we 
+      check, whether address line A20 is turned on correctly with a simple 
+      writing methd.&nbsp;<BR>For the experiment to be successful we should zero 
+      flags<BR><BR>
+      <DIV class=code>xorl %eax,%eax<BR>1: incl %eax<BR>mov 
+      %eax,0x000000<BR>cmpl %eax,0x100000<BR>je 1b<BR>pushl 
+      $0<BR>popfl<BR></DIV><BR><BR>Now we call the function, written in 
+      C.<BR><BR><BR>call SYMBOL_NAME (start_my_kernel)<BR><BR><BR>And that's 
+      it<BR><BR>
+      <DIV class=code>inf: jmp inf<BR></DIV><BR><BR>Now we are almost back to 
+      what we started from. Almost, because we now need to create 
+      printf&nbsp;<BR>"by hands". Because there are no interrupts, we will be 
+      writing directly into video memory.&nbsp;<BR>I will "borrow" the code for 
+      this part from Linux (arch/i386/boot/compressed) with 
+      minor&nbsp;<BR>changes. For assembling you'll need&nbsp;<BR>The following 
+      macros: inb(), outb(), inb_p(), out_p(). Look up in Linux. Now, so 
+      that&nbsp;<BR>built in function of glibc don't confuse us, we cancel 
+      them<BR><BR>
+      <DIV class=code>#undef memcpy<BR><BR>set some of our own 
+      functions:<BR><BR>static void puts(const char *);<BR>static char vidmem 
+      =(char)0xb8000;<BR>/*video memory address*/<BR><BR>static int vidport; 
+      /*videoport*/<BR>static int lines,cols; /* number of lines and colors on a 
+      screen*/<BR>static int curr_x,curr_y; /*current cursor 
+      position*/<BR><BR><BR>Now, we will start program in a normal (high level) 
+      language with some more assembly of course:).<BR><BR>The function ov 
+      moving cursor into (x,y). The is done via I/O into videoport.<BR><BR>void 
+      gotoxy(int x, int y)<BR>{<BR>int 
+      pos;<BR>pos=(x+cols*y)*2<BR>outb_p(14,vidport);<BR>outb_p(0xff &amp; 
+      (pos&gt;&gt;9),vidport+1);<BR>outb_p(15,vidport);<BR>outb_p(0xff 
+      &amp;(pos&gt;&gt;1),vidport+1);<BR>}<BR><BR>Screen scrolling function. 
+      Works using direct writing into video memory.<BR><BR>static void 
+      puts(const char*s)<BR>{<BR>int x,y;<BR>char 
+      c;<BR>x=curr_x;<BR>y=curr_y<BR>while((c=*s++)!=`\0`){<BR>if(c==`\n`){<BR>x=0;<BR>if(++y&gt;=lines){<BR>scroll();<BR>y--;&nbsp;<BR>}<BR>}<BR>else{<BR>vidmem[(x+cols*y)*2]=c;<BR>if(++x&gt;=cols){<BR>x=0;<BR>if(++y&gt;=lines){<BR>scroll();<BR>y--;&nbsp;<BR>}<BR>}<BR>}<BR>}<BR>gotoxy(x,y);<BR>}<BR><BR><BR>Function 
+      copy from one part of memory to another.<BR><BR>Void* memcpy( 
+      void*__dest,__const void*___src,unsigned int__n)<BR>{<BR>int 
+      I;<BR>char*d=(char*)dest,*s=(char*)__src;<BR>for(I=o;I&lt;__n,I++) d[i] 
+      =s[i]<BR>}<BR><BR>Function, making long nice sound. Very usefull for 
+      debugging.<BR><BR>Make_sound()<BR>{<BR>__asm__("<BR>movb $0xB6, 
+      %al\n\t<BR>outb %al,$0x43\n\t<BR>movb $0x0D, %al\n\t<BR>outb 
+      %al,$0x43\n\t<BR>movb $0x11,%al\n\t<BR>outb %al,$0x42\n\t<BR>inb 
+      $0x61,%al\n\t<BR>orb $3,%al\n\t<BR>outb %al,\n\t<BR>outb 
+      %al,$0x61\n\t<BR>");<BR>}<BR><BR><BR><BR>And here is the main 
+      function.&nbsp;<BR><BR>Int start_my_kernel()<BR>{<BR>/*setting general 
+      parameters*/<BR>vidmem=(char*)0xb8000;<BR>vidport=0x3b4;<BR>lines=25;<BR>cots=80;<BR>/* 
+      reading the saved cursor coordinates*/<BR><BR>curr_x=*(unsigned char 
+      *)(0x8000);<BR>curr_y=*(unsigned char *)(0x80001);<BR><BR>/*show the 
+      following*/<BR><BR>puts("LaserOS Loaded\n");<BR>/*Go into endless 
+      loop*/<BR><BR>while(1);<BR>}<BR>
+      <P></P></DIV></DIV></TD></TR></TBODY></TABLE><!-- THIS PAGE IS SELF INCOMPLETE --><!-- BEGIN FILE: /templates/global_bottom.inc" -->
+<P><BR>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="10%">&nbsp;</TD>
+    <TD align=middle width="80%"><FONT color=black size=1>©2002 
+      <B>Setcomputing.com</B>. | <A 
+      onmouseover="javascript:window.status='Read Setcomputing.com Disclaimer'; return true;" 
+      style="FONT-SIZE: 8pt" 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="http://www.setcomputing.com/disclaimer.asp">Terms of Use</A> | <A 
+      onmouseover="javascript:window.status='Send mail to Setcomputing.com'; return true;" 
+      style="FONT-SIZE: 8pt" 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="mailto:info@setcomputing.com">Information/help</A> </FONT></TD>
+    <TD align=right width="10%"><A 
+      onmouseover="javascript:window.status='Return to top of the page'; return true;" 
+      onclick=scrollTo(0,0); 
+      onmouseout="javascript:window.status=''; return true;" 
+      href="javascript://"><IMG alt=top src="Simple OS-Dateien/top.gif" 
+      border=0></A></TD></TR></TBODY></TABLE><!-- END FILE: /templates/global_bottom.inc" --></P></BODY></HTML>

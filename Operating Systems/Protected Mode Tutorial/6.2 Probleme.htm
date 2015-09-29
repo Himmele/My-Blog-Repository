@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex2.htm -->
+<HTML><HEAD><TITLE>6.2 Probleme</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background=Probleme-Dateien/stone.jpg>
+<H1><FONT color=#800000>6.2 Probleme</FONT></H1>
+<H2><FONT color=#000080>Task-Wechsel über Interrupts und IRET</FONT></H2>
+<P>Wird die Task-Umschaltung wie oben erläutert durchgeführt, tritt ein Problem 
+auf, das mit dem Task-Wechsel durch einen Interrupt zusammenhängt. Ein 
+Interrupt-Gate unterbricht einen Task nur temporär. Das heißt, das "Busy-Bit" im 
+unterbrochenen Task bleibt bestehen, das Back-Link Feld im TSS des neuen Tasks 
+bekommt den Wert des Selektors des unterbrochenen TSS zugewiesen und das Bit NT 
+(Nested Task) im EFLAGS-Register wird gesetzt. All das sind Voraussetzungen, um 
+den neuen Task normalerweise mit IRET beenden zu können. Das eigentliche Problem 
+besteht nun darin, daß der Prozessor beim Versuch, einen bereits als "Busy" 
+gekennzeichneten Task erneut aufzurufen, eine Exception auslöst (das darf auch 
+nicht möglich sein, da Tasks nicht reentrant sind). </P>
+<P>Wird ein Task also ein zweites Mal durch den Task-Handler aktiviert, ohne daß 
+vorher das Busy-Bit des jeweiligen Tasks gelöscht wurde, wird eine Exception 
+ausgelöst. Der Task-Handler muß zur Lösung dieses Problems in die 
+Task-Verkettung eingreifen. Dabei müssen die folgenden drei Tätigkeiten 
+durchgeführt werden:</P>
+<UL>
+  <LI>dafür sorgen, daß während der Manipulation keine Interrupts auftreten (CLI 
+  / STI), 
+  <LI>das "Back-Link" Feld im TSS des Task-Handlers mit einem Selektor auf das 
+  TSS setzen, was nach dem IRET Befehl aktiviert werden soll, 
+  <LI>das "Busy-Bit" der bereits aktivierten Tasks löschen (das "Busy-Bit" ist 
+  Bestandteil des Deskriptortyps des jeweiligen TSS und muß daher in der GDT 
+  geändert werden). </LI></UL>
+<P>Erst dann kann über IRET zurückgekehrt werden.</P>
+<H2><FONT color=#000080>Hardware-Interrupts</FONT></H2>
+<P>Eine Besonderheit von Hardware-Interrupts ist es, daß der 
+Interrupt-Controller von ihrer Beendigung in Kenntnis gesetzt werden muß, da er 
+sonst keine weiteren Interrupts generiert. Im Normalfall übernehmen die 
+entsprechenden Standard Hardware-Interrupt Handler diese Aufgabe. Da dieser 
+Standard Interrupt Handler vom Task-Handler ersetzt wurde, muß dieser Handler 
+auch das sogenannte EOI-Signal (<B>E</B>nd </B>O</B>f <B>I</B>nterrupt) an den 
+Interrupt-Controller senden. Dazu muß das Kommandobyte 020h an den ersten 
+Interrupt-Controller (Portadresse 020h) oder den zweiten Controller (Portadresse 
+0A0h) gesendet werden, je nachdem, welcher Controller den Interrupt ausgelöst 
+hat. Die Quelle für den Hardware-Interrupt 0 ist der erste Controller, demnach 
+muß auch der erste Controller das EOI-Signal erhalten:</P><PRE><I>; sende EOI an ersten Interrupt-Controller
+		mov al,020h
+		out 020h,al</I>
+</PRE>
+<P><B>Anmerkung:</B> Das EOI-Signal darf nicht nur vor dem IRET-Kommando stehen, 
+sondern muß auch vor jeder Task-Umschaltung gesendet werden (also vor dem 
+entsprechendem JMP FAR Befehl). Geschieht das nicht, wird der entsprechende Task 
+"für immer" ausgeführt, ohne daß er vom Timer-Interrupt und damit durch den 
+Task-Handler unterbrochen wird.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex1.htm"><IMG 
+alt=Zurück src="Probleme-Dateien/arrowl.gif" align=left border=0 name=left></A> 
+<A onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex3.htm"><IMG 
+alt=Weiter src="Probleme-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_k"><IMG 
+alt="Zum Index" src="Probleme-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 27.07.1998, Jens Hohmuth. </ADDRESS></BODY></HTML>

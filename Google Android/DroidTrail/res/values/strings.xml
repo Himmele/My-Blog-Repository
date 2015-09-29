@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">Droid Trail</string>
+    <string name="startLogging">Start logging my Trail</string>
+    <string name="stopLogging">Stop logging my Trail</string>
+	<string name="trailConverter">Google Earth Converter</string>
+	<string name="deleteTrail">Delete the Trail</string>
+	<string name="loggedTrails">Logged Trails</string>
+	<string name="noLoggedTrails">No logged Trails</string>
+<string name="trailConverterPopupOK">%s stored on your SD Card</string>
+<string name="trailConverterPopupError">Error while converting %s</string>
+<string name="trailDeleterPopup">%s deleted</string>
+</resources>

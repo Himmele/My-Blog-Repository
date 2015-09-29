@@ -1,0 +1,1872 @@
+<html><head>
+<meta name="keywords" content="computer exploits, security analysis, security auditing, computer forensics, computer crime, computer frauds, secure systems, vulnerable systems, web security, security devices, software exploits">
+<meta name="description" content="Buffer overflow vulnerability and exploit, functions call and returned debugging tutorial of the vulnerable program examples using Visual C++ debugger">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>The details of C function stack (and heap) operation when 
+function call is made (caller) and returned (callee) on personal 
+computers</title>
+<style>
+<!--
+ p.MsoNormal, li.MsoNormal
+	{margin:0mm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+h2
+	{margin:3.75pt;
+	background:#E8E8E8;
+	font-size:10.5pt;
+	font-family:Verdana;
+	color:#CE7208;
+	font-weight:bold;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0mm;
+	margin-bottom:3.0pt;
+	margin-left:0mm;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial;
+	font-weight:bold;}
+a:link
+	{color:blue;
+	text-decoration:none;}
+a:visited
+	{color:brown;
+	text-decoration:none;}
+a:hover
+	{color: red;
+	text-decoration: none;}
+p
+	{margin-right:0mm;
+	margin-left:0mm;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+pre
+	{margin:0mm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+tt
+	{font-family:"Courier New";}
+ ol
+	{margin-bottom:0mm;}
+-->
+</style>
+</head>
+
+<body topmargin="20" leftmargin="40" rightmargin="40" bottommargin="20" vlink="#800080" lang="EN-US" link="#000000">
+
+<div class="Section1">
+<h1 style="margin-top: 0; margin-bottom: 0" align="center">
+<span style="font-weight: 400"><font size="5" face="Arial">| 
+<a target="_top" href="http://www.tenouk.com/">C &amp; C++ Programming</a> | 
+<a title="C &amp; C++ function operation &amp; buffer overflow exploits" target="_top" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow2.html">
+&lt; C Process Memory Layout &amp; Function Call</a> 
+| 
+<a title="The buffer overflow vulnerability and exploit tutorial with C code programming and exploit example" target="_top" style="color: blue;" href="http://www.tenouk.com/cncplusplusbufferoverflow.html">
+BOF Main Page</a> 
+| 
+<a title="How C &amp; C++ stack operates" target="_top" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow3.html">
+C Function Call &amp; Stack Frame &gt;</a> 
+| 
+<a title="The stack-based buffer overflow vulnerability and exploit tutorial with C code and Linux Fedora OS example" target="_top" href="http://www.tenouk.com/Bufferoverflowc/stackbasedbufferoverflow.html">Buffer Overflow Revisited</a> |</font></span></h1>
+<hr color="#FF0000" noshade="noshade">
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<h1 style="margin-top:0; margin-bottom:0" align="center">
+<font face="Arial"><span style="font-weight: 400">BUFFER OVERFLOW 6</span></font></h1>
+<h1 style="margin-top:0; margin-bottom:0" align="center">
+<font face="Arial"><span style="font-weight: 400">The Function Stack</span></font></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<table style="border-collapse: collapse;" id="table1" width="100%" border="0">
+<tbody>
+<tr>
+<td valign="top" width="16%" align="left" bgcolor="#000000">
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none"><font size="4" color="#0000FF">
+<a target="_top" title="Introduction to C and buffer overflow problem" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow1.html">
+<span style="text-decoration: none; font-weight:400">Introduction</span></a></font></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0"><font face="Arial">
+<span style="text-decoration: none"><font size="4" color="#0000FF">
+<a target="_top" title="The x86 basic architecture" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow1a.html">
+<span style="text-decoration: none; font-weight:400">Basic of x86 Architecture</span></a></font></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0"><font face="Arial">
+<span style="text-decoration: none"><font size="4" color="#0000FF">
+<a target="_top" title="assembly language used in C program" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow1b.html">
+<span style="text-decoration: none; font-weight:400">Assembly Language</span></a></font></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="The basic of C compiler, assembler and linker functions" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow1c.html">
+<font size="4" color="#0000FF">Compiler, Assembler &amp; Linker</font></a></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="The C functions detail operation" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow2.html">
+<font size="4" color="#0000FF">Function Operation</font></a></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="C function's stack structure" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow2a.html">
+<font size="4" color="#0000FF">Stack</font></a></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="The C stack's function operation" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow3.html">
+<font size="4" color="#0000FF">Stack Operation</font></a></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="The C &amp; stack based buffer overflow - what happen?" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow4.html">
+<font size="4" color="#0000FF">Stack based Buffer Overflow</font></a></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none"><font size="4" color="#0000FF">
+<a target="_top" title="The shellcode - a payload used in buffer overflow" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow5.html">
+<span style="text-decoration: none; font-weight:400">Shellcode: The 
+Payload</span></a></font></span></font></h1>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<font color="#0000FF" face="Arial">
+<span style="text-decoration: none; font-weight:400">
+<a target="_top" title="Buffer overflow vulnerability and the exploit example tested on Linux Fedora machine" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow6.html">
+<font size="4" color="#0000FF">Vulnerability &amp; Exploit Examples</font></a></span></font></h1>
+<p style="margin-top: 0; margin-bottom: 0">
+<span style="font-weight: 400"><font size="4" color="#0000FF" face="Arial">
+<a title="The stack-based buffer overflow brief research paper" target="_top" href="http://www.tenouk.com/Bufferoverflowc/stackbasedbufferoverflow.html">
+Another BOF 'Research'</a></font></span></p><p style="margin-top: 0; margin-bottom: 0">
+&nbsp;</p><p style="margin-top: 0; margin-bottom: 0">
+&nbsp;</p><p style="margin-top: 0; margin-bottom: 0">
+&nbsp;</p><p style="margin-top: 0; margin-bottom: 0" align="center">
+<script src="The%20C%20Function%20Stack_files/beacon.js" async=""></script><script src="The%20C%20Function%20Stack_files/beacon.js" async=""></script><script type="text/javascript"><!--
+google_ad_client = "pub-8089415323104206";
+/* 120x600, created 5/28/08buffoberplow */
+google_ad_slot = "0351835201";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+&nbsp;<script type="text/javascript" src="The%20C%20Function%20Stack_files/show_ads.js">
+			
+</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_0" name="aswift_0" style="left: 0pt; position: absolute; top: 0pt;" scrolling="no" width="120" frameborder="0" height="600"></iframe></ins></ins></p>
+</td>
+<td valign="top" width="83%" align="left">
+<h1 style="margin:0 0mm;text-align:justify; margin-bottom:0">
+<span style="font-family:Arial; font-weight:400"><font size="4">THE PROCESSOR'S STACK FRAME LAYOUT</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Stack frame constructed during the function 
+call for memory allocation implicitly.&nbsp; Explicitly, memory allocation 
+can be requested from and released to <b>heap</b> area using </font>
+<font size="3"><span style="font-family:&quot;Arial&quot;">malloc()</span><font face="Arial">,
+</font><span style="font-family:&quot;Arial&quot;">calloc()</span><font face="Arial">,
+</font><span style="font-family:&quot;Arial&quot;">realloc()</span><font face="Arial">,
+</font><span style="font-family:
+
+&quot;Arial&quot;">new</span><font face="Arial">, </font>
+<span style="font-family:&quot;Arial&quot;">free()</span><font face="Arial"> 
+and </font><span style="font-family:&quot;Arial&quot;">delete</span></font><font size="3" face="Arial"> 
+respectively.&nbsp; A typical layout of a stack frame is shown below 
+although it may be organized differently in different operating systems:</font></p>
+<ul type="square">
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Function parameters.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Function’s return address.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Frame pointer.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Exception Handler frame.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Locally declared variables.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Buffer.</font></p>
+</li>
+<li>
+<p class="MsoNormal" style="margin:0; ">
+<font size="3" face="Arial">Callee save registers.</font></p>
+</li>
+</ul>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">And the arrangement in the stack can be 
+illustrated as shown below.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image004.png" alt="Typical illustration of a stack layout during the function call" width="276" border="0" height="290"></font></p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 1: Typical illustration of a stack 
+layout during the function call.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">From the layout, it is clear that a buffer 
+overflow if occurs, has the opportunity to overwrite other variables 
+allocated at the memory address higher than the buffer that is the locally 
+declared variables, the exception handler frame, the frame pointer, 
+the return address, and the function parameters.&nbsp; We will dig more 
+detail about these later on.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">As an example in Windows/Intel, typically, 
+when the function call takes place, data elements are stored on the 
+stack in the following way:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<ol style="margin-top:0mm" start="1" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The function parameters are pushed on 
+the stack before the function is called.&nbsp; The parameters are 
+pushed from right to left.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The function return address is placed 
+on the stack by the x86 CALL instruction, which stores the current 
+value of the EIP register.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Then, the frame pointer that is the 
+previous value of the EBP register is placed on the stack.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">If a function includes try/catch or 
+any other exception handling construct such as SEH (Structured Exception 
+Handling - Microsoft implementation), the compiler will include 
+exception handling information on the stack.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Next, the locally declared variables.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Then the buffers are allocated for temporary 
+data storage.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Finally, the callee save registers such 
+as ESI, EDI, and EBX are stored if they are used at any point during 
+the functions execution.&nbsp; For Linux/Intel, this step comes 
+after step no. 4.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h1 style="margin-top: 0; margin-bottom: 0"><font size="4" face="Arial">
+<span style="color:windowtext; font-weight:400">THE PROCESSOR'S STACK OPERATION</span></font></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">There are two CPU registers that are important for 
+the functioning of the stack which hold information that is necessary when calling 
+data residing in the memory. Their names are ESP and EBP in 32 bits system. 
+The ESP (Extended Stack Pointer) holds the top stack address.&nbsp; ESP is modifiable 
+either directly or indirectly. Directly: by using direct operations for example 
+(Windows/Intel):</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:#0000FF">
+<font size="3">add esp, 0Ch</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">This instruction causes the stack to shrink by 12 
+bytes.&nbsp; And</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:#0000FF">
+<font size="3">sub esp, 0Ch</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">That causes the stack to grow by 12 bytes.&nbsp; 
+(Keep in mind that it may seem confusing.&nbsp; In fact, the bigger the ESP 
+value, the smaller the stack size and vice versa because the stack grows downwards 
+in memory as it gets bigger and vice versa).</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Indirectly: by adding data elements to the stack 
+with </font><font size="3"><span style="font-family:&quot;Arial&quot;">PUSH</span><font face="Arial"> 
+or removing data elements from the stack with</font><span style="font-family:&quot;Arial&quot;"> 
+POP</span></font><font size="3" face="Arial"> stack operation.&nbsp; For example:</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:#0000FF">push&nbsp;&nbsp; 
+ebp&nbsp;&nbsp;&nbsp; </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">; Save ebp, put it on 
+the stack</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:#0000FF">pop&nbsp;&nbsp;&nbsp; 
+ebp&nbsp;&nbsp;&nbsp; </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">; Restore ebp, remove 
+it from the stack</span></font></font></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">In addition to the stack pointer, which points to 
+the top of the stack (lower numerical address); it is often convenient to have 
+a stack frame pointer (FP) which holds an address that point to a fixed location 
+within a frame.&nbsp; Looking at the stack frame, local variables could be referenced 
+by giving their offsets from ESP.&nbsp; However, as data are pushed onto the 
+stack and popped off the stack, these offsets change, so the reference of the 
+local variables is not consistent.&nbsp; Consequently, many compilers use another 
+register, generally called Frame Pointer (FP), for referencing both local variables 
+and parameters because their distances from FP do not change with </font>
+<font size="3"><span style="font-family:&quot;Arial&quot;">PUSH</span><font face="Arial">es 
+and </font><span style="font-family:
+
+&quot;Arial&quot;">POP</span></font><font size="3" face="Arial">s.&nbsp; On Intel 
+CPUs, EBP (Extended Base Pointer) is used for this purpose.&nbsp; On the Motorola 
+CPUs, any address register except A7 (the stack pointer) will do.&nbsp; Because 
+the way stack grows, actual parameters have positive offsets and local variables 
+have negative offsets from FP as shown below.&nbsp; Let examine the following 
+simple C program.</font></p>
+<blockquote>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">#include</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+&lt;stdio.h&gt;</font></span></p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">int</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+MyFunc(<span style="color:blue">int</span> parameter1, char parameter2)</font></span></p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">{</font></span></p>
+<p class="MsoNormal" style="margin-left:35.45pt;text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">int</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+local1 = 9;</font></span></p>
+<p class="MsoNormal" style="margin-left:35.45pt;text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">char</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+local2 = ‘Z’;</font></span></p>
+<p class="MsoNormal" style="margin-left:35.45pt;text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">return 0;</font></span></p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">}</font></span></p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">int</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+main(<span style="color:blue">int</span> argc, <span style="color:blue">
+char</span> *argv[])</font></span></p>
+<p class="MsoNormal" style="text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">{</font></span></p>
+<p class="MsoNormal" style="margin-left:35.45pt;text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">MyFunc(7, 
+‘8’);</font></span></p>
+<p class="MsoNormal" style="margin-left:35.45pt;text-autospace:none; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">return</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+0;</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">}</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">And the memory layout will look something like this:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p><p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p><center><script src="The%20C%20Function%20Stack_files/getjs.js"></script><div id="cw_td_6315669" style="height: 0pt; width: 0pt; display: none;"></div><script type="text/javascript" src="The%20C%20Function%20Stack_files/GetAd_002.js"></script><iframe src="The%20C%20Function%20Stack_files/cm.html" border="0" marginwidth="0" style="border: medium none;" scrolling="no" width="300" frameborder="0" height="250"></iframe><div style="display:none;width:0;height:0"><script>var _comscore = _comscore || [];_comscore.push({ c1: "8", c2: "2102", c3: "90", c4: "", c5: "", c15: "", c16: "" });(function() {var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";el.parentNode.insertBefore(s, el);})();</script><noscript><img src="http://b.scorecardresearch.com/p?c1=8&c2=2102&c3=90&c4=&c5=&c6=&c15=&c16=&cv=2.0&cj=1" /></noscript></div><div style="display:none;width:0;height:0"><iframe src="The%20C%20Function%20Stack_files/p-01-0VIaSjnOLg_004.gif" marginwidth="0" marginheight="0" allowtransparency="true" scrolling="NO" width="0" frameborder="0" height="0"></iframe></div><div style="display:none"><iframe src="The%20C%20Function%20Stack_files/visitormatch.html"></iframe></div>
+</center>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image005.png" alt="Function call: The memory layout" width="304" border="0" height="173"></font></p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 2: Function call: The memory layout.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The EBP register is a static register that points 
+to the stack bottom. The bottom of the stack is at a fixed address.&nbsp; More 
+precisely the EBP register contains the address of the stack bottom as an offset 
+relative to the executed function.&nbsp; Depending on the task of the function, 
+the stack size is dynamically adjusted by the kernel at run time.&nbsp; Each 
+time a new function is called, the old value of EBP is the first to be pushed 
+onto the stack and then the new value of ESP is moved to EBP. This new value 
+of ESP held by EBP becomes the reference base to local variables that are needed 
+to retrieve the stack section allocated for the new function call. As mentioned 
+before, a stack grows downward to lower memory address.&nbsp; This is the way 
+the stack grows on many computers including the Intel, Motorola, SPARC and MIPS 
+processors.&nbsp; The stack pointer (ESP) last address on the stack not the 
+next free available address after the top of the stack.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The first thing a function must do when called is 
+to save the previous EBP (so it can be restored by copying into the EIP at function 
+exit later).&nbsp; Then it copies ESP into EBP to create the new stack frame 
+pointer, and advances ESP to reserve space for the local variables.&nbsp; This 
+code is called the <b>procedure prolog</b>.&nbsp; Upon function exit, the stack 
+must be cleaned up again, something called the <b>procedure epilog</b>.&nbsp; 
+You may find that the Intel </font><font size="3">
+<span style="font-family:&quot;Arial&quot;">ENTER</span><font face="Arial"> 
+and </font><span style="font-family:&quot;Arial&quot;">LEAVE</span><font face="Arial"> 
+instructions and the Motorola </font>
+<span style="font-family:&quot;Arial&quot;">LINK</span><font face="Arial"> and
+</font><span style="font-family:
+
+&quot;Arial&quot;">UNLINK</span><font face="Arial"> instructions, have been provided 
+to do most of the procedure prolog and epilog work efficiently. As said before, 
+two of the most important assembly language instructions used in stack operation 
+are </font><span style="font-family:&quot;Arial&quot;">PUSH</span><font face="Arial"> 
+and </font><span style="font-family:
+
+&quot;Arial&quot;">POP</span><font face="Arial">.&nbsp; </font>
+<span style="font-family:&quot;Arial&quot;">PUSH</span><font face="Arial"> adds 
+an element at the top of the stack.&nbsp; </font>
+<span style="font-family:&quot;Arial&quot;">POP</span></font><font size="3" face="Arial">, 
+in contrast, removing the last element at the top of the stack.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image006.png" alt="Assembly codes: The effect of the PUSH and POP instructions" width="467" border="0" height="274"></font></p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 3: The effect of the </font>
+<font size="3"><span style="font-family:&quot;Arial&quot;">PUSH</span><font face="Arial"> 
+and </font><span style="font-family:&quot;Arial&quot;">POP</span></font><font size="3" face="Arial"> 
+instructions.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial"><span style="color:black">Other instructions used 
+in s</span>tack manipulation are listed in the following table.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<div align="center">
+<table class="MsoTableGrid" style="border-collapse: collapse; border: medium none;" width="865" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td style="border: 1pt solid windowtext; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">Instruction</font></span></b></p>
+</td>
+<td style="border-right: 1pt solid windowtext; border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: windowtext windowtext windowtext -moz-use-text-color; width: 713px; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">Description</font></span></b></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">PUSH</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Decrements the stack pointer and then 
+stores the source operand on the top of the stack.</font></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">POP</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Loads the value from the top of the 
+stack to the location specified with the destination operand and 
+then increments the stack pointer.</font></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">PUSHAD</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Pushes the contents of the general-purpose 
+registers onto the stack.</font></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">POPAD</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Pops doublewords from the stack into 
+the general-purpose registers.</font></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">PUSHFD</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Pushes the contents of the EFLAGS register 
+onto the stack.</font></p>
+</td>
+</tr>
+<tr>
+<td style="border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" width="121">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3">POPFD</font></span></p>
+</td>
+<td style="width: 713px; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Pops doublewords from the stack into 
+the EFLAGS register</font></p>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="width: 851px; border: medium none; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Table 1: Related assembly instructions 
+for stack operations.</font></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="text-align:justify; margin-top:0; margin-bottom:0">
+<span style="font-family:Arial; font-weight:400"><font size="4">SOME WINDOWS OS POINT OF VIEW</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Using Microsoft Visual C++ compiler, all function’s 
+arguments are widened to 32 bits (4 bytes) when they are passed to function.&nbsp; 
+Return values are also widened to 32 bits (4 bytes) and returned in the EAX 
+register, except for 8-byte structures, which are returned in the EDX:EAX register 
+pair.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Larger structures are returned in the EAX register 
+as pointers to hidden return structures.&nbsp; The compiler generates procedure
+<b>prolog</b> and <b>epilog</b> code (explained later) to save and restore the 
+ESI, EDI, EBX, and EBP registers.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin:0 0mm;"><span style="font-family:Arial; font-weight:400">
+<font size="4">THE FUNCTION 
+CALL AND STACK FRAME:&nbsp; SOME ANALYSIS</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Let see an example how the stack frame is constructed 
+and destroyed from the function calling convention view.&nbsp; We will use the
+</font><font size="3"><span style="font-family:&quot;Arial&quot;">__cdecl</span><font face="Arial"> 
+convention and the steps implemented automatically by the Microsoft Visual C++ 
+6.0 compiler although not all of them are used in every function call such as 
+situation when there is no parameters, no local variables etc.&nbsp; Setting 
+of the </font><span style="font-family:
+
+&quot;Arial&quot;">__cdecl</span></font><font size="3" face="Arial"> is done through 
+compiler normally by default and this program run in debug mode.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0"><font size="3" face="Arial">OS: Windows 
+2000 server</font></p>
+<p class="MsoNormal" style="margin: 0"><font size="3" face="Arial">Compiler: 
+Microsoft Visual C++ 6.0</font></p>
+<p class="MsoNormal" style="margin: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0"><font size="3" face="Arial">The C program 
+example:</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:#008000"><font size="3">// winprocess.cpp</font></span></p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">#include &lt;stdio.h&gt;</font></span></p>
+<p class="MsoNormal" style="margin: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">int MyFunc(int parameter1, char parameter2)</font></span></p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">{</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">&nbsp;&nbsp; int local1 = 9;</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">&nbsp;&nbsp; char local2 = 'Z';</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">&nbsp;&nbsp; return 0;</font></span></p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">}</font></span></p>
+<p class="MsoNormal" style="margin: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">int main(int argc, char *argv[])</font></span></p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">{</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">&nbsp;&nbsp; MyFunc(7,'8');</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">&nbsp;&nbsp; return 0;</font></span></p>
+<p class="MsoNormal" style="margin: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">}</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The program then been debug and the following is 
+the assembly.&nbsp; The steps using the debugger:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0"><b>
+<span style="font-family:&quot;Arial&quot;"><font size="3">Debug</font></span></b><font size="3"><font face="Arial"> 
+menu </font><font size="4">→</font> <b><span style="font-family:&quot;Arial&quot;">Start</span></b></font><font size="3" face="Arial"> 
+(or F5) submenu) as shown below.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image007.png" alt="Using Visual C++/.Net for debugging: Start menu" width="345" border="0" height="266"></font></p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 4: Using Visual C++/.Net for debugging</font></p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Here we are using the </font><font size="3"><b>
+<span style="font-family:&quot;Arial&quot;">Step Into</span></b></font><font size="3" face="Arial"> 
+(F11) so that we can go through the codes step by step of execution.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image008.png" longdesc="Using Visual C++/.Net for debugging: Step into" width="325" border="0" height="247"></font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 5: Using Visual C++/.Net for debugging: Step 
+into.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Then viewing the disassembled code while stepping 
+the execution (by keep pressing the F11).</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image009.png" alt="Using Visual C++/.Net for debugging" width="464" border="0" height="411"></font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 6: Using Visual C++/.Net for debugging.</font></p>
+<p class="MsoNormal" style="text-align:left; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<table id="table2" width="100%" border="0">
+<tbody>
+<tr>
+<td align="center">
+<p style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image010.png" alt="Disassembly of the C code" width="493" border="0" height="535"></font></p>
+</td>
+<td style="border-left: 2px solid rgb(255, 0, 0); border-width: 1px 1px 1px 2px;" align="center">
+<p style="margin-top: 0; margin-bottom: 0">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8089415323104206";
+/* 300x250, created 5/28/08buffoberplow */
+google_ad_slot = "1081969663";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+&nbsp;<script type="text/javascript" src="The%20C%20Function%20Stack_files/show_ads.js">
+			
+</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_1" name="aswift_1" style="left: 0pt; position: absolute; top: 0pt;" scrolling="no" width="300" frameborder="0" height="250"></iframe></ins></ins></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 7: Disassembly of the C code</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">For Linux please refer to </font><font size="3">
+<a target="_blank" href="http://www.tenouk.com/Module000.html">
+<font color="#0000FF" face="Arial">Module000</font></a><font face="Arial"> and
+</font><a target="_blank" href="http://www.tenouk.com/Module111.html">
+<font color="#0000FF" face="Arial">Module111</font></a></font><font size="3" face="Arial">. 
+The disassembly 'junk' reproduced in the following text and the comments give 
+some explanation to the concerned assembly lines.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">--- e:\test\testproga\winprocess.cpp&nbsp; 
+----------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">10:</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">11:&nbsp;&nbsp; 
+int main(int argc, char *argv[])</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">12:&nbsp;&nbsp; 
+{</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401060&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401061&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp, esp</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401063&nbsp;&nbsp; 
+sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 40h</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401066&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebx</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401067&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esi</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401068&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401069&nbsp;&nbsp; 
+lea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi, [ebp-40h]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040106C&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ecx, 10h</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401071&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eax, 0CCCCCCCCh</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401076&nbsp;&nbsp; 
+rep stos&nbsp;&nbsp;&nbsp; dword ptr [edi]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">13:&nbsp;&nbsp; 
+MyFunc(7,'8');</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">------------------jump 
+to MyFunc()---------------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">00401078&nbsp;&nbsp; push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+38h </font></span><span style="font-family:&quot;Courier New&quot;">
+<font size="3">;character 8 is pushed on the stack at [ebp+12]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">0040107A&nbsp;&nbsp; push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+7</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp; 
+;integer 7 is pushed on the stack at [ebp+8]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:blue"><font size="3">0040107C&nbsp;&nbsp; call&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+@ILT+5(MyFunc)</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+(<span style="color:red">0040100a</span>);call MyFunc(), return</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;address: </font><span style="color:red"><font size="3">00401081</font></span></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;is pushed on the stack</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;at [ebp+4]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">-----------------------------------------------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">@ILT+5(<span style="color:green">?MyFunc@@YAHHD@Z</span>):&nbsp; 
+;function decorated name, Visual C++ .Net</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:red"><font size="3">0040100A</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp; 
+jmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MyFunc (<span style="color:red">00401020</span>)</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">-----------------------------------------------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">--- e:\test\testproga\testproga.cpp&nbsp; 
+----------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">1:&nbsp;&nbsp;&nbsp; 
+//testproga.cpp</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">2:&nbsp;&nbsp;&nbsp; 
+#include &lt;stdio.h&gt;</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">3:</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">4:&nbsp;&nbsp;&nbsp; 
+int MyFunc(int parameter1, char parameter2)</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">5:&nbsp;&nbsp;&nbsp; 
+{</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:red"><font size="3">00401020</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;save the previous frame pointer at [ebp+0]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401021&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp, esp&nbsp;&nbsp; 
+;the esp (top of the stack) becomes new</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;ebp. The esp and ebp now are pointing to the same address.</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401023&nbsp;&nbsp; 
+sub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 48h&nbsp;&nbsp; 
+;subtract 72 bytes for local variables &amp; buffer,</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;where is the esp? [ebp-72]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401026&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;save, push ebx register, [ebp-76]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401027&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;save, push esi register, [ebp-80]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401028&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;save, push edi register, [ebp-84]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401029&nbsp;&nbsp; 
+lea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi, [ebp-48h]&nbsp;&nbsp;&nbsp; 
+;using the edi register…</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040102C&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ecx, 12h</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401031&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eax, 0CCCCCCCCh</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401036&nbsp;&nbsp; 
+rep stos&nbsp;&nbsp;&nbsp; dword ptr [edi]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">6:&nbsp;&nbsp;&nbsp; 
+int local1 = 9;</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401038&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dword ptr [ebp-4], 9&nbsp;&nbsp;&nbsp;&nbsp; 
+;move the local variable, integer 9</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;by pointer at [ebp-4]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">7:&nbsp;&nbsp;&nbsp; 
+char local2 = 'Z';</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040103F&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; byte ptr [ebp-8], 5Ah&nbsp;&nbsp;&nbsp; 
+;move local variable, character Z</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;by pointer at [ebp-8], no buffer usage in this</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;program so can start dismantling the stack</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">8:&nbsp;&nbsp;&nbsp; 
+return 0;</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401043&nbsp;&nbsp; 
+xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eax, eax&nbsp;&nbsp; 
+;clear eax register, no return data</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">9:&nbsp;&nbsp;&nbsp; 
+}</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401045&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;restore, pop edi register, [ebp-84]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401046&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;restore, pop esi register, [ebp-80]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401047&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;restore, pop ebx register, [ebp-76]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401048&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, ebp&nbsp;&nbsp; 
+;move ebp into esp, [ebp+0]. At this moment</font></span></p>
+<p class="MsoNormal" style="margin-left:180.0pt; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;the esp and ebp are pointing at the same address</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040104A&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;then pop the saved ebp, [ebp+0] so the ebp is back</font></span></p>
+<p class="MsoNormal" style="margin-left:180.0pt; margin-top:0; margin-bottom:0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;pointing at the previous stack frame</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040104B&nbsp;&nbsp; 
+ret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;load the saved eip, the return address:</font><span style="color:red"><font size="3"> 
+00401081</font></span></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;into the eip and start executing the instruction,</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;the address is [ebp+4]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">-----------------------------back 
+to main()--------------------------------------------</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;
+
+color:red"><font size="3">00401081</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp; 
+add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 8&nbsp;&nbsp;&nbsp;&nbsp; 
+;clear the parameters, 8 bytes for integer 7 and</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;character 8 at [ebp+8] and [ebp+12]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;after this cleanup by the caller, main(), the</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;MyFunc()’s stack is totally dismantled.</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">14:&nbsp;&nbsp; 
+return 0;</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401084&nbsp;&nbsp; 
+xor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eax, eax&nbsp;&nbsp; 
+;clear eax register</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">15:&nbsp;&nbsp; 
+}</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401086&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401087&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esi</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401088&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebx</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401089&nbsp;&nbsp; 
+add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 40h</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">0040108C&nbsp;&nbsp; 
+cmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp, esp</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3" color="#FF0000">0040108E&nbsp;&nbsp; call&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+__chkesp (004010b0)&nbsp;&nbsp;&nbsp; ; checking the esp corruption?</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401093&nbsp;&nbsp;
+ 
+mov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 
+ebp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+; dismantling the stack</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401095&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebp</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;"><font size="3">00401096&nbsp;&nbsp; 
+ret</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<ol style="margin-top:0mm" start="1" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Push 
+parameters onto the stack, from right to left.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">Parameters are pushed onto the stack, one at a time 
+from right to left.&nbsp; The calling code must keep track of how many bytes 
+of parameters have been pushed onto the stack so that it can clean it up later.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">00401078&nbsp;&nbsp; push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+38h</font></span><font size="3"><span style="font-family:&quot;Courier New&quot;;color:maroon">
+</span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;character 8 is pushed 
+on the stack at [ebp+12]</span></font></font></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">0040107A&nbsp;&nbsp; push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+7</font></span><font size="3"><span style="font-family:&quot;Courier New&quot;;color:maroon">&nbsp;&nbsp;&nbsp;&nbsp;
+</span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;integer 7 is pushed 
+on the stack at [ebp+8]</span></font></font></p>
+</blockquote>
+<ol style="margin-top:0mm" start="2" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Call 
+the function.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">The processor pushes contents of the EIP onto the 
+stack, and it points to the first byte after the CALL instruction, the function’s 
+return address.&nbsp; After this finishes, the caller has lost control, and 
+the callee is in charge.&nbsp; This step does not change the EBP register, the 
+current stack frame pointer.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">0040107C&nbsp;&nbsp; call&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+@ILT+5(MyFunc)</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3"> 
+(<span style="color:red">0040100a</span>)<span style="color:maroon">&nbsp;
+</span><font color="#008000">;call MyFunc(), return address:</font><span style="color:maroon">
+</span></font><span style="color:red"><font size="3">00401081</font></span></span><font size="3"><span style="color:maroon; font-family:Courier New">,</span><font color="#008000"><span style="font-family:Courier New"> 
+is </span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;pushed on the stack at [ebp+4]</span></font></p>
+</blockquote>
+<ol style="margin-top:0mm" start="3" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Save 
+and update the EBP.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">Now that we are in the new function, we need a new 
+local stack frame pointed to by EBP, so this is done by saving the current EBP 
+(which belong to the previous function’ frame, may include the </font>
+<font size="3"><span style="font-family:&quot;Arial&quot;">main()</span></font><font size="3" face="Arial">) 
+and making the top of the stack.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:red">
+<font size="3">00401020</font></span><span style="font-family:&quot;Courier New&quot;"><font size="3">&nbsp;&nbsp;
+<span style="color:maroon">push&nbsp;&nbsp;&nbsp; ebp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><font color="#008000">;save the previous frame pointer at [ebp+0]</font></font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401021&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp; ebp, esp&nbsp; </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;the esp (top of the 
+stack) becomes new </span></font></font>
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">ebp.</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;</span></font><span style="font-family:&quot;Courier New&quot;;color:#008000"><font size="3">The 
+esp and ebp now are pointing to the same address.</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">Once EBP has been changed, now we can refer directly 
+to the function’s arguments (pushed in step no 1) as [ebp + 8], [ebp +12] etc.&nbsp; 
+Note that [ebp+0] is the old base pointer (frame pointer) and [ebp+4] is the 
+old instruction pointer (EIP), that is the function’s return address.</font></p>
+<p class="MsoNormal" style="margin:0; ">&nbsp;</p>
+<ol style="margin-top:0mm" start="4" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Allocate 
+space for local variables and buffer.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">Simply by decrementing the stack pointer by the 
+amount of space required.&nbsp; This is always done in four-byte chunks (32 
+bits system).</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401023&nbsp;&nbsp; 
+sub&nbsp;&nbsp;&nbsp; esp, 48h </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;subtract 72 bytes for 
+local variables &amp; buffer,</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;where is the esp? [ebp-72]</span></font></p>
+</blockquote>
+<ol style="margin-top:0mm" start="5" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Save 
+processor registers used for temporaries.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">If this function will use any processor registers, 
+it has to save the old values first in order not to destroy the data used by 
+the caller or other programs.&nbsp; Each register to be used is pushed onto 
+the stack one at a time, and the compiler must remember what it did so that 
+it can unwind it later.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401026&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ebx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;save, push ebx register, 
+[ebp-76]</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401027&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;save, push esi register, 
+[ebp-80]</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401028&nbsp;&nbsp; 
+push&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;save, push edi register, 
+[ebp-84]</span></font></font></p>
+</blockquote>
+<ol style="margin-top:0mm" start="6" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Push 
+the local variables.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">Now, the local variables are located on the stack 
+between the EBP as a base and ESP register as the top of the stack.&nbsp; As 
+said before, by convention the EBP register is used as an offset for the data 
+on the stack frame reference.&nbsp; This means that [ebp-4] refers to the first 
+local variable.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">
+<font size="3">6:&nbsp;&nbsp;&nbsp; int local1 = 9;</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401038&nbsp;&nbsp; 
+mov&nbsp;&nbsp; dword ptr [ebp-4], 9&nbsp;&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;move the local variable, 
+integer</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+; 9 by pointer at [ebp-4]</span></font></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">
+<font size="3">7:&nbsp;&nbsp;&nbsp; char local2 = 'Z';</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">0040103F&nbsp;&nbsp; 
+mov&nbsp;&nbsp; byte ptr [ebp-8], 5Ah&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;move local variable 
+character Z by</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+; pointer at [ebp-8],</span></font><span style="font-family:&quot;Courier New&quot;;color:#008000"><font size="3">no 
+buffer usage in</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;</span></font><span style="font-family:&quot;Courier New&quot;;color:#008000"><font size="3"> 
+this program so can start dismantling the stack</font></span></p>
+</blockquote>
+<ol style="margin-top:0mm" start="7" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Perform 
+the function’s task.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">At this point, the stack frame is set up correctly, 
+and this is illustrated in Figure 8.&nbsp; All parameters and locals reference 
+are offsets from the EBP register.&nbsp; In our program there is no operation 
+for the function.&nbsp; So can start dismantling the function’s stack.</font></p>
+<p style="margin-top:0; margin-bottom:0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">
+<img src="The%20C%20Function%20Stack_files/image011.png" alt="Stack frame setup" width="304" border="0" height="252"></font></p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Figure 8: Stack frame setup.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">The function is free to use any of the </font>
+<font size="3"><span style="font-family:&quot;Arial&quot;">ebx</span><font face="Arial">,
+</font><span style="font-family:&quot;Arial&quot;">esi</span><font face="Arial"> 
+and </font><span style="font-family:&quot;Arial&quot;">edi</span></font><font size="3" face="Arial"> 
+registers that have been saved onto the stack upon entry, but it must not change 
+the stack pointer (EBP).</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<ol style="margin-top:0mm" start="8" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Restore 
+saved registers.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">After the function’s operation is finished, for 
+each register saved onto the stack upon entry, it must be restored from the 
+stack in reverse order.&nbsp; If the save and restore phases don’t match exactly, 
+stack will be corrupted.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401045&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp; edi&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;restore, pop edi register, 
+[ebp-84]</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401046&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp; esi&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;restore, pop esi register, 
+[ebp-80]</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401047&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp; ebx&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;restore, pop ebx register, 
+[ebp-76]</span></font></font></p>
+</blockquote>
+<ol style="margin-top:0mm" start="9" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Restore 
+the old base pointer.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">The first thing this function did upon entry was 
+save the caller’s EBP base pointer, and by restoring&nbsp; it now (popping the 
+top item from the stack), we effectively discard the entire local stack frame 
+and put the caller’s frame back as in the previous state.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">00401048&nbsp;&nbsp; 
+mov&nbsp;&nbsp;&nbsp;&nbsp; esp, ebp </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;move ebp into esp, [ebp+0]. 
+At this moment</span></font></font></p>
+<p class="MsoNormal" style="margin:0; text-indent:36.0pt">
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;the esp and ebp are pointing at the same address</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">0040104A&nbsp;&nbsp; 
+pop&nbsp;&nbsp;&nbsp;&nbsp; ebp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;then pop the saved ebp, 
+[ebp+0] so the ebp is</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font>
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">;back pointing at the previous stack frame</font></span></p>
+</blockquote>
+<ol style="margin-top:0mm" start="10" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Return 
+from the function.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">This is the last step of the called function, and 
+the RET instruction pops the old saved EIP (return address) from the stack and 
+jumps to that location.&nbsp; This gives control back to the caller.&nbsp; Only 
+the stack pointer (EBP) and instruction pointers (EIP) are modified by a subroutine 
+return.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3">
+<span style="font-family:&quot;Courier New&quot;;color:maroon">0040104B&nbsp;&nbsp; 
+ret&nbsp;&nbsp; </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;load the saved eip, 
+the return address: </span></font></font>
+<span style="font-family:
+
+&quot;Courier New&quot;;color:#008000"><font size="3">00401081</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3" color="#008000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><span style="color:#008000"><font size="3">;into the eip and start 
+executing the instruction, the address is [ebp+4]</font></span></span></p>
+</blockquote>
+<ol style="margin-top:0mm" start="11" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Clean 
+up pushed parameters.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-left:36.0pt;text-align:justify; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">In the </font><font size="3">
+<span style="font-family:&quot;Arial&quot;">__cdecl</span></font><font size="3" face="Arial"> 
+convention, the caller must clean up the parameters pushed onto the stack, and 
+this is done either by popping the stack into the don’t care registers for the 
+function’s parameters or by adding the parameter-block size to the stack pointer 
+directly.</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:red">
+<font size="3">00401081</font></span><font size="3"><span style="font-family:&quot;Courier New&quot;;color:maroon">&nbsp;&nbsp; 
+add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; esp, 8 </span><font color="#008000">
+<span style="font-family:&quot;Courier New&quot;;">;clear the parameters, 
+8 bytes for integer</span></font></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+; 7 and character 8 at [ebp+8] and [ebp+12]</span></font></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font>
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">; after this cleanup by the caller, main(),</font></span></p>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#008000">
+<span style="font-family: Courier New">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+;</span></font><span style="font-family:&quot;Courier New&quot;;color:#008000"><font size="3"> 
+the MyFunc()’s stack is totally dismantled.</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">You can see that from assembly point of view also, 
+when using the stack, it must be symmetrical in the byte count of what is pushed 
+and what is popped.&nbsp; There must be equilibrium before and after the stack 
+construction for functions as discussed before.&nbsp; Obviously, if the stack 
+is not balanced on exit from a function, program execution begins at the wrong 
+address which will almost exclusively crash the program.&nbsp; In most instances, 
+if you push a given data size onto the stack, make sure you must pop the same 
+data size.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0" align="center">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8089415323104206";
+/* 728x90, created 5/28/08buff */
+google_ad_slot = "6038606489";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+&nbsp;<script type="text/javascript" src="The%20C%20Function%20Stack_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_2" name="aswift_2" style="left: 0pt; position: absolute; top: 0pt;" scrolling="no" width="728" frameborder="0" height="90"></iframe></ins></ins></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:Arial; font-weight:400"><font size="4">PROCESSOR REGISTERS PRESERVATION FROM ASSEMBLY 
+VIEW</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">When writing assembler code in 32 bit windows, there 
+is a convention for the use of registers so that programmers can interact with 
+windows and API functions in a predictable way.&nbsp; The registers available 
+with an x86 processor are limited resource that are shared by every process 
+running within the operating system, so a reliable method of using them is important 
+for writing reliable code.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">As discussed before, an x86 processor has 8 general 
+purpose integer registers, EAX, EBX, ECX, EDX, ESI, EDI, ESP and EBP.&nbsp; 
+Two of them, ESP and EBP are almost exclusively used to manage the entry and 
+exit to a function so there are effectively 6 general purpose registers available 
+for application level programming.</font></p>
+<p class="MsoNormal" style="text-align:justify; margin-top:0; margin-bottom:0">
+<font size="3" face="Arial">The convention used for 32 bit Windows splits the 
+remaining 6 registers where 3 can be freely modified while the other 3 must 
+be preserved. The registers must be preserved are EBX, ESI and EDI.&nbsp; The 
+remaining 3 are ECX, EDX and EAX and they can be freely modified within the 
+function that is using them.&nbsp; The typical Windows’s assembly will look 
+like this:</font></p>
+<blockquote>
+<p class="MsoNormal" style="margin:0; "><font size="3" color="#0000FF">
+<span style="font-family: Courier New">...</span></font></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">push ebx</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">push esi</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">push edi</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">; here should be codes that uses</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">; the EBX, ESI and EDI</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:#008000">
+<font size="3">;</font></span></p>
+<p class="MsoNormal" style="margin:0; ">&nbsp;</p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">pop edi</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">pop esi</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">pop ebx</font></span></p>
+<p class="MsoNormal" style="margin:0; ">
+<span style="font-family:&quot;Courier New&quot;;color:blue">
+<font size="3">ret</font></span></p>
+</blockquote>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">When you call a Windows API function, you can assume 
+that the function will also preserve EBX, ESI and EDI but it can also freely 
+modify EAX, ECX and EDX so that if you have any values in these registers that 
+must remain the same after the API call has been made, you must also preserve 
+them as well. In assembly, if your code design requires an API call and you 
+need to use EBX, ESI and EDI, it is efficient coding to use any of EBX, ESI 
+and EDI as counters as you can assume that they are preserved in the API call.&nbsp; 
+This should reduce the stack overhead of repeatedly saving and restoring registers 
+in loop code.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin-top: 0; margin-bottom: 0"><span style="font-weight: 400">
+<span style="font-family:Arial;text-transform:uppercase"><font size="4">The</font></span><font size="4"><span style="font-family:Arial">
+</span><font face="Courier New">__stdcall</font></font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">The </font><font size="3">
+<span style="font-family:&quot;Arial&quot;">__stdcall</span><font face="Arial"> 
+convention is mainly used by the Windows API, and it’s more compact than
+</font><span style="font-family:&quot;Arial&quot;">__cdecl</span><font face="Arial">.&nbsp; 
+The main difference is that any given function has a hard-coded set of parameters, 
+and this cannot vary from function call to other function call like variadic 
+functions (in C) such as </font><span style="font-family:&quot;Arial&quot;">
+printf()</span></font><font size="3" face="Arial">.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Because the size of the parameter block is fixed, 
+the burden of cleaning these parameters off the stack can be shifted to the 
+callee, instead of being done by the caller as in </font><font size="3">
+<span style="font-family:&quot;Arial&quot;">__cdecl</span></font><font size="3" face="Arial">.&nbsp; 
+The effects of this may include:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<ol style="margin-top:0mm" start="1" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">The 
+code is a little bit smaller, because the parameter-cleanup code is found 
+once that is in the callee function itself rather than in every place the 
+function is called.&nbsp; These may only a few bytes per call, but for commonly/frequently 
+used functions it can add up.&nbsp; Smaller code may run faster as well.</font></p>
+</li>
+</ol>
+<ol style="margin-top:0mm" start="2" type="1">
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">Since 
+the number of parameters is known at compile time, calling any function 
+with the wrong number of parameters is a problem.&nbsp; However, this problem 
+has been overcome by compilers such as encoding the parameter byte count 
+in the decorated name itself as explained before and this means that calling 
+the function with wrong number of parameters (size) will lead to a link 
+error.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin-top: 0; margin-bottom: 0"><span style="font-weight: 400">
+<font size="4" face="Arial">THE GCC AND C CALLING CONVENTION - STANDARD STACK 
+FRAME</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Arguments passed to a C function are pushed onto 
+the stack, <b>right to left</b>, before the function is called. The first thing 
+the called function does is push the EBP register, and then copy ESP into it. 
+This creates a new data structure normally called the C stack frame.&nbsp; Simplified 
+example of the steps is given in Table 7.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<div align="center">
+<table class="MsoNormalTable" style="width: 59%; border-collapse: collapse; border: medium none;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td style="width: 60%; border: 1pt solid windowtext; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">Steps</font></span></b></p>
+</td>
+<td style="border-right: 1pt solid windowtext; border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: windowtext windowtext windowtext -moz-use-text-color; width: 35%; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">32-bit code/platform</font></span></b></p>
+</td>
+</tr>
+<tr>
+<td style="border-left: 1pt solid windowtext; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; width: 60%; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Create standard stack frame, allocate 
+32 bytes for local variables and buffer, save registers.</font></p>
+</td>
+<td style="width: 35%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">push ebp</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">mov  ebp, esp</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">sub  esp, 0x20</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">push edi</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">push esi</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">...</span></font></pre>
+</td>
+</tr>
+<tr>
+<td style="border-left: 1pt solid windowtext; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; width: 60%; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Restore registers, destroy stack frame, 
+and return.</font></p>
+</td>
+<td style="width: 35%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">...</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">pop esi</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">pop edi</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">mov esp, ebp</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">pop ebp</span></font></pre>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3"><span style="color:#FF0000">ret</span></font></pre>
+</td>
+</tr>
+<tr>
+<td style="border-left: 1pt solid windowtext; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; width: 60%; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Size of slots in stack frame, that is 
+the stack width.</font></p>
+</td>
+<td style="width: 35%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;">
+<font size="3" color="#FF0000">32 bits</font></span></p>
+</td>
+</tr>
+<tr>
+<td style="border-left: 1pt solid windowtext; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; width: 60%; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">Location of stack frame slots.</font></p>
+</td>
+<td style="width: 35%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" color="#FF0000">
+<span style="font-family: Courier New">...</span></font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;color:#FF0000">
+<font size="3">[ebp + 12]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;color:#FF0000">
+<font size="3">[ebp + 8]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;color:#FF0000">
+<font size="3">[ebp + 4]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;color:#FF0000">
+<font size="3">[ebp + 0]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Courier New&quot;;color:#FF0000">
+<font size="3">[ebp – 4]</font></span></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" color="#FF0000">
+<span style="font-family: Courier New">...</span></font></p>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="width: 73%; border: medium none; padding: 0mm 5.4pt;">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Table 2: gcc and C function call.</font></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">If an argument passed to a function is wider than 
+the width of the stack slot, it will occupy more than one slot in the stack 
+frame.&nbsp; For example a 64-bit value passed to a function such as </font>
+<font size="4"><tt>long long</tt></font><font size="3" face="Arial"> or
+</font><tt><font size="3">double</font></tt><font size="3"><font face="Arial"> 
+will occupy 2 stack slots in 32-bit code or 4 stack slots in 16-bit code.&nbsp; 
+Then, the function arguments are accessed with <b>positive offsets</b> from 
+the EBP registers.&nbsp; Local variables are accessed with <b>negative offsets</b>.&nbsp; 
+The previous value EBP is stored at </font>
+<span style="font-family:&quot;Arial&quot;">[ebp + 0]</span><font face="Arial">.&nbsp; 
+The return address (EIP) is stored at </font>
+<span style="font-family:
+
+&quot;Arial&quot;">[ebp + 4]</span></font><font size="3" face="Arial">.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin:0 0mm;">
+<span style="text-transform:uppercase; font-weight:400">
+<font size="4" face="Arial">GCC AND C calling convention – THE return values</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">A C function usually stores its return value in 
+one or more registers.&nbsp; It is summarized in the following table.</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<div align="center">
+<table class="MsoNormalTable" style="width: 44.62%; border-collapse: collapse; border: medium none;" width="44%" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td style="width: 45.98%; border: 1pt solid windowtext; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;" width="45%">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">Size</font></span></b></p>
+</td>
+<td style="width: 54.02%; border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: windowtext windowtext windowtext -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; background: none repeat scroll 0% 0% rgb(230, 230, 230); padding: 0mm 5.4pt;" width="54%">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<b><span style="font-family:Arial"><font size="3">32-bit code/platform</font></span></b></p>
+</td>
+</tr>
+<tr>
+<td style="width: 45.98%; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" valign="top" width="45%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">8-bit return value</font></p>
+</td>
+<td style="width: 54.02%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;" valign="top" width="54%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Arial&quot;"><font size="3">AL</font></span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 45.98%; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" valign="top" width="45%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">16-bit return value</font></p>
+</td>
+<td style="width: 54.02%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;" valign="top" width="54%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Arial&quot;"><font size="3">AX</font></span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 45.98%; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" valign="top" width="45%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">32-bit return value</font></p>
+</td>
+<td style="width: 54.02%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;" valign="top" width="54%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Arial&quot;"><font size="3">EAX</font></span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 45.98%; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" valign="top" width="45%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">64-bit return value</font></p>
+</td>
+<td style="width: 54.02%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;" valign="top" width="54%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:&quot;Arial&quot;"><font size="3">EDX:EAX</font></span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 45.98%; border-right: 1pt solid windowtext; border-width: medium 1pt 1pt; border-style: none solid solid; border-color: -moz-use-text-color windowtext windowtext; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; padding: 0mm 5.4pt;" valign="top" width="45%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">128-bit return value</font></p>
+</td>
+<td style="width: 54.02%; border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: -moz-use-text-color windowtext windowtext -moz-use-text-color; padding: 0mm 5.4pt;" valign="top" width="54%">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">hidden pointer</font></p>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="width: 100%; border: medium none; padding: 0mm 5.4pt;" width="100%">
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">&nbsp;</p>
+<p class="MsoNormal" style="text-align:center; margin-top:0; margin-bottom:0" align="center">
+<font size="3" face="Arial">Table 3: C function return value storage.</font></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<h1 style="margin:0 0mm;">
+<span style="text-transform:uppercase; font-weight:400">
+<font size="4" face="Arial">GCC and C calling convention - saving registers</font></span></h1>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">GCC expects functions to preserve the following 
+callee-save registers:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">&nbsp;&nbsp;&nbsp;     <span lang="DE">EBX, EDI, ESI, EBP, DS, ES, SS</span></font></pre>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">You need not save the following registers:</font></p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<pre style="margin-top: 0; margin-bottom: 0"><font size="3" face="Arial">&nbsp;&nbsp;&nbsp;     EAX, ECX, EDX, FS, GS, EFLAGS, floating point registers</font></pre>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">
+<font size="3" face="Arial">In some operating systems, FS or GS segment registers 
+may be used as a pointer to thread local storage (TLS), and must be saved if 
+you need to modify it.</font></p>
+<p class="MsoNormal" style="text-align:justify; margin-top:0; margin-bottom:0">&nbsp;</p>
+<p class="MsoNormal" style="text-align:justify; margin-top:0; margin-bottom:0">&nbsp;</p>
+<h1 style="margin-top: 0; margin-bottom: 0">
+<span style="font-family:Arial; font-weight:400"><font size="4">Further reading and digging:</font></span></h1>
+<p class="MsoNormal" style="text-align:justify; margin-top:0; margin-bottom:0">&nbsp;</p>
+<ol style="margin-top:0mm" start="1" type="1">
+<li class="MsoNormal" style="text-align:justify">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://msdn.microsoft.com/" target="_blank">
+<font color="#0000FF" face="Arial"><span style="text-decoration: none">
+<font size="3">Visual studio/C++ .Net</font></span></font></a><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://www.drpaulcarter.com/pcasm/" target="_blank">
+<span style="color:blue; text-decoration:none">
+<font size="3" face="Arial">Assembly language tutorial using NASM (Netwide)</font></span></a><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://webster.cs.ucr.edu/" target="_blank">
+<span style="color:blue; text-decoration:none">
+<font size="3" face="Arial">The High Level Assembly (HLA) language</font></span></a><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://asm.sourceforge.net/" target="_blank">
+<span style="color:blue; text-decoration:none">
+<font size="3" face="Arial">Linux based assembly language resources</font></span></a><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal" style="text-align:justify">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://gcc.gnu.org/" target="_blank">
+<font color="#0000FF" face="Arial"><span style="text-decoration: none">
+<font size="3">gcc</font></span></font></a><font size="3" color="#0000FF" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal" style="text-align:justify">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://www.gnu.org/software/gdb/gdb.html" target="_blank">
+<font color="#0000FF" face="Arial"><span style="text-decoration: none">
+<font size="3">gdb</font></span></font></a><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<span style="color:blue; text-decoration:none">
+<font size="3" face="Arial">
+<a target="_blank" style="font-family: Verdana;" href="http://www.intel.com/products/processor/manuals/index.htm">
+IA-32 and IA-64 Intel® Architecture Software Developer's Manuals/documentation 
+and downloads</a></font></span><font size="3" face="Arial">.</font></p>
+</li>
+<li class="MsoNormal">
+<p style="margin-top: 0; margin-bottom: 0">
+<a href="http://www.x86.org/intel.doc/" target="_blank">
+<span style="color:blue; text-decoration:none">
+<font size="3" face="Arial">Another Intel microprocessor resources and download</font></span></a><font size="3" face="Arial">.</font></p>
+</li>
+</ol>
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0" align="left">
+</p><p style="margin: 0" align="left">&nbsp;</p>
+<p style="margin: 0" align="left">&nbsp;</p>
+<p style="margin: 0" align="left">&nbsp;</p>
+<p style="margin: 0" align="left">&nbsp;</p>
+<p style="margin: 0" align="left">&nbsp;</p><center><script src="The%20C%20Function%20Stack_files/getjs_002.js"></script><div id="cw_td_4311432" style="height: 0pt; width: 0pt; display: none;"></div><script type="text/javascript" src="The%20C%20Function%20Stack_files/GetAd.js"></script><iframe src="The%20C%20Function%20Stack_files/cm_002.html" border="0" marginwidth="0" style="border: medium none;" scrolling="no" width="728" frameborder="0" height="90"></iframe><div style="display:none;width:0;height:0"><script>var _comscore = _comscore || [];_comscore.push({ c1: "8", c2: "2102", c3: "90", c4: "", c5: "", c15: "", c16: "" });(function() {var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";el.parentNode.insertBefore(s, el);})();</script><noscript><img src="http://b.scorecardresearch.com/p?c1=8&c2=2102&c3=90&c4=&c5=&c6=&c15=&c16=&cv=2.0&cj=1" /></noscript></div><div style="display:none;width:0;height:0"><iframe src="The%20C%20Function%20Stack_files/p-01-0VIaSjnOLg_003.gif" marginwidth="0" marginheight="0" allowtransparency="true" scrolling="NO" width="0" frameborder="0" height="0"></iframe></div>
+</center>
+<hr color="#FF0000" noshade="noshade">
+<p class="MsoNormal" style="margin-top: 0; margin-bottom: 0" align="center"><script type="text/javascript"><!--
+google_ad_client = "pub-8089415323104206";
+/* 728x15, created 5/28/08buffoberplow */
+google_ad_slot = "8777226402";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+</script>
+&nbsp;<script type="text/javascript" src="The%20C%20Function%20Stack_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><ins id="aswift_3_anchor" style="display:block;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_3" name="aswift_3" style="left: 0pt; position: absolute; top: 0pt;" scrolling="no" width="728" frameborder="0" height="15"></iframe></ins></ins></p>
+<h1 style="margin-top: 0; margin-bottom: 0" align="center">
+<span style="font-weight: 400"><font size="5" face="Arial">| 
+<a target="_top" href="http://www.tenouk.com/">C &amp; C++ Programming</a> | 
+<a title="C &amp; C++ function operation &amp; buffer overflow exploits" target="_top" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow2.html">
+&lt; C Process Memory Layout &amp; Function Call</a> 
+| 
+<a title="The buffer overflow vulnerability and exploit tutorial with C code programming and exploit example" target="_top" style="color: blue;" href="http://www.tenouk.com/cncplusplusbufferoverflow.html">
+BOF Main Page</a> 
+| 
+<a title="How C &amp; C++ stack operates" target="_top" href="http://www.tenouk.com/Bufferoverflowc/Bufferoverflow3.html">
+C Function Call &amp; Stack Frame &gt;</a> 
+| 
+<a title="The stack-based buffer overflow vulnerability and exploit tutorial with C code and Linux Fedora OS example" target="_top" href="http://www.tenouk.com/Bufferoverflowc/stackbasedbufferoverflow.html">Buffer Overflow Revisited</a> |</font></span></h1>
+<p style="margin-top: 0; margin-bottom: 0" align="center"><font style="margin-top: 0; margin-bottom: 0" align="center" face="Arial">
+<script type="text/javascript" language="javascript">
+
+var sc_project=443642; 
+
+var sc_partition=2; 
+
+var sc_security=""; 
+
+var sc_invisible=1; 
+
+</script>
+<script type="text/javascript" language="javascript" src="The%20C%20Function%20Stack_files/counter.js"></script>
+<noscript><a href="http://www.statcounter.com/" target="_blank">
+
+<img src="http://c3.statcounter.com/counter.php?sc_project=443642&java=0&security=&invisible=1" alt="web page hit counter" border="0" />
+	
+	
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</a> </noscript></font></p>
+</div>
+
+
+
+</body></html>

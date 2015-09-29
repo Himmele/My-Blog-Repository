@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_2.htm -->
+<HTML><HEAD><TITLE>Windows 95 und Protected Mode</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 
+background="Windows 95 und Protected Mode-Dateien/stone.jpg">
+<H1><FONT color=#800000>5.2 Windows 95 und Protected Mode</FONT></H1>
+<P>Im Gegensatz zu Windows 3.x unterstützt Windows 95 den 80386-Protected Mode 
+mit allen seinen Vorteilen. Das bringt für die Programmierung erhebliche 
+Erleichterungen mit sich: Unterstützung von 32-Bit Zeigern für Anwendungen 
+(keine Segment:Offset Zeiger mehr), echtes "pre-emptives" Multitasking, 
+Verwendung des Schutzkonzeptes zur Sicherung von Anwendungen und dem 
+Betriebssystemkern.</P>
+<H2><FONT color=#000080>Begriffe</FONT></H2>
+<P>Im "Wortschatz" von Windows 95 tauchen unter anderem die folgenden Begriffe 
+auf: </P>
+<UL>
+  <LI><B>Prozeß:</B> (Alle zu einer Anwendung gehörenden Ressourcen) 
+  <UL>
+    <LI>Adressraum der Anwendung (inkl. Pagetables und Deskriptortabellen) 
+    <LI>Physikalischer Speicher (für CODE, DATEN und STACK) 
+    <LI>Kommandozeile 
+    <LI>Umgebungsvariablen 
+    <LI>Arbeitsverzeichnis 
+    <LI>Dateien und Speicherbereiche, die die Anwendung über API-Funktionen in 
+    ihren Besitz bringt </LI></UL>
+  <LI><B>Thread:</B> (Ausführungseinheiten, symbolisieren den Ablauf einer 
+  Anwendung) 
+  <UL>
+    <LI>jeder Prozeß besitzt mindestens einen Thread ("primary thread"), mit dem 
+    die Prozeßausführung beginnt 
+    <LI>besitzen eigenen Stack 
+    <LI>können über API-Funktionen angefordert werden 
+    <LI>alle Threads eines Prozeßes teilen sich die Ressourcen dieses einen 
+    Prozesses 
+    <LI>sind untereinander streng getrennt (selbst Threads des gleichen Prozeßes 
+    können nicht aufeinander zugreifen) </LI></UL></LI></UL>
+<H2><FONT color=#000080>Multitasking</FONT></H2>
+<P>Multitasking unter Windows 95 findet auf Thread-Ebene statt, d.h. der 
+Prozessor wechselt zwischen einzelnen Threads (nicht etwa Prozessen). 
+Multitasking ist "pre-emptiv", der Programmcode eines Threads kann an beliebiger 
+Stelle unterbrochen und bei Bedarf wieder fortgesetzt werden. </P>
+<H2><FONT color=#000080>Speicherverwaltung</FONT></H2>
+<P>Die Speicherverwaltung von Windows stellt jeder Anwendung (bzw. jedem Prozeß) 
+einen maximal 4 GB großen, linearen Speicherbereich zur Verfügung. Die Anwendung 
+kann dann ohne die Probleme von 64 KB großen Segmenten beliebig (unter Nutzung 
+von 32Bit-Zeigern) in diesem Speicherbereich auf Daten oder Programmcode 
+zugreifen. Damit dieser Anwendung überhaupt ein so großer Adressraum zur 
+Verfügung gestellt werden kann (die meisten PC besitzen nun einmal keinen 4GB 
+großen physischen Hauptspeicher), muß die virtuelle Speicherverwaltung des 
+Prozessors, das "Paging" benutzt werden. Nicht benötigte Speicherbereiche können 
+so auf die Festplatte ausgelagert werden und erlauben es Windows 95, Programme 
+auszuführen, die mehr Speicher benutzen als physisch vorhanden ist. Dazu werden 
+bei der Initialisierung einer Anwendung (bzw. eines Prozesses) nur die 
+Speicherseiten in den Pagetables als benutzt gekennzeichnet, die tatsächlich mit 
+Programmcode oder Daten belegt sind. Alle anderen Seiten des 4 GB Adressraums 
+erhalten das Attribut: not_present (Vgl. <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">3 Spezielle 
+Protected Mode Funktionen, Paging</A>) und lösen bei einem Zugriffsversuch der 
+Anwendung auf die Seite eine Exception aus. Windows 95 kann dann prüfen, ob es 
+sich bei dem Zugriff um einen Fehler des Programmes handelt oder ob es 
+Speicherseiten aus der Auslagerungsdatei (von der Festplatte) in den Speicher 
+laden muß.</P>
+<P>Ein weiterer Vorteil des Paging besteht in der Möglichkeit, mehreren 
+Prozessen den (Lese-) Zugriff auf den gleichen Speicherbereich zu gestatten. Der 
+Systemkern kann durch das Paging eine Speicherseite über die Pagetables in den 
+Adressraum von mehreren Prozessen einblenden. Das hat zur Folge, daß mehrere 
+Prozesse ohne ihr Wissen auf ein- und dieselbe Page zugreifen!</P>
+<P>Solange nur lesend auf eine solche Page zugegriffen wird bzw. der Inhalt der 
+Page als Programmcode interpretiert und ausgeführt wird, entstehen dadurch auch 
+keine Probleme. Ein Schreibzugriff darf aber auf keinen Fall möglich sein, da 
+sich dadurch mehrere Prozesse gegenseitig im Speicher überschreiben würden!</P>
+<H2><FONT color=#000080>Memory Mapped Files (MMF)</FONT></H2>
+<P>Ein weiteres Konzept der virtuellen Speicherverwaltung, das unter Windows 95 
+zur Anwendung kommt, sind die sogenannten Memory Mapped Files 
+(Speicherabbilddateien). Bei diesem Konzept kann eine Datei auf den virtuellen 
+Speicher abgebildet werden. Für ein Anwendungsprogramm scheint es dann so, als 
+ob die entsprechende Datei komplett im Speicher steht. Das ist jedoch nicht der 
+Fall. Obwohl der Speicherbereich innerhalb der Pagetables als belegt 
+gekennzeichnet wurde, sind die entsprechenden Seiten als nicht-present 
+gekennzeichnet. Versucht das Anwendungsprogramm auf eine, als nicht-present 
+gekennzeichnete Seite zuzugreifen, ist eine Exception die Folge. Der 
+entsprechende Exceptionhandler kann dann den Inhalt der betroffenen 
+Speicherseiten aus der Datei nachladen, die Seiten als "present" kennzeichnen 
+und die Ausführung des entsprechenden Programms fortsetzen.</P>
+<P>Das MMF-Konzept bringt natürlich eine erhebliche Erleichterung bei der Arbeit 
+mit Dateien mit sich. Denn durch die MMF ist der Zugriff auf Dateien genauso 
+einfach durchführbar wie die Arbeit mit Feldern (Arrays). Anwendung kann das 
+MMF-Prinzip auch beim Laden von Programmen finden. Dabei bildet der 
+Programm-Loader das auszuführende Programm selbst als Speicherbereich ab. Wird 
+die Ausführung des Programmcodes gestartet, löst der Programmcode beim 
+Durchlaufen von noch nicht geladenen Seiten Exceptions aus. Diese können 
+wiederum vom Exceptionhandler genutzt werden, um die entsprechenden Seiten 
+nachzuladen. Programmteile, die nie genutzt werden, müssen durch die MMF auch 
+nie geladen werden. Hinzu kommt, daß ein schnellerer Start der 
+Anwendungsprogramme ermöglicht wird.</P>
+<H2><FONT color=#000080>Aufbau des Adressraums</FONT></H2>
+<P>Die Ablaufsteuerung (Scheduler) in Windows 95 sorgt dafür, daß die 
+Adressräume der einzelnen Prozesse in den gleichen linearen Adressraum von 
+Windows 95 eingeblendet werden. Abbildung 5.1 zeigt diesen Adressraum und 
+beschreibt die dabei durchgeführte Aufteilung in unterschiedliche 
+Systemkomponeten.</P>
+<CENTER>
+<P><IMG alt="Adressraum Win 95" 
+src="Windows 95 und Protected Mode-Dateien/w_5_1.gif" border=2> <BR><I><B>Abb. 
+5.1</B> Adressraum von Windows 95</I> </P></CENTER>
+<H2><FONT color=#000080>Protected Mode Schutzkonzept</FONT></H2>
+<P>Wie es sich für ein im Protected Mode arbeitendes Betriebssystem gehört, 
+benutzt Windows 95 natürlich auch die Schutzmechanismen des Protected Mode. 
+Dabei werden jedoch nur 2 der 4 möglichen Privilegstufen des Prozessors 
+unterstützt (Vergleiche Kapitel 2 Protected Mode Einführung). In Ring 0, der am 
+höchsten privilegierten Stufe, wird der eigentliche Betriebssystemkern 
+ausgeführt. Andere Betriebssystemkomponeten und Anwendungen laufen in Ring 3. 
+Dadurch, daß es nur einem Programm in Ring 0 möglich ist, auf alle 
+Systemkomponenten zuzugreifen (z.B. I/O Ports), kann es auch die Kontrolle über 
+die Anwendungsprogramme behalten. Ein Anwendungsprogramm kann sich damit zwar 
+selbst zum Absturz bringen, der Systemkern bleibt jedoch (bei entsprechender 
+Programmierung) stabil, denn dafür sorgt bereits der Prozessor.</P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/w_1.htm"><IMG alt=Zurück 
+src="Windows 95 und Protected Mode-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/komplex1.htm"><IMG 
+alt=Weiter src="Windows 95 und Protected Mode-Dateien/arrowr.gif" align=right 
+border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#pmode_w"><IMG 
+alt="Zum Index" src="Windows 95 und Protected Mode-Dateien/index.gif" border=0 
+name=index></A> </CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

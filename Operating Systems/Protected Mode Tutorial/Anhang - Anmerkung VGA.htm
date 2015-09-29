@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/vga.htm -->
+<HTML><HEAD><TITLE>Anmerkung: VGA</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Anmerkung VGA-Dateien/stone.jpg">
+<H1><FONT color=#800000>Anmerkung: VGA</FONT></H1>
+<P>Der VGA-Modus 13h gilt als Standard-Grafikmodus. Er erlaubt es, 320x200 Pixel 
+in 256 Farben darzustellen, wobei die einzelnen Bildpunkte als Bytewerte 
+innerhalb des Segmentes A000h angesprochen werden können. Der Speicher arbeitet 
+dabei linear, d.h. jeder Bytewert korrespondiert mit einem Bildpunkt auf dem 
+Bildschirm. Für den gesamten Bildschirm (320*200 Pixel) wird daher ein 
+Speicherbereich von 320*200=64000 Byte benötigt. Der Bildschirmbereich dehnt 
+sich von der linken oberen Ecke mit den Koordinaten (0,0) (=Index 0 im 64000 
+Byte großen Array) bis zur rechten unteren Ecke mit den Koordinaten (320, 200) 
+(= Index 63999 im 64000 Byte großen Array) linear aus. Aufgrund dieser linearen 
+Adressierung kann über eine einfache Formel jeder Punkt innerhalb des 
+Bildschirms adressiert werden.</P><PRE><B>Setze Punkt mit den Koordinaten X, Y in der Farbe C: </B>
+<I>    mem [A0000h + 320*Y+X] := C bzw. im Realmode (Segment:Offset)
+    mem [A000h:320*Y+X] := C</I>
+</PRE>
+<P>Der Grafikmodus 13h kann über die Funktion 0 (AH=0) des BIOS-Interrupt 10h 
+initialisiert werden. Dabei muß AL die Nummer des Grafikmodus enthalten, in 
+diesem Beispiel also 13h.</P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Anmerkung VGA-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%"><PRE><I> ; init mode 13h
+
+     mov ah,0
+     mov al,13h
+     int 10h
+
+ ; ab hier im Grafikmodus ...
+ ; deinit mode 13h (entspricht Einschalten des Textmodus)
+
+     mov ah,0
+     mov al,3                ; Nummer des Textmodus
+     int 10h</I>
+</PRE></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/debug.htm"><IMG alt=Zurück 
+src="Anmerkung VGA-Dateien/arrowl.gif" align=left border=0 name=left></A> <A 
+onmouseover="touch( 'right' );" onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/code.htm"><IMG alt=Weiter 
+src="Anmerkung VGA-Dateien/arrowr.gif" align=right border=0 name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#anhang"><IMG 
+alt="Zum Index" src="Anmerkung VGA-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge, bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

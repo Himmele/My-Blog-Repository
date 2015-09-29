@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://www.fh-zwickau.de/doc/prmo/pmtutor/code/pmode/debug_04.c -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>/*
+** DEBUG_04.C - Schreibzugriff auf eine Variable abfangen, den Wert der 
+**              Variablen ausgeben und das Programm fortsetzen
+**
+** Erste Version:     26.08.97
+** Letze Änderungen:  17.09.97
+**
+** (c) Copyright 1997 by Jens Hohmuth. All rights reserved.
+** email: Jens.Hohmuth@fh-zwickau.de
+*/
+
+#include "pmode.h"
+
+int global_test;
+
+void main (void)
+	{
+    int i;
+
+    // Debug-Register 1, Datenzugriff auf DWORD Variable global_test!
+    set_drx (1, ACCESS_WRITE, ACCESS_DWORD, (void*)(dslin2rel(&amp;global_test)));
+
+    // Text
+    print (10, 10, "Schreibzugriffs-Test ...", 0x0a);
+
+    // Folgende Anweisung sollte Debug-Interrupt 1 auslösen.
+    for (i=0; i&lt;0x54321; i++)
+        {
+        global_test++;
+        }
+
+    // Text
+    print (10, 12, "Ende ...", 0x0a);
+
+    // Debug-Register Reset, sonst werden auch unter DOS Debugger-Interrupts
+    // beim Zugriff auf die festgelegten Adressen ausgelöst (Endet meistens
+    // im Absturz des Rechners)
+    reset_drx ();
+	}
+</PRE></BODY></HTML>

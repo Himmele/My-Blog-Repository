@@ -1,0 +1,482 @@
+body, #contents, #adcHeader {
+    min-width: 550px;
+}
+
+#breadcrumbs {
+    min-width: 578px;
+}
+
+#header {
+    min-width: 598px;
+    position: absolute;
+    z-index: 900;
+    top: 35px;
+    left: 0px;
+    right: 0px;
+    height: 45px;
+}
+
+#header.noADC {
+    top: 0px;
+}
+
+#header #title {
+    height: 25px;
+    background: #29334F url("../Images/header_toc/title_background.png") repeat-x;
+    border-bottom: 1px solid #B6B6B6;
+    overflow: hidden;
+}
+
+#header h1 {
+    margin: 0px;
+    padding: 3px 0px 2px 0px;
+    font-size: 11pt;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: rgb(213, 213, 213) 0px 1px 0px;
+    white-space: nowrap;
+}
+
+#file_links {
+    float: right;
+    position: relative;
+    top: -22px;
+    width: 150px;
+}
+
+#PDF_link, #Companion_link{
+    float: right;
+    margin: 4px 3px 0px 0px;
+    height: 20px;
+}
+
+#PDF_link a img, #Companion_link a img{
+    vertical-align: sub;
+    margin: 0px 2px 0px 2px;
+    border: none;
+}
+
+#PDF_link a, #Companion_link a{
+    color: black;
+    padding: 2px 5px 2px 5px;
+    -webkit-border-radius: 9px;
+    text-decoration: none;
+}
+
+#PDF_link a:hover, #Companion_link a:hover{
+    background: url("../Images/header_toc/pdf_companion_hover.png");
+}
+
+#PDF_link a:active, #Companion_link a:active{
+    background: url("../Images/header_toc/pdf_companion_active.png");
+}
+
+#headerButtons {
+    position: absolute;
+    list-style: none outside;
+    top: 26px;
+    left: 0px;
+    right: 0px;
+    margin: 0px;
+    padding: 0px;
+    border-top: 1px solid #2B334F;
+    border-bottom: 1px solid #EDEDED;
+    height: 28px;
+    font-size: 8pt;
+    overflow: hidden;
+    background-color: #D8D8D8;
+    background-image: url("../Images/header_toc/button_bar_background.png");
+}
+
+#headerButtons li {
+    display: inline;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin-top: 0px;
+}
+
+#page_buttons button {
+    height: 19px;
+    width: 25px;
+    border: none;
+    margin-top: 5px;
+    background: none;
+}
+
+#page_buttons button:disabled {
+    opacity: 0.5;
+}
+
+button#nextPage {
+    background-image: url("../Images/header_toc/next_button.png");
+    position: relative;
+    left: -10px;
+}
+
+button#previousPage {
+    background-image: url("../Images/header_toc/previous_button.png");
+    left: -7px;
+    position: relative;
+}
+
+button#nextPage:active {
+    background-image: url("../Images/header_toc/next_button_active.png");
+}
+
+button#previousPage:active {
+    background-image: url("../Images/header_toc/previous_button_active.png");
+}
+
+#headerButtons select{
+    height: 22px;
+    margin: 5px 2px 0px 10px;
+}
+
+li#toc_button button {
+    background: url("../Images/header_toc/triangle_closed.png") no-repeat;
+    background-position: 4px 8px;
+    text-align: left;
+    padding-left: 15px;
+    width: 230px;
+    height: 28px;
+    margin: 0px;
+    border: none;
+    border-right: 1px solid #ACACAC;
+    
+}
+
+li#toc_button button.open {
+    background-image: url("../Images/header_toc/triangle_open.png");
+}
+
+li#jumpto_button {
+    position: absolute;
+    left: 230px;
+    margin-left: 0em;
+}
+
+li#page_buttons {
+    position: absolute;
+    right: 0px;
+}
+
+#tocContainer #toc ul {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 5px 0px 5px;
+}
+
+#tocContainer #toc li {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 20px;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#tocContainer #toc li.topic {
+    padding: 0px 0px 7px 20px;
+}
+
+#tocContainer #toc li.articles li.topic {
+    padding: 0px 0px 7px 0px;
+}
+
+#tocContainer #toc ul.docList {
+    padding: 0px 5px 0px 10px;
+}
+
+#tocContainer #toc ul.relatedRefLang, #toc ul.relatedDocuments, #toc ul.relatedSampleCode, #toc ul.relatedResources, #toc ul.relatedBindings {
+    padding: 0px 5px 0px 0px;
+    margin: 0px 0px 0px -10px;
+}
+
+#tocContainer #toc ul.docList li.section {
+    padding: 0px 0px 0px 0px;
+}
+
+#tocContainer #toc ul.docList li.related h4.toc {
+    padding: 1px 0px 0px 0px;
+}
+
+#tocContainer #toc h4.relatedRefLang {
+    margin: 0px 0px 7px -20px;
+    font-size: 9px;
+}
+
+#tocContainer #toc span.sectionName div {
+    margin: 0px 0px 7px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#tocContainer {
+    position: absolute;
+    top: 91px;
+    bottom: 19px;
+    left: 0px;
+    width: 229px;
+    display: none;
+    overflow: hidden;
+    border-top: 1px solid #2B334F;
+    background-color: #E4EBF7;
+}
+
+#tocContainer.isShowingTOC {
+    display: block;
+    /* width: 229px; */
+    border-right: 1px solid #ACACAC;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0px 0px 0px 0px;
+}
+
+#tocContainer #toc {
+    width: 209px;
+    margin: 0px 0px 0px 0px;
+    padding: 12px 0px 18px 0px;
+    font-size: 11px;
+}
+
+#tocContainer #toc .currentLocation {
+    text-decoration: underline;
+}
+
+#tocContainer.noADC {
+    top: 56px;
+}
+
+#tocContainer.noBreadcrumbs {
+    bottom: 0px;
+}
+
+#tocContainer #toc h3, #toc h4 {
+    margin: 0px 0px 7px -10px;
+    font-size: 11px; 
+}
+
+#tocContainer #toc h3.head {
+    margin: 0px 0px 7px 10px;
+}
+
+#tocContainer #toc li h3 {
+    margin: 7px 0px 7px -5px;
+}
+
+#tocContainer #toc li.children {
+    padding: 0px 0px 7px 20px;
+    background: url("../Images/header_toc/triangle_closed.png") no-repeat;
+    background-position: 5px 1px;
+}
+
+#tocContainer #toc li.children.open {
+    background-image: url("../Images/header_toc/triangle_open.png");
+}
+
+#tocContainer #toc span.sectionName a, #toc .intro a, #toc li.topic a{
+    font-weight: bold;
+    color: #000;
+}
+
+#tocContainer #toc .collapsible {
+    margin: 2px 0px 2px 0px;
+    padding: 0px;
+}
+
+#tocContainer #toc .entry_2 {
+    padding: 3.5px 0px 3.5px 0px;
+}
+
+#tocContainer #toc .list_3 {
+    padding-left: 15px;
+}
+
+#tocContainer #toc .list_4, #toc .list_5 {
+    padding-left: 30px;
+}
+
+#tocContainer #toc li.entry_3{ 
+	padding: 2px 0px 2px 9px;
+}
+
+#tocContainer #toc li.entry_4, #toc li.entry_5  {
+    padding: 2px 0px 2px 14px;
+}
+
+#tocContainer #toc h3, #toc h4, #toc h5 {
+    color: #4f4f4f;
+}
+
+#tocContainer #toc .entry_2 a, #toc .topic a, #toc ul.docList li.section span.sectionName div a{
+    font-weight: bold;
+    color: #4f4f4f;
+}
+
+#tocContainer #toc li.articles ul li.topic a {
+    font-weight: bold;
+    color: #000;
+}
+
+#tocContainer #toc .entry_3 a,  #toc .entry_4 a, #toc .entry_5 a{
+    font-weight: normal;
+    color: #4f4f4f;
+}
+
+#tocContainer #toc li.related ul.docList li.topic {
+    padding: 0px 0px 7px 0px;
+}
+
+#tocContainer #toc ul#toc_articles {
+    padding: 7px 0px 0px 0px;
+}
+
+#tocContainer #toc li.separated {
+    margin: 7px 0px 0px 0px;
+    padding: 0px 0px 0px 10px;
+}
+
+#tocContainer #toc li.separated hr {
+    border-top: 1px solid #ACACAC;
+    border-bottom: none;
+    width: 0px;
+    opacity: 0;
+    position: absolute;
+    left: 0px;
+}
+
+#tocContainer.isShowingTOC #toc li.separated hr {
+    width: 240px;
+    opacity: 1;
+}
+
+#tocContainer #toc li.separated h3{
+    margin: 10px 0px 5px 0px;
+}
+
+#contents {
+    border-top: 1px solid #2B334F;
+    position: absolute;
+    top: 91px;
+    bottom: 19px;
+    overflow: auto;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+#contents.isShowingTOC {
+    left: 230px;
+    min-width: 320px;
+}
+
+#contents .centeredContent{
+    margin-left: auto;
+    margin-right: auto;
+    width: 680px;
+}
+
+#contents.noHeaderButtons {
+    top: 61px;
+}
+
+#contents.noADC {
+    top: 56px;
+}
+
+#contents.noHeaderButtons.noADC {
+    top: 26px;
+}
+
+#contents.noBreadcrumbs {
+    bottom: 0px;
+}
+
+#pageNavigationLinks {
+    margin-top: 1em;
+}
+
+#previousLink {
+	margin-right: 20px;
+    float: right;
+}
+
+#nextLink {
+    float: right;
+}
+
+.search-wrapper .left { display: block; position: absolute; right: 214px; top: 14px; width: 20px; height: 19px; background: url(http://images.apple.com/global/elements/prettysearch/searchfield_leftcap.png) left top no-repeat; }
+.search-wrapper .right { display: block; position: absolute; right: 33px; top: 14px; width: 10px; height: 19px; background: url(http://images.apple.com/global/elements/prettysearch/searchfield_rightcap.png) right top no-repeat; }
+.search-wrapper .reset { background:transparent url(http://images.apple.com/global/elements/prettysearch/close.gif) repeat scroll 0 0;cursor:pointer;display:block;height:11px;overflow:hidden;position:absolute;right:37px;top:19px;width:11px;z-index:1;}
+
+@media print {
+    .hideOnPrint, #toc, #tooltip, #pediaWindow {
+        display: none !important;
+    }
+    
+    body {
+        overflow: visible  !important;
+    }
+    
+    #header, #contents, #breadcrumbs {
+        position: relative;
+        border: none;
+        overflow: visible;
+    }
+    
+    #header {
+        height: 25px;
+    }
+    
+    #contents.noADC, #contents {
+        top: 0px;
+        left: 0px;
+    }
+    
+    span.pediaLink {
+        color: black !important;
+        border: none !important;
+    }
+    
+    .pediaLink a.activePedia {
+        border-bottom: none !important;
+        color: black !important;
+        background-color: inherit !important;
+        -webkit-border-radius: 0px !important;
+        -moz-border-radius: 0px !important;
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    a:link {text-decoration: none; color: black;}
+    a:visited {text-decoration: none; color: black;}
+    a:active {text-decoration: none; color: black;}
+    a:hover {text-decoration: underline; color: black;}
+}
+
+@media only screen and (max-device-width: 480px) {
+
+    #header, #contents, #breadcrumbs, #toc {
+        position: relative;
+        overflow: visible;
+    }
+
+    #tocContainer {
+        -webkit-transition-property: width;
+        -webkit-transition-duration: 0.25s;
+    }
+
+    #contents {
+        -webkit-transition-property: left;
+        -webkit-transition-duration: 0.25s;
+    }
+    
+    #tocContainer #toc li.separated hr {
+        -webkit-transition-property: width, opacity;
+        -webkit-transition-duration: 0.25s;
+    }
+    
+}

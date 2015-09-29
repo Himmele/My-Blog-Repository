@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys6.htm -->
+<HTML><HEAD><TITLE>Nutzung von XMS</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#551a8b aLink=#ff0000 link=#0000ee bgColor=#c0c0c0 
+background="Nutzung von XMS-Dateien/stone.jpg">
+<H2><FONT color=#800000>1.3.4 Nutzung von XMS</FONT></H2>
+<H2><FONT color=#000080>Einführung</FONT></H2>
+<P>Speicher oberhalb der 1 MB Grenze wird als Extended Memory bezeichnet. Dieser 
+Speicher kann jedoch von einem Prozessor im <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#realmode">Realmode</A> 
+aus dem oben bereits angegebenen Grund, Begrenzung des max. Speicherraums auf 
+1MB, nicht genutzt werden.</P>
+<P>Intel Prozessoren (ab dem 80286) kennen jedoch einen weiteren Betriebsmodus, 
+in dem der maximale Speicherbereich auf mindestens 16 MB ausgedehnt werden kann, 
+den <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#pmode">Proteced-Mode</A>. 
+Da DOS zu diesem Modus nicht kompatibel ist und sich andere, neue 
+Betriebssysteme nur schwer durchsetzen konnten, blieb dieser Modus sowie das 
+Extended Memory aufgrund fehlender Softwareschnittstellen für die meisten 
+Programme ungenutzt.</P>
+<P>(Es existieren Möglichkeiten, um auch von DOS aus auf das Extended Memory 
+zuzugreifen, z.B. Interrupt 15h Funktionen 87h-89h. Leider machen auch viele 
+Software Utilities von diesen Möglichkeiten Gebrauch, um z.B. Extended Memory 
+für eine RAM-Disk bereitzustellen. Das Ergebnis dieser unterschiedlichen und 
+relativ unkontrollierten Nutzung des Extended Memory führte zwangsläufig zu 
+Kompatibilitätsproblemen zwischen einzelnen Programmen.) </P>
+<P>Aus diesen Gründen wurde 1988 von den Firmen Lotus, Intel und Microsoft, in 
+Zusammenarbeit mit AST Research ein weiterer Standard geschaffen, der es 
+Speicherverwaltungssoftware, Utilities und Anwendungsprogrammen gleichermaßen 
+erlauben sollte, ohne Kompatibilitätsprobleme XMS-Speicher zu nutzen. </P>
+<P>Der XMS-Standard unterstützt dabei die folgenden Speicherobjekte:</P>
+<H2><FONT color=#000080>Speicherobjekte</FONT></H2>
+<UL>
+  <LI>Extended Memory Blocks (EMB), die sich im Extended Memory befinden (ab der 
+  Adresse 1088 KByte) 
+  <LI>HMA (High Memory Area), die ersten 64 KB des Extended Memory, die von der 
+  Adresse 1024 bis 1088 KByte reichen. Bei diesem Segment handelt es sich um 
+  eine Besonderheit, denn diese 64 KB können auch vom Realmodus aus angesprochen 
+  werden. Grundlage dafür ist, daß das maximal erreichbare Segment FFFFh ab 
+  seiner Offsetadresse 10h oberhalb der 1 MB Grenze liegt!<BR>(Vergleiche: 
+  FFFFh:0010h entspricht der phys. Adresse: FFFF0h + 10h = 100000h (oder 
+  1048576d = 1MB))<BR><BR>Bevor der HMA vom Realmode aus genutzt werden kann, 
+  muß die 20. Adressleitung eingeschaltet werden. Standardmäßig ist sie 
+  deaktiviert, um einen Überlauf zum Anfang des Speichers an der 1 MB Grenze zu 
+  erlauben. Der XMS-Treiber stellt nun Funktionen bereit, die diese Umschaltung 
+  vornehmen und dadurch die Verwaltung der 20. Adressleitung übernehmen. 
+</LI></UL>
+<UL>
+  <LI>
+  <P>UMB (Upper Memory Blocks) sind freie, ungenutzte Speicherblöcke, die 
+  zwischen 640 und 1024 KB liegen.</P>
+  <P>Sie werden beispielsweise unter DOS benutzt, um Gerätetreiber und sogar 
+  Teile des DOS selbst aufzunehmen, um so mehr konventionellen Speicher für 
+  Programme bereitzustellen.</P></LI></UL>
+<H2><FONT color=#000080>XMS-Treiber</FONT></H2>
+<P>Neben dem wohl bekanntesten XMS-Treiber HIMEM.SYS, der von Microsoft mit den 
+verschiedenen DOS-Versionen und auch mit Windows ausgeliefert wird, existieren 
+XMS-Treiber auch in Speicherverwaltungen für 80386- oder 80486-Rechner. 
+Beispiele dafür sind QEMM-386 von Quaterdeck oder 386-To-The-Max von Qualitas. 
+</P>
+<P>Ist ein XMS-Treiber im System verfügbar, so stehen die in Tabelle 1.1 
+dargestellten Funktionen zur Verfügung.</P>
+<CENTER>
+<TABLE width="80%" border=1>
+  <TBODY>
+  <TR vAlign=center align=middle bgColor=#8080c0>
+    <TH vAlign=center align=middle width="10%"><B>Fkt.</B></TH>
+    <TH width="90%"><B>Aufgabe</B></TH></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>00h</TD>
+    <TD>Versionsnummer ermitteln</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>01h</TD>
+    <TD>High-Memory-Area (HMA) in Besitz bringen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>02h</TD>
+    <TD>HMA freigeben</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>03h</TD>
+    <TD>Globale Aktivierung der Adressleitung A20</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>04h</TD>
+    <TD>Globale Schließung der Adressleitung A20</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>05h</TD>
+    <TD>Lokale Freigabe der Adressleitung A20</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>06h</TD>
+    <TD>Lokales Sperren der Adressleitung A20</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>07h</TD>
+    <TD>Status der Adressleitung A20 abfragen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>08h</TD>
+    <TD>Größe des freien Extended Memory abfragen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>09h</TD>
+    <TD>Allokieren eines Extended-Memory-Blocks (EMB)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Ah</TD>
+    <TD>Freigabe eines allokierten Extended-Memory-Blocks (EMB)</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Bh</TD>
+    <TD>Kopiere Speicher</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Ch</TD>
+    <TD>Sperrt einen Extended-Memory-Block (EMB) gegen seine 
+Verschiebung</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Dh</TD>
+    <TD>Gesperrten EMB entsichern</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Eh</TD>
+    <TD>Informationen über einen EMB einholen</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>0Fh</TD>
+    <TD>EMB-Größe verändern</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>10h</TD>
+    <TD>Upper Memory Block (UMB) allokieren</TD></TR>
+  <TR bgColor=#a4c8f0>
+    <TD vAlign=center align=middle>11h</TD>
+    <TD>Allokierten UMB wieder freigeben</TD></TR></TBODY></TABLE></CENTER>
+<CENTER>
+<P><I><B>Tabelle 1.1:</B> XMS-Funktionen </P></I></CENTER>
+<H2><FONT color=#000080>Prinzip des Treiberzugriffs</FONT></H2>
+<P>Im Gegensatz zum EMM werden die Funktionen eines XMS-Treibers nicht über 
+einen Interrupt, sondern über einen FAR-Call aufgerufen. Die FAR-Call Adresse 
+liefert der Interrupt 2Fh, der auch von vielen residenten Programmen, wie z.B. 
+SHARE, APPEND oder PRINT benutzt wird. </P>
+<P>Bevor die Einsprungsadresse ermittelt werden kann, muß festgestellt werden, 
+ob ein XMS-Treiber installiert wurde. Dazu wird der Interrupt 2Fh mit dem 
+Funktionscode 4300h im Register AX aufgerufen. Befindet sich ein XMS-Treiber im 
+System, so kehrt die Interruptroutine mit dem Wert 80h im Register AL zurück. 
+</P>
+<P>Konnte ein XMS-Treiber identifiziert werden, kann mit dem Wert 4310h im 
+Register AX und dem Aufruf des Interrupt 2Fh die Adresse des XMS-Treibers 
+ermittelt werden. Diese befindet sich nach Ausführung des Interrupts in den 
+Registern ES und BX. </P>
+<H2><FONT color=#000080>Funktionen</FONT></H2>
+<P>Alle obengenannten XMS-Funktionen können jetzt über die ermittelte Adresse 
+angesprochen werden. Dazu wird die Funktionsnummer grundsätzlich im Register AH 
+und andere funktionsabhängige Parameter in den übrigen Prozessor-Registern 
+übergeben.</P>
+<P>Viele XMS-Funktionen liefern in AX den Statuscode 0001h zurück, wenn sie 
+erfolgreich ausgeführt werden konnten. Trat bei der Ausführung ein Fehler auf, 
+so enthält AX den Wert 0000h. In diesem Fall enthält das Register BL einen 
+Fehlercode. Mögliche Fehlercodes befinden sich unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/xms_erro.htm">XMS-Fehlercodes</A>. 
+</P>
+<P>Von den in Tabelle 1.1 (XMS-Funktionen) genannten Funktionen werden die für 
+den Zugriff auf den Extended Memory benutzten Funktionen im folgenden kurz 
+vorgestellt.</P><PRE><I><B>Funktion 00h:       XMS-Versionsnummer ermitteln
+</B>    Aufruf mit      AH= 00h
+    Rückgabe        AX= XMS-Versionsnummer
+                         (ungepackter BCD-Code: AH= Hauptversionsnummer,
+                                                AL= Unterversionsnummer)
+                    BX= Interne Revisionsnummer
+                        (ungepackter BCD-Code: siehe oben)
+                    DX= Status der HMA
+                        (0: HMA ist nicht verfügbar, oder
+                         1: HMA ist verfügbar)
+
+<B>Funktion 08h:       Freies XMS ermitteln
+</B>    Aufruf mit      AH= 08h
+    Rückgabe        AX= Länge des größten freien Blockes in
+                        KByte
+                    DX= Gesamtgröße des freien XMS in KByte
+
+<B>Funktion 09h:       Allokiere einen Extended Memory Block
+</B>    Aufruf mit      AH= 09h
+                    DX= Größe des angeforderten Bereichs in KByte
+    Rückgabe        AX= 0001 - Funktion fehlerfrei ausgeführt
+                        0000 - Fehler aufgetreten (Fehlercode in BL)
+                    DX= Handle zum Zugriff auf den EMB
+
+<B>Funktion 0Ah:       Freigabe eines allokierten EMB
+</B>    Aufruf mit      AH= 0Ah
+                    DX= Handle
+    Rückgabe        AX= 0001 - Funktion fehlerfrei ausgeführt
+                        0000 - Fehler aufgetreten (Fehlercode in BL)
+
+<B>Funktion 0Bh:       Kopiere Speicher
+</B>    Diese Funktion dient dazu, Speicherinhalte zwischen dem konventionellen
+    RAM und dem Extended Memory zu kopieren. Sie kann auch genutzt werden,
+    um Speicherblöcke innerhalb des konventionellen oder innerhalb des
+    Extended-Memory zu kopieren.
+
+    Aufruf mit      AH= 0Bh
+                    DS:SI=Zeiger auf die nachfolgende Struktur
+    Rückgabe        AX= 0001 - Funktion fehlerfrei ausgeführt
+                        0000 - Fehler aufgetreten (Fehlercode in BL)
+    Struktur:
+        <B>Adr.        Inhalt                                      Typ
+</B>        +00h        Länge des zu kopierenden Bereiches           1 DWORD
+                    (muß geradzahlig sein)
+        +04h        Handle des Quell-Blocks                     1 WORD
+        +06h        Offset innerhalb des Quell-Blocks (ab dem   1 DWORD
+                    kopiert wird)
+        +0Ah        Handle des Zielblocks                       1 WORD
+        +0Ch        Offset innerhalb des Zielblocks (zu dem     1 DWORD
+                    kopiert wird)
+
+    Länge: 16 Byte</I>
+
+</PRE>
+<P>Um aus oder in das konventionelle RAM (&lt; 1 MB) zu kopieren, muß das 
+entsprechende Handle (Quell- oder Zielhandle) auf 0 gesetzt werden. Das folgende 
+DWORD muß dann die entsprechende Realmodeadresse in der Form Segment:Offset 
+(ERST Offset-, DANN Segmentadresse) enthalten. </P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Nutzung von XMS-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>1. Im folgenden soll eine Assembler-Routine vorgestellt werden, die 
+      feststellt, ob überhaupt ein XMS-Treiber installiert wurde. Falls ein 
+      Treiber identifiziert werden konnte, ermittelt sie die Einsprungsadresse 
+      für den Aufruf der XMS-Funktionen. </P><PRE><I>    ; XMS-Treiber über Interrupt 2Fh identifizieren
+                    mov ax,4300h
+                    int 2fh
+
+        ; al  = 80h Treiber installiert
+        ; al &lt;&gt; 80h Treiber nicht vorhanden
+                    cmp al,80h
+                    jne check_quit_false
+
+        ; Treiber vorhanden, Einsprungsadresse ermitteln
+                    mov ax,4310h
+                    int 2fh
+
+        ; es:bx = Einsprungsadresse, unter XMS_ADR im
+        ; Datensegment speichern
+                    mov ax,@data
+                    mov ds,ax
+
+                    mov w [XMS_ADR+0],bx
+                    mov w [XMS_ADR+2],es
+
+        ; Funktion mit Erfolgsmeldung verlassen
+                    mov ax,TRUE
+                    jmp check_quit
+
+        check_quit_false:
+                    mov ax,FALSE
+
+        check_quit:
+                    ret</I></PRE></TD></TR></TBODY></TABLE></CENTER>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Nutzung von XMS-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>2. Die folgende Assemblerroutine demonstriert den Aufruf des 
+      XMS-Treibers über einen FAR-CALL. Sie ermittelt über die Funktion 08h die 
+      Gesamtgröße des freien Extended Memory in KByte. </P><PRE><I>    ; Funktion 08h: Freies XMS ermitteln, aufrufen
+                    mov ah,08h
+                    call [dword ptr XMS_ADR]
+        ; Hier befindet sich in
+        ; ax - Länge des größten freien EMB in KByte
+        ; bx - Gesamtgröße des verfügbaren Extended Memory in KByte</I></PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>Die hier dargestellten Assemblerroutinen befinden sich mit weiteren, für den 
+Zugriff auf das Extended Memory notwendigen Routinen, in der Datei <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/xms.asm">xms.asm</A>. 
+Zusammen mit dem C-Beispielprogramm <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/xmstst.c">xmstst.c</A> 
+sollen sie als Beispiel für die Nutzung des Extended Memory dienen. </P><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm"><IMG 
+alt=Zurück src="Nutzung von XMS-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys7.htm"><IMG 
+alt=Weiter src="Nutzung von XMS-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Nutzung von XMS-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

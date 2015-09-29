@@ -1,0 +1,84 @@
+.sectionhead {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; COLOR: #666666; FONT-FAMILY: Verdana, sans-serif; TEXT-DECORATION: none
+}
+.subsectionhead {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #666666; FONT-FAMILY: Verdana, sans-serif; TEXT-DECORATION: none
+}
+.title {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+.bodycopy {
+	FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.mainheadline {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.mainheadline:link {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.mainheadline:visited {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.mainheadline:hover {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #797b58; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: underline
+}
+A.smheadline {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.smheadline:link {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.smheadline:visited {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.smheadline:hover {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #003366; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: underline
+}
+A.columnhead {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #666666; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.columnhead:link {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #666666; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.columnhead:visited {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #666666; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.columnhead:hover {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #797b58; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: underline
+}
+A.moreinfo {
+	FONT-SIZE: 8pt; COLOR: #ffffff; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.moreinfo:link {
+	FONT-SIZE: 8pt; COLOR: #ffffff; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.moreinfo:visited {
+	FONT-SIZE: 8pt; COLOR: #ffffff; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.moreinfo:hover {
+	FONT-SIZE: 8pt; COLOR: #cccc66; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: underline
+}
+TD {
+	FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+PRE {
+	COLOR: #990000
+}
+.code {
+	COLOR: #990000
+}
+.codeKeyword {
+	COLOR: blue
+}
+.codeComment {
+	COLOR: green
+}
+.codeHighlight {
+	BACKGROUND-COLOR: #ffff00
+}
+.codeFileName {
+	FONT-WEIGHT: bold
+}
+.containerhead {
+	FONT-WEIGHT: bold; FONT-SIZE: 13pt; COLOR: #003366; FONT-FAMILY: Verdana, sans-serif; TEXT-DECORATION: none
+}

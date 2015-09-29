@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+
+  <title>The ELF Object File Format by Dissection</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/linuxjournal.com/themes/linuxjournal/favicon.ico" type="image/x-icon" />
+  <style type="text/css" media="all">@import "/modules/aggregator/aggregator.css";</style>
+<style type="text/css" media="all">@import "/modules/book/book.css";</style>
+<style type="text/css" media="all">@import "/modules/node/node.css";</style>
+<style type="text/css" media="all">@import "/modules/poll/poll.css";</style>
+<style type="text/css" media="all">@import "/modules/system/defaults.css";</style>
+<style type="text/css" media="all">@import "/modules/system/system.css";</style>
+<style type="text/css" media="all">@import "/modules/user/user.css";</style>
+<style type="text/css" media="all">@import "/sites/linuxjournal.com/modules/cck/content.css";</style>
+<style type="text/css" media="all">@import "/sites/linuxjournal.com/modules/cck/fieldgroup.css";</style>
+<style type="text/css" media="all">@import "/sites/linuxjournal.com/modules/diggthis/diggthis.css";</style>
+<style type="text/css" media="all">@import "/sites/linuxjournal.com/modules/fivestar/css/fivestar.css";</style>
+<style type="text/css" media="all">@import "/files/linuxjournal.com/ufiles/fivestar/outline/outline.css";</style>
+<style type="text/css" media="all">@import "/sites/linuxjournal.com/themes/linuxjournal/style.css";</style>
+  <link rel="stylesheet" type="text/css" href="/sites/linuxjournal.com/themes/linuxjournal/css/pygments.css" />
+  <link rel="stylesheet" type="text/css" href="/sites/linuxjournal.com/themes/linuxjournal/css/magazine.css" />
+  <link rel="stylesheet" type="text/css" href="/sites/linuxjournal.com/themes/linuxjournal/css/forum.css" />
+
+  <!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="/sites/linuxjournal.com/themes/linuxjournal/css/ie6.css" />
+  <![endif]-->
+  <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="/sites/linuxjournal.com/themes/linuxjournal/css/ie7.css" />
+  <![endif]--> 
+
+  <script type="text/javascript" src="/misc/jquery.js"></script>
+<script type="text/javascript" src="/misc/drupal.js"></script>
+<script type="text/javascript" src="/sites/linuxjournal.com/modules/fivestar/js/fivestar.js"></script>
+<script type="text/javascript" src="/misc/textarea.js"></script>
+<script type="text/javascript">Drupal.extend({ settings: { "fivestar": { "titleUser": "Your rating: ", "titleAverage": "Average: ", "feedbackSavingVote": "Saving your vote...", "feedbackVoteSaved": "Your vote has been saved.", "feedbackDeletingVote": "Deleting your vote...", "feedbackVoteDeleted": "Your vote has been deleted." } } });</script>
+  <script src="/sites/linuxjournal.com/themes/linuxjournal/js/ljcustom.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/sites/linuxjournal.com/themes/linuxjournal/js/openads.js" type="text/javascript" charset="utf-8"></script>
+
+<link rel="alternate" type="application/rss+xml"
+title="Linux Journal - The Original Magazine of the Linux Community"
+href="http://feeds.feedburner.com/linuxjournalcom" />
+
+<link rel="alternate" type="application/rss+xml"
+title="News from Linux Journal - The Original Magazine of the Linux Community"
+href="/breaking_news/feed" />
+
+</head>
+
+<body class="not-logged-in ntype-xmlnode">
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript">_uacct = "UA-1117794-1"; urchinTracker();</script>
+
+<!-- Start Quantcast tag -->
+<script type="text/javascript"
+src="http://edge.quantserve.com/quant.js"></script>
+<script
+type="text/javascript">_qacct="p-a3K3N6enFe9wA";quantserve();</script>
+<noscript>
+<a href="http://www.quantcast.com/p-a3K3N6enFe9wA"
+target="_blank"><img
+src="http://pixel.quantserve.com/pixel/p-a3K3N6enFe9wA.gif"
+style="display: none;" border="0" height="1" width="1"
+alt="Quantcast"/></a>
+</noscript>
+<!-- End Quantcast tag -->
+
+
+  <div id="container">
+
+    <div id="innercontainer">
+
+      <!-- HEADER START ================================================== -->
+      <div id="header">
+        <h1><a href="/" title="Home"></a></h1>
+      
+        <div id="leaderboard-adblock" class="adblock leaderboard-adblock">
+<script language='JavaScript' type='text/javascript'>
+<!--
+phpads_show_ad("http://ads.linuxjournal.com", "8");
+//-->
+</script>
+</div>
+      
+        <div id="header_menubar">
+          
+<ul class="menu">
+<li class="leaf"><a href="/">Home</a></li>
+<li class="expanded"><a href="/topics">Topics</a>
+<ul class="menu">
+<li class="leaf"><a href="/taxonomy/term/28">Audio/Video</a></li>
+<li class="leaf"><a href="/taxonomy/term/18">Community</a></li>
+<li class="leaf"><a href="/taxonomy/term/25">Education</a></li>
+<li class="leaf"><a href="/taxonomy/term/27">Embedded</a></li>
+<li class="leaf"><a href="/taxonomy/term/23">Hardware</a></li>
+<li class="leaf"><a href="/taxonomy/term/19">HOWTOs</a></li>
+<li class="leaf"><a href="/taxonomy/term/30">International</a></li>
+<li class="leaf"><a href="/taxonomy/term/20">Reviews</a></li>
+<li class="leaf"><a href="/taxonomy/term/31">Security</a></li>
+<li class="leaf"><a href="/taxonomy/term/17">Software</a></li>
+<li class="leaf"><a href="/taxonomy/term/21">SysAdmin</a></li>
+<li class="leaf"><a href="/taxonomy/term/24">Webmaster</a></li>
+
+</ul>
+</li>
+<li class="expanded"><a href="/xstatic/community">Community Resources</a>
+<ul class="menu">
+<li class="leaf"><a href="/xstatic/community/whatislinux">What Is Linux?</a></li>
+<li class="leaf"><a href="/getlinux">How to Get Linux</a></li>
+<li class="leaf"><a href="/supportedhardware">Supported Hardware</a></li>
+<li class="leaf"><a href="/software">Software</a></li>
+<li class="leaf"><a href="/gettinghelp">Getting Help</a></li>
+<li class="leaf"><a href="/xstatic/community/events">Industry Events</a></li>
+
+</ul>
+</li>
+<li class="leaf"><a href="/forum">Forums</a></li>
+<li class="leaf"><a href="http://www.linuxjournalshop.com">Shop</a></li>
+<li class="expanded"><a href="/magazine">Magazine</a>
+<ul class="menu">
+<li class="leaf"><a href="/magazine">Read</a></li>
+<li class="leaf"><a href="/subscriptions">Subscribe</a></li>
+<li class="leaf"><a href="https://secure.linuxjournal.com/allsubs/plj.php?action=login">Renew</a></li>
+<li class="leaf"><a href="/xstatic/subs/customer_service.html">Customer Service</a></li>
+<li class="leaf"><a href="/archivecd">Archive CD</a></li>
+<li class="leaf"><a href="/dlissue">Free Issue</a></li>
+<li class="leaf"><a href="/xstatic/aboutus/FAQ">FAQ</a></li>
+<li class="leaf"><a href="/xstatic/staff/index">Masthead</a></li>
+<li class="leaf"><a href="/contact">Write a Letter</a></li>
+<li class="leaf"><a href="/xstatic/author/index">Write for Us</a></li>
+<li class="leaf"><a href="/advertising/">Advertise</a></li>
+
+</ul>
+</li>
+
+</ul>
+                      <a class="button" href="/user/login">Login</a>
+                    <!-- Google CSE Search Box Begins  -->
+<form action="http://www.linuxjournal.com/googlesearch" id="searchbox_014164207538395607518:w82fvojcgcu">
+  <input type="hidden" name="cx" value="014164207538395607518:w82fvojcgcu" />
+  <input type="hidden" name="cof" value="FORID:11" />
+  <input type="text" name="as_q" size="25" />
+  <input type="submit" name="sa" value="Search" />
+</form>
+<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=searchbox_014164207538395607518%3Aw82fvojcgcu&lang=en"></script>
+<!-- Google CSE Search Box Ends -->
+
+
+        </div>
+    
+                  <div id="header_breadcrumb"><a href="/">Home</a></div>
+              </div>
+      <!-- HEADER END ==================================================== -->
+
+
+
+      <!-- CONTENT START ================================================= -->
+      <div id="content">
+      
+        <!-- CONTENT LEFT -->
+        <div id="content_left">
+          
+          <!-- CONTENT HEADER -->
+                    <!-- END CONTENT HEADER -->
+      
+          <!-- CONTENT BODY -->
+          <div id="content_body">
+                      
+                    
+                    
+                                    <div class="node ntype-xmlnode " id="node-1060">
+  <div class="head">
+
+      <h3>The ELF Object File Format by Dissection</h3>
+  
+        <h4>May 1st, 1995 by <a href="/user/800105" title="View user profile.">Eric Youngdale</a><span class="taxonomy"> in<ul class="links inline"><li  class="first last taxonomy_term_17"><a href="/taxonomy/term/17" rel="tag" title="" class="taxonomy_term_17">Software</a></li>
+</ul></span>    </h4>
+      </div>
+  
+  <div class="content">
+        The Executable and Linking Format has been a popular topic lately, as people ask why the kernel configuration script asks whether or not to configure loading ELF executables. Since ELF will eventually be the common object file format for Linux binaries, it is appropriate to document it a bit. Last month, Eric introduced us to ELF, and this month, he gives us a guided tour of real ELF files.    <div class="diggthis_button"><script type="text/javascript">
+digg_url = 'http://www.linuxjournal.com/article/1060';
+digg_title = "The ELF Object File Format by Dissection";
+digg_bodytext = "";
+
+digg_skin = 'standard';
+</script>
+<script src="http://digg.com/tools/diggthis.js" type="text/javascript"></script></div><form action="/node/1060/print"  accept-charset="UTF-8" method="post" id="fivestar-form-node-1060" class="fivestar-widget">
+<div><div class="fivestar-form-1060 clear-block"><input type="hidden" name="content_type" id="edit-content-type-1060" value="node"  />
+<input type="hidden" name="content_id" id="edit-content-id-1060" value="1060"  />
+<div class="fivestar-form-item  fivestar-combo-text fivestar-smart-stars fivestar-average-stars fivestar-labels-hover"><div class="form-item" id="edit-vote-0-wrapper">
+ <label for="edit-vote-0">Average: </label>
+ <input type="hidden" name="vote_count" id="edit-vote-count-0" value="10"  />
+<input type="hidden" name="vote_average" id="edit-vote-average-0" value="100"  />
+<input type="hidden" name="auto_submit_path" id="edit-auto-submit-path-0" value="/fivestar/vote/node/1060"  class="fivestar-path" />
+<select name="vote" class="form-select" id="edit-vote-0" ><option value="-">Select rating</option><option value="0">Cancel rating</option><option value="20">Poor</option><option value="40">Okay</option><option value="60">Good</option><option value="80">Great</option><option value="100" selected="selected">Awesome</option></select>
+ <div class="description"><div class="fivestar-summary fivestar-summary-combo fivestar-feedback-enabled"><span class="user-rating">Your rating: <span>None</span></span> <span class="average-rating">Average: <span>5</span></span> <span class="total-votes">(<span>10</span> votes)</span></div></div>
+</div>
+</div><input type="hidden" name="destination" id="edit-destination-1060" value="node/1060/print"  />
+<input type="submit" name="op" id="edit-fivestar-submit-1060" value="Rate"  class="form-submit fivestar-submit" />
+<input type="hidden" name="form_id" id="edit-fivestar-form-node-1060" value="fivestar_form_node_1060"  />
+</div>
+</div></form>
+<div class="article" lang="en"><div class="simplesect" lang="en"><div class="titlepage"><a name="N0xa50890.0xb44cd0"></a></div><p>Last month, we reached a point where were
+beginning to dissect some real ELF files. For this, I will use the
+<span   class="bold"><b>readelf</b></span> utility which I wrote when
+I was first trying to understand the ELF format itself. Later on,
+it became a valuable tool for debugging the linker as I added
+support for ELF. The sources to readelf should be on tsx-11.mit.edu
+in pub/linux/packages/GCC/src or in pub/linux/BETA/ibcs2.
+</p><p>Let us start with a very simple program&mdash;the hello world
+program we used last month.</p><pre     class="programlisting">
+
+largo% cat hello.c
+main()
+{
+        printf("Hello World\n");
+}
+largo% gcc-elf -c hello.c
+</pre><p>On my laptop, the gcc-elf command invokes the ELF version of
+gcc&mdash;once ELF becomes the default format, you will be able to use
+the regular gcc command which produces the ELF file hello.o. Each
+ELF file starts with a header (<b  >struct elfhdr</b> in
+/usr/include/linux/elf.h), and the readelf utility can display the
+contents of all of the fields:</p><pre     class="programlisting">
+
+largo% readelf -h hello.o
+ELF magic:7f 45 4c 46 01 01 01 00 00 00 00 00
+        00 00 00 00
+Type, machine, version = 1 3 1
+Entry, phoff, shoff, flags = 0 0 440 0
+ehsize, phentsize, phnum = 52 0 0
+shentsize, shnum, shstrndx = 40 11 8
+</pre><p>The ELF <b  >magic</b> field is just a way of
+unambiguously identifying this as an ELF file. If a file does not
+contain those 16 bytes in the <b  >magic</b> field, it is
+not an ELF file. The type, machine, and version fields identify
+this as an ET_REL file (i.e., an object file) for the i386. The
+<b  >ehsize</b> field is just the <b  >sizeof(struct
+elfhdr)</b>.</p><p>Each ELF file contains a table that describes the sections
+within the file. The <b  >shnum</b> field indicates that
+there are 11 sections; the <b  >shoff</b> field indicates
+that the section header table starts at byte offset 440 within the
+file. The <b  >shentsize</b> field indicates that the
+entry for each section is 40 bytes long. All throughout ELF, the
+sizes of various structures are always explicitly stated. This
+allows for flexibility; the structures can be expanded as required
+for some hardware platforms and the standard ELF tools do not have
+to know about this to be able to make sense of the binary. Also, it
+allows room for future expansion of the structures by newer
+versions of the standard.</p><pre     class="programlisting">
+largo% readelf -S hello.o
+There are 11 section headers, starting at offset 1b8:
+[0]             NULL            00000000 00000 00000 00 / 0 0 0 0
+[1] .text       PROGBITS        00000000 00040 00014 00 / 6 0 0 10
+[2] .rel.text   REL             00000000 00370 00010 08 / 0 9 1 4
+[3] .data       PROGBITS        00000000 00054 00000 00 / 3 0 0 4
+[4] .bss        NOBITS          00000000 00054 00000 00 / 3 0 0 4
+[5] .note       NOTE            00000000 00054 00014 00 / 0 0 0 1
+[6] .rodata     PROGBITS        00000000 00068 0000d 00 / 2 0 0 1
+[7] .comment    PROGBITS        00000000 00075 00012 00 / 0 0 0 1
+[8] .shstrtab   STRTAB          00000000 00087 0004d 00 / 0 0 0 1
+[9] .symtab     SYMTAB          00000000 000d4 000c0 10 / 0 a a 4
+[a] .strtab     STRTAB          00000000 00194 00024 00 / 0 0 0 1
+</pre><p><span   class="bold"><b>Listing 1.</b></span> Section Table for hello.o
+</p><p>Each section header is just a <b  >struct
+ELF32_Shdr</b>. You may notice that the name field is just a
+number&mdash;this is not a pointer, but an offset into the .shstrtab
+section (we can find the index of the .shstrtab section from the
+file header in the <b  >shstrndx</b> field). Thus we find
+the name of each section at the specified offset within the
+.shstrtab section. Let us dump the section table for this file; see
+figure 1. You will notice sections for nearly everything which we
+have already discussed. Each section has an identifier which
+specifies what the section contains (in general, you should never
+have to actually know the name of a section or compare it to
+anything).</p><p>After the type, there is a series of numbers. The first of
+these is the address in virtual memory where this section should be
+loaded. Since this is a .o file, it is not intended to be loaded
+into virtual memory, and this field is not filled in. Next is the
+offset within the file of the section, and then is the size of the
+section. After this come a series of numbers&mdash;I won't parse these
+in detail for you, but they contain things like the required
+alignment of the section, a set of flags which indicate whether the
+section is read-only, writable, and/or executable.</p><p>The readelf program is capable of performing
+disassembly:</p><pre     class="programlisting">
+
+largo% readelf -i 1 hello.o
+0x00000000  pushl       %ebp
+0x00000001  movl        %esp,%ebp
+0x00000003  pushl       $0x0
+0x00000008  call        0x08007559
+0x0000000d  addl        $4,%esp
+0x00000010  movl        %ebp,%esp
+0x00000012  popl        %ebp
+0x00000013  ret
+</pre><p>The .rel.text section contains the relocations for the .text
+section of the file, and we can display them as follows:</p><pre     class="programlisting">
+
+largo% readelf -r hello.o
+Relocation section data:.rel.text (0x2 entries)
+Tag: 00004 Value 00301 R_386_32    (0 )
+Tag: 00009 Value 00b02 R_386_PC32  (0 printf)
+</pre><p>This indicates that the .text section has two relocations. As
+expected, there is a relocation for printf indicating that we must
+patch the address of printf into offset 9 from the beginning of the
+.text section, which happens to be the operand of the call
+instruction. There is also a relocation so that we pass the correct
+address to printf.</p><p>Now let us see what happens when this file is linked into an
+executable. The section table now looks something like
+<a href="/files/linuxjournal.com/linuxjournal/articles/010/1060/1060l1.html" >Listing 2</a>.</p><p>The first thing you will notice is a lot more sections than
+were in the simple .o file. Much of this because this file requires
+the ELF shared library libc.so.1.</p><p>At this point I should mention the mechanics of what happens
+when you run an ELF program. The kernel looks through the binary
+and loads it into the user's virtual memory. If the application is
+linked to a shared library, the application will also contain the
+name of the dynamic linker that should be used. The kernel then
+transfers control to the dynamic linker, not to the application.
+The dynamic loader is responsibile for first initializing itself,
+loading the shared libraries into memory, resolving all remaining
+relocations, and then transferring control to the
+application.</p><p>Going back to our executable, the .interp section simply
+contains an ASCII string that is the name of the dynamic loader.
+Currently this will always be /lib/elf/ld-linux.so.1 (the dynamic
+loader itself is also an ELF shared library).</p><p>Next you will notice 3 sections, called .hash, .dynsym, and
+.dynstr. This is a minimal symbol table used by the dynamic linker
+when performing relocations. You will notice that these sections
+are mapped into virtual memory (the virtual address field is
+non-zero). At the very end of the image are the regular symbol and
+string tables, and these are not mapped into virtual memory by the
+loader. The .hash section is just a hash table that is used so that
+we can quickly locate a given symbol in the .dynsym section,
+thereby avoiding a linear search of the symbol table. A given
+symbol can typically be located in one or two tries through the use
+of the hash table.</p><p>The next section I want to mention is the .plt section. This
+contains the jump table that is used when we call functions in the
+shared library. By default the .plt entries are all initialized by
+the linker not to point to the correct target functions, but
+instead to point to the dynamic loader itself. Thus, the first time
+you call any given function, the dynamic loader looks up the
+function and fixes the target of the .plt so that the next time
+this .plt slot is used we call the correct function. After making
+this change, the dynamic loader calls the function itself.</p><p>This feature is known as lazy symbol binding. The idea is
+that if you have lots of shared libraries, it could take the
+dynamic loader lots of time to look up all of the functions to
+initialize all of the .plt slots, so it would be preferable to
+defer binding addresses to the functions until we actually need
+them. This turns out to be a big win if you only end up using a
+small fraction of the functions in a shared library. It is possible
+to instruct the dynamic loader to bind addresses to all of the .plt
+slots before transferring control to the application&mdash;this is done
+by setting the environment variable
+<b  >LD_BIND_NOW=1</b> before running the program. This
+turns out to be useful in some cases when you are debugging a
+program, for example. Also, I should point out that the .plt is in
+read-only memory. Thus the addresses used for the target of the
+jump are actually stored in the .got section. The .got also
+contains a set of pointers for all of the global variables that are
+used within a program that come from a shared library.</p><p>The .dynamic section contains some shorthand notes used by
+the dynamic loader. You will notice that the section table is not
+itself loaded into virtual memory, and in fact it would not be good
+for performance for the dynamic loader to have to try to parse it
+to figure out what needs to be done. The .dynamic section is
+essentially just a distilled version of the section header table
+that contains just what is needed for the dynamic loader to do its
+job.</p><p>You will notice that since the section header table is not
+loaded into memory, neither the kernel nor the dynamic loader will
+be able to use that table when loading files into memory. A
+shorthand table of program headers is added to provide a distilled
+version of the section table containing just the information
+required to load a file into memory. For the above file it looks
+something like:</p><pre     class="programlisting">
+
+largo% readelf -l hello
+Elf file is Executable
+Entry point 0x8000400
+There are 5 program headers, starting at offset 34:
+PHDR       0x00034 0x08000034 0x000a0 0x000a0 R E
+Interp     0x000d4 0x080000d4 0x00017 0x00017 R
+Requesting program interpreter \
+[/lib/elf/ld-linux.so.1]
+Load       0x00000 0x08000000 0x00515 0x00515 R E
+Load       0x00518 0x08001518 0x000cc 0x000d4 RW
+Dynamic    0x0054c 0x0800154c 0x00098 0x00098 RW
+Shared library: [libc.so.4] 1
+</pre><p>As you can see, the program header contains a pointer to the
+name of the dynamic loader, instructions on what portions of the
+file are to be loaded into virtual memory (and the virtual
+addresses they should be loaded to), the permissions of the
+segments of memory, and finally a pointer to the .dynamic section
+that the dynamic loader will need. Note that the list of required
+shared libraries is stored in the .dynamic section.</p><p>I will not pick apart an ELF shared library for you
+here&mdash;libraries look quite similar to ELF executables. If you are
+interested, you can get the readelf utility and pick apart your own
+libraries.</p><p>At the start of this article, I said one reason we were
+switching to ELF was that it was easier to build shared libraries
+with ELF. I will now demonstrate how. Consider two files:</p><pre     class="programlisting">
+
+largo% cat hello1.c
+main()
+{
+        greet();
+}
+largo% cat english.c
+greet()
+{
+        printf("Hello World\n");
+}
+</pre><p>The idea is that we want to build a shared library from
+english.c, and link hello1 against it. The commands to generate the
+shared library are:</p><pre     class="programlisting">
+largo% gcc-elf -fPIC -c english.c
+largo% gcc-elf -shared -o libenglish.so english.o
+</pre><p>That's all there is to it. Now we compile and link the hello1
+program:</p><pre     class="programlisting">
+
+largo% gcc-elf -c hello1.c
+largo% gcc-elf -o hello1 hello1.o -L. -lenglish
+</pre><p>And finally we can run the program. Normally the dynamic
+loader only looks in certain locations for shared libraries, and
+the current directory is not one of the places it normally looks.
+Thus to run the program, you can use a command like:</p><pre     class="programlisting">
+
+largo% LD_LIBRARY_PATH=. ./hello1
+Hello World
+</pre><p>The environment variable <b  >LD_LIBRARY_PATH</b>
+tells the dynamic loader to look in additional places for the
+shared libraries (this feature is disabled for setuid programs for
+security reasons).</p><p>To avoid having to specify
+<b  >LD_LIBRARY_PATH</b>, you have several options. You
+could copy your shared library to /lib/elf, but you can also link
+your program in the following way:</p><pre     class="programlisting">
+largo% gcc-elf -o hello1 hello1.o\ /home/joe/libenglish.so
+largo% ./hello1
+Hello World
+</pre><p>To build more complicated shared libraries, the procedure is
+not really that much different. Everything that you want to put
+into the shared library should be compiled with
+<b  >-fPIC</b>; when you have compiled everything, you
+just link it all together with the <b  >gcc -shared</b>
+command.</p><p>The procedure is so much simpler mainly because we bind
+addresses to functions at runtime. With a.out libraries, the
+addresses are bound at link time. This means that lots of special
+care must be taken to ensure that the .plt and .got have sufficient
+room for future expansion and that we keep the variables at the
+same addresses from one version of the library to the next. The
+tools for building a.out libraries help ensure all of this, but it
+makes the build procedure much more complicated.</p><p>ELF offers one further feature that is not easily available
+with a.out. The <span   class="bold"><b>dlopen()</b></span> function
+can be used to dynamically load a shared library into the user's
+memory, and you are then able to call the dynamic loader to find
+symbols within this shared library&mdash;in other words, you can call
+functions that are defined in these modules. In addition, the
+dynamic loader is used to resolve any undefined symbols within the
+module itself.</p><p>This may be easiest to explain with an example. Given the
+following source file:</p><pre     class="programlisting">
+#include &lt;dlfcn.h&gt;
+main(int argc, char * argv[])
+{
+   void (*greeting)();
+   void * module;
+   if( argc &gt; 2 ) exit(0);
+   module = dlopen(argv[1], RTLD_LAZY);
+  if(!module) exit(0);
+   greeting = dlsym(module, "greet");
+   if(greeting) {
+     (*greeting)();
+   }
+  dlclose(module);
+ }
+</pre><p>you can compile, link, and run it (using the shared library
+english.so which was built earlier):</p><pre     class="programlisting">
+largo% gcc-elf -c hello2.c
+largo% gcc-elf -o hello2 hello2.o -ldl
+largo% ./hello2 ./libenglish.so
+Hello World
+</pre><p>To expand this example a little bit, you could generate other
+modules with greetings in other languages. Thus in theory, one
+could add multi-lingual support for some application merely by
+supplying a set of shared libraries that contain the
+language-specific portions of the application. In the above
+example, I showed how you can locate the address of a function
+within a shared library. But the
+<span   class="bold"><b>dlsym()</b></span> function will also return
+the address of data variables, so you could just as easily retrieve
+the address of a text string from the shared library.</p><p>As I prepare to close, I should mention some options to
+readelf which I have not demonstrated. <b  >readelf
+-s</b> dumps the symbol tables and <b  >readelf
+-f</b> dumps the .dynamic section.</p><p>Finally, I should mention something about the timetable. When
+we first got ELF to a point where it was usable (last September),
+we decided to spend a relatively long period of time testing it and
+shaking out all of the problems. Back then I felt that roughly
+4-to-6 months would allow people to test it thoroughly, plus we
+wanted to give an opportunity for certain applications to be
+adapted for ELF (the most recent versions of insmod and Wine now
+support ELF, for example). As I write this, no firm date has been
+set for a public release, but it is possible that ELF will be
+public by the time you read this.</p><p>In these articles I have attempted to give you a guided
+introduction to the ELF file format. A lot of the material I have
+covered is not of much practical value to most users (unless you
+want to hack the linker), but my experience is that there are a lot
+of people who are curious about how it all works, and I hope that I
+have provided enough information to satisfy most people.</p><p>For more information about the ELF file format, you can
+obtain the ELF specifications from a number of sources&mdash;you can try
+ftp.intel.com in pub/tis/elf11g.zip. The specifications are also
+available in a printed format. See <span   class="emphasis"><em>SYSTEM V Application
+Binary Interface</em></span> (ISBN 0-13-100439-5) and
+<span   class="emphasis"><em>SYSTEM V Application Binary Interface</em></span>,
+Intel386 Architecture Processor Supplement (ISBN
+0-13-104670-5).</p></div></div>
+<div class="authorblurb"><p>
+      <span   class="bold"><b>Eric Youngdale</b></span>
+      has worked with Linux for over
+      three years, and has been active in kernel development. He
+      developed the current a.out Linux shared libraries before
+      developing much of the new ELF support. He can be reached as
+      <a href="mailto:eric@aib.com">eric@aib.com</a>.</p></div>
+
+
+__________________________
+<br />    <div id="block-block-55" class="block block-block"> 
+    <div class="content">
+    <style>
+hr {border: solid 1px #ccc}
+.small {font-size: .8em}
+</style><p>
+<hr /></p>
+<p><a href="/2free"><strong>Special Magazine Offer -- Free Gift with Subscription</strong></a><br />
+Receive a free digital copy of <cite>Linux Journal</cite>'s System Administration Special Edition as well as instant online access to current and past issues. <a href="/2free">CLICK HERE for offer</a></p>
+<p><cite>Linux Journal</cite>: delivering readers the advice and inspiration they need to get the most out of their Linux systems since 1994.</p>
+  </div>  
+</div>
+
+  </div>
+ 
+    <div class="links"><ul class="links inline"><li  class="first print"><a href="/print/1060" title="Display a printer-friendly version of this page." class="print-page print">Printer-friendly version</a></li>
+<li  class="service_links_delicious"><a href="http://del.icio.us/post?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F1060&amp;title=The+ELF+Object+File+Format+by+Dissection" title="Bookmark this post on del.icio.us." rel="nofollow" class="service_links_delicious"><img src="/sites/linuxjournal.com/modules/service_links/delicious.png" alt="Delicious" /> Delicious</a></li>
+<li  class="service_links_digg"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F1060&amp;title=The+ELF+Object+File+Format+by+Dissection" title="Digg this post on digg.com." rel="nofollow" class="service_links_digg"><img src="/sites/linuxjournal.com/modules/service_links/digg.png" alt="Digg" /> Digg</a></li>
+<li  class="service_links_reddit"><a href="http://reddit.com/submit?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F1060&amp;title=The+ELF+Object+File+Format+by+Dissection" title="Submit this post on reddit.com." rel="nofollow" class="service_links_reddit"><img src="/sites/linuxjournal.com/modules/service_links/reddit.png" alt="Reddit" /> Reddit</a></li>
+<li  class="service_links_newsvine"><a href="http://www.newsvine.com/_tools/seed&amp;save?u=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F1060&amp;h=The+ELF+Object+File+Format+by+Dissection" title="Submit this post on newsvine.com." rel="nofollow" class="service_links_newsvine"><img src="/sites/linuxjournal.com/modules/service_links/newsvine.png" alt="Newsvine" /> Newsvine</a></li>
+<li  class="last service_links_technorati"><a href="http://technorati.com/cosmos/search.html?url=http%3A%2F%2Fwww.linuxjournal.com%2Farticle%2F1060" title="Search Technorati for links to this post." rel="nofollow" class="service_links_technorati"><img src="/sites/linuxjournal.com/modules/service_links/technorati.png" alt="Technorati" /> Technorati</a></li>
+</ul></div>
+    </div>
+    <div class="contentad">
+    <script language='JavaScript' type='text/javascript'>
+    <!--
+    phpads_show_ad("http://ads.linuxjournal.com", "32");
+    //-->
+  </script>
+  </div>
+  <div id="comments">  <div class="box">
+    <h2 class="title">Post new comment</h2>    <div class="content"><form action="/comment/reply/1060"  accept-charset="UTF-8" method="post" id="comment-form">
+<div><div><div class="comment_help">Please note that comments may not appear immediately, so there is no need to repost your comment.</div><div class="form-item" id="edit-name-wrapper">
+ <label for="edit-name">Your name: </label>
+ <input type="text" maxlength="60" name="name" id="edit-name"  size="30" value="Anonymous" class="form-text" />
+</div>
+<div class="form-item" id="edit-mail-wrapper">
+ <label for="edit-mail">E-mail: </label>
+ <input type="text" maxlength="64" name="mail" id="edit-mail"  size="30" value="" class="form-text" />
+ <div class="description">The content of this field is kept private and will not be shown publicly.</div>
+</div>
+<div class="form-item" id="edit-homepage-wrapper">
+ <label for="edit-homepage">Homepage: </label>
+ <input type="text" maxlength="255" name="homepage" id="edit-homepage"  size="30" value="" class="form-text" />
+</div>
+<div class="form-item" id="edit-subject-wrapper">
+ <label for="edit-subject">Subject: </label>
+ <input type="text" maxlength="64" name="subject" id="edit-subject"  size="60" value="" class="form-text" />
+</div>
+<div class="form-item" id="edit-comment-wrapper">
+ <label for="edit-comment">Comment: <span class="form-required" title="This field is required.">*</span></label>
+ <textarea cols="60" rows="15" name="comment" id="edit-comment"  class="form-textarea resizable required"></textarea>
+</div>
+<ul class="tips"><li>Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt; &lt;i&gt; &lt;b&gt;</li><li>Lines and paragraphs break automatically.</li></ul><p><a href="/filter/tips">More information about formatting options</a></p><input type="hidden" name="form_id" id="edit-comment-form" value="comment_form"  />
+<input type="submit" name="op" id="edit-preview" value="Preview comment"  class="form-submit" />
+</div>
+</div></form>
+</div>
+ </div>
+
+</div>                      </div>
+      
+          <div class="clear"></div>
+          <!-- END CONTENT BODY -->
+          
+        </div>
+        <!-- END CONTENT LEFT -->
+        
+        <!-- CONTENT RIGHT -->
+        <div id="content_right">
+          <div id="subscribe">
+            <h3>Subscribe now!</h3>
+            
+<ul class="menu">
+<li class="leaf"><a href="/subscriptions" title="Subscribe">Subscribe</a></li>
+<li class="leaf"><a href="https://secure.linuxjournal.com/allsubs/plj.php?action=login" title="Renew your subscription">Renew</a></li>
+<li class="leaf"><a href="/dlissue">Free Issue</a></li>
+<li class="leaf"><a href="/xstatic/subs/customer_service.html">Customer service</a></li>
+
+</ul>
+          </div>
+          
+          <div id="block-block-44" class="block block-block"> 
+    <div class="content">
+    <div id="bigbox-adblock" class="adblock bigbox-adblock">
+<script language='JavaScript' type='text/javascript'>
+<!--
+phpads_show_ad("http://ads.linuxjournal.com", "24");
+//-->
+</script>
+</div>  </div>  
+</div>
+<div id="block-views-latest_stories" class="block block-views"> 
+      <h3>The Latest</h3>
+    <div class="content">
+    <div class='view view-latest-stories'><div class='view-content view-content-latest-stories'><table>
+ <thead><tr><th class="view-cell-header view-field-node-title"></th><th class="view-cell-header view-field-node-created"></th> </tr></thead>
+<tbody>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/content/python-sheds-2x-skin">Python Sheds 2.x Skin </a></td><td class="view-field view-field-node-created">Dec-05-08</td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/video/linux-journal-live-december-4-2008">Linux Journal Live - December 4, 2008</a></td><td class="view-field view-field-node-created">Dec-05-08</td> </tr>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/content/cycles-and-simplicities">Cycles and Simplicities</a></td><td class="view-field view-field-node-created">Dec-05-08</td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/content/fedora-fishing-fresh-appellation">Fedora Fishing for a Fresh Appellation</a></td><td class="view-field view-field-node-created">Dec-04-08</td> </tr>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/video/secure-voip-communication-zrtp">Secure VOIP communication with ZRTP</a></td><td class="view-field view-field-node-created">Dec-04-08</td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/content/community-comes-through">The Community Comes Through</a></td><td class="view-field view-field-node-created">Dec-03-08</td> </tr>
+</tbody>
+</table>
+</div><div class='more-link'><a href="/latest">more</a></div></div>
+  </div>  
+</div>
+<div id="block-block-58" class="block block-block"> 
+      <h3>Newsletter</h3>
+    <div class="content">
+    Each week <cite>Linux Journal</cite> editors will tell you what's hot in the world of Linux. You will receive late breaking news, technical tips and tricks, and links to in-depth stories featured on <a href="http://www.linuxjournal.com">www.linuxjournal.com</a>.
+
+<!-- BEGIN: Constant Contact Stylish Email Newsletter Form -->
+<div align="left">
+<div style="width:336px; background-color: #ffffff;">
+<form name="ccoptin" action="http://visitor.constantcontact.com/d.jsp" target="_blank" method="post" style="margin-bottom:3;">
+<font style="font-weight: bold; font-family:Helvetica, Arial, Verdana, sans-serif; font-size:14px; color:#2f4f4f;">Sign up for our Email Newsletter</font>
+<input type="text" name="ea" size="35" value="" style="font-family:Helvetica, Arial, Verdana, sans-serif; font-size:10px; border:1px solid #999999;">
+<input type="submit" name="go" value="GO" class="submit"  style="font-family:Helvetica, Arial, Verdana, sans-serif; font-size:10px;">
+<input type="hidden" name="m" value="1102084405266">
+<input type="hidden" name="p" value="oi">
+</form>
+</div>
+</div>
+<!-- END: Constant Contact Stylish Email Newsletter Form -->  </div>  
+</div>
+<div id="block-views-tech_tip" class="block block-views"> 
+      <h3>Featured Videos</h3>
+    <div class="content">
+    <div class='view view-tech-tip'><div class='view-content view-content-tech-tip'><div class="node ntype-video " id="node-1007737">
+  <div class="head">
+
+      <h3><a href="/video/linux-journal-live-december-4-2008">Linux Journal Live - December 4, 2008</a></h3>
+  
+        <h4>December 5th, 2008 by <a href="/users/shawn-powers" title="View user profile.">Shawn Powers</a><span class="taxonomy"> in<ul class="links inline"><li  class="first last taxonomy_term_85"><a href="/category/videos/linus-journal-live" rel="tag" title="" class="taxonomy_term_85">Live!</a></li>
+</ul></span>    </h4>
+      </div>
+  
+  <div class="content">
+            <div class="field field-type-text field-field-small-format-video"><div class="field-items"><div class="field-item"><p><center><a href="/video/linux-journal-live-december-4-2008"><img src="/files/linuxjournal.com/images/video/LJLive12-4.jpg" /></a></center></p>
+</div></div></div><p>The December 4, 2008 Linux Journal Live!. Shawn Powers and Kyle Rankin take your Linux Questions.</p>
+    
+  </div>
+ 
+    <div class="links"><ul class="links inline"><li  class="first comment_add"><a href="/comment/reply/1007737#comment-form" title="Add a new comment to this page." class="comment_add">Add new comment</a></li>
+<li  class="node_read_more"><a href="/video/linux-journal-live-december-4-2008" title="Read the rest of this posting." class="node_read_more">Read more</a></li>
+<li  class="last rate"><a href="/video/linux-journal-live-december-4-2008#fivestar-form-node-1007737" title="Rate this @type" class="rate">Rate</a></li>
+</ul></div>
+    </div>
+  </div></div>
+  </div>  
+</div>
+<div id="block-views-featured_recorded_video" class="block block-views"> 
+    <div class="content">
+    <div class='view view-featured-recorded-video'><div class='view-content view-content-featured-recorded-video'><div class="node ntype-video " id="node-1007733">
+  <div class="head">
+
+      <h3><a href="/video/secure-voip-communication-zrtp">Secure VOIP communication with ZRTP</a></h3>
+  
+        <h4>December 4th, 2008 by <a href="/users/elliot-isaacson" title="View user profile.">Elliot Isaacson</a><span class="taxonomy"> in<ul class="links inline"><li  class="first last taxonomy_term_86"><a href="/category/videos/linux-howtos" rel="tag" title="" class="taxonomy_term_86">HowTos</a></li>
+</ul></span>    </h4>
+      </div>
+  
+  <div class="content">
+            <div class="field field-type-text field-field-small-format-video"><div class="field-items"><div class="field-item"><p><center><a href="/video/secure-voip-communication-zrtp"><img src="/files/linuxjournal.com/images/video/zrtp.jpg" /></a></center></p>
+</div></div></div><p>Phil Zimmermann comes to the rescue again with ZRTP, a protocol for securely transferring keys across a VOIP network.</p>
+    
+  </div>
+ 
+    <div class="links"><ul class="links inline"><li  class="first comment_comments"><a href="/video/secure-voip-communication-zrtp#comments" title="Jump to the first comment of this posting." class="comment_comments">1 comment</a></li>
+<li  class="node_read_more"><a href="/video/secure-voip-communication-zrtp" title="Read the rest of this posting." class="node_read_more">Read more</a></li>
+<li  class="last rate"><a href="/video/secure-voip-communication-zrtp#fivestar-form-node-1007733" title="Rate this @type" class="rate">Rate</a></li>
+</ul></div>
+    </div>
+  </div><div class='view-footer view-footer-featured-recorded-video'><style>
+p.videofoot {text-align: right; padding-bottom:0; margin-bottom:0;}
+</style><p class="videofoot"><a href="/video">See more <cite>Linux Journal</cite> Videos</a></p>
+</div>
+</div>
+  </div>  
+</div>
+<div id="block-block-57" class="block block-block"> 
+    <div class="content">
+    <p><center><a href="/live"><img src="/files/linuxjournal.com/images/video/LJLive_A.jpg" /></a></center></p>
+  </div>  
+</div>
+<div id="block-views-popular_recent" class="block block-views"> 
+      <h3>Recently Popular</h3>
+    <div class="content">
+    <div class='view view-popular-recent'><div class='view-content view-content-popular-recent'><table>
+ <thead><tr><th class="view-cell-header view-field-node-title"></th><th class="view-cell-header view-field-votingapi-cache-vote-percent-average-value"></th> </tr></thead>
+<tbody>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/content/running-dos-programs-linux-duke-nukem-lives">Running DOS Programs on Linux: Duke Nukem Lives!</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">4.857145</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on" style="width: 85.7145%"></span></div></div></td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/article/9266">Chapter 16: Ubuntu and Your iPod</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">4.67857</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on" style="width: 67.857%"></span></div></div></td> </tr>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/content/cycles-and-simplicities">Cycles and Simplicities</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">5</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on"></span></div></div></td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/article/3882">Why Python?</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">4.57042</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on" style="width: 57.042%"></span></div></div></td> </tr>
+ <tr class="odd"><td class="view-field view-field-node-title"><a href="/article/2750">Interview with Patrick Volkerding</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">5</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on"></span></div></div></td> </tr>
+ <tr class="even"><td class="view-field view-field-node-title"><a href="/article/4622">Boot with GRUB</a></td><td class="view-field view-field-votingapi-cache-vote-percent-average-value"><div class="fivestar-widget-static fivestar-widget-static-5 clear-block"><div class="star star-1 star-odd star-first"><span class="on">4.190475</span></div><div class="star star-2 star-even"><span class="on"></span></div><div class="star star-3 star-odd"><span class="on"></span></div><div class="star star-4 star-even"><span class="on"></span></div><div class="star star-5 star-odd star-last"><span class="on" style="width: 19.0475%"></span></div></div></td> </tr>
+</tbody>
+</table>
+</div><div class='more-link'><a href="/popular/latest">more</a></div></div>
+  </div>  
+</div>
+<div id="block-block-51" class="block block-block"> 
+      <h3>From the Magazine</h3>
+    <div class="content">
+    
+<div id="latestissue">
+  
+  
+  <div class="content">
+    <a href="/issue/176"><img src="/files/linuxjournal.com/linuxjournal/issues/176/cover176.small.png" /></a>
+    <h4><a href="/issue/176">December 2008&#44;&nbsp;&#35;176</a></h4>
+<p class="big">
+The Oxford English Dictionary says the word "gadget" is a placeholder name for a technical item whose precise name one can't remember. Like that book-reader thingy from Amazon...what's it called? Spindle, Gindle...Kindle, that's it. Check it out in this month's gadget issue. 
+</p><p class="small">
+Other gadgets covered include the Nokia tablets, the BlackBerry, the Neo FreeRunner, the Dash Express, the Roku Netflix Player, the Kangaroo TV, The TomTom GO 930 and the MooBella Ice Cream System. On the larger hardware front, read the reviews of the Acer Aspire One and the YDL PowerStation. On the software front, check out the articles and columns on memcached, Samba security, Mutt, desktop gadgets, bash and Puppet. To wrap it all up, read Doc's thoughts on Google and the browser platform. 
+<br />
+<br />
+</p>    
+       <p><a href="/issue/176">Read this issue</a></p>
+
+  
+
+
+
+
+
+  </div>
+    
+</div>  </div>  
+</div>
+<div id="block-block-45" class="block block-block"> 
+    <div class="content">
+    <div id="smallbox-adblock" class="adblock smallbox-adblock">
+<script language='JavaScript' type='text/javascript'>
+<!--
+phpads_show_ad("http://ads.linuxjournal.com", "31");
+//-->
+</script>
+</div>
+
+
+  </div>  
+</div>
+<div id="block-block-49" class="block block-block"> 
+    <div class="content">
+    <p><img src="/sites/linuxjournal.com/themes/linuxjournal/img/flickr.png" /><a href="http://www.flickr.com/groups/linuxjournal/pool/" target="_blank">Contribute to the <cite>Linux Journal</cite> Flickr Pool</a><br />
+<img src="/sites/linuxjournal.com/themes/linuxjournal/img/twitter.png" /><a href="http://twitter.com/linuxjournal" target="_blank">Follow <cite>Linux Journal</cite> on Twitter</a><br />
+<img src="/misc/feed.png" /><a href="http://www.linuxjournal.com/rss_feeds" target="_blank">Add <cite>Linux Journal</cite> to your RSS reader</a><br />
+<img src="/sites/linuxjournal.com/themes/linuxjournal/img/facebook.png" /><a href="http://www.facebook.com/pages/Houston-TX/Linux-Journal/10098036614?ref=s" target="_blank">Meet other readers on Facebook</a><br />
+<img src="/sites/linuxjournal.com/themes/linuxjournal/img/wii.jpg" /><a href="/content/meet-mii">Get <cite>Linux Journal</cite> Miis</a></p>
+  </div>  
+</div>
+        </div>
+        <!-- END CONTENT RIGHT -->
+      
+       <div class="clear"></div>
+      </div>
+      <!-- CONTENT END =================================================== -->
+
+
+
+      <!-- FOOTER START ================================================== -->
+      <div id="footer">
+        
+<ul class="menu">
+<li class="leaf"><a href="/subscriptions" title="Subscribe">Subscribe</a></li>
+<li class="leaf"><a href="/advertising" title="Advertise with us!">Advertise</a></li>
+<li class="leaf"><a href="/xstatic/aboutus" title="Contact us">Contact us</a></li>
+<li class="leaf"><a href="/content/privacy-statement">Privacy statement</a></li>
+<li class="leaf"><a href="mailto:webmaster@linuxjournal.com">Report problems</a></li>
+<li class="leaf"><a href="/rss_feeds">RSS Feeds</a></li>
+
+</ul>
+        <p class="copyright">Copyright &copy; 1994 - 2008 <a href="http://www.linuxjournal.com"><cite>Linux Journal</cite></a>. All rights reserved.</p>
+                <p class="message">
+</p>
+        
+              </div>
+      <!-- FOOTER END ==================================================== -->
+
+          </div>
+  </div>
+</body>
+</html>

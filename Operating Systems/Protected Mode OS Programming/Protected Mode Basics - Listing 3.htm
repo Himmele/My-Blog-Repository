@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://x86.ddj.com/ftp/source/pmbasics/tspec_a1.l3 -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY><PRE>; Listing 3 -- Support subroutines for exiting protected mode
+;
+;-----------------------------------------------------------------------------
+;
+; TSPEC_A1.L3
+;
+;       Copyright (c) 1991, 1995-Present  Robert Collins
+;
+;       You have my permission to copy and distribute this software for
+;       non-commercial purposes.  Any commercial use of this software or
+;       source code is allowed, so long as the appropriate copyright
+;       attributions (to me) are intact, *AND* my email address is properly
+;       displayed.
+;
+;       Basically, give me credit, where credit is due, and show my email
+;       address.
+;
+;-----------------------------------------------------------------------------
+;
+;       Robert R. Collins               email:  rcollins@x86.org
+;
+;-----------------------------------------------------------------------------
+
+
+;---------------------------------------------------------------;
+;                       BEGIN LISTING 3                         ;
+;---------------------------------------------------------------;
+; Equates &amp; local variables                                     ;
+;---------------------------------------------------------------;
+; Shown here for reference, but defined in TSPEC_A1.ASM         ;
+;---------------------------------------------------------------;
+;       disable_bit20   equ     0ddh    ; disable A20 command   ;
+;                                                               ;
+;                                                               ;
+;_TEXT   SEGMENT WORD PUBLIC 'CODE'                             ;
+;        ASSUME CS:_TEXT, DS:_DATA, ES:_DATA, SS:NOTHING        ;
+;---------------------------------------------------------------;
+; Set_INT_status:  Restores the interrupt status of the 8259A
+;                  programmable interrupt controller (PIC).
+;---------------------------------------------------------------
+; Input:   i8259_1 = Status of master device
+;          i8259_2 = Status of slave device
+;          DS      = _DATA SEGMENT
+; Output:  None
+; Register(s) modified:  None
+;---------------------------------------------------------------
+  Set_int_status        proc    near
+;---------------------------------------------------------------
+        pushf                   ; save interrupt flag
+        cli                     ; we REALLY don't want an int
+                                ;  to come through while we are
+        push    ax              ;  reprogramming the PIC masks
+        mov     al,i8259_1
+        out     mstrmsk,al      ; restore master PIC mask
+        IO_Delay                ; I/O delay
+        mov     al,i8259_2
+        out     slv_msk,al      ; restore slave PIC mask
+        pop     ax
+        popf                    ; restore interrupt flag
+        ret                     ; exit
+Set_int_status  endp
+
+
+;---------------------------------------------------------------
+; SHUT_A20:  Disable A20 from CPU address BUS.
+;---------------------------------------------------------------
+; Input:   None
+; Output:  CY=ERROR
+; Register(s) modified:  None
+;---------------------------------------------------------------
+  Shut_a20      proc    near
+;---------------------------------------------------------------
+        push    ax
+        mov     ah,disable_bit20        ; gate address bit 20 on
+        Call    Gate_A20
+        or      al,al                   ; was command accepted?
+        jz      A20_Shut                ; go if yes
+        stc                             ; set error flag
+
+A20_Shut:
+        pop     ax
+        ret                             ; exit
+Shut_a20        endp
+;---------------------------------------------------------------
+;                       END LISTING 3
+;---------------------------------------------------------------
+ 
+</PRE></BODY></HTML>

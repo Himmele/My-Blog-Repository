@@ -1,0 +1,30 @@
+HTML {
+	BACKGROUND: white; COLOR: darkblue
+}
+BODY {
+	BACKGROUND: white; COLOR: darkblue
+}
+H2 {
+	COLOR: forestgreen
+}
+H3 {
+	COLOR: forestgreen
+}
+H4 {
+	COLOR: forestgreen
+}
+A {
+	COLOR: royalblue
+}
+KBD {
+	COLOR: darkred
+}
+PRE {
+	COLOR: black
+}
+TT {
+	COLOR: black
+}
+P.disp {
+	MARGIN-LEFT: 80px
+}

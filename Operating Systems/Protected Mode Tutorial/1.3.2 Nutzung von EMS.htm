@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys5.htm -->
+<HTML><HEAD><TITLE>Nutzung von EMS</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<SCRIPT language=Javascript>
+<!-- Test Browser Version
+
+    // Javascript written 1998 by Jens Hohmuth (Script-Version: 3.0)
+    // (c) Copyright 1998 by Jens Hohmuth@fh-zwickau.de. All rights reserved.
+
+    var browserok= 0;
+    var version= parseInt( navigator.appVersion );
+
+    if( version >= 3 ) browserok= 1;
+    if( document.images ) browserok= 1;
+
+    if( browserok )
+        {
+        var imgdata_touched = new Array();
+        var imgdata_released= new Array();
+        }
+
+    // load imagedata
+    function precache( name, pic1, pic2 )
+        {
+        if( browserok )
+            {
+            imgdata_touched [ name ]= new Image();
+            imgdata_touched [ name ].src= pic2;
+            imgdata_released[ name ]= new Image();
+            imgdata_released[ name ].src= pic1;
+            }
+        }
+
+    // "Release", called if mouse left button
+    function release( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_released[ name ].src;
+            }
+        }
+
+    // "Touch", called if mouse over link-button
+    function touch( name )
+        {
+        if( browserok )
+            {
+            document.images[ name ].src= imgdata_touched[ name ].src;
+            }
+        }
+
+    // load (precache) Buttons
+    if( browserok )
+        {
+        precache( "left",  "../images/arrowl.gif", "../images/arrowlp.gif" );
+        precache( "right", "../images/arrowr.gif", "../images/arrowrp.gif" );
+        precache( "index", "../images/index.gif",  "../images/indexp.gif" );
+        }
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#c0c0c0 background="Nutzung von EMS-Dateien/stone.jpg">
+<H2><FONT color=#800000>1.3.3 Nutzung von EMS</FONT></H2>
+<H2><FONT color=#000080>Einführung</FONT></H2>
+<P>Mit den obengenannten FAR- bzw. HUGE- Pointern kann die 64 KB Segmentschranke 
+überwunden werden. Ein Problem, den Speicherbedarf eines Programmes zu decken, 
+existiert jedoch noch immer: Die Begrenzung des Speicherbereiches auf 1 MB! Wie 
+weiter oben bereits erwähnt wurde, ist die physische Adresse 20 Bit breit, d.h. 
+maximal kann 1 MB adressiert werden.</P>
+<H2><FONT color=#000080>Expanded Memory Specification (EMS)</FONT></H2>
+<P>Der adressierbare Speicherbereich von 1 Megabyte wird durch das Video-RAM, 
+durch Hardwareerweiterungen und durch das BIOS noch weiter, auf 640 KB, 
+reduziert. Da sich diese 640 KB bald als Grenze für anspruchsvollere Programme 
+erwies, fanden sich die Firmen Lotus, Intel und Microsoft 1985 zusammen, um den 
+nach ihnen benannten <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#lim_ems">LIM-Standard</A> 
+für Speichererweiterungen zu schaffen. </P>
+<P>Dabei handelt es sich in erster Linie um ein Verfahren, den Hauptspeicher 
+eines PCs mit Hilfe einer Erweiterungskarte um bis zu 8 MB zu erhöhen und den so 
+zur Verfügung gestellten Speicher "seitenweise" in den adressierbaren 1 MB 
+Adressraum einzublenden. Von diesen 8 MB können dabei jeweils 64 KB in ein 
+Speicherfenster, das als "Page-Frame" bezeichnet wird, abgebildet werden. Dieses 
+"Page-Frame" muß im adressierbaren Speicherbereich von 1 MB liegen. Meistens 
+wird dabei das Segment ab der Segmentadresse E000h verwendet. </P>
+<P>Weiterhin findet eine feinere Unterteilung des 64 KB Segmentes in 4 Blöcke zu 
+jeweils 16 KB statt. Dabei kann der physische Inhalt dieser Blöcke überall im <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#lim_ems">Expanded 
+Memory</A> (also auf der Erweiterungskarte) liegen. Expanded Memory darf dabei 
+nicht mit <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#xms">Extended 
+Memory</A> verwechselt werden. Abb. 1.3 stellt die Einblendung von logischen 
+Speicherseiten dar.</P>
+<CENTER>
+<P><IMG alt="Einblenden logischer Speicherseiten" 
+src="Nutzung von EMS-Dateien/r_1_3.gif" border=2> <BR><I><B>Abb. 1.3:</B> 
+Einblenden von logischen Speicherseiten in den 1MB Adressraum</I> </P></CENTER>
+<P>Neben der Hardware in Form einer Eweiterungskarte existiert eine weitere 
+Komponente, die für den Speicherzugriff notwendig ist, die 
+Softwareschnittstelle. Dabei handelt es sich um einen Gerätetreiber (den 
+sogenannten "Expanded Memory Manager", kurz EMM), der einem Anwendungsprogramm 
+Funktionen für den Zugriff auf das Expanded Memory zur Verfügung stellt und 
+dadurch die direkte Programmierung der Erweiterungskarte übernimmt. </P>
+<P><B>Anmerkung:</B> Neben der ursprünglich geplanten Nutzung einer 
+Erweiterungskarte zur Bereitstellung von Expanded Memory, existiert ab der 
+Version 4.0 des LIM / EMS Standards die Möglichkeit, Expanded Memory durch 
+Extended Memory (Speicher über dem 1MB-Adressraum) zu simulieren. Diese 
+Möglichkeit soll an dieser Stelle jedoch noch nicht betrachtet werden, da diese 
+Memory Manager auf dem Paging Mechanismus aufbauen. Siehe auch <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/p_spez1.htm">Kapitel 3.1 
+Paging</A>. Obwohl die Quelle des Speichers in diesem Fall eine andere ist, sind 
+die bereitgestellten Funktionen die gleichen.</P>
+<H2><FONT color=#000080>Bereitgestellte Funktionen</FONT></H2>
+<P>Die Funktionen eines EMM werden über den Interrupt 67h aufgerufen, wobei das 
+Register AH eine gültige Funktionsnummer enthalten muß. Tritt bei der 
+aufgerufenen Funktion ein Fehler auf, so liefert der EMM einen Fehlercode in AH, 
+sonst ist AH nach dem Aufruf zurückgesetzt (AH = 0).</P>
+<P>Mögliche Fehlercodes finden Sie unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/ems_erro.htm">EMM-Fehlercodes</A>. 
+</P>
+<P>Im folgenden soll anhand von zwei Beispiel-Routinen die Benutzung der 
+bereitgestellten Funktionen demonstriert werden. Dabei dient die erste Routine 
+dazu, festzustellen ob ein EMM installiert wurde und eine zweite Routine 
+ermittelt die aktuelle Versionsnummer.</P>
+<P>Eine Aufstellung aller, durch die Version 3.0 des EMS-Standards zur Verfügung 
+gestellter Funktionen, finden Sie unter <A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/ems_fkt.htm">EMM-Funktionen</A>. 
+</P>
+<P><FONT color=#000080>1. Feststellen, ob ein Expanded Memory Manager (kurz: 
+EMM) installiert wurde:</FONT></P>
+<P>Der EMM gehört zur Klasse der Gerätetreiber und besitzt daher einen 
+Treiberkopf, in dem der Name des Treibers festgehalten wird. Nach dem LIM/EMS 
+Standard muß sich an der Offsetadresse 10d des Treibers die Kennung 'EMMXXXX0' 
+befinden. Die Adresse dieser Zeichenfolge kann über die Segmentadresse der zum 
+Interrupt 67h gehörenden Routine und der Offsetadresse 0Ah (10d) ermittelt 
+werden. Handelt es sich bei der Zeichenfolge um den obengenannten String: 
+'EMMXXXX0', so steht ein Expanded Memory Manager zur Verfügung. </P>
+<P>Vergleichen Sie auch mit folgender Assembler-Routine:</P><PRE><I>; Feststellen ob ein EMM installiert wurde
+ems_check   proc
+            push ds si es di
+
+    ; Segmentadresse der Interruptroutine (Int 67h) ermitteln
+            mov ah,35h
+            mov al,67h
+            int 21h
+
+    ; es= Segmentadresse
+    ; bx= Offsetadresse der Routine (wird nicht benötigt)
+
+    ; testen ob es:000Ah die Kennung 'EMMXXXX0' enthält
+            push es
+            pop ds
+            mov si,0Ah
+
+            mov di,seg EMM_STRING
+            mov es,di
+            mov di,offset EMM_STRING	; es:di -&gt; auf Erkennungsstring 'EMMXXXX0'
+
+            mov cx,8
+            repe cmpsb
+            jcxz gefunden
+
+    nicht_gefunden:
+            mov ax,0
+            jmp quit
+
+    gefunden:
+            mov ax,1
+
+    quit:
+            pop di es si ds
+            ret
+            endp</I>
+</PRE>
+<P>Konnte die obengenannte Zeichenkette gefunden werden, liefert die Funktion in 
+AX den Wert 1 (TRUE). Im Fehlerfall übergibt sie der aufrufenden Routine den 
+Wert 0 in AX (FALSE). </P>
+<P><FONT color=#000080>2. Versionsnummer ermitteln:</FONT></P>
+<P>Über die Funktion 46h stellt der EMM seine Versionsnummer im Register AL zur 
+Verfügung (<A 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/begriffe.htm#bcd_code">BCD-Format</A>). 
+Dabei handelt es sich bei den oberen 4 Bit in AL um die Hauptversionsnummer. Die 
+Nummer der Unterversion befindet sich in den unteren 4 Bit. </P>
+<P>Die folgende Assemblerroutine erwartet als Parameter einen FAR-Zeiger auf 
+einen WORD Speicherplatz, in dem die Versionsnummer in ungepackter BCD-Code 
+Darstellung festgehalten wird. Wenn kein Fehler in der Kommunikation mit dem 
+EMM-Treiber auftritt, liefert die Funktion TRUE (AX=1), ansonsten FALSE 
+(AX=0).</P><PRE><I>ems_version proc ver:dword
+            push es ds di
+
+    ; es:di = Zeiger auf Version
+            les di,ver
+
+    ; Versionsnummer ermitteln
+            mov ah,46h
+            int 67h
+
+    ; EMM-Fehler aufgetreten (ah &lt;&gt; 0) ?
+            cmp ah,0
+            je version_ok
+
+    ; Hier kann eine Fehlerbehandlung durchgeführt werden
+
+    ; FALSE zurückliefern, Funktion fehlgeschlagen
+            mov ax,FALSE
+            jmp version_quit
+
+    version_ok:
+
+    ; gepackten BCD-Code(al) in ungepackten BCD-Code in ax umwandeln und ...
+            and ax,0FFh
+            shl ax,4
+            shr al,4
+
+    ; unter &lt;ver&gt; speichern
+            stosb
+            mov al,ah
+            stosb
+
+    ; Funktion erfolgreich, TRUE liefern
+            mov ax,TRUE
+
+    version_quit:
+            pop di ds es
+            ret
+            endp</I>
+</PRE>
+<P>Auf ähnliche Weise läßt sich auch die Adresse des Page-Frames ermitteln. Nach 
+Aufruf der Funktion 41h befindet sich in BX die Segmentadresse des Page-Frames. 
+</P>
+<P><FONT color=#000080>3. Mit dem EMS- Speicher arbeiten:</FONT></P>
+<P><B>Belegen / Reservieren von Speicher:</B> </P>
+<P>Funktion 43h ist für die Reservierung von EMS-Speicher zuständig. </P>
+<P>Dazu wird der Funktion in BX die Anzahl der zu belegenden Seiten übergeben 
+(eine Seite umfaßt dabei einen Speicherbereich von 16 KB). Falls bei der 
+Reservierung dieser Speicherseiten kein Fehler aufgetreten ist, liefert die 
+Funktion im Register DX ein Handle auf den reservierten Speicher. </P>
+<P>Alle weiteren Funktionen (Einblenden von Speicherseiten, Speicher freigeben, 
+etc.) benötigen dieses Handle, um auf den EMS-Speicher zugreifen zu können. Das 
+Handle muß vom entsprechenden Anwenderprogramm selbst verwaltet werden!</P>
+<P><B>Speicherseiten in Page-Frame einblenden:</B> </P>
+<P>Über die Funktion 44h stellt der EMM eine Möglichkeit bereit, Speicherseiten 
+(jeweils 16 KB) aus dem EMS in den 1MB Speicherbereich einzublenden. Dazu muß 
+der Funktion im Register DX ein gültiges EMS-Handle, im Register BX die Nummer 
+der logischen ("Quell-") Page im EMS und im Register AL die Nummer der 
+physischen Seite innerhalb des durch die Page Frame Adresse festgelegten 
+Segmentes (0 bis 3) übergeben werden (siehe auch Abb 1.4). </P>
+<CENTER>
+<P><IMG alt="Einblenden logischer Seiten (Mapping)" 
+src="Nutzung von EMS-Dateien/r_1_4.gif" border=2> <BR><I><B>Abb. 1.4:</B> 
+Einblenden logischer Seiten in den 1MB Adressraum (Mapping)</I> </P></CENTER>
+<P><B>Speicher freigeben</B></P>
+<P>Falls der EMS-Speicher nicht mehr benötigt wird, so sollte er über die 
+Funktion 45h freigegeben werden. Wird der Speicher nicht freigegeben, so bleibt 
+er für andere Anwendungen bis zu einem Neustart des Rechners als belegt 
+gekennzeichnet und ist somit nicht mehr verfügbar. </P>
+<CENTER>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center align=middle>
+    <TD vAlign=top align=middle bgColor=#ff0000><IMG alt=Beispiel 
+      src="Nutzung von EMS-Dateien/bred.gif" border=0> </TD>
+    <TD vAlign=top align=left width="99%">
+      <P>Die beiden beschriebenen Routinen befinden sich zusammen mit einigen 
+      anderen, für den Zugriff auf das Expanded Memory notwendigen Routinen, in 
+      der Datei <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/ems.asm">ems.asm</A>. 
+      Zusammen mit den Routinen aus den C-Testprogrammen <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/emstst1.c">emstst1.c</A> 
+      und <A 
+      href="http://www.fh-zwickau.de/doc/prmo/pmtutor/code/realmode/emstst2.c">emstst2.c</A> 
+      sollen sie das Prinzip bei der Nutzung des EMS-Speichers 
+    verdeutlichen.</P></TD></TR></TBODY></TABLE></CENTER><!-- wie gehts weiter ------------------------------------------------------>
+<P>
+<HR SIZE=2>
+
+<P></P><A onmouseover="touch( 'left' );" onmouseout="release( 'left' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys4.htm"><IMG 
+alt=Zurück src="Nutzung von EMS-Dateien/arrowl.gif" align=left border=0 
+name=left></A> <A onmouseover="touch( 'right' );" 
+onmouseout="release( 'right' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/r_phys6.htm"><IMG 
+alt=Weiter src="Nutzung von EMS-Dateien/arrowr.gif" align=right border=0 
+name=right></A> 
+<CENTER><A onmouseover="touch( 'index' );" onmouseout="release( 'index' );" 
+href="http://www.fh-zwickau.de/doc/prmo/pmtutor/text/index.htm#realmode"><IMG 
+alt="Zum Index" src="Nutzung von EMS-Dateien/index.gif" border=0 name=index></A> 
+</CENTER><BR><!-- Adresse --------------------------------------------------------------->
+<HR SIZE=2>
+
+<ADDRESS>Probleme oder Vorschläge bitte per email an: <A 
+href="mailto:hohmuth@t-online.de"><B>hohmuth@t-online.de</B> </A><BR>Letzte 
+Änderungen am: 02.01.1999, Jens Hohmuth. </ADDRESS></BODY></HTML>

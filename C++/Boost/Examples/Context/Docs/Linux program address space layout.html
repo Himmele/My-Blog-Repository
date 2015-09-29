@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Linux Kernel logical address space organisation - Unix and Linux</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/unix/img/favicon.ico">
+    <link rel="apple-touch-icon" href="http://cdn.sstatic.net/unix/img/apple-touch-icon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="Unix and Linux - Stack Exchange" href="http://unix.stackexchange.com/opensearch.xml">
+
+    
+    <script type="text/javascript" async="" src="./Linux program address space layout_files/ga.js"></script><script type="text/javascript" async="" src="./Linux program address space layout_files/quant.js"></script><script type="text/javascript" src="./Linux program address space layout_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./Linux program address space layout_files/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Linux program address space layout_files/all.css">
+    
+    <link rel="canonical" href="./Linux program address space layout_files/Linux program address space layout.html">
+    <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;Linux Kernel logical address space organisation&#39;" href="http://unix.stackexchange.com/feeds/question/16595">
+        <script type="text/javascript" defer="">
+            StackExchange.gps.track("Question.Show", { "Experiments__LazyRegister": "baseline" });
+        </script>
+    <script type="text/javascript">
+        
+        StackExchange.ready(function () {
+            
+            StackExchange.question.init({showAnswerHelp:true,totalCommentCount:0,shownCommentCount:0,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:16595});
+
+            styleCode();
+
+                StackExchange.realtime.subscribeToQuestion('106', '16595');
+            
+                
+        });
+    </script>
+
+
+        <script type="text/javascript">
+             StackExchange.ready(function () {
+                 StackExchange.realtime.init('ws://sockets-se.or.stackexchange.com:80,sockets-se.or.stackexchange.com:443');
+                StackExchange.realtime.subscribeToInboxNotifications();
+                                 StackExchange.realtime.subscribeToReputationNotifications('106');            
+                         });
+        </script>
+    <script type="text/javascript">
+        StackExchange.init({"stackAuthUrl":"https://stackauth.com","serverTime":1356912174,"styleCode":true,"enableUserHovercards":true,"site":{"name":"Unix and Linux","description":"Q&A for users of Linux, FreeBSD and other Un*x-like operating systems.","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdsB7sSAAAAAAzjgEF_Hd8vXv-C42sa_KyofaGR","enableSocialMediaInSharePopup":true},"user":{"fkey":"c59fd0c92f208c81d57f244309717f9a","isAnonymous":true}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"c862bf93b3ec","js/moderator.js":"37bba549a03e","js/full-anon.js":"27033739c1ff","js/full.js":"a75bd3a05af1","js/wmd.js":"0360a509b7c2","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/mobile.js":"6eb68240242f","js/help.js":"fc9fb0517db2","js/tageditor.js":"450c9e8426fc","js/tageditornew.js":"9ac6c13a3a7f","js/inline-tag-editing.js":"30f72b99548b","js/revisions.js":"8c6bcd93b7fe","js/review.js":"3a8e6a0a0dc8"});
+        
+    </script>
+
+
+    <script type="text/javascript">
+        StackExchange.using(
+            "gps",
+            function () {
+                StackExchange.gps.init(true);
+            }
+        );
+    </script>
+<script async="" type="text/javascript" src="./Linux program address space layout_files/full-anon.js"></script></head>
+<body class="question-page">
+    <noscript>&lt;div id="noscript-padding"&gt;&lt;/div&gt;</noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+                <a class="genu" onclick="StackExchange.ready(function(){genuwine.click();});return false;">Stack Exchange</a>
+            </div>
+            <div id="topbar">
+                <div id="hlinks">
+                    
+
+
+
+
+
+
+
+
+
+<span id="hlinks-user">
+
+</span>
+<span id="hlinks-nav">
+                   <a href="http://unix.stackexchange.com/users/login?returnurl=%2fquestions%2f16595%2flinux-kernel-logical-address-space-organisation">log in</a>
+
+ <span class="lsep">|</span>
+
+</span>
+<span id="hlinks-custom">
+        <a href="http://chat.stackexchange.com/">chat</a>
+
+ <span class="lsep">|</span>
+                <a href="http://meta.unix.stackexchange.com/">meta</a>
+
+ <span class="lsep">|</span>
+        <a href="http://unix.stackexchange.com/about">about</a>
+
+ <span class="lsep">|</span>
+    <a href="http://unix.stackexchange.com/faq">faq</a>
+
+</span>
+                </div>
+                <div id="hsearch">
+                    <form id="search" action="http://unix.stackexchange.com/search" method="get" autocomplete="off">
+                    <div>
+                        <input autocomplete="off" name="q" class="textbox" placeholder="search" tabindex="1" type="text" maxlength="140" size="28" value="">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://unix.stackexchange.com/">Unix and Linux</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="http://unix.stackexchange.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://unix.stackexchange.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://unix.stackexchange.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://unix.stackexchange.com/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://unix.stackexchange.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://unix.stackexchange.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-content"><script>
+StackExchange.ready(function () {
+    $.ajax({
+        url: "http://cdn.prom.sstatic.net/WinterBash/js/core.js?v=3",
+        dataType: "script",
+        cache: true
+    }).done(function () {
+        WinterBash.core.init('winterba.sh', 'http://cdn.prom.sstatic.net/WinterBash/');
+    });
+});
+</script></div>
+
+
+
+        <div id="content">
+            
+
+<div itemscope="" itemtype="http://schema.org/Article">
+<link itemprop="image" href="http://cdn.sstatic.net/unix/img/apple-touch-icon.png">
+<div id="question-header">
+    <h1 itemprop="name"><a href="./Linux program address space layout_files/Linux program address space layout.html" class="question-hyperlink">Linux Kernel logical address space organisation</a></h1>
+</div>
+<div id="mainbar">
+
+
+
+<div class="question" id="question" data-questionid="16595">
+    
+    <table>
+    <tbody><tr>
+    <td class="votecell">
+        
+
+<div class="vote">
+    <input type="hidden" value="16595">
+    <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+    <span class="vote-count-post ">5</span>
+    <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+    
+    <a class="star-off" href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation#" title="This is a favorite question (click again to undo)">favorite</a>
+    <div class="favoritecount"><b>1</b></div>   
+
+ 
+</div>
+
+    </td>
+    
+<td class="postcell">
+<div>          
+    <div class="post-text" itemprop="description">
+        <p>According to "Write Great Code" in almost all OS run time memory is organized into following regions:</p>
+
+<blockquote>
+  <p>OS | Stack | Heap | Text | Static | Storage/BSS</p>
+  
+  <p>[In increasing address fashion]</p>
+</blockquote>
+
+<p>User space process uses higher memory region for its different types of data objects.</p>
+
+<p>Kernel space process also have different types of data objects. Do these objects share the user space memory regions (stack, heap etc) or do they have there own separate sub-sections(heap, stack etc) located in OS region.And, if so, what is the order in which they are arranged.
+Thanks,</p>
+
+    </div>            
+    <div class="post-taglist">
+        <a href="http://unix.stackexchange.com/questions/tagged/linux" class="post-tag" title="show questions tagged &#39;linux&#39;" rel="tag">linux</a> <a href="http://unix.stackexchange.com/questions/tagged/kernel" class="post-tag" title="show questions tagged &#39;kernel&#39;" rel="tag">kernel</a> <a href="http://unix.stackexchange.com/questions/tagged/memory" class="post-tag" title="show questions tagged &#39;memory&#39;" rel="tag">memory</a> <a href="http://unix.stackexchange.com/questions/tagged/kernel-modules" class="post-tag" title="" rel="tag">kernel-modules</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://unix.stackexchange.com/q/16595" title="short permalink to this question" class="short-link" id="link-post-16595">share</a><span class="lsep">|</span><a href="http://unix.stackexchange.com/posts/16595/edit" class="suggest-edit-post" title="">improve this question</a></div>
+    </td>
+    <td align="right" class="post-signature">
+
+
+    <div class="user-info ">
+        <div class="user-action-time">
+                            edited
+                             <a href="http://unix.stackexchange.com/posts/16595/revisions" title="show all edits to this post"><span title="2011-07-13 14:18:09Z" class="relativetime">Jul 13 '11 at 14:18</span></a>
+
+        </div>
+        <div class="user-gravatar32">
+            
+        </div>
+        <div class="user-details">
+            <br>
+            
+        </div>
+    </div>
+    </td>
+    <td class="post-signature owner">
+    
+
+    <div class="user-info ">
+        <div class="user-action-time">
+                                    asked
+ <span title="2011-07-13 14:11:50Z" class="relativetime">Jul 13 '11 at 14:11</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://unix.stackexchange.com/users/5071/gkt"><div class=""><img src="./Linux program address space layout_files/a38a25dc23063b7057638db17b74b87b" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://unix.stackexchange.com/users/5071/gkt">gkt</a><br>
+            <span class="reputation-score" title="reputation score" dir="ltr">98</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="6 bronze badges"><span class="badge3"></span><span class="badgecount">6</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>    </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-16595" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful" style="color: rgb(136, 136, 136); ">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>    
+</div>
+
+
+    
+
+
+<div id="answers">
+
+    <a name="tab-top"></a>
+    <div id="answers-header">
+        <div class="subheader answers-subheader">
+            <h2>
+                    3 Answers
+            </h2>
+            <div id="tabs">
+                <a href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+<a href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+<a class="youarehere" href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+
+            </div>
+        </div>    
+    </div>    
+
+
+
+
+
+  
+    <a name="16613"></a>
+    <div id="answer-16613" class="answer" data-answerid="16613">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+
+<div class="vote">
+    <input type="hidden" value="16613">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">2</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+ 
+</div>
+
+        </td>
+        
+
+
+<td class="answercell">
+    <div class="post-text"><p>It is wrong about the ordering.  The OS is located at the top of memory, which is generally above the 3 GB mark ( 0xC0000000 ) in the 32bit kernel, and in the 64bit kernel it is the half way point of 0x8000000000000000 IIRC.</p>
+
+<p>The location of the stack and heap are randomized.  There is no real rule about the ordering of the text/data/bss segments within the main program, and every dynamic library has its own set of these, so there are many of them scattered all over memory.</p>
+
+<p>Back when dinosaurs ruled the earth ( 20+ years ago ), the program address space was linear ( no holes ) and the order was text, data, bss, stack, heap.  There were also no dynamic libraries or threading back then.  That all changed with virtual memory.</p>
+
+<p>Kernel processes are entirely contained within the kernel part of the address space; the user portion is ignored.  This allows the kernel to speed up context switching between kernel threads beacuse it does not have to update the page tables since all processes share the same kernel portion of the page tables.</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://unix.stackexchange.com/a/16613" title="short permalink to this answer" class="short-link" id="link-post-16613">share</a><span class="lsep">|</span><a href="http://unix.stackexchange.com/posts/16613/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    
+
+    <div class="user-info ">
+        <div class="user-action-time">
+                                    answered
+ <span title="2011-07-13 18:11:59Z" class="relativetime">Jul 13 '11 at 18:11</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://unix.stackexchange.com/users/7285/psusi"><div class=""><img src="./Linux program address space layout_files/ce0150ff68789389639241c568dca423" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://unix.stackexchange.com/users/7285/psusi">psusi</a><br>
+            <span class="reputation-score" title="reputation score" dir="ltr">3,719</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="10 bronze badges"><span class="badge3"></span><span class="badgecount">10</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-16613" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful" style="color: rgb(136, 136, 136); ">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>
+</div>
+
+
+  
+    <a name="17253"></a>
+    <div id="answer-17253" class="answer" data-answerid="17253">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+
+<div class="vote">
+    <input type="hidden" value="17253">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">2</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+ 
+</div>
+
+        </td>
+        
+
+
+<td class="answercell">
+    <div class="post-text"><p>This is not true of “almost all OS”. The kinds of memory areas represented are fairly typical, but there's no reason why they should be in any particular order, and there can be more than one piece of a given kind.</p>
+
+<p>Under Linux, you can look at a process's address space with <code>cat /proc/$pid/maps</code> where <code>$pid</code> is the process ID, e.g. <code>cat /proc/$$/maps</code> to look at the shell you're running <code>cat</code> from, or <code>cat /proc/self/maps</code> to look at the <code>cat</code> process's own mappings.</p>
+
+<pre><code>08048000-08054000 r-xp 00000000 08:01 828061     /bin/cat
+08054000-08055000 r--p 0000b000 08:01 828061     /bin/cat
+08055000-08056000 rw-p 0000c000 08:01 828061     /bin/cat
+08c7f000-08ca0000 rw-p 00000000 00:00 0          [heap]
+b755a000-b7599000 r--p 00000000 08:01 273200     /usr/lib/locale/en_US.utf8/LC_CTYPE
+b7599000-b759a000 rw-p 00000000 00:00 0 
+b759a000-b76ed000 r-xp 00000000 08:01 269273     /lib/tls/i686/cmov/libc-2.11.1.so
+b76ed000-b76ee000 ---p 00153000 08:01 269273     /lib/tls/i686/cmov/libc-2.11.1.so
+b76ee000-b76f0000 r--p 00153000 08:01 269273     /lib/tls/i686/cmov/libc-2.11.1.so
+b76f0000-b76f1000 rw-p 00155000 08:01 269273     /lib/tls/i686/cmov/libc-2.11.1.so
+b76f1000-b76f4000 rw-p 00000000 00:00 0 
+b770b000-b7712000 r--s 00000000 08:01 271618     /usr/lib/gconv/gconv-modules.cache
+b7712000-b7714000 rw-p 00000000 00:00 0 
+b7714000-b7715000 r-xp 00000000 00:00 0          [vdso]
+b7715000-b7730000 r-xp 00000000 08:01 263049     /lib/ld-2.11.1.so
+b7730000-b7731000 r--p 0001a000 08:01 263049     /lib/ld-2.11.1.so
+b7731000-b7732000 rw-p 0001b000 08:01 263049     /lib/ld-2.11.1.so
+bfbec000-bfc01000 rw-p 00000000 00:00 0          [stack]
+</code></pre>
+
+<p>You can see the code and the read-write data (text and BSS) from the executable, then the heap, then a memory-mapped file, then a little more read-write data, then code, read-only data and read-write data from a shared library (text and BSS again), more read-write data, another shared library (more precisely, the dynamic linker), and finally the sole thread's stack.</p>
+
+<p>Kernel code uses its own address ranges. On many platforms, Linux uses the upper part of the address space for the kernel, often the upper 1GB. Ideally, this space would be enough to map kernel code, kernel data, and the system memory (RAM) and every memory-mapped device. On typical 32-bit PCs of today, this isn't possible, which requires contortions that are only of interest to kernel hackers.</p>
+
+<p>While kernel code is handling a system call, ideally (when the aforementioned contortions are not in place) the process's memory is mapped at the same addresses. This allows processes to pass data to the kernel, and the kernel can read from the pointer directly. It's not a big gain, though, since the pointers need to be validated anyway (so that the process can't trick the kernel into reading from memory that the process isn't supposed to have access to).</p>
+
+<p>The memory zones inside the Linux kernel space are fairly complex. There are several different memory pools, and the main distinctions aren't about where the memory comes from but rather who it's shared with. If you're curious about them, start with <a href="http://lwn.net/Kernel/LDD3/" rel="nofollow">LDD3</a>.</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://unix.stackexchange.com/a/17253" title="short permalink to this answer" class="short-link" id="link-post-17253">share</a><span class="lsep">|</span><a href="http://unix.stackexchange.com/posts/17253/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    
+
+    <div class="user-info user-hover">
+        <div class="user-action-time" style="margin-left: 37px; ">
+                                    answered
+ <span title="2011-07-22 20:53:18Z" class="relativetime">Jul 22 '11 at 20:53</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://unix.stackexchange.com/users/885/gilles"><div class="hat" style="float: left; display: block; width: 0px; height: 0px; overflow-x: visible; overflow-y: visible; position: relative; left: -2.25px; top: -13px; "><div style="width: 37px; height: 31px; background-image: url(http://cdn.prom.sstatic.net/WinterBash/img/sprite-32.png); background-position: -7px -2px; "></div></div><div class=""><img src="./Linux program address space layout_files/a717291747c76567bb0f086e15ae6e43" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://unix.stackexchange.com/users/885/gilles">Gilles</a><br>
+            <span class="reputation-score" title="reputation score 118652" dir="ltr">119k</span><span title="12 gold badges"><span class="badge1"></span><span class="badgecount">12</span></span><span title="128 silver badges"><span class="badge2"></span><span class="badgecount">128</span></span><span title="284 bronze badges"><span class="badge3"></span><span class="badgecount">284</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-17253" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful" style="color: rgb(136, 136, 136); ">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>
+</div>
+
+
+  
+    <a name="16603"></a>
+    <div id="answer-16603" class="answer" data-answerid="16603">
+        <table>
+        <tbody><tr>
+        <td class="votecell">
+            
+
+<div class="vote">
+    <input type="hidden" value="16603">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">0</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+ 
+</div>
+
+        </td>
+        
+
+
+<td class="answercell">
+    <div class="post-text"><p>Not an answer, but an FYI that needs more space.</p>
+
+<p>I don't think your conception of logical address layout is at all correct.</p>
+
+<p>You can compile and run this program to see what a userland process has for addresses:</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+long global_initialized = 119234;
+long global_uninitialized;
+extern int _end, _edata, _etext;
+int
+main(int ac, char **av)
+{
+        long local;
+
+        printf("main at 0x%lx\n", main);
+        printf("ac at   0x%lx\n", &amp;ac);
+        printf("av at   0x%lx\n", &amp;av);
+        printf("av has  0x%lx\n", av);
+        printf("initialized global at 0x%lx\n", &amp;global_initialized);
+        printf("global at             0x%lx\n", &amp;global_uninitialized);
+        printf("local at              0x%lx\n", &amp;local);
+        printf("_end at               0x%lx\n", &amp;_end);
+        printf("_edata at             0x%lx\n", &amp;_edata);
+        printf("_etext at             0x%lx\n", &amp;_etext);
+        return 0;
+}
+</code></pre>
+
+<p>The Red Hat Enterprise Server I have running, has <code>readelf</code>, which can be used to say where the kernel would (logically) load an executable file: </p>
+
+<pre><code>readelf -S where
+</code></pre>
+
+<p>Shows me a lot of the same addressing information that the output of <code>where</code> gives.</p>
+
+<p>I don't think <code>readelf</code> will easily work on a Linux kernel (/boot/vmlinuz or some such), and I think that the kernel by default starts at 0x80000000 in its own address space: it's not mapped in a userland process, despite using an address above the userland stack top at 0x7fffffff (x86, 32 bit addressing).</p>
+</div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+
+
+
+
+
+
+
+
+
+<div class="post-menu"><a href="http://unix.stackexchange.com/a/16603" title="short permalink to this answer" class="short-link" id="link-post-16603">share</a><span class="lsep">|</span><a href="http://unix.stackexchange.com/posts/16603/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </td>
+            
+
+
+    <td align="right" class="post-signature">   
+       
+
+    
+
+    <div class="user-info user-hover">
+        <div class="user-action-time">
+                                    answered
+ <span title="2011-07-13 16:07:51Z" class="relativetime">Jul 13 '11 at 16:07</span>
+        </div>
+        <div class="user-gravatar32">
+            <a href="http://unix.stackexchange.com/users/732/bruce-ediger"><div class=""><img src="./Linux program address space layout_files/d04023769b4d78b1e091358d264b06bf" alt="" width="32" height="32"></div></a>
+        </div>
+        <div class="user-details">
+            <a href="http://unix.stackexchange.com/users/732/bruce-ediger">Bruce Ediger</a><br>
+            <span class="reputation-score" title="reputation score" dir="ltr">9,294</span><span title="8 silver badges"><span class="badge2"></span><span class="badgecount">8</span></span><span title="17 bronze badges"><span class="badge3"></span><span class="badgecount">17</span></span>
+        </div>
+    </div>
+
+    </td>
+    </tr>
+    </tbody></table>
+</td>        </tr>
+
+
+<tr>
+<td class="votecell"></td>
+<td>
+    <div id="comments-16603" class="comments dno">
+        <table>
+        <tbody>
+        
+            <tr><td></td><td></td></tr>
+        
+        </tbody>
+    
+        </table>
+    </div>
+    
+    
+    <div class="was-this-helpful">
+        feedback
+    </div>
+    
+</td>
+</tr>            </tbody></table>
+</div>
+    <a name="new-answer"></a>
+    <form id="post-form" action="http://unix.stackexchange.com/questions/16595/answer/submit" method="post" class="post-form">
+        <h2 class="space">Your Answer</h2>
+
+
+
+
+<script type="text/javascript">
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+         
+        prepareEditor({
+            heartbeatType: 'answer',
+            bindNavPrevention: true,
+            postfix: "",
+            onDemand: true,
+            discardSelector: ".discard-answer"
+            ,immediatelyShowMarkdownHelp:true
+        });
+        
+
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor">  
+
+    
+    <div class="wmd-container">
+        <div id="wmd-button-bar" class="wmd-button-bar"><ul id="wmd-button-row" class="wmd-button-row"><li id="wmd-bold-button" class="wmd-button" style="left: 0px; "><span style="background-position: 0px -20px; "></span></li><li id="wmd-italic-button" class="wmd-button" style="left: 25px; "><span style="background-position: -20px -20px; "></span></li><li id="wmd-spacer1" class="wmd-spacer" style="left: 50px; "><span style="background-position: -40px -20px; "></span></li><li id="wmd-link-button" class="wmd-button" style="left: 75px; "><span style="background-position: -40px -20px; "></span></li><li id="wmd-quote-button" class="wmd-button" style="left: 100px; "><span style="background-position: -60px -20px; "></span></li><li id="wmd-code-button" class="wmd-button" style="left: 125px; "><span style="background-position: -80px -20px; "></span></li><li id="wmd-image-button" class="wmd-button" style="left: 150px; "><span style="background-position: -100px -20px; "></span></li><li id="wmd-spacer2" class="wmd-spacer" style="left: 175px; "><span style="background-position: -120px -20px; "></span></li><li id="wmd-olist-button" class="wmd-button" style="left: 200px; "><span style="background-position: -120px -20px; "></span></li><li id="wmd-ulist-button" class="wmd-button" style="left: 225px; "><span style="background-position: -140px -20px; "></span></li><li id="wmd-heading-button" class="wmd-button" style="left: 250px; "><span style="background-position: -160px -20px; "></span></li><li id="wmd-hr-button" class="wmd-button" style="left: 275px; "><span style="background-position: -180px -20px; "></span></li><li id="wmd-spacer3" class="wmd-spacer" style="left: 300px; "><span style="background-position: -200px -20px; "></span></li><li id="wmd-undo-button" class="wmd-button" style="left: 325px; "><span style="background-position: -200px -20px; "></span></li><li id="wmd-redo-button" class="wmd-button" style="left: 350px; "><span style="background-position: -220px -20px; "></span></li></ul></div>
+        <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="c59fd0c92f208c81d57f244309717f9a">
+        <input id="author" name="author" type="text">
+    </div>
+</div>            <div class="form-item">
+        <table>
+        <tbody><tr>
+            <td class="vm open-id-login">
+                <a id="login-link" style="font-size: 200%; margin-left: 30px;" href="http://unix.stackexchange.com/users/login?returnurl=%2fquestions%2f16595%2flinux-kernel-logical-address-space-organisation">log in</a>
+                <script type="text/javascript">
+                    StackExchange.ready(function () {
+                        StackExchange.helpers.onClickDraftSave('#login-link');
+                    });
+                </script>
+            </td>
+            <td class="orcell">
+                <div class="orword">or</div>
+                <div class="orline"></div>
+            </td>
+            <td class="vm">
+                <div>
+                    <label for="display-name">Name</label>
+                    <input id="display-name" name="display-name" type="text" size="30" maxlength="30" value="" tabindex="105">
+                </div>
+                <div>
+                    <label for="m-address">Email</label>
+                    <input id="m-address" name="m-address" type="text" size="40" maxlength="100" value="" tabindex="106">
+                    <span class="edit-field-overlay">required, but never shown</span>
+                </div>
+                <div>
+                    <label for="home-page">Home Page</label>
+                    <input id="home-page" name="home-page" type="text" size="40" maxlength="200" value="" tabindex="107">
+                </div>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+           
+            <div class="form-submit cbt">
+            <input id="submit-button" type="submit" value="Post Your Answer" tabindex="110">
+            <a href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation#" class="discard-answer dno">discard</a>
+    <p class="privacy-policy-agreement">
+        By posting your answer, you agree to the 
+        <a href="http://stackexchange.com/legal/privacy-policy" target="_blank">privacy policy</a> and 
+        <a href="http://stackexchange.com/legal/terms-of-service" target="_blank">terms of service</a>.
+    </p>
+        </div>
+    </form>
+
+
+
+        <h2 class="bottom-notice">
+                Not the answer you're looking for? 
+            Browse other questions tagged <a href="http://unix.stackexchange.com/questions/tagged/linux" class="post-tag" title="show questions tagged &#39;linux&#39;" rel="tag">linux</a> <a href="http://unix.stackexchange.com/questions/tagged/kernel" class="post-tag" title="show questions tagged &#39;kernel&#39;" rel="tag">kernel</a> <a href="http://unix.stackexchange.com/questions/tagged/memory" class="post-tag" title="show questions tagged &#39;memory&#39;" rel="tag">memory</a> <a href="http://unix.stackexchange.com/questions/tagged/kernel-modules" class="post-tag" title="show questions tagged &#39;kernel-modules&#39;" rel="tag">kernel-modules</a> 
+                or <a href="http://unix.stackexchange.com/questions/ask">ask your own question</a>.
+        </h2>
+</div>
+</div>
+<div id="sidebar">
+
+
+
+     <script type="text/javascript">
+        window.showNewUser = true;
+
+            
+                (function(){
+                    var cs = window.sessionStorage && window.sessionStorage['tNewsletter'];
+                    var m = /:\/\/([^\/]*)/.exec(document.referrer);
+                    var h = {'www.reddit.com':1,'news.ycombinator.com':1};
+                    if(window.sessionStorage && (cs || (m && m.length == 2 && h[m[1]]))){
+                        showNewUser = false;
+                        StackExchange.ready(function(){
+                            StackExchange.newsletterAd.loader(m[1], cs);
+                        });
+                    }
+                    if (window.localStorage && showNewUser){
+                        var c = parseInt(localStorage['nuCounter'],10); 
+                        c = isNaN(c) ? 1 : c+1;
+                        window.localStorage['nuCounter'] = c; 
+                        showNewUser = c < 10;
+                    }
+                })()
+            
+     </script>
+    <div class="module newuser newuser-greeting" id="newuser-box" style="">
+        <h4>Welcome!</h4>
+        <div>
+            <p>This is a collaboratively edited question and answer site for <b>users of Linux, FreeBSD and other Un*x-like operating systems.</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="http://meta.unix.stackexchange.com/">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+            <p class="ar"><a href="http://unix.stackexchange.com/about?mnu=1">about »</a>&nbsp;&nbsp;&nbsp;<a href="http://unix.stackexchange.com/faq?mnu=1">faq »</a>
+&nbsp; <a href="http://meta.unix.stackexchange.com/">meta »</a>            </p>
+        </div>
+    </div>
+     <script type="text/javascript">
+        if (showNewUser) {
+            document.getElementById('newuser-box').style.display = '';
+        }
+     </script>
+        <div class="module question-stats">
+        <p class="label-key">tagged</p>
+        <div class="tagged"><a href="http://unix.stackexchange.com/questions/tagged/linux" class="post-tag" title="show questions tagged &#39;linux&#39;" rel="tag">linux</a>&nbsp;<span class="item-multiplier"><span class="item-multiplier-x">×</span>&nbsp;<span class="item-multiplier-count">3400</span></span><br>
+<a href="http://unix.stackexchange.com/questions/tagged/kernel" class="post-tag" title="show questions tagged &#39;kernel&#39;" rel="tag">kernel</a>&nbsp;<span class="item-multiplier"><span class="item-multiplier-x">×</span>&nbsp;<span class="item-multiplier-count">491</span></span><br>
+<a href="http://unix.stackexchange.com/questions/tagged/memory" class="post-tag" title="show questions tagged &#39;memory&#39;" rel="tag">memory</a>&nbsp;<span class="item-multiplier"><span class="item-multiplier-x">×</span>&nbsp;<span class="item-multiplier-count">162</span></span><br>
+<a href="http://unix.stackexchange.com/questions/tagged/kernel-modules" class="post-tag" title="show questions tagged &#39;kernel-modules&#39;" rel="tag">kernel-modules</a>&nbsp;<span class="item-multiplier"><span class="item-multiplier-x">×</span>&nbsp;<span class="item-multiplier-count">88</span></span><br>
+</div>
+        <table id="qinfo">
+            <tbody><tr>
+                <td><p class="label-key">asked</p></td>
+                <td style="padding-left:10px"><p class="label-key" title="2011-07-13 14:11:50Z"><b>1 year ago</b></p></td>
+            </tr>
+            <tr>
+                <td><p class="label-key">viewed</p></td>
+
+                <td style="padding-left:10px">
+                    <p class="label-key">
+                        <b>638 times</b>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="label-key">active</p></td>
+                <td style="padding-left:10px"><p class="label-key"><b><a href="http://unix.stackexchange.com/questions/16595/linux-kernel-logical-address-space-organisation?lastactivity" class="lastactivity-link" title="2011-07-22 20:53:18Z">1 year ago</a></b></p></td>
+            </tr>
+        </tbody></table>
+    </div>
+        
+    
+
+<div class="module" id="chat-feature">
+    
+
+    
+<h4><a href="http://chat.stackexchange.com/" id="h-chat-link" title="58 users active in 30 rooms the last 60 minutes">58 People Chatting</a></h4>
+
+<div class="related" id="ad502-rooms"><div class="ad502-room"><h3 class="ad502-room-h3"><span class="ad502-room-title" title="Unix and Linux"><a href="http://chat.stackexchange.com/rooms/26">Unix and Linux</a></span></h3><span title="2012-12-30 23:28:02Z" class="ad502-last-message">34 mins ago - <a href="http://chat.stackexchange.com/users/18963">Ulrich Dangel</a></span><br><div class="ad502-users"><a href="http://chat.stackexchange.com/users/18963"><img title="Ulrich Dangel: 34 mins ago" src="./Linux program address space layout_files/f069d7c72ea1c186141a8e0201681e88"></a><a href="http://chat.stackexchange.com/users/26"><img title="Michael Mrozek: 35 mins ago" src="./Linux program address space layout_files/dd7e03fbbfcabd4675844173ec5390d2"></a><a href="http://chat.stackexchange.com/users/4169"><img title="derobert: Dec 21 at 17:09" src="./Linux program address space layout_files/05b48b72766177b3b0a6ff4afdb70790"></a><a href="http://chat.stackexchange.com/users/27538"><img title="ConcernedOfTunbridgeWells" src="./Linux program address space layout_files/107f2fafb2d29fedc3783b141139a878"></a></div></div></div>
+<script type="text/javascript">
+// <!--
+    StackExchange.ready(
+    function () {
+        var options = {
+            chatUrl: 'http://chat.stackexchange.com',
+            reloadUrl: '/api/recent-chat',
+            preloadData: {"activeUsers":58,"activeRooms":30,"rooms":[{"name":"Unix and Linux","id":26,"lastPost":1356910082,"posts":13866,"users":[{"name":"Ulrich Dangel","id":18963,"emailhash":"f069d7c72ea1c186141a8e0201681e88","lastPost":1356910082},{"name":"Michael Mrozek","id":26,"emailhash":"dd7e03fbbfcabd4675844173ec5390d2","lastPost":1356910065},{"name":"derobert","id":4169,"emailhash":"05b48b72766177b3b0a6ff4afdb70790","lastPost":1356106164},{"name":"ConcernedOfTunbridgeWells","id":27538,"emailhash":"107f2fafb2d29fedc3783b141139a878","lastPost":null}],"messages":[{"date":1356910082,"user":"Ulrich Dangel","userid":18963}],"singleImage":false,"tags":["unix"]}]} 
+        };
+
+        StackExchange.chatAd.init(options);
+    });
+// -->
+</script>
+
+</div>
+      
+    
+    <div class="module sidebar-related">
+        <h4 id="h-related">Related</h4>
+        <div class="related" data-tracker="rq=1">
+            <div class="spacer">
+<a href="http://unix.stackexchange.com/questions/2829/vga-switcheroo-not-in-sys-kernel-debug-in-2-6-35-22-kubuntu-maverick?rq=1" class="question-hyperlink">vga_switcheroo not in /sys/kernel/debug in 2.6.35-22 (kubuntu maverick)</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/4929/what-are-high-memory-and-low-memory-on-linux?rq=1" class="question-hyperlink">What are high memory and low memory on Linux?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/5124/what-does-the-virtual-kernel-memory-layout-in-dmesg-imply?rq=1" class="question-hyperlink">What does the Virtual kernel Memory Layout in dmesg imply?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/5143/zone-normal-and-its-association-with-kernel-user-pages?rq=1" class="question-hyperlink">ZONE_NORMAL and it's association with Kernel/User-pages?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/6662/changes-to-input-get-keycode-function-in-linux-kernel-input-input-c?rq=1" class="question-hyperlink">Changes to input_get_keycode function in linux kernel (input/input.c)</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/6671/how-do-i-debug-a-kernel-module-in-which-a-null-pointer-appears?rq=1" class="question-hyperlink">How do I debug a kernel module in which a NULL pointer appears?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/6687/questions-on-linux-kernel-internals?rq=1" class="question-hyperlink">Questions on Linux kernel internals</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/12824/possible-to-load-kernel-module-that-disagrees-about-version-of-symbol?rq=1" class="question-hyperlink">possible to load kernel module that “disagrees about version of symbol”</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/13602/linux-kernel-slab-usage-growing-on-embedded-system?rq=1" class="question-hyperlink">Linux kernel slab usage growing on embedded system</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/14747/what-are-the-implications-of-moving-to-huge-mem-kernel-on-rhel4?rq=1" class="question-hyperlink">What are the Implications of moving to Huge mem kernel on RHEL4</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/15567/config-setting-for-linux-kernel-compilation?rq=1" class="question-hyperlink">Config setting for Linux kernel compilation</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/20210/grubby-fatal-error-in-linux-kernel-installation?rq=1" class="question-hyperlink">Grubby fatal error in Linux kernel installation</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/21415/increasing-kernel-memory-size?rq=1" class="question-hyperlink">Increasing kernel memory size</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/21903/custom-kernel-fails-to-load-firmware-when-module-built-in?rq=1" class="question-hyperlink">Custom kernel: fails to load firmware when module built-in</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/25417/restricting-memory-area-for-linux-kernel?rq=1" class="question-hyperlink">Restricting memory area for linux kernel</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/30320/running-a-script-every-time-a-new-kernel-is-installed?rq=1" class="question-hyperlink">Running a script every time a new kernel is installed</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/33119/memory-profiling-the-linux-kernel-on-an-embedded-device?rq=1" class="question-hyperlink">Memory profiling the linux kernel on an embedded device</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/35262/linux-i-o-shared-memory-access?rq=1" class="question-hyperlink">Linux I/O shared memory access</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/37729/how-can-i-reserve-a-block-of-memory-from-the-linux-kernel?rq=1" class="question-hyperlink">How can I reserve a block of memory from the Linux kernel?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/40681/memory-mapping-of-the-linux-kernel-how-extended-4mb-and-regular-4kb-paging?rq=1" class="question-hyperlink">Memory mapping of the Linux kernel : how extended (4MB) and regular (4KB) paging coexist?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/41527/when-should-i-keep-debugging-symbols-in-kernel-modules?rq=1" class="question-hyperlink">When should I keep debugging symbols in kernel modules?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/42095/high-memory-user-space-and-highmem-kernel-space?rq=1" class="question-hyperlink">High memory (user space) and highmem (kernel space)</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/43164/can-i-detect-if-my-custom-made-kernel-was-built-with-module-support?rq=1" class="question-hyperlink">Can I detect if my custom made kernel was built with module support?</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/45695/virtual-kernel-memory-layout-negative-values?rq=1" class="question-hyperlink">Virtual kernel memory layout: negative values</a>
+</div>
+<div class="spacer">
+<a href="http://unix.stackexchange.com/questions/47208/what-is-the-difference-between-kernel-drivers-and-kernel-modules?rq=1" class="question-hyperlink">What is the difference between kernel drivers and kernel modules?</a>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<div id="feed-link">
+    <div id="feed-link-text"><a href="http://unix.stackexchange.com/feeds/question/16595" title="feed of this question and its answers"><span class="feed-icon"></span>question feed</a></div>
+</div>
+<script type="text/javascript">
+StackExchange.ready(function(){$.get('/posts/16595/ivc/215a');});
+</script>
+<noscript>
+    &lt;div&gt;&lt;img src="/posts/16595/ivc/215a" class="dno" alt="" width="0" height="0"&gt;&lt;/div&gt;
+</noscript><div style="display:none" id="prettify-lang"></div></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="http://unix.stackexchange.com/about">about</a> |
+                <a href="http://unix.stackexchange.com/faq">faq</a> |
+                <a href="http://blog.stackexchange.com/?blb=1">blog</a> |
+                    <a href="http://chat.stackexchange.com/">chat</a> |
+                <a href="http://data.stackexchange.com/">data</a> |
+                <a href="http://stackexchange.com/legal">legal</a> |
+                <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a> |
+                <a href="http://stackexchange.com/about/hiring">jobs</a> |
+                <a href="http://stackexchange.com/about/contact">advertising info</a> |
+
+                <a onclick="StackExchange.switchMobile(&#39;on&#39;, &#39;/questions/16595/linux-kernel-logical-address-space-organisation&#39;)">mobile</a> |
+
+                <b><a href="http://unix.stackexchange.com/help">contact us</a></b>
+                  | <b><a href="http://meta.unix.stackexchange.com/">feedback</a></b>
+                <div id="footer-sites">
+                    
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackoverflow.com/">stackoverflow.com</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackapps.com/">api/apps</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://careers.stackoverflow.com/">careers 2.0</a>&nbsp; 
+                        <span style="color:#E8272C;font-size:140%">■</span>&nbsp;<a href="http://serverfault.com/">serverfault.com</a>&nbsp; 
+                        <span style="color:#00AFEF;font-size:140%">■</span>&nbsp;<a href="http://superuser.com/">superuser.com</a>&nbsp; 
+                        <span style="color:#969696;font-size:140%">■</span>&nbsp;<a href="http://meta.stackoverflow.com/">meta</a>&nbsp; 
+                        <span style="color:#46937D;font-size:140%">■</span>&nbsp;<a href="http://area51.stackexchange.com/">area&nbsp;51</a>&nbsp; 
+                        <span style="color:#C0D0DC;font-size:140%">■</span>&nbsp;<a href="http://webapps.stackexchange.com/">webapps</a>&nbsp; 
+                        <span style="color:#000000;font-size:140%">■</span>&nbsp;<a href="http://gaming.stackexchange.com/">gaming</a>&nbsp; 
+                        <span style="color:#dd4814;font-size:140%">■</span>&nbsp;<a href="http://askubuntu.com/">ubuntu</a>&nbsp; 
+                        <span style="color:#9ce4fe;font-size:140%">■</span>&nbsp;<a href="http://webmasters.stackexchange.com/">webmasters</a>&nbsp; 
+                        <span style="color:#cf4d3f;font-size:140%">■</span>&nbsp;<a href="http://cooking.stackexchange.com/">cooking</a>&nbsp; 
+                        <span style="color:#f4f28d;font-size:140%">■</span>&nbsp;<a href="http://gamedev.stackexchange.com/">game development</a>&nbsp; 
+                        <span style="color:#0f3559;font-size:140%">■</span>&nbsp;<a href="http://math.stackexchange.com/">math</a>&nbsp; 
+                        <span style="color:#f2f2f2;font-size:140%">■</span>&nbsp;<a href="http://photo.stackexchange.com/">photography</a>&nbsp; 
+                        <span style="color:#037187;font-size:140%">■</span>&nbsp;<a href="http://stats.stackexchange.com/">stats</a>&nbsp; 
+                        <span style="color:#f1e7cc;font-size:140%">■</span>&nbsp;<a href="http://tex.stackexchange.com/">tex</a>&nbsp; 
+                        <span style="color:#e1cdae;font-size:140%">■</span>&nbsp;<a href="http://english.stackexchange.com/">english</a>&nbsp; 
+                        <span style="color:#a2d9f6;font-size:140%">■</span>&nbsp;<a href="http://cstheory.stackexchange.com/">theoretical cs</a>&nbsp; 
+                        <span style="color:#1b3e6c;font-size:140%">■</span>&nbsp;<a href="http://programmers.stackexchange.com/">programmers</a>&nbsp; 
+                        <span style="color:#293a5d;font-size:140%">■</span>&nbsp;<a href="http://unix.stackexchange.com/">unix</a>&nbsp;
+                        <span style="color:#bec0cb;font-size:140%">■</span>&nbsp;<a href="http://apple.stackexchange.com/">apple</a>&nbsp;
+                        <span style="color:#939185;font-size:140%">■</span>&nbsp;<a href="http://wordpress.stackexchange.com/">wordpress</a>&nbsp;
+                        <span style="color:#ebf5f5;font-size:140%">■</span>&nbsp;<a href="http://physics.stackexchange.com/">physics</a>&nbsp;
+                        <span style="color:#4176ab;font-size:140%">■</span>&nbsp;<a href="http://diy.stackexchange.com/">home&nbsp;improvement</a>&nbsp;
+                        <span style="color:#d1d8d7;font-size:140%">■</span>&nbsp;<a href="http://gis.stackexchange.com/">gis</a>&nbsp;
+                        <span style="color:#e5e2d3;font-size:140%">■</span>&nbsp;<a href="http://electronics.stackexchange.com/">electrical&nbsp;engineering</a>&nbsp;
+                        <span style="color:#a4c639;font-size:140%">■</span>&nbsp;<a href="http://android.stackexchange.com/">android</a>&nbsp;
+                        <span style="color:#2e4e60;font-size:140%">■</span>&nbsp;<a href="http://security.stackexchange.com/">security</a>&nbsp;
+                        <span style="color:#45bcb5;font-size:140%">■</span>&nbsp;<a href="http://bicycles.stackexchange.com/">bicycles</a>&nbsp;
+                        <span style="color:#00adee;font-size:140%">■</span>&nbsp;<a href="http://dba.stackexchange.com/">dba</a>&nbsp;
+                        <span style="color:#2edaf0;font-size:140%">■</span>&nbsp;<a href="http://drupal.stackexchange.com/">drupal</a>&nbsp;
+                        <span style="color:#213951;font-size:140%">■</span>&nbsp;<a href="http://sharepoint.stackexchange.com/">sharepoint</a>&nbsp;
+                        <span style="color:#73abb3;font-size:140%">■</span>&nbsp;<a href="http://scifi.stackexchange.com/">scifi &amp; fantasy</a>&nbsp;
+                        <span style="color:#23629F;font-size:140%">■</span>&nbsp;<a href="http://ux.stackexchange.com/">user experience</a>&nbsp;
+                        <span style="color:#faff72;font-size:140%">■</span>&nbsp;<a href="http://skeptics.stackexchange.com/">skeptics</a>&nbsp;
+                        <span style="color:#623121;font-size:140%">■</span>&nbsp;<a href="http://rpg.stackexchange.com/">rpg</a>&nbsp;
+                        <span style="color:#e4be88;font-size:140%">■</span>&nbsp;<a href="http://judaism.stackexchange.com/">judaism</a>&nbsp;
+                        <span style="color:#ffecb1;font-size:140%">■</span>&nbsp;<a href="http://mathematica.stackexchange.com/">mathematica</a>&nbsp;
+                </div>
+            </div>
+            <div id="footer-flair">
+                <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
+	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
+                <div id="svnrev">rev 2012.12.30.706</div>
+                        </div>
+            <div id="copyright">
+                site design / logo © 2012 stack exchange inc; 
+                user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+                <div id="additional-notices">
+                    Linux is a registered trademark of Linus Torvalds. UNIX is a registered trademark of The Open Group. <br>This site is not affiliated with Linus Torvalds or The Open Group in any way.
+                </div>
+            
+
+        </div>
+    <iframe id="global-auth-frame" style="display:none" src="./Linux program address space layout_files/read.html"></iframe></div>
+    
+    <noscript>
+        &lt;div id="noscript-warning"&gt;Unix and Linux - Stack Exchange works best with JavaScript enabled&lt;img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"&gt;&lt;/div&gt;
+    </noscript>
+    <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-5620270-24']);
+        _gaq.push(['_setDomainName','.stackexchange.com']);
+        _gaq.push(['_setCustomVar', 1, 'tags', '|linux|kernel|memory|kernel-modules|']); 
+_gaq.push(['_trackPageview']);
+    var _qevents = _qevents || [];
+    (function(){
+        var s=document.getElementsByTagName('script')[0];
+        var ga=document.createElement('script');
+        ga.type='text/javascript';
+        ga.async=true;
+        ga.src='http://www.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(ga,s);
+        var sc=document.createElement('script');
+        sc.type='text/javascript';
+        sc.async=true;
+        sc.src='http://edge.quantserve.com/quant.js'; 
+        s.parentNode.insertBefore(sc,s);
+    })();
+    </script>
+    <script type="text/javascript">
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>    
+    
+
+</body></html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Comet Daily  &raquo; Blog Archive   &raquo; Cross Site Scripting Joy</title>
+
+<meta name="generator" content="WordPress 2.5.1" /> <!-- leave this for stats -->
+
+<link rel="stylesheet" href="http://cometdaily.com/wp-content/themes/cometdaily/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Comet Daily RSS Feed" href="http://cometdaily.com/feed/" />
+<link rel="pingback" href="http://cometdaily.com/xmlrpc.php" />
+
+<!--[if lte IE 7]>
+	<style type="text/css" media="screen">
+		#mainMenu li a:link, #mainMenu li a:visited, #mainMenu li.active a:link, #mainMenu li.active a:visited {
+			padding-bottom:0px;
+		}
+
+
+	</style>
+<![endif]-->
+
+
+
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://cometdaily.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://cometdaily.com/wp-includes/wlwmanifest.xml" /> 
+<script type='text/javascript' src='http://cometdaily.com/wp-includes/js/prototype.js?ver=1.6'></script>
+<meta name="generator" content="WordPress 2.5.1" />
+
+<script src= "http://cometdaily.com/wp-content/plugins/obsocialbookmarker/include/ajax/prototype.js" type="text/javascript"></script><script src= "http://cometdaily.com/wp-content/plugins/obsocialbookmarker/include/ajax/scriptaculous.js" type="text/javascript"></script>
+			<link rel="stylesheet" type="text/css" href="http://cometdaily.com/index.php?ak_action=aktt_css" />
+			<script type="text/javascript" src="http://cometdaily.com/index.php?ak_action=aktt_js"></script>
+		<style type="text/css" media="screen">
+
+/* Begin Contact Form CSS */
+.contactform {
+	position: static;
+	overflow: hidden;
+	width: 95%;
+}
+
+.contactleft {
+	width: 25%;
+	white-space: pre;
+	text-align: right;
+	clear: both;
+	float: left;
+	display: inline;
+	padding: 4px;
+	margin: 5px 0;
+}
+
+.contactright {
+	width: 70%;
+	text-align: left;
+	float: right;
+	display: inline;
+	padding: 4px;
+	margin: 5px 0;
+}
+
+.contacterror {
+	border: 1px solid #ff0000;
+}
+
+.contactsubmit {
+}
+/* End Contact Form CSS */
+
+	</style>
+
+
+<link rel="stylesheet" href="http://cometdaily.com/wp-content/plugins/wp-syntax/wp-syntax.css" type="text/css" media="screen" />
+</head>
+<body>
+	<div id="page">
+
+
+<div id="header">
+	<div id="headerimg">
+		<a href="/"><img src="http://cometdaily.com/wp-content/themes/cometdaily/images/cometDailyLogo.gif" alt="Comet Daily" /></a>
+	</div>
+	<!--<div class="headerBanner"></div>-->
+</div>
+<div id="mainMenuWrapper">
+	<div class="tl"></div>
+	<ul id="mainMenu">
+				<li class="active"><a href="/">Articles</a>
+		</li><li class=""><a href="/category/musings/">Musings &amp; News</a>
+		</li><li class=""><a href="/people/">Contributors</a>
+		</li><li class=""><a href="/about/">About</a>
+		</li><li class=""><a href="/contact/">Contact</a></li>
+	</ul>
+	<div class="tr"></div>
+	</div>
+
+<div id="contentContainer">
+	<div class="oaTop" style="padding-bottom:7px">
+	<table width="100%">
+		<tr>
+			<td>
+				<div class="banWrap">
+
+
+				<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=18__zoneid=4__cb=4866373f25__maxdest=http://www.dojotoolkit.org' target='_blank'><img src='http://cometdaily.com/openads/www/images/dojotoolkit.gif' width='234' height='60' alt='' title='' border='0' /></a><div id='beacon_18' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=18&amp;campaignid=6&amp;zoneid=4&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fwww.google.de%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3Dcross%2520site%2520scripting%2520comet%26source%3Dweb%26cd%3D1%26ved%3D0CB8QFjAA%26url%3Dhttp%253A%252F%252Fcometdaily.com%252F2007%252F12%252F04%252Fcross-site-scripting-joy%252F%26ei%3DUUC8TvHyOIGbOpG1yMAB%26usg%3DAFQjCNEUXnj20VPzC6f6p54Sq5eeV1c7Zg%26sig2%3D8-hheC7hkRHCb6Mciz5jpA&amp;cb=4866373f25' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>				</div>
+			</td>
+			<td align="center">
+				<div class="banWrap">
+				<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=6__zoneid=3__cb=0a2c5046de__maxdest=http://www.webtide.com' target='_blank'><img src='http://cometdaily.com/openads/www/images/longad.jpg' width='468' height='60' alt='Webtide' title='Webtide' border='0' /></a><div id='beacon_6' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=6&amp;campaignid=3&amp;zoneid=3&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;cb=0a2c5046de' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>				</div>
+			</td>
+			<td align="right">
+				<div class="banWrap">
+
+				<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=21__zoneid=4__cb=ae18f689b3__maxdest=http://www.freeliberator.com/' target='_blank'><img src='http://cometdaily.com/openads/www/images/caplinliberator234x60.png' width='234' height='60' alt='' title='' border='0' /></a><div id='beacon_21' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=21&amp;campaignid=5&amp;zoneid=4&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;cb=ae18f689b3' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+	<div id="sidebarWrapper">
+	<div id="content" class="narrowcolumn">
+<div class="postContainer postSingle">
+			<div class="post" id="post-93">
+			<h2 class="entryTitle"><div class="entry_author_image"><a href="/people/andrew_betts"><img src="http://cometdaily.com/wp-content/themes/cometdaily/authors/andrewbetts/med.jpg" title="Andrew Betts" alt="Andrew Betts" /></a></div><a href="http://cometdaily.com/2007/12/04/cross-site-scripting-joy/" rel="bookmark" title="Cross Site Scripting Joy">Cross Site Scripting Joy</a></h2><small>by <a href="/people/andrew_betts">Andrew Betts</a><span class="dateTime">December 4th, 2007</span></small>
+			<div class="entry">
+				<p>Google for &#8216;<a href="http://www.google.com/search?q=cross+site+scripting">cross site scripting</a>&#8216; and you&#8217;ll get a plethora of articles and tutorials about vulnerabilities, loopholes, and exploits.  Early in the development of JavaScript it was realised that client-side scripting had the capacity to access information in other browser windows that might be sensitive and which it certainly had no business reading.  This was considered a problem and dubbed cross site scripting (thankfully abbreviated to XSS, not CSS).  The basic security principle that solves this is the Same Origin Policy, which prevents scripts from accessing resources unless they come from the same host.  Sounds simple enough, but modern XSS exploits are incredibly complex, getting around the same origin policy by taking advantage of opportunities to inject script into websites that simply redisplay input without encoding it first.</p>
+<p>So the battle over XSS as a security problem has moved on from the same origin policy, but same origin remains a massive obstacle to development of useful non-malicious services, and that&#8217;s particularly true of Comet, because there are typically two servers involved in any comet setup: a web server like Apache, and a comet server like Meteor or Orbited.</p>
+<p>There are essentially three choices for making these two servers play together:</p>
+<ol>
+<li>marry them: have one server that serves both your Comet connections and the standard ones (including any dynamically generated content);</li>
+<li>have a regular web server with a Comet server sitting in front of it, so all connections are made to the Comet server, and it proxies the non-comet connections to the web server;</li>
+<li>have both the Comet and the regular web server exposed to the web, and request applicable content from each one.</li>
+</ol>
+<p>There are very few, if any, web servers that are capable of doing Option 1 efficiently (hence the development of Meteor, Cometd, Orbited, Lightstreamer etc).  Option 2 is easy and works, but is a bit of a cop out from the same-origin problem, and puts a lot of unnecessary load on your Comet server.</p>
+<p>Which brings us to Option 3, and the need to have content served from two different sources interacting on the same page, and leaves us at loggerheads with the same origin policy.</p>
+<p>If only the same origin policy was uniformly implemented, this might not be such a problem.  But it&#8217;s not.  And after getting utterly frustrated with inconsistent behaviours between different browsers, I decided to write a few tests.  And I got slightly carried away, so I ended up with 38.  Here are the results—I threw in an iPhone for colour:</p>
+<table cellspacing="0" class="cometGrid">
+<tr class="groupTitle">
+<th><acronym title="Transport">T&#8217;port</acronym></th>
+<th>Configuration</th>
+<th nowrap="nowrap">IE 6/7</th>
+<th>FF 2</th>
+<th>Op 9</th>
+<th>Saf 2</th>
+<th>Saf 3</th>
+<th>iPhone</th>
+</tr>
+<tr>
+<td rowspan="12" class="tport">XHR</td>
+<td>one-part, same-origin</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>one-part, same host, different port</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>one-part, parent host, same port</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>2</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>one-part, parent host, different port</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, same-origin</td>
+<td class="no">No<sup>8</sup></td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="no">No<sup>3</sup></td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, same-origin, 1K prepended &#8216;noise&#8217;</td>
+<td class="no">No<sup>8</sup></td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, same host, different port</td>
+<td class="no">No<sup>8</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, same host, different port, 1K prepended &#8216;noise&#8217;</td>
+<td class="no">No<sup>8</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, same port</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>2</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, same port, 1K prepended &#8216;noise&#8217;</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>2</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, different port</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, different port, 1K prepended &#8216;noise&#8217;</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr class="groupTitle">
+<th><acronym title="Transport">T&#8217;port</acronym></th>
+<th>Configuration</th>
+<th nowrap="nowrap">IE 6/7</th>
+<th>FF 2</th>
+<th>Op 9</th>
+<th>Saf 2</th>
+<th>Saf 3</th>
+<th>iPhone</th>
+</tr>
+<tr>
+<td rowspan="12" class="tport">IFRAME</td>
+<td>one-part, same-origin</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>one-part, same host, different port</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>one-part, parent host, same port</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+</tr>
+<tr>
+<td>one-part, parent host, different port</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, same-origin</td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No<sup>3</sup></td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, same-origin, 1K prepended &#8216;noise&#8217;</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, same host, different port</td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No<sup>3</sup></td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, same host, different port, 1K prepended &#8216;noise&#8217;</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, same port</td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No<sup>3</sup></td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, parent host, same port, 1K prepended &#8216;noise&#8217;</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>incremental, parent host, different port</td>
+<td class="no">No<sup>3</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No<sup>3</sup></td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>incremental, parent host, different port, 1K prepended &#8216;noise&#8217;</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes<sup>1</sup></td>
+<td class="no">No</td>
+</tr>
+<tr class="groupTitle">
+<th><acronym title="Transport">T&#8217;port</acronym></th>
+<th>Configuration</th>
+<th nowrap="nowrap">IE 6/7</th>
+<th>FF 2</th>
+<th>Op 9</th>
+<th>Saf 2</th>
+<th>Saf 3</th>
+<th>iPhone</th>
+</tr>
+<tr>
+<td rowspan="5" class="tport">SCRIPT</td>
+<td>one-part, same-origin</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>one-part, same host, different port</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>one-part, parent host, same port</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td>one-part, parent host, different port</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td>any incremental-loading configuration</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+<tr>
+<td colspan="2">Shorten document.domain</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+<tr>
+<td colspan="2">Lengthen document.domain to original length once shortened</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No<sup>7</sup></td>
+<td class="no">No<sup>7</sup></td>
+<td class="no">No<sup>7</sup></td>
+</tr>
+<tr class="groupTitle">
+<th><acronym title="Transport">T&#8217;port</acronym></th>
+<th>Configuration</th>
+<th nowrap="nowrap">IE 6/7</th>
+<th>FF 2</th>
+<th>Op 9</th>
+<th>Saf 2</th>
+<th>Saf 3</th>
+<th>iPhone</th>
+</tr>
+</table>
+<h4>Table notes</h4>
+<ol>
+<li>IFRAME can only be accessed if its document.domain matches the parent frame&#8217;s document.domain</li>
+<li>XHR can only be made if document.domain is a match for or a parent of the target host.  This will always be the case for XHRs to the originating host, but document.domain must be shortened to allow XHR to the parent domain.</li>
+<li>Safari and IE have a 1K buffer which must fill up before any response is parsed.  Data received before the 1K mark is reached will not be rendered or interpreted and will not fire the Interactive state of an XHR until the buffer is full or the connection is closed.  The obvious solution to this is to send 1K of &#8216;noise&#8217; at the start of any response that needs to be parsed incrementally.</li>
+<li>SCRIPT loading is a blocking action in Opera and a non-blocking action in other browsers.</li>
+<li>In Safari, HTTP URLs that do not explicitly define a port number (and therefore default to port 80 in all browsers) are considered to have a different port to those URLs that do explicity define port 80, even though both URLs actually use the same port.  The test suite therefore defines &#8217;same port&#8217; as &#8216;no port specified&#8217;, rather than explicitly setting :80.</li>
+<li>Despite setting cache-busting headers, you must give every script you load using the SCRIPT transport a unique URL, else the browser may simply pull the existing script out of memory and run it again.</li>
+<li>Fails silently (does not throw an error).</li>
+<li>In Internet Explorer, the first incremental response to XHRs does fire a readyState 3 &#8216;interactive&#8217; event, but neither the body nor the headers of the response are available until the response is complete, making these events essentially useless.  So for the purposes of incrementally downloading data into the browser, the incremental XHR is considered non-functional in IE.</li>
+</ol>
+<p>The full results, methodology and online test suite is <a href="http://meteorserver.org/browser-techniques/xssinfo">available on the Meteor site</a>.  Feel free to check these, tell me if I&#8217;ve got any wrong, and suggest tests that should be added.  And if your browser isn&#8217;t listed, run it through all the tests, send me the results, and I&#8217;ll add it to the table.</p>
+
+
+<span class="slashdigglicious">
+<a href="http://slashdot.org/bookmark.pl?url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Slashdot It!"><img src="http://slashdot.org/favicon.ico" height="16" width="16" alt="[Slashdot]" /></a>
+<a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Digg This Story"><img src="http://digg.com/favicon.ico" width="16" height="16" alt="[Digg]" /></a>
+<a href="http://reddit.com/submit?url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Reddit"><img src="http://reddit.com/favicon.ico" width="16" height="16" alt="[Reddit]" /></a>
+<a href="http://del.icio.us/post?url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Save to del.icio.us" onclick="window.open('http://del.icio.us/post?v=4&amp;noui&amp;jump=close&amp;url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy', 'delicious', 'toolbar=no,width=700,height=400'); return false;"><img src="http://images.del.icio.us/static/img/delicious.small.gif" width="16" height="16" alt="[del.icio.us]" /></a>
+<a href="http://www.facebook.com/share.php?u=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F" title="Share on Facebook"><img src="http://www.facebook.com/favicon.ico" width="16" height="16" alt="[Facebook]" /></a>
+<a href="http://technorati.com/faves?add=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F" title="Add to my Technorati Favorites"><img src="http://technorati.com/favicon.ico" width="16" height="16" alt="[Technorati]" /></a>
+<a href="http://www.google.com/bookmarks/mark?op=edit&amp;output=popup&amp;bkmk=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Save to Google Bookmarks"><img src="http://www.google.com/favicon.ico" width="16" height="16" alt="[Google]" /></a>
+<a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;title=Cross+Site+Scripting+Joy" title="Stumble it!"><img src="http://www.stumbleupon.com/favicon.ico" width="16" height="16" alt="[StumbleUpon]" /></a>
+</span>
+				
+			</div>
+		</div>
+					<div class="banner468">
+	<!--/* Openads Local Mode Tag v2.4.0 */-->
+
+	<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=13__zoneid=2__cb=05dc3f52e2__maxdest=http://www.freeliberator.com/' target='_blank'><img src='http://cometdaily.com/openads/www/images/caplinliberator468x60.png' width='468' height='60' alt='Free Liberator' title='Free Liberator' border='0' /></a><div id='beacon_13' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=13&amp;campaignid=5&amp;zoneid=2&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;cb=05dc3f52e2' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>
+</div>
+
+
+	
+<!-- You can start editing here. -->
+
+	<h3 id="comments">13 Responses to &#8220;Cross Site Scripting Joy&#8221;</h3>
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-116">
+			<cite><a href='http://orbited.org/' rel='external nofollow'>Jacob Rus</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-116" title="">December 4th, 2007 at 12:37 am</a> </small>
+
+			<p>Note that if you use an uncommon Content-type (i.e. not <code>text/html</code>, etc.; Orbited uses <code>application/x-orbited-event-stream</code> for XHR streaming), then Safari only needs 256 bytes of padding before incremental rendering begins.</p>
+
+		</li>
+
+	
+	
+		<li id="comment-117">
+			<cite><a href='http://orbited.org/' rel='external nofollow'>Jacob Rus</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-117" title="">December 4th, 2007 at 12:37 am</a> </small>
+
+			<p>That is, instead of the 1024 bytes you mention here. <img src='http://cometdaily.com/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /></p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-118">
+			<cite><a href='http://orbited.org/' rel='external nofollow'>Jacob Rus</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-118" title="">December 4th, 2007 at 12:40 am</a> </small>
+
+			<p>Also, I think IE only needs 512 bytes before incrementally rendering in an IFrame, but I&#8217;m not sure of that one.</p>
+
+		</li>
+
+	
+	
+		<li id="comment-122">
+			<cite>Kris Zyp</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-122" title="">December 4th, 2007 at 8:06 am</a> </small>
+
+			<p>Fantastic information. The one result that seems different than I have experienced is on the same-host cross-port XHR on IE. In IE, I always get an &#8220;access denied&#8221; when trying to do an XHR to the same host with a different port. How are you able to do this? Not that it is really important, since none of the other browsers support it&#8230;</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-125">
+			<cite>AndrewBetts</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-125" title="">December 4th, 2007 at 12:33 pm</a> </small>
+
+			<p>Jacob - I&#8217;ll refine the data accordingly.  I did think of going on to work out exactly what the buffer is, but I&#8217;d sunk a fair amount of time into this by then, and figured someone had probably worked it out already <img src='http://cometdaily.com/wp-includes/images/smilies/icon_razz.gif' alt=':-P' class='wp-smiley' /> </p>
+<p>Kris - I went to some lengths to try and isolate each test case, so it may be that you&#8217;re hitting some other dependent issue?  You can try the tests yourself and see the source at <a href="http://xsstest.meteorserver.org" rel="nofollow">http://xsstest.meteorserver.org</a> - it&#8217;s not minfied.  Cross port in IE definitely works, not that it gets you anywhere <img src='http://cometdaily.com/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /></p>
+
+		</li>
+
+	
+	
+		<li id="comment-135">
+			<cite><a href='http://www.caplin.com' rel='external nofollow'>Martin Tyler</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-135" title="">December 5th, 2007 at 6:15 am</a> </small>
+
+			<p>Interesting work Andrew.</p>
+<p>The iframe tests dont seem to be working though, I get Failed every time in FF and IE. Looking into the incremental ones with firebug looks like there is a missing script tag and/or repeated chunk of script.</p>
+<p>Anyway. I find that IE handles incremental updates with no noise just fine&#8230; it needs a small amount of noise at the start of the file only, then subsequently any closing script tag will cause the code to be run.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-136">
+			<cite><a href='http://www.assanka.net' rel='external nofollow'>AndrewBetts</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-136" title="">December 5th, 2007 at 6:39 am</a> </small>
+
+			<p>Martin - the iframe tests won&#8217;t work in IE or FF until you shorten documnet.domain, because all the iframes set their document.domain to meteorserver.org on load.  This is to allow testing with various values of document.domain in the parent frame (note that Safari can access the iframe despite the document.domain not being the same - one of the most surprising things I doscovered)</p>
+<p>Regarding the IE buffer - what do you call &#8216;a small amount of noise&#8217;?? Half a meg? <img src='http://cometdaily.com/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /></p>
+
+		</li>
+
+	
+	
+		<li id="comment-138">
+			<cite><a href='http://www.caplin.com' rel='external nofollow'>Martin Tyler</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-138" title="">December 5th, 2007 at 7:45 am</a> </small>
+
+			<p>about 250 bytes actually</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-142">
+			<cite>DylanSchiemann</cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-142" title="">December 5th, 2007 at 8:12 am</a> </small>
+
+			<p>Martin, interesting and neat.  I&#8217;ve always just relied on a &lt;br&gt; tag to &#8220;flush&#8221; IE and had assumed it was a dependency on forcing IE to render something.</p>
+
+		</li>
+
+	
+	
+		<li id="comment-155">
+			<cite><a href='http://tlrobinson.net' rel='external nofollow'>Tom Robinson</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-155" title="">December 5th, 2007 at 6:11 pm</a> </small>
+
+			<p>This article is about the same origin policy&#8230; not XSS&#8230;</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-156">
+			<cite><a href='http://orbited.org/' rel='external nofollow'>Jacob Rus</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-156" title="">December 5th, 2007 at 7:06 pm</a> </small>
+
+			<p>Dylan: I think any closing tag will force it to render an incremental update.</p>
+
+		</li>
+
+	
+	
+		<li id="comment-209">
+			<cite><a href='http://www.orbited.org' rel='external nofollow'>Michael Carter</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-209" title="">December 10th, 2007 at 4:50 pm</a> </small>
+
+			<p>Andrew, I think your tests for cross-port stuff are not all correct. I&#8217;ll look more closely at all of them, but I know for sure that &#8220;IFRAME: incremental, parent host, different port&#8221; works in IE 5.01+ &#8230; in fact I previously emailed you a demo of this very test.</p>
+
+		</li>
+
+	
+	
+		<li class="alt" id="comment-217">
+			<cite><a href='http://www.assanka.net' rel='external nofollow'>AndrewBetts</a></cite> Says:
+						<br />
+
+			<small class="commentmetadata"><a href="#comment-217" title="">December 11th, 2007 at 1:49 am</a> </small>
+
+			<p>Michael - you&#8217;re right about Incremental IFRAME+different port working in IE, but your test includes padding at the start of the response, as does the version of mine that works in IE.  So the failure on that test and success on the subsequent one shows that IE does not evaluate the response until it&#8217;s filled its buffer, which Martin Tyler reckons to be around 250 bytes - I just used 1K for my tests.</p>
+
+		</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<h3 id="respond">Leave a Reply</h3>
+
+
+<form action="http://cometdaily.com/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" class="submitCommentButton" type="image" src="http://cometdaily.com/wp-content/themes/cometdaily/images/submitComment.gif" id="submit" tabindex="5" value="Submit Comment" />
+<input type="hidden" name="comment_post_ID" value="93" />
+</p>
+<br />
+</form>
+
+
+
+
+		</div>
+	</div>
+		<div id="sidebar">
+		<div class="sidebarComponent">
+	<h2 class="latestArticles"><span>R</span>ecent <span>A</span>rticles</h2>
+	
+	<div class="sidebarContent postingsSummary">
+	
+				<div class="articleSummary">
+					<a href="http://cometdaily.com/2011/07/06/push-technology-comet-and-websockets-10-years-of-history-from-lightstreamers-perspective/" class="postTitle">10 Years of Push Technology, Comet, and WebSockets</a>
+					<div>by <a href="/people/alessandro_alinone">Alessandro Alinone</a> <span class="dateTime">July 6th, 2011</span></div>
+				</div>				<div class="articleSummary">
+					<a href="http://cometdaily.com/2011/04/07/559/" class="postTitle">CometD Annotations</a>
+					<div>by <a href="/people/greg_wilkins">Greg Wilkins</a> <span class="dateTime">April 7th, 2011</span></div>
+				</div>				<div class="articleSummary">
+					<a href="http://cometdaily.com/2011/04/06/is-websocket-chat-easier/" class="postTitle">Is WebSocket Chat Easier? </a>
+					<div>by <a href="/people/greg_wilkins">Greg Wilkins</a> <span class="dateTime">April 6th, 2011</span></div>
+				</div>				<div class="articleSummary">
+					<a href="http://cometdaily.com/2011/01/17/comet-for-the-world-bike-tour/" class="postTitle">Comet for the World Bike Tour</a>
+					<div>by <a href="/people/alessandro_alinone">Alessandro Alinone</a> <span class="dateTime">January 17th, 2011</span></div>
+				</div>				<div class="articleSummary">
+					<a href="http://cometdaily.com/2011/01/17/the-five-key-metrics-of-a-high-performance-comet-server/" class="postTitle">The Five Key Metrics of a High-Performance Comet Server</a>
+					<div>by <a href="/people/mihai_rotaru">Mihai Rotaru</a> <span class="dateTime">January 17th, 2011</span></div>
+				</div></div></div>
+<div class="sidebarComponentShadow">
+</div>
+<div class="sidebarAds sidebarComponent">
+	<span class="adsTitle">Advertisements</span>
+	<div style="margin-right:30px;">
+		<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=12__zoneid=1__cb=78716e6a56__maxdest=http://www.orbited.org' target='_blank'><img src='http://cometdaily.com/openads/www/images/orbited-square-ad.gif' width='125' height='125' alt='Orbited' title='Orbited' border='0' /></a><div id='beacon_12' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=12&amp;campaignid=4&amp;zoneid=1&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;cb=78716e6a56' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>	</div>
+	<div>
+		<a href='http://cometdaily.com/openads/www/delivery/ck.php?oaparams=2__bannerid=14__zoneid=1__cb=b68dcc1b97__maxdest=http://www.freeliberator.com/' target='_blank'><img src='http://cometdaily.com/openads/www/images/caplinliberator125x125.png' width='125' height='125' alt='Free Liberator' title='Free Liberator' border='0' /></a><div id='beacon_14' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://cometdaily.com/openads/www/delivery/lg.php?bannerid=14&amp;campaignid=5&amp;zoneid=1&amp;channel_ids=,&amp;loc=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;referer=http%3A%2F%2Fcometdaily.com%2F2007%2F12%2F04%2Fcross-site-scripting-joy%2F&amp;cb=b68dcc1b97' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>
+	</div>
+</div>
+<div class="sidebarComponent">
+	<h2 class="latestMusings"><span>R</span>ecent <span>M</span>usings</h2>
+	
+	<div class="sidebarContent latestMusings postingsSummary">
+	<div class="authorInfo">
+		<a href='/people/alessandro_alinone'><img src='http://cometdaily.com/wp-content/themes/cometdaily/authors/alessandroalinone/sm.jpg' /></a><a href='http://cometdaily.com/2011/09/28/nasa-and-lightstreamer-for-project-morpheus/' class='postTitle'>NASA and Lightstreamer for Project Morpheus</a><div class='authorInfoText'>by <a href='/people/alessandro_alinone' class='authorName'>Alessandro Alinone</a> <span class='dateTime'>September 28th, 2011</span></div>	</div>
+	<p>NASA's Undergraduate Student Research Program recently published an interesting paper by Matthew Noyes and Robert Hirsh: Rendering Flight Telemetry in Platform-Independent Three-Dimensional Touch-Interactive Simulations.</p><span class='moreLink'><a href='http://cometdaily.com/2011/09/28/nasa-and-lightstreamer-for-project-morpheus/'>Read more</a></span></div>
+<div class="sidebarContent latestMusings postingsSummary">
+	<div class="authorInfo">
+		<a href='/people/alessandro_alinone'><img src='http://cometdaily.com/wp-content/themes/cometdaily/authors/alessandroalinone/sm.jpg' /></a><a href='http://cometdaily.com/2011/07/06/lightstreamer-40-released/' class='postTitle'>Lightstreamer 4.0 Released</a><div class='authorInfoText'>by <a href='/people/alessandro_alinone' class='authorName'>Alessandro Alinone</a> <span class='dateTime'>July 6th, 2011</span></div>	</div>
+	<p>
+The new major release of Lightstreamer, codenamed <strong>Duomo</strong>, is now generally  available. The package includes version 4.0 of Lightstreamer Server,  and updated versions for all the client SDKs, plus brand new client SDKs for mobile platforms.</p><span class='moreLink'><a href='http://cometdaily.com/2011/07/06/lightstreamer-40-released/'>Read more</a></span></div>
+<div class="sidebarContent latestMusings postingsSummary">
+	<div class="authorInfo">
+		<a href='/people/dylan_schiemann'><img src='http://cometdaily.com/wp-content/themes/cometdaily/authors/dylanschiemann/sm.jpg' /></a><a href='http://cometdaily.com/2011/04/11/scaling-server-side-event-driven-applications/' class='postTitle'>Scaling Server-Side Event Driven Applications</a><div class='authorInfoText'>by <a href='/people/dylan_schiemann' class='authorName'>Dylan Schiemann</a> <span class='dateTime'>April 11th, 2011</span></div>	</div>
+	<p>Simone Bordet of CometD recently talked about CometD and WebSocket web applications at the CodeMotion conference in Rome.</p><span class='moreLink'><a href='http://cometdaily.com/2011/04/11/scaling-server-side-event-driven-applications/'>Read more</a></span></div>
+<div class="sidebarContent latestMusings postingsSummary">
+	<div class="authorInfo">
+		<a href='/people/mihai_rotaru'><img src='http://cometdaily.com/wp-content/themes/cometdaily/authors/mihairotaru/sm.jpg' /></a><a href='http://cometdaily.com/2011/04/05/comet-for-hbbtv-compliant-browsers/' class='postTitle'>Comet for HbbTV-Compliant Browsers</a><div class='authorInfoText'>by <a href='/people/mihai_rotaru' class='authorName'>Mihai Rotaru</a> <span class='dateTime'>April 5th, 2011</span></div>	</div>
+	<p>Hybrid Broadcast Broadband TV (HbbTV) is a new industry standard offering to TV viewers both TV and Web content.</p><span class='moreLink'><a href='http://cometdaily.com/2011/04/05/comet-for-hbbtv-compliant-browsers/'>Read more</a></span></div>
+</div>
+<div class="sidebarComponentShadow">
+</div>
+		
+		<h2><span>S</span>earch</h2>
+<div class="sidebarContent"><div class="sidebarComponent" style="min-height:50px;">
+<form method="get" id="searchform" action="http://cometdaily.com/">
+<div><input type="text" class="searchInput" value="" name="s" id="s" />
+<input type="image" id="searchsubmit"  src="http://cometdaily.com/wp-content/themes/cometdaily/images/searchButton.gif" value="Search" />
+</div>
+</form>
+</div>
+</div>
+		
+				
+		<ul>
+						
+								</ul>
+	</div>
+
+	
+<hr />
+<div id="footer">
+
+</div>
+</div>
+
+<span class="copyright">
+	Copyright 2011 Comet Daily, LLC. All Rights Reserved
+</span>
+		<script src="http://stats.wordpress.com/e-201145.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({blog:'2044864',v:'ext',post:'93'});
+var load_cmc = function(){linktracker_init(2044864,93,2);};
+if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+else load_cmc();
+</script>
+</body>
+</html>
+</div>
+</div>

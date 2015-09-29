@@ -1,0 +1,2736 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0041)http://www.codeproject.com/cpp/tspapp.asp -->
+<HTML><HEAD><TITLE>The Code Project - Genetic Algorithms and the Traveling Salesman Problem - C++ / MFC</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=Reply-to content=mailto:webmaster@codeproject.com>
+<META content="Free source code and tutorials for Windows developers." 
+name=Description>
+<META 
+content="Free source code, C++ / MFC, Visual C++, MFC, Windows, AI, Genetic Algorithms" 
+name=keywords>
+<META 
+content="Article content copyright Konstantin Boukreev, 2001, everthing else Copyright © CodeProject, 1999-2004, All Rights Reserved." 
+name=Copyright><LINK href="/favicon.ico" type=image/ico rel=icon><LINK 
+href="/favicon.ico" rel="SHORTCUT ICON"><LINK 
+href="Genetic Algorithms and the Traveling Salesman Problem-Dateien/global.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY text=black vLink=purple aLink=red link=blue bgColor=white leftMargin=3 
+topMargin=3>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD vAlign=top><A href="http://www.codeproject.com/"><IMG height=72 
+            alt="The Code Project" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/logo225x72.gif" 
+            width=225 border=0></A></TD>
+          <TD align=right><SPAN id=AdBanner4><A 
+            href="http://www.codeproject.com/script/admentor/ads.asp"><IMG 
+            height=60 alt="View our advertisers" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/sponsors.gif" 
+            width=20 border=1></A><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=667&amp;way=ban" 
+            target=_blank><IMG height=60 alt="" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/468x60_devbanner-1.gif" 
+            width=468 border=0></A><A 
+            href="http://www.codeproject.com/info/mediakit"><IMG height=60 
+            alt="Advertise on the CodeProject" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/advertise.gif" 
+            width=20 border=1></A></SPAN></TD></TR>
+        <TR>
+          <TD bgColor=#fbedbb colSpan=2>
+            <TABLE cellPadding=3 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD width="100%"><FONT style="FONT-SIZE: 8pt"><A 
+                  href="http://www.codeproject.com/?cat=1">All Topics</A>, <A 
+                  href="http://www.codeproject.com/?cat=2">MFC / C++</A> 
+                  &gt;&gt; <A href="http://www.codeproject.com/cpp/">C++ / 
+                  MFC</A> &gt;&gt; <A 
+                  href="http://www.codeproject.com/cpp/#Algorithms">Algorithms</A></FONT><BR><BR><B><FONT 
+                  style="FONT-SIZE: 16pt" size=4>Genetic Algorithms and the 
+                  Traveling Salesman Problem</FONT></B><BR><B>By <A 
+                  href="http://www.codeproject.com/script/profile/whos_who.asp?id=128">Konstantin 
+                  Boukreev</A> </B><BR><BR><FONT style="FONT-SIZE: 9pt">An 
+                  example of using Genetic Algorithms for solving the Traveling 
+                  Salesman Problem&nbsp;</FONT> </TD>
+                <TD vAlign=top align=right>
+                  <TABLE cellSpacing=0 cellPadding=1 width=200 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD>&nbsp;</TD>
+                      <TD><FONT class=SmallText color=red 
+                        size=1><B>Advanced</B></FONT></TD></TR>
+                    <TR vAlign=top>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText>C++ (VC6)<BR>Windows (Win95, Win98, 
+                        NT4, Win2K)<BR>Win32, STL, VS<BR>Dev</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD>
+                      <TD class=SmallText noWrap>Posted 27 Sep 2001</TD></TR>
+                    <TR vAlign=top>
+                      <TD><IMG height=16 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/hlp.gif" 
+                        width=16></TD>
+                      <TD class=SmallText noWrap><A 
+                        href="http://www.codeproject.com/script/Articles/list_articles.asp?userid=128">Articles 
+                        by this author</A></TD></TR>
+                    <TR vAlign=top>
+                      <TD></TD>
+                      <TD class=SmallText noWrap><B>61,725</B> 
+                    views</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD colSpan=2>
+            <TABLE id=tblSiteToolbar cellSpacing=0 cellPadding=1 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <FORM name=Search action=/info/search.asp method=post>
+                <TD vAlign=top align=left width="100%">
+                  <TABLE cellSpacing=0 cellPadding=1 border=0>
+                    <TBODY>
+                    <TR vAlign=center>
+                      <TD class=smallText><B><FONT 
+                        color=white>Search:</FONT></B></TD>
+                      <TD class=navbar noWrap><INPUT class=smallText 
+                        maxLength=255 size=18 name=target></TD>
+                      <TD vAlign=top><SELECT class=smallText name=st> 
+                          <OPTION value=kw selected>Articles</OPTION> <OPTION 
+                          value=au>Authors</OPTION></SELECT></TD>
+                      <TD><INPUT class=formButton type=submit value=Go></TD></TR></TBODY></TABLE></TD></FORM>
+                <TD>
+                  <DIV id=MenuPos 
+                  style="WIDTH: 380px; POSITION: relative; HEIGHT: 20px"><IMG 
+                  height=20 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif" 
+                  width=375></DIV></TD></TR></TBODY></TABLE>
+            <SCRIPT type=text/javascript>function Go(){return}</SCRIPT>
+
+            <SCRIPT 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/cpmenu_var.js" 
+            type=text/javascript></SCRIPT>
+
+            <SCRIPT 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/menu10_com.js" 
+            type=text/javascript></SCRIPT>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=1 border=0>
+  <TBODY>
+  <TR vAlign=top>
+    <TD vAlign=top bgColor=#fbedbb rowSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <SCRIPT language=javascript>
+function ErrorHandle() {}
+window.onerror = ErrorHandle;
+
+function OnNLSubmit(option)
+{
+	if (option=="up")
+		document.subForm.action = "/script/profile/modify.asp?ct=%2Fcpp%2Ftspapp%2Easp";
+	else if (option=="in")
+		document.subForm.action = "/script/profile/process_logon.asp?ct=%2Fcpp%2Ftspapp%2Easp";
+	document.subForm.submit();
+	return true;
+}
+</SCRIPT>
+
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=3 cellPadding=0>
+              <TBODY>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD class=InfoBarHeader>Toolbox</TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/link.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/script/common/mailform.asp?option=Article&amp;Title=Genetic+Algorithms+and+the+Traveling+Salesman+Problem&amp;URL=http%3A%2F%2Fwww%2Ecodeproject%2Ecom%2Fcpp%2Ftspapp%2Easp">Broken 
+                  links?</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/store/"><B>VS.NET 2003 for 
+                  $899</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/support_icon.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/store/"><B>MSDN Univ. from 
+                  $1950</B></A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/print.gif" 
+                  width=16></TD>
+                <TD class=smallText><A 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?print=true" 
+                  target=_print>Print version</A></TD></TR>
+              <TR vAlign=top>
+                <TD><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/mail.gif" 
+                  width=16></TD>
+                <TD class=SmallText><A 
+                  href="http://www.codeproject.com/script/recommend/form.asp?guid=%2Fcpp%2Ftspapp%2Easp">Send 
+                  to a friend</A></TD></TR>
+              <TR vAlign=top>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD bgColor=black colSpan=2><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif" 
+                  width=1></TD></TR>
+              <TR vAlign=top>
+                <TD class=InfoBarHeader colSpan=2><BR>Sign in / Sign 
+              up</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText>
+            <FORM id=subForm name=subForm 
+            action=/script/profile/process_logon.asp method=post>
+            <TABLE cellSpacing=0 cellPadding=0 width=125 bgColor=#ffcc99 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Email</TD>
+                <TD class=smallText><INPUT class=smallText id=Email 
+                  style="WIDTH: 60px" name=Email> </TD></TR>
+              <TR>
+                <TD class=smallText>&nbsp;Password</TD>
+                <TD><INPUT class=smallText id=Password style="WIDTH: 60px" 
+                  type=password name=Password></TD></TR>
+              <TR>
+                <TD class=smallText vAlign=center colSpan=2><INPUT 
+                  type=checkbox CHECKED name=cookie>Remember me</TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif"></TD></TR>
+              <TR>
+                <TD align=middle><A 
+                  href="http://www.codeproject.com/script/profile/modify.asp"><IMG 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/signup.gif" 
+                  border=0></A></TD>
+                <TD align=middle><INPUT type=image 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/signin.gif" 
+                  border=0></TD></TR>
+              <TR>
+                <TD colSpan=2><IMG height=3 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif"></TD></TR></FORM></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=smallText><A class=smallText 
+            href="http://www.codeproject.com/script/profile/forgot.asp" 
+            name=HLLink>Lost your Password?</A></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <CENTER><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=772&amp;way=ban" 
+            target=_blank><IMG height=600 alt="" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ElementoolCodeProjectSky2.gif" 
+            width=120 border=0></A><BR></CENTER><BR></TD></TR></TBODY></TABLE></TD>
+    <TD width=5 rowSpan=2><IMG height=1 
+      src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif" 
+      width=5> </TD>
+    <TD align=right width="100%" bgColor=white>
+      <TABLE width="100%">
+        <TBODY>
+        <TR>
+          <TD class=smallText vAlign=top noWrap></TD>
+          <TD noWrap align=right><A name=__top></A>
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD class=smallText align=right>39 members have rated this 
+                  article. Result:</TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=2>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/red.gif" 
+                        width=20 border=0></TD>
+                      <TD><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/red.gif" 
+                        width=8 border=0><IMG height=5 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/white.gif" 
+                        width=12 border=0></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD class=smallText align=right colSpan=2><A 
+                  title="Calculated as rating x Log10(# votes)" 
+                  href="http://www.codeproject.com/script/articles/top_articles.asp?st=2">Popularity: 
+                  6.97</A>. Rating: <B>4.38</B> out of 
+        5.</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top width="100%">
+      <DIV id=contentdiv><!-- Article Starts --><!-- Download Links -->
+      <UL class=download>
+        <LI class=download><A 
+        href="http://www.codeproject.com/cpp/tspapp/tspapp_src.zip">Download 
+        source files - 119 Kb</A> 
+        <LI class=download><A 
+        href="http://www.codeproject.com/cpp/tspapp/tspapp_exe.zip">Download 
+        demo executable - 159 Kb</A> </LI></UL>
+      <P><IMG height=534 alt="Sample Image - tspapp.jpg" 
+      src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/tspapp.jpg" 
+      width=565></P>
+      <H2>contents</H2>
+      <OL>
+        <LI>Genetic Algorithm 
+        <UL>
+          <LI>Theory 
+          <LI>GA and TSP </LI></UL>
+        <LI>Base implementation, Template class GA&lt;&gt; and GA Selection 
+        classes 
+        <LI>Genome of Travel 
+        <LI>TSP Application 
+        <UL>
+          <LI>GA thread 
+          <LI>UI interface </LI></UL>
+        <LI>Environment 
+        <LI>Reference </LI></OL>
+      <H2>Disclaimer</H2>
+      <P>I am not a GA guru and I do not have any degree in GA so this article 
+      can't be used as GA book or GA tutorial. There aren't any mathematics nor 
+      logic nor algebra about GA. It's only a programmer's view on Genetic 
+      Algorithms and only example of GA coding. Use it carefully! Any comments 
+      and criticism are highly appreciated. </P>
+      <H2>Genetic Algorithm, Theory</H2>
+      <P>There are so many books and so many resources on the WEB about Genetic 
+      Algorithms. The best that I can do is quote some nice descriptions from my 
+      preferred sites. </P>
+      <P>Definition from <A href="http://cs.felk.cvut.cz/~xobitko/ga/">Marek 
+      Obitko's Site</A>: </P>
+      <BLOCKQUOTE>"Genetic algorithms are a part of evolutionary computing, 
+        which is a rapidly growing area of artificial intelligence. As you can 
+        guess, genetic algorithms are inspired by Darwin's theory about 
+        evolution. Simply said, solution to a problem solved by genetic 
+        algorithms is evolved." </BLOCKQUOTE>
+      <P>Explanation from <A 
+      href="http://www.generation5.org/ga.shtml">Generation5.org</A>:</P>
+      <BLOCKQUOTE>"Genetic algorithms are not too hard to program or 
+        understand, since they are biological based. Thinking in terms of 
+        real-life evolution may help you understand. Here is the general 
+        algorithm for a GA: 
+        <P></P>
+        <H4>Create a Random Initial State</H4>
+        <P>An initial population is created from a random selection of solutions 
+        (which are analagous to chromosomes). This is unlike the situation for 
+        Symbolic AI systems, where the initial state in a problem is already 
+        given instead. </P>
+        <H4>Evaluate Fitness</H4>
+        <P>A value for fitness is assigned to each solution (chromosome) 
+        depending on how close it actually is to solving the problem (thus 
+        arriving to the answer of the desired problem). (These "solutions" are 
+        not to be confused with "answers" to the problem, think of them as 
+        possible characteristics that the system would employ in order to reach 
+        the answer.) </P>
+        <H4>Reproduce (&amp; Children Mutate)</H4>
+        <P>Those chromosomes with a higher fitness value are more likely to 
+        reproduce offspring (which can mutate after reproduction). The offspring 
+        is a product of the father and mother, whose composition consists of a 
+        combination of genes from them (this process is known as "crossing 
+        over". </P>
+        <H4>Next Generation</H4>
+        <P>If the new generation contains a solution that produces an output 
+        that is close enough or equal to the desired answer then the problem has 
+        been solved. If this is not the case, then the new generation will go 
+        through the same process as their parents did. This will continue until 
+        a solution is reached." </P></BLOCKQUOTE>
+      <P>In my opinion, the GA is easy to understand and easy to implement using 
+      C++. The main advantage and disadvantage of GA at the same time is 
+      robustness. Even if you implement some features incorrectly, the GA will 
+      continue run and sooner or later will solve the problem (or find any local 
+      optimum). Definitely such a feature can produce some trouble during 
+      debugging and tuning. Another interesting problem is to choose the best 
+      algorithms from existing plethora of algorithms of crossover, mutation, 
+      gene presentation, etc. </P>
+      <P>See references topic for some useful links about GA theory. </P>
+      <H2>Genetic Algorithm and Traveling Salesman Problem</H2>
+      <H3>About Traveling Salesman Problem</H3>
+      <P>Again a quotation from <A 
+      href="http://www.math.princeton.edu/tsp/">http://www.math.princeton.edu/tsp/</A> 
+      </P>
+      <BLOCKQUOTE>"The traveling salesman problem, or TSP for short, is this: 
+        given a finite number of 'cities' along with the cost of travel between 
+        each pair of them, find the cheapest way of visiting all the cities and 
+        returning to your starting point." </BLOCKQUOTE>
+      <H3>Genome and Algorithm</H3>
+      <P>We can't use a traditional presentation and algorithm for the TSP 
+      problem, because every city must be unique in a gene, and can't be 
+      duplicated. </P>
+      <P>For a gene presentation, I used a sequential representation where the 
+      cities are listed in the order in which they are visited. It's common way 
+      for TSP Genome. </P><PRE>Example: [<SPAN class=cpp-literal>9</SPAN> <SPAN class=cpp-literal>3</SPAN> <SPAN class=cpp-literal>4</SPAN> <SPAN class=cpp-literal>0</SPAN> <SPAN class=cpp-literal>1</SPAN> <SPAN class=cpp-literal>2</SPAN> <SPAN class=cpp-literal>5</SPAN> <SPAN class=cpp-literal>7</SPAN> <SPAN class=cpp-literal>6</SPAN> <SPAN class=cpp-literal>8</SPAN>]
+</PRE>
+      <P>For a crossover operation after several tests and researching I 
+      selected the Greedy Crossover by J. Grefenstette. </P>
+      <P>The citation from <A 
+      href="http://gaslab.cs.unr.edu/docs/techreports/gong/node3.html">Sushil J. 
+      Louis</A> </P>
+      <BLOCKQUOTE>"Greedy crossover selects the first city of one parent, 
+        compares the cities leaving that city in both parents, and chooses the 
+        closer one to extend the tour. If one city has already appeared in the 
+        tour, we choose the other city. If both cities have already appeared, we 
+        randomly select a non-selected city." </BLOCKQUOTE>
+      <P>From my experience it's a very effective method. </P>
+      <H3>Mutation</H3>
+      <P>We can't change the gene's bits as the usual traditional mutation does. 
+      Instead we must swap the order of cities in a path. </P><PRE>Example:
+  Before mutation   [<SPAN class=cpp-literal>0</SPAN> <SPAN class=cpp-literal>1</SPAN> <SPAN class=cpp-literal>2</SPAN> <SPAN class=cpp-literal>3</SPAN> <SPAN class=cpp-literal>4</SPAN> <SPAN class=cpp-literal>5</SPAN> <SPAN class=cpp-literal>6</SPAN>]
+  After mutation    [<SPAN class=cpp-literal>0</SPAN> <SPAN class=cpp-literal>1</SPAN> <SPAN class=cpp-literal>3</SPAN> <SPAN class=cpp-literal>2</SPAN> <SPAN class=cpp-literal>4</SPAN> <SPAN class=cpp-literal>5</SPAN> <SPAN class=cpp-literal>6</SPAN>]
+</PRE>
+      <P>There are a lot of ways of doing such a swapping operation. Easiest way 
+      in using random swap. Unfortunately, such a strategy is unable to achieve 
+      an optimum quickly but can prevent convergence into a local optimum. 
+      Additionally I used a greedy-swap mutation. </P>
+      <P>Once more citation from <A 
+      href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/node3.html">Sushil 
+      J. Louis</A> </P>
+      <BLOCKQUOTE>"The basic idea of greedy-swap is to randomly select two 
+        cities from one chromosome and swap them if the new (swapped) tour 
+        length is shorter than the old one" </BLOCKQUOTE>
+      <P>While browsing the web I discovered research into GA <A 
+      href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm">"A fast 
+      TSP solver using a genetic algorithm"</A> by Hiroaki Sengoku and Ikuo 
+      Yoshihara. It's the fastest algorithm I ever saw. Unfortunately, It's a 
+      Java implementation and without any source. I could find only one PDF 
+      document with a description about this algorithm: <A 
+      href="http://www.gcd.org/sengoku/docs/arob98.pdf">arob98.pdf</A> After 
+      reading and studying I used the "Mutation by 2opt" idea in my code. This 
+      method has the same idea as greedy-swap mutation but more expansive and 
+      more effective. After adding into code I can improve speed of my program 
+      greatly on small and middle sets (till 200 cities). However for big sets 
+      (1000 and more) this heuristics is very slow method. </P>
+      <H3>Selection</H3>
+      <P>I implemented three selection methods : routlette rank, roulette cost 
+      and tournamnet. Of course I used elitism too. </P>
+      <H4><SPAN>Roulette Wheel Selection</H4>Definition from <A 
+      href="http://cs.felk.cvut.cz/~xobitko/ga/">Marek Obitko's Site</A> 
+      <BLOCKQUOTE>"Cost Selection : Parents are selected according to their 
+        fitness. The better the chromosomes are, the more chances to be selected 
+        they have. Imagine a roulette wheel where are placed all chromosomes in 
+        the population, every has its place big accordingly to its fitness 
+        function <BR>Rank Selection : The previous selection will have problems 
+        when the fitnesses differ very much. For example, if the best chromosome 
+        fitness is 90% of all the roulette wheel then the other chromosomes will 
+        have very few chances to be selected. Rank selection first ranks the 
+        population and then every chromosome receives fitness from this ranking. 
+        The worst will have fitness 1, second worst 2 etc. and the best will 
+        have fitness N (number of chromosomes in population)." </BLOCKQUOTE>
+      <H4><SPAN>Tournamnet Selection and Elitism</H4>Definition from <A 
+      href="http://www.cs.ucl.ac.uk/staff/W.Langdon">W. B. Langdon, University 
+      College, London</A> 
+      <P>
+      <BLOCKQUOTE>"A mechanism for choosing individuals from a population. A 
+        group (typically between 2 and 7 individuals) are selected at random 
+        from the population and the best (normally only one, but possibly more) 
+        is chosen An elitist genetic algorithm is one that always retains in the 
+        population the best individual found so far, Tournamnet Selection is 
+        naturally elitist." </BLOCKQUOTE>
+      <P>In my opinion and after testing the roulette rank and tournament 
+      selections are slightly faster for TSP case. For another problems, others 
+      selection algorithms can be best. </P>
+      <H3>Co-evolutions. Migrations</H3>
+      <P>I didn't find many documents about these methods in WEB. The base idea: 
+      allow evolving of several populations at the same time. The description 
+      found in <A 
+      href="http://www.generation5.org/coevolution.shtml">Generation5.org 
+      Site</A> 
+      <BLOCKQUOTE>"Genetic algorithms are neat, but they do come with their 
+        own set of problems. One big problem is that genetic algorithms have a 
+        tendency to get stuck at local optima. In other words, they will find a 
+        reasonable solution, but not the best solution. There are several 
+        methods that have been devised to counter this problem, and the one we 
+        will look at is coevolution" </BLOCKQUOTE>Simultaneously, co-evolution 
+      idea allows utilizing the SMP ability of WinNT\2k machines with multi 
+      CPUs. We can easily run several GA in separate threads without any 
+      penalty. For exchange data between different GA we can migrate the best 
+      genes in population. 
+      <H2>Base implementation<BR>Template class GA&lt;&gt; and GA Selection 
+      classes </H2>
+      <P>The <CODE>GA&lt;&gt;</CODE> class implements a base logic of Genetic 
+      Algorithms: recombination, mutation. User can manage the gene population 
+      via methods of <CODE>GA&lt;&gt;</CODE> class. It holds a gene population 
+      and gene context, selection methods, and method of randomization. User can 
+      specify behavior of this class via template parameters. </P><PRE><SPAN class=cpp-keyword>template</SPAN> &lt;<SPAN class=cpp-keyword>typename</SPAN> Traits, <SPAN class=cpp-keyword>typename</SPAN> Selection&gt; <SPAN class=cpp-keyword>class</SPAN> GA {…}
+</PRE>
+      <P>Template parameter <CODE>Traits</CODE> must define typedefs for 
+      <CODE>Gene</CODE> class, <CODE>Random</CODE> class, 
+      <CODE>Population</CODE> container class and Thread Synchronize class. </P>
+      <P>Template parameter <CODE>Selection</CODE> must provide the GA selection 
+      algorithm. Now there are three such classes: 
+      <CODE>selection_tournament&lt;&gt;</CODE>, 
+      <CODE>selection_roulette_cost&lt;&gt;</CODE>, 
+      <CODE>selection_roulette_rank&lt;&gt;</CODE>. </P>
+      <H3><CODE>GA&lt;&gt;</CODE> interface</H3>
+      <UL>
+        <LI><CODE>init</CODE> - initializes population 
+        <LI><CODE>update</CODE> - computes fitness's values and return optimal 
+        gene or end() 
+        <LI><CODE>find_best</CODE> - finds the gene with best fitness 
+        <LI><CODE>epoch</CODE> - makes next population (selection, crossover, 
+        mutation, etc) 
+        <LI><CODE>recombine</CODE> - makes selection, produce new genes, removes 
+        non elite parents and removes twins gene 
+        <LI><CODE>mutate</CODE> - attempts to mutate genes 
+        <LI><CODE>migration</CODE> - exchanges the best genes between 
+        populations 
+        <LI><CODE>sort</CODE> - orders the genes in population depending on 
+        fitness value (moves the best into a beginning of population) 
+        <LI><CODE>begin</CODE> - returns iterator at the first (best) gene of 
+        the population 
+        <LI><CODE>end</CODE> - returns a iterator that points just beyond the 
+        end of the population 
+        <LI><CODE>size</CODE> - returns the size of populations </LI></UL>
+      <P>The example of using <CODE>GA&lt;&gt;</CODE> class </P><PRE><SPAN class=cpp-keyword>typedef</SPAN> ga_traits&lt;RandomCRT&gt; traits;
+<SPAN class=cpp-keyword>typedef</SPAN> GA&lt;traits, selection_tournament&lt;traits&gt; &gt; tGA;
+traits::Gene::Context context;
+tGA ga(<SPAN class=cpp-literal>50</SPAN>, &amp;context);		
+tGA::iterator it = ga.update();
+<SPAN class=cpp-keyword>while</SPAN>(it == ga.end())
+{
+	ga.epoch(); 
+	it = ga.update(); 
+}
+traits::Gene* gnp = (*it); 
+</PRE>
+      <H2>Genome of Travel</H2>
+      <H3>class <CODE>TSPData</CODE></H3>
+      <P>Context of travel holds a travel data, auxiliary data and methods for 
+      crossover operation. </P>
+      <H3>struct <CODE>TSPBase</CODE></H3>
+      <P>Base gene class has thread specific memory pool for memory optimization 
+      In process of computing GA creates and destroys a lot of dynamic gene 
+      objects. It's very ineffective to use default memory allocation routine. 
+      Instead of it I used a special memory pool class, which pre-allocated a 
+      large block of memory from process heap and then caches a freeing blocks. 
+      </P>
+      <H3>class <CODE>TSPGene&lt;&gt; : TSPBase</CODE></H3>
+      <P>Gene's implementation<BR>Every gene holds a path (travel) of salesman 
+      and fitness value of this travel. Of course the lower the cost of travel 
+      the better fitness of gene. It has some constructors and methods for 
+      mutation and heuristics computing. The default constructor creates gene 
+      with random travel and for crossover operation uses another constructor: 
+      </P><PRE>TSPGene* gnp = <SPAN class=cpp-keyword>new</SPAN> TSPGene(parent1, parent2).
+</PRE>It creates offspring from genetic materials of parents' genes. 
+      <H2>TSP Application, GA thread</H2>
+      <P>For every co-evolution <CODE>_Main</CODE> class creates a separate 
+      thread with exemplar of <CODE>GA&lt;&gt;</CODE> class. Depending on user's 
+      setting it creates GA with one of three selection methods and sets a 
+      population size, elite size, migration's size, heuristics value, mutation 
+      and crossover probability. </P>
+      <P>Then every turn (or AI term "epoch") it calls recombination, mutation, 
+      and heuristics methods and update the Application's board with result of 
+      best gene. Also it tries to prevent convergence to a local optimum and 
+      kills 50% population if fitness stays unchanged some time. </P>
+      <H2>TSP Application, UI interface</H2>
+      <P>User can change a setting of GA for tuning it depending on size and 
+      shape of set of points. </P>
+      <UL>
+        <LI>Co-evolution field: a number of co-evolutions (separate threads) 
+        from 1 to 16. Default value is number of CPU * 2. 
+        <LI>Population field: a size of population per co-evolution, from 10 to 
+        1000 
+        <LI>Elite field: an elite size in the population, from 0 to size of 
+        population. 
+        <LI>Migration field: a size of migrated genes, from 0 to size of 
+        population. 
+        <LI>Heuristics filed: a size of best genes improved via heuristics 
+        method in every epoch. Note: in large populations it can be extremely 
+        slow in calculating the solution. 
+        <LI>Crossover field: probability of crossover, from 0 to 100 
+        <LI>Mutation filed: probability of mutation. From 0 to 100 
+        <LI>Selection combo: selection method (roulette rank, roulette cost and 
+        tournament) 
+        <LI>Remove Twins checkbox: set using a natural selection algorithm. It 
+        eliminates similar genes to avoid the immature convergence. </LI></UL>
+      <H2>Environment</H2>
+      <P>I used VC++ 6.0. SP5, Win2k SP2, MS Platform SDK April 2001. </P>
+      <P>And tested on Win2k SP2 IE 6.0,Win2k SP1 IE 5.0, Win ME IE 5.5, Win 98 
+      SE IE 5.0. </P>
+      <H2>References</H2>
+      <OL>
+        <LI>S.Hsiung and J.Matthews, <A 
+        href="http://www.generation5.org/essays.shtml#ga">Generation 5 - Genetic 
+        Algorithms and Genetic Programming<BR><BR></A>
+        <LI><A href="http://cs.felk.cvut.cz/~xobitko/">Marek Obitko</A>, <A 
+        href="http://cs.felk.cvut.cz/~xobitko/ga/">Introduction to Genetic 
+        Algorithms<BR><BR></A>
+        <LI><A 
+        href="http://hp.vector.co.jp/authors/VA000770/theme.en.html">Hiroaki 
+        Sengoku</A> and Ikuo Yoshihara, <A 
+        href="http://www.sdl.hitachi.co.jp/english/system/data/tsp.htm">A fast 
+        TSP solver using a genetic algorithm<BR><BR></A>
+        <LI><A href="mailto:gaslab@cs.unr.edu">Sushil J. Louis</A> and Rilun 
+        Tang,<BR>
+        <UL>
+          <LI><A 
+          href="http://www.cs.unr.edu/~sushil/papers/conference/newpapers/99/gecco99/iga/GECCO/gecco/gecco.html">Interactive 
+          Genetic Algorithms for the Traveling Salesman Problem</A>, 
+          <LI><A 
+          href="http://gaslab.cs.unr.edu/docs/techreports/gong/journal.html">Genetic 
+          Algorithms with Memory for Traveling Salesman Problems</A>, 
+          <LI><A 
+          href="http://www.cs.unr.edu/~sushil/papers/conference/papers/fea/97/fea/fea.html">Augmenting 
+          Genetic Algorithms with Memory to Solve Traveling Salesman 
+          Problems<BR><BR></A></LI></UL>
+        <LI><A href="http://www.chat.ru/~saisa">Sergey Isaev</A>, <A 
+        href="http://saisa.chat.ru/ga.html">Genetic Algorithm<BR><BR></A>
+        <LI><A href="http://www.cs.bham.ac.uk/~wbl/index.html">W. B. 
+        Langdon</A>, <A 
+        href="http://www.cs.bham.ac.uk/~wbl/thesis.html#toc">Genetic Programming 
+        and Data Structures<BR><BR></A>
+        <LI><A href="http://www.math.princeton.edu/tsp/index.html">Solving 
+        Traveling Salesman Problem</A> </LI></OL><!-- Article Ends --></DIV>
+      <H2>About Konstantin Boukreev</H2>
+      <TABLE width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD class=smallText noWrap><BR></TD>
+          <TD class=smallText width="100%">I am freelance programmer. About 3 
+            years of experience in C++ and I would rather use ATL, STL, WTL but 
+            not MFC <IMG 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/smiley_smile.gif" 
+            align=absMiddle>. Main backgrounds are Win32 API, COM and 
+            Networking. Now I am interested about AI (Neural Network, Fuzzy 
+            Logic and GA). Currently based in Vladivostok, Russia.
+            <P class=smallText>Click <A 
+            href="http://www.codeproject.com/script/profile/whos_who.asp?vt=arts&amp;id=128">here</A> 
+            to view Konstantin Boukreev's online 
+      profile.</P></TD></TR></TBODY></TABLE><BR>
+      <TABLE cellPadding=4 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD width="100%">
+            <H2>Other popular C++ / MFC articles:</H2>
+            <UL>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/exceptionhandler.asp">How a 
+              C++ compiler implements exception handling</A><BR><SPAN 
+              class=smalltext>An indepth discussion of how VC++ implements 
+              exception handling. Source code includes exception handling 
+              library for VC++.</SPAN>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/rtl_scaling.asp">Scaling of 
+              memory intensive multi-threaded applications to SMMP 
+              computers</A><BR><SPAN class=smalltext>This article discusses 
+              impact of the multithreaded run-time library's memory manager on 
+              scaling memory-intensive server applications to Shared Memory 
+              Multiprocessor computers.</SPAN>
+              <LI><A href="http://www.codeproject.com/cpp/htmleditvc6.asp">Using 
+              MSHTML Editing in VC6 Doc/View Applications</A><BR><SPAN 
+              class=smalltext>How to enable MSHTML editing in a view in 
+              VC6</SPAN>
+              <LI><A 
+              href="http://www.codeproject.com/cpp/sseintro.asp">Introduction to 
+              SSE Programming</A><BR><SPAN class=smalltext>An article describes 
+              programming floating-point calculations using Streaming SIMD 
+              Extensions</SPAN></LI></UL></TD>
+          <TD width=360>
+            <SCRIPT language=JavaScript type=text/javascript>
+<!--
+google_ad_client = 'codeproject_300x250';
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = '300x250_pas_abgnc';
+google_ad_type = 'text';
+google_safe = 'high';
+google_color_bg = 'fbedbb';
+google_color_border = 'ff9900';
+// -->
+</SCRIPT>
+
+            <SCRIPT language=JavaScript 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/show_ads.js" 
+            type=text/javascript></SCRIPT>
+            <NOSCRIPT><IMG height=1 src="" width=1 border=0> </NOSCRIPT></TD>
+          <FORM action=/script/rating/code/app/insert_vote.asp 
+          method=post><INPUT type=hidden value=/cpp/tspapp.asp name=vote_name> 
+          <INPUT type=hidden value=/cpp/tspapp.asp name=goal> </TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=1 width="100%" bgColor=#ff9900 
+        border=0><TBODY>
+        <TR>
+          <TD width="100%">
+            <TABLE cellSpacing=0 cellPadding=4 width="100%" bgColor=#fbedbb 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD class=smalltext vAlign=center>[<A 
+                  href="http://www.codeproject.com/cpp/tspapp.asp#__top">Top</A>]</TD>
+                <TD vAlign=center noWrap align=right><A 
+                  href="http://www.codeproject.com/script/profile/logon.asp?ct=%2Fcpp%2Ftspapp%2Easp"><B>Sign 
+                  in</B></A> to vote for this article:&nbsp;&nbsp;&nbsp;&nbsp; 
+                  <I>Poor</I><INPUT style="disabled: true" type=radio value=1 
+                  name=rate><INPUT style="disabled: true" type=radio value=2 
+                  name=rate><INPUT style="disabled: true" type=radio value=3 
+                  name=rate><INPUT style="disabled: true" type=radio value=4 
+                  name=rate><INPUT style="disabled: true" type=radio value=5 
+                  name=rate><I>Excellent</I>&nbsp;&nbsp;<INPUT class=FormButton style="disabled: true" type=submit value=Vote> 
+                </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top>
+            <CENTER><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=544&amp;way=ban" 
+            target=_blank><IMG height=60 alt="" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/dundas_bluelogoCP.gif" 
+            width=120 border=0></A><BR><FONT size=1><A 
+            href="http://www.codeproject.com/info/MediaKit/">Premium 
+            Sponsor</A></FONT></CENTER><BR></TD>
+          <TD vAlign=top noWrap align=middle><SPAN id=AdBanner5><A 
+            href="http://www.codeproject.com/script/admentor/admentorredir.asp?id=648&amp;way=ban" 
+            target=_blank><IMG height=60 
+            alt="Support Code Project and purchase Visual Studio .NET from $899" 
+            src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/vsnet468x60_mfc.gif" 
+            width=468 
+  border=0></A></SPAN></TD></TR></TBODY></TABLE></SPAN></SPAN></TD></TR></TBODY></TABLE><A 
+name=__comments></A>
+<SCRIPT language=JavaScript>
+var Selected = "";
+var AdTime = new Date();
+
+document.writeln("<iframe name=AdFrame width=0 height=0 frameborder=0></IFRAME>");
+
+
+function SwitchMessage(elm)
+{
+
+	var now = new Date();
+	if (Number(now.getTime() - AdTime.getTime()) > Number(5000000))
+	{
+		AdTime = now;
+		var loc = window.frames["AdFrame"];
+		if (loc) loc = loc.document;
+		if (loc) loc = loc.location;
+		if (loc) loc.replace('/script/comments/fetchAd.asp?cat=');
+	}
+	
+	var elmref;
+	if (Selected != "")
+	{
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) elmref.style.display = 'none';
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) elmref.bgColor = '#FEF9E7';
+	}
+	if (Selected != elm.name) 
+	{
+		Selected = elm.name;
+		elmref = eval("document.getElementById('" + Selected + "_h1')");
+		if (elmref) 
+		{
+			if (elmref.style.display=='none') elmref.style.display='';
+			else elmref.style.display = 'none';
+		}
+		elmref = eval("document.getElementById('" + Selected + "_h0')");
+		if (elmref) 
+			elmref.bgColor = '#99CCFF';
+	}
+	else
+		Selected="";
+		
+	window.location = "#xx" + Selected + "xx";
+
+	return false;
+}
+
+</SCRIPT>
+
+<SCRIPT language=javascript event=onclick for=DynMessLink>
+return SwitchMessage(this);
+</SCRIPT>
+
+<TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ff9900 border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE id=ForumTable cellSpacing=1 cellPadding=0 width="100%" 
+      bgColor=#ff9900 border=0>
+        <FORM 
+        action=/script/comments/app/do_filtermessages.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655 
+        method=post>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=3 width="100%" bgColor=white 
+            border=0>
+              <TBODY>
+              <TR bgColor=#fbedbb>
+                <TD class=smalltext noWrap><A 
+                  href="http://www.codeproject.com/script/comments/faq.asp"><IMG 
+                  height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/info.gif" 
+                  width=16 align=absMiddle border=0> <B>FAQ</B></A>&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>Noise level 
+                  <SELECT class=smalltext size=1 name=noise><OPTION 
+                    value=1>Very High</OPTION> <OPTION value=2>High</OPTION> 
+                    <OPTION value=3 selected>Medium</OPTION> <OPTION 
+                    value=4>Low</OPTION> <OPTION value=5>Very 
+                  low</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=center noWrap align=right 
+                  colSpan=2><A 
+                  href="http://www.codeproject.com/script/comments/search_comments.asp?forumid=2655"><IMG 
+                  height=15 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/search.gif" 
+                  width=16 border=0> Search comments</A> &nbsp;</TD>
+                <TD vAlign=top align=right><INPUT class=FormButton type=submit value="Set Options" name=submit></TD></TR>
+              <TR bgColor=#ff9900>
+                <TD width="100%">&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap align=right>View <SELECT 
+                  class=smalltext size=1 name=expand><OPTION value=0>Normal 
+                    (slow)</OPTION> <OPTION value=2>Preview (slow)</OPTION> 
+                    <OPTION value=5 selected>Message View</OPTION> <OPTION 
+                    value=6>Topic View</OPTION> <OPTION value=1>Thread 
+                    View</OPTION> <OPTION value=3>Expanded (Supporters 
+                    only)</OPTION></SELECT>&nbsp;&nbsp;</TD>
+                <TD class=smalltext vAlign=top noWrap>Per page <SELECT 
+                  class=smalltext size=1 name=perpage><OPTION 
+                    value=10>10</OPTION> <OPTION value=25 selected>25</OPTION> 
+                    <OPTION value=50>50 (must logon)</OPTION></SELECT></TD>
+                <TD colSpan=2>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></FORM>
+        <TR bgColor=#fbedbb>
+          <TD><A name=xx0xx></A>
+            <TABLE cellPadding=2 width="100%" bgColor=#fbedbb border=0>
+              <TBODY>
+              <TR>
+                <TD class=messagetitle><A class=HoverLink 
+                  title="Add a new message to the discussions" 
+                  href="http://www.codeproject.com/script/comments/user_new.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655" 
+                  target=_top name=HoverNL><B><IMG height=16 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/admin_modify.gif" 
+                  width=16 align=top border=0> New thread</B></A></TD>
+                <TD class=messagetitle>Msgs 1 to 25 of 28 (Total: 28) (<A 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655">Refresh</A>)</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <A class=HoverLink 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;fr=26" 
+                  name=HoverNL>Next</A> <A class=HoverLink 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;fr=26" 
+                  name=HoverNL>Last</A> </FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=white>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=2 bgColor=#fbedbb border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=messagetitle width="100%">Subject&nbsp;</TD>
+                      <TD class=messagetitle noWrap width=140>Author&nbsp;</TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT 
+                    class=messagetitle>Date&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=802297_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx802297xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=802297#xx802297xx" 
+                        name=802297><B>Dynamic Mutation</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1006750"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle><B>Ramya 
+                        Narayanaswamy</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>19:05 25 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=802297_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hello 
+                                All,<BR>I would like to know if any one has the 
+                                source code for the genetic algorithm for the 
+                                dynamic mutation for the generalized assignment 
+                                problem or for any other test problems. I am 
+                                trying to code the dynamic mutation genetic 
+                                algorithm and i am finding it tough so if any 
+                                one can share it with me that would be of great 
+                                help.<BR>Thanks <BR><BR>Ramya 
+                                Narayanaswamy<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=802297">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=802297">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=802297&amp;forumid=2655&amp;select=802297#xx802297xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=802297#xx802297xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=802297"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=802297"><I>Delete</I></A>]<BR>Score: 
+                                1.5 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=799373_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx799373xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=799373#xx799373xx" 
+                        name=799373><B>nural network projet</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1040929"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>bils</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>6:35 22 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=799373_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i need 
+                                plese a nural network projet with his sourse 
+                                code<BR>in C++ or vb<BR>tanks<IMG 
+                                src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/rose.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=799373">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=799373">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=799373&amp;forumid=2655&amp;select=799373#xx799373xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=799373#xx799373xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=799373"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=799373"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=816659_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx816659xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=816659#xx816659xx" 
+                        name=816659>Re: nural network projet</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=777267"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>xdeco2003&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:07 10 May 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=816659_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Wich 
+                                kind of implemantation?<BR>Hopfield?<BR><BR>If 
+                                you want contact me please do by e-mail 
+                                xdeco2003@yahoo.com. I usally not come to this 
+                                place.<BR><BR>regards,<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=816659">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=816659">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=799373&amp;forumid=2655&amp;select=816659#xx816659xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=816659#xx816659xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=816659"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=816659"><I>Delete</I></A>]<BR>Score: 
+                                1.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=798839_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx798839xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=798839#xx798839xx" 
+                        name=798839><B>Objective Function and 
+                      constraints</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1006750"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle><B>Ramya 
+                        Narayanaswamy</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>15:53 21 Apr 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=798839_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hello 
+                                All,<BR>I am trying to run a genetic algorithm 
+                                for the generalized assignment problem. I have a 
+                                code running for the multi dimensioanl knapsack 
+                                problem. But i need to change the objective 
+                                function and the constraints and i am not able 
+                                to figure out where the objective and the 
+                                constraints are written. I am using the source 
+                                files and the header files from the GALibrary. I 
+                                am a novice at programming and i am stuck. If 
+                                anyone can help that would be of great 
+                                help.<BR>Thanks <BR><BR>Ramya 
+                                Narayanaswamy<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=798839">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=798839">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=798839&amp;forumid=2655&amp;select=798839#xx798839xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=798839#xx798839xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=798839"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=798839"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=755625_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx755625xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=755625#xx755625xx" 
+                        name=755625><B>for help</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=923928"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>guoxiuping</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>20:39 3 Mar 
+                        '04</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=755625_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent><IMG 
+                                src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/smiley_redface.gif" 
+                                align=absMiddle>I am a student in China and now 
+                                studying TSP, but I want solve it with parallel 
+                                genetic algorithm (PGA), can you provide source 
+                                code about PGA for me.<BR>Thanks a lot!! 
+                                <BR><BR>gxp<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=755625">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=755625">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=755625&amp;forumid=2655&amp;select=755625#xx755625xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=755625#xx755625xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=755625"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=755625"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=478961_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478961xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478961#xx478961xx" 
+                        name=478961><B>nural network to solve tsp 
+                      problem</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>ssara</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>7:23 20 Apr 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478961_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i hope 
+                                some one help me to know how can i use hopfield 
+                                with gentic to solve tsp by matlab cod if some 
+                                one can help i thanks 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478961">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478961">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=478961&amp;forumid=2655&amp;select=478961#xx478961xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478961#xx478961xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478961"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478961"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=612673_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx612673xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=612673#xx612673xx" 
+                        name=612673>Re: nural network to solve tsp 
+problem</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>M. Abdul 
+                        Mannan&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>9:48 17 Sep 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=612673_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>hi 
+                                there...<BR>i am also doing work on nural neural 
+                                networks to solve TSP in these days... any one 
+                                can share any thing with me ....<BR>my email 
+                                is&nbsp;&nbsp;itsmani1@hotmail.com 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=612673">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=612673">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=478961&amp;forumid=2655&amp;select=612673#xx612673xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=612673#xx612673xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=612673"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=612673"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=754728_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx754728xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=754728#xx754728xx" 
+                        name=754728>Re: nural network to solve tsp 
+problem</A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>Anonymous&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>3:13 3 Mar 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=754728_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i also 
+                                work in neural network to solve tsp if you want 
+                                any paper i can send to you but you must frist 
+                                give me the name of papers you want <BR>and 
+                                about me i search for books and can not buy it 
+                                if you have you can send to me if you agree i 
+                                can send the name of books 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=754728">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=478961&amp;forumid=2655&amp;select=754728#xx754728xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=754728#xx754728xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=754728"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=754728"><I>Delete</I></A>]<BR>Score: 
+                                1.5 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=837515_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx837515xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=837515#xx837515xx" 
+                        name=837515>Re: nural network to solve tsp 
+                        problem</A><IMG height=12 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/New.gif"></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=1137205"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle>Shahin 
+                        Gelareh&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>10:36 31 May 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=837515_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=54><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Dear 
+                                Friend<BR>I am Shahin .I'm looking for solving 
+                                quadratic assignment using heuristic mathos .I 
+                                would be so gratefull if you help me . 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=837515">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=837515">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=478961&amp;forumid=2655&amp;select=837515#xx837515xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=837515#xx837515xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=837515"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=837515"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=456467_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx456467xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=456467#xx456467xx" 
+                        name=456467><B>TSP program with PBIL 
+Algorithm</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=307384"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>axlianbach</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>2:29 26 Mar 
+                        '03</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=456467_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i'm 
+                                very happy join in here.i'm a student at 
+                                Electronic Engineering Polytechnic Institut Of 
+                                Surabaya ITS (EEPIS-ITS)indonesia.<BR>In this 
+                                time, i have the Final Project titled 
+                                "Travelling Salesman Problem with 
+                                Populated-Based incremental learning Algorithm 
+                                (PBIL)".<BR>Would you like help/give me some 
+                                source program or best article about PBIL 
+                                algorithm.What is the different between GA and 
+                                PBIL algorithm?<BR>I hope your help and thank's 
+                                very much.<BR><BR>Axlianbach,<IMG 
+                                src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/smiley_smile.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=456467">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=456467">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=456467&amp;forumid=2655&amp;select=456467#xx456467xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=456467#xx456467xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=456467"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=456467"><I>Delete</I></A>]<BR>Score: 
+                                1.5 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478970_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478970xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478970#xx478970xx" 
+                        name=478970>Re: TSP program with PBIL Algorithm</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:54 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478970_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>if i 
+                                know i say but i will work to solve the problem 
+                                of tsp by nural and gentic if you want any thing 
+                                about that i want help as you 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478970">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478970">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=456467&amp;forumid=2655&amp;select=478970#xx478970xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478970#xx478970xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478970"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478970"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=356184_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx356184xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=356184#xx356184xx" 
+                        name=356184><B>Doesn't look right to me</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=64573"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>Infiniti</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>11:12 5 Dec 
+                        '02</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=356184_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>One of 
+                                the links in your screenshot looks inefficient 
+                                to me. Start from the really low point in the 
+                                bottom-right corner, take the rightmost link and 
+                                count up five points. That point would obviously 
+                                be much better linked to the points above it. 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=356184">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=356184">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=356184&amp;forumid=2655&amp;select=356184#xx356184xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=356184#xx356184xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=356184"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=356184"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=455990_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx455990xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=455990#xx455990xx" 
+                        name=455990>Re: Doesn't look right to me</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=49"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle><FONT 
+                        color=blue>Colin <FONT 
+                        color=red>Davies&nbsp;</FONT></FONT></FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>16:33 25 Mar 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=455990_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Are you 
+                                really surprised ? <BR><BR>Regardz<BR>Colin J 
+                                Davies<BR>
+                                <P align=right><BR><A 
+                                href="http://www.sonork.com/" 
+                                target=_Blank>Sonork</A> ID 
+                                100.9197:Colin</P><BR><BR><SMALL><BR>I'm 
+                                guessing the concept of a 2 hour movie showing 
+                                two guys eating a meal and talking struck them 
+                                as 'foreign' <BR><B>Rob Manderson 
+                                wrote:<B></SMALL><BR><BR>&nbsp;</B></B></FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=455990">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=455990">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=356184&amp;forumid=2655&amp;select=455990#xx455990xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=455990#xx455990xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=455990"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=455990"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=339156_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx339156xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=339156#xx339156xx" 
+                        name=339156><B>Compile Error</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=62537"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>tawan</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>17:55 15 Nov 
+                        '02</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=339156_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>When I 
+                                tried to complie the source code. I'm not 
+                                successful because this error 
+                                <BR><BR>--------------------Configuration: 
+                                TSPApp - Win32 
+                                Debug_NuMega--------------------<BR>Compiling...<BR>stdafx.cpp<BR>NOTE: 
+                                WINVER has been defined as 0x0500 or greater 
+                                which enables<BR>Windows NT 5.0 and Windows 98 
+                                features. When these headers were 
+                                released,<BR>Windows NT 5.0 beta 1 and Windows 
+                                98 beta 2.1 were the current versions.<BR>For 
+                                this release when WINVER is defined as 0x0500 or 
+                                greater, you can only<BR>build beta or test 
+                                applications. To build a retail 
+                                application,<BR>set WINVER to 0x0400 or visit 
+                                http://www.microsoft.com/msdn/sdk<BR>to see if 
+                                retail Windows NT 5.0 or Windows 98 headers are 
+                                available.<BR>See the SDK release notes for more 
+                                information.<BR>You are not using the latest 
+                                Platform SDK header/library <BR>files. This may 
+                                prevent the project from building 
+                                correctly.<BR>You may install the Platform SDK 
+                                from 
+                                http://msdn.microsoft.com/downloads/<BR>c:\documents 
+                                and settings\tawan\desktop\good 
+                                start\firstdays\jroptex.h(150) : error C2065: 
+                                'InterlockedExchangePointer' : undeclared 
+                                identifier<BR>c:\documents and 
+                                settings\tawan\desktop\good 
+                                start\firstdays\jroptex.h(150) : error C2065: 
+                                'DWORD_PTR' : undeclared 
+                                identifier<BR>c:\documents and 
+                                settings\tawan\desktop\good 
+                                start\firstdays\jroptex.h(150) : error C2146: 
+                                syntax error : missing ')' before identifier 
+                                'dwSpinCount'<BR>c:\documents and 
+                                settings\tawan\desktop\good 
+                                start\firstdays\jroptex.h(150) : error C2059: 
+                                syntax error : ')'<BR>c:\documents and 
+                                settings\tawan\desktop\good 
+                                start\firstdays\jroptex.h(199) : error C2664: 
+                                'InterlockedCompareExchange' : cannot convert 
+                                parameter 1 from 'long *' to 'void ** '<BR>Types 
+                                pointed to are unrelated; conversion requires 
+                                reinterpret_cast, C-style cast or function-style 
+                                cast<BR>Error executing 
+                                cl.exe.<BR><BR>TSPApp.exe - 5 error(s), 0 
+                                warning(s)<BR><BR><BR>Could you please 
+                                suggest/advice me to fix this 
+                                problem?<BR><BR>Tawan Thongpook<BR>Student 
+                                <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=339156">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=339156">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=339156&amp;forumid=2655&amp;select=339156#xx339156xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=339156#xx339156xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=339156"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=339156"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=700237_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx700237xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=700237#xx700237xx" 
+                        name=700237>Re: Compile Error</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=788291"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>zhaoen&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>10:23 28 Dec 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=700237_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>I am 
+                                facing the same thing... What is the problem 
+                                here? <BR><BR>Ting<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=700237">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=700237">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=339156&amp;forumid=2655&amp;select=700237#xx700237xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=700237#xx700237xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=700237"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=700237"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=716450_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx716450xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=716450#xx716450xx" 
+                        name=716450>Re: Compile Error - fix</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=450133"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>CoderPond&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:48 18 Jan 
+                        '04&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=716450_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>This 
+                                might be a delayed reply, but if i had the same 
+                                problem, then its likely someone else 
+                                will.<BR><BR>Oddly enough, I was getting the 
+                                same problem when compiling on XP using VS6. 
+                                These headers and libaries should be there, as I 
+                                had all the service packs and my machine is 
+                                quite up to date with most things <IMG 
+                                src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/smiley_sigh.gif" 
+                                align=absMiddle> Anyway I read the error 
+                                information and the MSDN help about 
+                                InterlockedCompareExchange, and realised that I 
+                                had to install the WMI platform SDK.<BR><BR>You 
+                                can find this 
+                                at:<BR>http://www.microsoft.com/msdownload/platformsdk/sdkupdate/<BR><BR>But 
+                                that alone does not fix the problem. If you read 
+                                the fineprint on the install notes, it mentions 
+                                that you have to add the path to the libs and 
+                                include paths so that they are 
+                                first.<BR>Tools-&gt;options-&gt;Directories<BR><BR>Hint: 
+                                The SDK installs to "C:\Program 
+                                files-&gt;Microsoft SDK" by default.<BR><BR>Once 
+                                this is done, it will compile without issues... 
+                                well, it did for me anyway. Let me know if 
+                                anyone is still having 
+                                problems.<BR><BR>Cheers<BR><BR>Adam<BR><BR><BR>=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<BR>Live 
+                                your life as if its your last day.<BR>Plan your 
+                                life as if you'll live 
+                                forever.<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=716450">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=716450">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=339156&amp;forumid=2655&amp;select=716450#xx716450xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=716450#xx716450xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=716450"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=716450"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (1 vote). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=207799_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx207799xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=207799#xx207799xx" 
+                        name=207799><B>TSM</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=38037"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle><B>AlexChirokov</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle><B>18:05 12 Jun 
+                        '02</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=207799_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>As soon 
+                                as I know GA is not a method of choise for 
+                                Traveling Salesman Problem 
+                                <BR>http://www.crpc.rice.edu/CRPC/newsletters/sum98/news_tsp.html 
+                                look at the NR www.nr.com for some more 
+                                classical approches. By the way very good code. 
+                                <BR><BR>Sany-<BR>AlexChirokov@narod.ru<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=207799">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=207799">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=207799&amp;forumid=2655&amp;select=207799#xx207799xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=207799#xx207799xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=207799"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=207799"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=70390_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx70390xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_suss.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle style="COLOR: #aaaaaa" 
+                        width="100%"><A class=messagetitle id=DynMessLink 
+                        style="COLOR: #aaaaaa" 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=70390#xx70390xx" 
+                        name=70390><B>Another TSP resources</B></A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=5809"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle 
+                        style="COLOR: #aaaaaa"><B>Sergei A. 
+                        Zhikharev</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle 
+                        style="COLOR: #aaaaaa"><B>2:16 23 Oct 
+                        '01</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=70390_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>If you 
+                                are interesting in solving TSP first of all look 
+                                at the review of known algorithms at 
+                                http://www.densis.fee.unicamp.br/~moscato/TSPBIB_home.html<BR>I 
+                                seem there are a lot of issues that solve TSP 
+                                much better and much faster than your 
+                                approach.<BR><BR>Also I'd like to notice that 
+                                any serious algorithm presentation should be 
+                                accompanied with complexity estimation and 
+                                estimation of how close to the optimum solution 
+                                your algorithm is.<IMG 
+                                src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/smiley_tongue.gif" 
+                                align=absMiddle> <BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=70390">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=70390">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=70390#xx70390xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=70390#xx70390xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=70390"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=70390"><I>Delete</I></A>]<BR>Score: 
+                                1.7 (3 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478962_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478962xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478962#xx478962xx" 
+                        name=478962>Re: Another TSP resources</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:26 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478962_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i am 
+                                sorry but i already work in that apporosh if you 
+                                know any papar about that can you help thanks 
+                                for answer 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478962">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478962">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=478962#xx478962xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478962#xx478962xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478962"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478962"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478963_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478963xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478963#xx478963xx" 
+                        name=478963>Re: Another TSP resources</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:31 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478963_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>why no 
+                                one answer me 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478963">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478963">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=478963#xx478963xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478963#xx478963xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478963"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478963"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478966_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478966xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478966#xx478966xx" 
+                        name=478966>Re: Another TSP resources</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:41 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478966_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>i know 
+                                that but i already work in it 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478966">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478966">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=478966#xx478966xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478966#xx478966xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478966"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478966"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478967_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478967xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478967#xx478967xx" 
+                        name=478967>Re: Another TSP resources</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:41 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478967_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=36><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>why no 
+                                one want help me 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478967">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478967">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=478967#xx478967xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478967#xx478967xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478967"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478967"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=6 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR id=478968_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx478968xx></A><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_unselected.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=478968#xx478968xx" 
+                        name=478968>Re: Another TSP resources</A></TD>
+                      <TD vAlign=bottom><A 
+                        href="http://www.codeproject.com/script/profile/whos_who.asp?id=353378"><IMG 
+                        title="Click for User Profile" height=15 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/userinfo.gif" 
+                        width=14 border=0></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT 
+                        class=messagetitle>ssara&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle>7:49 20 Apr 
+                        '03&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=478968_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=1 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/ind.gif" 
+                        width=18><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>thanks 
+                                alot for that site i hope i learn any thing i am 
+                                very thanks for help keep on touch 
+                                <BR><BR>sara<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478968">Reply</A>][<A 
+                                title="Email a reply to the author of this message" 
+                                href="http://www.codeproject.com/script/comments/user_mail.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478968">Email</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=70390&amp;forumid=2655&amp;select=478968#xx478968xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=478968#xx478968xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478968"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=478968"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=61810_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx61810xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_suss.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=61810#xx61810xx" 
+                        name=61810><B>Runtime complexity?</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle 
+                        color=#707070><B>Anonymous</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle color=#707070><B>4:28 
+                        30 Sep '01</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=61810_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>You 
+                                didn't answer the most important question of 
+                                all. What is its runtime 
+                                complexity?<BR><BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61810">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=61810&amp;forumid=2655&amp;select=61810#xx61810xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=61810#xx61810xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61810"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61810"><I>Delete</I></A>]<BR>Score: 
+                                2.0 (2 votes). 
+                          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR>
+              <TR height=1>
+                <TD bgColor=#ff9900><IMG height=1 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1></TD></TR>
+              <TR id=61112_h0 bgColor=#fef9e7>
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=white><A name=xx61112xx></A><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_suss.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD class=messagetitle width="100%"><A 
+                        class=messagetitle id=DynMessLink 
+                        href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;select=61112#xx61112xx" 
+                        name=61112><B>Problem in your link !</B></A></TD>
+                      <TD vAlign=bottom><IMG height=13 
+                        alt="Unconfirmed/Anonymous posting" 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/usersuss.gif" 
+                        width=15></A>&nbsp;</TD>
+                      <TD noWrap width=140><FONT class=messagetitle 
+                        color=#707070><B>Anonymous</B>&nbsp;</FONT></TD>
+                      <TD style="WIDTH: 9em" noWrap align=right 
+                        width=120><FONT class=messagetitle 
+                        color=#707070><B>10:59 27 Sep 
+                    '01</B>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR id=61112_h1 style="DISPLAY: none">
+                <TD width="100%">
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG 
+                        src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/news_none.gif" 
+                        align=absMiddle>&nbsp;</TD>
+                      <TD width="100%" bgColor=#d5eaff>
+                        <TABLE cellSpacing=5 cellPadding=0 width="100%" 
+border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                              border=0>
+                                <TBODY>
+                                <TR>
+                                <TD colSpan=2><FONT class=messagecontent>Hi 
+                                !<BR><BR>Your Demo link has a problem, please 
+                                correct 
+                                this.<BR><BR>ABC<BR>&nbsp;</FONT></TD></TR>
+                                <TR vAlign=top>
+                                <TD class=messagetitle>[<A 
+                                title="Reply to this current thread" 
+                                href="http://www.codeproject.com/script/comments/user_reply.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61112">Reply</A>][<A 
+                                title="View only messages within this thread" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;tid=61112&amp;forumid=2655&amp;select=61112#xx61112xx">View 
+                                Thread</A>][<A 
+                                title="Get the URL for this message" 
+                                href="http://www.codeproject.com/cpp/tspapp.asp?msg=61112#xx61112xx">Get 
+                                Link</A>]</TD>
+                                <TD class=messagetitle align=right>[<A 
+                                href="http://www.codeproject.com/script/comments/owner_modify_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61112"><I>Modify</I></A>|<A 
+                                href="http://www.codeproject.com/script/comments/owner_delete_pw.asp?main=/cpp/tspapp.asp&amp;df=100&amp;forumid=2655&amp;select=61112"><I>Delete</I></A>]<BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD><IMG height=5 
+                  src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/t.gif" 
+                  width=1 border=0></TD></TR></TBODY></TABLE></TD></TR>
+        <TR bgColor=#fbedbb>
+          <TD>
+            <TABLE cellPadding=2 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=messagetitle>Last Visit: 9:51 Wednesday 19th May, 
+                  2004</TD>
+                <TD noWrap align=right><FONT class=messagetitle><SPAN 
+                  class=HoverLink>First</SPAN> <SPAN class=HoverLink>Prev</SPAN> 
+                  <A class=HoverLink 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;fr=26" 
+                  name=HoverNL>Next</A> <A class=HoverLink 
+                  href="http://www.codeproject.com/cpp/tspapp.asp?df=100&amp;forumid=2655&amp;fr=26" 
+                  name=HoverNL>Last</A> 
+      </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+<TABLE cellSpacing=5 width="100%">
+  <TBODY>
+  <TR vAlign=top>
+    <TD><FONT style="FONT-SIZE: 7pt" size=1><A 
+      href="http://www.codeproject.com/?cat=1">All Topics</A>, <A 
+      href="http://www.codeproject.com/?cat=2">MFC / C++</A> &gt;&gt; <A 
+      href="http://www.codeproject.com/cpp/">C++ / MFC</A> &gt;&gt; <A 
+      href="http://www.codeproject.com/cpp/#Algorithms">Algorithms</A> 
+      <BR>Updated: 27 Sep 2001<BR>Editor: <A 
+      href="http://www.codeproject.com/script/profile/whos_who.asp?id=1">Chris 
+      Maunder</A> </FONT></TD>
+    <TD align=right><FONT style="FONT-SIZE: 7pt" size=1>Article content 
+      copyright Konstantin Boukreev, 2001<BR>everything else Copyright © <A 
+      href="mailto:webmaster@codeproject.com">CodeProject</A>, 1999-2004</A>. 
+      <BR><A href="http://www.codeproject.com/info/MediaKit">Advertise on The 
+      Code Project</A> | <A 
+      href="http://www.codeproject.com/info/privacy.asp">Privacy</A> 
+  </FONT></TD></TR></TBODY></TABLE><BR>
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#ff9900 height=1><IMG height=1 
+      src="Genetic Algorithms and the Traveling Salesman Problem-Dateien/space.gif"></TD></TR>
+  <TR>
+    <TD align=middle><FONT size=1><A 
+      href="http://www.codeproject.com/redir.asp?id=235">MSDN Communities</A> | 
+      <A href="http://aspalliance.com/">ASPAlliance</A> • <A 
+      href="http://www.developerfusion.com/">Developer Fusion</A> • <A 
+      href="http://www.developersdex.com/">DevelopersDex</A> • <A 
+      href="http://www.devguru.com/">DevGuru</A> • <A 
+      href="http://www.programmersheaven.com/">Programmers Heaven</A> • <A 
+      href="http://www.planet-source-code.com/">Planet Source Code</A> • <A 
+      href="http://www.resourceindex.com/">Resource Index</A> • <A 
+      href="http://www.tek-tips.com/">Tek-Tips Forums</A> • <A 
+      href="http://www.topxml.com/">TopXML</A> • <A 
+      href="http://www.visualbuilder.com/">VisualBuilder</A> • <A 
+      href="http://www.zvon.org/">ZVON</A> • <A 
+      href="http://www.codeproject.com/redir.asp?id=169">Search Us!</A> 
+    </FONT></TD></TR></TBODY></TABLE></CENTER></BODY></HTML>
